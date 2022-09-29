@@ -192,8 +192,7 @@ end
 function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
-    local CreateAutomobile = `CREATE_AUTOMOBILE`
-    local veh = Citizen.InvokeNative(CreateAutomobile, model, coords, coords.w, true, true)
+    local veh = CreateVehicleServerSetter(model, coords.xyz, coords.w, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
     return veh
