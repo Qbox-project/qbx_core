@@ -33,7 +33,7 @@ function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
     DrawText(x - width / 2, y - height / 2 + 0.005)
 end
 
-function QBCore.Functions.DrawText3D(x, y, z, text)
+function QBCore.Functions.DrawText3D(coords, text)
     -- Use local function instead
     SetTextScale(0.35, 0.35)
     SetTextFont(4)
@@ -42,7 +42,7 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
     SetTextEntry('STRING')
     SetTextCentre(true)
     AddTextComponentString(text)
-    SetDrawOrigin(x, y, z, 0)
+    SetDrawOrigin(coords, 0)
     DrawText(0.0, 0.0)
     local factor = (string.len(text)) / 370
     DrawRect(0.0, 0.0 + 0.0125, 0.017 + factor, 0.03, 0, 0, 0, 75)
