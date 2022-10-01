@@ -178,7 +178,7 @@ While the prerequisites above must be satisfied prior to having your pull reques
 
 All lua code should be done using all the best practices of proper lua using the easiest to read yet fastest/most optimized methods of execution.
 
-- All exported functions MUST include a LDOC header. See https://stevedonovan.github.io/ldoc/manual/doc.md.html
+- All exported functions MUST include a properly annotated language server header. See https://github.com/sumneko/lua-language-server/wiki/Annotations
 - Use 4 Space indentation
 - Aim for lua 5.4 (include `lua54 'yes'` in the fxmanifest.lua)
 - Use `PlayerPedId()` instead of `GetPlayerPed(-1)`
