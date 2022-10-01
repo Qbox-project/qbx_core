@@ -1,13 +1,12 @@
-CreateThread(function()
-    while true do
-        local sleep = 0
-        if LocalPlayer.state.isLoggedIn then
-            sleep = (1000 * 60) * QBCore.Config.UpdateInterval
-            TriggerServerEvent('QBCore:UpdatePlayer')
-        end
-        Wait(sleep)
+function playerUpdate()
+    local sleep = 0
+    if LocalPlayer.state.isLoggedIn then
+        sleep = (1000 * 60) * QBCore.Config.UpdateInterval
+        TriggerServerEvent('QBCore:UpdatePlayer')
     end
-end)
+    SetTimeout(sleep, playerUpdate)
+end
+playerUpdate()
 
 function vitalsTickEvent()
     if LocalPlayer.state.isLoggedIn then
