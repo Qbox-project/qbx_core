@@ -68,7 +68,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     end
 
     PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.CreateCitizenId()
-    PlayerData.cid = PlayerData.cid or 1
+    PlayerData.cid = PlayerData.charinfo?.cid or 1
     PlayerData.money = PlayerData.money or {}
     PlayerData.optin = PlayerData.optin or true
     for moneytype, startamount in pairs(QBCore.Config.Money.MoneyTypes) do
@@ -477,9 +477,8 @@ function QBCore.Player.Save(source)
     local pcoords = GetEntityCoords(ped)
     local PlayerData = QBCore.Players[source].PlayerData
     if PlayerData then
-        MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+        MySQL.insert('INSERT INTO players (citizenid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
             citizenid = PlayerData.citizenid,
-            cid = tonumber(PlayerData.cid),
             license = PlayerData.license,
             name = PlayerData.name,
             money = json.encode(PlayerData.money),
@@ -498,9 +497,8 @@ end
 
 function QBCore.Player.SaveOffline(PlayerData)
     if PlayerData then
-        MySQL.Async.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+        MySQL.Async.insert('INSERT INTO players (citizenid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
             citizenid = PlayerData.citizenid,
-            cid = tonumber(PlayerData.cid),
             license = PlayerData.license,
             name = PlayerData.name,
             money = json.encode(PlayerData.money),
