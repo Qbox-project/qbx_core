@@ -117,55 +117,53 @@ end
 
 -- Will set the provided player id / source into the provided bucket id
 function QBCore.Functions.SetPlayerBucket(source --[[ int ]], bucket --[[ int ]])
-    if source and bucket then
-        local plicense = QBCore.Functions.GetIdentifier(source, 'license')
-        SetPlayerRoutingBucket(source, bucket)
-        QBCore.Player_Buckets[plicense] = {id = source, bucket = bucket}
-        return true
-    else
-        return false
-    end
+    if not (source or bucket) then return false end
+    
+    local plicense = QBCore.Functions.GetIdentifier(source, 'license')
+    SetPlayerRoutingBucket(source, bucket)
+    QBCore.Player_Buckets[plicense] = {id = source, bucket = bucket}
+    return true
 end
 
 -- Will set any entity into the provided bucket, for example peds / vehicles / props / etc.
 function QBCore.Functions.SetEntityBucket(entity --[[ int ]], bucket --[[ int ]])
-    if entity and bucket then
-        SetEntityRoutingBucket(entity, bucket)
-        QBCore.Entity_Buckets[entity] = {id = entity, bucket = bucket}
-        return true
-    else
-        return false
-    end
+    if not (entity or bucket) then return false end
+    
+    SetEntityRoutingBucket(entity, bucket)
+    QBCore.Entity_Buckets[entity] = {id = entity, bucket = bucket}
+    return true
 end
 
 -- Will return an array of all the player ids inside the current bucket
 function QBCore.Functions.GetPlayersInBucket(bucket --[[ int ]])
     local curr_bucket_pool = {}
-    if QBCore.Player_Buckets and next(QBCore.Player_Buckets) then
-        for _, v in pairs(QBCore.Player_Buckets) do
-            if v.bucket == bucket then
-                curr_bucket_pool[#curr_bucket_pool + 1] = v.id
-            end
-        end
-        return curr_bucket_pool
-    else
+    if not (QBCore.Player_Buckets or next(QBCore.Player_Buckets)) then 
         return false
     end
+    
+    for _, v in pairs(QBCore.Player_Buckets) do
+        if v.bucket == bucket then
+                curr_bucket_pool[#curr_bucket_pool + 1] = v.id
+        end
+    end
+
+    return curr_bucket_pool
 end
 
 -- Will return an array of all the entities inside the current bucket (not for player entities, use GetPlayersInBucket for that)
 function QBCore.Functions.GetEntitiesInBucket(bucket --[[ int ]])
     local curr_bucket_pool = {}
-    if QBCore.Entity_Buckets and next(QBCore.Entity_Buckets) then
-        for _, v in pairs(QBCore.Entity_Buckets) do
-            if v.bucket == bucket then
-                curr_bucket_pool[#curr_bucket_pool + 1] = v.id
-            end
-        end
-        return curr_bucket_pool
-    else
+    if not (QBCore.Entity_Buckets or next(QBCore.Entity_Buckets)) then
         return false
     end
+    
+    for _, v in pairs(QBCore.Entity_Buckets) do
+        if v.bucket == bucket then
+            curr_bucket_pool[#curr_bucket_pool + 1] = v.id
+        end
+    end
+
+    return curr_bucket_pool
 end
 
 -- Server side vehicle creation with optional callback
@@ -315,18 +313,19 @@ function QBCore.Functions.AddPermission(source, permission)
 end
 
 function QBCore.Functions.RemovePermission(source, permission)
-    if permission then
-        if IsPlayerAceAllowed(source, permission) then
-            ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, permission))
-            QBCore.Commands.Refresh(source)
-        end
-    else
+    if not permission then
         for _, v in pairs(QBCore.Config.Server.Permissions) do
             if IsPlayerAceAllowed(source, v) then
                 ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, v))
                 QBCore.Commands.Refresh(source)
             end
         end
+        return
+    end
+    
+    if IsPlayerAceAllowed(source, permission) then
+        ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, permission))
+        QBCore.Commands.Refresh(source)
     end
 end
 
@@ -335,7 +334,9 @@ end
 function QBCore.Functions.HasPermission(source, permission)
     if type(permission) == "string" then
         if IsPlayerAceAllowed(source, permission) then return true end
-    elseif type(permission) == "table" then
+    end
+
+    if type(permission) == "table" then
         for _, permLevel in pairs(permission) do
             if IsPlayerAceAllowed(source, permLevel) then return true end
         end
