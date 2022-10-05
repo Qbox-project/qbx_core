@@ -313,19 +313,18 @@ function QBCore.Functions.AddPermission(source, permission)
 end
 
 function QBCore.Functions.RemovePermission(source, permission)
-    if not permission then
+    if permission then
+        if IsPlayerAceAllowed(source, permission) then
+            ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, permission))
+            QBCore.Commands.Refresh(source)
+        end
+    else
         for _, v in pairs(QBCore.Config.Server.Permissions) do
             if IsPlayerAceAllowed(source, v) then
                 ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, v))
                 QBCore.Commands.Refresh(source)
             end
         end
-        return
-    end
-    
-    if IsPlayerAceAllowed(source, permission) then
-        ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, permission))
-        QBCore.Commands.Refresh(source)
     end
 end
 
@@ -334,9 +333,7 @@ end
 function QBCore.Functions.HasPermission(source, permission)
     if type(permission) == "string" then
         if IsPlayerAceAllowed(source, permission) then return true end
-    end
-
-    if type(permission) == "table" then
+    elseif type(permission) == "table" then
         for _, permLevel in pairs(permission) do
             if IsPlayerAceAllowed(source, permLevel) then return true end
         end
