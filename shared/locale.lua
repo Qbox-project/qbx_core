@@ -28,10 +28,11 @@ local function translateKey(phrase, subs)
 end
 
 --- Constructor function for a new Locale class instance
+--- @param _ unknown  kept for backwards compatibility
 --- @param opts table<string, any> - Constructor opts param
 --- @return Locale
-function Locale:new(opts)
-    setmetatable(self, Locale)
+function Locale.new(_, opts)
+    local self = setmetatable({}, Locale)
 
     self.fallback = opts.fallbackLang and Locale.new({}, {
         warnOnMissing = false,
