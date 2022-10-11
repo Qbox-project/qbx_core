@@ -413,6 +413,13 @@ function QBCore.Functions.HasItem(source, items, amount)
     return exports['qb-inventory']:HasItem(source, items, amount)
 end
 
+---@see client/functions.lua:QBCore.Functions.NotifyV2
+function QBCore.Functions.NotifyV2(source, props)
+    TriggerClientEvent('QBCore:NotifyV2', source, props)
+end
+
+---@deprecated use QBCore.Functions.NotifyV2 instead.
+---@see client/functions.lua:QBCore.Functions.Notify
 function QBCore.Functions.Notify(source, text, type, length)
     TriggerClientEvent('QBCore:Notify', source, text, type, length)
 end

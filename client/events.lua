@@ -168,8 +168,15 @@ RegisterNetEvent('QBCore:Player:UpdatePlayerData', function()
     TriggerServerEvent('QBCore:UpdatePlayer')
 end)
 
-RegisterNetEvent('QBCore:Notify', function(text, type, length)
-    QBCore.Functions.Notify(text, type, length)
+---@see client/functions.lua:QBCore.Functions.NotifyV2
+RegisterNetEvent('QBCore:NotifyV2', function(props)
+    QBCore.Functions.NotifyV2(props)
+end)
+
+---@deprecated. Use event 'QBCore:NotifyV2' instead.
+---@see client/functions.lua:QBCore.Functions.Notify
+RegisterNetEvent('QBCore:Notify', function(text, type, duration)
+    QBCore.Functions.Notify(text, type, duration)
 end)
 
 -- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.

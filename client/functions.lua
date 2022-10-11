@@ -85,28 +85,43 @@ RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
 
-function QBCore.Functions.Notify(text, texttype, length)
+
+---@alias NotificationPosition 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
+---@alias NotificationType 'inform' | 'error' | 'success'
+---@alias DeprecatedNotificationType 'primary'
+
+---@class NotifyProps
+---@field id? string notifications with the same id will not be on the screen at the same time
+---@field title? string displayed to the player
+---@field description? string displayed to the player
+---@field duration? number milliseconds notification is on screen
+---@field position? NotificationPosition
+---@field type? NotificationType
+---@field icon? string https://fontawesome.com icon name
+---@field iconColor? string css color value for the icon
+
+---Text box popup for player which dissappears after a set time.
+---@param props NotifyProps
+function QBCore.Functions.NotifyV2(props)
+    props.style = nil
+    lib.notify(props)
+end
+
+---Text box popup for player which dissappears after a set time.
+---@deprecated in favor of QBCore.Functions.NotifyV2()
+---@param text table|string text of the notification
+---@param type? NotificationType|DeprecatedNotificationType informs default styling. Defaults to 'inform'.
+---@param duration? integer milliseconds notification will remain on scren. Defaults to 5000.
+function QBCore.Functions.Notify(text, type, duration)
+    type = type or 'inform'
+    if type == 'primary' then type = 'inform' end
+    duration = duration or 5000
     if type(text) == "table" then
-        local ttext = text.text or 'Placeholder'
-        local caption = text.caption or 'Placeholder'
-        texttype = texttype or 'primary'
-        length = length or 5000
-        SendNUIMessage({
-            action = 'notify',
-            type = texttype,
-            length = length,
-            text = ttext,
-            caption = caption
-        })
+        local title = text.text or 'Placeholder'
+        local description = text.caption or 'Placeholder'
+        lib.notify({ title = title, description = description, duration = duration, type = type})
     else
-        texttype = texttype or 'primary'
-        length = length or 5000
-        SendNUIMessage({
-            action = 'notify',
-            type = texttype,
-            length = length,
-            text = text
-        })
+        lib.notify({ description = text, duration = duration, type = type})
     end
 end
 
