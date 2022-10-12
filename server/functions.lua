@@ -420,6 +420,6 @@ end
 
 ---@deprecated use QBCore.Functions.NotifyV2 instead.
 ---@see client/functions.lua:QBCore.Functions.Notify
-function QBCore.Functions.Notify(source, text, type, length)
-    TriggerClientEvent('QBCore:Notify', source, text, type, length)
+function QBCore.Functions.Notify(source, text, notifyType, duration)
+    TriggerClientEvent('QBCore:Notify', source, text, notifyType, duration)
 end

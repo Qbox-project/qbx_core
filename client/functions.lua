@@ -110,18 +110,18 @@ end
 ---Text box popup for player which dissappears after a set time.
 ---@deprecated in favor of QBCore.Functions.NotifyV2()
 ---@param text table|string text of the notification
----@param type? NotificationType|DeprecatedNotificationType informs default styling. Defaults to 'inform'.
+---@param notifyType? NotificationType|DeprecatedNotificationType informs default styling. Defaults to 'inform'.
 ---@param duration? integer milliseconds notification will remain on scren. Defaults to 5000.
-function QBCore.Functions.Notify(text, type, duration)
-    type = type or 'inform'
-    if type == 'primary' then type = 'inform' end
+function QBCore.Functions.Notify(text, notifyType, duration)
+    notifyType = notifyType or 'inform'
+    if notifyType == 'primary' then notifyType = 'inform' end
     duration = duration or 5000
     if type(text) == "table" then
         local title = text.text or 'Placeholder'
         local description = text.caption or 'Placeholder'
-        lib.notify({ title = title, description = description, duration = duration, type = type})
+        lib.notify({ title = title, description = description, duration = duration, type = notifyType})
     else
-        lib.notify({ description = text, duration = duration, type = type})
+        lib.notify({ description = text, duration = duration, type = notifyType})
     end
 end
 

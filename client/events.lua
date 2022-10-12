@@ -175,8 +175,8 @@ end)
 
 ---@deprecated. Use event 'QBCore:NotifyV2' instead.
 ---@see client/functions.lua:QBCore.Functions.Notify
-RegisterNetEvent('QBCore:Notify', function(text, type, duration)
-    QBCore.Functions.Notify(text, type, duration)
+RegisterNetEvent('QBCore:Notify', function(text, notifyType, duration)
+    QBCore.Functions.Notify(text, notifyType, duration)
 end)
 
 -- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
