@@ -185,13 +185,15 @@ function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
 end
 
 -- Server side vehicle creation with optional callback
--- the CreateAutomobile native is still experimental but doesn't use client for creation
--- doesn't work for all vehicles!
-function QBCore.Functions.CreateVehicle(source, model, coords, warp)
+-- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
+function QBCore.Functions.CreateVehicle(source, model, vehicleType, coords, warp)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
-    local CreateAutomobile = `CREATE_AUTOMOBILE`
-    local veh = Citizen.InvokeNative(CreateAutomobile, model, coords, coords.w, true, true)
+    if not CreateVehicleServerSetter then
+        error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
+        return
+    end
+    local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
     return veh
