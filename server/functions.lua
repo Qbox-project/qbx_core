@@ -81,7 +81,7 @@ function QBCore.Functions.GetQBPlayers()
 end
 
 --- Gets a list of all on duty players of a specified job and the number
-function QBCore.Functions.GetPlayersOnDuty(job)
+function QBCore.Functions.GetDutyCountJob(job)
     local players = {}
     local count = 0
     for src, Player in pairs(QBCore.Players) do
@@ -92,20 +92,22 @@ function QBCore.Functions.GetPlayersOnDuty(job)
             end
         end
     end
-    return players, count
+    return count, players
 end
 
--- Returns only the amount of players on duty for the specified job
-function QBCore.Functions.GetDutyCount(job)
+--- Gets a list of all on duty players of a specified job type and the number
+function QBCore.Functions.GetDutyCountType(type)
+    local players = {}
     local count = 0
-    for _, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.name == job then
+    for src, Player in pairs(QBCore.Players) do
+        if Player.PlayerData.job.type == type then
             if Player.PlayerData.job.onduty then
+                players[#players + 1] = src
                 count += 1
             end
         end
     end
-    return count
+    return count, players
 end
 
 -- Routing buckets (Only touch if you know what you are doing)
@@ -118,7 +120,7 @@ end
 -- Will set the provided player id / source into the provided bucket id
 function QBCore.Functions.SetPlayerBucket(source --[[ int ]], bucket --[[ int ]])
     if not (source or bucket) then return false end
-    
+
     local plicense = QBCore.Functions.GetIdentifier(source, 'license')
     SetPlayerRoutingBucket(source, bucket)
     QBCore.Player_Buckets[plicense] = {id = source, bucket = bucket}
@@ -128,7 +130,7 @@ end
 -- Will set any entity into the provided bucket, for example peds / vehicles / props / etc.
 function QBCore.Functions.SetEntityBucket(entity --[[ int ]], bucket --[[ int ]])
     if not (entity or bucket) then return false end
-    
+
     SetEntityRoutingBucket(entity, bucket)
     QBCore.Entity_Buckets[entity] = {id = entity, bucket = bucket}
     return true
@@ -140,7 +142,7 @@ function QBCore.Functions.GetPlayersInBucket(bucket --[[ int ]])
     if not (QBCore.Player_Buckets or next(QBCore.Player_Buckets)) then
         return false
     end
-    
+
     for _, v in pairs(QBCore.Player_Buckets) do
         if v.bucket == bucket then
                 curr_bucket_pool[#curr_bucket_pool + 1] = v.id
@@ -156,7 +158,7 @@ function QBCore.Functions.GetEntitiesInBucket(bucket --[[ int ]])
     if not (QBCore.Entity_Buckets or next(QBCore.Entity_Buckets)) then
         return false
     end
-    
+
     for _, v in pairs(QBCore.Entity_Buckets) do
         if v.bucket == bucket then
             curr_bucket_pool[#curr_bucket_pool + 1] = v.id

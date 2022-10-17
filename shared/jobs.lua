@@ -13,8 +13,66 @@ QBShared.Jobs = {
         },
 	},
 	['police'] = {
-		label = 'Law Enforcement',
-        type = "leo",
+		label = 'LSPD',
+        type = 'leo',
+		defaultDuty = true,
+		offDutyPay = false,
+		grades = {
+            ['0'] = {
+                name = 'Recruit',
+                payment = 50
+            },
+			['1'] = {
+                name = 'Officer',
+                payment = 75
+            },
+			['2'] = {
+                name = 'Sergeant',
+                payment = 100
+            },
+			['3'] = {
+                name = 'Lieutenant',
+                payment = 125
+            },
+			['4'] = {
+                name = 'Chief',
+				isboss = true,
+                payment = 150
+            },
+        },
+	},
+	['bcso'] = {
+		label = 'BCSO',
+        type = 'leo',
+		defaultDuty = true,
+		offDutyPay = false,
+		grades = {
+            ['0'] = {
+                name = 'Recruit',
+                payment = 50
+            },
+			['1'] = {
+                name = 'Officer',
+                payment = 75
+            },
+			['2'] = {
+                name = 'Sergeant',
+                payment = 100
+            },
+			['3'] = {
+                name = 'Lieutenant',
+                payment = 125
+            },
+			['4'] = {
+                name = 'Chief',
+				isboss = true,
+                payment = 150
+            },
+        },
+	},
+	['sasp'] = {
+		label = 'SASP',
+        type = 'leo',
 		defaultDuty = true,
 		offDutyPay = false,
 		grades = {
@@ -166,7 +224,7 @@ QBShared.Jobs = {
 	},
 	['mechanic'] = {
 		label = 'Mechanic',
-        type = "mechanic",
+        type = 'mechanic',
 		defaultDuty = true,
 		offDutyPay = false,
 		grades = {
