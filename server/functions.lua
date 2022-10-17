@@ -137,7 +137,7 @@ end
 -- Will return an array of all the player ids inside the current bucket
 function QBCore.Functions.GetPlayersInBucket(bucket --[[ int ]])
     local curr_bucket_pool = {}
-    if not (QBCore.Player_Buckets or next(QBCore.Player_Buckets)) then 
+    if not (QBCore.Player_Buckets or next(QBCore.Player_Buckets)) then
         return false
     end
     
