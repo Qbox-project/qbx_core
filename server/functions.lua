@@ -122,6 +122,7 @@ function QBCore.Functions.SetPlayerBucket(source --[[ int ]], bucket --[[ int ]]
     if not (source or bucket) then return false end
 
     local plicense = QBCore.Functions.GetIdentifier(source, 'license')
+    if not plicense then return end
     SetPlayerRoutingBucket(source, bucket)
     QBCore.Player_Buckets[plicense] = {id = source, bucket = bucket}
     return true
@@ -177,7 +178,7 @@ function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then
-        while GetVehiclePedIsIn(ped) ~= veh do
+        while GetVehiclePedIsIn(ped, false) ~= veh do
             Wait(0)
             TaskWarpPedIntoVehicle(ped, veh, -1)
         end
