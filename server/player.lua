@@ -24,7 +24,7 @@ function QBCore.Player.Login(source, citizenid, newData)
                 QBCore.Player.CheckPlayerData(source, PlayerData)
             else
                 DropPlayer(source, Lang:t("info.exploit_dropped"))
-                TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Joining Exploit', false)
+                TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', ('%s Has Been Dropped For Character Joining Exploit'):format(GetPlayerName(source)), false)
             end
         else
             QBCore.Player.CheckPlayerData(source, newData)
@@ -87,50 +87,51 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Functions.CreateAccountNumber()
     -- Metadata
     PlayerData.metadata = PlayerData.metadata or {}
-    PlayerData.metadata['hunger'] = PlayerData.metadata['hunger'] or 100
-    PlayerData.metadata['thirst'] = PlayerData.metadata['thirst'] or 100
-    PlayerData.metadata['stress'] = PlayerData.metadata['stress'] or 0
-    PlayerData.metadata['isdead'] = PlayerData.metadata['isdead'] or false
-    PlayerData.metadata['inlaststand'] = PlayerData.metadata['inlaststand'] or false
-    PlayerData.metadata['armor'] = PlayerData.metadata['armor'] or 0
-    PlayerData.metadata['ishandcuffed'] = PlayerData.metadata['ishandcuffed'] or false
-    PlayerData.metadata['tracker'] = PlayerData.metadata['tracker'] or false
-    PlayerData.metadata['injail'] = PlayerData.metadata['injail'] or 0
-    PlayerData.metadata['jailitems'] = PlayerData.metadata['jailitems'] or {}
-    PlayerData.metadata['status'] = PlayerData.metadata['status'] or {}
-    PlayerData.metadata['phone'] = PlayerData.metadata['phone'] or {}
-    PlayerData.metadata['fitbit'] = PlayerData.metadata['fitbit'] or {}
-    PlayerData.metadata['commandbinds'] = PlayerData.metadata['commandbinds'] or {}
-    PlayerData.metadata['bloodtype'] = PlayerData.metadata['bloodtype'] or QBCore.Config.Player.Bloodtypes[math.random(1, #QBCore.Config.Player.Bloodtypes)]
-    PlayerData.metadata['dealerrep'] = PlayerData.metadata['dealerrep'] or 0
-    PlayerData.metadata['craftingrep'] = PlayerData.metadata['craftingrep'] or 0
-    PlayerData.metadata['attachmentcraftingrep'] = PlayerData.metadata['attachmentcraftingrep'] or 0
-    PlayerData.metadata['currentapartment'] = PlayerData.metadata['currentapartment'] or nil
-    PlayerData.metadata['jobrep'] = PlayerData.metadata['jobrep'] or {}
-    PlayerData.metadata['jobrep']['tow'] = PlayerData.metadata['jobrep']['tow'] or 0
-    PlayerData.metadata['jobrep']['trucker'] = PlayerData.metadata['jobrep']['trucker'] or 0
-    PlayerData.metadata['jobrep']['taxi'] = PlayerData.metadata['jobrep']['taxi'] or 0
-    PlayerData.metadata['jobrep']['hotdog'] = PlayerData.metadata['jobrep']['hotdog'] or 0
-    PlayerData.metadata['callsign'] = PlayerData.metadata['callsign'] or 'NO CALLSIGN'
-    PlayerData.metadata['fingerprint'] = PlayerData.metadata['fingerprint'] or QBCore.Player.CreateFingerId()
-    PlayerData.metadata['walletid'] = PlayerData.metadata['walletid'] or QBCore.Player.CreateWalletId()
-    PlayerData.metadata['criminalrecord'] = PlayerData.metadata['criminalrecord'] or {
-        ['hasRecord'] = false,
-        ['date'] = nil
+    PlayerData.metadata.health = PlayerData.metadata.health or 200
+    PlayerData.metadata.hunger = PlayerData.metadata.hunger or 100
+    PlayerData.metadata.thirst = PlayerData.metadata.thirst or 100
+    PlayerData.metadata.stress = PlayerData.metadata.stress or 0
+    PlayerData.metadata.isdead = PlayerData.metadata.isdead or false
+    PlayerData.metadata.inlaststand = PlayerData.metadata.inlaststand or false
+    PlayerData.metadata.armor = PlayerData.metadata.armor or 0
+    PlayerData.metadata.ishandcuffed = PlayerData.metadata.ishandcuffed or false
+    PlayerData.metadata.tracker = PlayerData.metadata.tracker or false
+    PlayerData.metadata.injail = PlayerData.metadata.injail or 0
+    PlayerData.metadata.jailitems = PlayerData.metadata.jailitems or {}
+    PlayerData.metadata.status = PlayerData.metadata.status or {}
+    PlayerData.metadata.phone = PlayerData.metadata.phone or {}
+    PlayerData.metadata.fitbit = PlayerData.metadata.fitbit or {}
+    PlayerData.metadata.commandbinds = PlayerData.metadata.commandbinds or {}
+    PlayerData.metadata.bloodtype = PlayerData.metadata.bloodtype or QBCore.Config.Player.Bloodtypes[math.random(1, #QBCore.Config.Player.Bloodtypes)]
+    PlayerData.metadata.dealerrep = PlayerData.metadata.dealerrep or 0
+    PlayerData.metadata.craftingrep = PlayerData.metadata.craftingrep or 0
+    PlayerData.metadata.attachmentcraftingrep = PlayerData.metadata.attachmentcraftingrep or 0
+    PlayerData.metadata.currentapartment = PlayerData.metadata.currentapartment or nil
+    PlayerData.metadata.jobrep = PlayerData.metadata.jobrep or {}
+    PlayerData.metadata.jobrep.tow = PlayerData.metadata.jobrep.tow or 0
+    PlayerData.metadata.jobrep.trucker = PlayerData.metadata.jobrep.trucker or 0
+    PlayerData.metadata.jobrep.taxi = PlayerData.metadata.jobrep.taxi or 0
+    PlayerData.metadata.jobrep.hotdog = PlayerData.metadata.jobrep.hotdog or 0
+    PlayerData.metadata.callsign = PlayerData.metadata.callsign or 'NO CALLSIGN'
+    PlayerData.metadata.fingerprint = PlayerData.metadata.fingerprint or QBCore.Player.CreateFingerId()
+    PlayerData.metadata.walletid = PlayerData.metadata.walletid or QBCore.Player.CreateWalletId()
+    PlayerData.metadata.criminalrecord = PlayerData.metadata.criminalrecord or {
+        hasRecord = false,
+        date = nil
     }
-    PlayerData.metadata['licences'] = PlayerData.metadata['licences'] or {
-        ['driver'] = true,
-        ['business'] = false,
-        ['weapon'] = false
+    PlayerData.metadata.licences = PlayerData.metadata.licences or {
+        driver = true,
+        business = false,
+        weapon = false
     }
-    PlayerData.metadata['inside'] = PlayerData.metadata['inside'] or {
+    PlayerData.metadata.inside = PlayerData.metadata.inside or {
         house = nil,
         apartment = {
             apartmentType = nil,
             apartmentId = nil,
         }
     }
-    PlayerData.metadata['phonedata'] = PlayerData.metadata['phonedata'] or {
+    PlayerData.metadata.phonedata = PlayerData.metadata.phonedata or {
         SerialNumber = QBCore.Player.CreateSerialNumber(),
         InstalledApps = {},
     }
@@ -171,8 +172,8 @@ function QBCore.Player.Logout(source)
 
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return end
-    local newHunger = Player.PlayerData.metadata['hunger'] - QBCore.Config.Player.HungerRate
-    local newThirst = Player.PlayerData.metadata['thirst'] - QBCore.Config.Player.ThirstRate
+    local newHunger = Player.PlayerData.metadata.hunger - QBCore.Config.Player.HungerRate
+    local newThirst = Player.PlayerData.metadata.thirst - QBCore.Config.Player.ThirstRate
     if newHunger <= 0 then
         newHunger = 0
     end
@@ -292,7 +293,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     function self.Functions.AddJobReputation(amount)
         if not amount then return end
         amount = tonumber(amount)
-        self.PlayerData.metadata['jobrep'][self.PlayerData.job.name] = self.PlayerData.metadata['jobrep'][self.PlayerData.job.name] + amount
+        self.PlayerData.metadata.jobrep[self.PlayerData.job.name] = self.PlayerData.metadata.jobrep[self.PlayerData.job.name] + amount
         self.Functions.UpdatePlayerData()
     end
 
