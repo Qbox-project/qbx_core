@@ -42,3 +42,4 @@ files {
 dependency 'oxmysql'
 
 lua54 'yes'
+use_experimental_fxv2_oal 'yes'
