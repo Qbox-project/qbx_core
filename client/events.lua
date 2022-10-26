@@ -1,6 +1,6 @@
 -- Player load and unload handling
 -- New method for checking if logged in across all scripts (optional)
--- if LocalPlayer.state['isLoggedIn'] then
+-- if LocalPlayer.state.isLoggedIn then
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
@@ -51,7 +51,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
 
     -- Unpack coords instead of having to unpack them while iterating.
     -- 825.0 seems to be the max a player can reach while 0.0 being the lowest.
-    local x, y, groundZ, Z_START = coords['x'], coords['y'], 850.0, 950.0
+    local x, y, groundZ, Z_START = coords.x, coords.y, 850.0, 950.0
     local found = false
     if vehicle > 0 then
         FreezeEntityPosition(vehicle, true)
@@ -105,7 +105,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
     if not found then
         -- If we can't find the coords, set the coords to the old ones.
         -- We don't unpack them before since they aren't in a loop and only called once.
-        SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
+        SetPedCoordsKeepVehicle(ped, oldCoords.x, oldCoords.y, oldCoords.z - 1.0)
         QBCore.Functions.Notify(Lang:t("error.tp_error"), "error", 5000)
     end
 
@@ -167,12 +167,6 @@ end)
 
 RegisterNetEvent('QBCore:Notify', function(text, type, length)
     QBCore.Functions.Notify(text, type, length)
-end)
-
--- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
-RegisterNetEvent('QBCore:Client:UseItem', function(item)
-    QBCore.Debug(string.format("%s triggered QBCore:Client:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), GetPlayerServerId(PlayerId())))
-    QBCore.Debug(item)
 end)
 
 -- Callback Events --
