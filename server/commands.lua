@@ -268,7 +268,7 @@ QBCore.Commands.Add('ooc', Lang:t("command.ooc.help"), {}, false, function(sourc
                 TriggerClientEvent('chat:addMessage', v, {
                     color = { 0, 0, 255},
                     multiline = true,
-                    args = {('Proximity OOC | '):format(GetPlayerName(source)), message}
+                    args = {('Proximity OOC | %s'):format(GetPlayerName(source)), message}
                 })
                 TriggerEvent('qb-log:server:CreateLog', 'ooc', 'OOC', 'white', '**' .. GetPlayerName(source) .. '** (CitizenID: ' .. Player.PlayerData.citizenid .. ' | ID: ' .. source .. ') **Message:** ' .. message, false)
             end
