@@ -168,7 +168,22 @@ end
 function QBCore.Player.Logout(source)
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
-    TriggerClientEvent('QBCore:Player:UpdatePlayerData', source)
+
+    local Player = QBCore.Functions.GetPlayer(source)
+    if not Player then return end
+    local newHunger = Player.PlayerData.metadata['hunger'] - QBCore.Config.Player.HungerRate
+    local newThirst = Player.PlayerData.metadata['thirst'] - QBCore.Config.Player.ThirstRate
+    if newHunger <= 0 then
+        newHunger = 0
+    end
+    if newThirst <= 0 then
+        newThirst = 0
+    end
+    Player.Functions.SetMetaData('thirst', newThirst)
+    Player.Functions.SetMetaData('hunger', newHunger)
+    TriggerClientEvent('hud:client:UpdateNeeds', source, newHunger, newThirst)
+    Player.Functions.Save()
+
     Wait(200)
     QBCore.Players[source] = nil
 end
@@ -691,5 +706,3 @@ function QBCore.Player.CreateSerialNumber()
     end
     return SerialNumber
 end
-
-PaycheckInterval() -- This starts the paycheck system
