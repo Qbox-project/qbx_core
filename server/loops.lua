@@ -5,8 +5,8 @@ CreateThread(function()
 
         for src, Player in pairs(QBCore.Players) do
             if Player then
-                local newHunger = Player.PlayerData.metadata['hunger'] - QBCore.Config.Player.HungerRate
-                local newThirst = Player.PlayerData.metadata['thirst'] - QBCore.Config.Player.ThirstRate
+                local newHunger = Player.PlayerData.metadata.hunger - QBCore.Config.Player.HungerRate
+                local newThirst = Player.PlayerData.metadata.thirst - QBCore.Config.Player.ThirstRate
                 if newHunger <= 0 then
                     newHunger = 0
                 end
