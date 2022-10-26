@@ -4,6 +4,7 @@ QBCore.Config = QBConfig
 QBCore.Shared = QBShared
 QBCore.ClientCallbacks = {}
 QBCore.ServerCallbacks = {}
+IsLoggedIn = false
 
 exports('GetCoreObject', function()
     return QBCore
