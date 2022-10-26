@@ -205,8 +205,8 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 
     function self.Functions.SetJob(job, grade)
-        job = job:lower()
-        grade = tostring(grade) or '0'
+        job = job or ''
+        grade = tonumber(grade) or 0
         if not QBCore.Shared.Jobs[job] then return false end
         self.PlayerData.job.name = job
         self.PlayerData.job.label = QBCore.Shared.Jobs[job].label
@@ -216,7 +216,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
             local jobgrade = QBCore.Shared.Jobs[job].grades[grade]
             self.PlayerData.job.grade = {}
             self.PlayerData.job.grade.name = jobgrade.name
-            self.PlayerData.job.grade.level = tonumber(grade)
+            self.PlayerData.job.grade.level = grade
             self.PlayerData.job.payment = jobgrade.payment or 30
             self.PlayerData.job.isboss = jobgrade.isboss or false
         else
@@ -237,8 +237,8 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 
     function self.Functions.SetGang(gang, grade)
-        gang = gang:lower()
-        grade = tostring(grade) or '0'
+        gang = gang or ''
+        grade = tonumber(grade) or 0
         if not QBCore.Shared.Gangs[gang] then return false end
         self.PlayerData.gang.name = gang
         self.PlayerData.gang.label = QBCore.Shared.Gangs[gang].label
@@ -246,7 +246,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
             local ganggrade = QBCore.Shared.Gangs[gang].grades[grade]
             self.PlayerData.gang.grade = {}
             self.PlayerData.gang.grade.name = ganggrade.name
-            self.PlayerData.gang.grade.level = tonumber(grade)
+            self.PlayerData.gang.grade.level = grade
             self.PlayerData.gang.isboss = ganggrade.isboss or false
         else
             self.PlayerData.gang.grade = {}
@@ -298,7 +298,6 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
     function self.Functions.AddMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
-        moneytype = moneytype:lower()
         amount = tonumber(amount)
         if amount < 0 then return end
         if not self.PlayerData.money[moneytype] then return false end
@@ -321,7 +320,6 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
     function self.Functions.RemoveMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
-        moneytype = moneytype:lower()
         amount = tonumber(amount)
         if amount < 0 then return end
         if not self.PlayerData.money[moneytype] then return false end
@@ -354,7 +352,6 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
     function self.Functions.SetMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
-        moneytype = moneytype:lower()
         amount = tonumber(amount)
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
@@ -374,7 +371,6 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
     function self.Functions.GetMoney(moneytype)
         if not moneytype then return false end
-        moneytype = moneytype:lower()
         return self.PlayerData.money[moneytype]
     end
 
@@ -384,7 +380,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 
     function self.Functions.GetCardSlot(cardNumber, cardType)
-        local item = tostring(cardType):lower()
+        local item = tostring(cardType)
         local slots = exports['qb-inventory']:GetSlotsByItem(self.PlayerData.items, item)
         for _, slot in pairs(slots) do
             if slot then
