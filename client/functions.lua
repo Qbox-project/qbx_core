@@ -134,7 +134,7 @@ end
 
 function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
     if GetResourceState('progressbar') ~= 'started' then error('progressbar needs to be started in order for QBCore.Functions.Progressbar to work') end
-    exports['progressbar']:Progress({
+    exports.progressbar:Progress({
         name = name,
         duration = duration,
         label = label,
@@ -957,20 +957,20 @@ function QBCore.Functions.GetZoneAtCoords(coords)
 end
 
 function QBCore.Functions.GetCardinalDirection(entity)
-    entity = DoesEntityExist(entity) and entity or PlayerPedId()
+    entity = entity or PlayerPedId()
     if DoesEntityExist(entity) then
         local heading = GetEntityHeading(entity)
         if ((heading >= 0 and heading < 45) or (heading >= 315 and heading < 360)) then
-            return "North"
+            return 'North'
         elseif (heading >= 45 and heading < 135) then
-            return "West"
+            return 'West'
         elseif (heading >= 135 and heading < 225) then
-            return "South"
+            return 'South'
         elseif (heading >= 225 and heading < 315) then
-            return "East"
+            return 'East'
         end
     else
-        return "Cardinal Direction Error"
+        return 'Entity does not exist'
     end
 end
 
@@ -980,14 +980,14 @@ function QBCore.Functions.GetCurrentTime()
     obj.hour = GetClockHours()
 
     if obj.hour <= 12 then
-        obj.ampm = "AM"
+        obj.ampm = 'AM'
     elseif obj.hour >= 13 then
-        obj.ampm = "PM"
+        obj.ampm = 'PM'
         obj.formattedHour = obj.hour - 12
     end
 
     if obj.min <= 9 then
-        obj.formattedMin = "0" .. obj.min
+        obj.formattedMin = ('0%s'):format(obj.min)
     end
 
     return obj
