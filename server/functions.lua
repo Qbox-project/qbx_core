@@ -189,13 +189,17 @@ end
 
 -- Server side vehicle creation with optional callback
 -- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
-function QBCore.Functions.CreateVehicle(source, model, vehicleType, coords, warp)
+function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
     if not CreateVehicleServerSetter then
         error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
         return
     end
+    local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
+    while not DoesEntityExist(tempVehicle) do Wait(0) end
+    local vehicleType = GetVehicleType(tempVehicle)
+    DeleteEntity(tempVehicle)
     local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
