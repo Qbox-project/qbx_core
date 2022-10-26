@@ -211,7 +211,7 @@ end)
     ```
 ]]
 -- If you don't use the above on the client, it will return 0 as the vehicle from the netid and 0 means no vehicle found because it doesn't exist so fast on the client
-QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, vehicleType, coords, warp)
+QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
     if not CreateVehicleServerSetter then
@@ -219,6 +219,10 @@ QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, 
         cb(0)
         return
     end
+    local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
+    while not DoesEntityExist(tempVehicle) do Wait(0) end
+    local vehicleType = GetVehicleType(tempVehicle)
+    DeleteEntity(tempVehicle)
     local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
