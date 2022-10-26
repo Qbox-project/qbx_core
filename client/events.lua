@@ -161,6 +161,8 @@ end)
 -- Other stuff
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
+    local invokingResource = GetInvokingResource()
+    if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
     QBCore.PlayerData = val
 end)
 
