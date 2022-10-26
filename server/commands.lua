@@ -261,7 +261,7 @@ QBCore.Commands.Add('ooc', Lang:t("command.ooc.help"), {}, false, function(sourc
             TriggerClientEvent('chat:addMessage', v, {
                 color = { 0, 0, 255},
                 multiline = true,
-                args = {('OOC | '):format(GetPlayerName(source)), message}
+                args = {('OOC | %s'):format(GetPlayerName(source)), message}
             })
         elseif QBCore.Functions.HasPermission(v, 'admin') then
             if QBCore.Functions.IsOptin(v) then
