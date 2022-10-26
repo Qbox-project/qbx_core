@@ -4,6 +4,7 @@
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
+    IsLoggedIn = true
     if not QBConfig.Server.PVP then return end
     SetCanAttackFriendly(PlayerPedId(), true, false)
     NetworkSetFriendlyFireOption(true)
@@ -11,6 +12,7 @@ end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     LocalPlayer.state:set('isLoggedIn', false, false)
+    IsLoggedIn = false
 end)
 
 RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
@@ -164,10 +166,6 @@ RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     local invokingResource = GetInvokingResource()
     if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
     QBCore.PlayerData = val
-end)
-
-RegisterNetEvent('QBCore:Player:UpdatePlayerData', function()
-    TriggerServerEvent('QBCore:UpdatePlayer')
 end)
 
 RegisterNetEvent('QBCore:Notify', function(text, type, length)
