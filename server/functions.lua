@@ -121,10 +121,8 @@ end
 function QBCore.Functions.SetPlayerBucket(source --[[ int ]], bucket --[[ int ]])
     if not (source or bucket) then return false end
 
-    local plicense = QBCore.Functions.GetIdentifier(source, 'license')
-    if not plicense then return end
     SetPlayerRoutingBucket(source, bucket)
-    QBCore.Player_Buckets[plicense] = {id = source, bucket = bucket}
+    QBCore.Player_Buckets[source] = bucket
     return true
 end
 
@@ -133,7 +131,7 @@ function QBCore.Functions.SetEntityBucket(entity --[[ int ]], bucket --[[ int ]]
     if not (entity or bucket) then return false end
 
     SetEntityRoutingBucket(entity, bucket)
-    QBCore.Entity_Buckets[entity] = {id = entity, bucket = bucket}
+    QBCore.Entity_Buckets[entity] = bucket
     return true
 end
 
@@ -144,9 +142,9 @@ function QBCore.Functions.GetPlayersInBucket(bucket --[[ int ]])
         return false
     end
 
-    for _, v in pairs(QBCore.Player_Buckets) do
-        if v.bucket == bucket then
-                curr_bucket_pool[#curr_bucket_pool + 1] = v.id
+    for k, v in pairs(QBCore.Player_Buckets) do
+        if v == bucket then
+            curr_bucket_pool[#curr_bucket_pool + 1] = k
         end
     end
 
@@ -160,9 +158,9 @@ function QBCore.Functions.GetEntitiesInBucket(bucket --[[ int ]])
         return false
     end
 
-    for _, v in pairs(QBCore.Entity_Buckets) do
-        if v.bucket == bucket then
-            curr_bucket_pool[#curr_bucket_pool + 1] = v.id
+    for k, v in pairs(QBCore.Entity_Buckets) do
+        if v == bucket then
+            curr_bucket_pool[#curr_bucket_pool + 1] = k
         end
     end
 
