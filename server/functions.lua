@@ -413,6 +413,6 @@ function QBCore.Functions.HasItem(source, items, amount)
     return exports['qb-inventory']:HasItem(source, items, amount)
 end
 
-function QBCore.Functions.Notify(source, text, type, length)
-    TriggerClientEvent('QBCore:Notify', source, text, type, length)
+function QBCore.Functions.Notify(source, text, notifytype, length)
+    TriggerClientEvent('QBCore:Notify', source, text, notifytype, length)
 end
