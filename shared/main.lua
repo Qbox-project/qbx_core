@@ -14,7 +14,7 @@ end
 
 function QBShared.RandomInt(length)
     if length <= 0 then return '' end
-    return ('%s%s'):format(QBShared.RandomInt(length - 1), NumberCharset[math.random(1, #NumberCharset)])
+    return QBShared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
 end
 
 function QBShared.SplitStr(str, delimiter)
