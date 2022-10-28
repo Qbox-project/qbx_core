@@ -1,8 +1,8 @@
 QBCore.Commands = {}
 QBCore.Commands.List = {}
 QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards compatibility
-    ['god'] = true, -- We don't need to create an ace because god is allowed all commands
-    ['user'] = true -- We don't need to create an ace because builtin.everyone
+    god = true, -- We don't need to create an ace because god is allowed all commands
+    user = true -- We don't need to create an ace because builtin.everyone
 }
 
 CreateThread(function() -- Add ace to node for perm checking
@@ -43,14 +43,14 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
         end
         permission.n = nil
     else
-        permission = tostring(permission:lower())
+        permission = tostring(permission)
         if not QBCore.Commands.IgnoreList[permission] then -- only create aces for extra perm levels
             ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission, name))
         end
     end
 
-    QBCore.Commands.List[name:lower()] = {
-        name = name:lower(),
+    QBCore.Commands.List[name] = {
+        name = name,
         permission = permission,
         help = help,
         arguments = arguments,
@@ -65,15 +65,15 @@ function QBCore.Commands.Refresh(source)
     local suggestions = {}
     if Player then
         for command, info in pairs(QBCore.Commands.List) do
-            local hasPerm = IsPlayerAceAllowed(tostring(src), 'command.'..command)
+            local hasPerm = IsPlayerAceAllowed(tostring(src), ('command.%s'):format(command))
             if hasPerm then
                 suggestions[#suggestions + 1] = {
-                    name = '/' .. command,
+                    name = ('/%s'):format(command),
                     help = info.help,
                     params = info.arguments
                 }
             else
-                TriggerClientEvent('chat:removeSuggestion', src, '/'..command)
+                TriggerClientEvent('chat:removeSuggestion', src, ('/%s'):format(command))
             end
         end
         TriggerClientEvent('chat:addSuggestions', src, suggestions)
@@ -84,7 +84,7 @@ end
 QBCore.Commands.Add('tp', Lang:t("command.tp.help"), { { name = Lang:t("command.tp.params.x.name"), help = Lang:t("command.tp.params.x.help") }, { name = Lang:t("command.tp.params.y.name"), help = Lang:t("command.tp.params.y.help") }, { name = Lang:t("command.tp.params.z.name"), help = Lang:t("command.tp.params.z.help") } }, false, function(source, args)
     if args[1] and not args[2] and not args[3] then
         if tonumber(args[1]) then
-        local target = GetPlayerPed(tonumber(args[1]))
+        local target = GetPlayerPed(tonumber(args[1]) --[[@as number]])
         if target ~= 0 then
             local coords = GetEntityCoords(target)
             TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
@@ -128,7 +128,7 @@ end, 'admin')
 
 QBCore.Commands.Add('addpermission', Lang:t("command.addpermission.help"), { { name = Lang:t("command.addpermission.params.id.name"), help = Lang:t("command.addpermission.params.id.help") }, { name = Lang:t("command.addpermission.params.permission.name"), help = Lang:t("command.addpermission.params.permission.help") } }, true, function(source, args)
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-    local permission = tostring(args[2]):lower()
+    local permission = tostring(args[2])
     if Player then
         QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
     else
@@ -138,7 +138,7 @@ end, 'god')
 
 QBCore.Commands.Add('removepermission', Lang:t("command.removepermission.help"), { { name = Lang:t("command.removepermission.params.id.name"), help = Lang:t("command.removepermission.params.id.help") }, { name = Lang:t("command.removepermission.params.permission.name"), help = Lang:t("command.removepermission.params.permission.help") } }, true, function(source, args)
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-    local permission = tostring(args[2]):lower()
+    local permission = tostring(args[2])
     if Player then
         QBCore.Functions.RemovePermission(Player.PlayerData.source, permission)
     else
@@ -255,20 +255,20 @@ QBCore.Commands.Add('ooc', Lang:t("command.ooc.help"), {}, false, function(sourc
             TriggerClientEvent('chat:addMessage', v, {
                 color = { 0, 0, 255},
                 multiline = true,
-                args = {'OOC | '.. GetPlayerName(source), message}
+                args = {('OOC | %s'):format(GetPlayerName(source)), message}
             })
         elseif #(playerCoords - GetEntityCoords(GetPlayerPed(v))) < 20.0 then
             TriggerClientEvent('chat:addMessage', v, {
                 color = { 0, 0, 255},
                 multiline = true,
-                args = {'OOC | '.. GetPlayerName(source), message}
+                args = {('OOC | %s'):format(GetPlayerName(source)), message}
             })
         elseif QBCore.Functions.HasPermission(v, 'admin') then
             if QBCore.Functions.IsOptin(v) then
                 TriggerClientEvent('chat:addMessage', v, {
                     color = { 0, 0, 255},
                     multiline = true,
-                    args = {'Proxmity OOC | '.. GetPlayerName(source), message}
+                    args = {('Proximity OOC | %s'):format(GetPlayerName(source)), message}
                 })
                 TriggerEvent('qb-log:server:CreateLog', 'ooc', 'OOC', 'white', '**' .. GetPlayerName(source) .. '** (CitizenID: ' .. Player.PlayerData.citizenid .. ' | ID: ' .. source .. ') **Message:** ' .. message, false)
             end
