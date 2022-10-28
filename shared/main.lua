@@ -9,7 +9,7 @@ for i = 97, 122 do StringCharset[#StringCharset + 1] = string.char(i) end
 
 function QBShared.RandomStr(length)
     if length <= 0 then return '' end
-    return ('%s%s'):format(QBShared.RandomStr(length - 1), StringCharset[math.random(1, #StringCharset)])
+    return QBShared.RandomStr(length - 1) .. StringCharset[math.random(1, #StringCharset)]
 end
 
 function QBShared.RandomInt(length)
