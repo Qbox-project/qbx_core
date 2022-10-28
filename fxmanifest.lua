@@ -7,6 +7,7 @@ version '1.0.0'
 shared_scripts {
     'config.lua',
     'shared/*.lua',
+    'locale/en.lua',
     'locale/*.lua'
 }
 
