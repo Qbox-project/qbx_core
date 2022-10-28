@@ -317,15 +317,8 @@ function QBCore.Functions.GetClosestObject(coords)
 end
 
 function QBCore.Functions.GetClosestBone(entity, list)
-    local playerCoords,
-    ---@type table?
-    bone,
-    ---@type vector3?
-    coords,
-    ---@type number?
-    distance
-    =
-    GetEntityCoords(PlayerPedId())
+    ---@type unknown, table?, vector3?, number?
+    local playerCoords, bone, coords, distance = GetEntityCoords(PlayerPedId())
     for _, element in pairs(list) do
         local boneCoords = GetWorldPositionOfEntityBone(entity, element.id or element)
         local boneDistance = #(playerCoords - boneCoords)
