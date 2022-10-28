@@ -85,29 +85,35 @@ RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
 
-function QBCore.Functions.Notify(text, texttype, length)
-    if type(text) == "table" then
-        local ttext = text.text or 'Placeholder'
-        local caption = text.caption or 'Placeholder'
-        texttype = texttype or 'primary'
-        length = length or 5000
-        SendNUIMessage({
-            action = 'notify',
-            type = texttype,
-            length = length,
-            text = ttext,
-            caption = caption
-        })
-    else
-        texttype = texttype or 'primary'
-        length = length or 5000
-        SendNUIMessage({
-            action = 'notify',
-            type = texttype,
-            length = length,
-            text = text
-        })
+function QBCore.Functions.Notify(text, notifytype, length)
+    local texttype = (notifytype == 'primary' and 'inform') or notifytype or 'inform'
+    local duration = length or 5000
+    local title = text
+    local description = nil
+    local style = {}
+    local icon
+    local iconColor
+    if texttype == 'police' or texttype == 'ambulance' then
+        style = texttype == 'police' and { backgroundColor = '#141517', color = '#ffffff' } or { backgroundColor = '#141517', color = '#ffffff' }
+        icon = texttype == 'police' and 'tower-broadcast' or 'circle-exclamation'
+        iconColor = texttype == 'police' and '#d60d17' or '#C0392B'
     end
+
+    if type(text) == "table" then
+        title = text.text or 'Placeholder'
+        description = text.caption or 'Placeholder'
+    end
+
+    lib.notify({
+        title = title,
+        description = description,
+        type = texttype,
+        position = QBConfig.Notify.NotificationStyling.position,
+        duration = duration,
+        style = style or nil,
+        icon = icon or nil,
+        iconColor = iconColor or nil
+    })
 end
 
 function QBCore.Debug(resource, obj, depth)
