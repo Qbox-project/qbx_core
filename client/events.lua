@@ -165,10 +165,6 @@ RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     QBCore.PlayerData = val
 end)
 
-RegisterNetEvent('QBCore:Player:UpdatePlayerData', function()
-    TriggerServerEvent('QBCore:UpdatePlayer')
-end)
-
 RegisterNetEvent('QBCore:Notify', function(text, notifytype, length)
     QBCore.Functions.Notify(text, notifytype, length)
 end)
