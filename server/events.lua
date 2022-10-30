@@ -146,37 +146,6 @@ end)
 
 -- Player
 
-RegisterNetEvent('QBCore:UpdatePlayer', function()
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    local newHunger = Player.PlayerData.metadata['hunger'] - QBCore.Config.Player.HungerRate
-    local newThirst = Player.PlayerData.metadata['thirst'] - QBCore.Config.Player.ThirstRate
-    if newHunger <= 0 then
-        newHunger = 0
-    end
-    if newThirst <= 0 then
-        newThirst = 0
-    end
-    Player.Functions.SetMetaData('thirst', newThirst)
-    Player.Functions.SetMetaData('hunger', newHunger)
-    TriggerClientEvent('hud:client:UpdateNeeds', src, newHunger, newThirst)
-    Player.Functions.Save()
-end)
-
-RegisterNetEvent('QBCore:Server:SetMetaData', function(meta, data)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    if meta == 'hunger' or meta == 'thirst' then
-        if data > 100 then
-            data = 100
-        end
-    end
-    Player.Functions.SetMetaData(meta, data)
-    TriggerClientEvent('hud:client:UpdateNeeds', src, Player.PlayerData.metadata['hunger'], Player.PlayerData.metadata['thirst'])
-end)
-
 RegisterNetEvent('QBCore:ToggleDuty', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
@@ -189,26 +158,6 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
         TriggerClientEvent('QBCore:Notify', src, Lang:t('info.on_duty'))
     end
     TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
-end)
-
--- Items
-
--- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
-RegisterNetEvent('QBCore:Server:UseItem', function(item)
-    print(string.format("%s triggered QBCore:Server:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), source))
-    QBCore.Debug(item)
-end)
-
--- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot)
-RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount)
-    local src = source
-    print(string.format("%s triggered QBCore:Server:RemoveItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
-end)
-
--- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot, info)
-RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount)
-    local src = source
-    print(string.format("%s triggered QBCore:Server:AddItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
 end)
 
 -- Non-Chat Command Calling (ex: qb-adminmenu)
@@ -241,7 +190,7 @@ QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, c
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then
-        while GetVehiclePedIsIn(ped) ~= veh do
+        while GetVehiclePedIsIn(ped, false) ~= veh do
             Wait(0)
             TaskWarpPedIntoVehicle(ped, veh, -1)
         end
@@ -253,12 +202,28 @@ end)
 -- Use this for long distance vehicle spawning
 -- vehicle server-side spawning callback (netId)
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
--- convert it to a vehicle via the NetToVeh native
+-- convert it to a vehicle via the NetToVeh native but use a while loop before that to check if the vehicle exists first like this
+--[[
+    ```lua
+        while not DoesEntityExist(NetToVeh(veh)) do
+            Wait(0)
+        end
+    ```
+]]
+-- If you don't use the above on the client, it will return 0 as the vehicle from the netid and 0 means no vehicle found because it doesn't exist so fast on the client
 QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
-    model = type(model) == 'string' and GetHashKey(model) or model
+    model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
-    local CreateAutomobile = GetHashKey("CREATE_AUTOMOBILE")
-    local veh = Citizen.InvokeNative(CreateAutomobile, model, coords, coords.w, true, true)
+    if not CreateVehicleServerSetter then
+        error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
+        cb(0)
+        return
+    end
+    local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
+    while not DoesEntityExist(tempVehicle) do Wait(0) end
+    local vehicleType = GetVehicleType(tempVehicle)
+    DeleteEntity(tempVehicle)
+    local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
     cb(NetworkGetNetworkIdFromEntity(veh))

@@ -1,7 +1,23 @@
 --- @class Locale
+--- @field fallback Locale | boolean
+--- @field warnOnMissing boolean
+--- @field phrases table
+--- @field currentLocale string
+--- @field new fun(_: Locale, opts: table<string, any>): Locale
+--- @field extend fun(self: Locale, phrases: table<string, string>, prefix: string?)
+--- @field clear fun(self: Locale)
+--- @field replace fun(self: Locale, phrases: table<string, any>)
+--- @field locale fun(self: Locale, newLocale: string): string
+--- @field t fun(self: Locale, key: string, subs: table<string, any>?): string
+--- @field has fun(self: Locale, key: string): boolean
+--- @field delete fun(self: Locale, phraseTarget: string | table, prefix: string)
 Locale = {}
 Locale.__index = Locale
 
+--- Translate a key
+--- @param phrase string
+--- @param subs table
+--- @return string
 local function translateKey(phrase, subs)
     if type(phrase) ~= 'string' then
         error('TypeError: translateKey function expects arg #1 to be a string')
@@ -28,7 +44,7 @@ local function translateKey(phrase, subs)
 end
 
 --- Constructor function for a new Locale class instance
---- @param _ unknown  kept for backwards compatibility
+--- @param _ Locale kept for backwards compatibility
 --- @param opts table<string, any> - Constructor opts param
 --- @return Locale
 function Locale.new(_, opts)
@@ -51,7 +67,6 @@ end
 --- internally for initial population of phrases field.
 --- @param phrases table<string, string> - Table of phrase definitions
 --- @param prefix string | nil - Optional prefix used for recursive calls
---- @return nil
 function Locale:extend(phrases, prefix)
     for key, phrase in pairs(phrases) do
         local prefixKey = prefix and ('%s.%s'):format(prefix, key) or key
@@ -66,7 +81,6 @@ end
 
 --- Clear locale instance phrases
 --- Might be useful for memory management of large phrase maps.
---- @return nil
 function Locale:clear()
     self.phrases = {}
 end
@@ -83,7 +97,7 @@ end
 --- @param newLocale string - Optional new locale to set
 --- @return string
 function Locale:locale(newLocale)
-    if (newLocale) then
+    if newLocale then
         self.currentLocale = newLocale
     end
     return self.currentLocale
@@ -134,7 +148,7 @@ function Locale:delete(phraseTarget, prefix)
         self.phrases[phraseTarget] = nil
     else
         for key, phrase in pairs(phraseTarget) do
-            local prefixKey = prefix and prefix .. '.' .. key or key
+            local prefixKey = prefix and ('%s.%s'):format(prefix, key) or key
 
             if type(phrase) == 'table' then
                 self:delete(phrase, prefixKey)

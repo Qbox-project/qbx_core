@@ -3,7 +3,7 @@ QBShared.Gangs = {
 	['none'] = {
 		label = 'No Gang',
 		grades = {
-            ['0'] = {
+            [0] = {
                 name = 'Unaffiliated'
             },
         },
@@ -11,16 +11,16 @@ QBShared.Gangs = {
 	['lostmc'] = {
 		label = 'The Lost MC',
 		grades = {
-            ['0'] = {
+            [0] = {
                 name = 'Recruit'
             },
-			['1'] = {
+			[1] = {
                 name = 'Enforcer'
             },
-			['2'] = {
+			[2] = {
                 name = 'Shot Caller'
             },
-			['3'] = {
+			[3] = {
                 name = 'Boss',
 				isboss = true
             },
@@ -29,16 +29,16 @@ QBShared.Gangs = {
 	['ballas'] = {
 		label = 'Ballas',
 		grades = {
-            ['0'] = {
+            [0] = {
                 name = 'Recruit'
             },
-			['1'] = {
+			[1] = {
                 name = 'Enforcer'
             },
-			['2'] = {
+			[2] = {
                 name = 'Shot Caller'
             },
-			['3'] = {
+			[3] = {
                 name = 'Boss',
 				isboss = true
             },
@@ -47,16 +47,16 @@ QBShared.Gangs = {
 	['vagos'] = {
 		label = 'Vagos',
 		grades = {
-            ['0'] = {
+            [0] = {
                 name = 'Recruit'
             },
-			['1'] = {
+			[1] = {
                 name = 'Enforcer'
             },
-			['2'] = {
+			[2] = {
                 name = 'Shot Caller'
             },
-			['3'] = {
+			[3] = {
                 name = 'Boss',
 				isboss = true
             },
@@ -65,16 +65,16 @@ QBShared.Gangs = {
 	['cartel'] = {
 		label = 'Cartel',
 		grades = {
-            ['0'] = {
+            [0] = {
                 name = 'Recruit'
             },
-			['1'] = {
+			[1] = {
                 name = 'Enforcer'
             },
-			['2'] = {
+			[2] = {
                 name = 'Shot Caller'
             },
-			['3'] = {
+			[3] = {
                 name = 'Boss',
 				isboss = true
             },
@@ -83,16 +83,16 @@ QBShared.Gangs = {
 	['families'] = {
 		label = 'Families',
 		grades = {
-            ['0'] = {
+            [0] = {
                 name = 'Recruit'
             },
-			['1'] = {
+			[1] = {
                 name = 'Enforcer'
             },
-			['2'] = {
+			[2] = {
                 name = 'Shot Caller'
             },
-			['3'] = {
+			[3] = {
                 name = 'Boss',
 				isboss = true
             },
@@ -101,16 +101,16 @@ QBShared.Gangs = {
 	['triads'] = {
 		label = 'Triads',
 		grades = {
-            ['0'] = {
+            [0] = {
                 name = 'Recruit'
             },
-			['1'] = {
+			[1] = {
                 name = 'Enforcer'
             },
-			['2'] = {
+			[2] = {
                 name = 'Shot Caller'
             },
-			['3'] = {
+			[3] = {
                 name = 'Boss',
 				isboss = true
             },

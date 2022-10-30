@@ -1,9 +1,10 @@
 -- Player load and unload handling
 -- New method for checking if logged in across all scripts (optional)
--- if LocalPlayer.state['isLoggedIn'] then
+-- if LocalPlayer.state.isLoggedIn then
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
+    IsLoggedIn = true
     if not QBConfig.Server.PVP then return end
     SetCanAttackFriendly(PlayerPedId(), true, false)
     NetworkSetFriendlyFireOption(true)
@@ -11,6 +12,7 @@ end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     LocalPlayer.state:set('isLoggedIn', false, false)
+    IsLoggedIn = false
 end)
 
 RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
@@ -31,10 +33,6 @@ RegisterNetEvent('QBCore:Command:TeleportToCoords', function(x, y, z, h)
 end)
 
 RegisterNetEvent('QBCore:Command:GoToMarker', function()
-    local PlayerPedId = PlayerPedId
-    local GetEntityCoords = GetEntityCoords
-    local GetGroundZFor_3dCoord = GetGroundZFor_3dCoord
-
     local blipMarker <const> = GetFirstBlipInfoId(8)
     if not DoesBlipExist(blipMarker) then
         QBCore.Functions.Notify(Lang:t("error.no_waypoint"), "error", 5000)
@@ -53,7 +51,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
 
     -- Unpack coords instead of having to unpack them while iterating.
     -- 825.0 seems to be the max a player can reach while 0.0 being the lowest.
-    local x, y, groundZ, Z_START = coords['x'], coords['y'], 850.0, 950.0
+    local x, y, groundZ, Z_START = coords.x, coords.y, 850.0, 950.0
     local found = false
     if vehicle > 0 then
         FreezeEntityPosition(vehicle, true)
@@ -107,7 +105,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
     if not found then
         -- If we can't find the coords, set the coords to the old ones.
         -- We don't unpack them before since they aren't in a loop and only called once.
-        SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
+        SetPedCoordsKeepVehicle(ped, oldCoords.x, oldCoords.y, oldCoords.z - 1.0)
         QBCore.Functions.Notify(Lang:t("error.tp_error"), "error", 5000)
     end
 
@@ -120,7 +118,7 @@ end)
 
 RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     local ped = PlayerPedId()
-    local hash = GetHashKey(vehName)
+    local hash = joaat(vehName)
     local veh = GetVehiclePedIsUsing(ped)
     if not IsModelInCdimage(hash) then return end
     RequestModel(hash)
@@ -128,11 +126,12 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
         Wait(0)
     end
 
-    if IsPedInAnyVehicle(ped) then
+    if IsPedInAnyVehicle(ped, false) then
         DeleteVehicle(veh)
     end
 
-    local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
+    local coords = GetEntityCoords(ped)
+    local vehicle = CreateVehicle(hash, coords.x, coords.y, coords.z, GetEntityHeading(ped), true, false)
     TaskWarpPedIntoVehicle(ped, vehicle, -1)
     SetVehicleFuelLevel(vehicle, 100.0)
     SetVehicleDirtLevel(vehicle, 0.0)
@@ -161,11 +160,9 @@ end)
 -- Other stuff
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
+    local invokingResource = GetInvokingResource()
+    if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
     QBCore.PlayerData = val
-end)
-
-RegisterNetEvent('QBCore:Player:UpdatePlayerData', function()
-    TriggerServerEvent('QBCore:UpdatePlayer')
 end)
 
 ---@see client/functions.lua:QBCore.Functions.NotifyV2
@@ -177,12 +174,6 @@ end)
 ---@see client/functions.lua:QBCore.Functions.Notify
 RegisterNetEvent('QBCore:Notify', function(text, notifyType, duration)
     QBCore.Functions.Notify(text, notifyType, duration)
-end)
-
--- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
-RegisterNetEvent('QBCore:Client:UseItem', function(item)
-    QBCore.Debug(string.format("%s triggered QBCore:Client:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), GetPlayerServerId(PlayerId())))
-    QBCore.Debug(item)
 end)
 
 -- Callback Events --
@@ -213,9 +204,9 @@ local function Draw3DText(coords, str)
         SetTextFont(4)
         SetTextColour(255, 255, 255, 255)
         SetTextEdge(2, 0, 0, 0, 150)
-        SetTextProportional(1)
+        SetTextProportional(true)
         SetTextOutline()
-        SetTextCentre(1)
+        SetTextCentre(true)
         BeginTextCommandDisplayText("STRING")
         AddTextComponentSubstringPlayerName(str)
         EndTextCommandDisplayText(worldX, worldY)

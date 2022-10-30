@@ -32,12 +32,12 @@ end
 
 function QBShared.Trim(value)
     if not value then return nil end
-    return (string.gsub(value, '^%s*(.-)%s*$', '%1'))
+    return string.gsub(value, '^%s*(.-)%s*$', '%1')
 end
 
 function QBShared.FirstToUpper(value)
     if not value then return nil end
-    return (value:gsub("^%l", string.upper))
+    return value:gsub("^%l", string.upper)
 end
 
 function QBShared.Round(value, numDecimalPlaces)
@@ -66,7 +66,7 @@ function QBShared.SetDefaultVehicleExtras(vehicle, config)
     -- Clear Extras
     for i = 1, 20 do
         if DoesExtraExist(vehicle, i) then
-            SetVehicleExtra(vehicle, i, 1)
+            SetVehicleExtra(vehicle, i, true)
         end
     end
 

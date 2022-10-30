@@ -121,9 +121,8 @@ end
 function QBCore.Functions.SetPlayerBucket(source --[[ int ]], bucket --[[ int ]])
     if not (source or bucket) then return false end
 
-    local plicense = QBCore.Functions.GetIdentifier(source, 'license')
     SetPlayerRoutingBucket(source, bucket)
-    QBCore.Player_Buckets[plicense] = {id = source, bucket = bucket}
+    QBCore.Player_Buckets[source] = bucket
     return true
 end
 
@@ -132,7 +131,7 @@ function QBCore.Functions.SetEntityBucket(entity --[[ int ]], bucket --[[ int ]]
     if not (entity or bucket) then return false end
 
     SetEntityRoutingBucket(entity, bucket)
-    QBCore.Entity_Buckets[entity] = {id = entity, bucket = bucket}
+    QBCore.Entity_Buckets[entity] = bucket
     return true
 end
 
@@ -143,9 +142,9 @@ function QBCore.Functions.GetPlayersInBucket(bucket --[[ int ]])
         return false
     end
 
-    for _, v in pairs(QBCore.Player_Buckets) do
-        if v.bucket == bucket then
-                curr_bucket_pool[#curr_bucket_pool + 1] = v.id
+    for k, v in pairs(QBCore.Player_Buckets) do
+        if v == bucket then
+            curr_bucket_pool[#curr_bucket_pool + 1] = k
         end
     end
 
@@ -159,9 +158,9 @@ function QBCore.Functions.GetEntitiesInBucket(bucket --[[ int ]])
         return false
     end
 
-    for _, v in pairs(QBCore.Entity_Buckets) do
-        if v.bucket == bucket then
-            curr_bucket_pool[#curr_bucket_pool + 1] = v.id
+    for k, v in pairs(QBCore.Entity_Buckets) do
+        if v == bucket then
+            curr_bucket_pool[#curr_bucket_pool + 1] = k
         end
     end
 
@@ -177,7 +176,7 @@ function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then
-        while GetVehiclePedIsIn(ped) ~= veh do
+        while GetVehiclePedIsIn(ped, false) ~= veh do
             Wait(0)
             TaskWarpPedIntoVehicle(ped, veh, -1)
         end
@@ -188,50 +187,21 @@ end
 
 -- Server side vehicle creation with optional callback
 -- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
-function QBCore.Functions.CreateVehicle(source, model, vehicleType, coords, warp)
+function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
     if not CreateVehicleServerSetter then
         error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
         return
     end
+    local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
+    while not DoesEntityExist(tempVehicle) do Wait(0) end
+    local vehicleType = GetVehicleType(tempVehicle)
+    DeleteEntity(tempVehicle)
     local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
     return veh
-end
-
--- Paychecks (standalone - don't touch)
-function PaycheckInterval()
-    if next(QBCore.Players) then
-        for _, Player in pairs(QBCore.Players) do
-            if Player then
-                local payment = QBShared.Jobs[Player.PlayerData.job.name]['grades'][tostring(Player.PlayerData.job.grade.level)].payment
-                if not payment then payment = Player.PlayerData.job.payment end
-                if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
-                    if QBCore.Config.Money.PayCheckSociety then
-                        local account = exports['qb-management']:GetAccount(Player.PlayerData.job.name)
-                        if account ~= 0 then -- Checks if player is employed by a society
-                            if account < payment then -- Checks if company has enough money to pay society
-                                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
-                            else
-                                Player.Functions.AddMoney('bank', payment)
-                                exports['qb-management']:RemoveMoney(Player.PlayerData.job.name, payment)
-                                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
-                            end
-                        else
-                            Player.Functions.AddMoney('bank', payment)
-                            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
-                        end
-                    else
-                        Player.Functions.AddMoney('bank', payment)
-                        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
-                    end
-                end
-            end
-        end
-    end
-    SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckInterval)
 end
 
 -- Callback Functions --
