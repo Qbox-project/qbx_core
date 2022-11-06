@@ -85,11 +85,15 @@ RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
 
-function QBCore.Functions.Notify(text, notifytype, length)
+---Text box popup for player which dissappears after a set time.
+---@param text table|string text of the notification
+---@param notifytype? NotificationType informs default styling. Defaults to 'inform'.
+---@param duration? integer milliseconds notification will remain on scren. Defaults to 5000.
+function QBCore.Functions.Notify(text, notifytype, duration)
     local texttype = (notifytype == 'primary' and 'inform') or notifytype or 'inform'
-    local duration = length or 5000
+    local duration = duration or 5000
     local title = text
-    local description = nil
+    local description
     local style = {}
     local icon
     local iconColor
@@ -106,9 +110,9 @@ function QBCore.Functions.Notify(text, notifytype, length)
 
     lib.notify({
         title = title,
-        description = description,
+        description = description or nil,
         type = texttype,
-        position = QBConfig.Notify.NotificationStyling.position,
+        position = QBConfig.Notify.NotificationStyling.position or 'left',
         duration = duration,
         style = style or nil,
         icon = icon or nil,
