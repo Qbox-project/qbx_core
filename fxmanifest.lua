@@ -8,7 +8,8 @@ shared_scripts {
     'config.lua',
     'shared/*.lua',
     'locale/en.lua',
-    'locale/*.lua'
+    'locale/*.lua',
+    '@ox_lib/init.lua'
 }
 
 client_scripts {

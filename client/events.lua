@@ -165,8 +165,15 @@ RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     QBCore.PlayerData = val
 end)
 
-RegisterNetEvent('QBCore:Notify', function(text, type, length)
-    QBCore.Functions.Notify(text, type, length)
+---@see client/functions.lua:QBCore.Functions.NotifyV2
+RegisterNetEvent('QBCore:NotifyV2', function(props)
+    QBCore.Functions.NotifyV2(props)
+end)
+
+---@deprecated. Use event 'QBCore:NotifyV2' instead.
+---@see client/functions.lua:QBCore.Functions.Notify
+RegisterNetEvent('QBCore:Notify', function(text, notifyType, duration)
+    QBCore.Functions.Notify(text, notifyType, duration)
 end)
 
 -- Callback Events --
