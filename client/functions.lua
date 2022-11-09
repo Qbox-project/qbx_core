@@ -436,6 +436,9 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
     if DoesEntityExist(vehicle) then
         local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
 
+        local colorPrimaryType = GetVehicleModColor_1(vehicle)
+        local colorSecondaryType = GetVehicleModColor_2(vehicle)
+
         ---@type table | number, table | number
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         if GetIsVehiclePrimaryColourCustom(vehicle) then
@@ -498,6 +501,8 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             oilLevel = QBCore.Shared.Round(GetVehicleOilLevel(vehicle), 0.1),
             color1 = colorPrimary,
             color2 = colorSecondary,
+            colorPrimaryType = colorPrimaryType,
+            colorSecondaryType = colorSecondaryType,
             pearlescentColor = pearlescentColor,
             dashboardColor = GetVehicleDashboardColour(vehicle),
             wheelColor = wheelColor,
@@ -633,6 +638,12 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             else
                 SetVehicleCustomSecondaryColour(vehicle, props.color2[1], props.color2[2], props.color2[3])
             end
+        end
+        if props.colorPrimaryType then
+            SetVehicleModColor_1(vehicle, props.colorPrimaryType, 0, 0)
+        end
+        if props.colorSecondaryType then
+            SetVehicleModColor_2(vehicle, props.colorSecondaryType, 0)
         end
         if props.pearlescentColor then
             SetVehicleExtraColours(vehicle, props.pearlescentColor, wheelColor)
