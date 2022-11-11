@@ -307,6 +307,7 @@ QBCore.Functions.UpdateGang = UpdateGang
 exports('UpdateGang', UpdateGang)
 
 local function GetCoreVersion(InvokingResource)
+    ---@diagnostic disable-next-line: missing-parameter
     local resourceVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
     if InvokingResource and InvokingResource ~= '' then
         print(("%s called qbcore version check: %s"):format(InvokingResource or 'Unknown Resource', resourceVersion))

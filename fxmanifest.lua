@@ -2,20 +2,14 @@ fx_version 'cerulean'
 game 'gta5'
 
 description 'QB-Core'
-version '1.1.0'
+version '1.0.0'
 
 shared_scripts {
     'config.lua',
-    'shared/locale.lua',
+    'shared/*.lua',
     'locale/en.lua',
     'locale/*.lua',
-    'shared/main.lua',
-    'shared/items.lua',
-    'shared/jobs.lua',
-    'shared/vehicles.lua',
-    'shared/gangs.lua',
-    'shared/weapons.lua',
-    'shared/locations.lua'
+    '@ox_lib/init.lua'
 }
 
 client_scripts {
@@ -34,7 +28,8 @@ server_scripts {
     'server/events.lua',
     'server/commands.lua',
     'server/exports.lua',
-    'server/debug.lua'
+    'server/debug.lua',
+    'server/loops.lua'
 }
 
 ui_page 'html/index.html'
@@ -49,3 +44,4 @@ files {
 dependency 'oxmysql'
 
 lua54 'yes'
+use_experimental_fxv2_oal 'yes'

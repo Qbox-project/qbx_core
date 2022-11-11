@@ -21,10 +21,10 @@ end
 function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
     -- Use local function instead
     SetTextFont(4)
-    SetTextProportional(0)
+    SetTextProportional(false)
     SetTextScale(scale, scale)
     SetTextColour(r, g, b, a)
-    SetTextDropShadow(0, 0, 0, 0, 255)
+    SetTextDropShadow()
     SetTextEdge(2, 0, 0, 0, 255)
     SetTextDropShadow()
     SetTextOutline()
@@ -37,12 +37,12 @@ function QBCore.Functions.DrawText3D(coords, text)
     -- Use local function instead
     SetTextScale(0.35, 0.35)
     SetTextFont(4)
-    SetTextProportional(1)
+    SetTextProportional(true)
     SetTextColour(255, 255, 255, 215)
     SetTextEntry('STRING')
     SetTextCentre(true)
     AddTextComponentString(text)
-    SetDrawOrigin(coords, 0)
+    SetDrawOrigin(coords.x, coords.y, coords.z, 0)
     DrawText(0.0, 0.0)
     local factor = (string.len(text)) / 370
     DrawRect(0.0, 0.0 + 0.0125, 0.017 + factor, 0.03, 0, 0, 0, 75)
@@ -85,28 +85,43 @@ RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
 
-function QBCore.Functions.Notify(text, texttype, length)
+
+---@alias NotificationPosition 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
+---@alias NotificationType 'inform' | 'error' | 'success'
+---@alias DeprecatedNotificationType 'primary'
+
+---@class NotifyProps
+---@field id? string notifications with the same id will not be on the screen at the same time
+---@field title? string displayed to the player
+---@field description? string displayed to the player
+---@field duration? number milliseconds notification is on screen
+---@field position? NotificationPosition
+---@field type? NotificationType
+---@field icon? string https://fontawesome.com icon name
+---@field iconColor? string css color value for the icon
+
+---Text box popup for player which dissappears after a set time.
+---@param props NotifyProps
+function QBCore.Functions.NotifyV2(props)
+    props.style = nil
+    lib.notify(props)
+end
+
+---Text box popup for player which dissappears after a set time.
+---@deprecated in favor of QBCore.Functions.NotifyV2()
+---@param text table|string text of the notification
+---@param notifyType? NotificationType|DeprecatedNotificationType informs default styling. Defaults to 'inform'.
+---@param duration? integer milliseconds notification will remain on scren. Defaults to 5000.
+function QBCore.Functions.Notify(text, notifyType, duration)
+    notifyType = notifyType or 'inform'
+    if notifyType == 'primary' then notifyType = 'inform' end
+    duration = duration or 5000
     if type(text) == "table" then
-        local ttext = text.text or 'Placeholder'
-        local caption = text.caption or 'Placeholder'
-        texttype = texttype or 'primary'
-        length = length or 5000
-        SendNUIMessage({
-            action = 'notify',
-            type = texttype,
-            length = length,
-            text = ttext,
-            caption = caption
-        })
+        local title = text.text or 'Placeholder'
+        local description = text.caption or 'Placeholder'
+        lib.notify({ title = title, description = description, duration = duration, type = notifyType})
     else
-        texttype = texttype or 'primary'
-        length = length or 5000
-        SendNUIMessage({
-            action = 'notify',
-            type = texttype,
-            length = length,
-            text = text
-        })
+        lib.notify({ description = text, duration = duration, type = notifyType})
     end
 end
 
@@ -134,8 +149,8 @@ end
 
 function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
     if GetResourceState('progressbar') ~= 'started' then error('progressbar needs to be started in order for QBCore.Functions.Progressbar to work') end
-    exports['progressbar']:Progress({
-        name = name:lower(),
+    exports.progressbar:Progress({
+        name = name,
         duration = duration,
         label = label,
         useWhileDead = useWhileDead,
@@ -317,6 +332,7 @@ function QBCore.Functions.GetClosestObject(coords)
 end
 
 function QBCore.Functions.GetClosestBone(entity, list)
+    ---@type vector3, table?, vector3?, number?
     local playerCoords, bone, coords, distance = GetEntityCoords(PlayerPedId())
     for _, element in pairs(list) do
         local boneCoords = GetWorldPositionOfEntityBone(entity, element.id or element)
@@ -348,11 +364,11 @@ function QBCore.Functions.GetBoneDistance(entity, boneType, boneIndex)
 end
 
 function QBCore.Functions.AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, vertex)
-    local modelHash = type(model) == 'string' and GetHashKey(model) or model
+    local modelHash = type(model) == 'string' and joaat(model) or model
     local bone = GetPedBoneIndex(ped, boneId)
     QBCore.Functions.LoadModel(modelHash)
-    local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, 1, 1, 0)
-    AttachEntityToEntity(prop, ped, bone, x, y, z, xR, yR, zR, 1, 1, 0, 1, not vertex and 2 or 0, 1)
+    local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, true, true, false)
+    AttachEntityToEntity(prop, ped, bone, x, y, z, xR, yR, zR, true, true, false, true, not vertex and 2 or 0, true)
     SetModelAsNoLongerNeeded(modelHash)
     return prop
 end
@@ -361,7 +377,7 @@ end
 
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
     local ped = PlayerPedId()
-    model = type(model) == 'string' and GetHashKey(model) or model
+    model = type(model) == 'string' and joaat(model) or model
     if not IsModelInCdimage(model) then return end
     if coords then
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
@@ -420,6 +436,7 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
     if DoesEntityExist(vehicle) then
         local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
 
+        ---@type table | number, table | number
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         if GetIsVehiclePrimaryColourCustom(vehicle) then
             local r, g, b = GetVehicleCustomPrimaryColour(vehicle)
@@ -451,7 +468,7 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
 
         local tireBurstState = {}
         for i = 0, 5 do
-           tireBurstState[i] = IsVehicleTyreBurst(vehicle, i, false)
+            tireBurstState[i] = IsVehicleTyreBurst(vehicle, i, false)
         end
 
         local tireBurstCompletely = {}
@@ -569,9 +586,9 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.extras then
             for id, enabled in pairs(props.extras) do
                 if enabled then
-                    SetVehicleExtra(vehicle, tonumber(id), 0)
+                    SetVehicleExtra(vehicle, tonumber(id) --[[@as number]], false)
                 else
-                    SetVehicleExtra(vehicle, tonumber(id), 1)
+                    SetVehicleExtra(vehicle, tonumber(id) --[[@as number]], true)
                 end
             end
         end
@@ -640,14 +657,14 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.tireBurstState then
             for wheelIndex, burstState in pairs(props.tireBurstState) do
                 if burstState then
-                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex), false, 1000.0)
+                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex) --[[@as number]], false, 1000.0)
                 end
             end
         end
         if props.tireBurstCompletely then
             for wheelIndex, burstState in pairs(props.tireBurstCompletely) do
                 if burstState then
-                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex), true, 1000.0)
+                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex) --[[@as number]], true, 1000.0)
                 end
             end
         end
@@ -662,7 +679,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.doorStatus then
             for doorIndex, breakDoor in pairs(props.doorStatus) do
                 if breakDoor then
-                    SetVehicleDoorBroken(vehicle, tonumber(doorIndex), true)
+                    SetVehicleDoorBroken(vehicle, tonumber(doorIndex) --[[@as number]], true)
                 end
             end
         end
@@ -875,21 +892,21 @@ function QBCore.Functions.StartParticleAtCoord(dict, ptName, looped, coords, rot
     SetPtfxAssetNextCall(dict)
     local particleHandle
     if looped then
-        particleHandle = StartParticleFxLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0)
+        particleHandle = StartParticleFxLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false, false)
         if color then
             SetParticleFxLoopedColour(particleHandle, color.r, color.g, color.b, false)
         end
         SetParticleFxLoopedAlpha(particleHandle, alpha or 10.0)
         if duration then
             Wait(duration)
-            StopParticleFxLooped(particleHandle, 0)
+            StopParticleFxLooped(particleHandle, false)
         end
     else
         SetParticleFxNonLoopedAlpha(alpha or 10.0)
         if color then
             SetParticleFxNonLoopedColour(color.r, color.g, color.b)
         end
-        StartParticleFxNonLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0)
+        StartParticleFxNonLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false)
     end
     return particleHandle
 end
@@ -905,9 +922,9 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
     end
     if looped then
         if bone then
-            particleHandle = StartParticleFxLoopedOnEntityBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale)
+            particleHandle = StartParticleFxLoopedOnEntityBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale, false, false, false)
         else
-            particleHandle = StartParticleFxLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale)
+            particleHandle = StartParticleFxLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale, false, false, false)
         end
         if evolution then
             SetParticleFxLoopedEvolution(particleHandle, evolution.name, evolution.amount, false)
@@ -918,7 +935,7 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
         SetParticleFxLoopedAlpha(particleHandle, alpha)
         if duration then
             Wait(duration)
-            StopParticleFxLooped(particleHandle, 0)
+            StopParticleFxLooped(particleHandle, false)
         end
     else
         SetParticleFxNonLoopedAlpha(alpha or 10.0)
@@ -926,9 +943,9 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
             SetParticleFxNonLoopedColour(color.r, color.g, color.b)
         end
         if bone then
-            StartParticleFxNonLoopedOnPedBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale)
+            StartParticleFxNonLoopedOnPedBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale, false, false, false)
         else
-            StartParticleFxNonLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale)
+            StartParticleFxNonLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale, false, false, false)
         end
     end
     return particleHandle
@@ -940,24 +957,24 @@ function QBCore.Functions.GetStreetNametAtCoords(coords)
 end
 
 function QBCore.Functions.GetZoneAtCoords(coords)
-    return GetLabelText(GetNameOfZone(coords))
+    return GetLabelText(GetNameOfZone(coords.x, coords.y, coords.z))
 end
 
 function QBCore.Functions.GetCardinalDirection(entity)
-    entity = DoesEntityExist(entity) and entity or PlayerPedId()
+    entity = entity or PlayerPedId()
     if DoesEntityExist(entity) then
         local heading = GetEntityHeading(entity)
         if ((heading >= 0 and heading < 45) or (heading >= 315 and heading < 360)) then
-            return "North"
+            return 'North'
         elseif (heading >= 45 and heading < 135) then
-            return "West"
+            return 'West'
         elseif (heading >= 135 and heading < 225) then
-            return "South"
+            return 'South'
         elseif (heading >= 225 and heading < 315) then
-            return "East"
+            return 'East'
         end
     else
-        return "Cardinal Direction Error"
+        return 'Entity does not exist'
     end
 end
 
@@ -967,14 +984,14 @@ function QBCore.Functions.GetCurrentTime()
     obj.hour = GetClockHours()
 
     if obj.hour <= 12 then
-        obj.ampm = "AM"
+        obj.ampm = 'AM'
     elseif obj.hour >= 13 then
-        obj.ampm = "PM"
+        obj.ampm = 'PM'
         obj.formattedHour = obj.hour - 12
     end
 
     if obj.min <= 9 then
-        obj.formattedMin = "0" .. obj.min
+        obj.formattedMin = ('0%s'):format(obj.min)
     end
 
     return obj
@@ -983,7 +1000,7 @@ end
 function QBCore.Functions.GetGroundZCoord(coords)
     if not coords then return end
 
-    local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, 0)
+    local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, false)
     if retval then
         return vector3(coords.x, coords.y, groundZ)
     else
