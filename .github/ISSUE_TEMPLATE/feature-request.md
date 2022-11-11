@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest an idea for QBCore
+about: Suggest an idea for Qbox
 title: "[SUGGESTION]"
 labels: enhancement
 assignees: ''
