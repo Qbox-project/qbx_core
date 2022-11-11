@@ -15,7 +15,7 @@ AddEventHandler('playerJoining', function()
     local license = QBCore.Functions.GetIdentifier(src, 'license')
     if not license then return end
     if usedLicenses[license] then
-        Wait(0)
+        Wait(0) -- mandatory wait for the drop reason to show up
         DropPlayer(src, Lang:t('error.duplicate_license'))
     else
         usedLicenses[license] = true
