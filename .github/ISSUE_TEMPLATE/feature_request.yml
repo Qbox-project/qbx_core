@@ -1,12 +1,12 @@
 name: Feature request
-description: Suggest an idea for QBCore
+description: Suggest an idea for Qbox
 title: "[SUGGESTION]"
 labels: enhancement
 body:
   - type: markdown
     attributes:
       value: |
-        Please use our Discord Server to ask questions and receive support: https://discord.gg/qbcore
+        Please use our Discord Server to ask questions and receive support: https://discord.gg/qbox
   - type: textarea
     id: problem
     attributes:
