@@ -99,6 +99,17 @@ end
 
 AddEventHandler('playerConnecting', onPlayerConnecting)
 
+-- New method for checking if logged in across all scripts (optional)
+-- `if LocalPlayer.state.isLoggedIn then` for the client side
+-- `if Player(source).state.isLoggedIn then` for the server side
+RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
+    Player(source).state:set('isLoggedIn', true, true)
+end)
+
+AddEventHandler('QBCore:Server:OnPlayerUnload', function(source)
+    Player(source).state:set('isLoggedIn', false, true)
+end)
+
 -- Open & Close Server (prevents players from joining)
 
 RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
