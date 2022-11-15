@@ -284,7 +284,7 @@ function QBCore.Functions.AddPermission(source, permission)
         ExecuteCommand(('add_principal player.%s qbcore.%s'):format(source, permission))
         QBCore.Commands.Refresh(source)
         TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
-        TriggerEvent('QBCore:Client:OnPermissionUpdate', source)
+        TriggerEvent('QBCore:Server:OnPermissionUpdate', source)
     end
 end
 
@@ -294,7 +294,7 @@ function QBCore.Functions.RemovePermission(source, permission)
             ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, permission))
             QBCore.Commands.Refresh(source)
             TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
-            TriggerEvent('QBCore:Client:OnPermissionUpdate', source)
+            TriggerEvent('QBCore:Server:OnPermissionUpdate', source)
         end
     else
         local hasUpdated = false
@@ -307,7 +307,7 @@ function QBCore.Functions.RemovePermission(source, permission)
         end
         if hasUpdated then
             TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
-            TriggerEvent('QBCore:Client:OnPermissionUpdate', source)
+            TriggerEvent('QBCore:Server:OnPermissionUpdate', source)
         end
     end
 end
