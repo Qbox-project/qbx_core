@@ -1,9 +1,6 @@
 -- Player load and unload handling
--- New method for checking if logged in across all scripts (optional)
--- if LocalPlayer.state.isLoggedIn then
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
-    LocalPlayer.state:set('isLoggedIn', true, false)
     IsLoggedIn = true
     if not QBConfig.Server.PVP then return end
     SetCanAttackFriendly(PlayerPedId(), true, false)
@@ -11,7 +8,6 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-    LocalPlayer.state:set('isLoggedIn', false, false)
     IsLoggedIn = false
 end)
 
