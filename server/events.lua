@@ -1,5 +1,7 @@
 -- Event Handler
 
+local usedLicenses = {}
+
 AddEventHandler('chatMessage', function(_, _, message)
     if string.sub(message, 1, 1) == '/' then
         CancelEvent()
@@ -7,8 +9,23 @@ AddEventHandler('chatMessage', function(_, _, message)
     end
 end)
 
+AddEventHandler('playerJoining', function()
+    if not QBConfig.Server.CheckDuplicateLicense then return end
+    local src = source
+    local license = QBCore.Functions.GetIdentifier(src, 'license')
+    if not license then return end
+    if usedLicenses[license] then
+        Wait(0) -- mandatory wait for the drop reason to show up
+        DropPlayer(src, Lang:t('error.duplicate_license'))
+    else
+        usedLicenses[license] = true
+    end
+end)
+
 AddEventHandler('playerDropped', function(reason)
     local src = source
+    local license = QBCore.Functions.GetIdentifier(src, 'license')
+    if license then usedLicenses[license] = nil end
     if not QBCore.Players[src] then return end
     local Player = QBCore.Players[src]
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason)
