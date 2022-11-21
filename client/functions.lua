@@ -116,12 +116,13 @@ function QBCore.Functions.Notify(text, notifyType, duration)
     notifyType = notifyType or 'inform'
     if notifyType == 'primary' then notifyType = 'inform' end
     duration = duration or 5000
+    local position = QBConfig.Notify.NotificationStyling.position
     if type(text) == "table" then
         local title = text.text or 'Placeholder'
         local description = text.caption or 'Placeholder'
-        lib.notify({ title = title, description = description, duration = duration, type = notifyType})
+        lib.notify({ title = title, description = description, duration = duration, type = notifyType, position = position})
     else
-        lib.notify({ description = text, duration = duration, type = notifyType})
+        lib.notify({ description = text, duration = duration, type = notifyType, position = position})
     end
 end
 
