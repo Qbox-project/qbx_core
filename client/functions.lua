@@ -104,6 +104,9 @@ end)
 ---@param props NotifyProps
 function QBCore.Functions.NotifyV2(props)
     props.style = nil
+    if not props.position then
+        props.position = QBConfig.Notify.NotificationStyling.position
+    end
     lib.notify(props)
 end
 
