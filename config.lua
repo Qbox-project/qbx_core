@@ -29,36 +29,4 @@ QBConfig.Server.Discord = "" -- Discord invite link
 QBConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar license on join
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
-QBConfig.Notify = {}
-
-QBConfig.Notify.NotificationStyling = {
-    group = true, -- Allow notifications to stack with a badge instead of repeating
-    position = "right", -- top-left | top-right | bottom-left | bottom-right | top | bottom | left | right | center
-    progress = true -- Display Progress Bar
-}
-
--- These are how you define different notification variants
--- The "color" key is background of the notification
--- The "icon" key is the css-icon code, this project uses `Material Icons` & `Font Awesome`
-QBConfig.Notify.VariantDefinitions = {
-    success = {
-        classes = 'success',
-        icon = 'done'
-    },
-    primary = {
-        classes = 'primary',
-        icon = 'info'
-    },
-    error = {
-        classes = 'error',
-        icon = 'dangerous'
-    },
-    police = {
-        classes = 'police',
-        icon = 'local_police'
-    },
-    ambulance = {
-        classes = 'ambulance',
-        icon = 'fas fa-ambulance'
-    }
-}
+QBConfig.NotifyPosition = 'top-right' -- 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
