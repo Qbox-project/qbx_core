@@ -621,8 +621,7 @@ end
 
 -- Util Functions
 local function UniqueNoFinder(numGen, dbColumn)
-    local UniqueNo = nil
-    local result, query
+    local result, query, UniqueNo
     repeat
         UniqueNo = numGen()
         if dbColumn ~= 'citizenid' then
