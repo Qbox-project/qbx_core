@@ -620,10 +620,15 @@ function QBCore.Player.GetFirstSlotByItem(items, itemName)
 end
 
 -- Util Functions
-local function UniqueNoFinder(numGen, dbColumn)
-    local result, query, UniqueNo
+
+--- Generate unique values for the database
+---@param valGen function
+---@param dbColumn string
+---@return UniqueVal string
+local function generateUniqueValue(valGen, dbColumn)
+    local result, query, UniqueVal
     repeat
-        UniqueNo = numGen()
+        UniqueVal = valGen()
         if dbColumn ~= 'citizenid' then
             query = '%' .. UniqueNo .. '%'
             result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. dbColumn .. ' LIKE ?', { query })
@@ -631,35 +636,35 @@ local function UniqueNoFinder(numGen, dbColumn)
             result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. dbColumn .. ' = ?', { query })
         end
     until result == 0
-    return UniqueNo
+    return UniqueVal
 end
 
 function QBCore.Player.CreateCitizenId()
     local rand = function() return tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper() end
-    return UniqueNoFinder(rand, 'citizenid')
+    return generateUniqueValue(rand, 'citizenid')
 end
 
 function QBCore.Functions.CreateAccountNumber()
     local rand = function() return 'US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99) end
-    return UniqueNoFinder(rand, 'charinfo')
+    return generateUniqueValue(rand, 'charinfo')
 end
 
 function QBCore.Functions.CreatePhoneNumber()
     local rand = function() return math.random(100,999) .. math.random(1000000,9999999) end
-    return UniqueNoFinder(rand, 'charinfo')
+    return generateUniqueValue(rand, 'charinfo')
 end
 
 function QBCore.Player.CreateFingerId()
     local rand = function() return tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4)) end
-    return UniqueNoFinder(rand, 'metadata')
+    return generateUniqueValue(rand, 'metadata')
 end
 
 function QBCore.Player.CreateWalletId()
     local rand = function() return 'QB-' .. math.random(11111111, 99999999) end
-    return UniqueNoFinder(rand, 'metadata')
+    return generateUniqueValue(rand, 'metadata')
 end
 
 function QBCore.Player.CreateSerialNumber()
     local rand = function() return math.random(11111111, 99999999) end
-    return UniqueNoFinder(rand, 'metadata')
+    return generateUniqueValue(rand, 'metadata')
 end
