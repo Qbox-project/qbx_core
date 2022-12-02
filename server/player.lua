@@ -630,7 +630,7 @@ local function generateUniqueValue(valGen, dbColumn)
     repeat
         UniqueVal = valGen()
         if dbColumn ~= 'citizenid' then
-            query = '%' .. UniqueNo .. '%'
+            query = '%' .. UniqueVal .. '%'
             result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. dbColumn .. ' LIKE ?', { query })
         else
             result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. dbColumn .. ' = ?', { query })
