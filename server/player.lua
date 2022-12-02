@@ -622,7 +622,7 @@ end
 -- Util Functions
 
 ---Generate unique values for the database
----@param valGen fun(): string | integer
+---@param valGen fun(): string | number randomly generates a new value
 ---@param dbColumn string
 ---@return string | number UniqueVal unique value generated
 local function generateUniqueValue(valGen, dbColumn)
