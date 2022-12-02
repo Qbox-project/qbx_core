@@ -660,6 +660,6 @@ function QBCore.Player.CreateWalletId()
 end
 
 function QBCore.Player.CreateSerialNumber()
-    local rand = math.random(11111111, 99999999)
+    local rand = function() return math.random(11111111, 99999999) end
     return UniqueNoFinder(rand, 'metadata')
 end
