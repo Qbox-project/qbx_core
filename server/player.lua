@@ -624,7 +624,7 @@ end
 --- Generate unique values for the database
 ---@param valGen fun(): 'string' | 'integer'
 ---@param dbColumn string
----@return UniqueVal 'string' | 'integer'
+---@return 'string' | 'integer'
 local function generateUniqueValue(valGen, dbColumn)
     local result, query, UniqueVal
     repeat
