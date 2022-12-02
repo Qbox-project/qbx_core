@@ -621,10 +621,10 @@ end
 
 -- Util Functions
 
---- Generate unique values for the database
----@param valGen fun(): 'string' | 'integer'
+---Generate unique values for the database
+---@param valGen fun(): string | integer
 ---@param dbColumn string
----@return 'string' | 'integer'
+---@return string | number UniqueVal unique value generated
 local function generateUniqueValue(valGen, dbColumn)
     local result, query, UniqueVal
     repeat
@@ -633,7 +633,7 @@ local function generateUniqueValue(valGen, dbColumn)
             query = '%' .. UniqueVal .. '%'
             result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. dbColumn .. ' LIKE ?', { query })
         else
-            result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. dbColumn .. ' = ?', { query })
+            result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. dbColumn .. ' = ?', { UniqueVal })
         end
     until result == 0
     return UniqueVal
