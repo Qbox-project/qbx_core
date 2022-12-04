@@ -67,7 +67,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         Offline = false
     end
 
-    PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.CreateCitizenId()
+    PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.GenerateUniqueIdentifier('citizenid')
     PlayerData.cid = PlayerData.charinfo?.cid or 1
     PlayerData.money = PlayerData.money or {}
     PlayerData.optin = PlayerData.optin or true
@@ -83,8 +83,8 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.charinfo.gender = PlayerData.charinfo.gender or 0
     PlayerData.charinfo.backstory = PlayerData.charinfo.backstory or 'placeholder backstory'
     PlayerData.charinfo.nationality = PlayerData.charinfo.nationality or 'USA'
-    PlayerData.charinfo.phone = PlayerData.charinfo.phone or QBCore.Functions.CreatePhoneNumber()
-    PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Functions.CreateAccountNumber()
+    PlayerData.charinfo.phone = PlayerData.charinfo.phone or QBCore.Player.GenerateUniqueIdentifier('PhoneNumber')
+    PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Player.GenerateUniqueIdentifier('AccountNumber')
     -- Metadata
     PlayerData.metadata = PlayerData.metadata or {}
     PlayerData.metadata.health = PlayerData.metadata.health or 200
@@ -113,8 +113,8 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.metadata.jobrep.taxi = PlayerData.metadata.jobrep.taxi or 0
     PlayerData.metadata.jobrep.hotdog = PlayerData.metadata.jobrep.hotdog or 0
     PlayerData.metadata.callsign = PlayerData.metadata.callsign or 'NO CALLSIGN'
-    PlayerData.metadata.fingerprint = PlayerData.metadata.fingerprint or QBCore.Player.CreateFingerId()
-    PlayerData.metadata.walletid = PlayerData.metadata.walletid or QBCore.Player.CreateWalletId()
+    PlayerData.metadata.fingerprint = PlayerData.metadata.fingerprint or QBCore.Player.GenerateUniqueIdentifier('FingerId')
+    PlayerData.metadata.walletid = PlayerData.metadata.walletid or QBCore.Player.GenerateUniqueIdentifier('WalletId')
     PlayerData.metadata.criminalrecord = PlayerData.metadata.criminalrecord or {
         hasRecord = false,
         date = nil
@@ -132,7 +132,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         }
     }
     PlayerData.metadata.phonedata = PlayerData.metadata.phonedata or {
-        SerialNumber = QBCore.Player.CreateSerialNumber(),
+        SerialNumber = QBCore.Player.GenerateUniqueIdentifier('SerialNumber'),
         InstalledApps = {},
     }
     -- Job
@@ -619,52 +619,20 @@ function QBCore.Player.GetFirstSlotByItem(items, itemName)
     return exports['qb-inventory']:GetFirstSlotByItem(items, itemName)
 end
 
--- Util Functions
-
----Generate unique values for the database
----@param valGen fun(): string | number randomly generates a new value
----@param dbColumn string
+---Generate unique values for player identifiers
+---@param type string The type of unique value to generate
 ---@return string | number UniqueVal unique value generated
-local function generateUniqueValue(valGen, dbColumn)
-    local result, query, UniqueVal
+function QBCore.Player.GenerateUniqueIdentifier(type)
+    local result, query, UniqueId
+    local table = QBShared.Player.IdentifierTypes[type]
     repeat
-        UniqueVal = valGen()
-        if dbColumn ~= 'citizenid' then
+        UniqueId = table.ValueFunction()
+        if table.DatabaseColumn ~= 'citizenid' then
             query = '%' .. UniqueVal .. '%'
-            result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. dbColumn .. ' LIKE ?', { query })
+            result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. table.DatabaseColumn .. ' LIKE ?', { query })
         else
-            result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. dbColumn .. ' = ?', { UniqueVal })
+            result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. table.DatabaseColumn .. ' = ?', { UniqueId })
         end
     until result == 0
-    return UniqueVal
-end
-
-function QBCore.Player.CreateCitizenId()
-    local rand = function() return tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper() end
-    return generateUniqueValue(rand, 'citizenid')
-end
-
-function QBCore.Functions.CreateAccountNumber()
-    local rand = function() return 'US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99) end
-    return generateUniqueValue(rand, 'charinfo')
-end
-
-function QBCore.Functions.CreatePhoneNumber()
-    local rand = function() return math.random(100,999) .. math.random(1000000,9999999) end
-    return generateUniqueValue(rand, 'charinfo')
-end
-
-function QBCore.Player.CreateFingerId()
-    local rand = function() return tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4)) end
-    return generateUniqueValue(rand, 'metadata')
-end
-
-function QBCore.Player.CreateWalletId()
-    local rand = function() return 'QB-' .. math.random(11111111, 99999999) end
-    return generateUniqueValue(rand, 'metadata')
-end
-
-function QBCore.Player.CreateSerialNumber()
-    local rand = function() return math.random(11111111, 99999999) end
-    return generateUniqueValue(rand, 'metadata')
+    return UniqueId
 end
