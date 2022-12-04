@@ -621,7 +621,7 @@ end
 
 ---Generate unique values for player identifiers
 ---@param type string The type of unique value to generate
----@return string | number UniqueVal unique value generated
+---@return string | number UniqueId unique value generated
 function QBCore.Player.GenerateUniqueIdentifier(type)
     local result, query, UniqueId
     local table = QBShared.Player.IdentifierTypes[type]
