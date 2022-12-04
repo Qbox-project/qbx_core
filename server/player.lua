@@ -623,12 +623,12 @@ end
 ---@param type string The type of unique value to generate
 ---@return string | number UniqueVal unique value generated
 function QBCore.Player.GenerateUniqueIdentifier(type)
-    local result, query, UniqueId
+    local result, query, v
     local table = QBShared.Player.IdentifierTypes[type]
     repeat
         UniqueId = table.ValueFunction()
         if table.DatabaseColumn ~= 'citizenid' then
-            query = '%' .. UniqueVal .. '%'
+            query = '%' .. UniqueId .. '%'
             result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. table.DatabaseColumn .. ' LIKE ?', { query })
         else
             result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. table.DatabaseColumn .. ' = ?', { UniqueId })
