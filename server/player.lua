@@ -623,7 +623,7 @@ end
 ---@param type string The type of unique value to generate
 ---@return string | number UniqueVal unique value generated
 function QBCore.Player.GenerateUniqueIdentifier(type)
-    local result, query
+    local result, query, UniqueId
     local table = QBShared.Player.IdentifierTypes[type]
     repeat
         UniqueId = table.ValueFunction()
