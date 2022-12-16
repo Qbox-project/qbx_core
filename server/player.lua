@@ -8,9 +8,9 @@ QBCore.Player = {}
 function QBCore.Player.Login(source, citizenid, newData)
     if source and source ~= '' then
         if citizenid then
-            local license = QBCore.Functions.GetIdentifier(source, 'license')
+            local license, license2 = QBCore.Functions.GetIdentifier(source, 'license'), QBCore.Functions.GetIdentifier(source, 'license2')
             local PlayerData = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenid })
-            if PlayerData and license == PlayerData.license then
+            if PlayerData and license == PlayerData.license or PlayerData and license2 == PlayerData.license then
                 PlayerData.money = json.decode(PlayerData.money)
                 PlayerData.job = json.decode(PlayerData.job)
                 PlayerData.position = json.decode(PlayerData.position)
@@ -62,7 +62,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     local Offline = true
     if source then
         PlayerData.source = source
-        PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
+        PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license2')
         PlayerData.name = GetPlayerName(source)
         Offline = false
     end
@@ -545,9 +545,9 @@ local playertables = { -- Add tables as needed
 }
 
 function QBCore.Player.DeleteCharacter(source, citizenid)
-    local license = QBCore.Functions.GetIdentifier(source, 'license')
+    local license, license2 = QBCore.Functions.GetIdentifier(source, 'license'), QBCore.Functions.GetIdentifier(source, 'license2')
     local result = MySQL.scalar.await('SELECT license FROM players where citizenid = ?', { citizenid })
-    if license == result then
+    if license == result or license2 == result then
         local query = "DELETE FROM %s WHERE citizenid = ?"
         local tableCount = #playertables
         local queries = table.create(tableCount, 0)
@@ -559,7 +559,7 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
 
         MySQL.transaction(queries, function(result2)
             if result2 then
-                TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Deleted', 'red', '**' .. GetPlayerName(source) .. '** ' .. license .. ' deleted **' .. citizenid .. '**..')
+                TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Deleted', 'red', '**' .. GetPlayerName(source) .. '** ' .. license2 .. ' deleted **' .. citizenid .. '**..')
             end
         end)
     else
