@@ -624,7 +624,7 @@ end
 ---@return string | number UniqueVal unique value generated
 function QBCore.Player.GenerateUniqueIdentifier(type)
     local result, query, UniqueId
-    local table = QBShared.Player.IdentifierTypes[type]
+    local table = QBConfig.Player.IdentifierTypes[type]
     repeat
         UniqueId = table.ValueFunction()
         if table.DatabaseColumn ~= 'citizenid' then
