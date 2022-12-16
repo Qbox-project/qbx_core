@@ -67,7 +67,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         Offline = false
     end
 
-    PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.CreateCitizenId()
+    PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.GenerateUniqueIdentifier('citizenid')
     PlayerData.cid = PlayerData.charinfo?.cid or 1
     PlayerData.money = PlayerData.money or {}
     PlayerData.optin = PlayerData.optin or true
@@ -83,8 +83,8 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.charinfo.gender = PlayerData.charinfo.gender or 0
     PlayerData.charinfo.backstory = PlayerData.charinfo.backstory or 'placeholder backstory'
     PlayerData.charinfo.nationality = PlayerData.charinfo.nationality or 'USA'
-    PlayerData.charinfo.phone = PlayerData.charinfo.phone or QBCore.Functions.CreatePhoneNumber()
-    PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Functions.CreateAccountNumber()
+    PlayerData.charinfo.phone = PlayerData.charinfo.phone or QBCore.Player.GenerateUniqueIdentifier('PhoneNumber')
+    PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Player.GenerateUniqueIdentifier('AccountNumber')
     -- Metadata
     PlayerData.metadata = PlayerData.metadata or {}
     PlayerData.metadata.health = PlayerData.metadata.health or 200
@@ -113,8 +113,8 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.metadata.jobrep.taxi = PlayerData.metadata.jobrep.taxi or 0
     PlayerData.metadata.jobrep.hotdog = PlayerData.metadata.jobrep.hotdog or 0
     PlayerData.metadata.callsign = PlayerData.metadata.callsign or 'NO CALLSIGN'
-    PlayerData.metadata.fingerprint = PlayerData.metadata.fingerprint or QBCore.Player.CreateFingerId()
-    PlayerData.metadata.walletid = PlayerData.metadata.walletid or QBCore.Player.CreateWalletId()
+    PlayerData.metadata.fingerprint = PlayerData.metadata.fingerprint or QBCore.Player.GenerateUniqueIdentifier('FingerId')
+    PlayerData.metadata.walletid = PlayerData.metadata.walletid or QBCore.Player.GenerateUniqueIdentifier('WalletId')
     PlayerData.metadata.criminalrecord = PlayerData.metadata.criminalrecord or {
         hasRecord = false,
         date = nil
@@ -132,7 +132,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         }
     }
     PlayerData.metadata.phonedata = PlayerData.metadata.phonedata or {
-        SerialNumber = QBCore.Player.CreateSerialNumber(),
+        SerialNumber = QBCore.Player.GenerateUniqueIdentifier('SerialNumber'),
         InstalledApps = {},
     }
     -- Job
@@ -619,87 +619,20 @@ function QBCore.Player.GetFirstSlotByItem(items, itemName)
     return exports['qb-inventory']:GetFirstSlotByItem(items, itemName)
 end
 
--- Util Functions
-
-function QBCore.Player.CreateCitizenId()
-    local UniqueFound = false
-    local CitizenId = nil
-    while not UniqueFound do
-        CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
-        local result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE citizenid = ?', { CitizenId })
-        if result == 0 then
-            UniqueFound = true
+---Generate unique values for player identifiers
+---@param type string The type of unique value to generate
+---@return string | number UniqueVal unique value generated
+function QBCore.Player.GenerateUniqueIdentifier(type)
+    local result, query, UniqueId
+    local table = QBShared.Player.IdentifierTypes[type]
+    repeat
+        UniqueId = table.ValueFunction()
+        if table.DatabaseColumn ~= 'citizenid' then
+            query = '%' .. UniqueId .. '%'
+            result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. table.DatabaseColumn .. ' LIKE ?', { query })
+        else
+            result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. table.DatabaseColumn .. ' = ?', { UniqueId })
         end
-    end
-    return CitizenId
-end
-
-function QBCore.Functions.CreateAccountNumber()
-    local UniqueFound = false
-    local AccountNumber = nil
-    while not UniqueFound do
-        AccountNumber = 'US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99)
-        local query = '%' .. AccountNumber .. '%'
-        local result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE charinfo LIKE ?', { query })
-        if result == 0 then
-            UniqueFound = true
-        end
-    end
-    return AccountNumber
-end
-
-function QBCore.Functions.CreatePhoneNumber()
-    local UniqueFound = false
-    local PhoneNumber = nil
-    while not UniqueFound do
-        PhoneNumber = math.random(100,999) .. math.random(1000000,9999999)
-        local query = '%' .. PhoneNumber .. '%'
-        local result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE charinfo LIKE ?', { query })
-        if result == 0 then
-            UniqueFound = true
-        end
-    end
-    return PhoneNumber
-end
-
-function QBCore.Player.CreateFingerId()
-    local UniqueFound = false
-    local FingerId = nil
-    while not UniqueFound do
-        FingerId = tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
-        local query = '%' .. FingerId .. '%'
-        local result = MySQL.prepare.await('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE ?', { query })
-        if result == 0 then
-            UniqueFound = true
-        end
-    end
-    return FingerId
-end
-
-function QBCore.Player.CreateWalletId()
-    local UniqueFound = false
-    local WalletId = nil
-    while not UniqueFound do
-        WalletId = 'QB-' .. math.random(11111111, 99999999)
-        local query = '%' .. WalletId .. '%'
-        local result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
-        if result == 0 then
-            UniqueFound = true
-        end
-    end
-    return WalletId
-end
-
-function QBCore.Player.CreateSerialNumber()
-    local UniqueFound = false
-    local SerialNumber = nil
-    while not UniqueFound do
-        SerialNumber = math.random(11111111, 99999999)
-        local query = '%' .. SerialNumber .. '%'
-        local result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
-        if result == 0 then
-            UniqueFound = true
-        end
-    end
-    return SerialNumber
+    until result == 0
+    return UniqueId
 end
