@@ -1,4 +1,3 @@
-QBShared = QBShared or {}
 QBShared.Gangs = {
 	['none'] = {
 		label = 'No Gang',

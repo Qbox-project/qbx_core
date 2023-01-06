@@ -1,4 +1,18 @@
-QBShared = QBShared or {}
+local isServer = IsDuplicityVersion()
+
+QBShared = setmetatable({}, {
+    __newindex = function(tbl, index, value)
+        local newTable = rawset(tbl, index, value)
+        if isServer then
+            TriggerClientEvent('QBCore:Client:SharedUpdated', -1, index, value, newTable)
+            TriggerEvent('QBCore:Server:SharedUpdated', index, value, newTable)
+            return
+        end
+
+        TriggerServerEvent('QBCore:Server:SharedUpdated', index, value, newTable)
+        TriggerEvent('QBCore:Client:SharedUpdated', index, value, newTable)
+    end,
+})
 
 local StringCharset = {}
 local NumberCharset = {}
@@ -47,19 +61,17 @@ function QBShared.Round(value, numDecimalPlaces)
 end
 
 function QBShared.ChangeVehicleExtra(vehicle, extra, enable)
-    if DoesExtraExist(vehicle, extra) then
-        if enable then
-            SetVehicleExtra(vehicle, extra, false)
-            if not IsVehicleExtraTurnedOn(vehicle, extra) then
-                QBShared.ChangeVehicleExtra(vehicle, extra, enable)
-            end
-        else
-            SetVehicleExtra(vehicle, extra, true)
-            if IsVehicleExtraTurnedOn(vehicle, extra) then
-                QBShared.ChangeVehicleExtra(vehicle, extra, enable)
-            end
-        end
+    if not DoesExtraExist(vehicle, extra) then return end
+    SetVehicleExtra(vehicle, extra, not enable)
+
+    if enable then
+        if IsVehicleExtraTurnedOn(vehicle, extra) then return end
+        QBShared.ChangeVehicleExtra(vehicle, extra, enable)
+        return
     end
+
+    if not IsVehicleExtraTurnedOn(vehicle, extra) then return end
+    QBShared.ChangeVehicleExtra(vehicle, extra, enable)
 end
 
 function QBShared.SetDefaultVehicleExtras(vehicle, config)
@@ -71,14 +83,14 @@ function QBShared.SetDefaultVehicleExtras(vehicle, config)
     end
 
     for id, enabled in pairs(config) do
-        QBShared.ChangeVehicleExtra(vehicle, tonumber(id), type(enabled) == 'boolean' and enabled or true)
+        QBShared.ChangeVehicleExtra(vehicle, tonumber(id), not not enabled) -- Convert to a boolean if it's not one
     end
 end
 
 QBShared.StarterItems = {
-    ['phone'] = { amount = 1, item = 'phone' },
-    ['id_card'] = { amount = 1, item = 'id_card' },
-    ['driver_license'] = { amount = 1, item = 'driver_license' },
+    phone = { amount = 1, item = 'phone' },
+    id_card = { amount = 1, item = 'id_card' },
+    driver_license = { amount = 1, item = 'driver_license' },
 }
 
 QBShared.MaleNoGloves = {

@@ -42,8 +42,6 @@ local function AddJob(jobName, job)
 
     QBCore.Shared.Jobs[jobName] = job
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
-    TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
 
@@ -74,10 +72,7 @@ local function AddJobs(jobs)
         QBCore.Shared.Jobs[key] = value
     end
 
-    if not shouldContinue then return false, message, errorItem end
-    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Jobs', jobs)
-    TriggerEvent('QBCore:Server:UpdateObject')
-    return true, message, nil
+    return shouldContinue, message, errorItem
 end
 
 QBCore.Functions.AddJobs = AddJobs
@@ -95,8 +90,6 @@ local function RemoveJob(jobName)
 
     QBCore.Shared.Jobs[jobName] = nil
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, nil)
-    TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
 
@@ -115,8 +108,6 @@ local function UpdateJob(jobName, job)
 
     QBCore.Shared.Jobs[jobName] = job
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
-    TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
 
@@ -135,8 +126,6 @@ local function AddItem(itemName, item)
 
     QBCore.Shared.Items[itemName] = item
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
-    TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
 
@@ -148,12 +137,13 @@ local function UpdateItem(itemName, item)
     if type(itemName) ~= "string" then
         return false, "invalid_item_name"
     end
+
     if not QBCore.Shared.Items[itemName] then
         return false, "item_not_exists"
     end
+
     QBCore.Shared.Items[itemName] = item
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
-    TriggerEvent('QBCore:Server:UpdateObject')
+
     return true, "success"
 end
 
@@ -184,10 +174,7 @@ local function AddItems(items)
         QBCore.Shared.Items[key] = value
     end
 
-    if not shouldContinue then return false, message, errorItem end
-    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Items', items)
-    TriggerEvent('QBCore:Server:UpdateObject')
-    return true, message, nil
+    return shouldContinue, message, errorItem
 end
 
 QBCore.Functions.AddItems = AddItems
@@ -205,8 +192,6 @@ local function RemoveItem(itemName)
 
     QBCore.Shared.Items[itemName] = nil
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, nil)
-    TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
 
@@ -225,8 +210,6 @@ local function AddGang(gangName, gang)
 
     QBCore.Shared.Gangs[gangName] = gang
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
-    TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
 
@@ -257,10 +240,7 @@ local function AddGangs(gangs)
         QBCore.Shared.Gangs[key] = value
     end
 
-    if not shouldContinue then return false, message, errorItem end
-    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Gangs', gangs)
-    TriggerEvent('QBCore:Server:UpdateObject')
-    return true, message, nil
+    return shouldContinue, message, errorItem
 end
 
 QBCore.Functions.AddGangs = AddGangs
@@ -278,8 +258,6 @@ local function RemoveGang(gangName)
 
     QBCore.Shared.Gangs[gangName] = nil
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, nil)
-    TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
 
@@ -298,8 +276,6 @@ local function UpdateGang(gangName, gang)
 
     QBCore.Shared.Gangs[gangName] = gang
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
-    TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
 

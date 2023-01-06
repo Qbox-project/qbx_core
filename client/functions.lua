@@ -137,17 +137,17 @@ end
 
 -- Client Callback
 function QBCore.Functions.CreateClientCallback(name, cb)
-    QBCore.ClientCallbacks[name] = cb
+    ClientCallbacks[name] = cb
 end
 
 function QBCore.Functions.TriggerClientCallback(name, cb, ...)
-    if not QBCore.ClientCallbacks[name] then return end
-    QBCore.ClientCallbacks[name](cb, ...)
+    if not ClientCallbacks[name] then return end
+    ClientCallbacks[name](cb, ...)
 end
 
 -- Server Callback
 function QBCore.Functions.TriggerCallback(name, cb, ...)
-    QBCore.ServerCallbacks[name] = cb
+    ServerCallbacks[name] = cb
     TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
 end
 

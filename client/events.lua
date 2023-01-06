@@ -183,9 +183,9 @@ end)
 
 -- Server Callback
 RegisterNetEvent('QBCore:Client:TriggerCallback', function(name, ...)
-    if QBCore.ServerCallbacks[name] then
-        QBCore.ServerCallbacks[name](...)
-        QBCore.ServerCallbacks[name] = nil
+    if ServerCallbacks[name] then
+        ServerCallbacks[name](...)
+        ServerCallbacks[name] = nil
     end
 end)
 
@@ -220,17 +220,4 @@ RegisterNetEvent('QBCore:Command:ShowMe3D', function(senderId, msg)
             Wait(0)
         end
     end)
-end)
-
--- Listen to Shared being updated
-RegisterNetEvent('QBCore:Client:OnSharedUpdate', function(tableName, key, value)
-    QBCore.Shared[tableName][key] = value
-    TriggerEvent('QBCore:Client:UpdateObject')
-end)
-
-RegisterNetEvent('QBCore:Client:OnSharedUpdateMultiple', function(tableName, values)
-    for key, value in pairs(values) do
-        QBCore.Shared[tableName][key] = value
-    end
-    TriggerEvent('QBCore:Client:UpdateObject')
 end)

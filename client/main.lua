@@ -2,8 +2,8 @@ QBCore = {}
 QBCore.PlayerData = {}
 QBCore.Config = QBConfig
 QBCore.Shared = QBShared
-QBCore.ClientCallbacks = {}
-QBCore.ServerCallbacks = {}
+ClientCallbacks = {}
+ServerCallbacks = {}
 IsLoggedIn = false
 
 exports('GetCoreObject', function()

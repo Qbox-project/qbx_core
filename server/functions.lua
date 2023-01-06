@@ -208,18 +208,18 @@ end
 
 -- Client Callback
 function QBCore.Functions.TriggerClientCallback(name, source, cb, ...)
-    QBCore.ClientCallbacks[name] = cb
+    ClientCallbacks[name] = cb
     TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
 end
 
 -- Server Callback
 function QBCore.Functions.CreateCallback(name, cb)
-    QBCore.ServerCallbacks[name] = cb
+    ServerCallbacks[name] = cb
 end
 
 function QBCore.Functions.TriggerCallback(name, source, cb, ...)
-    if not QBCore.ServerCallbacks[name] then return end
-    QBCore.ServerCallbacks[name](source, cb, ...)
+    if not ServerCallbacks[name] then return end
+    ServerCallbacks[name](source, cb, ...)
 end
 
 -- Items
