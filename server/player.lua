@@ -1,5 +1,6 @@
 QBCore.Players = {}
 QBCore.Player = {}
+GlobalState.PlayerCount = 0
 
 -- On player login get their data or set defaults
 -- Don't touch any of this unless you know what you are doing
@@ -187,6 +188,7 @@ function QBCore.Player.Logout(source)
 
     Wait(200)
     QBCore.Players[source] = nil
+    GlobalState.PlayerCount -= 1
 end
 
 -- Create a new character
@@ -421,6 +423,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         QBCore.Player.Save(self.PlayerData.source)
 
         -- At this point we are safe to emit new instance to third party resource for load handling
+        GlobalState.PlayerCount += 1
         TriggerEvent('QBCore:Server:PlayerLoaded', self)
         self.Functions.UpdatePlayerData()
     end
