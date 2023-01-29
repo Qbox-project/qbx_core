@@ -27,7 +27,7 @@ AddEventHandler('playerDropped', function(reason)
     local license = QBCore.Functions.GetIdentifier(src, 'license')
     if license then usedLicenses[license] = nil end
     if not QBCore.Players[src] then return end
-    GlobalState.Players -= 1
+    GlobalState.PlayerCount -= 1
     local Player = QBCore.Players[src]
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason)
     Player.Functions.Save()
