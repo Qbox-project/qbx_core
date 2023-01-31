@@ -15,14 +15,14 @@ end
 --- QBCore.Functions.HasItem checks if a player has the specified `items` in their inventory
 --- with the specified `amount`.
 ---
---- @param items string|string[]    The item(s) to check for. Can be a string or a table.
---- @param amount integer           The desired quantity of each item.
+--- @param items string|string[]    The item(s) to check for. Can be a string or a table and is mandatory.
+--- @param amount? integer          The desired quantity of each item. Acceptable to pass nil, will default to 1.
 ---
 --- @return boolean Returns true if the player has the specified items in the desired quantity,
 ---                 false otherwise
 function QBCore.Functions.HasItem(items, amount)
+    amount = amount or 1
     local count = exports.ox_inventory:Search('count', items)
-
     if type(items) == 'table' and type(count) == 'table' then
         for _, v in pairs(count) do
             if v < amount then
@@ -31,7 +31,6 @@ function QBCore.Functions.HasItem(items, amount)
         end
         return true
     end
-     
     return count >= amount
 end
 
