@@ -12,6 +12,14 @@ function QBCore.Functions.GetCoords(entity)
     return vector4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
 end
 
+--- QBCore.Functions.HasItem checks if a player has the specified `items` in their inventory
+--- with the specified `amount`.
+---
+--- @param items    The item(s) to check for. Can be a string or a table.
+--- @param amount   The desired quantity of each item
+---
+--- @return boolean Returns true if the player has the specified items in the desired quantity,
+---                 false otherwise
 function QBCore.Functions.HasItem(items, amount)
     local count = exports.ox_inventory:Search('count', items)
 
