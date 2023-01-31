@@ -13,7 +13,18 @@ function QBCore.Functions.GetCoords(entity)
 end
 
 function QBCore.Functions.HasItem(items, amount)
-    return exports['qb-inventory']:HasItem(items, amount)
+    local count = exports.ox_inventory:Search('count', items)
+
+    if type(items) == 'table' and type(count) == 'table' then
+        for _, v in pairs(count) do
+            if v < amount then
+                return false
+            end
+        end
+        return true
+    end
+     
+    return count >= amount
 end
 
 -- Utility
