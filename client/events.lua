@@ -209,14 +209,25 @@ local function Draw3DText(coords, str)
     end
 end
 
-RegisterNetEvent('QBCore:Command:ShowMe3D', function(senderId, msg)
-    local sender = GetPlayerFromServerId(senderId)
+AddStateBagChangeHandler('me', nil, function(bagName, _, value)
+    if not value then return end
+
+    local playerId = GetPlayerFromStateBagName(bagName)
+
+    if not playerId then return end
+
+    local playerPed = GetPlayerPed(playerId)
+
+    -- Here we do a entity check to see if the player exsist within each clients scope --
+    if not DoesEntityExist(playerPed) then return end
+
+    -- Distance check to make sure that players do not see others me from 100s of meters away --
+    if #(GetEntityCoords(playerPed) - GetEntityCoords(cache.ped)) > 25 then return end
+
     CreateThread(function()
         local displayTime = 5000 + GetGameTimer()
         while displayTime > GetGameTimer() do
-            local targetPed = GetPlayerPed(sender)
-            local tCoords = GetEntityCoords(targetPed)
-            Draw3DText(tCoords, msg)
+            Draw3DText(GetEntityCoords(playerPed), value)
             Wait(0)
         end
     end)
