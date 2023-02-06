@@ -16,7 +16,7 @@ local function drawText(text, position)
 end
 
 local function changeText(text, position)
-    if type(position) ~= "string" then position = "left" end
+    position = positions[position] or position
     lib.hideTextUI()
     lib.showTextUI(text, {
         position = position
