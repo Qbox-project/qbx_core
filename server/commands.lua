@@ -278,18 +278,13 @@ end, 'user')
 
 -- Me command
 
-QBCore.Commands.Add('me', Lang:t("command.me.help"), {{name = Lang:t("command.me.params.message.name"), help = Lang:t("command.me.params.message.help")}}, false, function(source, args)
+QBCore.Commands.Add('me', Lang:t("comm.me"), {{name = Lang:t("comm.me_m"), help = Lang:t("comm.me_mh")}}, false, function(source, args)
     if #args < 1 then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.missing_args2'), 'error') return end
-    local ped = GetPlayerPed(source)
-    local pCoords = GetEntityCoords(ped)
     local msg = table.concat(args, ' '):gsub('[~<].-[>~]', '')
-    local Players = QBCore.Functions.GetPlayers()
-    for i=1, #Players do
-        local Player = Players[i]
-        local target = GetPlayerPed(Player)
-        local tCoords = GetEntityCoords(target)
-        if target == ped or #(pCoords - tCoords) < 20 then
-            TriggerClientEvent('QBCore:Command:ShowMe3D', Player, source, msg)
-        end
-    end
+    local playerState = Player(source).state
+    playerState:set('me', msg, true)
+
+    -- We have to reset the playerState since the state does not get replicated on StateBagHandler if the value is the same as the previous one --
+    playerState:set('me', nil, true)
 end, 'user')
+
