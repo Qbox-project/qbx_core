@@ -456,13 +456,9 @@ function QBCore.Functions.SpawnClear(coords, radius)
     return true
 end
 
-function QBCore.Functions.GetVehicleProperties(vehicle)
-    return lib.getVehicleProperties(vehicle)
-end
+QBCore.Functions.GetVehicleProperties = lib.getVehicleProperties
 
-function QBCore.Functions.SetVehicleProperties(vehicle, props)
-    return lib.setVehicleProperties(vehicle, props)
-end
+QBCore.Functions.SetVehicleProperties = lib.setVehicleProperties
 
 function QBCore.Functions.LoadParticleDictionary(dictionary)
     if HasNamedPtfxAssetLoaded(dictionary) then return end
