@@ -1,9 +1,15 @@
+local positions = {
+    left = 'left-center',
+    right = 'right-center',
+    top = 'top-center'
+}
+
 local function hideText()
     lib.hideTextUI()
 end
 
 local function drawText(text, position)
-    if type(position) ~= "string" then position = "left" end
+    position = positions[position] or position
     lib.showTextUI(text, {
         position = position
     })
