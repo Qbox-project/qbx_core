@@ -278,7 +278,7 @@ end, 'user')
 
 -- Me command
 
-QBCore.Commands.Add('me', Lang:t("comm.me"), {{name = Lang:t("comm.me_m"), help = Lang:t("comm.me_mh")}}, false, function(source, args)
+QBCore.Commands.Add('me', Lang:t("command.me.help"), {{name = Lang:t("command.me.params.message.name"), help = Lang:t("command.me.params.message.help")}}, false, function(source, args)
     if #args < 1 then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.missing_args2'), 'error') return end
     local msg = table.concat(args, ' '):gsub('[~<].-[>~]', '')
     local playerState = Player(source).state
