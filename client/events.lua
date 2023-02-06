@@ -216,17 +216,19 @@ AddStateBagChangeHandler('me', nil, function(bagName, _, value)
 
     if not playerId then return end
 
-    local playerPed = GetPlayerPed(playerId)
+    local isLocalPlayer = playerId == cache.playerId
+    local playerPed = isLocalPlayer and cache.ped or GetPlayerPed(playerId)
 
     -- Here we do a entity check to see if the player exsist within each clients scope --
     if not DoesEntityExist(playerPed) then return end
 
     -- Distance check to make sure that players do not see others me from 100s of meters away --
-    if #(GetEntityCoords(playerPed) - GetEntityCoords(cache.ped)) > 25 then return end
+    if not isLocalPlayer and #(GetEntityCoords(playerPed) - GetEntityCoords(cache.ped)) > 25 then return end
 
     CreateThread(function()
         local displayTime = 5000 + GetGameTimer()
         while displayTime > GetGameTimer() do
+            playerPed = isLocalPlayer and cache.ped or GetPlayerPed(playerId)
             Draw3DText(GetEntityCoords(playerPed), value)
             Wait(0)
         end
