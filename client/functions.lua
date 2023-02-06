@@ -274,21 +274,11 @@ function QBCore.Functions.GetClosestPlayer(coords)
     else
         coords = GetEntityCoords(ped)
     end
-    local closestPlayers = QBCore.Functions.GetPlayersFromCoords(coords)
-    local closestDistance = -1
-    local closestPlayer = -1
-    for i = 1, #closestPlayers, 1 do
-        if closestPlayers[i] ~= PlayerId() and closestPlayers[i] ~= -1 then
-            local pos = GetEntityCoords(GetPlayerPed(closestPlayers[i]))
-            local distance = #(pos - coords)
 
-            if closestDistance == -1 or closestDistance > distance then
-                closestPlayer = closestPlayers[i]
-                closestDistance = distance
-            end
-        end
-    end
-    return closestPlayer, closestDistance
+    local playerId, playerPed, playerCoords = lib.getClosestPlayer(coords, 50, false)
+    local closestDistance = #(playerCoords - coords)
+    
+    return playerPed, closestDistance
 end
 
 function QBCore.Functions.GetPlayersFromCoords(coords, distance)
