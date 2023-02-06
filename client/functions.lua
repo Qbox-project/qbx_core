@@ -69,10 +69,7 @@ function QBCore.Functions.DrawText3D(coords, text)
     ClearDrawOrigin()
 end
 
-function QBCore.Functions.RequestAnimDict(animDict)
-	if HasAnimDictLoaded(animDict) then return end
-	lib.requestAnimDict(animDict, 100)
-end
+QBCore.Functions.RequestAnimDict = lib.requestAnimDict
 
 function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
     local flags = upperbodyOnly and 16 or 0
@@ -82,15 +79,9 @@ function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
     RemoveAnimDict(animDict)
 end
 
-function QBCore.Functions.LoadModel(model)
-    if HasModelLoaded(model) then return end
-    lib.requestModel(model, 100)
-end
+QBCore.Functions.LoadModel = lib.requestModel
 
-function QBCore.Functions.LoadAnimSet(animSet)
-    if HasAnimSetLoaded(animSet) then return end
-    lib.requestAnimSet(animSet, 100)
-end
+QBCore.Functions.LoadAnimSet = lib.requestAnimSet
 
 RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
@@ -266,7 +257,7 @@ function QBCore.Functions.GetClosestPlayer(coords)
         coords = GetEntityCoords(ped)
     end
 
-    local playerId, playerPed, playerCoords = lib.getClosestPlayer(coords, 50, false)
+    local _, playerPed, playerCoords = lib.getClosestPlayer(coords, 50, false)
     local closestDistance = #(playerCoords - coords)
     
     return playerPed, closestDistance
@@ -294,15 +285,14 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
 end
 
 function QBCore.Functions.GetClosestVehicle(coords)
-    local ped = PlayerPedId()
     if coords then
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
     else
-        coords = GetEntityCoords(ped)
+        coords = GetEntityCoords(cache.ped)
     end
-    local Vehicle, VehicleCoords = lib.getClosestVehicle(coords, 50, true)
-    local closestDistance = #(VehicleCoords - coords)
-    return Vehicle, closestDistance
+    local vehicle, vehicleCoords = lib.getClosestVehicle(coords, 50, true)
+    local closestDistance = #(vehicleCoords - coords)
+    return vehicle, closestDistance
 end
 
 function QBCore.Functions.GetClosestObject(coords)
