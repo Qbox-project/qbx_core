@@ -69,13 +69,7 @@ function QBCore.Functions.DrawText3D(coords, text)
     ClearDrawOrigin()
 end
 
-function QBCore.Functions.RequestAnimDict(animDict)
-	if HasAnimDictLoaded(animDict) then return end
-	RequestAnimDict(animDict)
-	while not HasAnimDictLoaded(animDict) do
-		Wait(0)
-	end
-end
+QBCore.Functions.RequestAnimDict = lib.requestAnimDict
 
 function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
     local flags = upperbodyOnly and 16 or 0
@@ -85,21 +79,9 @@ function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
     RemoveAnimDict(animDict)
 end
 
-function QBCore.Functions.LoadModel(model)
-    if HasModelLoaded(model) then return end
-	RequestModel(model)
-	while not HasModelLoaded(model) do
-		Wait(0)
-	end
-end
+QBCore.Functions.LoadModel = lib.requestModel
 
-function QBCore.Functions.LoadAnimSet(animSet)
-    if HasAnimSetLoaded(animSet) then return end
-    RequestAnimSet(animSet)
-    while not HasAnimSetLoaded(animSet) do
-        Wait(0)
-    end
-end
+QBCore.Functions.LoadAnimSet = lib.requestAnimSet
 
 RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
@@ -274,21 +256,11 @@ function QBCore.Functions.GetClosestPlayer(coords)
     else
         coords = GetEntityCoords(ped)
     end
-    local closestPlayers = QBCore.Functions.GetPlayersFromCoords(coords)
-    local closestDistance = -1
-    local closestPlayer = -1
-    for i = 1, #closestPlayers, 1 do
-        if closestPlayers[i] ~= PlayerId() and closestPlayers[i] ~= -1 then
-            local pos = GetEntityCoords(GetPlayerPed(closestPlayers[i]))
-            local distance = #(pos - coords)
 
-            if closestDistance == -1 or closestDistance > distance then
-                closestPlayer = closestPlayers[i]
-                closestDistance = distance
-            end
-        end
-    end
-    return closestPlayer, closestDistance
+    local _, playerPed, playerCoords = lib.getClosestPlayer(coords, 50, false)
+    local closestDistance = #(playerCoords - coords)
+    
+    return playerPed, closestDistance
 end
 
 function QBCore.Functions.GetPlayersFromCoords(coords, distance)
@@ -313,25 +285,14 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
 end
 
 function QBCore.Functions.GetClosestVehicle(coords)
-    local ped = PlayerPedId()
-    local vehicles = GetGamePool('CVehicle')
-    local closestDistance = -1
-    local closestVehicle = -1
     if coords then
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
     else
-        coords = GetEntityCoords(ped)
+        coords = GetEntityCoords(cache.ped)
     end
-    for i = 1, #vehicles, 1 do
-        local vehicleCoords = GetEntityCoords(vehicles[i])
-        local distance = #(vehicleCoords - coords)
-
-        if closestDistance == -1 or closestDistance > distance then
-            closestVehicle = vehicles[i]
-            closestDistance = distance
-        end
-    end
-    return closestVehicle, closestDistance
+    local vehicle, vehicleCoords = lib.getClosestVehicle(coords, 50, true)
+    local closestDistance = #(vehicleCoords - coords)
+    return vehicle, closestDistance
 end
 
 function QBCore.Functions.GetClosestObject(coords)
