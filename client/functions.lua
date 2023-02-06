@@ -71,10 +71,7 @@ end
 
 function QBCore.Functions.RequestAnimDict(animDict)
 	if HasAnimDictLoaded(animDict) then return end
-	RequestAnimDict(animDict)
-	while not HasAnimDictLoaded(animDict) do
-		Wait(0)
-	end
+	lib.requestAnimDict(animDict, 100)
 end
 
 function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
@@ -87,18 +84,12 @@ end
 
 function QBCore.Functions.LoadModel(model)
     if HasModelLoaded(model) then return end
-	RequestModel(model)
-	while not HasModelLoaded(model) do
-		Wait(0)
-	end
+    lib.requestModel(model, 100)
 end
 
 function QBCore.Functions.LoadAnimSet(animSet)
     if HasAnimSetLoaded(animSet) then return end
-    RequestAnimSet(animSet)
-    while not HasAnimSetLoaded(animSet) do
-        Wait(0)
-    end
+    lib.requestAnimSet(animSet, 100)
 end
 
 RegisterNUICallback('getNotifyConfig', function(_, cb)
