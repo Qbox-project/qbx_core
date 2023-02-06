@@ -214,7 +214,7 @@ AddStateBagChangeHandler('me', nil, function(bagName, _, value)
 
     local playerId = GetPlayerFromStateBagName(bagName)
 
-    if not playerId then return end
+    if not playerId or not NetworkIsPlayerActive(playerId) then return end
 
     local isLocalPlayer = playerId == cache.playerId
     local playerPed = isLocalPlayer and cache.ped or GetPlayerPed(playerId)
