@@ -501,21 +501,6 @@ end
 
 -- Delete character
 
-local playertables = { -- Add tables as needed
-    { table = 'players' },
-    { table = 'apartments' },
-    { table = 'bank_accounts' },
-    { table = 'crypto_transactions' },
-    { table = 'phone_invoices' },
-    { table = 'phone_messages' },
-    { table = 'playerskins' },
-    { table = 'player_contacts' },
-    { table = 'player_houses' },
-    { table = 'player_mails' },
-    { table = 'player_outfits' },
-    { table = 'player_vehicles' }
-}
-
 function QBCore.Player.DeleteCharacter(source, citizenid)
     local license, license2 = QBCore.Functions.GetIdentifier(source, 'license'), QBCore.Functions.GetIdentifier(source, 'license2')
     local result = GetPlayerEntity(citizenid).license
