@@ -10,7 +10,7 @@ function QBCore.Player.Login(source, citizenid, newData)
     if source and source ~= '' then
         if citizenid then
             local license, license2 = QBCore.Functions.GetIdentifier(source, 'license'), QBCore.Functions.GetIdentifier(source, 'license2')
-            local PlayerData = GetPlayerEntity(citizenid)
+            local PlayerData = FetchPlayerEntity(citizenid)
             if PlayerData and license == PlayerData.license or PlayerData and license2 == PlayerData.license then
                 QBCore.Player.CheckPlayerData(source, PlayerData)
             else
@@ -29,7 +29,7 @@ end
 
 function QBCore.Player.GetOfflinePlayer(citizenid)
     if citizenid then
-        local PlayerData = GetPlayerEntity(citizenid)
+        local PlayerData = FetchPlayerEntity(citizenid)
         if PlayerData then
             return QBCore.Player.CheckPlayerData(nil, PlayerData)
         end
@@ -503,7 +503,7 @@ end
 
 function QBCore.Player.DeleteCharacter(source, citizenid)
     local license, license2 = QBCore.Functions.GetIdentifier(source, 'license'), QBCore.Functions.GetIdentifier(source, 'license2')
-    local result = GetPlayerEntity(citizenid).license
+    local result = FetchPlayerEntity(citizenid).license
     if license == result or license2 == result then
         CreateThread(function()
             local success = DeletePlayerEntity(citizenid)
@@ -518,7 +518,7 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
 end
 
 function QBCore.Player.ForceDeleteCharacter(citizenid)
-    local result = GetPlayerEntity(citizenid).license
+    local result = FetchPlayerEntity(citizenid).license
     if result then
         local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
         if Player then
@@ -569,7 +569,7 @@ function QBCore.Player.GenerateUniqueIdentifier(type)
     local table = QBConfig.Player.IdentifierTypes[type]
     repeat
         uniqueId = table.valueFunction()
-        isUnique = IsUnique(type, uniqueId)
+        isUnique = FetchIsUnique(type, uniqueId)
     until isUnique
     return uniqueId
 end

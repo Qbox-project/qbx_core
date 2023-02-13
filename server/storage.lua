@@ -50,7 +50,7 @@ end
 
 ---@param request GetBanRequest
 ---@return BanEntity
-function GetBanEntity(request)
+function FetchBanEntity(request)
     local column, value = getBanId(request)
     local result = MySQL.single.await('SELECT * FROM bans WHERE ' ..column.. ' = ?', { value })
     return {
@@ -98,7 +98,7 @@ end
 
 ---@param citizenId string
 ---@return PlayerEntity
-function GetPlayerEntity(citizenId)
+function FetchPlayerEntity(citizenId)
     local player = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenId })
     return {
         citizenid = player.citizenid,
@@ -152,7 +152,7 @@ end
 ---@param type UniqueIdType
 ---@param value string|number
 ---@return boolean isUnique if the value does not already exist in storage for the given type
-function IsUnique(type, value)
+function FetchIsUnique(type, value)
     local typeToColumn = {
         citizenid = "citizenid",
         AccountNumber = "JSON_VALUE(charinfo, '$.account')",

@@ -358,7 +358,7 @@ end
 
 function QBCore.Functions.IsPlayerBanned(source)
     local plicense = QBCore.Functions.GetIdentifier(source, 'license')
-    local result = GetBanEntity({
+    local result = FetchBanEntity({
         license = plicense
     })
     if not result then return false end
