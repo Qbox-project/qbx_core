@@ -17,42 +17,39 @@ QBConfig.Player.ThirstRate = 3.8 -- Rate at which thirst goes down.
 QBConfig.Player.Bloodtypes = {
     "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-",
 }
+
+---@alias UniqueIdType 'citizenid' | 'AccountNumber' | 'PhoneNumber' | 'FingerId' | 'WalletId' | 'SerialNumber'
+---@type table<UniqueIdType, {valueFunction: function}>
 QBConfig.Player.IdentifierTypes = {
     ['citizenid'] = {
-        ValueFunction = function()
+        valueFunction = function()
             return tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
         end,
-        DatabaseColumn = 'citizenid'
     },
     ['AccountNumber'] = {
-        ValueFunction = function()
+        valueFunction = function()
             return 'US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99)
         end,
-        DatabaseColumn = 'charinfo'
     },
     ['PhoneNumber'] = {
-        ValueFunction = function()
+        valueFunction = function()
             return math.random(100,999) .. math.random(1000000,9999999)
         end,
-        DatabaseColumn = 'charinfo'
     },
     ['FingerId'] = {
-        ValueFunction = function()
+        valueFunction = function()
             return tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
         end,
-        DatabaseColumn = 'metadata'
     },
     ['WalletId'] = {
-        ValueFunction = function()
+        valueFunction = function()
             return 'QB-' .. math.random(11111111, 99999999)
         end,
-        DatabaseColumn = 'metadata'
     },
     ['SerialNumber'] = {
-        ValueFunction = function()
+        valueFunction = function()
             return math.random(11111111, 99999999)
         end,
-        DatabaseColumn = 'metadata'
     },
 }
 

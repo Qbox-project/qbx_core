@@ -10,18 +10,8 @@ function QBCore.Player.Login(source, citizenid, newData)
     if source and source ~= '' then
         if citizenid then
             local license, license2 = QBCore.Functions.GetIdentifier(source, 'license'), QBCore.Functions.GetIdentifier(source, 'license2')
-            local PlayerData = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenid })
+            local PlayerData = FetchPlayerEntity(citizenid)
             if PlayerData and license == PlayerData.license or PlayerData and license2 == PlayerData.license then
-                PlayerData.money = json.decode(PlayerData.money)
-                PlayerData.job = json.decode(PlayerData.job)
-                PlayerData.position = json.decode(PlayerData.position)
-                PlayerData.metadata = json.decode(PlayerData.metadata)
-                PlayerData.charinfo = json.decode(PlayerData.charinfo)
-                if PlayerData.gang then
-                    PlayerData.gang = json.decode(PlayerData.gang)
-                else
-                    PlayerData.gang = {}
-                end
                 QBCore.Player.CheckPlayerData(source, PlayerData)
             else
                 DropPlayer(source, Lang:t("info.exploit_dropped"))
@@ -39,19 +29,8 @@ end
 
 function QBCore.Player.GetOfflinePlayer(citizenid)
     if citizenid then
-        local PlayerData = MySQL.Sync.prepare('SELECT * FROM players where citizenid = ?', {citizenid})
+        local PlayerData = FetchPlayerEntity(citizenid)
         if PlayerData then
-            PlayerData.money = json.decode(PlayerData.money)
-            PlayerData.job = json.decode(PlayerData.job)
-            PlayerData.position = json.decode(PlayerData.position)
-            PlayerData.metadata = json.decode(PlayerData.metadata)
-            PlayerData.charinfo = json.decode(PlayerData.charinfo)
-            if PlayerData.gang then
-                PlayerData.gang = json.decode(PlayerData.gang)
-            else
-                PlayerData.gang = {}
-            end
-
             return QBCore.Player.CheckPlayerData(nil, PlayerData)
         end
     end
@@ -492,17 +471,12 @@ function QBCore.Player.Save(source)
     local pcoords = GetEntityCoords(ped)
     local PlayerData = QBCore.Players[source].PlayerData
     if PlayerData then
-        MySQL.insert('INSERT INTO players (citizenid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
-            citizenid = PlayerData.citizenid,
-            license = PlayerData.license,
-            name = PlayerData.name,
-            money = json.encode(PlayerData.money),
-            charinfo = json.encode(PlayerData.charinfo),
-            job = json.encode(PlayerData.job),
-            gang = json.encode(PlayerData.gang),
-            position = json.encode(pcoords),
-            metadata = json.encode(PlayerData.metadata)
-        })
+        CreateThread(function()
+            UpsertPlayerEntity({
+                playerData = PlayerData,
+                position = pcoords,
+            })
+        end)
         if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(source) end
         QBCore.ShowSuccess(GetCurrentResourceName(), PlayerData.name .. ' PLAYER SAVED!')
     else
@@ -512,17 +486,12 @@ end
 
 function QBCore.Player.SaveOffline(PlayerData)
     if PlayerData then
-        MySQL.Async.insert('INSERT INTO players (citizenid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
-            citizenid = PlayerData.citizenid,
-            license = PlayerData.license,
-            name = PlayerData.name,
-            money = json.encode(PlayerData.money),
-            charinfo = json.encode(PlayerData.charinfo),
-            job = json.encode(PlayerData.job),
-            gang = json.encode(PlayerData.gang),
-            position = json.encode(PlayerData.position),
-            metadata = json.encode(PlayerData.metadata)
-        })
+        CreateThread(function()
+            UpsertPlayerEntity({
+                playerData = PlayerData,
+                position = PlayerData.position
+            })
+        end)
         if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(PlayerData, true) end
         QBCore.ShowSuccess(GetCurrentResourceName(), PlayerData.name .. ' OFFLINE PLAYER SAVED!')
     else
@@ -532,36 +501,13 @@ end
 
 -- Delete character
 
-local playertables = { -- Add tables as needed
-    { table = 'players' },
-    { table = 'apartments' },
-    { table = 'bank_accounts' },
-    { table = 'crypto_transactions' },
-    { table = 'phone_invoices' },
-    { table = 'phone_messages' },
-    { table = 'playerskins' },
-    { table = 'player_contacts' },
-    { table = 'player_houses' },
-    { table = 'player_mails' },
-    { table = 'player_outfits' },
-    { table = 'player_vehicles' }
-}
-
 function QBCore.Player.DeleteCharacter(source, citizenid)
     local license, license2 = QBCore.Functions.GetIdentifier(source, 'license'), QBCore.Functions.GetIdentifier(source, 'license2')
-    local result = MySQL.scalar.await('SELECT license FROM players where citizenid = ?', { citizenid })
+    local result = FetchPlayerEntity(citizenid).license
     if license == result or license2 == result then
-        local query = "DELETE FROM %s WHERE citizenid = ?"
-        local tableCount = #playertables
-        local queries = table.create(tableCount, 0)
-
-        for i = 1, tableCount do
-            local v = playertables[i]
-            queries[i] = {query = query:format(v.table), values = { citizenid }}
-        end
-
-        MySQL.transaction(queries, function(result2)
-            if result2 then
+        CreateThread(function()
+            local success = DeletePlayerEntity(citizenid)
+            if success then
                 TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Deleted', 'red', '**' .. GetPlayerName(source) .. '** ' .. license2 .. ' deleted **' .. citizenid .. '**..')
             end
         end)
@@ -572,23 +518,16 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
 end
 
 function QBCore.Player.ForceDeleteCharacter(citizenid)
-    local result = MySQL.scalar.await('SELECT license FROM players where citizenid = ?', { citizenid })
+    local result = FetchPlayerEntity(citizenid).license
     if result then
-        local query = "DELETE FROM %s WHERE citizenid = ?"
-        local tableCount = #playertables
-        local queries = table.create(tableCount, 0)
         local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
-
         if Player then
             DropPlayer(Player.PlayerData.source, "An admin deleted the character which you are currently using")
         end
-        for i = 1, tableCount do
-            local v = playertables[i]
-            queries[i] = {query = query:format(v.table), values = { citizenid }}
-        end
 
-        MySQL.transaction(queries, function(result2)
-            if result2 then
+        CreateThread(function()
+            local success = DeletePlayerEntity(citizenid)
+            if success then
                 TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Force Deleted', 'red', 'Character **' .. citizenid .. '** got deleted')
             end
         end)
@@ -623,19 +562,14 @@ function QBCore.Player.GetFirstSlotByItem(items, itemName)
 end
 
 ---Generate unique values for player identifiers
----@param type string The type of unique value to generate
+---@param type UniqueIdType The type of unique value to generate
 ---@return string | number UniqueVal unique value generated
 function QBCore.Player.GenerateUniqueIdentifier(type)
-    local result, query, UniqueId
+    local isUnique, uniqueId
     local table = QBConfig.Player.IdentifierTypes[type]
     repeat
-        UniqueId = table.ValueFunction()
-        if table.DatabaseColumn ~= 'citizenid' then
-            query = '%' .. UniqueId .. '%'
-            result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. table.DatabaseColumn .. ' LIKE ?', { query })
-        else
-            result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. table.DatabaseColumn .. ' = ?', { UniqueId })
-        end
-    until result == 0
-    return UniqueId
+        uniqueId = table.valueFunction()
+        isUnique = FetchIsUnique(type, uniqueId)
+    until isUnique
+    return uniqueId
 end
