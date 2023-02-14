@@ -29,7 +29,8 @@ server_scripts {
     'server/commands.lua',
     'server/exports.lua',
     'server/debug.lua',
-    'server/loops.lua'
+    'server/loops.lua',
+    'server/storage.lua',
 }
 
 dependency 'oxmysql'
