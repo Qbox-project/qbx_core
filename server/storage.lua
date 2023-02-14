@@ -49,10 +49,11 @@ end
 ---@field reason string
 
 ---@param request GetBanRequest
----@return BanEntity
+---@return BanEntity?
 function FetchBanEntity(request)
     local column, value = getBanId(request)
     local result = MySQL.single.await('SELECT * FROM bans WHERE ' ..column.. ' = ?', { value })
+    if not result then return end
     return {
         expire = result.expire,
         reason = result.reason,
@@ -97,9 +98,10 @@ end
 ---@field metadata table
 
 ---@param citizenId string
----@return PlayerEntity
+---@return PlayerEntity?
 function FetchPlayerEntity(citizenId)
     local player = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenId })
+    if not player then return end
     return {
         citizenid = player.citizenid,
         license = player.license,
