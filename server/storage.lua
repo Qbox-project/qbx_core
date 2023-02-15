@@ -162,7 +162,7 @@ function FetchPlayerEntity(citizenId)
         money = json.decode(player.money),
         charinfo = json.decode(player.charinfo),
         job = player.job and json.decode(player.job),
-        gang = player.gang and json.decode(player.gang) or {},
+        gang = player.gang and json.decode(player.gang),
         position = json.decode(player.position),
         metadata = json.decode(player.metadata)
     } or nil
