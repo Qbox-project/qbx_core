@@ -88,7 +88,7 @@ end
 ---@field citizenid string
 ---@field license string
 ---@field name string
----@field money {cash: number, bank: number, crypto: number}
+---@field money Money
 ---@field charinfo PlayerCharInfo
 ---@field job? PlayerJob
 ---@field gang? PlayerGang
