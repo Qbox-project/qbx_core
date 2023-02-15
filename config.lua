@@ -7,7 +7,7 @@ QBConfig.StatusInterval = 5 -- how often to check hunger/thirst status in minute
 
 QBConfig.Money = {}
 QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
-QBConfig.Money.DontAllowMinus = { 'cash', 'crypto' } -- Money that is not allowed going in minus
+QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'bank' } -- Money that is not allowed going in minus
 QBConfig.Money.PaycheckTimeout = 10 -- The time in minutes that it will give the paycheck
 QBConfig.Money.PaycheckSociety = false -- If true paycheck will come from the society account that the player is employed at, requires qb-management
 
@@ -64,4 +64,4 @@ QBConfig.Server.Discord = "" -- Discord invite link
 QBConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar license on join
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
-QBConfig.NotifyPosition = 'top-right' -- 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
+QBConfig.NotifyPosition = 'bottom' -- 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
