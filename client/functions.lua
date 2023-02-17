@@ -256,12 +256,11 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     local players = lib.getNearbyPlayers(coords, distance or 5, true)
 
     -- This is for backwards compatability as beforehand it only returned the PlayerPed, where Lib returns PlayerPed, PlayerId and PlayerCoords
-    local closePlayers = {}
-    for _, v in pairs(Players) do
-        closePlayers[#closePlayers+1] = v.playerPed
+    for i = 1, #players, 1 do
+        players[i] = players[i].playerPed
     end
 
-    return closePlayers
+    return players
 end
 
 function QBCore.Functions.GetClosestVehicle(coords)
