@@ -253,7 +253,7 @@ end
 
 function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
-    local Players = lib.getNearbyPlayers(coords, distance or 5, true)
+    local players = lib.getNearbyPlayers(coords, distance or 5, true)
 
     -- This is for backwards compatability as beforehand it only returned the PlayerPed, where Lib returns PlayerPed, PlayerId and PlayerCoords
     local closePlayers = {}
