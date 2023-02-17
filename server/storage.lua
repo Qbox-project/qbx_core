@@ -66,35 +66,90 @@ function DeleteBanEntity(request)
 end
 
 ---@class UpsertPlayerRequest
----@field playerData PlayerEntity
+---@field playerEntity PlayerEntity
 ---@field position vector3
 
 ---@param request UpsertPlayerRequest
 function UpsertPlayerEntity(request)
     MySQL.insert.await('INSERT INTO players (citizenid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
-        citizenid = request.playerData.citizenid,
-        license = request.playerData.license,
-        name = request.playerData.name,
-        money = json.encode(request.playerData.money),
-        charinfo = json.encode(request.playerData.charinfo),
-        job = json.encode(request.playerData.job),
-        gang = json.encode(request.playerData.gang),
+        citizenid = request.playerEntity.citizenid,
+        license = request.playerEntity.license,
+        name = request.playerEntity.name,
+        money = json.encode(request.playerEntity.money),
+        charinfo = json.encode(request.playerEntity.charinfo),
+        job = json.encode(request.playerEntity.job),
+        gang = json.encode(request.playerEntity.gang),
         position = json.encode(request.position),
-        metadata = json.encode(request.playerData.metadata)
+        metadata = json.encode(request.playerEntity.metadata)
     })
 end
 
----TODO: define JSON table contracts
 ---@class PlayerEntity
 ---@field citizenid string
 ---@field license string
 ---@field name string
----@field money number
----@field charinfo table
----@field job table
----@field gang table
+---@field money Money
+---@field charinfo PlayerCharInfo
+---@field job? PlayerJob
+---@field gang? PlayerGang
 ---@field position vector4
----@field metadata table
+---@field metadata PlayerMetadata
+
+---@class PlayerCharInfo
+---@field firstname string
+---@field lastname string
+---@field birthdate string
+---@field nationality string
+---@field cid number
+---@field gender number
+---@field backstory string
+---@field phone string
+---@field account string
+
+---@class PlayerMetadata
+---@field health number
+---@field armor number
+---@field hunger number
+---@field thirst number
+---@field stress number
+---@field isdead boolean
+---@field inlaststand boolean
+---@field ishandcuffed boolean
+---@field tracker boolean
+---@field injail number time in minutes
+---@field jailitems table TODO: expand
+---@field status table TODO: expand
+---@field phone {background: any, profilepicture: any} TODO: figure out more specific types
+---@field fitbit {thirst: number, food: number}
+---@field commandbinds table TODO: expand
+---@field bloodtype BloodType
+---@field dealerrep number
+---@field craftingrep number
+---@field attachmentcraftingrep number
+---@field currentapartment? integer apartmentId
+---@field jobrep {tow: number, trucker: number, taxi: number, hotdog: number}
+---@field callsign string
+---@field fingerprint string
+---@field walletid string
+---@field criminalrecord {hasRecord: boolean, date?: table} TODO: date is os.date(), create better type than table
+---@field licenses {driver: boolean, business: boolean, weapon: boolean}
+---@field inside {house?: any, apartment: {apartmentType?: any, apartmentId?: integer}} TODO: expand
+---@field phonedata {SerialNumber: string, InstalledApps: table} TODO: expand
+
+---@class PlayerJob
+---@field name string
+---@field label string
+---@field payment number
+---@field type string
+---@field onduty boolean
+---@field isboss boolean
+---@field grade {name: string, level: number}
+
+---@class PlayerGang
+---@field name string
+---@field label string
+---@field isboss boolean
+---@field grade {name: string, level: number}
 
 ---@param citizenId string
 ---@return PlayerEntity?
@@ -106,8 +161,8 @@ function FetchPlayerEntity(citizenId)
         name = player.name,
         money = json.decode(player.money),
         charinfo = json.decode(player.charinfo),
-        job = json.decode(player.job),
-        gang = player.gang and json.decode(player.gang) or {},
+        job = player.job and json.decode(player.job),
+        gang = player.gang and json.decode(player.gang),
         position = json.decode(player.position),
         metadata = json.decode(player.metadata)
     } or nil
