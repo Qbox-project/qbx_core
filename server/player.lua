@@ -473,7 +473,7 @@ function QBCore.Player.Save(source)
     if PlayerData then
         CreateThread(function()
             UpsertPlayerEntity({
-                playerData = PlayerData,
+                playerEntity = PlayerData,
                 position = pcoords,
             })
         end)
@@ -488,7 +488,7 @@ function QBCore.Player.SaveOffline(PlayerData)
     if PlayerData then
         CreateThread(function()
             UpsertPlayerEntity({
-                playerData = PlayerData,
+                playerEntity = PlayerData,
                 position = PlayerData.position
             })
         end)
