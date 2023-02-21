@@ -133,7 +133,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     if PlayerData.gang and PlayerData.gang.name and not QBCore.Shared.Gangs[PlayerData.gang.name] then PlayerData.gang = nil end
     PlayerData.gang = PlayerData.gang or {}
     PlayerData.gang.name = PlayerData.gang.name or 'none'
-    PlayerData.gang.label = PlayerData.gang.label or 'No Gang Affiliaton'
+    PlayerData.gang.label = PlayerData.gang.label or 'No Gang Affiliation'
     PlayerData.gang.isboss = PlayerData.gang.isboss or false
     PlayerData.gang.grade = PlayerData.gang.grade or {}
     PlayerData.gang.grade.name = PlayerData.gang.grade.name or 'none'
@@ -512,7 +512,7 @@ function QBCore.Player.Save(source)
     if PlayerData then
         CreateThread(function()
             UpsertPlayerEntity({
-                playerData = PlayerData,
+                playerEntity = PlayerData,
                 position = pcoords,
             })
         end)
@@ -527,7 +527,7 @@ function QBCore.Player.SaveOffline(PlayerData)
     if PlayerData then
         CreateThread(function()
             UpsertPlayerEntity({
-                playerData = PlayerData,
+                playerEntity = PlayerData,
                 position = PlayerData.position
             })
         end)

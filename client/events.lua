@@ -3,7 +3,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     IsLoggedIn = true
     if not QBConfig.Server.PVP then return end
-    SetCanAttackFriendly(PlayerPedId(), true, false)
+    SetCanAttackFriendly(cache.ped, true, false)
     NetworkSetFriendlyFireOption(true)
 end)
 
@@ -12,20 +12,18 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
 end)
 
 RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
-    SetCanAttackFriendly(PlayerPedId(), pvp_state, false)
+    SetCanAttackFriendly(cache.ped, pvp_state, false)
     NetworkSetFriendlyFireOption(pvp_state)
 end)
 -- Teleport Commands
 
 RegisterNetEvent('QBCore:Command:TeleportToPlayer', function(coords)
-    local ped = PlayerPedId()
-    SetPedCoordsKeepVehicle(ped, coords.x, coords.y, coords.z)
+    SetPedCoordsKeepVehicle(cache.ped, coords.x, coords.y, coords.z)
 end)
 
 RegisterNetEvent('QBCore:Command:TeleportToCoords', function(x, y, z, h)
-    local ped = PlayerPedId()
-    SetPedCoordsKeepVehicle(ped, x, y, z)
-    SetEntityHeading(ped, h or GetEntityHeading(ped))
+    SetPedCoordsKeepVehicle(cache.ped, x, y, z)
+    SetEntityHeading(cache.ped, h or GetEntityHeading(cache.ped))
 end)
 
 RegisterNetEvent('QBCore:Command:GoToMarker', function()
@@ -41,7 +39,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
         Wait(0)
     end
 
-    local ped, coords <const> = PlayerPedId(), GetBlipInfoIdCoord(blipMarker)
+    local ped, coords <const> = cache.ped, GetBlipInfoIdCoord(blipMarker)
     local vehicle = GetVehiclePedIsIn(ped, false)
     local oldCoords <const> = GetEntityCoords(ped)
 
@@ -113,22 +111,20 @@ end)
 -- Vehicle Commands
 
 RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
-    local ped = PlayerPedId()
     local hash = joaat(vehName)
-    local veh = GetVehiclePedIsUsing(ped)
     if not IsModelInCdimage(hash) then return end
     RequestModel(hash)
     while not HasModelLoaded(hash) do
         Wait(0)
     end
 
-    if IsPedInAnyVehicle(ped, false) then
-        DeleteVehicle(veh)
+    if cache.vehicle then
+        DeleteVehicle(cache.vehicle)
     end
 
-    local coords = GetEntityCoords(ped)
-    local vehicle = CreateVehicle(hash, coords.x, coords.y, coords.z, GetEntityHeading(ped), true, false)
-    TaskWarpPedIntoVehicle(ped, vehicle, -1)
+    local coords = GetEntityCoords(cache.ped)
+    local vehicle = CreateVehicle(hash, coords.x, coords.y, coords.z, GetEntityHeading(cache.ped), true, false)
+    TaskWarpPedIntoVehicle(cache.ped, vehicle, -1)
     SetVehicleFuelLevel(vehicle, 100.0)
     SetVehicleDirtLevel(vehicle, 0.0)
     SetModelAsNoLongerNeeded(hash)
@@ -136,13 +132,11 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
 end)
 
 RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
-    local ped = PlayerPedId()
-    local veh = GetVehiclePedIsUsing(ped)
-    if veh ~= 0 then
-        SetEntityAsMissionEntity(veh, true, true)
-        DeleteVehicle(veh)
+    if cache.vehicle then
+        SetEntityAsMissionEntity(cache.vehicle, true, true)
+        DeleteVehicle(cache.vehicle)
     else
-        local pcoords = GetEntityCoords(ped)
+        local pcoords = GetEntityCoords(cache.ped)
         local vehicles = GetGamePool('CVehicle')
         for _, v in pairs(vehicles) do
             if #(pcoords - GetEntityCoords(v)) <= 5.0 then

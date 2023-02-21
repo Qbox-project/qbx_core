@@ -6,6 +6,9 @@ QBConfig.UpdateInterval = 5 -- how often to update player data in minutes
 QBConfig.StatusInterval = 5 -- how often to check hunger/thirst status in minutes
 
 QBConfig.Money = {}
+
+---@alias Money {cash: number, bank: number, crypto: number}
+---@type Money
 QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
 QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'bank' } -- Money that is not allowed going in minus
 QBConfig.Money.PaycheckTimeout = 10 -- The time in minutes that it will give the paycheck
@@ -14,6 +17,8 @@ QBConfig.Money.PaycheckSociety = false -- If true paycheck will come from the so
 QBConfig.Player = {}
 QBConfig.Player.HungerRate = 4.2 -- Rate at which hunger goes down.
 QBConfig.Player.ThirstRate = 3.8 -- Rate at which thirst goes down.
+
+---@enum BloodType
 QBConfig.Player.Bloodtypes = {
     "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-",
 }
