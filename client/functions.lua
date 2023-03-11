@@ -267,7 +267,7 @@ function QBCore.Functions.GetClosestVehicle(coords)
     coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
 
     local vehicle, vehicleCoords = lib.getClosestVehicle(coords, 50, true)
-    local closestDistance = #(vehicleCoords - coords)
+    local closestDistance = vehicleCoords and #(vehicleCoords - coords) or nil
     return vehicle, closestDistance
 end
 
