@@ -343,12 +343,12 @@ function QBCore.Functions.DeleteVehicle(vehicle)
 end
 
 function QBCore.Functions.GetPlate(vehicle)
-    if vehicle == 0 then return end
+    if not vehicle or vehicle == 0 then return end
     return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
 end
 
 function QBCore.Functions.GetVehicleLabel(vehicle)
-    if vehicle == nil or vehicle == 0 then return end
+    if not vehicle or vehicle == 0 then return end
     return GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
 end
 
@@ -363,8 +363,7 @@ function QBCore.Functions.SpawnClear(coords, radius)
             closeVeh[#closeVeh + 1] = vehicles[i]
         end
     end
-    if #closeVeh > 0 then return false end
-    return true
+    return #closeVeh == 0
 end
 
 QBCore.Functions.GetVehicleProperties = lib.getVehicleProperties
@@ -436,8 +435,8 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
 end
 
 function QBCore.Functions.GetStreetNametAtCoords(coords)
-    local streetname1, streetname2 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
-    return { main = GetStreetNameFromHashKey(streetname1), cross = GetStreetNameFromHashKey(streetname2) }
+    local street1, street2 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
+    return { main = GetStreetNameFromHashKey(street1), cross = GetStreetNameFromHashKey(street2) }
 end
 
 function QBCore.Functions.GetZoneAtCoords(coords)
@@ -446,20 +445,22 @@ end
 
 function QBCore.Functions.GetCardinalDirection(entity)
     entity = entity or cache.ped
-    if DoesEntityExist(entity) then
-        local heading = GetEntityHeading(entity)
-        if (heading >= 0 and heading < 45) or (heading >= 315 and heading < 360) then
-            return 'North'
-        elseif heading >= 45 and heading < 135 then
-            return 'West'
-        elseif heading >= 135 and heading < 225 then
-            return 'South'
-        elseif heading >= 225 and heading < 315 then
-            return 'East'
-        end
-    else
+    if not DoesEntityExist(entity) then
         return 'Entity does not exist'
     end
+
+    local heading = GetEntityHeading(entity)
+    if (heading >= 0 and heading < 45) or (heading >= 315 and heading < 360) then
+        return 'North'
+    elseif heading >= 45 and heading < 135 then
+        return 'West'
+    elseif heading >= 135 and heading < 225 then
+        return 'South'
+    elseif heading >= 225 and heading < 315 then
+        return 'East'
+    end
+
+    return 'Heading is over 360'
 end
 
 function QBCore.Functions.GetCurrentTime()
@@ -487,8 +488,8 @@ function QBCore.Functions.GetGroundZCoord(coords)
     local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, false)
     if retval then
         return vec3(coords.x, coords.y, groundZ)
-    else
-        print('Couldn\'t find Ground Z Coordinates given 3D Coordinates:', coords)
-        return coords
     end
+
+    print('Couldn\'t find Ground Z Coordinates given 3D Coordinates:', coords)
+    return coords
 end
