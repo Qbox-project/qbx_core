@@ -155,10 +155,10 @@ end
 
 function QBCore.Functions.Progressbar(_, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
     if lib.progressBar({
-        duration = duration, -- done
-        label = label, -- done
-        useWhileDead = useWhileDead, -- done
-        canCancel = canCancel, -- done
+        duration = duration,
+        label = label,
+        useWhileDead = useWhileDead,
+        canCancel = canCancel,
         disable = {
             move = disableControls?.disableMovement,
             car = disableControls?.disableCarMovement,
