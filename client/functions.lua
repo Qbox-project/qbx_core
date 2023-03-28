@@ -153,29 +153,37 @@ function QBCore.Functions.TriggerCallback(name, cb, ...)
     TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
 end
 
-function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
-    if GetResourceState('progressbar') ~= 'started' then error('progressbar needs to be started in order for QBCore.Functions.Progressbar to work') end
-    exports.progressbar:Progress({
-        name = name,
-        duration = duration,
-        label = label,
-        useWhileDead = useWhileDead,
-        canCancel = canCancel,
-        controlDisables = disableControls,
-        animation = animation,
-        prop = prop,
-        propTwo = propTwo,
-    }, function(cancelled)
-        if not cancelled then
-            if onFinish then
-                onFinish()
-            end
-        else
-            if onCancel then
-                onCancel()
-            end
+function QBCore.Functions.Progressbar(_, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
+    if lib.progressBar({
+        duration = duration, -- done
+        label = label, -- done
+        useWhileDead = useWhileDead, -- done
+        canCancel = canCancel, -- done
+        disable = {
+            move = disableControls?.disableMovement,
+            car = disableControls?.disableCarMovement,
+            combat = disableControls?.disableCombat,
+            mouse = disableControls?.disableMouse,
+        },
+        anim = {
+            dict = animation?.animDict,
+            clip = animation?.anim,
+            flags = animation?.flags
+        },
+        prop = {
+            model = prop?.model,
+            pos = prop?.coords,
+            rot = prop?.rotation,
+        },
+    }) then
+        if onFinish then
+            onFinish()
         end
-    end)
+    else
+        if onCancel then
+            onCancel()
+        end
+    end
 end
 
 -- Getters
