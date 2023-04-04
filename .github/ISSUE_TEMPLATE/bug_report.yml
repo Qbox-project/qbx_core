@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         Thank you for taking the time to fill out a bug report!
-        Please use our Discord Server to ask questions and receive support: https://discord.gg/qbox
+        Please use our Discord Server to ask questions and receive support: https://discord.gg/Z6Whda5hHA
   - type: input
     id: summary
     attributes:

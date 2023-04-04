@@ -4,6 +4,12 @@ local positions = {
     top = 'top-center'
 }
 
+local function ExportHandler(name, cb)
+    AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
+        setCB(cb)
+    end)
+end
+
 local function hideText()
     lib.hideTextUI()
 end
@@ -50,3 +56,8 @@ exports('DrawText', drawText)
 exports('ChangeText', changeText)
 exports('HideText', hideText)
 exports('KeyPressed', keyPressed)
+
+ExportHandler('DrawText', drawText)
+ExportHandler('ChangeText', changeText)
+ExportHandler('HideText', hideText)
+ExportHandler('KeyPressed', keyPressed)

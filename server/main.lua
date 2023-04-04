@@ -12,7 +12,7 @@ end)
 -- Just put this line of code below at the very top of the script
 -- local QBCore = exports['qb-core']:GetCoreObject()
 
-AddEventHandler('__cfx_export_es_extended_getSharedObject', function(setCB)
+AddEventHandler('__cfx_export_qb-core_GetCoreObject', function(setCB)
     setCB(function()
         return QBCore
     end)

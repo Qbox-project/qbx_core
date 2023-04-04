@@ -34,6 +34,6 @@ server_scripts {
 }
 
 dependency 'oxmysql'
-
+provide 'qb-core'
 lua54 'yes'
 use_experimental_fxv2_oal 'yes'
