@@ -245,7 +245,7 @@ end
 
 function QBCore.Functions.GetClosestPlayer(coords)
     coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
-    local playerId, playerPed, playerCoords = lib.getClosestPlayer(coords, 50, false)
+    local playerId, _, playerCoords = lib.getClosestPlayer(coords, 50, false)
     local closestDistance = playerCoords and #(playerCoords - coords) or nil
     return playerId, closestDistance
 end
@@ -254,7 +254,7 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
     local players = lib.getNearbyPlayers(coords, distance or 5, true)
 
-    -- This is for backwards compatability as beforehand it only returned the PlayerPed, where Lib returns PlayerPed, PlayerId and PlayerCoords
+    -- This is for backwards compatability as beforehand it only returned the PlayerId, where Lib returns PlayerPed, PlayerId and PlayerCoords
     for i = 1, #players do
         players[i] = players[i].id
     end
