@@ -10,7 +10,7 @@ end)
 
 -- To use this export in a script instead of manifest method
 -- Just put this line of code below at the very top of the script
--- local QBCore = exports['qb-core']:GetCoreObject()
+-- local QBCore = exports['qbx-core']:GetCoreObject()
 
 AddEventHandler('__cfx_export_qb-core_GetCoreObject', function(setCB)
     setCB(function()
