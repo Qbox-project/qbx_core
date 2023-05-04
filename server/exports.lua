@@ -323,7 +323,7 @@ local function ExploitBan(playerId, origin)
     CreateThread(function()
         InsertBanEntity({
             name = name,
-            license = QBCore.Functions.GetIdentifier(playerId, 'license'),
+            license = QBCore.Functions.GetIdentifier(playerId, 'license2') or QBCore.Functions.GetIdentifier(playerId, 'license'),
             discordId = QBCore.Functions.GetIdentifier(playerId, 'discord'),
             ip = QBCore.Functions.GetIdentifier(playerId, 'ip'),
             reason = origin,
