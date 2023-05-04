@@ -52,6 +52,22 @@ RegisterNetEvent('qb-core:client:KeyPressed', function()
     keyPressed()
 end)
 
+RegisterNetEvent('qbx-core:client:DrawText', function(text, position)
+    drawText(text, position)
+end)
+
+RegisterNetEvent('qbx-core:client:ChangeText', function(text, position)
+    changeText(text, position)
+end)
+
+RegisterNetEvent('qbx-core:client:HideText', function()
+    hideText()
+end)
+
+RegisterNetEvent('qbx-core:client:KeyPressed', function()
+    keyPressed()
+end)
+
 exports('DrawText', drawText)
 exports('ChangeText', changeText)
 exports('HideText', hideText)
