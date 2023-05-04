@@ -1,5 +1,5 @@
 --[[
-Romanian base language translation for qb-core
+Romanian base language translation
 Translation done by wanderrer (Martin Riggs#0807 on Discord)
 ]]--
 local Translations = {
