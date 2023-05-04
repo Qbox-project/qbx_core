@@ -11,7 +11,7 @@ function QBCore.Player.Login(source, citizenid, newData)
         if citizenid then
             local license, license2 = QBCore.Functions.GetIdentifier(source, 'license'), QBCore.Functions.GetIdentifier(source, 'license2')
             local PlayerData = FetchPlayerEntity(citizenid)
-            if PlayerData and license == PlayerData.license or PlayerData and license2 == PlayerData.license then
+            if PlayerData and (license2 == PlayerData.license or license == PlayerData.license) then
                 QBCore.Player.CheckPlayerData(source, PlayerData)
             else
                 DropPlayer(source, Lang:t("info.exploit_dropped"))
@@ -42,7 +42,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     local Offline = true
     if source then
         PlayerData.source = source
-        PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license2')
+        PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
         PlayerData.name = GetPlayerName(source)
         Offline = false
     end
