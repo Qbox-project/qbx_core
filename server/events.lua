@@ -12,7 +12,7 @@ end)
 AddEventHandler('playerJoining', function()
     if not QBConfig.Server.CheckDuplicateLicense then return end
     local src = source
-    local license = QBCore.Functions.GetIdentifier(src, 'license')
+    local license = QBCore.Functions.GetIdentifier(src, 'license2') or QBCore.Functions.GetIdentifier(src, 'license')
     if not license then return end
     if usedLicenses[license] then
         Wait(0) -- mandatory wait for the drop reason to show up
@@ -24,7 +24,7 @@ end)
 
 AddEventHandler('playerDropped', function(reason)
     local src = source
-    local license = QBCore.Functions.GetIdentifier(src, 'license')
+    local license = QBCore.Functions.GetIdentifier(src, 'license2') or QBCore.Functions.GetIdentifier(src, 'license')
     if license then usedLicenses[license] = nil end
     if not QBCore.Players[src] then return end
     GlobalState.PlayerCount -= 1
@@ -53,7 +53,7 @@ local function onPlayerConnecting(name, _, deferrals)
     end
 
     for _, v in pairs(identifiers) do
-        if string.find(v, 'license') then
+        if string.find(v, 'license2') or string.find(v, 'license') then
             license = v
             break
         end

@@ -340,14 +340,14 @@ end
 -- Opt in or out of admin reports
 
 function QBCore.Functions.IsOptin(source)
-    local license = QBCore.Functions.GetIdentifier(source, 'license')
+    local license = QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return false end
     local Player = QBCore.Functions.GetPlayer(source)
     return Player.PlayerData.optin
 end
 
 function QBCore.Functions.ToggleOptin(source)
-    local license = QBCore.Functions.GetIdentifier(source, 'license')
+    local license = QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return end
     local Player = QBCore.Functions.GetPlayer(source)
     Player.PlayerData.optin = not Player.PlayerData.optin
@@ -357,7 +357,7 @@ end
 -- Check if player is banned
 
 function QBCore.Functions.IsPlayerBanned(source)
-    local plicense = QBCore.Functions.GetIdentifier(source, 'license')
+    local plicense = QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
     local result = FetchBanEntity({
         license = plicense
     })
@@ -382,7 +382,7 @@ function QBCore.Functions.IsLicenseInUse(license)
     for _, player in pairs(players) do
         local identifiers = GetPlayerIdentifiers(player)
         for _, id in pairs(identifiers) do
-            if string.find(id, 'license') then
+            if string.find(id, 'license2') or string.find(id, 'license') then
                 if id == license then
                     return true
                 end
