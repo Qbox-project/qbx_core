@@ -195,9 +195,9 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
-    local chatargs = { '/', command }
+    local chatargs = {args = {'/'..command }}
     for _,v in pairs(args) do
-        chatargs[#chatargs+1] = v
+        chatargs.args[#chatargs+1] = v
     end
     TriggerClientEvent('chat:addMessage', src, chatargs)
 end)
