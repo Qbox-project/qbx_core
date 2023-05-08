@@ -17,7 +17,7 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
     end
     lib.addCommand(name, properties, function(source, args, raw)
         local _args = {}
-        for i,v in pairs(args) do
+        for _,v in pairs(args) do
             _args[#_args+1] = v
         end
         callback(source, _args, raw)
