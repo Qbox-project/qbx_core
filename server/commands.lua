@@ -1,83 +1,32 @@
 QBCore.Commands = {}
-QBCore.Commands.List = {}
-QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards compatibility
-    god = true, -- We don't need to create an ace because god is allowed all commands
-    user = true -- We don't need to create an ace because builtin.everyone
-}
-
-CreateThread(function() -- Add ace to node for perm checking
-    local permissions = QBConfig.Server.Permissions
-    for i=1, #permissions do
-        local permission = permissions[i]
-        ExecuteCommand(('add_ace qbox.%s %s allow'):format(permission, permission))
-    end
-end)
-
--- Register & Refresh Commands
-
-function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission, ...)
-    local restricted = true -- Default to restricted for all commands
-    if not permission then permission = 'user' end -- some commands don't pass permission level
-    if permission == 'user' then restricted = false end -- allow all users to use command
-
-    RegisterCommand(name, function(source, args, rawCommand) -- Register command within fivem
-        if argsrequired and #args < #arguments then
-            return TriggerClientEvent('chat:addMessage', source, {
-                color = {255, 0, 0},
-                multiline = true,
-                args = {"System", Lang:t("error.missing_args2")}
-            })
-        end
-        callback(source, args, rawCommand)
-    end, restricted)
-
-    local extraPerms = ... and table.pack(...) or nil
-    if extraPerms then
-        extraPerms[extraPerms.n + 1] = permission -- The `n` field is the number of arguments in the packed table
-        extraPerms.n += 1
-        permission = extraPerms
-        for i = 1, permission.n do
-            if not QBCore.Commands.IgnoreList[permission[i]] then -- only create aces for extra perm levels
-                ExecuteCommand(('add_ace qbox.%s command.%s allow'):format(permission[i], name))
-            end
-        end
-        permission.n = nil
-    else
-        permission = tostring(permission)
-        if not QBCore.Commands.IgnoreList[permission] then -- only create aces for extra perm levels
-            ExecuteCommand(('add_ace qbox.%s command.%s allow'):format(permission, name))
-        end
-    end
-
-    QBCore.Commands.List[name] = {
-        name = name,
-        permission = permission,
+function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission)
+    local properties = {
         help = help,
-        arguments = arguments,
-        argsrequired = argsrequired,
-        callback = callback
+        restricted = (permission and 'qbcore.'..permission) or false,
+        params = {}
     }
+
+    for i=1, #arguments do
+        local argument = arguments[i]
+        properties.params[i] = {
+            name = argument.name,
+            help = argument.help,
+            type = argument.type or nil,
+            optional = (argsrequired and false) or (argument.optional ~= nil and argument.optional) or true
+        }
+    end
+    lib.addCommand(name, properties, function(source, args, raw)
+        local _args = {}
+        for i,v in pairs(args) do
+            _args[#_args+1] = v
+        end
+        callback(source, _args, raw)
+    end)
 end
 
-function QBCore.Commands.Refresh(source)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local suggestions = {}
-    if Player then
-        for command, info in pairs(QBCore.Commands.List) do
-            local hasPerm = IsPlayerAceAllowed(tostring(src), ('command.%s'):format(command))
-            if hasPerm then
-                suggestions[#suggestions + 1] = {
-                    name = ('/%s'):format(command),
-                    help = info.help,
-                    params = info.arguments
-                }
-            else
-                TriggerClientEvent('chat:removeSuggestion', src, ('/%s'):format(command))
-            end
-        end
-        TriggerClientEvent('chat:addSuggestions', src, suggestions)
-    end
+-- deprecated remove later
+function QBCore.Commands.Refresh(_)
+    print('The Function QBCore.Commands.Refresh is deprecated (useless), it can (safely) and should be removed, the function was called by '..GetCurrentResourceName())
 end
 
 -- Teleport
@@ -184,6 +133,7 @@ end, 'admin')
 -- Vehicle
 
 QBCore.Commands.Add('car', Lang:t("command.car.help"), {{ name = Lang:t("command.car.params.model.name"), help = Lang:t("command.car.params.model.help") }}, true, function(source, args)
+    if not args[1] then return end
     TriggerClientEvent('QBCore:Command:SpawnVehicle', source, args[1])
 end, 'admin')
 
