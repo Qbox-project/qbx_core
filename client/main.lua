@@ -2,8 +2,13 @@ QBCore = {}
 QBCore.PlayerData = {}
 QBCore.Config = QBConfig
 QBCore.Shared = QBShared
+
+---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
 QBCore.ClientCallbacks = {}
+
+---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
 QBCore.ServerCallbacks = {}
+
 IsLoggedIn = false
 
 exports('GetCoreObject', function()
