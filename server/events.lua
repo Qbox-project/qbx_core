@@ -158,6 +158,7 @@ end)
 -- Callback Events --
 
 -- Client Callback
+---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
 RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
     if QBCore.ClientCallbacks[name] then
         QBCore.ClientCallbacks[name](...)
@@ -166,6 +167,7 @@ RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
 end)
 
 -- Server Callback
+---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
 RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
     local src = source
     QBCore.Functions.TriggerCallback(name, src, function(...)
