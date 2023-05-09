@@ -195,11 +195,13 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
-    local chatargs = {args = {'/'..command }}
-    for _,v in pairs(args) do
-        chatargs.args[#chatargs+1] = v
+    local newargs = command
+    if args then
+        for _, v in pairs(args) do
+            newargs = newargs .. ' ' .. v
+        end
     end
-    TriggerClientEvent('chat:addMessage', src, chatargs)
+    TriggerClientEvent('QBCore:Client:CallCommand', src, newargs)
 end)
 
 -- Use this for player vehicle spawning
