@@ -15,8 +15,13 @@ RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
     SetCanAttackFriendly(cache.ped, pvp_state, false)
     NetworkSetFriendlyFireOption(pvp_state)
 end)
--- Teleport Commands
 
+-- Call Commands
+RegisterNetEvent('QBCore:Client:CallCommand', function(command)
+    ExecuteCommand(command)
+end)
+
+-- Teleport Commands
 RegisterNetEvent('QBCore:Command:TeleportToPlayer', function(coords)
     SetPedCoordsKeepVehicle(cache.ped, coords.x, coords.y, coords.z)
 end)
