@@ -1,98 +1,25 @@
-QBCore.Commands = {}
-QBCore.Commands.List = {}
-QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards compatibility
-    god = true, -- We don't need to create an ace because god is allowed all commands
-    user = true -- We don't need to create an ace because builtin.everyone
-}
-
-CreateThread(function() -- Add ace to node for perm checking
-    local permissions = QBConfig.Server.Permissions
-    for i=1, #permissions do
-        local permission = permissions[i]
-        ExecuteCommand(('add_ace qbox.%s %s allow'):format(permission, permission))
-    end
-end)
-
--- Register & Refresh Commands
-
-function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission, ...)
-    local restricted = true -- Default to restricted for all commands
-    if not permission then permission = 'user' end -- some commands don't pass permission level
-    if permission == 'user' then restricted = false end -- allow all users to use command
-
-    RegisterCommand(name, function(source, args, rawCommand) -- Register command within fivem
-        if argsrequired and #args < #arguments then
-            return TriggerClientEvent('chat:addMessage', source, {
-                color = {255, 0, 0},
-                multiline = true,
-                args = {"System", Lang:t("error.missing_args2")}
-            })
-        end
-        callback(source, args, rawCommand)
-    end, restricted)
-
-    local extraPerms = ... and table.pack(...) or nil
-    if extraPerms then
-        extraPerms[extraPerms.n + 1] = permission -- The `n` field is the number of arguments in the packed table
-        extraPerms.n += 1
-        permission = extraPerms
-        for i = 1, permission.n do
-            if not QBCore.Commands.IgnoreList[permission[i]] then -- only create aces for extra perm levels
-                ExecuteCommand(('add_ace qbox.%s command.%s allow'):format(permission[i], name))
-            end
-        end
-        permission.n = nil
-    else
-        permission = tostring(permission)
-        if not QBCore.Commands.IgnoreList[permission] then -- only create aces for extra perm levels
-            ExecuteCommand(('add_ace qbox.%s command.%s allow'):format(permission, name))
-        end
-    end
-
-    QBCore.Commands.List[name] = {
-        name = name,
-        permission = permission,
-        help = help,
-        arguments = arguments,
-        argsrequired = argsrequired,
-        callback = callback
-    }
-end
-
-function QBCore.Commands.Refresh(source)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local suggestions = {}
-    if Player then
-        for command, info in pairs(QBCore.Commands.List) do
-            local hasPerm = IsPlayerAceAllowed(tostring(src), ('command.%s'):format(command))
-            if hasPerm then
-                suggestions[#suggestions + 1] = {
-                    name = ('/%s'):format(command),
-                    help = info.help,
-                    params = info.arguments
-                }
-            else
-                TriggerClientEvent('chat:removeSuggestion', src, ('/%s'):format(command))
-            end
-        end
-        TriggerClientEvent('chat:addSuggestions', src, suggestions)
-    end
-end
-
 -- Teleport
-QBCore.Commands.Add('tp', Lang:t("command.tp.help"), { { name = Lang:t("command.tp.params.x.name"), help = Lang:t("command.tp.params.x.help") }, { name = Lang:t("command.tp.params.y.name"), help = Lang:t("command.tp.params.y.help") }, { name = Lang:t("command.tp.params.z.name"), help = Lang:t("command.tp.params.z.help") } }, false, function(source, args)
-    if args[1] and not args[2] and not args[3] then
+
+lib.addCommand('tp', {
+    help = Lang:t("command.tp.help"),
+    params = {
+        { name = Lang:t("command.tp.params.x.name"), help = Lang:t("command.tp.params.x.help"), optional = false},
+        { name = Lang:t("command.tp.params.y.name"), help = Lang:t("command.tp.params.y.help"), optional = true },
+        { name = Lang:t("command.tp.params.z.name"), help = Lang:t("command.tp.params.z.help"), optional = true }
+    },
+    restricted = "qbcore.admin"
+}, function(source, args)
+    if args[Lang:t("command.tp.params.x.name")] and not args[Lang:t("command.tp.params.y.name")] and not args[3] then
         if tonumber(args[1]) then
-        local target = GetPlayerPed(tonumber(args[1]) --[[@as number]])
-        if target ~= 0 then
-            local coords = GetEntityCoords(target)
-            TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
+            local target = GetPlayerPed(tonumber(args[Lang:t("command.tp.params.x.name")]) --[[@as number]])
+            if target ~= 0 then
+                local coords = GetEntityCoords(target)
+                TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
+            else
+                TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+            end
         else
-            TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
-        end
-    else
-            local location = QBShared.Locations[args[1]]
+            local location = QBShared.Locations[args[Lang:t("command.tp.params.x.name")]]
             if location then
                 TriggerClientEvent('QBCore:Command:TeleportToCoords', source, location.x, location.y, location.z, location.w)
             else
@@ -100,10 +27,10 @@ QBCore.Commands.Add('tp', Lang:t("command.tp.help"), { { name = Lang:t("command.
             end
         end
     else
-        if args[1] and args[2] and args[3] then
-            local x = tonumber((args[1]:gsub(",",""))) + .0
-            local y = tonumber((args[2]:gsub(",",""))) + .0
-            local z = tonumber((args[3]:gsub(",",""))) + .0
+        if args[Lang:t("command.tp.params.x.name")] and args[Lang:t("command.tp.params.y.name")] and args[Lang:t("command.tp.params.z.name")] then
+            local x = tonumber((args[Lang:t("command.tp.params.x.name")]:gsub(",",""))) + .0
+            local y = tonumber((args[Lang:t("command.tp.params.y.name")]:gsub(",",""))) + .0
+            local z = tonumber((args[Lang:t("command.tp.params.z.name")]:gsub(",",""))) + .0
             if x ~= 0 and y ~= 0 and z ~= 0 then
                 TriggerClientEvent('QBCore:Command:TeleportToCoords', source, x, y, z)
             else
@@ -113,42 +40,66 @@ QBCore.Commands.Add('tp', Lang:t("command.tp.help"), { { name = Lang:t("command.
             TriggerClientEvent('QBCore:Notify', source, Lang:t('error.missing_args'), 'error')
         end
     end
-end, 'admin')
+end)
 
-QBCore.Commands.Add('tpm', Lang:t("command.tpm.help"), {}, false, function(source)
+
+lib.addCommand('tpm', {
+    help = Lang:t("command.tpm.help"),
+    restricted = "qbcore.admin"
+}, function(source, _)
     TriggerClientEvent('QBCore:Command:GoToMarker', source)
-end, 'admin')
+end)
 
-QBCore.Commands.Add('togglepvp', Lang:t("command.togglepvp.help"), {}, false, function()
+lib.addCommand('togglepvp', {
+    help = Lang:t("command.togglepvp.help"),
+    restricted = "qbcore.god"
+}, function(source, _)
     QBConfig.Server.PVP = not QBConfig.Server.PVP
     TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, QBConfig.Server.PVP)
-end, 'admin')
+end)
 
 -- Permissions
 
-QBCore.Commands.Add('addpermission', Lang:t("command.addpermission.help"), { { name = Lang:t("command.addpermission.params.id.name"), help = Lang:t("command.addpermission.params.id.help") }, { name = Lang:t("command.addpermission.params.permission.name"), help = Lang:t("command.addpermission.params.permission.help") } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-    local permission = tostring(args[2])
+lib.addCommand('addpermission', {
+    help = Lang:t("command.addpermission.help"),
+    params = {
+        {name = Lang:t("command.addpermission.params.id.name"), help = Lang:t("command.addpermission.params.id.help")},
+        {name = Lang:t("command.addpermission.params.permission.name"), help = Lang:t("command.addpermission.params.permission.help")}
+    },
+    restricted = "qbcore.god"
+}, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.addpermission.params.id.name")]))
+    local permission = tostring(args[Lang:t("command.addpermission.params.permission.name")])
     if Player then
         QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
-end, 'god')
+end)
 
-QBCore.Commands.Add('removepermission', Lang:t("command.removepermission.help"), { { name = Lang:t("command.removepermission.params.id.name"), help = Lang:t("command.removepermission.params.id.help") }, { name = Lang:t("command.removepermission.params.permission.name"), help = Lang:t("command.removepermission.params.permission.help") } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-    local permission = tostring(args[2])
+lib.addCommand('removepermission', {
+    help = Lang:t("removepermission.help"),
+    params = {
+        { name = Lang:t("command.removepermission.params.id.name"), help = Lang:t("command.removepermission.params.id.help") },
+        { name = Lang:t("command.removepermission.params.permission.name"), help = Lang:t("command.removepermission.params.permission.help") }
+    },
+    restricted = "qbcore.god"
+}, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.removepermission.params.id.name")]))
+    local permission = tostring(args[Lang:t("command.removepermission.params.permission.name")])
     if Player then
         QBCore.Functions.RemovePermission(Player.PlayerData.source, permission)
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
-end, 'god')
+end)
 
 -- Open & Close Server
 
-QBCore.Commands.Add('openserver', Lang:t("command.openserver.help"), {}, false, function(source)
+lib.addCommand('openserver', {
+    help = Lang:t("command.openserver.help"),
+    restricted = "qbcore.god"
+}, function(source, _)
     if not QBCore.Config.Server.Closed then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.server_already_open'), 'error')
         return
@@ -159,9 +110,15 @@ QBCore.Commands.Add('openserver', Lang:t("command.openserver.help"), {}, false, 
     else
         QBCore.Functions.Kick(source, Lang:t("error.no_permission"), nil, nil)
     end
-end, 'admin')
+end)
 
-QBCore.Commands.Add('closeserver', Lang:t("command.closeserver.help"), {{ name = Lang:t("command.closeserver.params.reason.name"), help = Lang:t("command.closeserver.params.reason.help")}}, false, function(source, args)
+lib.addCommand('closeserver', {
+    help = Lang:t("command.openserver.help"),
+    params = {
+        { name = Lang:t("command.closeserver.params.reason.name"), help = Lang:t("command.closeserver.params.reason.help")}
+    },
+    restricted = "qbcore.god"
+}, function(source, args)
     if QBCore.Config.Server.Closed then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.server_already_closed'), 'error')
         return
@@ -179,73 +136,134 @@ QBCore.Commands.Add('closeserver', Lang:t("command.closeserver.help"), {{ name =
     else
         QBCore.Functions.Kick(source, Lang:t("error.no_permission"), nil, nil)
     end
-end, 'admin')
+end)
 
 -- Vehicle
 
-QBCore.Commands.Add('car', Lang:t("command.car.help"), {{ name = Lang:t("command.car.params.model.name"), help = Lang:t("command.car.params.model.help") }}, true, function(source, args)
-    TriggerClientEvent('QBCore:Command:SpawnVehicle', source, args[1])
-end, 'admin')
+lib.addCommand('car', {
+    help = Lang:t("command.car.help"),
+    params = {
+        { name = Lang:t("command.car.params.model.name"), help = Lang:t("command.car.params.model.help") }
+    },
+    restricted = "qbcore.god"
+}, function(source, args)
+    if args then
+        TriggerClientEvent('QBCore:Command:SpawnVehicle', source, args[1])
+    end
+end)
 
-QBCore.Commands.Add('dv', Lang:t("command.dv.help"), {}, false, function(source)
-    TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
-end, 'admin')
+lib.addCommand('dv', {
+    help = Lang:t("command.dv.help"),
+    restricted = "qbcore.admin"
+}, function(source, _)
+    if args then
+        TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
+    end
+end)
 
 -- Money
 
-QBCore.Commands.Add('givemoney', Lang:t("command.givemoney.help"), { { name = Lang:t("command.givemoney.params.id.name"), help = Lang:t("command.givemoney.params.id.help") }, { name = Lang:t("command.givemoney.params.moneytype.name"), help = Lang:t("command.givemoney.params.moneytype.help") }, { name = Lang:t("command.givemoney.params.amount.name"), help = Lang:t("command.givemoney.params.amount.help") } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+lib.addCommand('givemoney', {
+    help = Lang:t("command.givemoney.help"),
+    params = {
+        { name = Lang:t("command.givemoney.params.id.name"), help = Lang:t("command.givemoney.params.id.help") },
+        { name = Lang:t("command.givemoney.params.moneytype.name"), help = Lang:t("command.givemoney.params.moneytype.help") },
+        { name = Lang:t("command.givemoney.params.amount.name"), help = Lang:t("command.givemoney.params.amount.help") }
+    },
+    restricted = "qbcore.god"
+}, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.givemoney.params.id.name")]))
     if Player then
-        Player.Functions.AddMoney(tostring(args[2]), tonumber(args[3]))
+        Player.Functions.AddMoney(tostring(args[Lang:t("command.givemoney.params.moneytype.name")]), tonumber(args[Lang:t("command.givemoney.params.amount.name")]))
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
-end, 'admin')
+end)
 
-QBCore.Commands.Add('setmoney', Lang:t("command.setmoney.help"), { { name = Lang:t("command.setmoney.params.id.name"), help = Lang:t("command.setmoney.params.id.help") }, { name = Lang:t("command.setmoney.params.moneytype.name"), help = Lang:t("command.setmoney.params.moneytype.help") }, { name = Lang:t("command.setmoney.params.amount.name"), help = Lang:t("command.setmoney.params.amount.help") } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+lib.addCommand('setmoney', {
+    help = Lang:t("command.setmoney.help"),
+    params = {
+        { name = Lang:t("command.setmoney.params.id.name"), help = Lang:t("command.setmoney.params.id.help") },
+        { name = Lang:t("command.setmoney.params.moneytype.name"), help = Lang:t("command.setmoney.params.moneytype.help") },
+        { name = Lang:t("command.setmoney.params.amount.name"), help = Lang:t("command.setmoney.params.amount.help") }
+    },
+    restricted = "qbcore.god"
+}, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setmoney.params.id.name")]))
     if Player then
-        Player.Functions.SetMoney(tostring(args[2]), tonumber(args[3]))
+        Player.Functions.SetMoney(tostring(args[Lang:t("command.setmoney.params.moneytype.name")]), tonumber(args[Lang:t("command.setmoney.params.amount.name")]))
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
-end, 'admin')
+end)
 
 -- Job
-
-QBCore.Commands.Add('job', Lang:t("command.job.help"), {}, false, function(source)
+lib.addCommand('job', {
+    help = Lang:t("command.job.help"),
+    restricted = "qbcore.user"
+}, function(source, _)
     local PlayerJob = QBCore.Functions.GetPlayer(source).PlayerData.job
     TriggerClientEvent('QBCore:Notify', source, Lang:t('info.job_info', {value = PlayerJob.label, value2 = PlayerJob.grade.name, value3 = PlayerJob.onduty}))
-end, 'user')
+end)
 
-QBCore.Commands.Add('setjob', Lang:t("command.setjob.help"), { { name = Lang:t("command.setjob.params.id.name"), help = Lang:t("command.setjob.params.id.help") }, { name = Lang:t("command.setjob.params.job.name"), help = Lang:t("command.setjob.params.job.help") }, { name = Lang:t("command.setjob.params.grade.name"), help = Lang:t("command.setjob.params.grade.help") } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+lib.addCommand('setjob', {
+    help = Lang:t("command.setjob.help"),
+    params = {
+        { name = Lang:t("command.setjob.params.id.name"), help = Lang:t("command.setjob.params.id.help") },
+        { name = Lang:t("command.setjob.params.job.name"), help = Lang:t("command.setjob.params.job.help") },
+        { name = Lang:t("command.setjob.params.grade.name"), help = Lang:t("command.setjob.params.grade.help"), optional = true }
+    },
+    restricted = "qbcore.god"
+}, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setjob.params.id.name")]))
     if Player then
-        Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]))
+        if args[Lang:t("command.setjob.params.grade.name")] then
+            Player.Functions.SetJob(tostring(args[Lang:t("command.setjob.params.job.name")]), tonumber(args[Lang:t("command.setjob.params.grade.name")]))
+        else
+            Player.Functions.SetJob(tostring(args[Lang:t("command.setjob.params.job.name")]), 0)
+        end
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
-end, 'admin')
+end)
 
 -- Gang
 
-QBCore.Commands.Add('gang', Lang:t("command.gang.help"), {}, false, function(source)
+lib.addCommand('gang', {
+    help = Lang:t("command.gang.help"),
+    restricted = "qbcore.user"
+}, function(source, _)
     local PlayerGang = QBCore.Functions.GetPlayer(source).PlayerData.gang
     TriggerClientEvent('QBCore:Notify', source, Lang:t('info.gang_info', {value = PlayerGang.label, value2 = PlayerGang.grade.name}))
-end, 'user')
+end)
 
-QBCore.Commands.Add('setgang', Lang:t("command.setgang.help"), { { name = Lang:t("command.setgang.params.id.name"), help = Lang:t("command.setgang.params.id.help") }, { name = Lang:t("command.setgang.params.gang.name"), help = Lang:t("command.setgang.params.gang.help") }, { name = Lang:t("command.setgang.params.grade.name"), help = Lang:t("command.setgang.params.grade.help") } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+lib.addCommand('setgang', {
+    help = Lang:t("command.setgang.help"),
+    params = {
+        { name = Lang:t("command.setgang.params.id.name"), help = Lang:t("command.setgang.params.id.help") },
+        { name = Lang:t("command.setgang.params.gang.name"), help = Lang:t("command.setgang.params.job.help") },
+        { name = Lang:t("command.setgang.params.grade.name"), help = Lang:t("command.setgang.params.grade.help"), optional = true }
+    },
+    restricted = "qbcore.god"
+}, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setgang.params.id.name")]))
     if Player then
-        Player.Functions.SetGang(tostring(args[2]), tonumber(args[3]))
+        if args[Lang:t("command.setgang.params.grade.name")] then
+            Player.Functions.SetGang(tostring(args[Lang:t("command.setgang.params.gang.name")]), tonumber(args[Lang:t("command.setgang.params.grade.name")]))
+        else
+            Player.Functions.SetGang(tostring(args[Lang:t("command.setgang.params.gang.name")]), 0)
+        end
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
-end, 'admin')
+end)
 
 -- Out of Character Chat
 
-QBCore.Commands.Add('ooc', Lang:t("command.ooc.help"), {}, false, function(source, args)
+lib.addCommand('ooc', {
+    help = Lang:t("command.ooc.help"),
+    restricted = "qbcore.user"
+}, function(source, args)
     local message = table.concat(args, ' ')
     local Players = QBCore.Functions.GetPlayers()
     local Player = QBCore.Functions.GetPlayer(source)
@@ -274,17 +292,23 @@ QBCore.Commands.Add('ooc', Lang:t("command.ooc.help"), {}, false, function(sourc
             end
         end
     end
-end, 'user')
+end)
+
 
 -- Me command
 
-QBCore.Commands.Add('me', Lang:t("command.me.help"), {{name = Lang:t("command.me.params.message.name"), help = Lang:t("command.me.params.message.help")}}, false, function(source, args)
+lib.addCommand('me', {
+    help = Lang:t("command.me.help"),
+    params = {
+        { name = Lang:t("command.me.params.message.name"), help = Lang:t("command.me.params.message.help") }
+    },
+    restricted = "qbcore.user"
+}, function(source, args)
     if #args < 1 then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.missing_args2'), 'error') return end
     local msg = table.concat(args, ' '):gsub('[~<].-[>~]', '')
     local playerState = Player(source).state
-    playerState:set('me', msg, true)
+    playerState:set('me', 'l\'individu '..msg, true)
 
     -- We have to reset the playerState since the state does not get replicated on StateBagHandler if the value is the same as the previous one --
     playerState:set('me', nil, true)
-end, 'user')
-
+end)

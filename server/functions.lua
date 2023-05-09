@@ -343,7 +343,6 @@ end
 function QBCore.Functions.AddPermission(source, permission)
     if not IsPlayerAceAllowed(source, permission) then
         ExecuteCommand(('add_principal player.%s qbox.%s'):format(source, permission))
-        QBCore.Commands.Refresh(source)
         TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
         TriggerEvent('QBCore:Server:OnPermissionUpdate', source)
     end
@@ -355,7 +354,6 @@ function QBCore.Functions.RemovePermission(source, permission)
     if permission then
         if IsPlayerAceAllowed(source, permission) then
             ExecuteCommand(('remove_principal player.%s qbox.%s'):format(source, permission))
-            QBCore.Commands.Refresh(source)
             TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
             TriggerEvent('QBCore:Server:OnPermissionUpdate', source)
         end
@@ -364,7 +362,6 @@ function QBCore.Functions.RemovePermission(source, permission)
         for _, v in pairs(QBCore.Config.Server.Permissions) do
             if IsPlayerAceAllowed(source, v) then
                 ExecuteCommand(('remove_principal player.%s qbox.%s'):format(source, v))
-                QBCore.Commands.Refresh(source)
                 hasUpdated = true
             end
         end

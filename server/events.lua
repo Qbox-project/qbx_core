@@ -205,25 +205,6 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
 end)
 
--- Non-Chat Command Calling (ex: qb-adminmenu)
-
-RegisterNetEvent('QBCore:CallCommand', function(command, args)
-    local src = source
-    if not QBCore.Commands.List[command] then return end
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    local hasPerm = QBCore.Functions.HasPermission(src, "command."..QBCore.Commands.List[command].name)
-    if hasPerm then
-        if QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and not args[#QBCore.Commands.List[command].arguments] then
-            TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args2'), 'error')
-        else
-            QBCore.Commands.List[command].callback(src, args)
-        end
-    else
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.no_access'), 'error')
-    end
-end)
-
 -- Use this for player vehicle spawning
 -- Vehicle server-side spawning callback (netId)
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
