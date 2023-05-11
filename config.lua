@@ -7,6 +7,7 @@ QBConfig.StatusInterval = 5 -- how often to check hunger/thirst status in minute
 
 QBConfig.Money = {}
 
+---@alias MoneyType 'cash' | 'bank' | 'crypto'
 ---@alias Money {cash: number, bank: number, crypto: number}
 ---@type Money
 QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!

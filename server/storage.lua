@@ -105,6 +105,7 @@ end
 ---@field backstory string
 ---@field phone string
 ---@field account string
+---@field card number
 
 ---@class PlayerMetadata
 ---@field health number
