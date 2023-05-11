@@ -8,12 +8,19 @@ QBCore.UsableItems = {}
 -- ex: local player = QBCore.Functions.GetPlayer(source)
 -- ex: local example = player.Functions.functionname(parameter)
 
+---@param entity number
+---@return vector4
 function QBCore.Functions.GetCoords(entity)
     local coords = GetEntityCoords(entity, false)
     local heading = GetEntityHeading(entity)
-    return vector4(coords.x, coords.y, coords.z, heading)
+    return vec4(coords.x, coords.y, coords.z, heading)
 end
 
+---@alias Identifier 'steam'|'license'|'license2'|'xbl'|'ip'|'discord'|'live'
+
+---@param source Source
+---@param idtype Identifier
+---@return string?
 function QBCore.Functions.GetIdentifier(source, idtype)
     local identifiers = GetPlayerIdentifiers(source)
     for _, identifier in pairs(identifiers) do
@@ -21,9 +28,10 @@ function QBCore.Functions.GetIdentifier(source, idtype)
             return identifier
         end
     end
-    return nil
 end
 
+---@param identifier string
+---@return integer source of the player with the matching identifier or 0 if no player found
 function QBCore.Functions.GetSource(identifier)
     for src, _ in pairs(QBCore.Players) do
         local idens = GetPlayerIdentifiers(src)
@@ -36,6 +44,8 @@ function QBCore.Functions.GetSource(identifier)
     return 0
 end
 
+---@param source Source|string source or identifier of the player
+---@return Player
 function QBCore.Functions.GetPlayer(source)
     if type(source) == 'number' then
         return QBCore.Players[source]
@@ -44,28 +54,33 @@ function QBCore.Functions.GetPlayer(source)
     end
 end
 
+---@param citizenid string
+---@return Player?
 function QBCore.Functions.GetPlayerByCitizenId(citizenid)
     for src in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.citizenid == citizenid then
             return QBCore.Players[src]
         end
     end
-    return nil
 end
 
+---@param citizenid string
+---@return Player?
 function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
     return QBCore.Player.GetOfflinePlayer(citizenid)
 end
 
+---@param number string
+---@return Player?
 function QBCore.Functions.GetPlayerByPhone(number)
     for src in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.charinfo.phone == number then
             return QBCore.Players[src]
         end
     end
-    return nil
 end
 
+---@return Source[] sources
 function QBCore.Functions.GetPlayers()
     local sources = {}
     for k in pairs(QBCore.Players) do
@@ -74,13 +89,17 @@ function QBCore.Functions.GetPlayers()
     return sources
 end
 
--- Will return an array of QB Player class instances
--- unlike the GetPlayers() wrapper which only returns IDs
+---Will return an array of QB Player class instances
+---unlike the GetPlayers() wrapper which only returns IDs
+---@return table<Source, Player>
 function QBCore.Functions.GetQBPlayers()
     return QBCore.Players
 end
 
---- Gets a list of all on duty players of a specified job and the number
+---Gets a list of all on duty players of a specified job and the number
+---@param job string name
+---@return integer
+---@return Source[]
 function QBCore.Functions.GetDutyCountJob(job)
     local players = {}
     local count = 0
@@ -95,7 +114,10 @@ function QBCore.Functions.GetDutyCountJob(job)
     return count, players
 end
 
---- Gets a list of all on duty players of a specified job type and the number
+---Gets a list of all on duty players of a specified job type and the number
+---@param type string
+---@return integer
+---@return Source[]
 function QBCore.Functions.GetDutyCountType(type)
     local players = {}
     local count = 0
@@ -113,12 +135,17 @@ end
 -- Routing buckets (Only touch if you know what you are doing)
 
 -- Returns the objects related to buckets, first returned value is the player buckets, second one is entity buckets
+---@return table
+---@return table
 function QBCore.Functions.GetBucketObjects()
     return QBCore.Player_Buckets, QBCore.Entity_Buckets
 end
 
 -- Will set the provided player id / source into the provided bucket id
-function QBCore.Functions.SetPlayerBucket(source --[[ int ]], bucket --[[ int ]])
+---@param source Source
+---@param bucket integer
+---@return boolean
+function QBCore.Functions.SetPlayerBucket(source, bucket)
     if not (source or bucket) then return false end
 
     SetPlayerRoutingBucket(source, bucket)
@@ -127,7 +154,10 @@ function QBCore.Functions.SetPlayerBucket(source --[[ int ]], bucket --[[ int ]]
 end
 
 -- Will set any entity into the provided bucket, for example peds / vehicles / props / etc.
-function QBCore.Functions.SetEntityBucket(entity --[[ int ]], bucket --[[ int ]])
+---@param entity integer
+---@param bucket integer
+---@return boolean
+function QBCore.Functions.SetEntityBucket(entity, bucket)
     if not (entity or bucket) then return false end
 
     SetEntityRoutingBucket(entity, bucket)
@@ -136,7 +166,9 @@ function QBCore.Functions.SetEntityBucket(entity --[[ int ]], bucket --[[ int ]]
 end
 
 -- Will return an array of all the player ids inside the current bucket
-function QBCore.Functions.GetPlayersInBucket(bucket --[[ int ]])
+---@param bucket integer
+---@return Source[]|boolean
+function QBCore.Functions.GetPlayersInBucket(bucket)
     local curr_bucket_pool = {}
     if not (QBCore.Player_Buckets or next(QBCore.Player_Buckets)) then
         return false
@@ -152,7 +184,9 @@ function QBCore.Functions.GetPlayersInBucket(bucket --[[ int ]])
 end
 
 -- Will return an array of all the entities inside the current bucket (not for player entities, use GetPlayersInBucket for that)
-function QBCore.Functions.GetEntitiesInBucket(bucket --[[ int ]])
+---@param bucket integer
+---@return integer[]|boolean
+function QBCore.Functions.GetEntitiesInBucket(bucket)
     local curr_bucket_pool = {}
     if not (QBCore.Entity_Buckets or next(QBCore.Entity_Buckets)) then
         return false
@@ -169,6 +203,11 @@ end
 
 -- Server side vehicle creation with optional callback
 -- the CreateVehicle RPC still uses the client for creation so players must be near
+---@param source Source
+---@param model string|number
+---@param coords vector4
+---@param warp boolean
+---@return number
 function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
     local ped = GetPlayerPed(source)
     model = type(model) == 'string' and joaat(model) or model
@@ -187,6 +226,11 @@ end
 
 -- Server side vehicle creation with optional callback
 -- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
+---@param source Source
+---@param model string|number
+---@param coords vector4
+---@param warp boolean
+---@return number?
 function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
@@ -226,22 +270,30 @@ function QBCore.Functions.TriggerCallback(name, source, cb, ...)
 end
 
 -- Items
-
+---@param item string name
+---@param data fun(source: Source, item: unknown)
 function QBCore.Functions.CreateUseableItem(item, data)
     QBCore.UsableItems[item] = data
 end
 
+---@param item string name
+---@return unknown
 function QBCore.Functions.CanUseItem(item)
     return QBCore.UsableItems[item]
 end
 
+---@param source Source
+---@param item string name
 function QBCore.Functions.UseItem(source, item)
     if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:UseItem(source, item)
 end
 
 -- Kick Player
-
+---@param source Source
+---@param reason string
+---@param setKickReason? fun(reason: string)
+---@param deferrals? table
 function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
     reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBCore.Config.Server.Discord
     if setKickReason then
@@ -273,7 +325,8 @@ function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
 end
 
 -- Check if player is whitelisted, kept like this for backwards compatibility or future plans
-
+---@param source Source
+---@return boolean
 function QBCore.Functions.IsWhitelisted(source)
     if not QBCore.Config.Server.Whitelist then return true end
     if QBCore.Functions.HasPermission(source, QBCore.Config.Server.WhitelistPermission) then return true end
@@ -282,6 +335,8 @@ end
 
 -- Setting & Removing Permissions
 
+---@param source Source
+---@param permission string
 function QBCore.Functions.AddPermission(source, permission)
     if not IsPlayerAceAllowed(source, permission) then
         ExecuteCommand(('add_principal player.%s qbox.%s'):format(source, permission))
@@ -291,6 +346,8 @@ function QBCore.Functions.AddPermission(source, permission)
     end
 end
 
+---@param source Source
+---@param permission string
 function QBCore.Functions.RemovePermission(source, permission)
     if permission then
         if IsPlayerAceAllowed(source, permission) then
@@ -316,7 +373,9 @@ function QBCore.Functions.RemovePermission(source, permission)
 end
 
 -- Checking for Permission Level
-
+---@param source Source
+---@param permission string
+---@return boolean
 function QBCore.Functions.HasPermission(source, permission)
     if type(permission) == "string" then
         if IsPlayerAceAllowed(source, permission) then return true end
@@ -329,6 +388,8 @@ function QBCore.Functions.HasPermission(source, permission)
     return false
 end
 
+---@param source Source
+---@return table<string, boolean>
 function QBCore.Functions.GetPermission(source)
     local src = source
     local perms = {}
@@ -341,7 +402,8 @@ function QBCore.Functions.GetPermission(source)
 end
 
 -- Opt in or out of admin reports
-
+---@param source Source
+---@return boolean
 function QBCore.Functions.IsOptin(source)
     local license = QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return false end
@@ -358,7 +420,9 @@ function QBCore.Functions.ToggleOptin(source)
 end
 
 -- Check if player is banned
-
+---@param source Source
+---@return boolean
+---@return string? playerMessage
 function QBCore.Functions.IsPlayerBanned(source)
     local plicense = QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
     local result = FetchBanEntity({
@@ -379,7 +443,8 @@ function QBCore.Functions.IsPlayerBanned(source)
 end
 
 -- Check for duplicate license
-
+---@param license string
+---@return boolean
 function QBCore.Functions.IsLicenseInUse(license)
     local players = GetPlayers()
     for _, player in pairs(players) do
@@ -396,7 +461,10 @@ function QBCore.Functions.IsLicenseInUse(license)
 end
 
 -- Utility functions
-
+---@param source Source
+---@param items unknown[]
+---@param amount number
+---@return boolean
 function QBCore.Functions.HasItem(source, items, amount)
     if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:HasItem(source, items, amount)

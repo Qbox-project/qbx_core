@@ -1,14 +1,20 @@
+---@alias Source integer
+
+---@type table<Source, Player>
 QBCore.Players = {}
+
+---@type Player
 QBCore.Player = {}
+
 GlobalState.PlayerCount = 0
 
 ---@class PlayerData: PlayerEntity
----@field source? integer present if player is online
+---@field source? Source present if player is online
 
 ---On player login get their data or set defaults
 ---Don't touch any of this unless you know what you are doing
 ---Will cause major issues!
----@param source integer
+---@param source Source
 ---@param citizenid? string
 ---@param newData PlayerEntity
 ---@return boolean sourceExists true if source exists
@@ -33,7 +39,7 @@ function QBCore.Player.Login(source, citizenid, newData)
 end
 
 ---@param citizenid string
----@return table? player if found in storage
+---@return Player? player if found in storage
 function QBCore.Player.GetOfflinePlayer(citizenid)
     if not citizenid then return end
     local PlayerData = FetchPlayerEntity(citizenid)
@@ -43,7 +49,7 @@ end
 
 ---@param source? integer if player is online
 ---@param PlayerData PlayerEntity|PlayerData
----@return table? player if offline
+---@return Player? player if offline
 function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData = PlayerData or {}
     local Offline = true
@@ -152,7 +158,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
 end
 
 ---On player logout
----@param source integer
+---@param source Source
 function QBCore.Player.Logout(source)
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
@@ -177,12 +183,37 @@ function QBCore.Player.Logout(source)
     GlobalState.PlayerCount -= 1
 end
 
+---@class Player
+---@field Functions PlayerFunctions
+---@field PlayerData PlayerData
+---@field Offline boolean
+
+---@class PlayerFunctions
+---@field UpdatePlayerData fun()
+---@field SetJob fun(job: string, grade: integer): boolean
+---@field SetGang fun(gang: string, grade: integer): boolean
+---@field SetJobDuty fun(onDuty: boolean)
+---@field SetPlayerData fun(key: string, val: any)
+---@field SetMetaData fun(meta: string, val: any)
+---@field GetMetaData fun(meta: string): any
+---@field AddJobReputation fun(amount: number)
+---@field AddMoney fun(moneytype: MoneyType, amount: number, reason: string): boolean
+---@field RemoveMoney fun(moneytype: MoneyType, amount: number, reason: string): boolean
+---@field SetMoney fun(moneytype: MoneyType, amount: number, reason: string): boolean
+---@field GetMoney fun(moneytype: MoneyType): number|boolean
+---@field SetCreditCard fun(cardNumber: number)
+---@field GetCardSlot fun(cardNumber: number, cardType: 'visa'|'mastercard'|string): number?
+---@field Save fun()
+---@field Logout fun()
+---@field AddMethod fun(methodName: string, handler: function)
+---@field AddField fun(fieldName: string, data: any)
+
 ---Create a new character
 ---Don't touch any of this unless you know what you are doing
 ---Will cause major issues!
 ---@param PlayerData PlayerData
 ---@param Offline boolean
----@return table? player if player is offline
+---@return Player? player if player is offline
 function QBCore.Player.CreatePlayer(PlayerData, Offline)
     local self = {}
     self.Functions = {}
@@ -517,7 +548,7 @@ function QBCore.Functions.AddPlayerField(ids, fieldName, data)
 end
 
 ---Save player info to database (make sure citizenid is the primary key in your database)
----@param source integer
+---@param source Source
 function QBCore.Player.Save(source)
     local ped = GetPlayerPed(source)
     local pcoords = GetEntityCoords(ped)
@@ -554,7 +585,7 @@ function QBCore.Player.SaveOffline(PlayerData)
     QBCore.ShowSuccess(GetCurrentResourceName(), PlayerData.name .. ' OFFLINE PLAYER SAVED!')
 end
 
----@param source integer
+---@param source Source
 ---@param citizenid string
 function QBCore.Player.DeleteCharacter(source, citizenid)
     local license, license2 = QBCore.Functions.GetIdentifier(source, 'license'), QBCore.Functions.GetIdentifier(source, 'license2')
@@ -592,7 +623,7 @@ end
 
 --- Inventory Backwards Compatibility
 
----@param source integer
+---@param source Source
 function QBCore.Player.SaveInventory(source)
     if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:SaveInventory(source, false)
