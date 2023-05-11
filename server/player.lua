@@ -50,27 +50,27 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     if source then
         PlayerData.source = source
         PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
-        PlayerData.name = GetPlayerName(source)
+        PlayerData.userid = MySQL.prepare.await('SELECT userid FROM users where license = ?', { PlayerData.license })
         Offline = false
     end
 
-    PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.GenerateUniqueIdentifier('citizenid')
-    PlayerData.cid = PlayerData.charinfo?.cid or 1
-    PlayerData.money = PlayerData.money or {}
-    PlayerData.optin = PlayerData.optin or true
+    PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.GenerateUniqueIdentifier('citizenid') -- not sure about that
+    PlayerData.optin = PlayerData.optin or false
     for moneytype, startamount in pairs(QBCore.Config.Money.MoneyTypes) do
-        PlayerData.money[moneytype] = PlayerData.money[moneytype] or startamount
+        if moneytype == "bank" then
+        elseif moneytype == "crypto" then
+        elseif moneytype == "cash" then
+        end
     end
 
     -- Charinfo
     PlayerData.charinfo = PlayerData.charinfo or {}
     PlayerData.charinfo.firstname = PlayerData.charinfo.firstname or 'Firstname'
     PlayerData.charinfo.lastname = PlayerData.charinfo.lastname or 'Lastname'
-    PlayerData.charinfo.birthdate = PlayerData.charinfo.birthdate or '00-00-0000'
+    PlayerData.charinfo.birthdate = PlayerData.charinfo.birthdate or '01-01-1901'
     PlayerData.charinfo.gender = PlayerData.charinfo.gender or 0
     PlayerData.charinfo.backstory = PlayerData.charinfo.backstory or 'placeholder backstory'
-    PlayerData.charinfo.nationality = PlayerData.charinfo.nationality or 'USA'
-    PlayerData.charinfo.phone = PlayerData.charinfo.phone or QBCore.Player.GenerateUniqueIdentifier('PhoneNumber')
+    PlayerData.charinfo.nationality = PlayerData.charinfo.nationality or 'American'
     PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Player.GenerateUniqueIdentifier('AccountNumber')
     -- Metadata
     PlayerData.metadata = PlayerData.metadata or {}
@@ -86,14 +86,12 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.metadata.injail = PlayerData.metadata.injail or 0
     PlayerData.metadata.jailitems = PlayerData.metadata.jailitems or {}
     PlayerData.metadata.status = PlayerData.metadata.status or {}
-    PlayerData.metadata.phone = PlayerData.metadata.phone or {}
     PlayerData.metadata.fitbit = PlayerData.metadata.fitbit or {}
     PlayerData.metadata.commandbinds = PlayerData.metadata.commandbinds or {}
     PlayerData.metadata.bloodtype = PlayerData.metadata.bloodtype or QBCore.Config.Player.Bloodtypes[math.random(1, #QBCore.Config.Player.Bloodtypes)]
     PlayerData.metadata.dealerrep = PlayerData.metadata.dealerrep or 0
     PlayerData.metadata.craftingrep = PlayerData.metadata.craftingrep or 0
     PlayerData.metadata.attachmentcraftingrep = PlayerData.metadata.attachmentcraftingrep or 0
-    PlayerData.metadata.currentapartment = PlayerData.metadata.currentapartment or nil
     PlayerData.metadata.jobrep = PlayerData.metadata.jobrep or {}
     PlayerData.metadata.jobrep.tow = PlayerData.metadata.jobrep.tow or 0
     PlayerData.metadata.jobrep.trucker = PlayerData.metadata.jobrep.trucker or 0
@@ -107,20 +105,9 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         date = nil
     }
     PlayerData.metadata.licences = PlayerData.metadata.licences or {
-        driver = true,
+        driver = false,
         business = false,
         weapon = false
-    }
-    PlayerData.metadata.inside = PlayerData.metadata.inside or {
-        house = nil,
-        apartment = {
-            apartmentType = nil,
-            apartmentId = nil,
-        }
-    }
-    PlayerData.metadata.phonedata = PlayerData.metadata.phonedata or {
-        SerialNumber = QBCore.Player.GenerateUniqueIdentifier('SerialNumber'),
-        InstalledApps = {},
     }
     -- Job
     if PlayerData.job and PlayerData.job.name and not QBCore.Shared.Jobs[PlayerData.job.name] then PlayerData.job = nil end
@@ -309,8 +296,11 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         reason = reason or 'unknown'
         amount = tonumber(amount)
         if amount < 0 then return end
-        if not self.PlayerData.money[moneytype] then return false end
-        self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
+        if moneytype == 'crypto' then
+            -- Need to make a SQL table for that
+        elseif moneytype == 'bank' then
+            -- Renewed banking thing
+        end
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
@@ -335,15 +325,11 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         reason = reason or 'unknown'
         amount = tonumber(amount)
         if amount < 0 then return end
-        if not self.PlayerData.money[moneytype] then return false end
-        for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
-            if mtype == moneytype then
-                if (self.PlayerData.money[moneytype] - amount) < 0 then
-                    return false
-                end
-            end
+        if moneytype == 'crypto' then
+            -- Need to make a SQL table for that
+        elseif moneytype == 'bank' then
+            -- Renewed banking thing
         end
-        self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
@@ -371,9 +357,11 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         reason = reason or 'unknown'
         amount = tonumber(amount)
         if amount < 0 then return false end
-        if not self.PlayerData.money[moneytype] then return false end
-        local difference = amount - self.PlayerData.money[moneytype]
-        self.PlayerData.money[moneytype] = amount
+        if moneytype == 'crypto' then
+            -- Need to make a SQL table for that
+        elseif moneytype == 'bank' then
+            -- Renewed banking thing
+        end
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
@@ -390,7 +378,15 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     ---@return number|boolean amount or false if moneytype does not exist
     function self.Functions.GetMoney(moneytype)
         if not moneytype then return false end
-        return self.PlayerData.money[moneytype]
+        local money = false
+        if moneytype == 'crypto' then
+            -- Need to make a SQL table for that
+        elseif moneytype == 'bank' then
+            -- Renewed banking thing
+        elseif moneytype == 'cash' then
+            money = exports.ox_inventory:GetItemCount('money')
+        end
+        return money
     end
 
     ---@param cardNumber number

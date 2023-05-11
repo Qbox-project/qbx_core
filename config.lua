@@ -30,7 +30,7 @@ QBConfig.Player.Bloodtypes = {
 QBConfig.Player.IdentifierTypes = {
     ['citizenid'] = {
         valueFunction = function()
-            return tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
+            return MySQL.scalar.await('SELECT citizenid FROM players ORDER BY citizenid DESC LIMIT 1') + 1
         end,
     },
     ['AccountNumber'] = {
