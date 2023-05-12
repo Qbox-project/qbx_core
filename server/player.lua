@@ -54,7 +54,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         Offline = false
     end
 
-    PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.GenerateUniqueIdentifier('citizenid') -- not sure about that
+    PlayerData.citizenid = PlayerData.citizenid or nil
     PlayerData.optin = PlayerData.optin or false
     for moneytype, startamount in pairs(QBCore.Config.Money.MoneyTypes) do
         if moneytype == "bank" then

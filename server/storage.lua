@@ -199,7 +199,6 @@ end
 ---@return boolean isUnique if the value does not already exist in storage for the given type
 function FetchIsUnique(type, value)
     local typeToColumn = {
-        citizenid = "citizenid",
         AccountNumber = "JSON_VALUE(charinfo, '$.account')",
         PhoneNumber = "JSON_VALUE(charinfo, '$.phone')",
         FingerId = "JSON_VALUE(metadata, '$.fingerprint')",
