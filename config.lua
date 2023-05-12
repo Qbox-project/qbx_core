@@ -28,11 +28,6 @@ QBConfig.Player.Bloodtypes = {
 ---@alias UniqueIdType 'citizenid' | 'AccountNumber' | 'PhoneNumber' | 'FingerId' | 'WalletId' | 'SerialNumber'
 ---@type table<UniqueIdType, {valueFunction: function}>
 QBConfig.Player.IdentifierTypes = {
-    ['citizenid'] = {
-        valueFunction = function()
-            return MySQL.scalar.await('SELECT citizenid FROM players ORDER BY citizenid DESC LIMIT 1') + 1
-        end,
-    },
     ['AccountNumber'] = {
         valueFunction = function()
             return 'US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99)
