@@ -160,6 +160,7 @@ end)
 -- Client Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
 RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
+    print(string.format("%s invoked deprecated event QBCore:Server:TriggerClientCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
     if QBCore.ClientCallbacks[name] then
         QBCore.ClientCallbacks[name](...)
         QBCore.ClientCallbacks[name] = nil
@@ -169,6 +170,7 @@ end)
 -- Server Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
 RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
+    print(string.format("%s invoked deprecated event QBCore:Server:TriggerCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
     local src = source
     QBCore.Functions.TriggerCallback(name, src, function(...)
         TriggerClientEvent('QBCore:Client:TriggerCallback', src, name, ...)

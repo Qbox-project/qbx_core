@@ -1,5 +1,14 @@
 QBShared = QBShared or {}
 QBShared.ForceJobDefaultDutyAtLogin = true -- true: Force duty state to jobdefaultDuty | false: set duty state from database last saved
+
+---@class Job
+---@field label string
+---@field type? string
+---@field defaultDuty boolean
+---@field offDutyPay boolean
+---@field grades table<integer, {name: string, payment: number, isboss: boolean}>
+
+---@type table<string, Job>
 QBShared.Jobs = {
 	['unemployed'] = {
 		label = 'Civilian',
