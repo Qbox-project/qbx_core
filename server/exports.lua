@@ -1,4 +1,8 @@
 -- Add or change (a) method(s) in the QBCore.Functions table
+---@param methodName string
+---@param handler function
+---@return boolean success
+---@return string message
 local function SetMethod(methodName, handler)
     if type(methodName) ~= "string" then
         return false, "invalid_method_name"
@@ -15,6 +19,10 @@ QBCore.Functions.SetMethod = SetMethod
 exports("SetMethod", SetMethod)
 
 -- Add or change (a) field(s) in the QBCore table
+---@param fieldName string
+---@param data any
+---@return boolean success
+---@return string message
 local function SetField(fieldName, data)
     if type(fieldName) ~= "string" then
         return false, "invalid_field_name"
@@ -31,6 +39,10 @@ QBCore.Functions.SetField = SetField
 exports("SetField", SetField)
 
 -- Single add job function which should only be used if you planning on adding a single job
+---@param jobName string
+---@param job Job
+---@return boolean success
+---@return string message
 local function AddJob(jobName, job)
     if type(jobName) ~= "string" then
         return false, "invalid_job_name"
@@ -51,39 +63,36 @@ QBCore.Functions.AddJob = AddJob
 exports('AddJob', AddJob)
 
 -- Multiple Add Jobs
+---@param jobs table<string, Job>
+---@return boolean success
+---@return string message
+---@return Job? errorJob job causing the error message. Only present if success is false.
 local function AddJobs(jobs)
-    local shouldContinue = true
-    local message = "success"
-    local errorItem = nil
 
     for key, value in pairs(jobs) do
         if type(key) ~= "string" then
-            message = 'invalid_job_name'
-            shouldContinue = false
-            errorItem = jobs[key]
-            break
+            return false, 'invalid_job_name', jobs[key]
         end
 
         if QBCore.Shared.Jobs[key] then
-            message = 'job_exists'
-            shouldContinue = false
-            errorItem = jobs[key]
-            break
+            return false, 'job_exists', jobs[key]
         end
 
         QBCore.Shared.Jobs[key] = value
     end
 
-    if not shouldContinue then return false, message, errorItem end
     TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Jobs', jobs)
     TriggerEvent('QBCore:Server:UpdateObject')
-    return true, message, nil
+    return true, 'success'
 end
 
 QBCore.Functions.AddJobs = AddJobs
 exports('AddJobs', AddJobs)
 
 -- Single Remove Job
+---@param jobName string
+---@return boolean success
+---@return string message
 local function RemoveJob(jobName)
     if type(jobName) ~= "string" then
         return false, "invalid_job_name"
@@ -104,6 +113,10 @@ QBCore.Functions.RemoveJob = RemoveJob
 exports('RemoveJob', RemoveJob)
 
 -- Single Update Job
+---@param jobName string
+---@param job Job
+---@return boolean success
+---@return string message
 local function UpdateJob(jobName, job)
     if type(jobName) ~= "string" then
         return false, "invalid_job_name"
@@ -124,7 +137,9 @@ QBCore.Functions.UpdateJob = UpdateJob
 exports('UpdateJob', UpdateJob)
 
 -- Single add item
+---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
 local function AddItem(itemName, item)
+    print(string.format("%s invoked deprecated function AddItem. This is incompatible with ox_inventory", GetInvokingResource()))
     if type(itemName) ~= "string" then
         return false, "invalid_item_name"
     end
@@ -144,7 +159,9 @@ QBCore.Functions.AddItem = AddItem
 exports('AddItem', AddItem)
 
 -- Single update item
+---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
 local function UpdateItem(itemName, item)
+    print(string.format("%s invoked deprecated function UpdateItem. This is incompatible with ox_inventory", GetInvokingResource()))
     if type(itemName) ~= "string" then
         return false, "invalid_item_name"
     end
@@ -161,7 +178,9 @@ QBCore.Functions.UpdateItem = UpdateItem
 exports('UpdateItem', UpdateItem)
 
 -- Multiple Add Items
+---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
 local function AddItems(items)
+    print(string.format("%s invoked deprecated function AddItems. This is incompatible with ox_inventory", GetInvokingResource()))
     local shouldContinue = true
     local message = "success"
     local errorItem = nil
@@ -194,7 +213,9 @@ QBCore.Functions.AddItems = AddItems
 exports('AddItems', AddItems)
 
 -- Single Remove Item
+---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
 local function RemoveItem(itemName)
+    print(string.format("%s invoked deprecated function RemoveItem. This is incompatible with ox_inventory", GetInvokingResource()))
     if type(itemName) ~= "string" then
         return false, "invalid_item_name"
     end
@@ -214,6 +235,10 @@ QBCore.Functions.RemoveItem = RemoveItem
 exports('RemoveItem', RemoveItem)
 
 -- Single Add Gang
+---@param gangName string
+---@param gang Gang
+---@return boolean success
+---@return string message
 local function AddGang(gangName, gang)
     if type(gangName) ~= "string" then
         return false, "invalid_gang_name"
@@ -234,39 +259,35 @@ QBCore.Functions.AddGang = AddGang
 exports('AddGang', AddGang)
 
 -- Multiple Add Gangs
+---@param gangs table<string, Gang>
+---@return boolean success
+---@return string message
+---@return Gang? errorGang present if success is false. Gang that caused the error message.
 local function AddGangs(gangs)
-    local shouldContinue = true
-    local message = "success"
-    local errorItem = nil
-
     for key, value in pairs(gangs) do
         if type(key) ~= "string" then
-            message = "invalid_gang_name"
-            shouldContinue = false
-            errorItem = gangs[key]
-            break
+            return false, 'invalid_gang_name', gangs[key]
         end
 
         if QBCore.Shared.Gangs[key] then
-            message = "gang_exists"
-            shouldContinue = false
-            errorItem = gangs[key]
-            break
+            return false, 'gang_exists', gangs[key]
         end
 
         QBCore.Shared.Gangs[key] = value
     end
 
-    if not shouldContinue then return false, message, errorItem end
     TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Gangs', gangs)
     TriggerEvent('QBCore:Server:UpdateObject')
-    return true, message, nil
+    return true, 'success'
 end
 
 QBCore.Functions.AddGangs = AddGangs
 exports('AddGangs', AddGangs)
 
 -- Single Remove Gang
+---@param gangName string
+---@return boolean success
+---@return string message
 local function RemoveGang(gangName)
     if type(gangName) ~= "string" then
         return false, "invalid_gang_name"
@@ -287,6 +308,10 @@ QBCore.Functions.RemoveGang = RemoveGang
 exports('RemoveGang', RemoveGang)
 
 -- Single Update Gang
+---@param gangName string
+---@param gang Gang
+---@return boolean success
+---@return string message
 local function UpdateGang(gangName, gang)
     if type(gangName) ~= "string" then
         return false, "invalid_gang_name"
@@ -306,6 +331,8 @@ end
 QBCore.Functions.UpdateGang = UpdateGang
 exports('UpdateGang', UpdateGang)
 
+---@param InvokingResource string
+---@return string version
 local function GetCoreVersion(InvokingResource)
     ---@diagnostic disable-next-line: missing-parameter
     local resourceVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
@@ -318,6 +345,8 @@ end
 QBCore.Functions.GetCoreVersion = GetCoreVersion
 exports('GetCoreVersion', GetCoreVersion)
 
+---@param playerId integer server id
+---@param origin string reason
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
     CreateThread(function()
