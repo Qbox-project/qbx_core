@@ -2,6 +2,7 @@
 
 local usedLicenses = {}
 
+---@param message string
 AddEventHandler('chatMessage', function(_, _, message)
     if string.sub(message, 1, 1) == '/' then
         CancelEvent()
@@ -22,6 +23,7 @@ AddEventHandler('playerJoining', function()
     end
 end)
 
+---@param reason string
 AddEventHandler('playerDropped', function(reason)
     local src = source
     local license = QBCore.Functions.GetIdentifier(src, 'license2') or QBCore.Functions.GetIdentifier(src, 'license')
@@ -35,8 +37,16 @@ AddEventHandler('playerDropped', function(reason)
     QBCore.Players[src] = nil
 end)
 
--- Player Connecting
+---@class Deferrals https://docs.fivem.net/docs/scripting-reference/events/list/playerConnecting/#deferring-connections
+---@field defer fun() initialize deferrals for the current resource. Required to wait at least 1 tick before calling other deferrals methods.
+---@field update fun(message: string) sends a progress message to the connecting client
+---@field presentCard fun(card: unknown|string, cb?: fun(data: unknown, rawData: string)) send an adaptive card to the client https://learn.microsoft.com/en-us/adaptive-cards/authoring-cards/getting-started and capture user input via callback.
+---@field done fun(failureReason?: string) finalizes deferrals. If failureReason is present, user will be refused connection and shown reason. Need to wait 1 tick after calling other deferral methods before calling done.
 
+-- Player Connecting
+---@param name any
+---@param _ any
+---@param deferrals Deferrals
 local function onPlayerConnecting(name, _, deferrals)
     local src = source
     local license
@@ -124,12 +134,14 @@ RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     Player(source).state:set('isLoggedIn', true, true)
 end)
 
+---@param source Source
 AddEventHandler('QBCore:Server:OnPlayerUnload', function(source)
     Player(source).state:set('isLoggedIn', false, true)
 end)
 
 -- Open & Close Server (prevents players from joining)
 
+---@param reason string
 RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
     local src = source
     if QBCore.Functions.HasPermission(src, 'admin') then
@@ -216,6 +228,11 @@ end)
 -- Vehicle server-side spawning callback (netId)
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
 -- convert it to a vehicle via the NetToVeh native
+---@param source Source
+---@param cb fun(vehicleNetId: number)
+---@param model string|number
+---@param coords vector4
+---@param warp boolean teleports player into vehicle if true
 QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
     local ped = GetPlayerPed(source)
     model = type(model) == 'string' and joaat(model) or model
@@ -244,9 +261,15 @@ end)
     ```
 ]]
 -- If you don't use the above on the client, it will return 0 as the vehicle from the netid and 0 means no vehicle found because it doesn't exist so fast on the client
+---@param source Source
+---@param cb fun(vehicleNetId: number)
+---@param model string|number
+---@param coords vector4
+---@param warp boolean
 QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
+    local ped = GetPlayerPed(source)
     model = type(model) == 'string' and joaat(model) or model
-    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
+    if not coords then coords = GetEntityCoords(ped) end
     if not CreateVehicleServerSetter then
         error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
         cb(0)
@@ -258,7 +281,7 @@ QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, 
     DeleteEntity(tempVehicle)
     local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
     while not DoesEntityExist(veh) do Wait(0) end
-    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    if warp then TaskWarpPedIntoVehicle(ped, veh, -1) end
     cb(NetworkGetNetworkIdFromEntity(veh))
 end)
 
