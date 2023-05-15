@@ -78,7 +78,7 @@ lib.addCommand('addpermission', {
 end)
 
 lib.addCommand('removepermission', {
-    help = Lang:t("removepermission.help"),
+    help = Lang:t("command.removepermission.help"),
     params = {
         { name = Lang:t("command.removepermission.params.id.name"), help = Lang:t("command.removepermission.params.id.help") },
         { name = Lang:t("command.removepermission.params.permission.name"), help = Lang:t("command.removepermission.params.permission.help") }
@@ -241,7 +241,7 @@ lib.addCommand('setgang', {
     help = Lang:t("command.setgang.help"),
     params = {
         { name = Lang:t("command.setgang.params.id.name"), help = Lang:t("command.setgang.params.id.help") },
-        { name = Lang:t("command.setgang.params.gang.name"), help = Lang:t("command.setgang.params.job.help") },
+        { name = Lang:t("command.setgang.params.gang.name"), help = Lang:t("command.setgang.params.gang.help") },
         { name = Lang:t("command.setgang.params.grade.name"), help = Lang:t("command.setgang.params.grade.help"), optional = true }
     },
     restricted = "qbcore.god"
