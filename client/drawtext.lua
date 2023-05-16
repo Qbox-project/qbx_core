@@ -1,3 +1,4 @@
+---@enum Position
 local positions = {
     left = 'left-center',
     right = 'right-center',
@@ -14,6 +15,8 @@ local function hideText()
     lib.hideTextUI()
 end
 
+---@param text string
+---@param position Position
 local function drawText(text, position)
     position = positions[position] or position
     lib.showTextUI(text, {
@@ -21,6 +24,8 @@ local function drawText(text, position)
     })
 end
 
+---@param text string
+---@param position Position
 local function changeText(text, position)
     position = positions[position] or position
     lib.hideTextUI()
