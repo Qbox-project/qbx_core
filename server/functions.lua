@@ -211,8 +211,8 @@ end
 -- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
 ---@param source Source
 ---@param model string|number
----@param coords vector4
----@param warp boolean
+---@param coords? vector4 default to player's position
+---@param warp? boolean
 ---@return number?
 function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     model = type(model) == 'string' and joaat(model) or model

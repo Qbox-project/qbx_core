@@ -409,24 +409,20 @@ end
 ---@param model string|number
 ---@param cb? fun(vehicle: number)
 ---@param coords? vector3 player position if not specified
----@param isnetworked? boolean defaults to true
----@param teleportInto boolean teleport player to driver seat if true
-function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
-    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
-    model = type(model) == 'string' and joaat(model) or model
-    if not IsModelInCdimage(model) then return end
+---@param teleportInto? boolean teleport player to driver seat if true
+function QBCore.Functions.SpawnVehicle(model, cb, coords, _, teleportInto)
+    local netId = lib.callback.await('qbx-core:server:createVehicle', false, model, coords, teleportInto)
+    local veh
+    repeat
+        veh = NetToVeh(netId)
+        Wait(0)
+    until DoesEntityExist(veh)
 
-    isnetworked = isnetworked == nil or isnetworked
-    QBCore.Functions.LoadModel(model)
-    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
-    local netid = NetworkGetNetworkIdFromEntity(veh)
     SetVehicleHasBeenOwnedByPlayer(veh, true)
     SetNetworkIdCanMigrate(netid, true)
     SetVehicleNeedsToBeHotwired(veh, false)
     SetVehRadioStation(veh, 'OFF')
     SetVehicleFuelLevel(veh, 100.0)
-    SetModelAsNoLongerNeeded(model)
-    if teleportInto then TaskWarpPedIntoVehicle(cache.ped, veh, -1) end
     if cb then cb(veh) end
 end
 

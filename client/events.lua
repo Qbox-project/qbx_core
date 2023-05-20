@@ -129,25 +129,21 @@ end)
 
 -- Vehicle Commands
 
----@param vehName string
-RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
-    local hash = joaat(vehName)
-    if not IsModelInCdimage(hash) then return end
-    RequestModel(hash)
-    while not HasModelLoaded(hash) do
-        Wait(0)
-    end
-
+---internal event to core. Do not invoke.
+---@param vehicle number
+RegisterNetEvent('QBCore:Command:SpawnVehicle', function(netId)
     if cache.vehicle then
         DeleteVehicle(cache.vehicle)
     end
 
-    local coords = GetEntityCoords(cache.ped)
-    local vehicle = CreateVehicle(hash, coords.x, coords.y, coords.z, GetEntityHeading(cache.ped), true, false)
-    TaskWarpPedIntoVehicle(cache.ped, vehicle, -1)
+    local vehicle
+    repeat
+        vehicle = NetToVeh(netId)
+        Wait(0)
+    until DoesEntityExist(vehicle)
+
     SetVehicleFuelLevel(vehicle, 100.0)
     SetVehicleDirtLevel(vehicle, 0.0)
-    SetModelAsNoLongerNeeded(hash)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
 
