@@ -224,32 +224,6 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     end
 end)
 
--- Use this for player vehicle spawning
--- Vehicle server-side spawning callback (netId)
--- use the netid on the client with the NetworkGetEntityFromNetworkId native
--- convert it to a vehicle via the NetToVeh native
----@param source Source
----@param cb fun(vehicleNetId: number)
----@param model string|number
----@param coords vector4
----@param warp boolean teleports player into vehicle if true
-QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
-    local ped = GetPlayerPed(source)
-    model = type(model) == 'string' and joaat(model) or model
-    if not coords then coords = GetEntityCoords(ped) end
-    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
-    while not DoesEntityExist(veh) do Wait(0) end
-    if warp then
-        while GetVehiclePedIsIn(ped, false) ~= veh do
-            Wait(0)
-            TaskWarpPedIntoVehicle(ped, veh, -1)
-        end
-    end
-    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
-    cb(NetworkGetNetworkIdFromEntity(veh))
-end)
-
--- Use this for long distance vehicle spawning
 -- vehicle server-side spawning callback (netId)
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
 -- convert it to a vehicle via the NetToVeh native but use a while loop before that to check if the vehicle exists first like this
@@ -261,18 +235,17 @@ end)
     ```
 ]]
 -- If you don't use the above on the client, it will return 0 as the vehicle from the netid and 0 means no vehicle found because it doesn't exist so fast on the client
----@param source Source
----@param cb fun(vehicleNetId: number)
+---@param source number
 ---@param model string|number
 ---@param coords vector4
 ---@param warp boolean
-QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
+---@return number? vehNetId
+local function createVehicle(source, model, coords, warp)
     local ped = GetPlayerPed(source)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(ped) end
     if not CreateVehicleServerSetter then
         error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
-        cb(0)
         return
     end
     local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
@@ -282,9 +255,21 @@ QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, 
     local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(ped, veh, -1) end
-    cb(NetworkGetNetworkIdFromEntity(veh))
+    return NetworkGetNetworkIdFromEntity(veh)
+end
+
+lib.callback.register('qbx-core:server:createVehicle', createVehicle)
+
+---@deprecated use 'qbx-core:server:createVehicle' via ox_lib callback instead.
+QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
+    print(string.format("%s invoked deprecated callback QBCore:Server:SpawnVehicle. Use qbx-core:server:createVehicle via ox_lib callback instead.", GetInvokingResource()))
+    local netId = createVehicle(source, model, coords, warp)
+    if netId then cb(netId) end
 end)
 
---QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
--- https://github.com/qbcore-framework/qb-inventory/blob/e4ef156d93dd1727234d388c3f25110c350b3bcf/server/main.lua#L2066
---end)
+---@deprecated use 'qbx-core:server:createVehicle' via ox_lib callback instead.
+QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
+    print(string.format("%s invoked deprecated callback QBCore:Server:CreateVehicle. Use qbx-core:server:createVehicle via ox_lib callback instead.", GetInvokingResource()))
+    local netId = createVehicle(source, model, coords, warp)
+    if netId then cb(netId) end
+end)

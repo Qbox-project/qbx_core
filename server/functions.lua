@@ -201,27 +201,10 @@ function QBCore.Functions.GetEntitiesInBucket(bucket)
     return curr_bucket_pool
 end
 
--- Server side vehicle creation with optional callback
--- the CreateVehicle RPC still uses the client for creation so players must be near
----@param source Source
----@param model string|number
----@param coords vector4
----@param warp boolean
----@return number
+---@deprecated Use QBCore.Functions.CreateVehicle instead.
 function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
-    local ped = GetPlayerPed(source)
-    model = type(model) == 'string' and joaat(model) or model
-    if not coords then coords = GetEntityCoords(ped) end
-    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
-    while not DoesEntityExist(veh) do Wait(0) end
-    if warp then
-        while GetVehiclePedIsIn(ped, false) ~= veh do
-            Wait(0)
-            TaskWarpPedIntoVehicle(ped, veh, -1)
-        end
-    end
-    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
-    return veh
+    print(string.format("%s invoked deprecated server function QBCore.Functions.SpawnVehicle. Use QBCore.Functions.CreateVehicle instead.", GetInvokingResource()))
+    return QBCore.Functions.CreateVehicle(source, model, coords, warp)
 end
 
 -- Server side vehicle creation with optional callback
@@ -267,7 +250,7 @@ end
 
 ---@deprecated call a function instead
 function QBCore.Functions.TriggerCallback(name, source, cb, ...)
-    print(string.format("%s invoked deprecated function TriggerCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
+    print(string.format("%s invoked deprecated function TriggerCallback. Call a function instead.", GetInvokingResource()))
     if not QBCore.ServerCallbacks[name] then return end
     QBCore.ServerCallbacks[name](source, cb, ...)
 end
