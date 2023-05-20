@@ -1,3 +1,6 @@
+---prints tbl
+---@param tbl any
+---@param indent integer
 local function tPrint(tbl, indent)
     indent = indent or 0
     if type(tbl) == 'table' then
@@ -25,6 +28,9 @@ local function tPrint(tbl, indent)
     end
 end
 
+---prints invoking resource, and tbl.
+---@param tbl any
+---@param indent integer
 RegisterServerEvent('QBCore:DebugSomething', function(tbl, indent)
     local resource = GetInvokingResource() or "qbx-core"
     print(('\x1b[4m\x1b[36m[ %s : DEBUG]\x1b[0m'):format(resource))
@@ -32,14 +38,21 @@ RegisterServerEvent('QBCore:DebugSomething', function(tbl, indent)
     print('\x1b[4m\x1b[36m[ END DEBUG ]\x1b[0m')
 end)
 
+---prints invoking resource, and tbl
+---@param tbl any
+---@param indent integer
 function QBCore.Debug(tbl, indent)
     TriggerEvent('QBCore:DebugSomething', tbl, indent)
 end
 
+---@param resource string
+---@param msg string
 function QBCore.ShowError(resource, msg)
     print(('\x1b[31m[%s:ERROR]\x1b[0m %s'):format(resource, msg))
 end
 
+---@param resource string
+---@param msg string
 function QBCore.ShowSuccess(resource, msg)
     print(('\x1b[32m[%s:LOG]\x1b[0m %s'):format(resource, msg))
 end
