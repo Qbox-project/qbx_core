@@ -209,11 +209,21 @@ end
 
 -- Server side vehicle creation with optional callback
 -- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
----@param source Source
+-- use the netid on the client with the NetworkGetEntityFromNetworkId native
+-- convert it to a vehicle via the NetToVeh native but use a while loop before that to check if the vehicle exists first like this
+--[[
+    ```lua
+        while not DoesEntityExist(NetToVeh(veh)) do
+            Wait(0)
+        end
+    ```
+]]
+-- If you don't use the above on the client, it will return 0 as the vehicle from the netid and 0 means no vehicle found because it doesn't exist so fast on the client
+---@param source number
 ---@param model string|number
 ---@param coords? vector4 default to player's position
 ---@param warp? boolean
----@return number?
+---@return number? netId
 function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
@@ -228,7 +238,7 @@ function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
-    return veh
+    return NetworkGetNetworkIdFromEntity(veh)
 end
 
 -- Callback Functions --

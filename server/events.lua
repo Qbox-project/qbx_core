@@ -224,52 +224,18 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     end
 end)
 
--- vehicle server-side spawning callback (netId)
--- use the netid on the client with the NetworkGetEntityFromNetworkId native
--- convert it to a vehicle via the NetToVeh native but use a while loop before that to check if the vehicle exists first like this
---[[
-    ```lua
-        while not DoesEntityExist(NetToVeh(veh)) do
-            Wait(0)
-        end
-    ```
-]]
--- If you don't use the above on the client, it will return 0 as the vehicle from the netid and 0 means no vehicle found because it doesn't exist so fast on the client
----@param source number
----@param model string|number
----@param coords vector4
----@param warp boolean
----@return number? vehNetId
-local function createVehicle(source, model, coords, warp)
-    local ped = GetPlayerPed(source)
-    model = type(model) == 'string' and joaat(model) or model
-    if not coords then coords = GetEntityCoords(ped) end
-    if not CreateVehicleServerSetter then
-        error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
-        return
-    end
-    local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
-    while not DoesEntityExist(tempVehicle) do Wait(0) end
-    local vehicleType = GetVehicleType(tempVehicle)
-    DeleteEntity(tempVehicle)
-    local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
-    while not DoesEntityExist(veh) do Wait(0) end
-    if warp then TaskWarpPedIntoVehicle(ped, veh, -1) end
-    return NetworkGetNetworkIdFromEntity(veh)
-end
-
-lib.callback.register('qbx-core:server:createVehicle', createVehicle)
+lib.callback.register('qbx-core:server:createVehicle', QBCore.Functions.CreateVehicle)
 
 ---@deprecated use 'qbx-core:server:createVehicle' via ox_lib callback instead.
 QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
     print(string.format("%s invoked deprecated callback QBCore:Server:SpawnVehicle. Use qbx-core:server:createVehicle via ox_lib callback instead.", GetInvokingResource()))
-    local netId = createVehicle(source, model, coords, warp)
+    local netId = QBCore.Functions.CreateVehicle(source, model, coords, warp)
     if netId then cb(netId) end
 end)
 
 ---@deprecated use 'qbx-core:server:createVehicle' via ox_lib callback instead.
 QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
     print(string.format("%s invoked deprecated callback QBCore:Server:CreateVehicle. Use qbx-core:server:createVehicle via ox_lib callback instead.", GetInvokingResource()))
-    local netId = createVehicle(source, model, coords, warp)
+    local netId = QBCore.Functions.CreateVehicle(source, model, coords, warp)
     if netId then cb(netId) end
 end)
