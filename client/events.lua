@@ -132,7 +132,17 @@ end)
 -- Vehicle Commands
 
 utils.entityStateHandler('initVehicle', function(entity, _, value)
-    if not value or NetworkGetEntityOwner(entity) ~= cache.playerId then return end
+    if not value then return end
+    
+    for i = -1, 0 do
+        local ped = GetPedInVehicleSeat(entity, i)
+
+        if ped ~= cache.ped and ped > 0 and NetworkGetEntityOwner(ped) == cache.playerId then
+            DeleteEntity(ped)
+        end
+    end
+    
+    if NetworkGetEntityOwner(entity) ~= cache.playerId then return end
     if cache.vehicle then
         DeleteVehicle(cache.vehicle)
     end
