@@ -184,8 +184,7 @@ end, 'admin')
 -- Vehicle
 
 QBCore.Commands.Add('car', Lang:t("command.car.help"), {{ name = Lang:t("command.car.params.model.name"), help = Lang:t("command.car.params.model.help") }}, true, function(source, args)
-    local veh = QBCore.Functions.CreateVehicle(source, args[1], nil, true)
-    TriggerClientEvent('QBCore:Command:SpawnVehicle', source, veh)
+    QBCore.Functions.CreateVehicle(source, args[1], nil, true)
 end, 'admin')
 
 QBCore.Commands.Add('dv', Lang:t("command.dv.help"), {}, false, function(source)

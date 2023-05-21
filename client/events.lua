@@ -1,3 +1,5 @@
+local utils = require 'client.utils'
+
 -- Player load and unload handling
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
@@ -129,22 +131,22 @@ end)
 
 -- Vehicle Commands
 
----internal event to core. Do not invoke.
----@param vehicle number
-RegisterNetEvent('QBCore:Command:SpawnVehicle', function(netId)
+utils.entityStateHandler('initVehicle', function(entity, _, value)
+    if not value or NetworkGetEntityOwner(entity) ~= cache.playerId then return end
     if cache.vehicle then
         DeleteVehicle(cache.vehicle)
     end
 
-    local vehicle
-    repeat
-        vehicle = NetToVeh(netId)
-        Wait(0)
-    until DoesEntityExist(vehicle)
+    local veh = entity
 
-    SetVehicleFuelLevel(vehicle, 100.0)
-    SetVehicleDirtLevel(vehicle, 0.0)
-    TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
+    SetVehicleHasBeenOwnedByPlayer(veh, true)
+    SetNetworkIdCanMigrate(netId, true)
+    SetVehicleNeedsToBeHotwired(veh, false)
+    SetVehRadioStation(veh, 'OFF')
+    SetVehicleFuelLevel(veh, 100.0)
+    SetVehicleDirtLevel(veh, 0.0)
+    TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(veh))
+    Entity(entity).state:set('initVehicle', nil, true)
 end)
 
 RegisterNetEvent('QBCore:Command:DeleteVehicle', function()

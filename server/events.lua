@@ -224,18 +224,16 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     end
 end)
 
-lib.callback.register('qbx-core:server:createVehicle', QBCore.Functions.CreateVehicle)
-
----@deprecated use 'qbx-core:server:createVehicle' via ox_lib callback instead.
+---@deprecated call server function QBCore.Functions.CreateVehicle instead.
 QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
-    print(string.format("%s invoked deprecated callback QBCore:Server:SpawnVehicle. Use qbx-core:server:createVehicle via ox_lib callback instead.", GetInvokingResource()))
+    print(string.format("%s invoked deprecated callback QBCore:Server:SpawnVehicle. Call server function QBCore.Functions.CreateVehicle instead.", GetInvokingResource()))
     local netId = QBCore.Functions.CreateVehicle(source, model, coords, warp)
     if netId then cb(netId) end
 end)
 
----@deprecated use 'qbx-core:server:createVehicle' via ox_lib callback instead.
+---@deprecated call server function QBCore.Functions.CreateVehicle instead.
 QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
-    print(string.format("%s invoked deprecated callback QBCore:Server:CreateVehicle. Use qbx-core:server:createVehicle via ox_lib callback instead.", GetInvokingResource()))
+    print(string.format("%s invoked deprecated callback QBCore:Server:CreateVehicle. call server function QBCore.Functions.CreateVehicle instead.", GetInvokingResource()))
     local netId = QBCore.Functions.CreateVehicle(source, model, coords, warp)
     if netId then cb(netId) end
 end)
