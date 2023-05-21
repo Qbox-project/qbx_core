@@ -147,15 +147,11 @@ utils.entityStateHandler('initVehicle', function(entity, _, value)
         DeleteVehicle(cache.vehicle)
     end
 
-    local veh = entity
-
-    SetVehicleHasBeenOwnedByPlayer(veh, true)
-    SetNetworkIdCanMigrate(netId, true)
-    SetVehicleNeedsToBeHotwired(veh, false)
-    SetVehRadioStation(veh, 'OFF')
-    SetVehicleFuelLevel(veh, 100.0)
-    SetVehicleDirtLevel(veh, 0.0)
-    TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(veh))
+    SetVehicleNeedsToBeHotwired(entity, false)
+    SetVehRadioStation(entity, 'OFF')
+    SetVehicleFuelLevel(entity, 100.0)
+    SetVehicleDirtLevel(entity, 0.0)
+    TriggerEvent('vehiclekeys:client:SetOwner', QBCore.Functions.GetPlate(veh))
     Entity(entity).state:set('initVehicle', nil, true)
 end)
 
