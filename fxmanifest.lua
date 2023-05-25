@@ -33,7 +33,7 @@ server_scripts {
     'server/storage.lua',
 }
 
-files = {
+files {
     'client/utils.lua',
 }
 
