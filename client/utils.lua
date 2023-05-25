@@ -20,6 +20,8 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
+local utils = {}
+
 ---@async
 function utils.waitFor(cb, timeout)
     local hasValue = cb()
