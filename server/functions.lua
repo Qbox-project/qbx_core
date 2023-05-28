@@ -201,36 +201,29 @@ function QBCore.Functions.GetEntitiesInBucket(bucket)
     return curr_bucket_pool
 end
 
--- Server side vehicle creation with optional callback
--- the CreateVehicle RPC still uses the client for creation so players must be near
----@param source Source
----@param model string|number
----@param coords vector4
----@param warp boolean
----@return number
+---@deprecated Use QBCore.Functions.CreateVehicle instead.
 function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
-    local ped = GetPlayerPed(source)
-    model = type(model) == 'string' and joaat(model) or model
-    if not coords then coords = GetEntityCoords(ped) end
-    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
-    while not DoesEntityExist(veh) do Wait(0) end
-    if warp then
-        while GetVehiclePedIsIn(ped, false) ~= veh do
-            Wait(0)
-            TaskWarpPedIntoVehicle(ped, veh, -1)
-        end
-    end
-    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
-    return veh
+    print(string.format("%s invoked deprecated server function QBCore.Functions.SpawnVehicle. Use QBCore.Functions.CreateVehicle instead.", GetInvokingResource()))
+    return QBCore.Functions.CreateVehicle(source, model, coords, warp)
 end
 
 -- Server side vehicle creation with optional callback
 -- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
----@param source Source
+-- use the netid on the client with the NetworkGetEntityFromNetworkId native
+-- convert it to a vehicle via the NetToVeh native but use a while loop before that to check if the vehicle exists first like this
+--[[
+    ```lua
+        while not DoesEntityExist(NetToVeh(veh)) do
+            Wait(0)
+        end
+    ```
+]]
+-- If you don't use the above on the client, it will return 0 as the vehicle from the netid and 0 means no vehicle found because it doesn't exist so fast on the client
+---@param source number
 ---@param model string|number
----@param coords vector4
----@param warp boolean
----@return number?
+---@param coords? vector4 default to player's position
+---@param warp? boolean
+---@return number? netId
 function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
@@ -245,7 +238,8 @@ function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
-    return veh
+    Entity(veh).state:set('initVehicle', true, true)
+    return NetworkGetNetworkIdFromEntity(veh)
 end
 
 -- Callback Functions --
@@ -267,7 +261,7 @@ end
 
 ---@deprecated call a function instead
 function QBCore.Functions.TriggerCallback(name, source, cb, ...)
-    print(string.format("%s invoked deprecated function TriggerCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
+    print(string.format("%s invoked deprecated function TriggerCallback. Call a function instead.", GetInvokingResource()))
     if not QBCore.ServerCallbacks[name] then return end
     QBCore.ServerCallbacks[name](source, cb, ...)
 end

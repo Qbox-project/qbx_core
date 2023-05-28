@@ -33,6 +33,10 @@ server_scripts {
     'server/storage.lua',
 }
 
+files {
+    'client/utils.lua',
+}
+
 dependency 'oxmysql'
 provide 'qb-core'
 lua54 'yes'

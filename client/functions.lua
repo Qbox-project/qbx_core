@@ -406,12 +406,14 @@ end
 
 -- Vehicle
 
+---@deprecated call server function QBCore.Functions.CreateVehicle instead.
 ---@param model string|number
 ---@param cb? fun(vehicle: number)
 ---@param coords? vector3 player position if not specified
 ---@param isnetworked? boolean defaults to true
 ---@param teleportInto boolean teleport player to driver seat if true
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
+    print(string.format("%s invoked deprecated client function QBCore.Functions.SpawnVehicle. call server function QBCore.Functions.CreateVehicle instead.", GetInvokingResource()))
     coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
     model = type(model) == 'string' and joaat(model) or model
     if not IsModelInCdimage(model) then return end

@@ -1,3 +1,5 @@
+local utils = require 'client.utils'
+
 -- Player load and unload handling
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
@@ -129,26 +131,28 @@ end)
 
 -- Vehicle Commands
 
----@param vehName string
-RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
-    local hash = joaat(vehName)
-    if not IsModelInCdimage(hash) then return end
-    RequestModel(hash)
-    while not HasModelLoaded(hash) do
-        Wait(0)
-    end
+utils.entityStateHandler('initVehicle', function(entity, _, value)
+    if not value then return end
+    
+    for i = -1, 0 do
+        local ped = GetPedInVehicleSeat(entity, i)
 
+        if ped ~= cache.ped and ped > 0 and NetworkGetEntityOwner(ped) == cache.playerId then
+            DeleteEntity(ped)
+        end
+    end
+    
+    if NetworkGetEntityOwner(entity) ~= cache.playerId then return end
     if cache.vehicle then
         DeleteVehicle(cache.vehicle)
     end
 
-    local coords = GetEntityCoords(cache.ped)
-    local vehicle = CreateVehicle(hash, coords.x, coords.y, coords.z, GetEntityHeading(cache.ped), true, false)
-    TaskWarpPedIntoVehicle(cache.ped, vehicle, -1)
-    SetVehicleFuelLevel(vehicle, 100.0)
-    SetVehicleDirtLevel(vehicle, 0.0)
-    SetModelAsNoLongerNeeded(hash)
-    TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
+    SetVehicleNeedsToBeHotwired(entity, false)
+    SetVehRadioStation(entity, 'OFF')
+    SetVehicleFuelLevel(entity, 100.0)
+    SetVehicleDirtLevel(entity, 0.0)
+    TriggerEvent('vehiclekeys:client:SetOwner', QBCore.Functions.GetPlate(veh))
+    Entity(entity).state:set('initVehicle', nil, true)
 end)
 
 RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
