@@ -22,7 +22,6 @@ QBShared.Vehicles = {
 		price = 4000,
 		category = 'compacts',
 		hash = `asbo`,
-		shop = 'pdm',
 	},
 	blista = {
 		name = 'Blista',
@@ -31,7 +30,6 @@ QBShared.Vehicles = {
 		price = 13000,
 		category = 'compacts',
 		hash = `blista`,
-		shop = 'pdm',
 	},
 	brioso = {
 		name = 'Brioso R/A',
@@ -40,7 +38,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'compacts',
 		hash = `brioso`,
-		shop = 'pdm',
 	},
 	club = {
 		name = 'Club',
@@ -49,7 +46,6 @@ QBShared.Vehicles = {
 		price = 8000,
 		category = 'compacts',
 		hash = `club`,
-		shop = 'pdm',
 	},
 	dilettante = {
 		name = 'Dilettante',
@@ -58,7 +54,6 @@ QBShared.Vehicles = {
 		price = 9000,
 		category = 'compacts',
 		hash = `dilettante`,
-		shop = 'pdm',
 	},
 	dilettante2 = {
 		name = 'Dilettante Patrol',
@@ -67,7 +62,6 @@ QBShared.Vehicles = {
 		price = 12000,
 		category = 'compacts',
 		hash = `dilettante2`,
-		shop = 'pdm',
 	},
 	kanjo = {
 		name = 'Blista Kanjo',
@@ -76,7 +70,6 @@ QBShared.Vehicles = {
 		price = 12000,
 		category = 'compacts',
 		hash = `kanjo`,
-		shop = 'pdm',
 	},
 	issi2 = {
 		name = 'Issi',
@@ -85,7 +78,6 @@ QBShared.Vehicles = {
 		price = 7000,
 		category = 'compacts',
 		hash = `issi2`,
-		shop = 'pdm',
 	},
 	issi3 = {
 		name = 'Issi Classic',
@@ -94,7 +86,6 @@ QBShared.Vehicles = {
 		price = 5000,
 		category = 'compacts',
 		hash = `issi3`,
-		shop = 'pdm',
 	},
 	issi4 = {							--DLC
 		name = 'Issi Arena',
@@ -103,7 +94,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'compacts',
 		hash = `issi4`,
-		shop = 'pdm',
 	},
 	issi5 = {							--DLC
 		name = 'Issi Arena',
@@ -112,7 +102,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'compacts',
 		hash = `issi5`,
-		shop = 'pdm',
 	},
 	issi6 = {							--DLC
 		name = 'Issi Arena',
@@ -121,7 +110,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'compacts',
 		hash = `issi6`,
-		shop = 'pdm',
 	},
 	panto = {
 		name = 'Panto',
@@ -130,7 +118,6 @@ QBShared.Vehicles = {
 		price = 3200,
 		category = 'compacts',
 		hash = `panto`,
-		shop = 'pdm',
 	},
 	prairie = {
 		name = 'Prairie',
@@ -139,7 +126,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'compacts',
 		hash = `prairie`,
-		shop = 'pdm',
 	},
 	rhapsody = {
 		name = 'Rhapsody',
@@ -148,7 +134,6 @@ QBShared.Vehicles = {
 		price = 10000,
 		category = 'compacts',
 		hash = `rhapsody`,
-		shop = 'pdm',
 	},
 	brioso2 = {
 		name = 'Brioso 300',
@@ -157,7 +142,6 @@ QBShared.Vehicles = {
 		price = 12000,
 		category = 'compacts',
 		hash = `brioso2`,
-		shop = 'pdm',
 	},
 	weevil = {
 		name = 'Weevil',
@@ -166,7 +150,6 @@ QBShared.Vehicles = {
 		price = 9000,
 		category = 'compacts',
 		hash = `weevil`,
-		shop = 'pdm',
 	},
 	--- Coupes
 	cogcabrio = {
@@ -176,7 +159,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'coupes',
 		hash = `cogcabrio`,
-		shop = 'pdm',
 	},
 	exemplar = {
 		name = 'Exemplar',
@@ -185,7 +167,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'coupes',
 		hash = `exemplar`,
-		shop = 'pdm',
 	},
 	f620 = {
 		name = 'F620',
@@ -194,7 +175,6 @@ QBShared.Vehicles = {
 		price = 32500,
 		category = 'coupes',
 		hash = `f620`,
-		shop = 'pdm',
 	},
 	felon = {
 		name = 'Felon',
@@ -203,7 +183,6 @@ QBShared.Vehicles = {
 		price = 31000,
 		category = 'coupes',
 		hash = `felon`,
-		shop = 'pdm',
 	},
 	felon2 = {
 		name = 'Felon GT',
@@ -212,7 +191,6 @@ QBShared.Vehicles = {
 		price = 37000,
 		category = 'coupes',
 		hash = `felon2`,
-		shop = 'pdm',
 	},
 	jackal = {
 		name = 'Jackal',
@@ -221,7 +199,6 @@ QBShared.Vehicles = {
 		price = 19000,
 		category = 'coupes',
 		hash = `jackal`,
-		shop = 'pdm',
 	},
 	oracle = {
 		name = 'Oracle',
@@ -230,7 +207,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'sedans',
 		hash = `oracle`,
-		shop = 'pdm',
 	},
 	oracle2 = {
 		name = 'Oracle XS',
@@ -239,7 +215,6 @@ QBShared.Vehicles = {
 		price = 28000,
 		category = 'coupes',
 		hash = `oracle2`,
-		shop = 'pdm',
 	},
 	sentinel = {
 		name = 'Sentinel',
@@ -248,7 +223,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'coupes',
 		hash = `sentinel`,
-		shop = 'pdm',
 	},
 	sentinel2 = {
 		name = 'Sentinel XS',
@@ -257,7 +231,6 @@ QBShared.Vehicles = {
 		price = 33000,
 		category = 'coupes',
 		hash = `sentinel2`,
-		shop = 'pdm',
 	},
 	windsor = {
 		name = 'Windsor',
@@ -266,7 +239,6 @@ QBShared.Vehicles = {
 		price = 27000,
 		category = 'coupes',
 		hash = `windsor`,
-		shop = 'pdm',
 	},
 	windsor2 = {
 		name = 'Windsor Drop',
@@ -275,7 +247,6 @@ QBShared.Vehicles = {
 		price = 34000,
 		category = 'coupes',
 		hash = `windsor2`,
-		shop = 'pdm',
 	},
 	zion = {
 		name = 'Zion',
@@ -284,7 +255,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'coupes',
 		hash = `zion`,
-		shop = 'pdm',
 	},
 	zion2 = {
 		name = 'Zion Cabrio',
@@ -293,7 +263,6 @@ QBShared.Vehicles = {
 		price = 28000,
 		category = 'coupes',
 		hash = `zion2`,
-		shop = 'pdm',
 	},
 	previon = {			--DLC +set sv_enforceGameBuild 2372
 		name = 'Previon',
@@ -302,7 +271,6 @@ QBShared.Vehicles = {
 		price = 149000,
 		category = 'coupes',
 		hash = `previon`,
-		shop = 'pdm',
 	},
 	champion = {		--DLC +set sv_enforceGameBuild 2545
 		name = 'Champion',
@@ -311,7 +279,6 @@ QBShared.Vehicles = {
 		price = 205000,
 		category = 'coupes',
 		hash = `champion`,
-		shop = 'pdm',
 	},
 	ignus = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Ignus',
@@ -320,7 +287,6 @@ QBShared.Vehicles = {
 		price = 1120000,
 		category = 'coupes',
 		hash = `ignus`,
-		shop = 'pdm',
 	},
 	zeno = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Zeno',
@@ -329,7 +295,6 @@ QBShared.Vehicles = {
 		price = 1350000,
 		category = 'coupes',
 		hash = `zeno`,
-		shop = 'pdm',
 	},
 	--- Cycles
 	bmx = {
@@ -339,7 +304,6 @@ QBShared.Vehicles = {
 		price = 160,
 		category = 'cycles',
 		hash = `bmx`,
-		shop = 'pdm',
 	},
 	cruiser = {
 		name = 'Cruiser',
@@ -348,7 +312,6 @@ QBShared.Vehicles = {
 		price = 510,
 		category = 'cycles',
 		hash = `cruiser`,
-		shop = 'pdm',
 	},
 	fixter = {
 		name = 'Fixter',
@@ -357,7 +320,6 @@ QBShared.Vehicles = {
 		price = 225,
 		category = 'cycles',
 		hash = `fixter`,
-		shop = 'pdm',
 	},
 	scorcher = {
 		name = 'Scorcher',
@@ -366,7 +328,6 @@ QBShared.Vehicles = {
 		price = 280,
 		category = 'cycles',
 		hash = `scorcher`,
-		shop = 'pdm',
 	},
 	tribike = {
 		name = 'Tri Bike',
@@ -375,7 +336,6 @@ QBShared.Vehicles = {
 		price = 500,
 		category = 'cycles',
 		hash = `tribike`,
-		shop = 'pdm',
 	},
 	tribike2 = {
 		name = 'Tri Bike 2',
@@ -384,7 +344,6 @@ QBShared.Vehicles = {
 		price = 700,
 		category = 'cycles',
 		hash = `tribike2`,
-		shop = 'pdm',
 	},
 	tribike3 = {
 		name = 'Tri Bike 3',
@@ -393,7 +352,6 @@ QBShared.Vehicles = {
 		price = 520,
 		category = 'cycles',
 		hash = `tribike3`,
-		shop = 'pdm',
 	},
 	--- Motorcycles
 	akuma = {
@@ -403,7 +361,6 @@ QBShared.Vehicles = {
 		price = 55000,
 		category = 'motorcycles',
 		hash = `akuma`,
-		shop = 'pdm',
 	},
 	avarus = {
 		name = 'Avarus',
@@ -412,7 +369,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'motorcycles',
 		hash = `avarus`,
-		shop = 'pdm',
 	},
 	bagger = {
 		name = 'Bagger',
@@ -421,7 +377,6 @@ QBShared.Vehicles = {
 		price = 13500,
 		category = 'motorcycles',
 		hash = `bagger`,
-		shop = 'pdm',
 	},
 	bati = {
 		name = 'Bati 801',
@@ -430,7 +385,6 @@ QBShared.Vehicles = {
 		price = 24000,
 		category = 'motorcycles',
 		hash = `bati`,
-		shop = 'pdm',
 	},
 	bati2 = {
 		name = 'Bati 801RR',
@@ -439,7 +393,6 @@ QBShared.Vehicles = {
 		price = 19000,
 		category = 'motorcycles',
 		hash = `bati2`,
-		shop = 'pdm',
 	},
 	bf400 = {
 		name = 'BF400',
@@ -448,7 +401,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'motorcycles',
 		hash = `bf400`,
-		shop = 'pdm',
 	},
 	carbonrs = {
 		name = 'Carbon RS',
@@ -457,7 +409,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'motorcycles',
 		hash = `carbonrs`,
-		shop = 'pdm',
 	},
 	chimera = {
 		name = 'Chimera',
@@ -466,7 +417,6 @@ QBShared.Vehicles = {
 		price = 21000,
 		category = 'motorcycles',
 		hash = `chimera`,
-		shop = 'pdm',
 	},
 	cliffhanger = {
 		name = 'Cliffhanger',
@@ -475,7 +425,6 @@ QBShared.Vehicles = {
 		price = 28500,
 		category = 'motorcycles',
 		hash = `cliffhanger`,
-		shop = 'pdm',
 	},
 	daemon = {
 		name = 'Daemon',
@@ -484,7 +433,6 @@ QBShared.Vehicles = {
 		price = 14000,
 		category = 'motorcycles',
 		hash = `daemon`,
-		shop = 'pdm',
 	},
 	daemon2 = {
 		name = 'Daemon Custom',
@@ -493,7 +441,6 @@ QBShared.Vehicles = {
 		price = 23000,
 		category = 'motorcycles',
 		hash = `daemon2`,
-		shop = 'pdm',
 	},
 	defiler = {
 		name = 'Defiler',
@@ -502,7 +449,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'motorcycles',
 		hash = `defiler`,
-		shop = 'pdm',
 	},
 	deathbike = {							--DLC
 		name = 'deathbike',
@@ -511,7 +457,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'motorcycles',
 		hash = `deathbike`,
-		shop = 'pdm',
 	},
 	deathbike2 = {							--DLC
 		name = 'deathbike2',
@@ -520,7 +465,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'motorcycles',
 		hash = `deathbike2`,
-		shop = 'pdm',
 	},
 	deathbike3 = {							--DLC
 		name = 'deathbike3',
@@ -529,7 +473,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'motorcycles',
 		hash = `deathbike3`,
-		shop = 'pdm',
 	},
 	diablous = {
 		name = 'Diablous',
@@ -538,7 +481,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'motorcycles',
 		hash = `diablous`,
-		shop = 'pdm',
 	},
 	diablous2 = {
 		name = 'Diablous Custom',
@@ -547,7 +489,6 @@ QBShared.Vehicles = {
 		price = 38000,
 		category = 'motorcycles',
 		hash = `diablous2`,
-		shop = 'pdm',
 	},
 	double = {
 		name = 'Double-T',
@@ -556,7 +497,6 @@ QBShared.Vehicles = {
 		price = 28000,
 		category = 'motorcycles',
 		hash = `double`,
-		shop = 'pdm',
 	},
 	enduro = {
 		name = 'Enduro',
@@ -565,7 +505,6 @@ QBShared.Vehicles = {
 		price = 5500,
 		category = 'motorcycles',
 		hash = `enduro`,
-		shop = 'pdm',
 	},
 	esskey = {
 		name = 'Esskey',
@@ -574,7 +513,6 @@ QBShared.Vehicles = {
 		price = 12000,
 		category = 'motorcycles',
 		hash = `esskey`,
-		shop = 'pdm',
 	},
 	faggio = {
 		name = 'Faggio Sport',
@@ -583,7 +521,6 @@ QBShared.Vehicles = {
 		price = 2000,
 		category = 'motorcycles',
 		hash = `faggio`,
-		shop = 'pdm',
 	},
 	faggio2 = {
 		name = 'Faggio',
@@ -592,7 +529,6 @@ QBShared.Vehicles = {
 		price = 1900,
 		category = 'motorcycles',
 		hash = `faggio2`,
-		shop = 'pdm',
 	},
 	faggio3 = {
 		name = 'Faggio Mod',
@@ -601,7 +537,6 @@ QBShared.Vehicles = {
 		price = 2500,
 		category = 'motorcycles',
 		hash = `faggio3`,
-		shop = 'pdm',
 	},
 	fcr = {
 		name = 'FCR 1000',
@@ -610,7 +545,6 @@ QBShared.Vehicles = {
 		price = 5000,
 		category = 'motorcycles',
 		hash = `fcr`,
-		shop = 'pdm',
 	},
 	fcr2 = {
 		name = 'FCR 1000 Custom',
@@ -619,7 +553,6 @@ QBShared.Vehicles = {
 		price = 19000,
 		category = 'motorcycles',
 		hash = `fcr2`,
-		shop = 'pdm',
 	},
 	gargoyle = {
 		name = 'Gargoyle',
@@ -628,7 +561,6 @@ QBShared.Vehicles = {
 		price = 32000,
 		category = 'motorcycles',
 		hash = `gargoyle`,
-		shop = 'pdm',
 	},
 	hakuchou = {
 		name = 'Hakuchou',
@@ -637,7 +569,6 @@ QBShared.Vehicles = {
 		price = 17000,
 		category = 'motorcycles',
 		hash = `hakuchou`,
-		shop = 'pdm',
 	},
 	hakuchou2 = {
 		name = 'Hakuchou Drag',
@@ -646,7 +577,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'motorcycles',
 		hash = `hakuchou2`,
-		shop = 'pdm',
 	},
 	hexer = {
 		name = 'Hexer',
@@ -655,7 +585,6 @@ QBShared.Vehicles = {
 		price = 16000,
 		category = 'motorcycles',
 		hash = `hexer`,
-		shop = 'pdm',
 	},
 	innovation = {
 		name = 'Innovation',
@@ -664,7 +593,6 @@ QBShared.Vehicles = {
 		price = 33500,
 		category = 'motorcycles',
 		hash = `innovation`,
-		shop = 'pdm',
 	},
 	lectro = {
 		name = 'Lectro',
@@ -673,7 +601,6 @@ QBShared.Vehicles = {
 		price = 28000,
 		category = 'motorcycles',
 		hash = `lectro`,
-		shop = 'pdm',
 	},
 	manchez = {
 		name = 'Manchez',
@@ -682,7 +609,6 @@ QBShared.Vehicles = {
 		price = 8300,
 		category = 'motorcycles',
 		hash = `manchez`,
-		shop = 'pdm',
 	},
 	nemesis = {
 		name = 'Nemesis',
@@ -691,7 +617,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'motorcycles',
 		hash = `nemesis`,
-		shop = 'pdm',
 	},
 	nightblade = {
 		name = 'Nightblade',
@@ -700,7 +625,6 @@ QBShared.Vehicles = {
 		price = 23000,
 		category = 'motorcycles',
 		hash = `nightblade`,
-		shop = 'pdm',
 	},
 	oppressor = {
 		name = 'Oppressor',
@@ -709,7 +633,6 @@ QBShared.Vehicles = {
 		price = 9999999,
 		category = 'super',
 		hash = `oppressor`,
-		shop = 'luxury',
 	},
 	pcj = {
 		name = 'PCJ-600',
@@ -718,7 +641,6 @@ QBShared.Vehicles = {
 		price = 15000,
 		category = 'motorcycles',
 		hash = `pcj`,
-		shop = 'pdm',
 	},
 	ratbike = {
 		name = 'Rat Bike',
@@ -727,7 +649,6 @@ QBShared.Vehicles = {
 		price = 3000,
 		category = 'motorcycles',
 		hash = `ratbike`,
-		shop = 'pdm',
 	},
 	ruffian = {
 		name = 'Ruffian',
@@ -736,7 +657,6 @@ QBShared.Vehicles = {
 		price = 25000,
 		category = 'motorcycles',
 		hash = `ruffian`,
-		shop = 'pdm',
 	},
 	sanchez = {
 		name = 'Sanchez Livery',
@@ -745,7 +665,6 @@ QBShared.Vehicles = {
 		price = 5300,
 		category = 'motorcycles',
 		hash = `sanchez`,
-		shop = 'pdm',
 	},
 	sanchez2 = {
 		name = 'Sanchez',
@@ -754,7 +673,6 @@ QBShared.Vehicles = {
 		price = 5300,
 		category = 'motorcycles',
 		hash = `sanchez2`,
-		shop = 'pdm',
 	},
 	sanctus = {
 		name = 'Sanctus',
@@ -763,7 +681,6 @@ QBShared.Vehicles = {
 		price = 35000,
 		category = 'motorcycles',
 		hash = `sanctus`,
-		shop = 'pdm',
 	},
 	shotaro = {
 		name = 'Shotaro Concept',
@@ -772,7 +689,6 @@ QBShared.Vehicles = {
 		price = 320000,
 		category = 'motorcycles',
 		hash = `shotaro`,
-		shop = 'pdm',
 	},
 	sovereign = {
 		name = 'Sovereign',
@@ -781,7 +697,6 @@ QBShared.Vehicles = {
 		price = 8000,
 		category = 'motorcycles',
 		hash = `sovereign`,
-		shop = 'pdm',
 	},
 	stryder = {
 		name = 'Stryder',
@@ -790,7 +705,6 @@ QBShared.Vehicles = {
 		price = 50000,
 		category = 'motorcycles',
 		hash = `stryder`,
-		shop = 'pdm',
 	},
 	thrust = {
 		name = 'Thrust',
@@ -799,7 +713,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'motorcycles',
 		hash = `thrust`,
-		shop = 'pdm',
 	},
 	vader = {
 		name = 'Vader',
@@ -808,7 +721,6 @@ QBShared.Vehicles = {
 		price = 7200,
 		category = 'motorcycles',
 		hash = `vader`,
-		shop = 'pdm',
 	},
 	vindicator = {
 		name = 'Vindicator',
@@ -817,7 +729,6 @@ QBShared.Vehicles = {
 		price = 19000,
 		category = 'motorcycles',
 		hash = `vindicator`,
-		shop = 'pdm',
 	},
 	vortex = {
 		name = 'Vortex',
@@ -826,7 +737,6 @@ QBShared.Vehicles = {
 		price = 31000,
 		category = 'motorcycles',
 		hash = `vortex`,
-		shop = 'pdm',
 	},
 	wolfsbane = {
 		name = 'Wolfsbane',
@@ -835,7 +745,6 @@ QBShared.Vehicles = {
 		price = 14000,
 		category = 'motorcycles',
 		hash = `wolfsbane`,
-		shop = 'pdm',
 	},
 	zombiea = {
 		name = 'Zombie Bobber',
@@ -844,7 +753,6 @@ QBShared.Vehicles = {
 		price = 28000,
 		category = 'motorcycles',
 		hash = `zombiea`,
-		shop = 'pdm',
 	},
 	zombieb = {
 		name = 'Zombie Chopper',
@@ -853,7 +761,6 @@ QBShared.Vehicles = {
 		price = 27000,
 		category = 'motorcycles',
 		hash = `zombieb`,
-		shop = 'pdm',
 	},
 	manchez2 = {
 		name = 'Manchez',
@@ -862,7 +769,6 @@ QBShared.Vehicles = {
 		price = 14000,
 		category = 'motorcycles',
 		hash = `manchez2`,
-		shop = 'pdm',
 	},
 	shinobi = {		--DLC +set sv_enforceGameBuild 2545
 		name = 'Shinobi',
@@ -871,7 +777,6 @@ QBShared.Vehicles = {
 		price = 25000,
 		category = 'motorcycles',
 		hash = `shinobi`,
-		shop = 'pdm',
 	},
 	reever = {		--DLC +set sv_enforceGameBuild 2545
 		name = 'Reever',
@@ -880,7 +785,6 @@ QBShared.Vehicles = {
 		price = 25000,
 		category = 'motorcycles',
 		hash = `reever`,
-		shop = 'pdm',
 	},
 	--- Muscle
 	blade = {
@@ -890,7 +794,6 @@ QBShared.Vehicles = {
 		price = 23500,
 		category = 'muscle',
 		hash = `blade`,
-		shop = 'pdm',
 	},
 	buccaneer = {
 		name = 'Buccaneer',
@@ -899,7 +802,6 @@ QBShared.Vehicles = {
 		price = 22500,
 		category = 'muscle',
 		hash = `buccaneer`,
-		shop = 'pdm',
 	},
 	buccaneer2 = {
 		name = 'Buccaneer Rider',
@@ -908,7 +810,6 @@ QBShared.Vehicles = {
 		price = 24500,
 		category = 'muscle',
 		hash = `buccaneer2`,
-		shop = 'pdm',
 	},
 	chino = {
 		name = 'Chino',
@@ -917,7 +818,6 @@ QBShared.Vehicles = {
 		price = 5000,
 		category = 'muscle',
 		hash = `chino`,
-		shop = 'pdm',
 	},
 	chino2 = {
 		name = 'Chino Luxe',
@@ -926,7 +826,6 @@ QBShared.Vehicles = {
 		price = 8000,
 		category = 'muscle',
 		hash = `chino2`,
-		shop = 'pdm',
 	},
 	clique = {							--DLC
 		name = 'Clique',
@@ -935,7 +834,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'muscle',
 		hash = `clique`,
-		shop = 'pdm',
 	},
 	coquette3 = {
 		name = 'Coquette BlackFin',
@@ -944,7 +842,6 @@ QBShared.Vehicles = {
 		price = 180000,
 		category = 'muscle',
 		hash = `coquette3`,
-		shop = 'pdm',
 	},
 	deviant = {							--DLC
 		name = 'Deviant',
@@ -953,7 +850,6 @@ QBShared.Vehicles = {
 		price = 70000,
 		category = 'muscle',
 		hash = `deviant`,
-		shop = 'pdm',
 	},
 	dominator = {
 		name = 'Dominator',
@@ -962,7 +858,6 @@ QBShared.Vehicles = {
 		price = 62500,
 		category = 'muscle',
 		hash = `dominator`,
-		shop = 'pdm',
 	},
 	dominator2 = {
 		name = 'Pißwasser Dominator',
@@ -971,7 +866,6 @@ QBShared.Vehicles = {
 		price = 50000,
 		category = 'muscle',
 		hash = `dominator2`,
-		shop = 'pdm',
 	},
 	dominator3 = {
 		name = 'Dominator GTX',
@@ -980,7 +874,6 @@ QBShared.Vehicles = {
 		price = 70000,
 		category = 'muscle',
 		hash = `dominator3`,
-		shop = 'pdm',
 	},
 	dominator4 = {							--DLC
 		name = 'Dominator Arena',
@@ -989,7 +882,6 @@ QBShared.Vehicles = {
 		price = 200000,
 		category = 'muscle',
 		hash = `dominator4`,
-		shop = 'pdm',
 	},
 	dominator7 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Dominator ASP',
@@ -998,7 +890,6 @@ QBShared.Vehicles = {
 		price = 110000,
 		category = 'muscle',
 		hash = `dominator7`,
-		shop = 'pdm',
 	},
 	dominator8 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Dominator GTT',
@@ -1007,7 +898,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'muscle',
 		hash = `dominator8`,
-		shop = 'pdm',
 	},
 	dukes = {
 		name = 'Dukes',
@@ -1016,7 +906,6 @@ QBShared.Vehicles = {
 		price = 23500,
 		category = 'muscle',
 		hash = `dukes`,
-		shop = 'pdm',
 	},
 	dukes2 = {
 		name = 'Dukes Nightrider',
@@ -1025,7 +914,6 @@ QBShared.Vehicles = {
 		price = 60000,
 		category = 'muscle',
 		hash = `dukes2`,
-		shop = 'pdm',
 	},
 	dukes3 = {
 		name = 'Beater Dukes',
@@ -1034,7 +922,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'muscle',
 		hash = `dukes3`,
-		shop = 'pdm',
 	},
 	faction = {
 		name = 'Faction',
@@ -1043,7 +930,6 @@ QBShared.Vehicles = {
 		price = 17000,
 		category = 'muscle',
 		hash = `faction`,
-		shop = 'pdm',
 	},
 	faction2 = {
 		name = 'Faction Rider',
@@ -1052,7 +938,6 @@ QBShared.Vehicles = {
 		price = 19000,
 		category = 'muscle',
 		hash = `faction2`,
-		shop = 'pdm',
 	},
 	faction3 = {
 		name = 'Faction Custom Donk',
@@ -1061,7 +946,6 @@ QBShared.Vehicles = {
 		price = 35000,
 		category = 'muscle',
 		hash = `faction3`,
-		shop = 'pdm',
 	},
 	ellie = {
 		name = 'Ellie',
@@ -1070,7 +954,6 @@ QBShared.Vehicles = {
 		price = 42250,
 		category = 'muscle',
 		hash = `ellie`,
-		shop = 'pdm',
 	},
 	gauntlet = {
 		name = 'Gauntlet',
@@ -1079,7 +962,6 @@ QBShared.Vehicles = {
 		price = 28500,
 		category = 'muscle',
 		hash = `gauntlet`,
-		shop = 'pdm',
 	},
 	gauntlet2 = {
 		name = 'Redwood Gauntlet',
@@ -1088,7 +970,6 @@ QBShared.Vehicles = {
 		price = 70000,
 		category = 'muscle',
 		hash = `gauntlet2`,
-		shop = 'pdm',
 	},
 	gauntlet3 = {							--DLC
 		name = 'Classic Gauntlet',
@@ -1097,7 +978,6 @@ QBShared.Vehicles = {
 		price = 75000,
 		category = 'muscle',
 		hash = `gauntlet3`,
-		shop = 'pdm',
 	},
 	gauntlet4 = {							--DLC
 		name = 'Gauntlet Hellfire',
@@ -1106,7 +986,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'muscle',
 		hash = `gauntlet4`,
-		shop = 'pdm',
 	},
 	gauntlet5 = {
 		name = 'Gauntlet Classic Custom',
@@ -1115,7 +994,6 @@ QBShared.Vehicles = {
 		price = 120000,
 		category = 'muscle',
 		hash = `gauntlet5`,
-		shop = 'pdm',
 	},
 	hermes = {
 		name = 'Hermes',
@@ -1124,7 +1002,6 @@ QBShared.Vehicles = {
 		price = 535000,
 		category = 'muscle',
 		hash = `hermes`,
-		shop = 'pdm',
 	},
 	hotknife = {
 		name = 'Hotknife',
@@ -1133,7 +1010,6 @@ QBShared.Vehicles = {
 		price = 90000,
 		category = 'muscle',
 		hash = `hotknife`,
-		shop = 'pdm',
 	},
 	hustler = {
 		name = 'Hustler',
@@ -1142,7 +1018,6 @@ QBShared.Vehicles = {
 		price = 95000,
 		category = 'muscle',
 		hash = `hustler`,
-		shop = 'pdm',
 	},
 	impaler = {							--DLC
 		name = 'impaler',
@@ -1151,7 +1026,6 @@ QBShared.Vehicles = {
 		price = 95000,
 		category = 'muscle',
 		hash = `impaler`,
-		shop = 'pdm',
 	},
 	impaler2 = {							--DLC
 		name = 'impaler2',
@@ -1160,7 +1034,6 @@ QBShared.Vehicles = {
 		price = 95000,
 		category = 'muscle',
 		hash = `impaler2`,
-		shop = 'pdm',
 	},
 	impaler3 = {							--DLC
 		name = 'impaler3',
@@ -1169,7 +1042,6 @@ QBShared.Vehicles = {
 		price = 95000,
 		category = 'muscle',
 		hash = `impaler3`,
-		shop = 'pdm',
 	},
 	impaler4 = {							--DLC
 		name = 'impaler4',
@@ -1178,7 +1050,6 @@ QBShared.Vehicles = {
 		price = 95000,
 		category = 'muscle',
 		hash = `impaler4`,
-		shop = 'pdm',
 	},
 	imperator = {							--DLC
 		name = 'imperator',
@@ -1187,7 +1058,6 @@ QBShared.Vehicles = {
 		price = 95000,
 		category = 'muscle',
 		hash = `imperator`,
-		shop = 'pdm',
 	},
 	imperator2 = {							--DLC
 		name = 'imperator2',
@@ -1196,7 +1066,6 @@ QBShared.Vehicles = {
 		price = 95000,
 		category = 'muscle',
 		hash = `imperator2`,
-		shop = 'pdm',
 	},
 	imperator3 = {							--DLC
 		name = 'imperator3',
@@ -1205,7 +1074,6 @@ QBShared.Vehicles = {
 		price = 95000,
 		category = 'muscle',
 		hash = `imperator3`,
-		shop = 'pdm',
 	},
 	lurcher = {
 		name = 'Gauntlet Classic Custom',
@@ -1214,7 +1082,6 @@ QBShared.Vehicles = {
 		price = 21000,
 		category = 'muscle',
 		hash = `lurcher`,
-		shop = 'pdm',
 	},
 	moonbeam = {
 		name = 'Moonbeam',
@@ -1223,7 +1090,6 @@ QBShared.Vehicles = {
 		price = 13000,
 		category = 'vans',
 		hash = `moonbeam`,
-		shop = 'pdm',
 	},
 	moonbeam2 = {
 		name = 'Moonbeam Custom',
@@ -1232,7 +1098,6 @@ QBShared.Vehicles = {
 		price = 15000,
 		category = 'vans',
 		hash = `moonbeam2`,
-		shop = 'pdm',
 	},
 	nightshade = {
 		name = 'Nightshade',
@@ -1241,7 +1106,6 @@ QBShared.Vehicles = {
 		price = 70000,
 		category = 'muscle',
 		hash = `nightshade`,
-		shop = 'pdm',
 	},
 	peyote2 = {							--DLC
 		name = 'Peyote Gasser',
@@ -1250,7 +1114,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'sportsclassics',
 		hash = `peyote2`,
-		shop = 'pdm',
 	},
 	phoenix = {
 		name = 'Phoenix',
@@ -1259,7 +1122,6 @@ QBShared.Vehicles = {
 		price = 65000,
 		category = 'muscle',
 		hash = `phoenix`,
-		shop = 'pdm',
 	},
 	picador = {
 		name = 'Picador',
@@ -1268,7 +1130,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'muscle',
 		hash = `picador`,
-		shop = 'pdm',
 	},
 	ratloader2 = {
 		name = 'ratloader2',
@@ -1277,7 +1138,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'muscle',
 		hash = `ratloader2`,
-		shop = 'pdm',
 	},
 	ruiner = {
 		name = 'Ruiner',
@@ -1286,7 +1146,6 @@ QBShared.Vehicles = {
 		price = 29000,
 		category = 'muscle',
 		hash = `ruiner`,
-		shop = 'pdm',
 	},
 	ruiner2 = {
 		name = 'Ruiner 2000',
@@ -1295,7 +1154,6 @@ QBShared.Vehicles = {
 		price = 50000,
 		category = 'muscle',
 		hash = `ruiner2`,
-		shop = 'pdm',
 	},
 	sabregt = {
 		name = 'Sabre Turbo',
@@ -1304,7 +1162,6 @@ QBShared.Vehicles = {
 		price = 23000,
 		category = 'muscle',
 		hash = `sabregt`,
-		shop = 'pdm',
 	},
 	sabregt2 = {
 		name = 'Sabre GT',
@@ -1313,7 +1170,6 @@ QBShared.Vehicles = {
 		price = 26500,
 		category = 'muscle',
 		hash = `sabregt2`,
-		shop = 'pdm',
 	},
 	slamvan = {
 		name = 'Slam Van',
@@ -1322,7 +1178,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'muscle',
 		hash = `slamvan`,
-		shop = 'pdm',
 	},
 	slamvan2 = {
 		name = 'Lost Slam Van',
@@ -1331,7 +1186,6 @@ QBShared.Vehicles = {
 		price = 90000,
 		category = 'muscle',
 		hash = `slamvan2`,
-		shop = 'pdm',
 	},
 	slamvan3 = {
 		name = 'Slam Van Custom',
@@ -1340,7 +1194,6 @@ QBShared.Vehicles = {
 		price = 17000,
 		category = 'muscle',
 		hash = `slamvan3`,
-		shop = 'pdm',
 	},
 	stalion = {
 		name = 'Stallion',
@@ -1349,7 +1202,6 @@ QBShared.Vehicles = {
 		price = 33000,
 		category = 'muscle',
 		hash = `stalion`,
-		shop = 'pdm',
 	},
 	stalion2 = {
 		name = 'Stallion Burgershot',
@@ -1358,7 +1210,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'muscle',
 		hash = `stalion2`,
-		shop = 'pdm',
 	},
 	tampa = {
 		name = 'Tampa',
@@ -1367,7 +1218,6 @@ QBShared.Vehicles = {
 		price = 24500,
 		category = 'muscle',
 		hash = `tampa`,
-		shop = 'pdm',
 	},
 	tulip = {							--DLC
 		name = 'Tulip',
@@ -1376,7 +1226,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'muscle',
 		hash = `tulip`,
-		shop = 'pdm',
 	},
 	vamos = {							--DLC
 		name = 'Vamos',
@@ -1385,7 +1234,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'muscle',
 		hash = `vamos`,
-		shop = 'pdm',
 	},
 	vigero = {
 		name = 'Vigero',
@@ -1394,7 +1242,6 @@ QBShared.Vehicles = {
 		price = 39500,
 		category = 'muscle',
 		hash = `vigero`,
-		shop = 'pdm',
 	},
 	virgo = {
 		name = 'Virgo',
@@ -1403,7 +1250,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'muscle',
 		hash = `virgo`,
-		shop = 'pdm',
 	},
 	virgo2 = {
 		name = 'Virgo Custom Classic',
@@ -1412,7 +1258,6 @@ QBShared.Vehicles = {
 		price = 21000,
 		category = 'muscle',
 		hash = `virgo2`,
-		shop = 'pdm',
 	},
 	virgo3 = {
 		name = 'Virgo Custom Classic',
@@ -1421,7 +1266,6 @@ QBShared.Vehicles = {
 		price = 21000,
 		category = 'muscle',
 		hash = `virgo3`,
-		shop = 'pdm',
 	},
 	voodoo = {
 		name = 'Voodoo',
@@ -1430,7 +1274,6 @@ QBShared.Vehicles = {
 		price = 13000,
 		category = 'muscle',
 		hash = `voodoo`,
-		shop = 'pdm',
 	},
 	yosemite = {
 		name = 'Yosemite',
@@ -1439,7 +1282,6 @@ QBShared.Vehicles = {
 		price = 19500,
 		category = 'muscle',
 		hash = `yosemite`,
-		shop = 'pdm',
 	},
 	yosemite2 = {
 		name = 'Yosemite Drift',
@@ -1448,7 +1290,6 @@ QBShared.Vehicles = {
 		price = 55000,
 		category = 'muscle',
 		hash = `yosemite2`,
-		shop = 'pdm',
 	},
 	yosemite3 = {
 		name = 'Yosemite Rancher',
@@ -1457,7 +1298,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'yosemite3',
 		hash = `yosemite3`,
-		shop = 'pdm',
 	},
 	buffalo4 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Buffalo STX',
@@ -1466,7 +1306,6 @@ QBShared.Vehicles = {
 		price = 345000,
 		category = 'muscle',
 		hash = `buffalo4`,
-		shop = 'pdm',
 	},
 	--- Off-Road
 	bfinjection = {
@@ -1476,7 +1315,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'bfinjection',
 		hash = `bfinjection`,
-		shop = 'pdm',
 	},
 	bifta = {
 		name = 'Bifta',
@@ -1485,7 +1323,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'bifta',
 		hash = `bifta`,
-		shop = 'pdm',
 	},
 	blazer = {
 		name = 'Blazer',
@@ -1494,7 +1331,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'blazer',
 		hash = `blazer`,
-		shop = 'pdm',
 	},
 	blazer2 = {
 		name = 'Blazer Lifeguard',
@@ -1503,7 +1339,6 @@ QBShared.Vehicles = {
 		price = 7000,
 		category = 'offroad',
 		hash = `blazer2`,
-		shop = 'pdm',
 	},
 	blazer3 = {
 		name = 'Blazer Hot Rod',
@@ -1512,7 +1347,6 @@ QBShared.Vehicles = {
 		price = 7000,
 		category = 'offroad',
 		hash = `blazer3`,
-		shop = 'pdm',
 	},
 	blazer4 = {
 		name = 'Blazer Sport',
@@ -1521,7 +1355,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'blazer4',
 		hash = `blazer4`,
-		shop = 'pdm',
 	},
 	blazer5 = {
 		name = 'Blazer Aqua',
@@ -1530,7 +1363,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'offroad',
 		hash = `blazer5`,
-		shop = 'pdm',
 	},
 	brawler = {
 		name = 'Brawler',
@@ -1539,7 +1371,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'brawler',
 		hash = `brawler`,
-		shop = 'pdm',
 	},
 	caracara = {
 		name = 'Caracara',
@@ -1548,7 +1379,6 @@ QBShared.Vehicles = {
 		price = 60000,
 		category = 'offroad',
 		hash = `caracara`,
-		shop = 'pdm',
 	},
 	caracara2 = {							--DLC
 		name = 'Caracara 4x4',
@@ -1557,7 +1387,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'offroad',
 		hash = `caracara2`,
-		shop = 'pdm',
 	},
 	dubsta3 = {
 		name = 'Dubsta 6x6',
@@ -1566,7 +1395,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'dubsta3',
 		hash = `dubsta3`,
-		shop = 'pdm',
 	},
 	dune = {
 		name = 'Dune Buggy',
@@ -1575,7 +1403,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'dune',
 		hash = `dune`,
-		shop = 'pdm',
 	},
 	everon = {
 		name = 'Everon',
@@ -1584,7 +1411,6 @@ QBShared.Vehicles = {
 		price = 60000,
 		category = 'offroad',
 		hash = `everon`,
-		shop = 'pdm',
 	},
 	freecrawler = {							--DLC
 		name = 'Freecrawler',
@@ -1593,7 +1419,6 @@ QBShared.Vehicles = {
 		price = 24000,
 		category = 'offroad',
 		hash = `freecrawler`,
-		shop = 'pdm',
 	},
 	hellion = {							--DLC
 		name = 'Hellion',
@@ -1602,7 +1427,6 @@ QBShared.Vehicles = {
 		price = 38000,
 		category = 'offroad',
 		hash = `hellion`,
-		shop = 'pdm',
 	},
 	kalahari = {
 		name = 'Kalahari',
@@ -1611,7 +1435,6 @@ QBShared.Vehicles = {
 		price = 14000,
 		category = 'offroad',
 		hash = `kalahari`,
-		shop = 'pdm',
 	},
 	kamacho = {
 		name = 'Kamacho',
@@ -1620,7 +1443,6 @@ QBShared.Vehicles = {
 		price = 50000,
 		category = 'offroad',
 		hash = `kamacho`,
-		shop = 'pdm',
 	},
 	mesa3 = {
 		name = 'Mesa Merryweather',
@@ -1629,7 +1451,6 @@ QBShared.Vehicles = {
 		price = 400000,
 		category = 'offroad',
 		hash = `mesa3`,
-		shop = 'pdm',
 	},
 	outlaw = {
 		name = 'Outlaw',
@@ -1638,7 +1459,6 @@ QBShared.Vehicles = {
 		price = 15000,
 		category = 'offroad',
 		hash = `outlaw`,
-		shop = 'pdm',
 	},
 	rancherxl = {
 		name = 'Rancher XL',
@@ -1647,7 +1467,6 @@ QBShared.Vehicles = {
 		price = 24000,
 		category = 'offroad',
 		hash = `rancherxl`,
-		shop = 'pdm',
 	},
 	rebel2 = {
 		name = 'Rebel',
@@ -1656,7 +1475,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'offroad',
 		hash = `rebel2`,
-		shop = 'pdm',
 	},
 	riata = {
 		name = 'Riata',
@@ -1665,7 +1483,6 @@ QBShared.Vehicles = {
 		price = 380000,
 		category = 'offroad',
 		hash = `riata`,
-		shop = 'pdm',
 	},
 	sandking = {
 		name = 'Sandking',
@@ -1674,7 +1491,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'sandking',
 		hash = `sandking`,
-		shop = 'pdm',
 	},
 	sandking2 = {
 		name = 'Sandking SWB',
@@ -1683,7 +1499,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'sandking2',
 		hash = `sandking2`,
-		shop = 'pdm',
 	},
 	trophytruck = {
 		name = 'Trophy Truck',
@@ -1692,7 +1507,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'trophytruck',
 		hash = `trophytruck`,
-		shop = 'pdm',
 	},
 	trophytruck2 = {
 		name = 'Trophy Truck Limited',
@@ -1701,7 +1515,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'trophytruck2',
 		hash = `trophytruck2`,
-		shop = 'pdm',
 	},
 	vagrant = {
 		name = 'Vagrant',
@@ -1710,7 +1523,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'vagrant',
 		hash = `vagrant`,
-		shop = 'pdm',
 	},
 	verus = {
 		name = 'Verus',
@@ -1719,7 +1531,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'verus',
 		hash = `verus`,
-		shop = 'pdm',
 	},
 	winky = {
 		name = 'Winky',
@@ -1728,7 +1539,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'winky',
 		hash = `winky`,
-		shop = 'pdm',
 	},
 	--- SUVs
 	baller = {
@@ -1738,7 +1548,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'suvs',
 		hash = `baller`,
-		shop = 'pdm',
 	},
 	baller2 = {
 		name = 'Baller',
@@ -1747,7 +1556,6 @@ QBShared.Vehicles = {
 		price = 15000,
 		category = 'suvs',
 		hash = `baller2`,
-		shop = 'pdm',
 	},
 	baller3 = {
 		name = 'Baller LE',
@@ -1756,7 +1564,6 @@ QBShared.Vehicles = {
 		price = 15000,
 		category = 'suvs',
 		hash = `baller3`,
-		shop = 'pdm',
 	},
 	baller4 = {
 		name = 'Baller LE LWB',
@@ -1765,7 +1572,6 @@ QBShared.Vehicles = {
 		price = 29000,
 		category = 'suvs',
 		hash = `baller4`,
-		shop = 'pdm',
 	},
 	baller5 = {
 		name = 'Baller LE (Armored)',
@@ -1774,7 +1580,6 @@ QBShared.Vehicles = {
 		price = 78000,
 		category = 'suvs',
 		hash = `baller5`,
-		shop = 'pdm',
 	},
 	baller6 = {
 		name = 'Baller LE LWB (Armored)',
@@ -1783,7 +1588,6 @@ QBShared.Vehicles = {
 		price = 82000,
 		category = 'suvs',
 		hash = `baller6`,
-		shop = 'pdm',
 	},
 	bjxl = {
 		name = 'BeeJay XL',
@@ -1792,7 +1596,6 @@ QBShared.Vehicles = {
 		price = 19000,
 		category = 'suvs',
 		hash = `bjxl`,
-		shop = 'pdm',
 	},
 	cavalcade = {
 		name = 'Cavalcade',
@@ -1801,7 +1604,6 @@ QBShared.Vehicles = {
 		price = 14000,
 		category = 'suvs',
 		hash = `cavalcade`,
-		shop = 'pdm',
 	},
 	cavalcade2 = {
 		name = 'Cavalcade',
@@ -1810,7 +1612,6 @@ QBShared.Vehicles = {
 		price = 16500,
 		category = 'suvs',
 		hash = `cavalcade2`,
-		shop = 'pdm',
 	},
 	contender = {
 		name = 'Contender',
@@ -1819,7 +1620,6 @@ QBShared.Vehicles = {
 		price = 35000,
 		category = 'suvs',
 		hash = `contender`,
-		shop = 'pdm',
 	},
 	dubsta = {
 		name = 'Dubsta',
@@ -1828,7 +1628,6 @@ QBShared.Vehicles = {
 		price = 19000,
 		category = 'suvs',
 		hash = `dubsta`,
-		shop = 'pdm',
 	},
 	dubsta2 = {
 		name = 'Dubsta Luxuary',
@@ -1837,7 +1636,6 @@ QBShared.Vehicles = {
 		price = 19500,
 		category = 'suvs',
 		hash = `dubsta2`,
-		shop = 'pdm',
 	},
 	fq2 = {
 		name = 'FQ2',
@@ -1846,7 +1644,6 @@ QBShared.Vehicles = {
 		price = 18500,
 		category = 'suvs',
 		hash = `fq2`,
-		shop = 'pdm',
 	},
 	granger = {
 		name = 'Granger',
@@ -1855,7 +1652,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'suvs',
 		hash = `granger`,
-		shop = 'pdm',
 	},
 	gresley = {
 		name = 'Gresley',
@@ -1864,7 +1660,6 @@ QBShared.Vehicles = {
 		price = 25000,
 		category = 'suvs',
 		hash = `gresley`,
-		shop = 'pdm',
 	},
 	habanero = {
 		name = 'Habanero',
@@ -1873,7 +1668,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'suvs',
 		hash = `habanero`,
-		shop = 'pdm',
 	},
 	huntley = {
 		name = 'Huntley S',
@@ -1882,7 +1676,6 @@ QBShared.Vehicles = {
 		price = 24500,
 		category = 'suvs',
 		hash = `huntley`,
-		shop = 'pdm',
 	},
 	landstalker = {
 		name = 'Landstalker',
@@ -1891,7 +1684,6 @@ QBShared.Vehicles = {
 		price = 12000,
 		category = 'suvs',
 		hash = `landstalker`,
-		shop = 'pdm',
 	},
 	landstalker2 = {
 		name = 'Landstalker XL',
@@ -1900,7 +1692,6 @@ QBShared.Vehicles = {
 		price = 26000,
 		category = 'suvs',
 		hash = `landstalker2`,
-		shop = 'pdm',
 	},
 	mesa = {
 		name = 'Mesa',
@@ -1909,7 +1700,6 @@ QBShared.Vehicles = {
 		price = 12000,
 		category = 'offroad',
 		hash = `mesa`,
-		shop = 'pdm',
 	},
 	novak = {							--DLC
 		name = 'Novak',
@@ -1918,7 +1708,6 @@ QBShared.Vehicles = {
 		price = 70000,
 		category = 'suvs',
 		hash = `novak`,
-		shop = 'pdm',
 	},
 	patriot = {
 		name = 'Patriot',
@@ -1927,7 +1716,6 @@ QBShared.Vehicles = {
 		price = 21000,
 		category = 'suvs',
 		hash = `patriot`,
-		shop = 'pdm',
 	},
 	radi = {
 		name = 'Radius',
@@ -1936,7 +1724,6 @@ QBShared.Vehicles = {
 		price = 18000,
 		category = 'suvs',
 		hash = `radi`,
-		shop = 'pdm',
 	},
 	rebla = {
 		name = 'Rebla GTS',
@@ -1945,7 +1732,6 @@ QBShared.Vehicles = {
 		price = 21000,
 		category = 'suvs',
 		hash = `rebla`,
-		shop = 'pdm',
 	},
 	rocoto = {
 		name = 'Rocoto',
@@ -1954,7 +1740,6 @@ QBShared.Vehicles = {
 		price = 13000,
 		category = 'suvs',
 		hash = `rocoto`,
-		shop = 'pdm',
 	},
 	seminole = {
 		name = 'Seminole',
@@ -1963,7 +1748,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'suvs',
 		hash = `seminole`,
-		shop = 'pdm',
 	},
 	seminole2 = {
 		name = 'Seminole Frontier',
@@ -1972,7 +1756,6 @@ QBShared.Vehicles = {
 		price = 13000,
 		category = 'suvs',
 		hash = `seminole2`,
-		shop = 'pdm',
 	},
 	serrano = {
 		name = 'Serrano',
@@ -1981,7 +1764,6 @@ QBShared.Vehicles = {
 		price = 48000,
 		category = 'suvs',
 		hash = `serrano`,
-		shop = 'pdm',
 	},
 	toros = {							--DLC
 		name = 'Toros',
@@ -1990,7 +1772,6 @@ QBShared.Vehicles = {
 		price = 65000,
 		category = 'suvs',
 		hash = `toros`,
-		shop = 'pdm',
 	},
 	xls = {
 		name = 'XLS',
@@ -1999,7 +1780,6 @@ QBShared.Vehicles = {
 		price = 17000,
 		category = 'suvs',
 		hash = `xls`,
-		shop = 'pdm',
 	},
 	granger2 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Granger 3600LX',
@@ -2008,7 +1788,6 @@ QBShared.Vehicles = {
 		price = 221000,
 		category = 'suvs',
 		hash = `granger2`,
-		shop = 'pdm',
 	},
 	--- Sedans
 	asea = {
@@ -2018,7 +1797,6 @@ QBShared.Vehicles = {
 		price = 2500,
 		category = 'sedans',
 		hash = `asea`,
-		shop = 'pdm',
 	},
 	asterope = {
 		name = 'Asterope',
@@ -2027,7 +1805,6 @@ QBShared.Vehicles = {
 		price = 11000,
 		category = 'sedans',
 		hash = `asterope`,
-		shop = 'pdm',
 	},
 	cog55 = {
 		name = 'Cognoscenti 55',
@@ -2036,7 +1813,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'sedans',
 		hash = `cog55`,
-		shop = 'pdm',
 	},
 	cognoscenti = {
 		name = 'Cognoscenti',
@@ -2045,7 +1821,6 @@ QBShared.Vehicles = {
 		price = 22500,
 		category = 'sedans',
 		hash = `cognoscenti`,
-		shop = 'pdm',
 	},
 	emperor = {
 		name = 'Emperor',
@@ -2054,7 +1829,6 @@ QBShared.Vehicles = {
 		price = 4250,
 		category = 'sedans',
 		hash = `emperor`,
-		shop = 'pdm',
 	},
 	fugitive = {
 		name = 'Fugitive',
@@ -2063,7 +1837,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'sedans',
 		hash = `fugitive`,
-		shop = 'pdm',
 	},
 	glendale = {
 		name = 'Glendale',
@@ -2072,7 +1845,6 @@ QBShared.Vehicles = {
 		price = 3400,
 		category = 'sedans',
 		hash = `glendale`,
-		shop = 'pdm',
 	},
 	glendale2 = {
 		name = 'Glendale',
@@ -2081,7 +1853,6 @@ QBShared.Vehicles = {
 		price = 12000,
 		category = 'sedans',
 		hash = `glendale2`,
-		shop = 'pdm',
 	},
 	ingot = {
 		name = 'Ingot',
@@ -2090,7 +1861,6 @@ QBShared.Vehicles = {
 		price = 4999,
 		category = 'sedans',
 		hash = `ingot`,
-		shop = 'pdm',
 	},
 	intruder = {
 		name = 'Intruder',
@@ -2099,7 +1869,6 @@ QBShared.Vehicles = {
 		price = 11250,
 		category = 'sedans',
 		hash = `intruder`,
-		shop = 'pdm',
 	},
 	premier = {
 		name = 'Premier',
@@ -2108,7 +1877,6 @@ QBShared.Vehicles = {
 		price = 12000,
 		category = 'sedans',
 		hash = `premier`,
-		shop = 'pdm',
 	},
 	primo = {
 		name = 'Primo',
@@ -2117,7 +1885,6 @@ QBShared.Vehicles = {
 		price = 5000,
 		category = 'sedans',
 		hash = `primo`,
-		shop = 'pdm',
 	},
 	primo2 = {
 		name = 'Primo Custom',
@@ -2126,7 +1893,6 @@ QBShared.Vehicles = {
 		price = 14500,
 		category = 'sedans',
 		hash = `primo2`,
-		shop = 'pdm',
 	},
 	regina = {
 		name = 'Regina',
@@ -2135,7 +1901,6 @@ QBShared.Vehicles = {
 		price = 7000,
 		category = 'sedans',
 		hash = `regina`,
-		shop = 'pdm',
 	},
 	stafford = {							--DLC
 		name = 'Stafford',
@@ -2144,7 +1909,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'sedans',
 		hash = `stafford`,
-		shop = 'pdm',
 	},
 	stanier = {
 		name = 'Stanier',
@@ -2153,7 +1917,6 @@ QBShared.Vehicles = {
 		price = 19000,
 		category = 'sedans',
 		hash = `stanier`,
-		shop = 'pdm',
 	},
 	stratum = {
 		name = 'Stratum',
@@ -2162,7 +1925,6 @@ QBShared.Vehicles = {
 		price = 15000,
 		category = 'sedans',
 		hash = `stratum`,
-		shop = 'pdm',
 	},
 	stretch = {
 		name = 'Stretch',
@@ -2171,7 +1933,6 @@ QBShared.Vehicles = {
 		price = 19000,
 		category = 'sedans',
 		hash = `stretch`,
-		shop = 'pdm',
 	},
 	superd = {
 		name = 'Super Diamond',
@@ -2180,7 +1941,6 @@ QBShared.Vehicles = {
 		price = 17000,
 		category = 'sedans',
 		hash = `superd`,
-		shop = 'pdm',
 	},
 	surge = {
 		name = 'Surge',
@@ -2189,7 +1949,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'sedans',
 		hash = `surge`,
-		shop = 'pdm',
 	},
 	tailgater = {
 		name = 'Tailgater',
@@ -2198,7 +1957,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'sedans',
 		hash = `tailgater`,
-		shop = 'pdm',
 	},
 	warrener = {
 		name = 'Warrener',
@@ -2207,7 +1965,6 @@ QBShared.Vehicles = {
 		price = 4000,
 		category = 'sedans',
 		hash = `warrener`,
-		shop = 'pdm',
 	},
 	washington = {
 		name = 'Washington',
@@ -2216,7 +1973,6 @@ QBShared.Vehicles = {
 		price = 7000,
 		category = 'sedans',
 		hash = `washington`,
-		shop = 'pdm',
 	},
 	tailgater2 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Tailgater S',
@@ -2225,7 +1981,6 @@ QBShared.Vehicles = {
 		price = 51000,
 		category = 'sedans',
 		hash = `tailgater2`,
-		shop = 'pdm',
 	},
 	cinquemila = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Lampadati',
@@ -2234,7 +1989,6 @@ QBShared.Vehicles = {
 		price = 125000,
 		category = 'sedans',
 		hash = `cinquemila`,
-		shop = 'pdm',
 	},
 	iwagen = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Obey',
@@ -2243,7 +1997,6 @@ QBShared.Vehicles = {
 		price = 225000,
 		category = 'sedans',
 		hash = `iwagen`,
-		shop = 'pdm',
 	},
 	astron = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Pfister',
@@ -2252,7 +2005,6 @@ QBShared.Vehicles = {
 		price = 150000,
 		category = 'sedans',
 		hash = `astron`,
-		shop = 'pdm',
 	},
 	baller7 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Baller ST',
@@ -2261,7 +2013,6 @@ QBShared.Vehicles = {
 		price = 145000,
 		category = 'sedans',
 		hash = `baller7`,
-		shop = 'pdm',
 	},
 	comet7 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Comet',
@@ -2270,7 +2021,6 @@ QBShared.Vehicles = {
 		price = 25000,
 		category = 'sedans',
 		hash = `comet7`,
-		shop = 'pdm',
 	},
 	deity = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Deity',
@@ -2279,7 +2029,6 @@ QBShared.Vehicles = {
 		price = 505000,
 		category = 'sedans',
 		hash = `deity`,
-		shop = 'pdm',
 	},
 	jubilee = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Jubilee',
@@ -2288,7 +2037,6 @@ QBShared.Vehicles = {
 		price = 485000,
 		category = 'sedans',
 		hash = `jubilee`,
-		shop = 'pdm',
 	},
 	patriot3 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Patriot',
@@ -2297,7 +2045,6 @@ QBShared.Vehicles = {
 		price = 270000,
 		category = 'sedans',
 		hash = `patriot3`,
-		shop = 'pdm',
 	},
 	--- Sports
 	alpha = {
@@ -2307,7 +2054,6 @@ QBShared.Vehicles = {
 		price = 53000,
 		category = 'sports',
 		hash = `alpha`,
-		shop = 'luxury',
 	},
 	banshee = {
 		name = 'Banshee',
@@ -2316,7 +2062,6 @@ QBShared.Vehicles = {
 		price = 56000,
 		category = 'sports',
 		hash = `banshee`,
-		shop = 'luxury',
 	},
 	bestiagts = {
 		name = 'Bestia GTS',
@@ -2325,7 +2070,6 @@ QBShared.Vehicles = {
 		price = 37000,
 		category = 'sports',
 		hash = `bestiagts`,
-		shop = 'luxury',
 	},
 	blista2 = {
 		name = 'Blista Compact',
@@ -2334,7 +2078,6 @@ QBShared.Vehicles = {
 		price = 18950,
 		category = 'compacts',
 		hash = `blista2`,
-		shop = 'pdm',
 	},
 	blista3 = {
 		name = 'Blista Go Go Monkey',
@@ -2343,7 +2086,6 @@ QBShared.Vehicles = {
 		price = 15000,
 		category = 'compacts',
 		hash = `blista3`,
-		shop = 'pdm',
 	},
 	buffalo = {
 		name = 'Buffalo',
@@ -2352,7 +2094,6 @@ QBShared.Vehicles = {
 		price = 18750,
 		category = 'sports',
 		hash = `buffalo`,
-		shop = 'luxury',
 	},
 	buffalo2 = {
 		name = 'Buffalo S',
@@ -2361,7 +2102,6 @@ QBShared.Vehicles = {
 		price = 24500,
 		category = 'sports',
 		hash = `buffalo2`,
-		shop = 'luxury',
 	},
 	carbonizzare = {
 		name = 'Carbonizzare',
@@ -2370,7 +2110,6 @@ QBShared.Vehicles = {
 		price = 155000,
 		category = 'sports',
 		hash = `carbonizzare`,
-		shop = 'luxury',
 	},
 	comet2 = {
 		name = 'Comet',
@@ -2379,7 +2118,6 @@ QBShared.Vehicles = {
 		price = 130000,
 		category = 'sports',
 		hash = `comet2`,
-		shop = 'luxury',
 	},
 	comet3 = {
 		name = 'Comet Retro Custom',
@@ -2388,7 +2126,6 @@ QBShared.Vehicles = {
 		price = 175000,
 		category = 'sports',
 		hash = `comet3`,
-		shop = 'luxury',
 	},
 	comet4 = {
 		name = 'Comet Safari',
@@ -2397,7 +2134,6 @@ QBShared.Vehicles = {
 		price = 110000,
 		category = 'sports',
 		hash = `comet4`,
-		shop = 'luxury',
 	},
 	comet5 = {
 		name = 'Comet SR',
@@ -2406,7 +2142,6 @@ QBShared.Vehicles = {
 		price = 155000,
 		category = 'sports',
 		hash = `comet5`,
-		shop = 'luxury',
 	},
 	coquette = {
 		name = 'Coquette',
@@ -2415,7 +2150,6 @@ QBShared.Vehicles = {
 		price = 145000,
 		category = 'sports',
 		hash = `coquette`,
-		shop = 'luxury',
 	},
 	coquette2 = {
 		name = 'Coquette Classic',
@@ -2424,7 +2158,6 @@ QBShared.Vehicles = {
 		price = 165000,
 		category = 'sportsclassics',
 		hash = `coquette2`,
-		shop = 'pdm',
 	},
 	coquette4 = {
 		name = 'Coquette D10',
@@ -2433,7 +2166,6 @@ QBShared.Vehicles = {
 		price = 220000,
 		category = 'sports',
 		hash = `coquette4`,
-		shop = 'luxury',
 	},
 	drafter = {							--DLC
 		name = '8F Drafter',
@@ -2442,7 +2174,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'sports',
 		hash = `drafter`,
-		shop = 'luxury',
 	},
 	deveste = {							--DLC
 		name = 'Deveste',
@@ -2451,7 +2182,6 @@ QBShared.Vehicles = {
 		price = 234000,
 		category = 'super',
 		hash = `deveste`,
-		shop = 'luxury',
 	},
 	elegy = {							--DLC
 		name = 'Elegy Retro Custom',
@@ -2460,7 +2190,6 @@ QBShared.Vehicles = {
 		price = 145000,
 		category = 'sports',
 		hash = `elegy`,
-		shop = 'luxury',
 	},
 	elegy2 = {
 		name = 'Elegy RH8',
@@ -2469,7 +2198,6 @@ QBShared.Vehicles = {
 		price = 150000,
 		category = 'sports',
 		hash = `elegy2`,
-		shop = 'luxury',
 	},
 	feltzer2 = {
 		name = 'Feltzer',
@@ -2478,7 +2206,6 @@ QBShared.Vehicles = {
 		price = 97000,
 		category = 'sports',
 		hash = `feltzer2`,
-		shop = 'luxury',
 	},
 	flashgt = {
 		name = 'Flash GT',
@@ -2487,7 +2214,6 @@ QBShared.Vehicles = {
 		price = 48000,
 		category = 'sports',
 		hash = `flashgt`,
-		shop = 'luxury',
 	},
 	furoregt = {
 		name = 'Furore GT',
@@ -2496,7 +2222,6 @@ QBShared.Vehicles = {
 		price = 78000,
 		category = 'sports',
 		hash = `furoregt`,
-		shop = 'luxury',
 	},
 	futo = {
 		name = 'Futo',
@@ -2505,7 +2230,6 @@ QBShared.Vehicles = {
 		price = 17500,
 		category = 'coupes',
 		hash = `futo`,
-		shop = 'pdm',
 	},
 	gb200 = {
 		name = 'GB 200',
@@ -2514,7 +2238,6 @@ QBShared.Vehicles = {
 		price = 140000,
 		category = 'sports',
 		hash = `gb200`,
-		shop = 'luxury',
 	},
 	komoda = {
 		name = 'Komoda',
@@ -2523,7 +2246,6 @@ QBShared.Vehicles = {
 		price = 55000,
 		category = 'sports',
 		hash = `komoda`,
-		shop = 'luxury',
 	},
 	imorgon = {
 		name = 'Imorgon',
@@ -2532,7 +2254,6 @@ QBShared.Vehicles = {
 		price = 120000,
 		category = 'sports',
 		hash = `imorgon`,
-		shop = 'luxury',
 	},
 	issi7 = {							--DLC
 		name = 'Issi Sport',
@@ -2541,7 +2262,6 @@ QBShared.Vehicles = {
 		price = 100000,
 		category = 'compacts',
 		hash = `issi7`,
-		shop = 'pdm',
 	},
 	italigto = {							--DLC
 		name = 'Itali GTO',
@@ -2550,7 +2270,6 @@ QBShared.Vehicles = {
 		price = 260000,
 		category = 'sports',
 		hash = `italigto`,
-		shop = 'luxury',
 	},
 	jugular = {							--DLC
 		name = 'Jugular',
@@ -2559,7 +2278,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'sports',
 		hash = `jugular`,
-		shop = 'luxury',
 	},
 	jester = {
 		name = 'Jester',
@@ -2568,7 +2286,6 @@ QBShared.Vehicles = {
 		price = 132250,
 		category = 'sports',
 		hash = `jester`,
-		shop = 'luxury',
 	},
 	jester2 = {
 		name = 'Jester Racecar',
@@ -2577,7 +2294,6 @@ QBShared.Vehicles = {
 		price = 210000,
 		category = 'sports',
 		hash = `jester2`,
-		shop = 'luxury',
 	},
 	jester3 = {
 		name = 'Jester Classic',
@@ -2586,7 +2302,6 @@ QBShared.Vehicles = {
 		price = 85000,
 		category = 'sports',
 		hash = `jester3`,
-		shop = 'luxury',
 	},
 	khamelion = {
 		name = 'Khamelion',
@@ -2595,7 +2310,6 @@ QBShared.Vehicles = {
 		price = 90000,
 		category = 'sports',
 		hash = `khamelion`,
-		shop = 'luxury',
 	},
 	kuruma = {
 		name = 'Kuruma',
@@ -2604,7 +2318,6 @@ QBShared.Vehicles = {
 		price = 72000,
 		category = 'sports',
 		hash = `kuruma`,
-		shop = 'luxury',
 	},
 	kuruma2 = {
 		name = 'kuruma2',
@@ -2613,7 +2326,6 @@ QBShared.Vehicles = {
 		price = 72000,
 		category = 'sports',
 		hash = `kuruma2`,
-		shop = 'luxury',
 	},
 	locust = {							--DLC
 		name = 'Locust',
@@ -2622,7 +2334,6 @@ QBShared.Vehicles = {
 		price = 200000,
 		category = 'sports',
 		hash = `locust`,
-		shop = 'luxury',
 	},
 	lynx = {
 		name = 'Lynx',
@@ -2631,7 +2342,6 @@ QBShared.Vehicles = {
 		price = 150000,
 		category = 'sports',
 		hash = `lynx`,
-		shop = 'luxury',
 	},
 	massacro = {
 		name = 'Massacro',
@@ -2640,7 +2350,6 @@ QBShared.Vehicles = {
 		price = 110000,
 		category = 'sports',
 		hash = `massacro`,
-		shop = 'luxury',
 	},
 	massacro2 = {
 		name = 'Massacro Racecar',
@@ -2649,7 +2358,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'sports',
 		hash = `massacro2`,
-		shop = 'luxury',
 	},
 	neo = {							--DLC
 		name = 'Neo',
@@ -2658,7 +2366,6 @@ QBShared.Vehicles = {
 		price = 230000,
 		category = 'sports',
 		hash = `neo`,
-		shop = 'luxury',
 	},
 	neon = {							--DLC
 		name = 'Neon',
@@ -2667,7 +2374,6 @@ QBShared.Vehicles = {
 		price = 220000,
 		category = 'sports',
 		hash = `neon`,
-		shop = 'luxury',
 	},
 	ninef = {
 		name = '9F',
@@ -2676,7 +2382,6 @@ QBShared.Vehicles = {
 		price = 95000,
 		category = 'sports',
 		hash = `ninef`,
-		shop = 'luxury',
 	},
 	ninef2 = {
 		name = '9F Cabrio',
@@ -2685,7 +2390,6 @@ QBShared.Vehicles = {
 		price = 105000,
 		category = 'sports',
 		hash = `ninef2`,
-		shop = 'luxury',
 	},
 	omnis = {
 		name = 'Omnis',
@@ -2694,7 +2398,6 @@ QBShared.Vehicles = {
 		price = 90000,
 		category = 'sports',
 		hash = `omnis`,
-		shop = 'luxury',
 	},
 	paragon = {							--DLC
 		name = 'Paragon',
@@ -2703,7 +2406,6 @@ QBShared.Vehicles = {
 		price = 60000,
 		category = 'sports',
 		hash = `paragon`,
-		shop = 'luxury',
 	},
 	pariah = {
 		name = 'Pariah',
@@ -2712,7 +2414,6 @@ QBShared.Vehicles = {
 		price = 90000,
 		category = 'sports',
 		hash = `pariah`,
-		shop = 'luxury',
 	},
 	penumbra = {
 		name = 'Penumbra',
@@ -2721,7 +2422,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'sports',
 		hash = `penumbra`,
-		shop = 'luxury',
 	},
 	penumbra2 = {
 		name = 'Penumbra FF',
@@ -2730,7 +2430,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'sports',
 		hash = `penumbra2`,
-		shop = 'luxury',
 	},
 	rapidgt = {
 		name = 'Rapid GT',
@@ -2739,7 +2438,6 @@ QBShared.Vehicles = {
 		price = 86000,
 		category = 'sports',
 		hash = `rapidgt`,
-		shop = 'luxury',
 	},
 	rapidgt2 = {
 		name = 'Rapid GT Convertible',
@@ -2748,7 +2446,6 @@ QBShared.Vehicles = {
 		price = 92000,
 		category = 'sports',
 		hash = `rapidgt2`,
-		shop = 'luxury',
 	},
 	raptor = {
 		name = 'Raptor',
@@ -2757,7 +2454,6 @@ QBShared.Vehicles = {
 		price = 90000,
 		category = 'sports',
 		hash = `raptor`,
-		shop = 'luxury',
 	},
 	revolter = {
 		name = 'Revolter',
@@ -2766,7 +2462,6 @@ QBShared.Vehicles = {
 		price = 95000,
 		category = 'sports',
 		hash = `revolter`,
-		shop = 'luxury',
 	},
 	ruston = {
 		name = 'Ruston',
@@ -2775,7 +2470,6 @@ QBShared.Vehicles = {
 		price = 130000,
 		category = 'sports',
 		hash = `ruston`,
-		shop = 'luxury',
 	},
 	schafter2 = {
 		name = 'Schafter',
@@ -2784,7 +2478,6 @@ QBShared.Vehicles = {
 		price = 16000,
 		category = 'sedans',
 		hash = `schafter2`,
-		shop = 'pdm',
 	},
 	schafter3 = {
 		name = 'Schafter V12',
@@ -2793,7 +2486,6 @@ QBShared.Vehicles = {
 		price = 35000,
 		category = 'sports',
 		hash = `schafter3`,
-		shop = 'luxury',
 	},
 	schafter4 = {
 		name = 'Schafter LWB',
@@ -2802,7 +2494,6 @@ QBShared.Vehicles = {
 		price = 21000,
 		category = 'sports',
 		hash = `schafter4`,
-		shop = 'luxury',
 	},
 	schlagen = {							--DLC
 		name = 'Schlagen GT',
@@ -2811,7 +2502,6 @@ QBShared.Vehicles = {
 		price = 160000,
 		category = 'sports',
 		hash = `schlagen`,
-		shop = 'luxury',
 	},
 	schwarzer = {
 		name = 'Schwartzer',
@@ -2820,7 +2510,6 @@ QBShared.Vehicles = {
 		price = 47000,
 		category = 'sports',
 		hash = `schwarzer`,
-		shop = 'luxury',
 	},
 	sentinel3 = {
 		name = 'Sentinel Classic',
@@ -2829,7 +2518,6 @@ QBShared.Vehicles = {
 		price = 70000,
 		category = 'coupes',
 		hash = `sentinel3`,
-		shop = 'pdm',
 	},
 	seven70 = {
 		name = 'Seven-70',
@@ -2838,7 +2526,6 @@ QBShared.Vehicles = {
 		price = 140000,
 		category = 'sports',
 		hash = `seven70`,
-		shop = 'luxury',
 	},
 	specter = {
 		name = 'Specter',
@@ -2847,7 +2534,6 @@ QBShared.Vehicles = {
 		price = 160000,
 		category = 'sports',
 		hash = `specter`,
-		shop = 'luxury',
 	},
 	streiter = {
 		name = 'Streiter',
@@ -2856,7 +2542,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'sports',
 		hash = `streiter`,
-		shop = 'luxury',
 	},
 	sugoi = {
 		name = 'Sugoi',
@@ -2865,7 +2550,6 @@ QBShared.Vehicles = {
 		price = 85000,
 		category = 'sports',
 		hash = `sugoi`,
-		shop = 'luxury',
 	},
 	sultan = {
 		name = 'Sultan',
@@ -2874,7 +2558,6 @@ QBShared.Vehicles = {
 		price = 50000,
 		category = 'sports',
 		hash = `sultan`,
-		shop = 'luxury',
 	},
 	sultan2 = {
 		name = 'Sultan Custom',
@@ -2883,7 +2566,6 @@ QBShared.Vehicles = {
 		price = 55000,
 		category = 'sports',
 		hash = `sultan2`,
-		shop = 'luxury',
 	},
 	surano = {
 		name = 'Surano',
@@ -2892,7 +2574,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'sports',
 		hash = `surano`,
-		shop = 'luxury',
 	},
 	tampa2 = {
 		name = 'Drift Tampa',
@@ -2901,7 +2582,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'muscle',
 		hash = `tampa2`,
-		shop = 'pdm',
 	},
 	tropos = {
 		name = 'Tropos Rallye',
@@ -2910,7 +2590,6 @@ QBShared.Vehicles = {
 		price = 65000,
 		category = 'sports',
 		hash = `tropos`,
-		shop = 'luxury',
 	},
 	verlierer2 = {
 		name = 'Verlierer',
@@ -2919,7 +2598,6 @@ QBShared.Vehicles = {
 		price = 90500,
 		category = 'sports',
 		hash = `verlierer2`,
-		shop = 'luxury',
 	},
 	vstr = {
 		name = 'V-STR',
@@ -2928,7 +2606,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'sports',
 		hash = `vstr`,
-		shop = 'luxury',
 	},
 	italirsx = {
 		name = 'Itali RSX',
@@ -2937,7 +2614,6 @@ QBShared.Vehicles = {
 		price = 260000,
 		category = 'sports',
 		hash = `italirsx`,
-		shop = 'luxury',
 	},
 	zr350 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'ZR350',
@@ -2946,7 +2622,6 @@ QBShared.Vehicles = {
 		price = 38000,
 		category = 'sports',
 		hash = `zr350`,
-		shop = 'luxury',
 	},
 	calico = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Calico GTF',
@@ -2955,7 +2630,6 @@ QBShared.Vehicles = {
 		price = 39000,
 		category = 'sports',
 		hash = `calico`,
-		shop = 'luxury',
 	},
 	futo2 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Futo GTX',
@@ -2964,7 +2638,6 @@ QBShared.Vehicles = {
 		price = 39000,
 		category = 'sports',
 		hash = `futo2`,
-		shop = 'luxury',
 	},
 	euros = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Euros',
@@ -2973,7 +2646,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'sports',
 		hash = `euros`,
-		shop = 'luxury',
 	},
 	jester4 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Jester RR',
@@ -2982,7 +2654,6 @@ QBShared.Vehicles = {
 		price = 240000,
 		category = 'sports',
 		hash = `jester4`,
-		shop = 'luxury',
 	},
 	remus = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Remus',
@@ -2991,7 +2662,6 @@ QBShared.Vehicles = {
 		price = 48000,
 		category = 'sports',
 		hash = `remus`,
-		shop = 'luxury',
 	},
 	comet6 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Comet S2',
@@ -3000,7 +2670,6 @@ QBShared.Vehicles = {
 		price = 230000,
 		category = 'sports',
 		hash = `comet6`,
-		shop = 'luxury',
 	},
 	growler = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Growler',
@@ -3009,7 +2678,6 @@ QBShared.Vehicles = {
 		price = 205000,
 		category = 'sports',
 		hash = `growler`,
-		shop = 'luxury',
 	},
 	vectre = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Emperor Vectre',
@@ -3018,7 +2686,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'sports',
 		hash = `vectre`,
-		shop = 'luxury',
 	},
 	cypher = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Cypher',
@@ -3027,7 +2694,6 @@ QBShared.Vehicles = {
 		price = 155000,
 		category = 'sports',
 		hash = `cypher`,
-		shop = 'luxury',
 	},
 	sultan3 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Sultan Classic Custom',
@@ -3036,7 +2702,6 @@ QBShared.Vehicles = {
 		price = 56000,
 		category = 'sports',
 		hash = `sultan3`,
-		shop = 'luxury',
 	},
 	rt3000 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'RT3000',
@@ -3045,7 +2710,6 @@ QBShared.Vehicles = {
 		price = 65000,
 		category = 'sports',
 		hash = `rt3000`,
-		shop = 'luxury',
 	},
 	--- Sports Classic
 	ardent = {
@@ -3055,7 +2719,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'sportsclassics',
 		hash = `ardent`,
-		shop = 'pdm',
 	},
 	btype = {              --meme car that goes pretty fast
 		name = 'Roosevelt',
@@ -3064,7 +2727,6 @@ QBShared.Vehicles = {
 		price = 75000,
 		category = 'sportsclassics',
 		hash = `btype`,
-		shop = 'pdm',
 	},
 	btype2 = {
 		name = 'Franken Stange',
@@ -3073,7 +2735,6 @@ QBShared.Vehicles = {
 		price = 87000,
 		category = 'sportsclassics',
 		hash = `btype2`,
-		shop = 'pdm',
 	},
 	btype3 = {
 		name = 'Roosevelt Valor',
@@ -3082,7 +2743,6 @@ QBShared.Vehicles = {
 		price = 63000,
 		category = 'sportsclassics',
 		hash = `btype3`,
-		shop = 'pdm',
 	},
 	casco = {
 		name = 'Casco',
@@ -3091,7 +2751,6 @@ QBShared.Vehicles = {
 		price = 100000,
 		category = 'sportsclassics',
 		hash = `casco`,
-		shop = 'pdm',
 	},
 	cheetah2 = {
 		name = 'Cheetah Classic',
@@ -3100,7 +2759,6 @@ QBShared.Vehicles = {
 		price = 195000,
 		category = 'sports',
 		hash = `cheetah2`,
-		shop = 'luxury',
 	},
 	deluxo = {
 		name = 'Deluxo',
@@ -3109,7 +2767,6 @@ QBShared.Vehicles = {
 		price = 55000,
 		category = 'sportsclassics',
 		hash = `deluxo`,
-		shop = 'pdm',
 	},
 	dynasty = {							--DLC
 		name = 'Dynasty',
@@ -3118,7 +2775,6 @@ QBShared.Vehicles = {
 		price = 25000,
 		category = 'sportsclassics',
 		hash = `dynasty`,
-		shop = 'pdm',
 	},
 	fagaloa = {
 		name = 'Fagaloa',
@@ -3127,7 +2783,6 @@ QBShared.Vehicles = {
 		price = 13000,
 		category = 'sportsclassics',
 		hash = `fagaloa`,
-		shop = 'pdm',
 	},
 	feltzer3 = {							--DLC
 		name = 'Stirling GT',
@@ -3136,7 +2791,6 @@ QBShared.Vehicles = {
 		price = 115000,
 		category = 'sportsclassics',
 		hash = `feltzer3`,
-		shop = 'pdm',
 	},
 	gt500 = {
 		name = 'GT500',
@@ -3145,7 +2799,6 @@ QBShared.Vehicles = {
 		price = 130000,
 		category = 'sportsclassics',
 		hash = `gt500`,
-		shop = 'pdm',
 	},
 	infernus2 = {
 		name = 'Infernus Classic',
@@ -3154,7 +2807,6 @@ QBShared.Vehicles = {
 		price = 245000,
 		category = 'sportsclassics',
 		hash = `infernus2`,
-		shop = 'pdm',
 	},
 	jb700 = {
 		name = 'JB 700',
@@ -3163,7 +2815,6 @@ QBShared.Vehicles = {
 		price = 240000,
 		category = 'sportsclassics',
 		hash = `jb700`,
-		shop = 'pdm',
 	},
 	jb7002 = {
 		name = 'JB 700W',
@@ -3172,7 +2823,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'sportsclassics',
 		hash = `jb7002`,
-		shop = 'pdm',
 	},
 	mamba = {
 		name = 'Mamba',
@@ -3181,7 +2831,6 @@ QBShared.Vehicles = {
 		price = 140000,
 		category = 'sportsclassics',
 		hash = `mamba`,
-		shop = 'pdm',
 	},
 	manana = {
 		name = 'Manana',
@@ -3190,7 +2839,6 @@ QBShared.Vehicles = {
 		price = 12800,
 		category = 'muscle',
 		hash = `manana`,
-		shop = 'pdm',
 	},
 	manana2 = {
 		name = 'Manana Custom',
@@ -3199,7 +2847,6 @@ QBShared.Vehicles = {
 		price = 24000,
 		category = 'muscle',
 		hash = `manana2`,
-		shop = 'pdm',
 	},
 	michelli = {
 		name = 'Michelli GT',
@@ -3208,7 +2855,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'sportsclassics',
 		hash = `michelli`,
-		shop = 'pdm',
 	},
 	monroe = {
 		name = 'Monroe',
@@ -3217,7 +2863,6 @@ QBShared.Vehicles = {
 		price = 115000,
 		category = 'sportsclassics',
 		hash = `monroe`,
-		shop = 'pdm',
 	},
 	nebula = {							--DLC
 		name = 'Nebula',
@@ -3226,7 +2871,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'sportsclassics',
 		hash = `nebula`,
-		shop = 'pdm',
 	},
 	peyote = {
 		name = 'Peyote',
@@ -3235,7 +2879,6 @@ QBShared.Vehicles = {
 		price = 23500,
 		category = 'sportsclassics',
 		hash = `peyote`,
-		shop = 'pdm',
 	},
 	peyote3 = {
 		name = 'Peyote Custom',
@@ -3244,7 +2887,6 @@ QBShared.Vehicles = {
 		price = 48000,
 		category = 'sportsclassics',
 		hash = `peyote3`,
-		shop = 'pdm',
 	},
 	pigalle = {
 		name = 'Pigalle',
@@ -3253,7 +2895,6 @@ QBShared.Vehicles = {
 		price = 92000,
 		category = 'sportsclassics',
 		hash = `pigalle`,
-		shop = 'pdm',
 	},
 	rapidgt3 = {
 		name = 'Rapid GT',
@@ -3262,7 +2903,6 @@ QBShared.Vehicles = {
 		price = 90000,
 		category = 'sportsclassics',
 		hash = `rapidgt3`,
-		shop = 'pdm',
 	},
 	retinue = {
 		name = 'Retinue',
@@ -3271,7 +2911,6 @@ QBShared.Vehicles = {
 		price = 32000,
 		category = 'sportsclassics',
 		hash = `retinue`,
-		shop = 'pdm',
 	},
 	retinue2 = {
 		name = 'Retinue MKII',
@@ -3280,7 +2919,6 @@ QBShared.Vehicles = {
 		price = 38000,
 		category = 'sportsclassics',
 		hash = `retinue2`,
-		shop = 'pdm',
 	},
 	savestra = {
 		name = 'Savestra',
@@ -3289,7 +2927,6 @@ QBShared.Vehicles = {
 		price = 67000,
 		category = 'sportsclassics',
 		hash = `savestra`,
-		shop = 'pdm',
 	},
 	stinger = {
 		name = 'Stinger',
@@ -3298,7 +2935,6 @@ QBShared.Vehicles = {
 		price = 39500,
 		category = 'sportsclassics',
 		hash = `stinger`,
-		shop = 'pdm',
 	},
 	stingergt = {
 		name = 'Stinger GT',
@@ -3307,7 +2943,6 @@ QBShared.Vehicles = {
 		price = 70000,
 		category = 'sportsclassics',
 		hash = `stingergt`,
-		shop = 'pdm',
 	},
 	stromberg = {
 		name = 'Stromberg',
@@ -3316,7 +2951,6 @@ QBShared.Vehicles = {
 		price = 80000,
 		category = 'sportsclassics',
 		hash = `stromberg`,
-		shop = 'pdm',
 	},
 	swinger = {							--DLC
 		name = 'Swinger',
@@ -3325,7 +2959,6 @@ QBShared.Vehicles = {
 		price = 221000,
 		category = 'sportsclassics',
 		hash = `swinger`,
-		shop = 'pdm',
 	},
 	torero = {
 		name = 'Torero',
@@ -3334,7 +2967,6 @@ QBShared.Vehicles = {
 		price = 84000,
 		category = 'sportsclassics',
 		hash = `torero`,
-		shop = 'pdm',
 	},
 	tornado = {
 		name = 'Tornado',
@@ -3343,7 +2975,6 @@ QBShared.Vehicles = {
 		price = 21000,
 		category = 'sportsclassics',
 		hash = `tornado`,
-		shop = 'pdm',
 	},
 	tornado2 = {
 		name = 'Tornado Gang',
@@ -3352,7 +2983,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'sportsclassics',
 		hash = `tornado2`,
-		shop = 'pdm',
 	},
 	tornado5 = {
 		name = 'Tornado Custom',
@@ -3361,7 +2991,6 @@ QBShared.Vehicles = {
 		price = 22000,
 		category = 'sportsclassics',
 		hash = `tornado5`,
-		shop = 'pdm',
 	},
 	turismo2 = {
 		name = 'Turismo Classic',
@@ -3370,7 +2999,6 @@ QBShared.Vehicles = {
 		price = 170000,
 		category = 'sportsclassics',
 		hash = `turismo2`,
-		shop = 'pdm',
 	},
 	viseris = {
 		name = 'Viseris',
@@ -3379,7 +3007,6 @@ QBShared.Vehicles = {
 		price = 210000,
 		category = 'sportsclassics',
 		hash = `viseris`,
-		shop = 'pdm',
 	},
 	z190 = {
 		name = '190Z',
@@ -3388,7 +3015,6 @@ QBShared.Vehicles = {
 		price = 78000,
 		category = 'sportsclassics',
 		hash = `z190`,
-		shop = 'pdm',
 	},
 	ztype = {
 		name = 'Z-Type',
@@ -3397,7 +3023,6 @@ QBShared.Vehicles = {
 		price = 270000,
 		category = 'sportsclassics',
 		hash = `ztype`,
-		shop = 'pdm',
 	},
 	zion3 = {							--DLC
 		name = 'Zion Classic',
@@ -3406,7 +3031,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'sportsclassics',
 		hash = `zion3`,
-		shop = 'pdm',
 	},
 	cheburek = {
 		name = 'Cheburek',
@@ -3415,7 +3039,6 @@ QBShared.Vehicles = {
 		price = 7000,
 		category = 'sportsclassics',
 		hash = `cheburek`,
-		shop = 'pdm',
 	},
 	toreador = {
 		name = 'Toreador',
@@ -3424,7 +3047,6 @@ QBShared.Vehicles = {
 		price = 50000,
 		category = 'sportsclassics',
 		hash = `toreador`,
-		shop = 'pdm',
 	},
 	--- Super
 	adder = {
@@ -3434,7 +3056,6 @@ QBShared.Vehicles = {
 		price = 280000,
 		category = 'super',
 		hash = `adder`,
-		shop = 'luxury',
 	},
 	autarch = {
 		name = 'Autarch',
@@ -3443,7 +3064,6 @@ QBShared.Vehicles = {
 		price = 224000,
 		category = 'super',
 		hash = `autarch`,
-		shop = 'luxury',
 	},
 	banshee2 = {
 		name = 'Banshee 900R',
@@ -3452,7 +3072,6 @@ QBShared.Vehicles = {
 		price = 120000,
 		category = 'super',
 		hash = `banshee2`,
-		shop = 'luxury',
 	},
 	bullet = {
 		name = 'Bullet',
@@ -3461,7 +3080,6 @@ QBShared.Vehicles = {
 		price = 120000,
 		category = 'super',
 		hash = `bullet`,
-		shop = 'luxury',
 	},
 	cheetah = {
 		name = 'Cheetah',
@@ -3470,7 +3088,6 @@ QBShared.Vehicles = {
 		price = 214000,
 		category = 'super',
 		hash = `cheetah`,
-		shop = 'luxury',
 	},
 	cyclone = {         --might be too overpowered
 		name = 'Cyclone',
@@ -3479,7 +3096,6 @@ QBShared.Vehicles = {
 		price = 300000,
 		category = 'super',
 		hash = `cyclone`,
-		shop = 'luxury',
 	},
 	entity2 = {
 		name = 'Entity XXR',
@@ -3488,7 +3104,6 @@ QBShared.Vehicles = {
 		price = 164000,
 		category = 'super',
 		hash = `entity2`,
-		shop = 'luxury',
 	},
 	entityxf = {
 		name = 'Entity XF',
@@ -3497,7 +3112,6 @@ QBShared.Vehicles = {
 		price = 180000,
 		category = 'super',
 		hash = `entityxf`,
-		shop = 'luxury',
 	},
 	emerus = {							--DLC
 		name = 'Emerus',
@@ -3506,7 +3120,6 @@ QBShared.Vehicles = {
 		price = 220000,
 		category = 'super',
 		hash = `emerus`,
-		shop = 'luxury',
 	},
 	fmj = {
 		name = 'FMJ',
@@ -3515,7 +3128,6 @@ QBShared.Vehicles = {
 		price = 125000,
 		category = 'super',
 		hash = `fmj`,
-		shop = 'luxury',
 	},
 	furia = {
 		name = 'Furia',
@@ -3524,7 +3136,6 @@ QBShared.Vehicles = {
 		price = 230000,
 		category = 'super',
 		hash = `furia`,
-		shop = 'luxury',
 	},
 	gp1 = {
 		name = 'GP1',
@@ -3533,7 +3144,6 @@ QBShared.Vehicles = {
 		price = 110000,
 		category = 'super',
 		hash = `gp1`,
-		shop = 'luxury',
 	},
 	infernus = {
 		name = 'Infernus',
@@ -3542,7 +3152,6 @@ QBShared.Vehicles = {
 		price = 235000,
 		category = 'super',
 		hash = `infernus`,
-		shop = 'luxury',
 	},
 	italigtb = {
 		name = 'Itali GTB',
@@ -3551,7 +3160,6 @@ QBShared.Vehicles = {
 		price = 170000,
 		category = 'super',
 		hash = `italigtb`,
-		shop = 'luxury',
 	},
 	italigtb2 = {
 		name = 'Itali GTB',
@@ -3560,7 +3168,6 @@ QBShared.Vehicles = {
 		price = 250000,
 		category = 'super',
 		hash = `italigtb2`,
-		shop = 'luxury',
 	},
 	krieger = {							--DLC
 		name = 'Krieger',
@@ -3569,7 +3176,6 @@ QBShared.Vehicles = {
 		price = 222000,
 		category = 'super',
 		hash = `krieger`,
-		shop = 'luxury',
 	},
 	le7b = {
 		name = 'RE-7B',
@@ -3578,7 +3184,6 @@ QBShared.Vehicles = {
 		price = 260000,
 		category = 'super',
 		hash = `le7b`,
-		shop = 'luxury',
 	},
 	nero = {
 		name = 'Nero',
@@ -3587,7 +3192,6 @@ QBShared.Vehicles = {
 		price = 200000,
 		category = 'super',
 		hash = `nero`,
-		shop = 'luxury',
 	},
 	nero2 = {
 		name = 'Nero Custom',
@@ -3596,7 +3200,6 @@ QBShared.Vehicles = {
 		price = 260000,
 		category = 'super',
 		hash = `nero2`,
-		shop = 'luxury',
 	},
 	osiris = {
 		name = 'Osiris',
@@ -3605,7 +3208,6 @@ QBShared.Vehicles = {
 		price = 220000,
 		category = 'super',
 		hash = `osiris`,
-		shop = 'luxury',
 	},
 	penetrator = {
 		name = 'Penetrator',
@@ -3614,7 +3216,6 @@ QBShared.Vehicles = {
 		price = 130000,
 		category = 'super',
 		hash = `penetrator`,
-		shop = 'luxury',
 	},
 	pfister811 = {
 		name = '811',
@@ -3623,7 +3224,6 @@ QBShared.Vehicles = {
 		price = 220000,
 		category = 'super',
 		hash = `pfister811`,
-		shop = 'luxury',
 	},
 	prototipo = {
 		name = 'X80 Proto',
@@ -3632,7 +3232,6 @@ QBShared.Vehicles = {
 		price = 235000,
 		category = 'super',
 		hash = `prototipo`,
-		shop = 'luxury',
 	},
 	reaper = {
 		name = 'Reaper',
@@ -3641,7 +3240,6 @@ QBShared.Vehicles = {
 		price = 100000,
 		category = 'super',
 		hash = `reaper`,
-		shop = 'luxury',
 	},
 	s80 = {							--DLC
 		name = 'S80RR',
@@ -3650,7 +3248,6 @@ QBShared.Vehicles = {
 		price = 205000,
 		category = 'super',
 		hash = `s80`,
-		shop = 'luxury',
 	},
 	sc1 = {
 		name = 'SC1',
@@ -3659,7 +3256,6 @@ QBShared.Vehicles = {
 		price = 90000,
 		category = 'super',
 		hash = `sc1`,
-		shop = 'luxury',
 	},
 	sheava = {							--DLC
 		name = 'ETR1',
@@ -3668,7 +3264,6 @@ QBShared.Vehicles = {
 		price = 220000,
 		category = 'super',
 		hash = `sheava`,
-		shop = 'luxury',
 	},
 	sultanrs = {
 		name = 'Sultan RS',
@@ -3677,7 +3272,6 @@ QBShared.Vehicles = {
 		price = 76500,
 		category = 'sports',
 		hash = `sultanrs`,
-		shop = 'luxury',
 	},
 	t20 = {
 		name = 'T20',
@@ -3686,7 +3280,6 @@ QBShared.Vehicles = {
 		price = 1650000,
 		category = 'super',
 		hash = `t20`,
-		shop = 'luxury',
 	},
 	taipan = {
 		name = 'Taipan',
@@ -3695,7 +3288,6 @@ QBShared.Vehicles = {
 		price = 1850000,
 		category = 'super',
 		hash = `taipan`,
-		shop = 'luxury',
 	},
 	tempesta = {
 		name = 'Tempesta',
@@ -3704,7 +3296,6 @@ QBShared.Vehicles = {
 		price = 120000,
 		category = 'super',
 		hash = `tempesta`,
-		shop = 'luxury',
 	},
 	tezeract = {
 		name = 'Tezeract',
@@ -3713,7 +3304,6 @@ QBShared.Vehicles = {
 		price = 220000,
 		category = 'super',
 		hash = `tezeract`,
-		shop = 'luxury',
 	},
 	thrax = {							--DLC
 		name = 'Thrax',
@@ -3722,7 +3312,6 @@ QBShared.Vehicles = {
 		price = 180000,
 		category = 'super',
 		hash = `thrax`,
-		shop = 'luxury',
 	},
 	tigon = {
 		name = 'Tigon',
@@ -3731,7 +3320,6 @@ QBShared.Vehicles = {
 		price = 240000,
 		category = 'super',
 		hash = `tigon`,
-		shop = 'luxury',
 	},
 	turismor = {
 		name = 'Turismo R',
@@ -3740,7 +3328,6 @@ QBShared.Vehicles = {
 		price = 140000,
 		category = 'super',
 		hash = `turismor`,
-		shop = 'luxury',
 	},
 	tyrant = {
 		name = 'Tyrant',
@@ -3749,7 +3336,6 @@ QBShared.Vehicles = {
 		price = 2100000,
 		category = 'super',
 		hash = `tyrant`,
-		shop = 'luxury',
 	},
 	tyrus = {
 		name = 'Tyrus',
@@ -3758,7 +3344,6 @@ QBShared.Vehicles = {
 		price = 230000,
 		category = 'super',
 		hash = `tyrus`,
-		shop = 'luxury',
 	},
 	vacca = {
 		name = 'Vacca',
@@ -3767,7 +3352,6 @@ QBShared.Vehicles = {
 		price = 105000,
 		category = 'super',
 		hash = `vacca`,
-		shop = 'luxury',
 	},
 	vagner = {
 		name = 'Vagner',
@@ -3776,7 +3360,6 @@ QBShared.Vehicles = {
 		price = 1660000,
 		category = 'super',
 		hash = `vagner`,
-		shop = 'luxury',
 	},
 	visione = {
 		name = 'Visione',
@@ -3785,7 +3368,6 @@ QBShared.Vehicles = {
 		price = 750000,
 		category = 'sports',
 		hash = `visione`,
-		shop = 'luxury',
 	},
 	voltic = {
 		name = 'Voltic',
@@ -3794,7 +3376,6 @@ QBShared.Vehicles = {
 		price = 120000,
 		category = 'super',
 		hash = `voltic`,
-		shop = 'luxury',
 	},
 	voltic2 = {
 		name = 'Rocket Voltic',
@@ -3803,7 +3384,6 @@ QBShared.Vehicles = {
 		price = 9830400,
 		category = 'super',
 		hash = `voltic2`,
-		shop = 'luxury',
 	},
 	xa21 = {
 		name = 'XA-21',
@@ -3812,7 +3392,6 @@ QBShared.Vehicles = {
 		price = 180000,
 		category = 'super',
 		hash = `xa21`,
-		shop = 'luxury',
 	},
 	zentorno = {
 		name = 'Zentorno',
@@ -3821,7 +3400,6 @@ QBShared.Vehicles = {
 		price = 340000,
 		category = 'super',
 		hash = `zentorno`,
-		shop = 'luxury',
 	},
 	zorrusso = {							--DLC
 		name = 'Zorrusso',
@@ -3830,7 +3408,6 @@ QBShared.Vehicles = {
 		price = 277000,
 		category = 'super',
 		hash = `zorrusso`,
-		shop = 'luxury',
 	},
 	-- Vans
 	bison = {
@@ -3840,7 +3417,6 @@ QBShared.Vehicles = {
 		price = 18000,
 		category = 'vans',
 		hash = `bison`,
-		shop = 'pdm',
 	},
 	bobcatxl = {
 		name = 'Bobcat XL Open',
@@ -3849,7 +3425,6 @@ QBShared.Vehicles = {
 		price = 13500,
 		category = 'vans',
 		hash = `bobcatxl`,
-		shop = 'pdm',
 	},
 	burrito3 = {
 		name = 'Burrito',
@@ -3858,7 +3433,6 @@ QBShared.Vehicles = {
 		price = 4000,
 		category = 'vans',
 		hash = `burrito3`,
-		shop = 'pdm',
 	},
 	gburrito2 = {
 		name = 'Burrito Custom',
@@ -3867,7 +3441,6 @@ QBShared.Vehicles = {
 		price = 11500,
 		category = 'vans',
 		hash = `gburrito2`,
-		shop = 'pdm',
 	},
 	rumpo = {
 		name = 'Rumpo',
@@ -3876,7 +3449,6 @@ QBShared.Vehicles = {
 		price = 9000,
 		category = 'vans',
 		hash = `rumpo`,
-		shop = 'pdm',
 	},
 	journey = {
 		name = 'Journey',
@@ -3885,7 +3457,6 @@ QBShared.Vehicles = {
 		price = 6500,
 		category = 'vans',
 		hash = `journey`,
-		shop = 'pdm',
 	},
 	minivan = {
 		name = 'Minivan',
@@ -3894,7 +3465,6 @@ QBShared.Vehicles = {
 		price = 7000,
 		category = 'vans',
 		hash = `minivan`,
-		shop = 'pdm',
 	},
 	minivan2 = {
 		name = 'Minivan Custom',
@@ -3903,7 +3473,6 @@ QBShared.Vehicles = {
 		price = 10000,
 		category = 'vans',
 		hash = `minivan2`,
-		shop = 'pdm',
 	},
 	paradise = {
 		name = 'Paradise',
@@ -3912,7 +3481,6 @@ QBShared.Vehicles = {
 		price = 9000,
 		category = 'vans',
 		hash = `paradise`,
-		shop = 'pdm',
 	},
 	rumpo3 = {
 		name = 'Rumpo Custom',
@@ -3921,7 +3489,6 @@ QBShared.Vehicles = {
 		price = 19500,
 		category = 'vans',
 		hash = `rumpo3`,
-		shop = 'pdm',
 	},
 	speedo = {
 		name = 'Speedo',
@@ -3930,7 +3497,6 @@ QBShared.Vehicles = {
 		price = 10000,
 		category = 'vans',
 		hash = `speedo`,
-		shop = 'pdm',
 	},
 	speedo4 = {
 		name = 'Speedo Custom',
@@ -3939,7 +3505,6 @@ QBShared.Vehicles = {
 		price = 15000,
 		category = 'vans',
 		hash = `speedo4`,
-		shop = 'pdm',
 	},
 	surfer = {
 		name = 'Surfer',
@@ -3948,7 +3513,6 @@ QBShared.Vehicles = {
 		price = 9000,
 		category = 'vans',
 		hash = `surfer`,
-		shop = 'pdm',
 	},
 	youga3 = {
 		name = 'Youga Classic 4x4',
@@ -3957,7 +3521,6 @@ QBShared.Vehicles = {
 		price = 15000,
 		category = 'vans',
 		hash = `youga3`,
-		shop = 'pdm',
 	},
 	youga = {
 		name = 'Youga',
@@ -3966,7 +3529,6 @@ QBShared.Vehicles = {
 		price = 8000,
 		category = 'vans',
 		hash = `youga`,
-		shop = 'pdm',
 	},
 	youga2 = {
 		name = 'Youga Classic',
@@ -3975,7 +3537,6 @@ QBShared.Vehicles = {
 		price = 14500,
 		category = 'vans',
 		hash = `youga2`,
-		shop = 'pdm',
 	},
 	youga4 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Youga',
@@ -3984,7 +3545,6 @@ QBShared.Vehicles = {
 		price = 85000,
 		category = 'vans',
 		hash = `youga4`,
-		shop = 'pdm',
 	},
 	mule5 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Mule',
@@ -3993,7 +3553,6 @@ QBShared.Vehicles = {
 		price = 221000,
 		category = 'vans',
 		hash = `mule5`,
-		shop = 'pdm',
 	},
 	-- Utility
 	sadler = {
@@ -4003,7 +3562,6 @@ QBShared.Vehicles = {
 		price = 20000,
 		category = 'offroad',
 		hash = `sadler`,
-		shop = 'pdm',
 	},
 	guardian = {
 		name = 'Guardian',
@@ -4012,7 +3570,6 @@ QBShared.Vehicles = {
 		category = 'offroad',
 		model = 'guardian',
 		hash = `guardian`,
-		shop = 'pdm',
 	},
 	slamtruck = {
 		name = 'Slam Truck',
@@ -4021,7 +3578,6 @@ QBShared.Vehicles = {
 		price = 100000,
 		category = 'muscle',
 		hash = `slamtruck`,
-		shop = 'pdm',
 	},
 	warrener2 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Warrener HKR',
@@ -4030,7 +3586,6 @@ QBShared.Vehicles = {
 		price = 30000,
 		category = 'sedans',
 		hash = `warrener2`,
-		shop = 'pdm',
 	},
 		-- Boats
 	squalo = {
@@ -4040,7 +3595,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `squalo`,
-		shop = 'boats',
 	},
 	marquis = {
 		name = 'Marquis',
@@ -4049,7 +3603,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `marquis`,
-		shop = 'boats',
 	},
 	seashark = {
 		name = 'Seashark',
@@ -4058,7 +3611,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `seashark`,
-		shop = 'boats',
 	},
 	seashark2 = {
 		name = 'Seashark',
@@ -4067,7 +3619,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `seashark2`,
-		shop = 'boats',
 	},
 	seashark3 = {
 		name = 'Seashark',
@@ -4076,7 +3627,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `seashark3`,
-		shop = 'boats',
 	},
 	jetmax = {
 		name = 'Shitzu',
@@ -4085,7 +3635,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `jetmax`,
-		shop = 'boats',
 	},
 	tropic = {
 		name = 'Shitzu',
@@ -4094,7 +3643,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `tropic`,
-		shop = 'boats',
 	},
 	tropic2 = {
 		name = 'Shitzu',
@@ -4103,7 +3651,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `tropic2`,
-		shop = 'boats',
 	},
 	dinghy = {
 		name = 'Nagasaki',
@@ -4112,7 +3659,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `dinghy`,
-		shop = 'boats',
 	},
 	dinghy2 = {
 		name = 'Nagasaki',
@@ -4121,7 +3667,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `dinghy2`,
-		shop = 'boats',
 	},
 	dinghy3 = {
 		name = 'Nagasaki',
@@ -4130,7 +3675,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `dinghy3`,
-		shop = 'boats',
 	},
 	dinghy4 = {
 		name = 'Nagasaki',
@@ -4139,7 +3683,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `dinghy4`,
-		shop = 'boats',
 	},
 	suntrap = {
 		name = 'Shitzu',
@@ -4148,7 +3691,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `suntrap`,
-		shop = 'boats',
 	},
 	speeder = {
 		name = 'Speeder',
@@ -4157,7 +3699,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `speeder`,
-		shop = 'boats',
 	},
 	speeder2 = {
 		name = 'Speeder',
@@ -4166,7 +3707,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `speeder2`,
-		shop = 'boats',
 	},
 	longfin = {
 		name = 'Longfin',
@@ -4175,7 +3715,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `longfin`,
-		shop = 'boats',
 	},
 	toro = {
 		name = 'Toro',
@@ -4184,7 +3723,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `toro`,
-		shop = 'boats',
 	},
 	toro2 = {
 		name = 'Toro',
@@ -4193,7 +3731,6 @@ QBShared.Vehicles = {
 		price = 40000,
 		category = 'boats',
 		hash = `toro2`,
-		shop = 'boats',
 	},
 	-- helicopters
 	buzzard2 = {
@@ -4203,7 +3740,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `buzzard2`,
-		shop = 'air',
 	},
 	frogger = {
 		name = 'Frogger',
@@ -4212,7 +3748,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `frogger`,
-		shop = 'air',
 	},
 	frogger2 = {
 		name = 'Frogger',
@@ -4221,7 +3756,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `frogger2`,
-		shop = 'air',
 	},
 	maverick = {
 		name = 'Maverick',
@@ -4230,7 +3764,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `maverick`,
-		shop = 'air',
 	},
 	swift = {
 		name = 'Swift',
@@ -4239,7 +3772,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `swift`,
-		shop = 'air',
 	},
 	swift2 = {
 		name = 'Swift',
@@ -4248,7 +3780,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `swift2`,
-		shop = 'air',
 	},
 	seasparrow = {
 		name = 'Sea Sparrow',
@@ -4257,7 +3788,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `seasparrow`,
-		shop = 'air',
 	},
 	seasparrow2 = {
 		name = 'Sparrow',
@@ -4266,7 +3796,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `seasparrow2`,
-		shop = 'air',
 	},
 	seasparrow3 = {
 		name = 'Sparrow',
@@ -4275,7 +3804,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `seasparrow3`,
-		shop = 'air',
 	},
 	supervolito = {
 		name = 'SuperVolito',
@@ -4284,7 +3812,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `supervolito`,
-		shop = 'air',
 	},
 	supervolito2 = {
 		name = 'SuperVolito Carbon',
@@ -4293,7 +3820,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `supervolito2`,
-		shop = 'air',
 	},
 	volatus = {
 		name = 'Volatus',
@@ -4302,7 +3828,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `volatus`,
-		shop = 'air',
 	},
 	havok = {
 		name = 'Havok',
@@ -4311,7 +3836,6 @@ QBShared.Vehicles = {
 		price = 52000,
 		category = 'helicopters',
 		hash = `havok`,
-		shop = 'air',
 	},
 	-- Planes
 	duster = {
@@ -4321,7 +3845,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `duster`,
-		shop = 'air',
 	},
 	luxor = {
 		name = 'Luxor',
@@ -4330,7 +3853,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `luxor`,
-		shop = 'air',
 	},
 	luxor2 = {
 		name = 'Luxor Deluxe',
@@ -4339,7 +3861,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `luxor2`,
-		shop = 'air',
 	},
 	stunt = {
 		name = 'Mallard',
@@ -4348,7 +3869,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `stunt`,
-		shop = 'air',
 	},
 	mammatus = {
 		name = 'Mammatus',
@@ -4357,7 +3877,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `mammatus`,
-		shop = 'air',
 	},
 	velum = {
 		name = 'Velum',
@@ -4366,7 +3885,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `velum`,
-		shop = 'air',
 	},
 	velum2 = {
 		name = 'Velum',
@@ -4375,7 +3893,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `velum2`,
-		shop = 'air',
 	},
 	shamal = {
 		name = 'Shamal',
@@ -4384,7 +3901,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `shamal`,
-		shop = 'air',
 	},
 	vestra = {
 		name = 'Vestra',
@@ -4393,7 +3909,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `vestra`,
-		shop = 'air',
 	},
 	dodo = {
 		name = 'Dodo',
@@ -4402,7 +3917,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `dodo`,
-		shop = 'air',
 	},
 	howard = {
 		name = 'Howard NX-25',
@@ -4411,7 +3925,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `howard`,
-		shop = 'air',
 	},
 	alphaz1 = {
 		name = 'Alpha-Z1',
@@ -4420,7 +3933,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `alphaz1`,
-		shop = 'air',
 	},
 	nimbus = {
 		name = 'Nimbus',
@@ -4429,7 +3941,6 @@ QBShared.Vehicles = {
 		price = 45000,
 		category = 'planes',
 		hash = `nimbus`,
-		shop = 'air',
 	},
 	brioso3 = {          --DLC +set sv_enforceGameBuild 2699 (and below)
         name = 'Brioso 300 Widebody',
@@ -4438,7 +3949,6 @@ QBShared.Vehicles = {
         price = 125000,
         category = 'compacts',
         hash = `brioso3`,
-        shop = 'pdm',
     },
     conada = {
         name = 'Conada',
@@ -4447,7 +3957,6 @@ QBShared.Vehicles = {
         price = 115000,
         category = 'helicopters',
         hash = `conada`,
-        shop = 'air',
     },
     corsita = {
         name = 'Corsita',
@@ -4456,7 +3965,6 @@ QBShared.Vehicles = {
         price = 90000,
         category = 'sports',
         hash = `corsita`,
-        shop = 'luxury',
     },
     draugur = {
         name = 'Draugur',
@@ -4465,7 +3973,6 @@ QBShared.Vehicles = {
         price = 99000,
         category = 'offroad',
         hash = `draugur`,
-        shop = 'pdm',
     },
     greenwood = {
         name = 'Greenwood',
@@ -4474,7 +3981,6 @@ QBShared.Vehicles = {
         price = 105000,
         category = 'muscle',
         hash = `greenwood`,
-        shop = 'pdm',
     },
     kanjosj = {
         name = 'Kanjo SJ',
@@ -4483,7 +3989,6 @@ QBShared.Vehicles = {
         price = 143000,
         category = 'coupes',
         hash = `kanjosj`,
-        shop = 'pdm',
     },
     lm87 = {
         name = 'LM87',
@@ -4492,7 +3997,6 @@ QBShared.Vehicles = {
         price = 155000,
         category = 'super',
         hash = `lm87`,
-        shop = 'luxury',
     },
     omnisegt = {
         name = 'Omnis e-GT',
@@ -4501,7 +4005,6 @@ QBShared.Vehicles = {
         price = 185000,
         category = 'sports',
         hash = `omnisegt`,
-        shop = 'luxury',
     },
     postlude = {
         name = 'Postlude',
@@ -4510,7 +4013,6 @@ QBShared.Vehicles = {
         price = 90000,
         category = 'coupes',
         hash = `postlude`,
-        shop = 'pdm',
     },
     rhinehart = {
         name = 'Rhinehart',
@@ -4519,7 +4021,6 @@ QBShared.Vehicles = {
         price = 105000,
         category = 'sedans',
         hash = `rhinehart`,
-        shop = 'pdm',
     },
     ruiner4 = {
         name = 'Ruiner ZZ-8',
@@ -4528,7 +4029,6 @@ QBShared.Vehicles = {
         price = 85000,
         category = 'muscle',
         hash = `ruiner4`,
-        shop = 'pdm',
     },
     sentinel4 = {
         name = 'Sentinel Classic Widebody',
@@ -4537,7 +4037,6 @@ QBShared.Vehicles = {
         price = 140000,
         category = 'sports',
         hash = `sentinel4`,
-        shop = 'luxury',
     },
     sm722 = {
         name = 'SM722',
@@ -4546,7 +4045,6 @@ QBShared.Vehicles = {
         price = 125000,
         category = 'sports',
         hash = `sm722`,
-        shop = 'luxury',
     },
 	tenf = {
         name = '10F',
@@ -4555,7 +4053,6 @@ QBShared.Vehicles = {
         price = 185000,
         category = 'sports',
         hash = `tenf`,
-        shop = 'luxury',
     },
     tenf2 = {
         name = '10F Widebody',
@@ -4564,7 +4061,6 @@ QBShared.Vehicles = {
         price = 215000,
         category = 'sports',
         hash = `tenf2`,
-        shop = 'luxury',
     },
     torero2 = {
         name = 'Torero XO',
@@ -4573,7 +4069,6 @@ QBShared.Vehicles = {
         price = 245000,
         category = 'super',
         hash = `torero2`,
-        shop = 'luxury',
     },
     vigero2 = {
         name = 'Vigero ZX',
@@ -4582,7 +4077,6 @@ QBShared.Vehicles = {
         price = 105000,
         category = 'muscle',
         hash = `vigero2`,
-        shop = 'pdm',
     },
     weevil2 = {
         name = 'Weevil Custom',
@@ -4591,7 +4085,6 @@ QBShared.Vehicles = {
         price = 95000,
         category = 'muscle',
         hash = `weevil2`,
-        shop = 'pdm',
     },
 }
 
