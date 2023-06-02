@@ -7,6 +7,18 @@ for i = 48, 57 do NumberCharset[#NumberCharset + 1] = string.char(i) end
 for i = 65, 90 do StringCharset[#StringCharset + 1] = string.char(i) end
 for i = 97, 122 do StringCharset[#StringCharset + 1] = string.char(i) end
 
+---converts a number to a string version with commas
+---@param num number
+---@return string
+function QBShared.CommaValue(num)
+    local formatted = tostring(num)
+    local numChanged
+    repeat
+        formatted, numChanged = string.gsub(formatted, '^(-?%d+)(%d%d%d)', '%1,%2')
+    until numChanged == 0
+    return formatted
+end
+
 ---@param length integer
 ---@return string
 function QBShared.RandomStr(length)
