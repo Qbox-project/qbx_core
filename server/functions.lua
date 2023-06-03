@@ -236,8 +236,8 @@ function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     local vehicleType = GetVehicleType(tempVehicle)
     DeleteEntity(tempVehicle)
     local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
-    while not DoesEntityExist(veh) do Wait(0) end
-    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    Wait(0)
+    if warp then SetPedIntoVehicle(GetPlayerPed(source), veh, -1) end
     Entity(veh).state:set('initVehicle', true, true)
     return NetworkGetNetworkIdFromEntity(veh)
 end
