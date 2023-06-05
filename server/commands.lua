@@ -1,3 +1,32 @@
+-- Deprecate Later:
+QBCore.Commands = {}
+
+function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission)
+    print(string.format("/!\\ Not an Error /!\\ | %s invoked deprecated Commands function. Please use Ox_lib's addCommand instead.", GetInvokingResource()))
+    local properties = {
+        help = help,
+        restricted = ((permission and permission ~= "user") and 'qbox.'..permission) or false,
+        params = {}
+    }
+    for i=1, #arguments do
+        local argument = arguments[i]
+        properties.params[i] = {
+            name = argument.name,
+            help = argument.help,
+            type = argument.type or nil,
+            optional = (argsrequired and false) or (argument.optional ~= nil and argument.optional) or true
+        }
+    end
+    lib.addCommand(name, properties, function(source, args, raw)
+        local _args = {}
+        for _,v in pairs(args) do
+            _args[#_args+1] = v
+        end
+        callback(source, _args, raw)
+    end)
+end
+--
+
 -- Teleport
 
 lib.addCommand('tp', {
