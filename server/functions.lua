@@ -477,3 +477,10 @@ end
 function QBCore.Functions.Notify(source, text, notifyType, duration)
     TriggerClientEvent('QBCore:Notify', source, text, notifyType, duration)
 end
+
+---@param vehicle number
+---@return string?
+function QBCore.Functions.GetPlate(vehicle)
+    if not vehicle or vehicle == 0 then return end
+    return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
+end
