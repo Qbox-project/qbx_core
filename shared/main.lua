@@ -7,16 +7,35 @@ for i = 48, 57 do NumberCharset[#NumberCharset + 1] = string.char(i) end
 for i = 65, 90 do StringCharset[#StringCharset + 1] = string.char(i) end
 for i = 97, 122 do StringCharset[#StringCharset + 1] = string.char(i) end
 
+---converts a number to a string version with commas
+---@param num number
+---@return string
+function QBShared.CommaValue(num)
+    local formatted = tostring(num)
+    local numChanged
+    repeat
+        formatted, numChanged = string.gsub(formatted, '^(-?%d+)(%d%d%d)', '%1,%2')
+    until numChanged == 0
+    return formatted
+end
+
+---@param length integer
+---@return string
 function QBShared.RandomStr(length)
     if length <= 0 then return '' end
     return QBShared.RandomStr(length - 1) .. StringCharset[math.random(1, #StringCharset)]
 end
 
+---@param length integer
+---@return string
 function QBShared.RandomInt(length)
     if length <= 0 then return '' end
     return QBShared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
 end
 
+---@param str string
+---@param delimiter string character
+---@return string[]
 function QBShared.SplitStr(str, delimiter)
     local result = {}
     local from = 1
@@ -30,38 +49,45 @@ function QBShared.SplitStr(str, delimiter)
     return result
 end
 
+---@param value string
+---@return string?
+---@return number? count
 function QBShared.Trim(value)
-    if not value then return nil end
+    if not value then return end
     return string.gsub(value, '^%s*(.-)%s*$', '%1')
 end
 
+---@param value string
+---@return string?
 function QBShared.FirstToUpper(value)
-    if not value then return nil end
+    if not value then return end
     return value:gsub("^%l", string.upper)
 end
 
+---@param value number
+---@param numDecimalPlaces integer
+---@return integer
 function QBShared.Round(value, numDecimalPlaces)
     if not numDecimalPlaces then return math.floor(value + 0.5) end
     local power = 10 ^ numDecimalPlaces
     return math.floor((value * power) + 0.5) / (power)
 end
 
+---@param vehicle number
+---@param extra number
+---@param enable boolean
 function QBShared.ChangeVehicleExtra(vehicle, extra, enable)
-    if DoesExtraExist(vehicle, extra) then
-        if enable then
-            SetVehicleExtra(vehicle, extra, false)
-            if not IsVehicleExtraTurnedOn(vehicle, extra) then
-                QBShared.ChangeVehicleExtra(vehicle, extra, enable)
-            end
-        else
-            SetVehicleExtra(vehicle, extra, true)
-            if IsVehicleExtraTurnedOn(vehicle, extra) then
-                QBShared.ChangeVehicleExtra(vehicle, extra, enable)
-            end
-        end
+    if not DoesExtraExist(vehicle, extra) then return end
+
+    SetVehicleExtra(vehicle, extra, not enable)
+    local isExtraOn = IsVehicleExtraTurnedOn(vehicle, extra)
+    if enable ~= isExtraOn then
+        QBShared.ChangeVehicleExtra(vehicle, extra, enable)
     end
 end
 
+---@param vehicle number
+---@param config table
 function QBShared.SetDefaultVehicleExtras(vehicle, config)
     -- Clear Extras
     for i = 1, 20 do
