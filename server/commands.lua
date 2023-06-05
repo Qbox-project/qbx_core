@@ -1,4 +1,4 @@
--- Deprecate Later:
+---@deprecated
 QBCore.Commands = {}
 
 function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission)
