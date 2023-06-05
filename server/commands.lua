@@ -82,7 +82,7 @@ end)
 lib.addCommand('togglepvp', {
     help = Lang:t("command.togglepvp.help"),
     restricted = "qbox.god"
-}, function(source, _)
+}, function(_, _)
     QBConfig.Server.PVP = not QBConfig.Server.PVP
     TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, QBConfig.Server.PVP)
 end)
@@ -185,9 +185,7 @@ lib.addCommand('dv', {
     help = Lang:t("command.dv.help"),
     restricted = "qbox.admin"
 }, function(source, _)
-    if args then
-        TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
-    end
+    TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
 end)
 
 -- Money
