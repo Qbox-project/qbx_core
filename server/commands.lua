@@ -97,10 +97,10 @@ lib.addCommand('addpermission', {
     },
     restricted = "qbox.god"
 }, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.addpermission.params.id.name")]))
-    local Permission = tostring(args[Lang:t("command.addpermission.params.permission.name")])
-    if Player then
-        QBCore.Functions.AddPermission(Player.PlayerData.source, Permission)
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.addpermission.params.id.name")]))
+    local permission = tostring(args[Lang:t("command.addpermission.params.permission.name")])
+    if player then
+        QBCore.Functions.AddPermission(player.PlayerData.source, permission)
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
@@ -114,10 +114,10 @@ lib.addCommand('removepermission', {
     },
     restricted = "qbox.god"
 }, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.removepermission.params.id.name")]))
-    local Permission = tostring(args[Lang:t("command.removepermission.params.permission.name")])
-    if Player then
-        QBCore.Functions.RemovePermission(Player.PlayerData.source, Permission)
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.removepermission.params.id.name")]))
+    local permission = tostring(args[Lang:t("command.removepermission.params.permission.name")])
+    if player then
+        QBCore.Functions.RemovePermission(player.PlayerData.source, permission)
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
