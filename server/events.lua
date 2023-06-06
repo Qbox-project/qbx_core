@@ -207,6 +207,7 @@ end)
 
 --- @deprecated
 RegisterNetEvent('QBCore:CallCommand', function(command, args)
+    print(string.format("/!\\ Not an Error /!\\ | %s invoked deprecated CallCommand function. Please use the native ExecuteCommand instead (it takes in command and args as a single string).", GetInvokingResource()))
     local src = source
     if not QBCore.Commands.List[command] then return end
     local Player = QBCore.Functions.GetPlayer(src)
