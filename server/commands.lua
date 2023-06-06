@@ -14,7 +14,7 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
             name = argument.name,
             help = argument.help,
             type = argument.type or nil,
-            optional = (argsrequired and false) or (argument.optional ~= nil and argument.optional) or true
+            optional = (not argsrequired) or (argument?.optional == true)
         }
     end
     lib.addCommand(name, properties, function(source, args, raw)
@@ -98,9 +98,9 @@ lib.addCommand('addpermission', {
     restricted = "qbox.god"
 }, function(source, args)
     local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.addpermission.params.id.name")]))
-    local permission = tostring(args[Lang:t("command.addpermission.params.permission.name")])
+    local Permission = tostring(args[Lang:t("command.addpermission.params.permission.name")])
     if Player then
-        QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
+        QBCore.Functions.AddPermission(Player.PlayerData.source, Permission)
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
@@ -115,9 +115,9 @@ lib.addCommand('removepermission', {
     restricted = "qbox.god"
 }, function(source, args)
     local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.removepermission.params.id.name")]))
-    local permission = tostring(args[Lang:t("command.removepermission.params.permission.name")])
+    local Permission = tostring(args[Lang:t("command.removepermission.params.permission.name")])
     if Player then
-        QBCore.Functions.RemovePermission(Player.PlayerData.source, permission)
+        QBCore.Functions.RemovePermission(Player.PlayerData.source, Permission)
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
@@ -334,7 +334,7 @@ lib.addCommand('me', {
     if #args < 1 then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.missing_args2'), 'error') return end
     local msg = table.concat(args, ' '):gsub('[~<].-[>~]', '')
     local playerState = Player(source).state
-    playerState:set('me', 'l\'individu '..msg, true)
+    playerState:set('me', msg, true)
 
     -- We have to reset the playerState since the state does not get replicated on StateBagHandler if the value is the same as the previous one --
     playerState:set('me', nil, true)
