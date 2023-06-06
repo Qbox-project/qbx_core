@@ -205,6 +205,21 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
 end)
 
+--- @deprecated
+RegisterNetEvent('QBCore:CallCommand', function(command, args)
+    local src = source
+    if not QBCore.Commands.List[command] then return end
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
+    if IsPlayerAceAllowed(src, string.format('command.%s', command)) then
+        local commandString = command
+        for _, value in pairs(args) do
+            commandString = string.format('%s %s', commandString, value)
+        end
+        TriggerClientEvent('QBCore:Command:CallCommand', src, commandString)
+    end
+end)
+
 ---@deprecated call server function QBCore.Functions.CreateVehicle instead.
 QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
     print(string.format("%s invoked deprecated callback QBCore:Server:SpawnVehicle. Call server function QBCore.Functions.CreateVehicle instead.", GetInvokingResource()))

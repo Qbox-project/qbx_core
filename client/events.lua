@@ -18,6 +18,13 @@ RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
     SetCanAttackFriendly(cache.ped, pvp_state, false)
     NetworkSetFriendlyFireOption(pvp_state)
 end)
+
+-- Trigger Command
+--- @deprecated
+RegisterNetEvent('QBCore:Command:CallCommand', function(command)
+    ExecuteCommand(command)
+end)
+
 -- Teleport Commands
 
 ---@param coords vector3
