@@ -226,7 +226,6 @@ end
 ---@param warp? boolean
 ---@return number? netId
 function QBCore.Functions.CreateVehicle(source, model, coords, warp)
-
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
     if not CreateVehicleServerSetter then
@@ -235,8 +234,8 @@ function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     end
     local ped = GetPlayerPed(source)
     local currentVeh = GetVehiclePedIsIn(ped, false)
-    if currentVeh and currentVeh ~= 0 then DeleteEntity(currentVeh) end
-    
+    if currentVeh ~= 0 then DeleteEntity(currentVeh) end
+
     local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
     while not DoesEntityExist(tempVehicle) do Wait(0) end
     local vehicleType = GetVehicleType(tempVehicle)
