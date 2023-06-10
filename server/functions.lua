@@ -207,7 +207,7 @@ function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
     return QBCore.Functions.CreateVehicle(source, model, coords, warp)
 end
 
--- Server side vehicle creation with optional callback
+-- Server side vehicle creation
 -- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
 -- convert it to a vehicle via the NetToVeh native but use a while loop before that to check if the vehicle exists first like this
@@ -247,30 +247,6 @@ function QBCore.Functions.CreateVehicle(source, model, coords, warp)
     TriggerClientEvent('vehiclekeys:client:SetOwner', source, QBCore.Functions.GetPlate(veh))
     Entity(veh).state:set('initVehicle', true, true)
     return NetworkGetNetworkIdFromEntity(veh)
-end
-
--- Callback Functions --
-
--- Client Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function QBCore.Functions.TriggerClientCallback(name, source, cb, ...)
-    print(string.format("%s invoked deprecated function TriggerClientCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
-    QBCore.ClientCallbacks[name] = cb
-    TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
-end
-
--- Server Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function QBCore.Functions.CreateCallback(name, cb)
-    print(string.format("%s invoked deprecated function CreateCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
-    QBCore.ServerCallbacks[name] = cb
-end
-
----@deprecated call a function instead
-function QBCore.Functions.TriggerCallback(name, source, cb, ...)
-    print(string.format("%s invoked deprecated function TriggerCallback. Call a function instead.", GetInvokingResource()))
-    if not QBCore.ServerCallbacks[name] then return end
-    QBCore.ServerCallbacks[name](source, cb, ...)
 end
 
 -- Items
