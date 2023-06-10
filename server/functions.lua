@@ -219,6 +219,7 @@ end
     ```
 ]]
 -- If you don't use the above on the client, it will return 0 as the vehicle from the netid and 0 means no vehicle found because it doesn't exist so fast on the client
+-- Deletes vehicle ped is in before spawning a new one.
 ---@param source number
 ---@param model string|number
 ---@param coords? vector4 default to player's position
@@ -231,13 +232,19 @@ function QBCore.Functions.CreateVehicle(source, model, coords, warp)
         error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
         return
     end
+    local ped = GetPlayerPed(source)
+    local currentVeh = GetVehiclePedIsIn(ped, false)
+    if currentVeh ~= 0 then DeleteEntity(currentVeh) end
+
     local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
     while not DoesEntityExist(tempVehicle) do Wait(0) end
     local vehicleType = GetVehicleType(tempVehicle)
     DeleteEntity(tempVehicle)
     local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
     Wait(0)
-    if warp then SetPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+
+    if warp then SetPedIntoVehicle(ped, veh, -1) end
+    TriggerClientEvent('vehiclekeys:client:SetOwner', source, QBCore.Functions.GetPlate(veh))
     Entity(veh).state:set('initVehicle', true, true)
     return NetworkGetNetworkIdFromEntity(veh)
 end
