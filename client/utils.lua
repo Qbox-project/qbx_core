@@ -66,7 +66,7 @@ end
 ---@param cb fun(entity: number, netId: number, value: any, bagName: string)
 ---@return number
 function utils.entityStateHandler(keyFilter, cb)
-    return AddStateBagChangeHandler(keyFilter, '', function(bagName, key, value, reserved, replicated)
+    return AddStateBagChangeHandler(keyFilter, '', function(bagName, _, value)
         local entity, netId = utils.getEntityAndNetIdFromBagName(bagName)
 
         if entity then
