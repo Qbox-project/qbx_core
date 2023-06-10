@@ -160,30 +160,6 @@ function QBCore.Debug(_, obj, indent)
     TriggerServerEvent('QBCore:DebugSomething', obj, indent)
 end
 
--- Callback Functions --
-
--- Client Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
-function QBCore.Functions.CreateClientCallback(name, cb)
-    print(string.format("%s invoked deprecated function CreateClientCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
-    QBCore.ClientCallbacks[name] = cb
-end
-
----@deprecated call a function instead
-function QBCore.Functions.TriggerClientCallback(name, cb, ...)
-    print(string.format("%s invoked deprecated function TriggerClientCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
-    if not QBCore.ClientCallbacks[name] then return end
-    QBCore.ClientCallbacks[name](cb, ...)
-end
-
--- Server Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
-function QBCore.Functions.TriggerCallback(name, cb, ...)
-    print(string.format("%s invoked deprecated function TriggerCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
-    QBCore.ServerCallbacks[name] = cb
-    TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
-end
-
 ---@param label string
 ---@param duration integer ms
 ---@param useWhileDead boolean
