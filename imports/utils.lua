@@ -236,7 +236,7 @@ if isServer then
     ---@param source Source
     ---@param reason string
     ---@param setKickReason? fun(reason: string)
-    ---@param deferrals? table
+    ---@param deferrals? Deferrals
     function KickWithReason(source, reason, setKickReason, deferrals)
         reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBCore.Config.Server.Discord
         if setKickReason then
