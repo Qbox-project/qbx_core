@@ -8,6 +8,7 @@ QBCore.UsableItems = {}
 -- ex: local player = QBCore.Functions.GetPlayer(source)
 -- ex: local example = player.Functions.functionname(parameter)
 
+---@deprecated
 ---@param entity number
 ---@return vector4
 function QBCore.Functions.GetCoords(entity)
@@ -18,6 +19,7 @@ end
 
 ---@alias Identifier 'steam'|'license'|'license2'|'xbl'|'ip'|'discord'|'live'
 
+---@deprecated use the native GetPlayerIdentifierByType
 ---@param source Source
 ---@param idtype Identifier
 ---@return string?
@@ -33,7 +35,7 @@ end
 ---@param identifier string
 ---@return integer source of the player with the matching identifier or 0 if no player found
 function QBCore.Functions.GetSource(identifier)
-    for src, _ in pairs(QBCore.Players) do
+    for src in pairs(QBCore.Players) do
         local idens = GetPlayerIdentifiers(src)
         for _, id in pairs(idens) do
             if identifier == id then
@@ -80,11 +82,12 @@ function QBCore.Functions.GetPlayerByPhone(number)
     end
 end
 
+---@deprecated use the native GetPlayers instead
 ---@return Source[] sources
 function QBCore.Functions.GetPlayers()
     local sources = {}
     for k in pairs(QBCore.Players) do
-        sources[#sources+1] = k
+        sources[#sources + 1] = k
     end
     return sources
 end
@@ -185,7 +188,7 @@ end
 
 -- Will return an array of all the entities inside the current bucket (not for player entities, use GetPlayersInBucket for that)
 ---@param bucket integer
----@return integer[]|boolean
+---@return boolean | integer[]
 function QBCore.Functions.GetEntitiesInBucket(bucket)
     local curr_bucket_pool = {}
     if not (QBCore.Entity_Buckets or next(QBCore.Entity_Buckets)) then
@@ -207,7 +210,8 @@ function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
     return QBCore.Functions.CreateVehicle(source, model, coords, warp)
 end
 
--- Server side vehicle creation with optional callback
+---@deprecated use SpawnVehicle from imports/utils.lua
+-- Server side vehicle creation
 -- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
 -- convert it to a vehicle via the NetToVeh native but use a while loop before that to check if the vehicle exists first like this
@@ -293,6 +297,7 @@ function QBCore.Functions.UseItem(source, item)
     exports['qb-inventory']:UseItem(source, item)
 end
 
+---@deprecated use KickWithReason from imports/utils.lua
 -- Kick Player
 ---@param source Source
 ---@param reason string
@@ -446,6 +451,7 @@ function QBCore.Functions.IsPlayerBanned(source)
     return false
 end
 
+---@deprecated use IsLicenseInUse from imports/utils.lua
 -- Check for duplicate license
 ---@param license string
 ---@return boolean
@@ -465,6 +471,8 @@ function QBCore.Functions.IsLicenseInUse(license)
 end
 
 -- Utility functions
+
+---@deprecated use HasItem from imports/utils.lua
 ---@param source Source
 ---@param items unknown[]
 ---@param amount number
@@ -485,6 +493,7 @@ function QBCore.Functions.Notify(source, text, notifyType, duration)
     TriggerClientEvent('QBCore:Notify', source, text, notifyType, duration)
 end
 
+---@deprecated use GetPlate from imports/utils.lua
 ---@param vehicle number
 ---@return string?
 function QBCore.Functions.GetPlate(vehicle)
