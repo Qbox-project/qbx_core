@@ -227,7 +227,7 @@ if isServer then
         end
 
         if warp then SetPedIntoVehicle(ped, veh, -1) end
-        TriggerClientEvent('vehiclekeys:client:SetOwner', source, QBCore.Functions.GetPlate(veh))
+        TriggerClientEvent('vehiclekeys:client:SetOwner', source, GetPlate(veh))
         Entity(veh).state:set('initVehicle', true, true)
         return NetworkGetNetworkIdFromEntity(veh)
     end
