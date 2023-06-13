@@ -1,5 +1,3 @@
-local utils = require 'client.utils'
-
 -- Player load and unload handling
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
@@ -131,7 +129,7 @@ end)
 
 -- Vehicle Commands
 
-utils.entityStateHandler('initVehicle', function(entity, _, value)
+EntityStateHandler('initVehicle', function(entity, _, value)
     if not value then return end
 
     for i = -1, 0 do
