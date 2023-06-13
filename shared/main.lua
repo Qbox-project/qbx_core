@@ -7,6 +7,7 @@ for i = 48, 57 do NumberCharset[#NumberCharset + 1] = string.char(i) end
 for i = 65, 90 do StringCharset[#StringCharset + 1] = string.char(i) end
 for i = 97, 122 do StringCharset[#StringCharset + 1] = string.char(i) end
 
+---@deprecated use CommaValue from imports/utils.lua
 ---converts a number to a string version with commas
 ---@param num number
 ---@return string
@@ -19,6 +20,7 @@ function QBShared.CommaValue(num)
     return formatted
 end
 
+---@deprecated use RandomLetter from imports/utils.lua
 ---@param length integer
 ---@return string
 function QBShared.RandomStr(length)
@@ -26,6 +28,7 @@ function QBShared.RandomStr(length)
     return QBShared.RandomStr(length - 1) .. StringCharset[math.random(1, #StringCharset)]
 end
 
+---@deprecated use RandomNumber from imports/utils.lua
 ---@param length integer
 ---@return string
 function QBShared.RandomInt(length)
@@ -33,6 +36,7 @@ function QBShared.RandomInt(length)
     return QBShared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
 end
 
+---@deprecated use string.split from imports/utils.lua
 ---@param str string
 ---@param delimiter string character
 ---@return string[]
@@ -49,6 +53,7 @@ function QBShared.SplitStr(str, delimiter)
     return result
 end
 
+---@deprecated use string.trim from imports/utils.lua
 ---@param value string
 ---@return string?
 ---@return number? count
@@ -57,6 +62,7 @@ function QBShared.Trim(value)
     return string.gsub(value, '^%s*(.-)%s*$', '%1')
 end
 
+---@deprecated use string.firstToUpper from imports/utils.lua
 ---@param value string
 ---@return string?
 function QBShared.FirstToUpper(value)
@@ -64,6 +70,7 @@ function QBShared.FirstToUpper(value)
     return value:gsub("^%l", string.upper)
 end
 
+---@deprecated use math.round from imports/utils.lua
 ---@param value number
 ---@param numDecimalPlaces integer
 ---@return integer
@@ -73,6 +80,7 @@ function QBShared.Round(value, numDecimalPlaces)
     return math.floor((value * power) + 0.5) / (power)
 end
 
+---@deprecated use ChangeVehicleExtra from imports/utils.lua
 ---@param vehicle number
 ---@param extra number
 ---@param enable boolean
@@ -86,6 +94,7 @@ function QBShared.ChangeVehicleExtra(vehicle, extra, enable)
     end
 end
 
+---@deprecated use SetVehicleExtras from imports/utils.lua
 ---@param vehicle number
 ---@param config table
 function QBShared.SetDefaultVehicleExtras(vehicle, config)
@@ -107,6 +116,7 @@ QBShared.StarterItems = {
     ['driver_license'] = { amount = 1, item = 'driver_license' },
 }
 
+---@deprecated use MaleNoGloves from imports/utils.lua
 QBShared.MaleNoGloves = {
     [0] = true,
     [1] = true,
@@ -145,6 +155,7 @@ QBShared.MaleNoGloves = {
     [132] = true
 }
 
+---@deprecated use FemaleNoGloves from imports/utils.lua
 QBShared.FemaleNoGloves = {
     [0] = true,
     [1] = true,
