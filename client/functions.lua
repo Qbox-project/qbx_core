@@ -10,6 +10,7 @@ function QBCore.Functions.GetPlayerData(cb)
     cb(QBCore.PlayerData)
 end
 
+---@deprecated use GetCoordsFromEntity from imports/utils.lua
 ---@param entity number
 ---@return vector4
 function QBCore.Functions.GetCoords(entity)
@@ -17,16 +18,14 @@ function QBCore.Functions.GetCoords(entity)
     return vector4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
 end
 
---- QBCore.Functions.HasItem checks if a player has the specified `items` in their inventory
---- with the specified `amount`. Returns true if the player has at least the amount specified
---- and not that the player has the exact amount. If the user passes nil for `amount` then we
---- default to 1 - as it's self explainatory within the functions name.
----
---- @param items string|string[]    The item(s) to check for. Can be a string or a table and is mandatory.
---- @param amount? integer          The desired quantity of each item. Acceptable to pass nil, will default to 1.
----
---- @return boolean Returns true if the player has the specified items in the desired quantity,
----                 false otherwise
+---@deprecated use HasItem from imports/utils.lua
+---QBCore.Functions.HasItem checks if a player has the specified `items` in their inventory
+---with the specified `amount`. Returns true if the player has at least the amount specified
+---and not that the player has the exact amount. If the user passes nil for `amount` then we
+---default to 1 - as it's self explainatory within the functions name.
+---@param items string | string[] The item(s) to check for. Can be a string or a table and is mandatory.
+---@param amount? integer The desired quantity of each item. Acceptable to pass nil, will default to 1.
+---@return boolean Returns true if the player has the specified items in the desired quantity, false otherwise
 function QBCore.Functions.HasItem(items, amount)
     amount = amount or 1
     local count = exports.ox_inventory:Search('count', items)
@@ -43,6 +42,7 @@ end
 
 -- Utility
 
+---@deprecated use DrawText2D from imports/utils.lua
 ---@param x number
 ---@param y number
 ---@param width number
@@ -68,6 +68,7 @@ function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
     DrawText(x - width / 2, y - height / 2 + 0.005)
 end
 
+---@deprecated use DrawText3D from imports/utils.lua
 ---@param coords vector3
 ---@param text string
 function QBCore.Functions.DrawText3D(coords, text)
@@ -86,8 +87,10 @@ function QBCore.Functions.DrawText3D(coords, text)
     ClearDrawOrigin()
 end
 
+---@deprecated use lib.requestAnimDict from ox_lib
 QBCore.Functions.RequestAnimDict = lib.requestAnimDict
 
+---@deprecated use PlayAnim from imports/utils.lua
 ---@param animDict string
 ---@param animName string
 ---@param upperbodyOnly boolean
@@ -96,21 +99,18 @@ function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
     local flags = upperbodyOnly and 16 or 0
     local runTime = duration or -1
     QBCore.Functions.RequestAnimDict(animDict)
-    TaskPlayAnim(cache.ped, animDict, animName, 8.0, 1.0, runTime, flags, 0.0, false, false, true)
+    TaskPlayAnim(cache.ped, animDict, animName, 8.0, 3.0, runTime, flags, 0.0, false, false, true)
     RemoveAnimDict(animDict)
 end
 
+---@deprecated use lib.requestModel from ox_lib
 QBCore.Functions.LoadModel = lib.requestModel
 
+---@deprecated use lib.requestAnimSet from ox_lib
 QBCore.Functions.LoadAnimSet = lib.requestAnimSet
 
-RegisterNUICallback('getNotifyConfig', function(_, cb)
-    cb(QBCore.Config.Notify)
-end)
-
-
 ---@alias NotificationPosition 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left' | 'center-right' | 'center-left'
----@alias NotificationType 'inform' | 'error' | 'success' | 'warning'
+---@alias NotificationType 'info' | 'warning' | 'success' | 'error'
 ---@alias DeprecatedNotificationType 'primary'
 
 ---@class NotifyProps
@@ -120,13 +120,13 @@ end)
 ---@field duration? number milliseconds notification is on screen
 ---@field position? NotificationPosition
 ---@field type? NotificationType
+---@field style? { [string]: any }
 ---@field icon? string https://fontawesome.com icon name
 ---@field iconColor? string css color value for the icon
 
 ---Text box popup for player which dissappears after a set time.
 ---@param props NotifyProps
 function QBCore.Functions.NotifyV2(props)
-    props.style = nil
     if not props.position then
         props.position = QBConfig.NotifyPosition
     end
@@ -134,25 +134,26 @@ function QBCore.Functions.NotifyV2(props)
 end
 
 ---Text box popup for player which dissappears after a set time.
----@deprecated in favor of QBCore.Functions.NotifyV2()
+---@deprecated use QBCore.Functions.NotifyV2
 ---@param text table|string text of the notification
 ---@param notifyType? NotificationType|DeprecatedNotificationType informs default styling. Defaults to 'inform'.
 ---@param duration? integer milliseconds notification will remain on scren. Defaults to 5000.
 function QBCore.Functions.Notify(text, notifyType, duration)
     print(string.format("%s invoked deprecated function Notify. Use NotifyV2 instead.", GetInvokingResource()))
-    notifyType = notifyType or 'inform'
-    if notifyType == 'primary' then notifyType = 'inform' end
+    notifyType = notifyType or 'info'
+    if notifyType == 'primary' then notifyType = 'info' end
     duration = duration or 5000
     local position = QBConfig.NotifyPosition
     if type(text) == "table" then
         local title = text.text or 'Placeholder'
         local description = text.caption or 'Placeholder'
-        lib.notify({ title = title, description = description, duration = duration, type = notifyType, position = position})
+        lib.notify({ title = title, description = description, duration = duration, type = notifyType --[[@as NotificationType]], position = position})
     else
-        lib.notify({ description = text, duration = duration, type = notifyType, position = position})
+        lib.notify({ description = text, duration = duration, type = notifyType --[[@as NotificationType]], position = position})
     end
 end
 
+---@deprecated use DebugPrint from imports/utils.lua
 ---prints invoking resource and obj using indent
 ---@param obj any
 ---@param indent integer
@@ -184,6 +185,7 @@ function QBCore.Functions.TriggerCallback(name, cb, ...)
     TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
 end
 
+---@deprecated use lib.progressBar from ox_lib
 ---@param label string
 ---@param duration integer ms
 ---@param useWhileDead boolean
@@ -228,21 +230,25 @@ end
 
 -- Getters
 
+---@deprecated use GetVehicles from imports/utils.lua
 ---@return number[]
 function QBCore.Functions.GetVehicles()
     return GetGamePool('CVehicle')
 end
 
+---@deprecated use GetObjects from imports/utils.lua
 ---@return number[]
 function QBCore.Functions.GetObjects()
     return GetGamePool('CObject')
 end
 
+---@deprecated use GetPlayers from imports/utils.lua
 ---@return number[]
 function QBCore.Functions.GetPlayers()
     return GetActivePlayers()
 end
 
+---@deprecated use GetPeds from imports/utils.lua
 ---@param ignoreList? number[]
 ---@return number[]
 function QBCore.Functions.GetPeds(ignoreList)
@@ -263,6 +269,7 @@ function QBCore.Functions.GetPeds(ignoreList)
     return peds
 end
 
+---@deprecated use GetClosestEntity from imports/utils.lua
 ---@param coords vector3? if unset uses player coords
 ---@param objs number[]
 ---@return integer closestObj or -1
@@ -283,6 +290,7 @@ local function getClosest(coords, objs)
     return closestObj, closestDistance
 end
 
+---@deprecated use GetClosestPed from imports/utils.lua
 ---Use QBCore.Functions.GetClosestPlayer if wanting to ignore non-player peds
 ---@param coords? vector3 uses player position if not set
 ---@param ignoreList number[]
@@ -294,6 +302,7 @@ function QBCore.Functions.GetClosestPed(coords, ignoreList)
     return getClosest(coords, peds)
 end
 
+---@deprecated use IsWearingGloves from imports/utils.lua
 ---@return boolean
 function QBCore.Functions.IsWearingGloves()
     local armIndex = GetPedDrawableVariation(cache.ped, 3)
@@ -302,6 +311,7 @@ function QBCore.Functions.IsWearingGloves()
     return not QBCore.Shared[sharedTable][armIndex]
 end
 
+---@deprecated use GetClosestPlayer from imports/utils.lua
 ---@param coords? vector3 uses player position if not set
 ---@return number? playerId
 ---@return integer? closestDistance
@@ -312,6 +322,7 @@ function QBCore.Functions.GetClosestPlayer(coords)
     return playerId, closestDistance
 end
 
+---@deprecated use GetPlayersFromCoords from imports/utils.lua
 ---@param coords? vector3 uses player position if not set
 ---@param distance number
 ---@return number[] playerIds
@@ -327,6 +338,7 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     return players
 end
 
+---@deprecated use GetClosestVehicle from imports/utils.lua
 ---@param coords? vector3 uses player position if not set
 ---@return number? vehicle
 ---@return integer? closestDistance
@@ -337,6 +349,7 @@ function QBCore.Functions.GetClosestVehicle(coords)
     return vehicle, closestDistance
 end
 
+---@deprecated use GetClosestObject from imports/utils.lua
 ---@param coords? vector3 uses player position if not set
 ---@return integer closestObject
 ---@return number closestDistance
@@ -345,6 +358,7 @@ function QBCore.Functions.GetClosestObject(coords)
     return getClosest(coords, objects)
 end
 
+---@deprecated use GetClosestBone from imports/utils.lua
 ---@param entity number
 ---@param list table|{id: number}[] bones
 ---@return table|{id: number, type: string, name: string}
@@ -372,6 +386,7 @@ function QBCore.Functions.GetClosestBone(entity, list)
     return bone, coords, distance
 end
 
+---@deprecated use GetBoneDistance from imports/utils.lua
 ---@param entity number
 ---@param boneType integer
 ---@param boneIndex number
@@ -383,6 +398,7 @@ function QBCore.Functions.GetBoneDistance(entity, boneType, boneIndex)
     return #(boneCoords - playerCoords)
 end
 
+---@deprecated use AttachProp from imports/utils.lua
 ---@param ped number
 ---@param model number|string
 ---@param boneId number
@@ -432,6 +448,7 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportI
     if cb then cb(veh) end
 end
 
+---@deprecated use DeleteVehicle from imports/utils.lua
 ---@param vehicle number
 ---@return boolean failure if true, vehicle was not deleted
 function QBCore.Functions.DeleteVehicle(vehicle)
@@ -440,6 +457,7 @@ function QBCore.Functions.DeleteVehicle(vehicle)
     return DoesEntityExist(vehicle)
 end
 
+---@deprecated use GetPlate from imports/utils.lua
 ---@param vehicle number
 ---@return string?
 function QBCore.Functions.GetPlate(vehicle)
@@ -447,6 +465,7 @@ function QBCore.Functions.GetPlate(vehicle)
     return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
 end
 
+---@deprecated use GetVehicleDisplayName from imports/utils.lua
 ---@param vehicle number
 ---@return string?
 function QBCore.Functions.GetVehicleLabel(vehicle)
@@ -454,6 +473,7 @@ function QBCore.Functions.GetVehicleLabel(vehicle)
     return GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
 end
 
+---@deprecated use IsVehicleSpawnClear from imports/utils.lua
 ---Find if vehicle exists within radius of coords.
 ---@param coords vector3? defaults to player position
 ---@param radius number
@@ -472,12 +492,16 @@ function QBCore.Functions.SpawnClear(coords, radius)
     return #closeVeh == 0
 end
 
+---@deprecated use lib.getVehicleProperties from ox_lib
 QBCore.Functions.GetVehicleProperties = lib.getVehicleProperties
 
+---@deprecated use lib.setVehicleProperties from ox_lib
 QBCore.Functions.SetVehicleProperties = lib.setVehicleProperties
 
+---@deprecated use lib.requestNamedPtfxAsset from ox_lib
 QBCore.Functions.LoadParticleDictionary = lib.requestNamedPtfxAsset
 
+---@deprecated use StartParticleAtCoord from imports/utils.lua
 ---@param dict string
 ---@param ptName string
 ---@param looped boolean
@@ -515,6 +539,7 @@ function QBCore.Functions.StartParticleAtCoord(dict, ptName, looped, coords, rot
     return particleHandle
 end
 
+---@deprecated use StartParticleOnEntity from imports/utils.lua
 ---@param dict string
 ---@param ptName string
 ---@param looped boolean
@@ -564,6 +589,7 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
     return particleHandle
 end
 
+---@deprecated use GetStreetNametAtCoords from imports/utils.lua
 ---@param coords vector3
 ---@return {main: string, cross: string}
 function QBCore.Functions.GetStreetNametAtCoords(coords)
@@ -571,12 +597,14 @@ function QBCore.Functions.GetStreetNametAtCoords(coords)
     return { main = GetStreetNameFromHashKey(street1), cross = GetStreetNameFromHashKey(street2) }
 end
 
+---@deprecated use GetZoneAtCoords from imports/utils.lua
 ---@param coords vector3
 ---@return string
 function QBCore.Functions.GetZoneAtCoords(coords)
     return GetLabelText(GetNameOfZone(coords.x, coords.y, coords.z))
 end
 
+---@deprecated use GetCardinalDirection from imports/utils.lua
 ---@param entity? number defaults to player ped
 ---@return 'North'|'South'|'East'|'West'|string direction or error message
 function QBCore.Functions.GetCardinalDirection(entity)
@@ -602,10 +630,11 @@ end
 ---@class CurrentTime
 ---@field formattedMin string
 ---@field formattedHour integer
----@field ampm 'AM'|'PM'
+---@field ampm 'AM' | 'PM'
 ---@field min number
 ---@field hour number
 
+---@deprecated use GetCurrentTime from imports/utils.lua
 ---@return CurrentTime
 function QBCore.Functions.GetCurrentTime()
     local obj = {}
@@ -626,6 +655,7 @@ function QBCore.Functions.GetCurrentTime()
     return obj
 end
 
+---@deprecated use GetGroundZCoord from imports/utils.lua
 ---@param coords vector3
 ---@return vector3?
 function QBCore.Functions.GetGroundZCoord(coords)
