@@ -1,4 +1,5 @@
 ---prints tbl
+---@deprecated
 ---@param tbl any
 ---@param indent integer
 local function tPrint(tbl, indent)
@@ -29,6 +30,7 @@ local function tPrint(tbl, indent)
 end
 
 ---prints invoking resource, and tbl.
+---@deprecated
 ---@param tbl any
 ---@param indent integer
 RegisterServerEvent('QBCore:DebugSomething', function(tbl, indent)
@@ -39,18 +41,21 @@ RegisterServerEvent('QBCore:DebugSomething', function(tbl, indent)
 end)
 
 ---prints invoking resource, and tbl
+---@deprecated
 ---@param tbl any
 ---@param indent integer
 function QBCore.Debug(tbl, indent)
     TriggerEvent('QBCore:DebugSomething', tbl, indent)
 end
 
+---@deprecated
 ---@param resource string
 ---@param msg string
 function QBCore.ShowError(resource, msg)
     print(('\x1b[31m[%s:ERROR]\x1b[0m %s'):format(resource, msg))
 end
 
+---@deprecated
 ---@param resource string
 ---@param msg string
 function QBCore.ShowSuccess(resource, msg)
