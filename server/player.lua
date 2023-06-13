@@ -8,8 +8,9 @@ QBCore.Player = {}
 
 GlobalState.PlayerCount = 0
 
----@class PlayerData: PlayerEntity
+---@class PlayerData : PlayerEntity
 ---@field source? Source present if player is online
+---@field optin? boolean present if player is online
 
 ---On player login get their data or set defaults
 ---Don't touch any of this unless you know what you are doing
@@ -24,7 +25,7 @@ function QBCore.Player.Login(source, citizenid, newData)
         return false
     end
     if citizenid then
-        local license, license2 = QBCore.Functions.GetIdentifier(source, 'license'), QBCore.Functions.GetIdentifier(source, 'license2')
+        local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
         local PlayerData = FetchPlayerEntity(citizenid)
         if PlayerData and (license2 == PlayerData.license or license == PlayerData.license) then
             QBCore.Player.CheckPlayerData(source, PlayerData)
@@ -55,7 +56,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     local Offline = true
     if source then
         PlayerData.source = source
-        PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
+        PlayerData.license = PlayerData.license or GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
         PlayerData.name = GetPlayerName(source)
         Offline = false
     end
@@ -154,7 +155,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     -- Other
     PlayerData.position = PlayerData.position or QBConfig.DefaultSpawn
     PlayerData.items = GetResourceState('qb-inventory') ~= 'missing' and exports['qb-inventory']:LoadInventory(PlayerData.source, PlayerData.citizenid) or {}
-    return QBCore.Player.CreatePlayer(PlayerData, Offline)
+    return QBCore.Player.CreatePlayer(PlayerData --[[@as PlayerData]], Offline)
 end
 
 ---On player logout
@@ -197,12 +198,12 @@ end
 ---@field SetMetaData fun(meta: string, val: any)
 ---@field GetMetaData fun(meta: string): any
 ---@field AddJobReputation fun(amount: number)
----@field AddMoney fun(moneytype: MoneyType, amount: number, reason: string): boolean
----@field RemoveMoney fun(moneytype: MoneyType, amount: number, reason: string): boolean
----@field SetMoney fun(moneytype: MoneyType, amount: number, reason: string): boolean
----@field GetMoney fun(moneytype: MoneyType): number|boolean
+---@field AddMoney fun(moneytype: MoneyType, amount: number, reason?: string): boolean
+---@field RemoveMoney fun(moneytype: MoneyType, amount: number, reason?: string): boolean
+---@field SetMoney fun(moneytype: MoneyType, amount: number, reason?: string): boolean
+---@field GetMoney fun(moneytype: MoneyType): boolean | number
 ---@field SetCreditCard fun(cardNumber: number)
----@field GetCardSlot fun(cardNumber: number, cardType: 'visa'|'mastercard'|string): number?
+---@field GetCardSlot fun(cardNumber: number, cardType: 'visa' | 'mastercard' | string): number?
 ---@field Save fun()
 ---@field Logout fun()
 ---@field AddMethod fun(methodName: string, handler: function)
@@ -327,19 +328,19 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     ---@param amount number
     function self.Functions.AddJobReputation(amount)
         if not amount then return end
-        amount = tonumber(amount)
+        amount = tonumber(amount) --[[@as number]]
         self.PlayerData.metadata.jobrep[self.PlayerData.job.name] = self.PlayerData.metadata.jobrep[self.PlayerData.job.name] + amount
         self.Functions.UpdatePlayerData()
     end
 
     ---@param moneytype MoneyType
     ---@param amount number
-    ---@param reason string
+    ---@param reason? string
     ---@return boolean success if money was added
     function self.Functions.AddMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
-        amount = tonumber(amount)
-        if amount < 0 then return end
+        amount = tonumber(amount) --[[@as number]]
+        if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
 
@@ -360,12 +361,12 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
     ---@param moneytype MoneyType
     ---@param amount number
-    ---@param reason string
+    ---@param reason? string
     ---@return boolean success if money was removed
     function self.Functions.RemoveMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
-        amount = tonumber(amount)
-        if amount < 0 then return end
+        amount = tonumber(amount) --[[@as number]]
+        if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
             if mtype == moneytype then
@@ -396,11 +397,11 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
     ---@param moneytype MoneyType
     ---@param amount number
-    ---@param reason string
+    ---@param reason? string
     ---@return boolean success if money was set
     function self.Functions.SetMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
-        amount = tonumber(amount)
+        amount = tonumber(amount) --[[@as number]]
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         local difference = amount - self.PlayerData.money[moneytype]
@@ -418,7 +419,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 
     ---@param moneytype MoneyType
-    ---@return number|boolean amount or false if moneytype does not exist
+    ---@return boolean | number amount or false if moneytype does not exist
     function self.Functions.GetMoney(moneytype)
         if not moneytype then return false end
         return self.PlayerData.money[moneytype]
@@ -431,7 +432,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 
     ---@param cardNumber number
-    ---@param cardType 'visa'|'mastercard'|string
+    ---@param cardType 'visa' | 'mastercard' | string
     ---@return number? slot of the card if found
     function self.Functions.GetCardSlot(cardNumber, cardType)
         local item = tostring(cardType)
@@ -588,7 +589,7 @@ end
 ---@param source Source
 ---@param citizenid string
 function QBCore.Player.DeleteCharacter(source, citizenid)
-    local license, license2 = QBCore.Functions.GetIdentifier(source, 'license'), QBCore.Functions.GetIdentifier(source, 'license2')
+    local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
     local result = FetchPlayerEntity(citizenid).license
     if license == result or license2 == result then
         CreateThread(function()
@@ -609,7 +610,7 @@ function QBCore.Player.ForceDeleteCharacter(citizenid)
     if result then
         local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
         if Player then
-            DropPlayer(Player.PlayerData.source, "An admin deleted the character which you are currently using")
+            DropPlayer(Player.PlayerData.source --[[@as string]], "An admin deleted the character which you are currently using")
         end
 
         CreateThread(function()
