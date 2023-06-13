@@ -52,7 +52,7 @@ function QBCore.Functions.GetPlayer(source)
     if type(source) == 'number' then
         return QBCore.Players[source]
     else
-        return QBCore.Players[QBCore.Functions.GetSource(source)]
+        return QBCore.Players[QBCore.Functions.GetSource(source --[[@as string]])]
     end
 end
 
@@ -151,7 +151,7 @@ end
 function QBCore.Functions.SetPlayerBucket(source, bucket)
     if not (source or bucket) then return false end
 
-    SetPlayerRoutingBucket(source, bucket)
+    SetPlayerRoutingBucket(source --[[@as string]], bucket)
     QBCore.Player_Buckets[source] = bucket
     return true
 end
@@ -207,7 +207,7 @@ end
 ---@deprecated Use QBCore.Functions.CreateVehicle instead.
 function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
     print(string.format("%s invoked deprecated server function QBCore.Functions.SpawnVehicle. Use QBCore.Functions.CreateVehicle instead.", GetInvokingResource()))
-    return QBCore.Functions.CreateVehicle(source, model, coords, warp)
+    return SpawnVehicle(source, model, coords, warp)
 end
 
 ---@deprecated use SpawnVehicle from imports/utils.lua
@@ -347,7 +347,7 @@ end
 ---@param source Source
 ---@param permission string
 function QBCore.Functions.AddPermission(source, permission)
-    if not IsPlayerAceAllowed(source, permission) then
+    if not IsPlayerAceAllowed(source --[[@as string]], permission) then
         ExecuteCommand(('add_principal player.%s qbox.%s'):format(source, permission))
         QBCore.Commands.Refresh(source)
         TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
@@ -359,7 +359,7 @@ end
 ---@param permission string
 function QBCore.Functions.RemovePermission(source, permission)
     if permission then
-        if IsPlayerAceAllowed(source, permission) then
+        if IsPlayerAceAllowed(source --[[@as string]], permission) then
             ExecuteCommand(('remove_principal player.%s qbox.%s'):format(source, permission))
             QBCore.Commands.Refresh(source)
             TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
@@ -368,7 +368,7 @@ function QBCore.Functions.RemovePermission(source, permission)
     else
         local hasUpdated = false
         for _, v in pairs(QBCore.Config.Server.Permissions) do
-            if IsPlayerAceAllowed(source, v) then
+            if IsPlayerAceAllowed(source --[[@as string]], v) then
                 ExecuteCommand(('remove_principal player.%s qbox.%s'):format(source, v))
                 QBCore.Commands.Refresh(source)
                 hasUpdated = true
@@ -387,10 +387,10 @@ end
 ---@return boolean
 function QBCore.Functions.HasPermission(source, permission)
     if type(permission) == "string" then
-        if IsPlayerAceAllowed(source, permission) then return true end
+        if IsPlayerAceAllowed(source --[[@as string]], permission) then return true end
     elseif type(permission) == "table" then
         for _, permLevel in pairs(permission) do
-            if IsPlayerAceAllowed(source, permLevel) then return true end
+            if IsPlayerAceAllowed(source --[[@as string]], permLevel) then return true end
         end
     end
 
@@ -400,10 +400,9 @@ end
 ---@param source Source
 ---@return table<string, boolean>
 function QBCore.Functions.GetPermission(source)
-    local src = source
     local perms = {}
     for _, v in pairs (QBCore.Config.Server.Permissions) do
-        if IsPlayerAceAllowed(src, v) then
+        if IsPlayerAceAllowed(source --[[@as string]], v) then
             perms[v] = true
         end
     end
@@ -414,14 +413,16 @@ end
 ---@param source Source
 ---@return boolean
 function QBCore.Functions.IsOptin(source)
-    local license = QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
+    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return false end
     local Player = QBCore.Functions.GetPlayer(source)
     return Player.PlayerData.optin
 end
 
+---Opt in or out of admin reports
+---@param source Source
 function QBCore.Functions.ToggleOptin(source)
-    local license = QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
+    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return end
     local Player = QBCore.Functions.GetPlayer(source)
     Player.PlayerData.optin = not Player.PlayerData.optin
@@ -433,7 +434,7 @@ end
 ---@return boolean
 ---@return string? playerMessage
 function QBCore.Functions.IsPlayerBanned(source)
-    local plicense = QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
+    local plicense = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     local result = FetchBanEntity({
         license = plicense
     })
