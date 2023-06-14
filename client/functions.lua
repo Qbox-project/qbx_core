@@ -169,15 +169,6 @@ QBCore.Functions.GetPlayers = GetPlayersInScope
 ---@deprecated use GetPeds from imports/utils.lua
 QBCore.Functions.GetPeds = GetPeds
 
----@deprecated use GetClosestEntity from imports/utils.lua
----@param coords vector3? if unset uses player coords
----@param objs number[]
----@return integer closestObj or -1
----@return number closestDistance or -1
-local function getClosest(coords, objs)
-    return GetClosestEntity(objs, coords)
-end
-
 ---@deprecated use GetClosestPed from imports/utils.lua
 ---Use GetClosestPlayer if wanting to ignore non-player peds
 QBCore.Functions.GetClosestPed = GetClosestPed
