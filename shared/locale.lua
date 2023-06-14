@@ -1,5 +1,5 @@
 --- @class Locale
---- @field fallback Locale | boolean
+--- @field fallback? Locale
 --- @field warnOnMissing boolean
 --- @field phrases table
 --- @field currentLocale string
@@ -53,7 +53,7 @@ function Locale.new(_, opts)
     self.fallback = opts.fallbackLang and Locale.new({}, {
         warnOnMissing = false,
         phrases = opts.fallbackLang.phrases,
-    }) or false
+    }) or nil
 
     self.warnOnMissing = type(opts.warnOnMissing) ~= 'boolean' and true or opts.warnOnMissing
 
