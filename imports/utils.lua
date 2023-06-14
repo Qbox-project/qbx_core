@@ -271,7 +271,7 @@ if isServer then
     ---@param license string
     ---@return boolean
     function IsLicenseInUse(license)
-        local players = GetPlayers()
+        local players = GetPlayersInScope()
 
         for _, player in pairs(players) do
             local plyLicense2 = GetPlayerIdentifierByType(player --[[@as string]], 'license2')
@@ -517,7 +517,7 @@ else
     ---Returns all players in the current scope
     ---@param ignoreList? integer[] ignore specific player ids
     ---@return integer[]
-    function GetPlayers(ignoreList)
+    function GetPlayersInScope(ignoreList)
         ignoreList = ignoreList or {}
         local plys = GetActivePlayers()
         local players = {}
@@ -996,7 +996,7 @@ else
         [165] = true
     }
 
-    ---Returns if the local pled is wearing gloves
+    ---Returns if the local ped is wearing gloves
     ---@return boolean
     function IsWearingGloves()
         local armIndex = GetPedDrawableVariation(cache.ped, 3)
