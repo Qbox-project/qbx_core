@@ -252,20 +252,20 @@ QBCore.Commands.Add('ooc', Lang:t("command.ooc.help"), {}, false, function(sourc
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     for _, v in pairs(Players) do
         if v == source then
-            TriggerClientEvent('chat:addMessage', v, {
+            TriggerClientEvent('chat:addMessage', v --[[@as Source]], {
                 color = { 0, 0, 255},
                 multiline = true,
                 args = {('OOC | %s'):format(GetPlayerName(source)), message}
             })
         elseif #(playerCoords - GetEntityCoords(GetPlayerPed(v))) < 20.0 then
-            TriggerClientEvent('chat:addMessage', v, {
+            TriggerClientEvent('chat:addMessage', v --[[@as Source]], {
                 color = { 0, 0, 255},
                 multiline = true,
                 args = {('OOC | %s'):format(GetPlayerName(source)), message}
             })
-        elseif QBCore.Functions.HasPermission(v, 'admin') then
-            if QBCore.Functions.IsOptin(v) then
-                TriggerClientEvent('chat:addMessage', v, {
+        elseif QBCore.Functions.HasPermission(v --[[@as Source]], 'admin') then
+            if QBCore.Functions.IsOptin(v --[[@as Source]]) then
+                TriggerClientEvent('chat:addMessage', v --[[@as Source]], {
                     color = { 0, 0, 255},
                     multiline = true,
                     args = {('Proximity OOC | %s'):format(GetPlayerName(source)), message}
