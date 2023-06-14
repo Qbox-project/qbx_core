@@ -9,28 +9,12 @@ QBCore.UsableItems = {}
 -- ex: local example = player.Functions.functionname(parameter)
 
 ---@deprecated
----@param entity number
----@return vector4
-function QBCore.Functions.GetCoords(entity)
-    local coords = GetEntityCoords(entity, false)
-    local heading = GetEntityHeading(entity)
-    return vec4(coords.x, coords.y, coords.z, heading)
-end
+QBCore.Functions.GetCoords = GetCoords
 
 ---@alias Identifier 'steam'|'license'|'license2'|'xbl'|'ip'|'discord'|'live'
 
----@deprecated use the native GetPlayerIdentifierByType
----@param source Source
----@param idtype Identifier
----@return string?
-function QBCore.Functions.GetIdentifier(source, idtype)
-    local identifiers = GetPlayerIdentifiers(source)
-    for _, identifier in pairs(identifiers) do
-        if string.find(identifier, idtype) then
-            return identifier
-        end
-    end
-end
+---@deprecated use the native GetPlayerIdentifierByType?
+QBCore.Functions.GetIdentifier = GetPlayerIdentifierByType
 
 ---@param identifier string
 ---@return integer source of the player with the matching identifier or 0 if no player found
@@ -83,14 +67,7 @@ function QBCore.Functions.GetPlayerByPhone(number)
 end
 
 ---@deprecated use the native GetPlayers instead
----@return Source[] sources
-function QBCore.Functions.GetPlayers()
-    local sources = {}
-    for k in pairs(QBCore.Players) do
-        sources[#sources + 1] = k
-    end
-    return sources
-end
+QBCore.Functions.GetPlayers = GetPlayers
 
 ---Will return an array of QB Player class instances
 ---unlike the GetPlayers() wrapper which only returns IDs
@@ -211,47 +188,7 @@ function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
 end
 
 ---@deprecated use SpawnVehicle from imports/utils.lua
--- Server side vehicle creation
--- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
--- use the netid on the client with the NetworkGetEntityFromNetworkId native
--- convert it to a vehicle via the NetToVeh native but use a while loop before that to check if the vehicle exists first like this
---[[
-    ```lua
-        while not DoesEntityExist(NetToVeh(veh)) do
-            Wait(0)
-        end
-    ```
-]]
--- If you don't use the above on the client, it will return 0 as the vehicle from the netid and 0 means no vehicle found because it doesn't exist so fast on the client
--- Deletes vehicle ped is in before spawning a new one.
----@param source number
----@param model string|number
----@param coords? vector4 default to player's position
----@param warp? boolean
----@return number? netId
-function QBCore.Functions.CreateVehicle(source, model, coords, warp)
-    model = type(model) == 'string' and joaat(model) or model
-    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
-    if not CreateVehicleServerSetter then
-        error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
-        return
-    end
-    local ped = GetPlayerPed(source)
-    local currentVeh = GetVehiclePedIsIn(ped, false)
-    if currentVeh ~= 0 then DeleteEntity(currentVeh) end
-
-    local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
-    while not DoesEntityExist(tempVehicle) do Wait(0) end
-    local vehicleType = GetVehicleType(tempVehicle)
-    DeleteEntity(tempVehicle)
-    local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
-    Wait(0)
-
-    if warp then SetPedIntoVehicle(ped, veh, -1) end
-    TriggerClientEvent('vehiclekeys:client:SetOwner', source, QBCore.Functions.GetPlate(veh))
-    Entity(veh).state:set('initVehicle', true, true)
-    return NetworkGetNetworkIdFromEntity(veh)
-end
+QBCore.Functions.CreateVehicle = SpawnVehicle
 
 -- Callback Functions --
 
@@ -298,40 +235,7 @@ function QBCore.Functions.UseItem(source, item)
 end
 
 ---@deprecated use KickWithReason from imports/utils.lua
--- Kick Player
----@param source Source
----@param reason string
----@param setKickReason? fun(reason: string)
----@param deferrals? table
-function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
-    reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBCore.Config.Server.Discord
-    if setKickReason then
-        setKickReason(reason)
-    end
-    CreateThread(function()
-        if deferrals then
-            deferrals.update(reason)
-            Wait(2500)
-        end
-        if source then
-            DropPlayer(source, reason)
-        end
-        for _ = 0, 4 do
-            while true do
-                if source then
-                    if GetPlayerPing(source) >= 0 then
-                        break
-                    end
-                    Wait(100)
-                    CreateThread(function()
-                        DropPlayer(source, reason)
-                    end)
-                end
-            end
-            Wait(5000)
-        end
-    end)
-end
+QBCore.Functions.Kick = KickWithReason
 
 -- Check if player is whitelisted, kept like this for backwards compatibility or future plans
 ---@param source Source
@@ -453,23 +357,7 @@ function QBCore.Functions.IsPlayerBanned(source)
 end
 
 ---@deprecated use IsLicenseInUse from imports/utils.lua
--- Check for duplicate license
----@param license string
----@return boolean
-function QBCore.Functions.IsLicenseInUse(license)
-    local players = GetPlayers()
-    for _, player in pairs(players) do
-        local identifiers = GetPlayerIdentifiers(player)
-        for _, id in pairs(identifiers) do
-            if string.find(id, 'license2') or string.find(id, 'license') then
-                if id == license then
-                    return true
-                end
-            end
-        end
-    end
-    return false
-end
+QBCore.Functions.IsLicenseInUse = IsLicenseInUse
 
 -- Utility functions
 
@@ -479,7 +367,7 @@ end
 ---@param amount number
 ---@return boolean
 function QBCore.Functions.HasItem(source, items, amount)
-    if GetResourceState('qb-inventory') == 'missing' then return end
+    if GetResourceState('qb-inventory') == 'missing' then return false end
     return exports['qb-inventory']:HasItem(source, items, amount)
 end
 
@@ -495,9 +383,4 @@ function QBCore.Functions.Notify(source, text, notifyType, duration)
 end
 
 ---@deprecated use GetPlate from imports/utils.lua
----@param vehicle number
----@return string?
-function QBCore.Functions.GetPlate(vehicle)
-    if not vehicle or vehicle == 0 then return end
-    return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
-end
+QBCore.Functions.GetPlate = GetPlate
