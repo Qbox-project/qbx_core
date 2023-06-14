@@ -1,6 +1,3 @@
----@deprecated
-local tPrint = DebugPrint
-
 ---prints invoking resource, and tbl.
 ---@deprecated
 ---@param tbl any
@@ -8,7 +5,7 @@ local tPrint = DebugPrint
 RegisterServerEvent('QBCore:DebugSomething', function(tbl, indent)
     local resource = GetInvokingResource() or "qbx-core"
     print(('\x1b[4m\x1b[36m[ %s : DEBUG]\x1b[0m'):format(resource))
-    tPrint(tbl, indent)
+    DebugPrint(tbl, indent)
     print('\x1b[4m\x1b[36m[ END DEBUG ]\x1b[0m')
 end)
 
