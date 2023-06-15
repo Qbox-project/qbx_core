@@ -271,7 +271,7 @@ if isServer then
     ---@param license string
     ---@return boolean
     function IsLicenseInUse(license)
-        local players = GetPlayersInScope()
+        local players = GetPlayers()
 
         for _, player in pairs(players) do
             local plyLicense2 = GetPlayerIdentifierByType(player --[[@as string]], 'license2')
