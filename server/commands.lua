@@ -99,11 +99,11 @@ lib.addCommand('addpermission', {
 }, function(source, args)
     local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.addpermission.params.id.name")]))
     local permission = tostring(args[Lang:t("command.addpermission.params.permission.name")])
-    if player then
-        QBCore.Functions.AddPermission(player.PlayerData.source, permission)
-    else
-        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+    if not player then
+      TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+      return
     end
+    QBCore.Functions.AddPermission(player.PlayerData.source, permission)
 end)
 
 lib.addCommand('removepermission', {
@@ -116,11 +116,10 @@ lib.addCommand('removepermission', {
 }, function(source, args)
     local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.removepermission.params.id.name")]))
     local permission = tostring(args[Lang:t("command.removepermission.params.permission.name")])
-    if player then
-        QBCore.Functions.RemovePermission(player.PlayerData.source, permission)
-    else
-        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+    if not player then
+       TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
+    QBCore.Functions.RemovePermission(player.PlayerData.source, permission)
 end)
 
 -- Open & Close Server
@@ -137,7 +136,7 @@ lib.addCommand('openserver', {
         QBCore.Config.Server.Closed = false
         TriggerClientEvent('QBCore:Notify', source, Lang:t('success.server_opened'), 'success')
     else
-        QBCore.Functions.Kick(source, Lang:t("error.no_permission"), nil, nil)
+        KickWithReason(source, Lang:t("error.no_permission"), nil, nil)
     end
 end)
 
@@ -158,12 +157,12 @@ lib.addCommand('closeserver', {
         QBCore.Config.Server.ClosedReason = reason
         for k in pairs(QBCore.Players) do
             if not QBCore.Functions.HasPermission(k, QBCore.Config.Server.WhitelistPermission) then
-                QBCore.Functions.Kick(k, reason, nil, nil)
+                KickWithReason(k, reason, nil, nil)
             end
         end
         TriggerClientEvent('QBCore:Notify', source, Lang:t('success.server_closed'), 'success')
     else
-        QBCore.Functions.Kick(source, Lang:t("error.no_permission"), nil, nil)
+        KickWithReason(source, Lang:t("error.no_permission"), nil, nil)
     end
 end)
 
@@ -176,9 +175,8 @@ lib.addCommand('car', {
     },
     restricted = "qbox.admin"
 }, function(source, args)
-    if args then
-      QBCore.Functions.CreateVehicle(source, args[1], nil, true)
-    end
+    if not args then return end
+    QBCore.Functions.CreateVehicle(source, args[1], nil, true)
 end)
 
 lib.addCommand('dv', {
@@ -199,12 +197,11 @@ lib.addCommand('givemoney', {
     },
     restricted = "qbox.god"
 }, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.givemoney.params.id.name")]))
-    if Player then
-        Player.Functions.AddMoney(tostring(args[Lang:t("command.givemoney.params.moneytype.name")]), tonumber(args[Lang:t("command.givemoney.params.amount.name")]))
-    else
-        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.givemoney.params.id.name")]))
+    if not player then
+       TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
+    player.Functions.AddMoney(tostring(args[Lang:t("command.givemoney.params.moneytype.name")]), tonumber(args[Lang:t("command.givemoney.params.amount.name")]))
 end)
 
 lib.addCommand('setmoney', {
@@ -216,12 +213,11 @@ lib.addCommand('setmoney', {
     },
     restricted = "qbox.god"
 }, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setmoney.params.id.name")]))
-    if Player then
-        Player.Functions.SetMoney(tostring(args[Lang:t("command.setmoney.params.moneytype.name")]), tonumber(args[Lang:t("command.setmoney.params.amount.name")]))
-    else
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setmoney.params.id.name")]))
+    if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
+    player.Functions.SetMoney(tostring(args[Lang:t("command.setmoney.params.moneytype.name")]), tonumber(args[Lang:t("command.setmoney.params.amount.name")]))
 end)
 
 -- Job
@@ -242,15 +238,14 @@ lib.addCommand('setjob', {
     },
     restricted = "qbox.god"
 }, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setjob.params.id.name")]))
-    if Player then
-        if args[Lang:t("command.setjob.params.grade.name")] then
-            Player.Functions.SetJob(tostring(args[Lang:t("command.setjob.params.job.name")]), tonumber(args[Lang:t("command.setjob.params.grade.name")]))
-        else
-            Player.Functions.SetJob(tostring(args[Lang:t("command.setjob.params.job.name")]), 0)
-        end
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setjob.params.id.name")]))
+    if not player then
+      TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+    end
+    if args[Lang:t("command.setjob.params.grade.name")] then
+      player.Functions.SetJob(tostring(args[Lang:t("command.setjob.params.job.name")]), tonumber(args[Lang:t("command.setjob.params.grade.name")]))
     else
-        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+      player.Functions.SetJob(tostring(args[Lang:t("command.setjob.params.job.name")]), 0)
     end
 end)
 
@@ -273,15 +268,14 @@ lib.addCommand('setgang', {
     },
     restricted = "qbox.god"
 }, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setgang.params.id.name")]))
-    if Player then
-        if args[Lang:t("command.setgang.params.grade.name")] then
-            Player.Functions.SetGang(tostring(args[Lang:t("command.setgang.params.gang.name")]), tonumber(args[Lang:t("command.setgang.params.grade.name")]))
-        else
-            Player.Functions.SetGang(tostring(args[Lang:t("command.setgang.params.gang.name")]), 0)
-        end
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setgang.params.id.name")]))
+    if not player then
+       TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+    end  
+    if args[Lang:t("command.setgang.params.grade.name")] then
+      player.Functions.SetGang(tostring(args[Lang:t("command.setgang.params.gang.name")]), tonumber(args[Lang:t("command.setgang.params.grade.name")]))
     else
-        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+      player.Functions.SetGang(tostring(args[Lang:t("command.setgang.params.gang.name")]), 0)
     end
 end)
 
@@ -292,25 +286,25 @@ lib.addCommand('ooc', {
     restricted = "qbox.user"
 }, function(source, args)
     local message = table.concat(args, ' ')
-    local Players = QBCore.Functions.GetPlayers()
+    local Players = GetPlayers()
     local Player = QBCore.Functions.GetPlayer(source)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     for _, v in pairs(Players) do
         if v == source then
-            TriggerClientEvent('chat:addMessage', v, {
+            TriggerClientEvent('chat:addMessage', v --[[@as Source]], {
                 color = { 0, 0, 255},
                 multiline = true,
                 args = {('OOC | %s'):format(GetPlayerName(source)), message}
             })
         elseif #(playerCoords - GetEntityCoords(GetPlayerPed(v))) < 20.0 then
-            TriggerClientEvent('chat:addMessage', v, {
+            TriggerClientEvent('chat:addMessage', v --[[@as Source]], {
                 color = { 0, 0, 255},
                 multiline = true,
                 args = {('OOC | %s'):format(GetPlayerName(source)), message}
             })
-        elseif QBCore.Functions.HasPermission(v, 'admin') then
-            if QBCore.Functions.IsOptin(v) then
-                TriggerClientEvent('chat:addMessage', v, {
+        elseif QBCore.Functions.HasPermission(v --[[@as Source]], 'admin') then
+            if QBCore.Functions.IsOptin(v --[[@as Source]]) then
+                TriggerClientEvent('chat:addMessage', v --[[@as Source]], {
                     color = { 0, 0, 255},
                     multiline = true,
                     args = {('Proximity OOC | %s'):format(GetPlayerName(source)), message}

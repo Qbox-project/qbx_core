@@ -345,22 +345,22 @@ end
 QBCore.Functions.GetCoreVersion = GetCoreVersion
 exports('GetCoreVersion', GetCoreVersion)
 
----@param playerId integer server id
+---@param playerId Source server id
 ---@param origin string reason
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
     CreateThread(function()
         InsertBanEntity({
             name = name,
-            license = QBCore.Functions.GetIdentifier(playerId, 'license2') or QBCore.Functions.GetIdentifier(playerId, 'license'),
-            discordId = QBCore.Functions.GetIdentifier(playerId, 'discord'),
-            ip = QBCore.Functions.GetIdentifier(playerId, 'ip'),
+            license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
+            discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
+            ip = GetPlayerIdentifierByType(playerId --[[@as string]], 'ip'),
             reason = origin,
             expiration = 2147483647,
             bannedBy = 'Anti Cheat'
         })
     end)
-    DropPlayer(playerId, Lang:t('info.exploit_banned', {discord = QBCore.Config.Server.Discord}))
+    DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = QBCore.Config.Server.Discord}))
     TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
 end
 

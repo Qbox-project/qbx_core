@@ -8,32 +8,18 @@ QBCore.UsableItems = {}
 -- ex: local player = QBCore.Functions.GetPlayer(source)
 -- ex: local example = player.Functions.functionname(parameter)
 
----@param entity number
----@return vector4
-function QBCore.Functions.GetCoords(entity)
-    local coords = GetEntityCoords(entity, false)
-    local heading = GetEntityHeading(entity)
-    return vec4(coords.x, coords.y, coords.z, heading)
-end
+---@deprecated
+QBCore.Functions.GetCoords = GetCoords
 
 ---@alias Identifier 'steam'|'license'|'license2'|'xbl'|'ip'|'discord'|'live'
 
----@param source Source
----@param idtype Identifier
----@return string?
-function QBCore.Functions.GetIdentifier(source, idtype)
-    local identifiers = GetPlayerIdentifiers(source)
-    for _, identifier in pairs(identifiers) do
-        if string.find(identifier, idtype) then
-            return identifier
-        end
-    end
-end
+---@deprecated use the native GetPlayerIdentifierByType?
+QBCore.Functions.GetIdentifier = GetPlayerIdentifierByType
 
 ---@param identifier string
 ---@return integer source of the player with the matching identifier or 0 if no player found
 function QBCore.Functions.GetSource(identifier)
-    for src, _ in pairs(QBCore.Players) do
+    for src in pairs(QBCore.Players) do
         local idens = GetPlayerIdentifiers(src)
         for _, id in pairs(idens) do
             if identifier == id then
@@ -50,7 +36,7 @@ function QBCore.Functions.GetPlayer(source)
     if type(source) == 'number' then
         return QBCore.Players[source]
     else
-        return QBCore.Players[QBCore.Functions.GetSource(source)]
+        return QBCore.Players[QBCore.Functions.GetSource(source --[[@as string]])]
     end
 end
 
@@ -80,14 +66,8 @@ function QBCore.Functions.GetPlayerByPhone(number)
     end
 end
 
----@return Source[] sources
-function QBCore.Functions.GetPlayers()
-    local sources = {}
-    for k in pairs(QBCore.Players) do
-        sources[#sources+1] = k
-    end
-    return sources
-end
+---@deprecated use the native GetPlayers instead
+QBCore.Functions.GetPlayers = GetPlayers
 
 ---Will return an array of QB Player class instances
 ---unlike the GetPlayers() wrapper which only returns IDs
@@ -148,7 +128,7 @@ end
 function QBCore.Functions.SetPlayerBucket(source, bucket)
     if not (source or bucket) then return false end
 
-    SetPlayerRoutingBucket(source, bucket)
+    SetPlayerRoutingBucket(source --[[@as string]], bucket)
     QBCore.Player_Buckets[source] = bucket
     return true
 end
@@ -185,7 +165,7 @@ end
 
 -- Will return an array of all the entities inside the current bucket (not for player entities, use GetPlayersInBucket for that)
 ---@param bucket integer
----@return integer[]|boolean
+---@return boolean | integer[]
 function QBCore.Functions.GetEntitiesInBucket(bucket)
     local curr_bucket_pool = {}
     if not (QBCore.Entity_Buckets or next(QBCore.Entity_Buckets)) then
@@ -204,43 +184,11 @@ end
 ---@deprecated Use QBCore.Functions.CreateVehicle instead.
 function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
     print(string.format("%s invoked deprecated server function QBCore.Functions.SpawnVehicle. Use QBCore.Functions.CreateVehicle instead.", GetInvokingResource()))
-    return QBCore.Functions.CreateVehicle(source, model, coords, warp)
+    return SpawnVehicle(source, model, coords, warp)
 end
 
--- Server side vehicle creation with optional callback
--- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
--- use the netid on the client with the NetworkGetEntityFromNetworkId native
--- convert it to a vehicle via the NetToVeh native but use a while loop before that to check if the vehicle exists first like this
---[[
-    ```lua
-        while not DoesEntityExist(NetToVeh(veh)) do
-            Wait(0)
-        end
-    ```
-]]
--- If you don't use the above on the client, it will return 0 as the vehicle from the netid and 0 means no vehicle found because it doesn't exist so fast on the client
----@param source number
----@param model string|number
----@param coords? vector4 default to player's position
----@param warp? boolean
----@return number? netId
-function QBCore.Functions.CreateVehicle(source, model, coords, warp)
-    model = type(model) == 'string' and joaat(model) or model
-    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
-    if not CreateVehicleServerSetter then
-        error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
-        return
-    end
-    local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
-    while not DoesEntityExist(tempVehicle) do Wait(0) end
-    local vehicleType = GetVehicleType(tempVehicle)
-    DeleteEntity(tempVehicle)
-    local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
-    Wait(0)
-    if warp then SetPedIntoVehicle(GetPlayerPed(source), veh, -1) end
-    Entity(veh).state:set('initVehicle', true, true)
-    return NetworkGetNetworkIdFromEntity(veh)
-end
+---@deprecated use SpawnVehicle from imports/utils.lua
+QBCore.Functions.CreateVehicle = SpawnVehicle
 
 -- Callback Functions --
 
@@ -286,40 +234,8 @@ function QBCore.Functions.UseItem(source, item)
     exports['qb-inventory']:UseItem(source, item)
 end
 
--- Kick Player
----@param source Source
----@param reason string
----@param setKickReason? fun(reason: string)
----@param deferrals? table
-function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
-    reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBCore.Config.Server.Discord
-    if setKickReason then
-        setKickReason(reason)
-    end
-    CreateThread(function()
-        if deferrals then
-            deferrals.update(reason)
-            Wait(2500)
-        end
-        if source then
-            DropPlayer(source, reason)
-        end
-        for _ = 0, 4 do
-            while true do
-                if source then
-                    if GetPlayerPing(source) >= 0 then
-                        break
-                    end
-                    Wait(100)
-                    CreateThread(function()
-                        DropPlayer(source, reason)
-                    end)
-                end
-            end
-            Wait(5000)
-        end
-    end)
-end
+---@deprecated use KickWithReason from imports/utils.lua
+QBCore.Functions.Kick = KickWithReason
 
 -- Check if player is whitelisted, kept like this for backwards compatibility or future plans
 ---@param source Source
@@ -335,7 +251,7 @@ end
 ---@param source Source
 ---@param permission string
 function QBCore.Functions.AddPermission(source, permission)
-    if not IsPlayerAceAllowed(source, permission) then
+    if not IsPlayerAceAllowed(source --[[@as string]], permission) then
         ExecuteCommand(('add_principal player.%s qbox.%s'):format(source, permission))
         TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
         TriggerEvent('QBCore:Server:OnPermissionUpdate', source)
@@ -346,7 +262,7 @@ end
 ---@param permission string
 function QBCore.Functions.RemovePermission(source, permission)
     if permission then
-        if IsPlayerAceAllowed(source, permission) then
+        if IsPlayerAceAllowed(source --[[@as string]], permission) then
             ExecuteCommand(('remove_principal player.%s qbox.%s'):format(source, permission))
             TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
             TriggerEvent('QBCore:Server:OnPermissionUpdate', source)
@@ -354,7 +270,7 @@ function QBCore.Functions.RemovePermission(source, permission)
     else
         local hasUpdated = false
         for _, v in pairs(QBCore.Config.Server.Permissions) do
-            if IsPlayerAceAllowed(source, v) then
+            if IsPlayerAceAllowed(source --[[@as string]], v) then
                 ExecuteCommand(('remove_principal player.%s qbox.%s'):format(source, v))
                 hasUpdated = true
             end
@@ -372,10 +288,10 @@ end
 ---@return boolean
 function QBCore.Functions.HasPermission(source, permission)
     if type(permission) == "string" then
-        if IsPlayerAceAllowed(source, permission) then return true end
+        if IsPlayerAceAllowed(source --[[@as string]], permission) then return true end
     elseif type(permission) == "table" then
         for _, permLevel in pairs(permission) do
-            if IsPlayerAceAllowed(source, permLevel) then return true end
+            if IsPlayerAceAllowed(source --[[@as string]], permLevel) then return true end
         end
     end
 
@@ -385,10 +301,9 @@ end
 ---@param source Source
 ---@return table<string, boolean>
 function QBCore.Functions.GetPermission(source)
-    local src = source
     local perms = {}
     for _, v in pairs (QBCore.Config.Server.Permissions) do
-        if IsPlayerAceAllowed(src, v) then
+        if IsPlayerAceAllowed(source --[[@as string]], v) then
             perms[v] = true
         end
     end
@@ -399,14 +314,16 @@ end
 ---@param source Source
 ---@return boolean
 function QBCore.Functions.IsOptin(source)
-    local license = QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
+    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return false end
     local Player = QBCore.Functions.GetPlayer(source)
     return Player.PlayerData.optin
 end
 
+---Opt in or out of admin reports
+---@param source Source
 function QBCore.Functions.ToggleOptin(source)
-    local license = QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
+    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return end
     local Player = QBCore.Functions.GetPlayer(source)
     Player.PlayerData.optin = not Player.PlayerData.optin
@@ -418,7 +335,7 @@ end
 ---@return boolean
 ---@return string? playerMessage
 function QBCore.Functions.IsPlayerBanned(source)
-    local plicense = QBCore.Functions.GetIdentifier(source, 'license2') or QBCore.Functions.GetIdentifier(source, 'license')
+    local plicense = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     local result = FetchBanEntity({
         license = plicense
     })
@@ -436,31 +353,18 @@ function QBCore.Functions.IsPlayerBanned(source)
     return false
 end
 
--- Check for duplicate license
----@param license string
----@return boolean
-function QBCore.Functions.IsLicenseInUse(license)
-    local players = GetPlayers()
-    for _, player in pairs(players) do
-        local identifiers = GetPlayerIdentifiers(player)
-        for _, id in pairs(identifiers) do
-            if string.find(id, 'license2') or string.find(id, 'license') then
-                if id == license then
-                    return true
-                end
-            end
-        end
-    end
-    return false
-end
+---@deprecated use IsLicenseInUse from imports/utils.lua
+QBCore.Functions.IsLicenseInUse = IsLicenseInUse
 
 -- Utility functions
+
+---@deprecated use HasItem from imports/utils.lua
 ---@param source Source
 ---@param items unknown[]
 ---@param amount number
 ---@return boolean
 function QBCore.Functions.HasItem(source, items, amount)
-    if GetResourceState('qb-inventory') == 'missing' then return end
+    if GetResourceState('qb-inventory') == 'missing' then return false end
     return exports['qb-inventory']:HasItem(source, items, amount)
 end
 
@@ -475,9 +379,5 @@ function QBCore.Functions.Notify(source, text, notifyType, duration)
     TriggerClientEvent('QBCore:Notify', source, text, notifyType, duration)
 end
 
----@param vehicle number
----@return string?
-function QBCore.Functions.GetPlate(vehicle)
-    if not vehicle or vehicle == 0 then return end
-    return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
-end
+---@deprecated use GetPlate from imports/utils.lua
+QBCore.Functions.GetPlate = GetPlate

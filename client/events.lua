@@ -1,5 +1,3 @@
-local utils = require 'client.utils'
-
 -- Player load and unload handling
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
@@ -138,9 +136,9 @@ end)
 
 -- Vehicle Commands
 
-utils.entityStateHandler('initVehicle', function(entity, _, value)
+EntityStateHandler('initVehicle', function(entity, _, value)
     if not value then return end
-    
+
     for i = -1, 0 do
         local ped = GetPedInVehicleSeat(entity, i)
 
@@ -148,17 +146,12 @@ utils.entityStateHandler('initVehicle', function(entity, _, value)
             DeleteEntity(ped)
         end
     end
-    
-    if NetworkGetEntityOwner(entity) ~= cache.playerId then return end
-    if cache.vehicle then
-        DeleteVehicle(cache.vehicle)
-    end
 
+    if NetworkGetEntityOwner(entity) ~= cache.playerId then return end
     SetVehicleNeedsToBeHotwired(entity, false)
     SetVehRadioStation(entity, 'OFF')
     SetVehicleFuelLevel(entity, 100.0)
     SetVehicleDirtLevel(entity, 0.0)
-    TriggerEvent('vehiclekeys:client:SetOwner', QBCore.Functions.GetPlate(veh))
     Entity(entity).state:set('initVehicle', nil, true)
 end)
 
