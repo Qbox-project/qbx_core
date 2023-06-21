@@ -22,6 +22,38 @@ local function checkSide(value)
     return value == 'client' and not isServer or value == 'server' and isServer or value == 'shared'
 end
 
+local function checkModule(module, resourceName)
+    if not module then return end
+
+    local file = module
+    local split = {string.strsplit(':', module)}
+    local doLoad = true
+    if #split > 1 then
+        local side = getSide(split[1])
+        local isSide = side ~= 'none'
+        local isResource = resources[split[1]]
+        if isResource then
+            resourceName = split[1]
+            side = getSide(split[2])
+            isSide = side ~= 'none'
+        end
+
+        side = not isSide and 'shared' or side
+
+        doLoad = checkSide(side)
+        file = isResource and isSide and split[3] or not isResource and isSide and split[2] or split[1]
+    end
+
+    if not doLoad then return end
+
+    local path = ('modules/%s.lua'):format(file)
+    local import = LoadResourceFile(resourceName, path)
+    local chunk = assert(load(import, ('@@%s/%s'):format(resourceName, path)))
+    if not chunk then return end
+
+    chunk()
+end
+
 for i = 0, GetNumResources() - 1 do
     local resource = GetResourceByFindIndex(i)
     if GetResourceState(resource) == 'started' then
@@ -30,35 +62,7 @@ for i = 0, GetNumResources() - 1 do
 end
 
 for i = 0, GetNumResourceMetadata(resourceName, 'module') - 1 do
-    local resourceName = 'qbx-core'
+    local resourceName = 'qbx-core' -- Default if the resource is not supplied
     local module = GetResourceMetadata(resourceName, 'module', i)
-    if module then
-        local file = module
-        local split = {string.strsplit(':', module)}
-        local doLoad = true
-        if #split > 1 then
-            local side = getSide(split[1])
-            local isSide = side ~= 'none'
-            local isResource = resources[split[1]]
-            if isResource then
-                resourceName = split[1]
-                side = getSide(split[2])
-                isSide = side ~= 'none'
-            end
-
-            side = not isSide and 'shared' or side
-
-            doLoad = checkSide(side)
-            file = isResource and isSide and split[3] or not isResource and isSide and split[2] or split[1]
-        end
-
-        if doLoad then
-            local path = ('modules/%s.lua'):format(file)
-            local import = LoadResourceFile(resourceName, path)
-            local chunk = assert(load(import, ('@@%s/%s'):format(resourceName, path)))
-            if chunk then
-                chunk()
-            end
-        end
-    end
+    checkModule(module, resourceName)
 end
