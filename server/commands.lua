@@ -5,7 +5,7 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
     print(string.format("/!\\ Not an Error /!\\ | %s invoked deprecated Commands function. Please use Ox_lib's addCommand instead.", GetInvokingResource()))
     local properties = {
         help = help,
-        restricted = ((permission and permission ~= "user") and 'qbox.'..permission) or false,
+        restricted = ((permission and permission ~= "user") and 'group.'..permission) or false,
         params = {}
     }
     for i=1, #arguments do
@@ -36,7 +36,7 @@ lib.addCommand('tp', {
         { name = Lang:t("command.tp.params.y.name"), help = Lang:t("command.tp.params.y.help"), optional = true },
         { name = Lang:t("command.tp.params.z.name"), help = Lang:t("command.tp.params.z.help"), optional = true }
     },
-    restricted = "qbox.admin"
+    restricted = "group.admin"
 }, function(source, args)
     if args[Lang:t("command.tp.params.x.name")] and not args[Lang:t("command.tp.params.y.name")] and not args[3] then
         if tonumber(args[1]) then
@@ -74,14 +74,14 @@ end)
 
 lib.addCommand('tpm', {
     help = Lang:t("command.tpm.help"),
-    restricted = "qbox.admin"
+    restricted = "group.admin"
 }, function(source, _)
     TriggerClientEvent('QBCore:Command:GoToMarker', source)
 end)
 
 lib.addCommand('togglepvp', {
     help = Lang:t("command.togglepvp.help"),
-    restricted = "qbox.god"
+    restricted = "group.god"
 }, function(_, _)
     QBConfig.Server.PVP = not QBConfig.Server.PVP
     TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, QBConfig.Server.PVP)
@@ -95,7 +95,7 @@ lib.addCommand('addpermission', {
         {name = Lang:t("command.addpermission.params.id.name"), help = Lang:t("command.addpermission.params.id.help")},
         {name = Lang:t("command.addpermission.params.permission.name"), help = Lang:t("command.addpermission.params.permission.help")}
     },
-    restricted = "qbox.god"
+    restricted = "group.god"
 }, function(source, args)
     local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.addpermission.params.id.name")]))
     local permission = tostring(args[Lang:t("command.addpermission.params.permission.name")])
@@ -112,7 +112,7 @@ lib.addCommand('removepermission', {
         { name = Lang:t("command.removepermission.params.id.name"), help = Lang:t("command.removepermission.params.id.help") },
         { name = Lang:t("command.removepermission.params.permission.name"), help = Lang:t("command.removepermission.params.permission.help") }
     },
-    restricted = "qbox.god"
+    restricted = "group.god"
 }, function(source, args)
     local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.removepermission.params.id.name")]))
     local permission = tostring(args[Lang:t("command.removepermission.params.permission.name")])
@@ -126,7 +126,7 @@ end)
 
 lib.addCommand('openserver', {
     help = Lang:t("command.openserver.help"),
-    restricted = "qbox.god"
+    restricted = "group.god"
 }, function(source, _)
     if not QBCore.Config.Server.Closed then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.server_already_open'), 'error')
@@ -145,7 +145,7 @@ lib.addCommand('closeserver', {
     params = {
         { name = Lang:t("command.closeserver.params.reason.name"), help = Lang:t("command.closeserver.params.reason.help")}
     },
-    restricted = "qbox.god"
+    restricted = "group.god"
 }, function(source, args)
     if QBCore.Config.Server.Closed then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.server_already_closed'), 'error')
@@ -173,7 +173,7 @@ lib.addCommand('car', {
     params = {
         { name = Lang:t("command.car.params.model.name"), help = Lang:t("command.car.params.model.help") }
     },
-    restricted = "qbox.admin"
+    restricted = "group.admin"
 }, function(source, args)
     if not args then return end
     QBCore.Functions.CreateVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
@@ -181,7 +181,7 @@ end)
 
 lib.addCommand('dv', {
     help = Lang:t("command.dv.help"),
-    restricted = "qbox.admin"
+    restricted = "group.admin"
 }, function(source, _)
     TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
 end)
@@ -195,7 +195,7 @@ lib.addCommand('givemoney', {
         { name = Lang:t("command.givemoney.params.moneytype.name"), help = Lang:t("command.givemoney.params.moneytype.help") },
         { name = Lang:t("command.givemoney.params.amount.name"), help = Lang:t("command.givemoney.params.amount.help") }
     },
-    restricted = "qbox.god"
+    restricted = "group.god"
 }, function(source, args)
     local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.givemoney.params.id.name")]))
     if not player then
@@ -211,7 +211,7 @@ lib.addCommand('setmoney', {
         { name = Lang:t("command.setmoney.params.moneytype.name"), help = Lang:t("command.setmoney.params.moneytype.help") },
         { name = Lang:t("command.setmoney.params.amount.name"), help = Lang:t("command.setmoney.params.amount.help") }
     },
-    restricted = "qbox.god"
+    restricted = "group.god"
 }, function(source, args)
     local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setmoney.params.id.name")]))
     if not player then
@@ -223,7 +223,7 @@ end)
 -- Job
 lib.addCommand('job', {
     help = Lang:t("command.job.help"),
-    restricted = "qbox.user"
+    restricted = "group.user"
 }, function(source, _)
     local PlayerJob = QBCore.Functions.GetPlayer(source).PlayerData.job
     TriggerClientEvent('QBCore:Notify', source, Lang:t('info.job_info', {value = PlayerJob.label, value2 = PlayerJob.grade.name, value3 = PlayerJob.onduty}))
@@ -236,7 +236,7 @@ lib.addCommand('setjob', {
         { name = Lang:t("command.setjob.params.job.name"), help = Lang:t("command.setjob.params.job.help") },
         { name = Lang:t("command.setjob.params.grade.name"), help = Lang:t("command.setjob.params.grade.help"), optional = true }
     },
-    restricted = "qbox.god"
+    restricted = "group.god"
 }, function(source, args)
     local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setjob.params.id.name")]))
     if not player then
@@ -253,7 +253,7 @@ end)
 
 lib.addCommand('gang', {
     help = Lang:t("command.gang.help"),
-    restricted = "qbox.user"
+    restricted = "group.user"
 }, function(source, _)
     local PlayerGang = QBCore.Functions.GetPlayer(source).PlayerData.gang
     TriggerClientEvent('QBCore:Notify', source, Lang:t('info.gang_info', {value = PlayerGang.label, value2 = PlayerGang.grade.name}))
@@ -266,7 +266,7 @@ lib.addCommand('setgang', {
         { name = Lang:t("command.setgang.params.gang.name"), help = Lang:t("command.setgang.params.gang.help") },
         { name = Lang:t("command.setgang.params.grade.name"), help = Lang:t("command.setgang.params.grade.help"), optional = true }
     },
-    restricted = "qbox.god"
+    restricted = "group.god"
 }, function(source, args)
     local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setgang.params.id.name")]))
     if not player then
@@ -283,7 +283,7 @@ end)
 
 lib.addCommand('ooc', {
     help = Lang:t("command.ooc.help"),
-    restricted = "qbox.user"
+    restricted = "group.user"
 }, function(source, args)
     local message = table.concat(args, ' ')
     local Players = GetPlayers()
@@ -323,7 +323,7 @@ lib.addCommand('me', {
     params = {
         { name = Lang:t("command.me.params.message.name"), help = Lang:t("command.me.params.message.help") }
     },
-    restricted = "qbox.user"
+    restricted = "group.user"
 }, function(source, args)
     if #args < 1 then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.missing_args2'), 'error') return end
     local msg = table.concat(args, ' '):gsub('[~<].-[>~]', '')
