@@ -32,6 +32,7 @@ server_scripts {
     'server/debug.lua',
     'server/loops.lua',
     'server/storage.lua',
+    'server/staff.lua'
 }
 
 modules {
