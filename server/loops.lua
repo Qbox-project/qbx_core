@@ -1,4 +1,4 @@
-lib.cron.new(('*/%s * * * *'):format(tostring(QBCore.Config.UpdateInterval)), function()
+lib.cron.new(('*/%s * * * *'):format(QBCore.Config.UpdateInterval), function()
     for src, Player in pairs(QBCore.Players) do
         if Player then
             local newHunger = Player.PlayerData.metadata.hunger - QBCore.Config.Player.HungerRate
@@ -17,7 +17,7 @@ lib.cron.new(('*/%s * * * *'):format(tostring(QBCore.Config.UpdateInterval)), fu
     end
 end)
 
-lib.cron.new(('*/%s * * * *'):format(tostring(QBCore.Config.Money.PaycheckTimeout)), function()
+lib.cron.new(('*/%s * * * *'):format(QBCore.Config.Money.PaycheckTimeout), function()
     for _, Player in pairs(QBCore.Players) do
         if Player then
             local payment = QBShared.Jobs[Player.PlayerData.job.name].grades[Player.PlayerData.job.grade.level].payment
