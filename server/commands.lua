@@ -152,7 +152,7 @@ lib.addCommand('closeserver', {
         return
     end
     if QBCore.Functions.HasPermission(source, 'admin') then
-        local reason = args[1] or 'No reason specified'
+        local reason = args[Lang:t("command.closeserver.params.reason.name")] or 'No reason specified'
         QBCore.Config.Server.Closed = true
         QBCore.Config.Server.ClosedReason = reason
         for k in pairs(QBCore.Players) do
@@ -176,7 +176,7 @@ lib.addCommand('car', {
     restricted = "qbox.admin"
 }, function(source, args)
     if not args then return end
-    QBCore.Functions.CreateVehicle(source, args[1], nil, true)
+    QBCore.Functions.CreateVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
 end)
 
 lib.addCommand('dv', {
