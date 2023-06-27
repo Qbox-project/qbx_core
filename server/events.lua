@@ -205,22 +205,19 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
 end)
 
--- Non-Chat Command Calling (ex: qb-adminmenu)
-
+--- @deprecated
 RegisterNetEvent('QBCore:CallCommand', function(command, args)
+    print(string.format("/!\\ Not an Error /!\\ | %s invoked deprecated CallCommand function. Please use the native ExecuteCommand instead (it takes in command and args as a single string).", GetInvokingResource()))
     local src = source --[[@as Source]]
     if not QBCore.Commands.List[command] then return end
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
-    local hasPerm = QBCore.Functions.HasPermission(src, "command."..QBCore.Commands.List[command].name)
-    if hasPerm then
-        if QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and not args[#QBCore.Commands.List[command].arguments] then
-            TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args2'), 'error')
-        else
-            QBCore.Commands.List[command].callback(src, args)
+    if IsPlayerAceAllowed(src, string.format('command.%s', command)) then
+        local commandString = command
+        for _, value in pairs(args) do
+            commandString = string.format('%s %s', commandString, value)
         end
-    else
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.no_access'), 'error')
+        TriggerClientEvent('QBCore:Command:CallCommand', src, commandString)
     end
 end)
 
