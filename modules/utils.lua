@@ -226,6 +226,10 @@ if isServer then
             Wait(0)
         end
 
+        while GetVehicleNumberPlateText(veh) == "" do
+            Wait(0)
+        end
+
         if warp then SetPedIntoVehicle(ped, veh, -1) end
         TriggerClientEvent('vehiclekeys:client:SetOwner', source, GetPlate(veh))
         Entity(veh).state:set('initVehicle', true, true)
