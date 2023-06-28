@@ -4,11 +4,13 @@
     shared_script '@qbx-core/import.lua'
 
     modules { -- Can be `module 'module_name'` as well
-        'module_name', -- This is the name of the file in the modules folder in qbx-core without the .lua
+        'module_name', -- This is the name of the file in the modules folder in your resource without the .lua
         'client:module_name', -- You can specify the side it should be loaded on like this
-        'resourceName:module_name', -- You can also specify the resource it should be loaded from if you don't want to load it from qbx-core
+        'resourceName:module_name', -- You can also specify the resource it should be loaded from if you don't want to load it from your own resource, like when you want to load it from qbx-core
         'resourceName:client:module_name' -- The resource loading also accepts a side to load on
     }
+
+    -- if the side not specified, it will load in shared form (so on both the client and server)
 ]]
 
 local resources = {}
@@ -61,8 +63,8 @@ for i = 0, GetNumResources() - 1 do
     end
 end
 
+local resourceName = GetCurrentResourceName()
 for i = 0, GetNumResourceMetadata(resourceName, 'module') - 1 do
-    local resourceName = 'qbx-core' -- Default if the resource is not supplied
     local module = GetResourceMetadata(resourceName, 'module', i)
     checkModule(module, resourceName)
 end
