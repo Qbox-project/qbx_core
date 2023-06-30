@@ -43,7 +43,7 @@ local function checkModule(module, resourceName)
         side = not isSide and 'shared' or side
 
         doLoad = checkSide(side)
-        file = isResource and isSide and split[3] or not isResource and isSide and split[2] or split[1]
+        file = isResource and isSide and split[3] or (not isResource and isSide or isResource and not isSide) and split[2] or split[1]
     end
 
     if not doLoad then return end
