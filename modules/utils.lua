@@ -148,7 +148,7 @@ function GenerateRandomPlate(pattern)
             local last = i == #pattern
             local c = pattern:sub(i, i)
             local nextC = last and '\0' or pattern:sub(i + 1, i + 1)
-            local curC = ''
+            local curC
 
             if c == '1' then
                 curC = RandomNumber(1)
@@ -360,8 +360,8 @@ else
         font = font or 4
 
         SetTextScale(scale, scale)
-        SetTextFont(4)
-        SetTextColour(255, 255, 255, 215)
+        SetTextFont(font)
+        SetTextColour(r, g, b, a)
         BeginTextCommandDisplayText('STRING')
         SetTextCentre(true)
         AddTextComponentSubstringPlayerName(text)

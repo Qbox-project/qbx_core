@@ -11,7 +11,7 @@ function QBCore.Functions.GetPlayerData(cb)
 end
 
 ---@deprecated use GetCoordsFromEntity from imports/utils.lua
-QBCore.Functions.GetCoords = GetCoords
+QBCore.Functions.GetCoords = GetCoordsFromEntity
 
 ---@deprecated use HasItem from imports/utils.lua
 QBCore.Functions.HasItem = HasItem
@@ -207,7 +207,7 @@ QBCore.Functions.AttachProp = AttachProp
 ---@param teleportInto boolean teleport player to driver seat if true
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
     print(string.format("%s invoked deprecated client function QBCore.Functions.SpawnVehicle. call server function QBCore.Functions.CreateVehicle instead.", GetInvokingResource()))
-    coords = type(coords) == 'table' and vec4(coords.x, coords.y, coords.z, coords.w or GetEntityHeading(cache.ped)) or coords or GetCoords(cache.ped)
+    coords = type(coords) == 'table' and vec4(coords.x, coords.y, coords.z, coords.w or GetEntityHeading(cache.ped)) or coords or GetCoordsFromEntity(cache.ped)
     model = type(model) == 'string' and joaat(model) or model
     if not IsModelInCdimage(model) then return end
 

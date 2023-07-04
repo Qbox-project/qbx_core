@@ -9,7 +9,7 @@ QBCore.UsableItems = {}
 -- ex: local example = player.Functions.functionname(parameter)
 
 ---@deprecated
-QBCore.Functions.GetCoords = GetCoords
+QBCore.Functions.GetCoords = GetCoordsFromEntity
 
 ---@alias Identifier 'steam'|'license'|'license2'|'xbl'|'ip'|'discord'|'live'
 
