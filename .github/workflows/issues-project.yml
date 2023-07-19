@@ -1,0 +1,28 @@
+name: Issues Project Management
+
+on:
+  issues:
+    types: [opened, reopened, closed]
+
+jobs:
+  mark-as-todo:
+    if: ${{ github.event.issue.action == 'opened' || github.event.issue.action == 'reopened' }}
+    name: Mark opened issue as Todo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: alex-page/github-project-automation-plus@v0.8.3
+        with:
+          project: Issues
+          column: Todo
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+  mark-as-done:
+    if: ${{ github.event.issue.action == 'closed' }}
+    name: Mark closed issue as Done
+    runs-on: ubuntu-latest
+    steps:
+      - uses: alex-page/github-project-automation-plus@v0.8.3
+        with:
+          project: Issues
+          column: Done
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
