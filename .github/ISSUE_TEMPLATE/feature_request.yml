@@ -1,6 +1,5 @@
 name: Feature request
 description: Suggest an idea for Qbox
-title: "[SUGGESTION]"
 labels: enhancement
 body:
   - type: markdown
