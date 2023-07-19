@@ -2,27 +2,15 @@ name: Issues Project Management
 
 on:
   issues:
-    types: [opened, reopened, closed]
+    types:
+      - opened
 
 jobs:
-  mark-as-todo:
-    if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
-    name: Mark opened issue as Todo
+  add-to-project:
+    name: Add issue to project
     runs-on: ubuntu-latest
     steps:
-      - uses: alex-page/github-project-automation-plus@v0.8.3
+      - uses: actions/add-to-project@0.5.0
         with:
-          project: Issues
-          column: Todo
-          repo-token: ${{ secrets.PROJECTS_PAT }}
-
-  mark-as-done:
-    if: ${{ github.event.action == 'closed' }}
-    name: Mark closed issue as Done
-    runs-on: ubuntu-latest
-    steps:
-      - uses: alex-page/github-project-automation-plus@v0.8.3
-        with:
-          project: Issues
-          column: Done
-          repo-token: ${{ secrets.PROJECTS_PAT }}
+          project-url: https://github.com/orgs/Qbox-project/projects/4
+          github-token: ${{ secrets.PROJECTS_PAT }}
