@@ -14,7 +14,7 @@ jobs:
         with:
           project: Issues
           column: Todo
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.PROJECTS_PAT }}
 
   mark-as-done:
     if: ${{ github.event.action == 'closed' }}
@@ -25,4 +25,4 @@ jobs:
         with:
           project: Issues
           column: Done
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.PROJECTS_PAT }}
