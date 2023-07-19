@@ -6,7 +6,7 @@ on:
 
 jobs:
   mark-as-todo:
-    if: ${{ github.event.issue.action == 'opened' || github.event.issue.action == 'reopened' }}
+    if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
     name: Mark opened issue as Todo
     runs-on: ubuntu-latest
     steps:
@@ -17,7 +17,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   mark-as-done:
-    if: ${{ github.event.issue.action == 'closed' }}
+    if: ${{ github.event.action == 'closed' }}
     name: Mark closed issue as Done
     runs-on: ubuntu-latest
     steps:
