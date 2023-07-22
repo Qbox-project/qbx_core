@@ -899,7 +899,8 @@ else
 
         if enable ~= isExtraOn then
             SetVehicleExtra(vehicle, extra, not enable)
-        end    for i = 1, 20 do
+        end    
+        for i = 1, 20 do
             if DoesExtraExist(vehicle, i) then
                 SetVehicleExtra(vehicle, i, false)
             end
