@@ -895,11 +895,14 @@ else
     ---@param enable boolean
     function ChangeVehicleExtra(vehicle, extra, enable)
         if not DoesExtraExist(vehicle, extra) then return end
-
-        SetVehicleExtra(vehicle, extra, not enable)
         local isExtraOn = IsVehicleExtraTurnedOn(vehicle, extra)
+
         if enable ~= isExtraOn then
-            ChangeVehicleExtra(vehicle, extra, enable)
+            SetVehicleExtra(vehicle, extra, not enable)
+        end    for i = 1, 20 do
+            if DoesExtraExist(vehicle, i) then
+                SetVehicleExtra(vehicle, i, false)
+            end
         end
     end
 
@@ -910,7 +913,7 @@ else
         -- Clear Extras
         for i = 1, 20 do
             if DoesExtraExist(vehicle, i) then
-                SetVehicleExtra(vehicle, i, true)
+                SetVehicleExtra(vehicle, i, false)
             end
         end
 
