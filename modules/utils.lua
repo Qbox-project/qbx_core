@@ -889,17 +889,26 @@ else
         return coords
     end
 
+        ---Clear all vehicle extras
+    ---@param vehicle integer
+    local function ClearAllVehicleExtras(vehicle)
+        for i = 1, 20 do
+            if DoesExtraExist(vehicle, i) then
+                SetVehicleExtra(vehicle, i, false)
+            end
+        end
+    end
+
     ---Set the status of an extra on the vehicle
     ---@param vehicle integer
     ---@param extra integer
     ---@param enable boolean
     function ChangeVehicleExtra(vehicle, extra, enable)
         if not DoesExtraExist(vehicle, extra) then return end
-
-        SetVehicleExtra(vehicle, extra, not enable)
         local isExtraOn = IsVehicleExtraTurnedOn(vehicle, extra)
+
         if enable ~= isExtraOn then
-            ChangeVehicleExtra(vehicle, extra, enable)
+            SetVehicleExtra(vehicle, extra, not enable)
         end
     end
 
@@ -907,13 +916,8 @@ else
     ---@param vehicle integer
     ---@param extras table<integer, boolean>
     function SetVehicleExtras(vehicle, extras)
-        -- Clear Extras
-        for i = 1, 20 do
-            if DoesExtraExist(vehicle, i) then
-                SetVehicleExtra(vehicle, i, true)
-            end
-        end
-
+        ClearAllVehicleExtras(vehicle)
+        
         for id, enabled in pairs(extras) do
             ChangeVehicleExtra(vehicle, tonumber(id) --[[@as integer]], enabled)
         end
