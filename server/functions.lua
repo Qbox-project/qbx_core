@@ -371,15 +371,29 @@ function QBCore.Functions.HasItem(source, items, amount)
     return exports['qb-inventory']:HasItem(source, items, amount)
 end
 
----@see client/functions.lua:QBCore.Functions.NotifyV2
-function QBCore.Functions.NotifyV2(source, props)
-    TriggerClientEvent('QBCore:NotifyV2', source, props)
-end
-
----@deprecated use QBCore.Functions.NotifyV2 instead.
 ---@see client/functions.lua:QBCore.Functions.Notify
-function QBCore.Functions.Notify(source, text, notifyType, duration)
-    TriggerClientEvent('QBCore:Notify', source, text, notifyType, duration)
+function QBCore.Functions.Notify(source, text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
+    local title, description
+    if type(text) == "table" then
+        title = text.text or 'Placeholder'
+        description = text.caption or nil
+    else
+        title = text
+        description = subTitle
+    end
+    local position = notifyPosition or QBConfig.NotifyPosition
+
+    TriggerClientEvent('ox_lib:notify', source, {
+        id = title,
+        title = title,
+        description = description,
+        duration = duration,
+        type = notifyType,
+        position = position,
+        style = notifyStyle,
+        icon = notifyIcon,
+        iconColor = notifyIconColor
+    })
 end
 
 ---@deprecated use GetPlate from imports/utils.lua
