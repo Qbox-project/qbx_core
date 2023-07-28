@@ -172,7 +172,6 @@ end)
 -- Client Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
 RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
-    print(string.format("%s invoked deprecated event QBCore:Server:TriggerClientCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
     if QBCore.ClientCallbacks[name] then
         QBCore.ClientCallbacks[name](...)
         QBCore.ClientCallbacks[name] = nil
@@ -182,7 +181,6 @@ end)
 -- Server Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
 RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
-    print(string.format("%s invoked deprecated event QBCore:Server:TriggerCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
     local src = source
     QBCore.Functions.TriggerCallback(name, src, function(...)
         TriggerClientEvent('QBCore:Client:TriggerCallback', src, name, ...)
@@ -207,7 +205,6 @@ end)
 
 --- @deprecated
 RegisterNetEvent('QBCore:CallCommand', function(command, args)
-    print(string.format("/!\\ Not an Error /!\\ | %s invoked deprecated CallCommand function. Please use the native ExecuteCommand instead (it takes in command and args as a single string).", GetInvokingResource()))
     local src = source --[[@as Source]]
     if not QBCore.Commands.List[command] then return end
     local Player = QBCore.Functions.GetPlayer(src)
@@ -223,14 +220,12 @@ end)
 
 ---@deprecated call server function SpawnVehicle instead from imports/utils.lua.
 QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
-    print(string.format("%s invoked deprecated callback QBCore:Server:SpawnVehicle. Call server function SpawnVehicle instead from qbx-core/imports/utils.lua.", GetInvokingResource()))
     local netId = SpawnVehicle(source, model, coords, warp)
     if netId then cb(netId) end
 end)
 
 ---@deprecated call server function SpawnVehicle instead from imports/utils.lua.
 QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
-    print(string.format("%s invoked deprecated callback QBCore:Server:CreateVehicle. call server function SpawnVehicle instead from qbx-core/imports/utils.lua.", GetInvokingResource()))
     local netId = SpawnVehicle(source, model, coords, warp)
     if netId then cb(netId) end
 end)

@@ -82,13 +82,11 @@ end
 -- Client Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
 function QBCore.Functions.CreateClientCallback(name, cb)
-    print(string.format("%s invoked deprecated function CreateClientCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
     QBCore.ClientCallbacks[name] = cb
 end
 
 ---@deprecated call a function instead
 function QBCore.Functions.TriggerClientCallback(name, cb, ...)
-    print(string.format("%s invoked deprecated function TriggerClientCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
     if not QBCore.ClientCallbacks[name] then return end
     QBCore.ClientCallbacks[name](cb, ...)
 end
@@ -96,7 +94,6 @@ end
 -- Server Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
 function QBCore.Functions.TriggerCallback(name, cb, ...)
-    print(string.format("%s invoked deprecated function TriggerCallback. Use ox_lib callback functions instead.", GetInvokingResource()))
     QBCore.ServerCallbacks[name] = cb
     TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
 end
@@ -195,7 +192,6 @@ QBCore.Functions.AttachProp = AttachProp
 ---@param isnetworked? boolean defaults to true
 ---@param teleportInto boolean teleport player to driver seat if true
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
-    print(string.format("%s invoked deprecated client function QBCore.Functions.SpawnVehicle. call server function QBCore.Functions.CreateVehicle instead.", GetInvokingResource()))
     coords = type(coords) == 'table' and vec4(coords.x, coords.y, coords.z, coords.w or GetEntityHeading(cache.ped)) or coords or GetCoordsFromEntity(cache.ped)
     model = type(model) == 'string' and joaat(model) or model
     if not IsModelInCdimage(model) then return end
