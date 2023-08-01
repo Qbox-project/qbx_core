@@ -25,6 +25,11 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
     end)
 end
 
+---@deprecated
+function QBCore.Commands.Refresh(source)
+
+end
+
 -- Teleport
 
 lib.addCommand('tp', {
