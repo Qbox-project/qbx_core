@@ -27,7 +27,7 @@ end
 
 ---@deprecated
 function QBCore.Commands.Refresh(source)
-    print(string.format("%s invoked deprecated function QBCore.Commands.Refresh. This is not being used anymore.", GetInvokingResource()))
+
 end
 
 -- Teleport
