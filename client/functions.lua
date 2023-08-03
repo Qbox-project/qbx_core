@@ -81,21 +81,14 @@ end
 
 -- Client Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
-function QBCore.Functions.CreateClientCallback(name, cb)
-    QBCore.ClientCallbacks[name] = cb
-end
+QBCore.Functions.CreateClientCallback = lib.callback.register
 
 ---@deprecated call a function instead
-function QBCore.Functions.TriggerClientCallback(name, cb, ...)
-    if not QBCore.ClientCallbacks[name] then return end
-    QBCore.ClientCallbacks[name](cb, ...)
-end
+QBCore.Functions.TriggerClientCallback = noop
 
--- Server Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
 function QBCore.Functions.TriggerCallback(name, cb, ...)
-    QBCore.ServerCallbacks[name] = cb
-    TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
+    lib.callback(name, false, cb, ...)
 end
 
 ---@deprecated use lib.progressBar from ox_lib

@@ -26,9 +26,7 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
 end
 
 ---@deprecated
-function QBCore.Commands.Refresh(source)
-
-end
+QBCore.Commands.Refresh = noop
 
 -- Teleport
 

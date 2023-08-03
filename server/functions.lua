@@ -191,24 +191,15 @@ QBCore.Functions.CreateVehicle = SpawnVehicle
 
 -- Callback Functions --
 
--- Client Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function QBCore.Functions.TriggerClientCallback(name, source, cb, ...)
-    QBCore.ClientCallbacks[name] = cb
-    TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
-end
+QBCore.Functions.TriggerClientCallback = lib.callback
 
 -- Server Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function QBCore.Functions.CreateCallback(name, cb)
-    QBCore.ServerCallbacks[name] = cb
-end
+QBCore.Functions.CreateCallback = lib.callback.register
 
 ---@deprecated call a function instead
-function QBCore.Functions.TriggerCallback(name, source, cb, ...)
-    if not QBCore.ServerCallbacks[name] then return end
-    QBCore.ServerCallbacks[name](source, cb, ...)
-end
+QBCore.Functions.TriggerCallback = noop
 
 -- Items
 ---@param item string name
