@@ -196,29 +196,22 @@ if isServer then
     function SpawnVehicle(source, model, coords, warp)
         model = type(model) == 'string' and joaat(model) or model
 
-        local ped
-        if not coords then
-            ped = GetPlayerPed(source)
-            coords = GetCoordsFromEntity(ped)
-        end
-
         if not CreateVehicleServerSetter then
             error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
             return
         end
 
-        ped = not ped and GetPlayerPed(source) or ped
-        local currentVeh = GetVehiclePedIsIn(ped, false)
-        if currentVeh ~= 0 then DeleteEntity(currentVeh) end
-
         local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
-
         while not DoesEntityExist(tempVehicle) do
             Wait(0)
         end
-
         local vehicleType = GetVehicleType(tempVehicle)
         DeleteEntity(tempVehicle)
+
+        local ped = GetPlayerPed(source)
+        if not coords then
+            coords = GetCoordsFromEntity(ped)
+        end
 
         local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
 
@@ -917,7 +910,7 @@ else
     ---@param extras table<integer, boolean>
     function SetVehicleExtras(vehicle, extras)
         ClearAllVehicleExtras(vehicle)
-        
+
         for id, enabled in pairs(extras) do
             ChangeVehicleExtra(vehicle, tonumber(id) --[[@as integer]], enabled)
         end
