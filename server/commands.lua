@@ -329,6 +329,8 @@ lib.addCommand('me', {
         { name = Lang:t("command.me.params.message.name"), help = Lang:t("command.me.params.message.help") }
     }
 }, function(source, args)
+    args[1] = args[Lang:t("command.me.params.message.name")]
+    args[Lang:t("command.me.params.message.name")] = nil
     if #args < 1 then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.missing_args2'), 'error') return end
     local msg = table.concat(args, ' '):gsub('[~<].-[>~]', '')
     local playerState = Player(source).state
