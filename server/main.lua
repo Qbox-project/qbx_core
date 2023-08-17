@@ -2,12 +2,6 @@ QBCore = {}
 QBCore.Config = QBConfig
 QBCore.Shared = QBShared
 
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-QBCore.ClientCallbacks = {}
-
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-QBCore.ServerCallbacks = {}
-
 exports('GetCoreObject', function()
     return QBCore
 end)

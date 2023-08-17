@@ -167,26 +167,6 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     end
 end)
 
--- Callback Events --
-
--- Client Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
-    if QBCore.ClientCallbacks[name] then
-        QBCore.ClientCallbacks[name](...)
-        QBCore.ClientCallbacks[name] = nil
-    end
-end)
-
--- Server Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
-    local src = source
-    QBCore.Functions.TriggerCallback(name, src, function(...)
-        TriggerClientEvent('QBCore:Client:TriggerCallback', src, name, ...)
-    end, ...)
-end)
-
 -- Player
 
 RegisterNetEvent('QBCore:ToggleDuty', function()
