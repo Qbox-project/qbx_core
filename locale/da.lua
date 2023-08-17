@@ -17,7 +17,6 @@ local Translations = {
         no_permission = 'Du har ikke adgang til at gøre dette',
         no_waypoint = 'Ingen waypoint sat.',
         tp_error = 'Fejl opstod mens du teleporterede.',
-        connecting_database_error = 'En database fejl opstod, mens du tilsluttede serveren. (Er SQL serveren tændt?)',
         connecting_database_timeout = 'Forbindelsen til databasen gik tabt. (Er SQL serveren tændt?)',
     },
     success = {
