@@ -17,7 +17,6 @@ local Translations = {
         no_permission = 'Нямате разрешения за това ..',
         no_waypoint = 'Няма зададена точка.',
         tp_error = 'Грешка при телепортиране.',
-        connecting_database_error = 'Възникна грешка с базата данни при свързването към сървъра. (SQL сървърът работи ли?)',
         connecting_database_timeout = 'Свързването с базата данни изтече. (SQL сървърът работи ли?)',
     },
     success = {

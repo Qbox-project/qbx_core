@@ -81,7 +81,7 @@ local function onPlayerConnecting(name, _, deferrals)
     -- conduct database-dependant checks
     CreateThread(function()
         deferrals.update(string.format(Lang:t('info.checking_ban'), name))
-        local databaseSuccess, databaseError = pcall(function()
+        local success, err = pcall(function()
             local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src --[[@as Source]])
             if isBanned then
                 deferrals.done(Reason)
@@ -90,15 +90,15 @@ local function onPlayerConnecting(name, _, deferrals)
 
         if QBCore.Config.Server.Whitelist then
             deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
-            databaseSuccess, databaseError = pcall(function()
+            success, err = pcall(function()
                 if not QBCore.Functions.IsWhitelisted(src --[[@as Source]]) then
                     deferrals.done(Lang:t('error.not_whitelisted'))
                 end
             end)
         end
 
-        if not databaseSuccess then
-            databasePromise:reject(databaseError)
+        if not success then
+            databasePromise:reject(err)
         end
         databasePromise:resolve()
     end)
@@ -107,9 +107,9 @@ local function onPlayerConnecting(name, _, deferrals)
     databasePromise:next(function()
         deferrals.update(string.format(Lang:t('info.join_server'), name))
         deferrals.done()
-    end, function (databaseError)
-        deferrals.done(Lang:t('error.connecting_database_error'))
-        print('^1' .. databaseError)
+    end, function(err)
+        deferrals.done(Lang:t('error.connecting_error'))
+        print('^1' .. err)
     end)
 
     -- if conducting db checks for too long then raise error
