@@ -41,22 +41,13 @@ lib.addCommand('tp', {
     },
     restricted = "group.admin"
 }, function(source, args)
-    if args[Lang:t("command.tp.params.x.name")] and not args[Lang:t("command.tp.params.y.name")] and not args[3] then
-        if tonumber(args[1]) then
-            local target = GetPlayerPed(tonumber(args[Lang:t("command.tp.params.x.name")]) --[[@as number]])
-            if target ~= 0 then
-                local coords = GetEntityCoords(target)
-                TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
-            else
-                TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
-            end
+    if args[Lang:t("command.tp.params.x.name")] and not args[Lang:t("command.tp.params.y.name")] and not args[Lang:t("command.tp.params.z.name")] then
+        local target = GetPlayerPed(tonumber(args[Lang:t("command.tp.params.x.name")]) --[[@as number]])
+        if target ~= 0 then
+            local coords = GetEntityCoords(target)
+            TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
         else
-            local location = QBShared.Locations[args[Lang:t("command.tp.params.x.name")]]
-            if location then
-                TriggerClientEvent('QBCore:Command:TeleportToCoords', source, location.x, location.y, location.z, location.w)
-            else
-                TriggerClientEvent('QBCore:Notify', source, Lang:t('error.location_not_exist'), 'error')
-            end
+            TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
         end
     else
         if args[Lang:t("command.tp.params.x.name")] and args[Lang:t("command.tp.params.y.name")] and args[Lang:t("command.tp.params.z.name")] then
