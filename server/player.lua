@@ -318,6 +318,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         end
         self.PlayerData.metadata[meta] = val
         self.Functions.UpdatePlayerData()
+        self.Functions.Save()
     end
 
     ---@param meta string
