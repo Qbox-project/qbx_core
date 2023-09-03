@@ -318,6 +318,9 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         end
         self.PlayerData.metadata[meta] = val
         self.Functions.UpdatePlayerData()
+        if meta == 'inlasstand' or meta == 'isdead' then
+            self.Functions.Save()
+        end
     end
 
     ---@param meta string
