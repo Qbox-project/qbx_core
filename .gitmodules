@@ -1,0 +1,4 @@
+[submodule ".github"]
+	path = .github
+	url = https://github.com/Qbox-project/github-docs
+	branch = main
