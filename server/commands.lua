@@ -66,31 +66,33 @@ lib.addCommand('tp', {
 end)
 
 lib.addCommand('bring', {
-    help = 'bring player to you by id',
+    help = 'bring player to you',
     params = {
-        { name = 'id', help = 'id of player to bring', optional = false },
+        { name = 'id', help = 'id to bring', optional = false },
     },
     restricted = "group.admin"
 }, function(source, args)
-    if not args['id'] then
-        TriggerClientEvent('QBCore:Notify', source, 'We need an id to teleport to.', 'error')
+    if not args['id'] or not tonumber(args['id']) then
+        TriggerClientEvent('QBCore:Notify', source, 'We need a valid numeric id to teleport to.', 'error')
         return
     end
 
     local targetId = tonumber(args['id'])
     local target = GetPlayerPed(targetId)
-    if source == targetId then
-        return TriggerClientEvent('QBCore:Notify', source, 'You cannot teleport to yourself.', 'error')
+
+    if target == 0 then
+        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+        return
+    elseif source == targetId then
+        TriggerClientEvent('QBCore:Notify', source, 'You cannot teleport to yourself.', 'error')
+        return
     end
 
-    if target ~= 0 then
-        local playerPed = GetPlayerPed(source)
-        local coords = GetEntityCoords(playerPed)
-        TriggerClientEvent('QBCore:Command:TeleportToPlayer', targetId, coords)
-    else
-        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
-    end
+    local playerPed = GetPlayerPed(source)
+    local coords = GetEntityCoords(playerPed)
+    TriggerClientEvent('QBCore:Command:TeleportToPlayer', targetId, coords)
 end)
+
 
 
 lib.addCommand('tpm', {
