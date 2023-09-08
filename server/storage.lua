@@ -71,8 +71,9 @@ end
 
 ---@param request UpsertPlayerRequest
 function UpsertPlayerEntity(request)
-    MySQL.insert.await('INSERT INTO players (citizenid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+    MySQL.insert.await('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
         citizenid = request.playerEntity.citizenid,
+        cid = request.playerEntity.charinfo.cid,
         license = request.playerEntity.license,
         name = request.playerEntity.name,
         money = json.encode(request.playerEntity.money),
@@ -94,6 +95,7 @@ end
 ---@field gang? PlayerGang
 ---@field position vector4
 ---@field metadata PlayerMetadata
+---@field cid integer
 
 ---@class PlayerEntityDatabase : PlayerEntity
 ---@field charinfo string
@@ -108,8 +110,8 @@ end
 ---@field lastname string
 ---@field birthdate string
 ---@field nationality string
----@field cid number
----@field gender number
+---@field cid integer
+---@field gender integer
 ---@field backstory string
 ---@field phone string
 ---@field account string
@@ -201,12 +203,14 @@ function FetchPlayerEntity(citizenId)
     ---@type PlayerEntityDatabase
     local player = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenId })
     local position = json.decode(player.position)
+    local charinfo = json.decode(player.charinfo)
     return player and {
         citizenid = player.citizenid,
+        cid = charinfo.cid,
         license = player.license,
         name = player.name,
         money = json.decode(player.money),
-        charinfo = json.decode(player.charinfo),
+        charinfo = charinfo,
         job = player.job and json.decode(player.job),
         gang = player.gang and json.decode(player.gang),
         position = vec4(position.x or QBCore.Config.DefaultSpawn.x, position.y or QBCore.Config.DefaultSpawn.y, position.z or QBCore.Config.DefaultSpawn.z, position.w or QBCore.Config.DefaultSpawn.w),
