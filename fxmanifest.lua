@@ -18,7 +18,8 @@ client_scripts {
     'client/functions.lua',
     'client/loops.lua',
     'client/events.lua',
-    'client/drawtext.lua'
+    'client/drawtext.lua',
+    'client/character.lua'
 }
 
 server_scripts {
@@ -32,6 +33,7 @@ server_scripts {
     'server/debug.lua',
     'server/loops.lua',
     'server/storage.lua',
+    'server/character.lua'
 }
 
 modules {
