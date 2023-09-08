@@ -3,7 +3,7 @@ local hasDonePreloading = {}
 ---@param license2 string
 ---@param license? string
 local function getAllowedAmountOfCharacters(license2, license)
-    return QBCore.Config.PlayersNumberOfCharacters[license2] or license and QBCore.Config.PlayersNumberOfCharacters[license] or QBCore.Config.DefaultNumberOfCharacters
+    return QBCore.Config.Characters.PlayersNumberOfCharacters[license2] or license and QBCore.Config.Characters.PlayersNumberOfCharacters[license] or QBCore.Config.Characters.DefaultNumberOfCharacters
 end
 
 ---@param source Source
@@ -31,26 +31,6 @@ local function giveStarterItems(source)
     end
 end
 
-lib.addCommand('logout', {
-    help = Lang:t('info.logout_command_help'),
-    restricted = 'admin',
-}, QBCore.Player.Logout)
-
-lib.addCommand('deletechar', {
-    help = Lang:t('info.deletechar_command_help'),
-    restricted = 'admin',
-    params = {
-        { name = 'id', help = Lang:t('info.deletechar_command_arg_player_id'), type = 'number' },
-    }
-}, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(args.id)
-    if not Player then return end
-
-    local citizenId = Player.PlayerData.citizenid
-    QBCore.Player.ForceDeleteCharacter(citizenId)
-    TriggerClientEvent('QBCore:Notify', source, Lang:t('success.character_deleted_citizenid', {citizenid = citizenId}))
-end)
-
 lib.callback.register('qbx-core:server:getCharacters', function(source)
     local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
     local chars = FetchAllPlayerEntities(license2, license)
@@ -64,8 +44,10 @@ lib.callback.register('qbx-core:server:getCharacters', function(source)
 end)
 
 lib.callback.register('qbx-core:server:getPreviewPedData', function(_, citizenId)
-    local ped = MySQL.single.await('SELECT * FROM playerskins WHERE citizenid = ?', {citizenId})
-    return ped?.skin, ped?.model and joaat(ped.model)
+    local ped = FetchPlayerSkin(citizenId)
+    if not ped then return end
+
+    return ped.skin, ped.model and joaat(ped.model)
 end)
 
 lib.callback.register('qbx-core:server:convertMsToDate', function(_, ms)
@@ -105,6 +87,7 @@ RegisterNetEvent('qbx-core:server:loadCharacter', function(citizenId)
     repeat
         Wait(0)
     until hasDonePreloading[src]
+
     if GetResourceState('qbx-apartments'):find('start') then
         TriggerClientEvent('apartments:client:setupSpawnUI', src, { citizenid = citizenId })
     else
@@ -120,6 +103,7 @@ RegisterNetEvent('qbx-core:server:createCharacter', function(data)
     local src = source
     local newData = {}
     newData.charinfo = data
+
     if not QBCore.Player.Login(src, nil, newData) then return end
 
     repeat
@@ -127,23 +111,20 @@ RegisterNetEvent('qbx-core:server:createCharacter', function(data)
     until hasDonePreloading[src]
 
     giveStarterItems(src)
-
     if GetResourceState('qbx-spawn') ~= 'missing' then
-        if QBCore.Config.StartingApartment then
+        if QBCore.Config.Characters.StartingApartment then
             print('^2[qbx-core]^7 '..GetPlayerName(src)..' has succesfully loaded!')
             TriggerClientEvent('apartments:client:setupSpawnUI', src, newData)
-            return
+        else
+            print('^2[qbx-core]^7 '..GetPlayerName(src)..' has succesfully loaded!')
+            TriggerClientEvent('qbx-core:client:spawnNoApartments', src)
         end
-
+    else
+        SetPlayerRoutingBucket(src, 0)
+        lib.callback.await('qbx-core:client:spawnDefault', src)
+        TriggerClientEvent('qb-clothes:client:CreateFirstCharacter', src)
         print('^2[qbx-core]^7 '..GetPlayerName(src)..' has succesfully loaded!')
-        TriggerClientEvent('qbx-core:client:spawnNoApartments', src)
-        return
     end
-
-    SetPlayerRoutingBucket(src, 0)
-    lib.callback.await('qbx-core:client:defaultSpawn', src)
-    TriggerClientEvent('qb-clothes:client:CreateFirstCharacter', src)
-    print('^2[qbx-core]^7 '..GetPlayerName(src)..' has succesfully loaded!')
 end)
 
 RegisterNetEvent('qbx-core:server:deleteCharacter', function(citizenId)
