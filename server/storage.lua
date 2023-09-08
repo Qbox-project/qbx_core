@@ -175,6 +175,11 @@ function FetchPlayerSkin(citizenId)
     return MySQL.single.await('SELECT * FROM playerskins WHERE citizenid = ?', {citizenId})
 end
 
+local function convertPosition(position)
+    local pos = json.decode(result[i].position)
+    return vec4(pos.x or QBCore.Config.DefaultSpawn.x, pos.y or QBCore.Config.DefaultSpawn.y, pos.z or QBCore.Config.DefaultSpawn.z, pos.w or QBCore.Config.DefaultSpawn.w)
+end
+
 ---@param license2 string
 ---@param license? string
 ---@return PlayerEntity[]
@@ -184,14 +189,12 @@ function FetchAllPlayerEntities(license2, license)
     ---@type PlayerEntityDatabase[]
     local result = MySQL.query.await('SELECT * FROM players WHERE license = ? OR license = ?', {license, license2})
     for i = 1, #result do
-        local position = json.decode(result[i].position)
-        position = vec4(position.x or QBCore.Config.DefaultSpawn.x, position.y or QBCore.Config.DefaultSpawn.y, position.z or QBCore.Config.DefaultSpawn.z, position.w or QBCore.Config.DefaultSpawn.w)
         chars[i] = result[i]
         chars[i].charinfo = json.decode(result[i].charinfo)
         chars[i].money = json.decode(result[i].money)
         chars[i].job = result[i].job and json.decode(result[i].job)
         chars[i].gang = result[i].gang and json.decode(result[i].gang)
-        chars[i].position = position
+        chars[i].position = convertPosition(result[i].position)
         chars[i].metadata = json.decode(result[i].metadata)
     end
 
@@ -203,7 +206,6 @@ end
 function FetchPlayerEntity(citizenId)
     ---@type PlayerEntityDatabase
     local player = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenId })
-    local position = json.decode(player.position)
     local charinfo = json.decode(player.charinfo)
     return player and {
         citizenid = player.citizenid,
@@ -214,7 +216,7 @@ function FetchPlayerEntity(citizenId)
         charinfo = charinfo,
         job = player.job and json.decode(player.job),
         gang = player.gang and json.decode(player.gang),
-        position = vec4(position.x or QBCore.Config.DefaultSpawn.x, position.y or QBCore.Config.DefaultSpawn.y, position.z or QBCore.Config.DefaultSpawn.z, position.w or QBCore.Config.DefaultSpawn.w),
+        position = convertPosition(player.position),
         metadata = json.decode(player.metadata)
     } or nil
 end
