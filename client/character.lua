@@ -1,37 +1,36 @@
-if QBCore.Config.UseExternalCharacters then return end
+if QBCore.Config.Characters.UseExternalCharacters then return end
 
 local previewCam = nil
-local randomLocation = QBCore.Config.Locations[math.random(1, #QBCore.Config.Locations)]
+local randomLocation = QBCore.Config.Characters.Locations[math.random(1, #QBCore.Config.Characters.Locations)]
 
----@param bool boolean
-local function setupPreviewCam(bool)
-    if bool then
-        DoScreenFadeIn(1000)
-        SetTimecycleModifier('hud_def_blur')
-        SetTimecycleModifierStrength(1.0)
-        FreezeEntityPosition(cache.ped, false)
-        previewCam = CreateCamWithParams('DEFAULT_SCRIPTED_CAMERA', randomLocation.camCoords.x, randomLocation.camCoords.y, randomLocation.camCoords.z, -6.0, 0.0, randomLocation.camCoords.w, 40.0, false, 0)
-        SetCamActive(previewCam, true)
-        SetCamUseShallowDofMode(previewCam, true)
-        SetCamNearDof(previewCam, 0.4)
-        SetCamFarDof(previewCam, 1.8)
-        SetCamDofStrength(previewCam, 0.7)
-        RenderScriptCams(true, false, 1, true, true)
-        CreateThread(function()
-            while DoesCamExist(previewCam) do
-                SetUseHiDof()
-                Wait(0)
-            end
-        end)
-    else
-        if not previewCam then return end
+local function setupPreviewCam()
+    DoScreenFadeIn(1000)
+    SetTimecycleModifier('hud_def_blur')
+    SetTimecycleModifierStrength(1.0)
+    FreezeEntityPosition(cache.ped, false)
+    previewCam = CreateCamWithParams('DEFAULT_SCRIPTED_CAMERA', randomLocation.camCoords.x, randomLocation.camCoords.y, randomLocation.camCoords.z, -6.0, 0.0, randomLocation.camCoords.w, 40.0, false, 0)
+    SetCamActive(previewCam, true)
+    SetCamUseShallowDofMode(previewCam, true)
+    SetCamNearDof(previewCam, 0.4)
+    SetCamFarDof(previewCam, 1.8)
+    SetCamDofStrength(previewCam, 0.7)
+    RenderScriptCams(true, false, 1, true, true)
+    CreateThread(function()
+        while DoesCamExist(previewCam) do
+            SetUseHiDof()
+            Wait(0)
+        end
+    end)
+end
 
-        SetTimecycleModifier('default')
-        SetCamActive(previewCam, false)
-        DestroyCam(previewCam, true)
-        RenderScriptCams(false, false, 1, true, true)
-        FreezeEntityPosition(cache.ped, false)
-    end
+local function destroyPreviewCam()
+    if not previewCam then return end
+
+    SetTimecycleModifier('default')
+    SetCamActive(previewCam, false)
+    DestroyCam(previewCam, true)
+    RenderScriptCams(false, false, 1, true, true)
+    FreezeEntityPosition(cache.ped, false)
 end
 
 ---@param entity integer
@@ -75,10 +74,9 @@ local function previewPed(citizenId, gender)
 
     if clothing then
         pcall(function() exports['illenium-appearance']:setPedAppearance(cache.ped, json.decode(clothing)) end)
-        return
+    else
+        randomClothes(cache.ped)
     end
-
-    randomClothes(cache.ped)
 end
 
 ---@class CharacterRegistration
@@ -89,9 +87,8 @@ end
 ---@field birthdate string
 ---@field cid integer
 
----@param canCancel boolean
 ---@return any[]?
-local function characterDialog(canCancel)
+local function characterDialog()
     return lib.inputDialog(Lang:t('info.character_registration_title'), {
         {
             type = 'input', -- First name
@@ -135,58 +132,70 @@ local function characterDialog(canCancel)
             max = '31/12/2006',
             default = '2006-12-31'
         }
-    }, {
-        allowCancel = canCancel
     })
 end
 
----@param canCancel boolean
+---@param i integer
+---@return string
+local function createPattern(i)
+    local pattern = ''
+    for p = 1, i do
+        local isDone = false
+        if p == 1 then
+            pattern = '%u%l*%s'
+            isDone = true
+        end
+
+        if p == i then
+            pattern = pattern .. '%u%l*'
+            isDone = true
+        end
+
+        if p == 1 and p == i then
+            pattern = '%u%l*' -- %u checks for uppercase letter, %l checks for a lowercase letter and * extends it until there is none of them left
+        end
+
+        if not isDone then
+            pattern = pattern .. '%u%l*%s' -- %s here checks for a whitespace to allow for whitespaces in between words
+        end
+    end
+
+    return pattern
+end
+
+---@param dialog any[]
+---@param input integer
+---@return boolean
+local function checkStrings(dialog, input)
+    local matched = true
+    for i = 5, 1, -1 do
+        local str = dialog[input]
+        local pattern = createPattern(i)
+
+        matched = not string.match(str, '^%s') -- Don't match if there is a trailing whitespace at the beginning
+        matched = not string.match(str, '%s$') -- Don't match if there is a trailing whitespace at the end
+        matched = string.match(str, pattern)
+        if matched then
+            matched = not QBCore.Config.Characters.ProfanityWords[matched:lower()]
+        end
+    end
+
+    return matched
+end
+
 ---@param cid integer
 ---@return boolean
-local function createCharacter(canCancel, cid)
+local function createCharacter(cid)
     previewPed()
 
     :: noMatch ::
 
-    local dialog = characterDialog(canCancel)
+    local dialog = characterDialog()
 
     if not dialog then return false end
 
-    for input = 1, 3 do
-        local matched = true
-        for i = 5, 1, -1 do
-            local str = dialog[input]
-            local pattern = ''
-            for p = 1, i do
-                local isDone = false
-                if p == 1 then
-                    pattern = '%u%l*%s'
-                    isDone = true
-                end
-
-                if p == i then
-                    pattern = pattern .. '%u%l*'
-                    isDone = true
-                end
-
-                if p == 1 and p == i then
-                    pattern = '%u%l*' -- %u checks for uppercase letter, %l checks for a lowercase letter and * extends it until there is none of them left
-                end
-
-                if not isDone then
-                    pattern = pattern .. '%u%l*%s' -- %s here checks for a whitespace to allow for whitespaces in between words
-                end
-            end
-
-            matched = not string.match(str, '^%s') -- Don't match if there is a trailing whitespace at the beginning
-            matched = not string.match(str, '%s$') -- Don't match if there is a trailing whitespace at the end
-            matched = string.match(str, pattern)
-            if matched then
-                matched = not QBConfig.ProfanityWords[matched:lower()]
-            end
-        end
-
-        if not matched then
+    for input = 1, 3 do -- Run through first 3 inputs, aka first name, last name and nationality
+        if not checkStrings(dialog, input) then
             QBCore.Functions.Notify(Lang:t('error.no_match_character_registration'), 'error')
             goto noMatch
             break
@@ -202,12 +211,12 @@ local function createCharacter(canCancel, cid)
         birthdate = lib.callback.await('qbx-core:server:convertMsToDate', false, dialog[5]),
         cid = cid
     })
-    setupPreviewCam(false)
+    destroyPreviewCam()
     return true
 end
 
 local function chooseCharacter()
-    randomLocation = QBCore.Config.Locations[math.random(1, #QBCore.Config.Locations)]
+    randomLocation = QBCore.Config.Characters.Locations[math.random(1, #QBCore.Config.Characters.Locations)]
 
     DoScreenFadeOut(500)
 
@@ -223,12 +232,12 @@ local function chooseCharacter()
     Wait(1500)
     ShutdownLoadingScreen()
     ShutdownLoadingScreenNui()
-    setupPreviewCam(true)
+    setupPreviewCam()
 
     ---@type PlayerEntity[], integer
-    local characters, amount = lib.callback.await('qbx-core:server:getCharacters', false)
+    local characters, amount = lib.callback.await('qbx-core:server:getCharacters')
     local options = {}
-    for i = 1, QBCore.Config.UseMultichar and amount or 1 do
+    for i = 1, amount do
         local character = characters[i]
         local name = character and character.charinfo.firstname .. ' ' .. character.charinfo.lastname
         options[i] = {
@@ -250,13 +259,12 @@ local function chooseCharacter()
                 if character then
                     lib.showContext('qbx_core_multichar_character_'..i)
                     previewPed(character.citizenid, character.charinfo.gender)
-                    return
+                else
+                    local success = createCharacter(i)
+                    if success then return end
+
+                    lib.showContext('qbx_core_multichar_characters')
                 end
-
-                local success = createCharacter(true, i)
-                if success then return end
-
-                lib.showContext('qbx_core_multichar_characters')
             end
         }
 
@@ -274,16 +282,16 @@ local function chooseCharacter()
                         onSelect = function()
                             DoScreenFadeOut(10)
                             TriggerServerEvent('qbx-core:server:loadCharacter', character.citizenid)
-                            setupPreviewCam(false)
+                            destroyPreviewCam()
                         end
                     },
-                    QBCore.Config.EnableDeleteButton and {
+                    QBCore.Config.Characters.EnableDeleteButton and {
                         title = Lang:t('info.delete_character'),
                         description = Lang:t('info.delete_character_description', { playerName = name }),
                         icon = 'trash',
                         onSelect = function()
                             TriggerServerEvent('qbx-core:server:deleteCharacter', character.citizenid)
-                            setupPreviewCam(false)
+                            destroyPreviewCam()
                             chooseCharacter()
                         end
                     } or nil
@@ -302,26 +310,25 @@ local function chooseCharacter()
     lib.showContext('qbx_core_multichar_characters')
 end
 
-lib.callback.register('qbx-core:client:defaultSpawn', function() -- We use a callback to make the server wait on this to be done
+lib.callback.register('qbx-core:client:spawnDefault', function() -- We use a callback to make the server wait on this to be done
     DoScreenFadeOut(500)
 
     while not IsScreenFadedOut() do
         Wait(0)
     end
 
-    setupPreviewCam(false)
+    destroyPreviewCam()
+
+    pcall(function() exports.spawnmanager:spawnPlayer() end)
+
     TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
     TriggerEvent('QBCore:Client:OnPlayerLoaded')
     TriggerServerEvent('qb-houses:server:SetInsideMeta', 0, false)
     TriggerServerEvent('qb-apartments:server:SetInsideMeta', 0, 0, false)
 
-    pcall(function() exports.spawnmanager:spawnPlayer() end)
-
     while not IsScreenFadedIn() do
         Wait(0)
     end
-
-    return true
 end)
 
 RegisterNetEvent('qbx-core:client:spawnNoApartments', function() -- This event is only for no starting apartments
@@ -329,15 +336,15 @@ RegisterNetEvent('qbx-core:client:spawnNoApartments', function() -- This event i
     Wait(2000)
     SetEntityCoords(cache.ped, QBCore.Config.DefaultSpawn.x, QBCore.Config.DefaultSpawn.y, QBCore.Config.DefaultSpawn.z, false, false, false, false)
     SetEntityHeading(cache.ped, QBCore.Config.DefaultSpawn.w)
+    Wait(500)
+    destroyPreviewCam()
+    SetEntityVisible(cache.ped, true, false)
+    Wait(500)
+    DoScreenFadeIn(250)
     TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
     TriggerEvent('QBCore:Client:OnPlayerLoaded')
     TriggerServerEvent('qb-houses:server:SetInsideMeta', 0, false)
     TriggerServerEvent('qb-apartments:server:SetInsideMeta', 0, 0, false)
-    Wait(500)
-    setupPreviewCam(false)
-    SetEntityVisible(cache.ped, true, false)
-    Wait(500)
-    DoScreenFadeIn(250)
     TriggerEvent('qb-weathersync:client:EnableSync')
     TriggerEvent('qb-clothes:client:CreateFirstCharacter')
 end)
