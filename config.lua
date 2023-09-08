@@ -5,18 +5,18 @@ QBConfig.DefaultSpawn = vec4(-540.58, -212.02, 37.65, 208.88)
 QBConfig.UpdateInterval = 5 -- how often to update player data in minutes
 QBConfig.StatusInterval = 5 -- how often to check hunger/thirst status in minutes
 
-QBConfig.UseMultichar = true -- Whether to have multiple characters per player or not
-QBConfig.UseExternalCharacters = false -- Whether you have an external character management resource. (If true, disables the character management inside the core)
-QBConfig.EnableDeleteButton = true -- Whether players should be able to delete characters themselves.
-QBConfig.StartingApartment = true -- If set to false, skips apartment choice in the beginning (requires qbx-spawn if true)
-QBConfig.DefaultNumberOfCharacters = 3 -- Define maximum amount of default characters (maximum 3 characters defined by default)
-QBConfig.PlayersNumberOfCharacters = { -- Define maximum amount of player characters by rockstar license (you can find this license in your server's database in the player table)
+QBConfig.Characters = {}
+QBConfig.Characters.UseExternalCharacters = false -- Whether you have an external character management resource. (If true, disables the character management inside the core)
+QBConfig.Characters.EnableDeleteButton = true -- Whether players should be able to delete characters themselves.
+QBConfig.Characters.StartingApartment = true -- If set to false, skips apartment choice in the beginning (requires qbx-spawn if true)
+QBConfig.Characters.DefaultNumberOfCharacters = 3 -- Define maximum amount of default characters (maximum 3 characters defined by default)
+QBConfig.Characters.PlayersNumberOfCharacters = { -- Define maximum amount of player characters by rockstar license (you can find this license in your server's database in the player table)
     ['license2:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'] = 5,
 }
-QBConfig.ProfanityWords = {
+QBConfig.Characters.ProfanityWords = {
     ['bad word'] = true
 }
-QBConfig.Locations = { -- Spawn locations for multichar
+QBConfig.Characters.Locations = { -- Spawn locations for multichar, these are chosen randomly
     {
         pedCoords = vec4(969.25, 72.61, 116.18, 276.55),
         camCoords = vec4(972.2, 72.9, 116.68, 97.27),
