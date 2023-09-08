@@ -95,6 +95,14 @@ end
 ---@field position vector4
 ---@field metadata PlayerMetadata
 
+---@class PlayerEntityDatabase : PlayerEntity
+---@field charinfo string
+---@field money string
+---@field job? string
+---@field gang? string
+---@field position string
+---@field metadata string
+
 ---@class PlayerCharInfo
 ---@field firstname string
 ---@field lastname string
@@ -152,10 +160,47 @@ end
 ---@field isboss boolean
 ---@field grade {name: string, level: number}
 
+---@class PlayerSkin
+---@field citizenid string
+---@field model string
+---@field skin string
+---@field active integer
+
+---@param citizenId string
+---@return PlayerSkin?
+function FetchPlayerSkin(citizenId)
+    return MySQL.single.await('SELECT * FROM playerskins WHERE citizenid = ?', {citizenId})
+end
+
+---@param license2 string
+---@param license? string
+---@return PlayerEntity[]
+function FetchAllPlayerEntities(license2, license)
+    ---@type PlayerEntity[]
+    local chars = {}
+    ---@type PlayerEntityDatabase[]
+    local result = MySQL.query.await('SELECT * FROM players WHERE license = ? OR license = ?', {license, license2})
+    for i = 1, #result do
+        local position = json.decode(result[i].position)
+        position = vec4(position.x or QBCore.Config.DefaultSpawn.x, position.y or QBCore.Config.DefaultSpawn.y, position.z or QBCore.Config.DefaultSpawn.z, position.w or QBCore.Config.DefaultSpawn.w)
+        chars[i] = result[i]
+        chars[i].charinfo = json.decode(result[i].charinfo)
+        chars[i].money = json.decode(result[i].money)
+        chars[i].job = result[i].job and json.decode(result[i].job)
+        chars[i].gang = result[i].gang and json.decode(result[i].gang)
+        chars[i].position = position
+        chars[i].metadata = json.decode(result[i].metadata)
+    end
+
+    return chars
+end
+
 ---@param citizenId string
 ---@return PlayerEntity?
 function FetchPlayerEntity(citizenId)
+    ---@type PlayerEntityDatabase
     local player = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenId })
+    local position = json.decode(player.position)
     return player and {
         citizenid = player.citizenid,
         license = player.license,
@@ -164,7 +209,7 @@ function FetchPlayerEntity(citizenId)
         charinfo = json.decode(player.charinfo),
         job = player.job and json.decode(player.job),
         gang = player.gang and json.decode(player.gang),
-        position = json.decode(player.position),
+        position = vec4(position.x or QBCore.Config.DefaultSpawn.x, position.y or QBCore.Config.DefaultSpawn.y, position.z or QBCore.Config.DefaultSpawn.z, position.w or QBCore.Config.DefaultSpawn.w),
         metadata = json.decode(player.metadata)
     } or nil
 end
