@@ -96,6 +96,7 @@ end
 ---@field position vector4
 ---@field metadata PlayerMetadata
 ---@field cid integer
+---@field items table deprecated
 
 ---@class PlayerEntityDatabase : PlayerEntity
 ---@field charinfo string
@@ -143,7 +144,7 @@ end
 ---@field fingerprint string
 ---@field walletid string
 ---@field criminalrecord {hasRecord: boolean, date?: table} TODO: date is os.date(), create better type than table
----@field licenses {driver: boolean, business: boolean, weapon: boolean}
+---@field licences {driver: boolean, business: boolean, weapon: boolean}
 ---@field inside {house?: any, apartment: {apartmentType?: any, apartmentId?: integer}} TODO: expand
 ---@field phonedata {SerialNumber: string, InstalledApps: table} TODO: expand
 
