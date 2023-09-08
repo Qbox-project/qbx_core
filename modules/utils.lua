@@ -803,7 +803,7 @@ else
     ---Returns the street name and cross section from the coords
     ---@param coords vector3
     ---@return {main: string, cross: string}
-    function GetStreetNametAtCoords(coords)
+    function GetStreetNameAtCoords(coords)
         local street1, street2 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
         return { main = GetStreetNameFromHashKey(street1), cross = GetStreetNameFromHashKey(street2) }
     end
