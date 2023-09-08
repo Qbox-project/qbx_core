@@ -89,7 +89,7 @@ lib.addCommand('addpermission', {
     },
     restricted = "group.god"
 }, function(source, args)
-    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.addpermission.params.id.name")]))
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.addpermission.params.id.name")]) --[[@as number]])
     local permission = tostring(args[Lang:t("command.addpermission.params.permission.name")])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
@@ -106,7 +106,7 @@ lib.addCommand('removepermission', {
     },
     restricted = "group.god"
 }, function(source, args)
-    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.removepermission.params.id.name")]))
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.removepermission.params.id.name")]) --[[@as number]])
     local permission = tostring(args[Lang:t("command.removepermission.params.permission.name")])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
@@ -190,12 +190,12 @@ lib.addCommand('givemoney', {
     },
     restricted = "group.god"
 }, function(source, args)
-    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.givemoney.params.id.name")]))
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.givemoney.params.id.name")]) --[[@as number]])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
         return
     end
-    player.Functions.AddMoney(tostring(args[Lang:t("command.givemoney.params.moneytype.name")]), tonumber(args[Lang:t("command.givemoney.params.amount.name")]))
+    player.Functions.AddMoney(tostring(args[Lang:t("command.givemoney.params.moneytype.name")]), tonumber(args[Lang:t("command.givemoney.params.amount.name")]) --[[@as number]])
 end)
 
 lib.addCommand('setmoney', {
@@ -207,12 +207,12 @@ lib.addCommand('setmoney', {
     },
     restricted = "group.god"
 }, function(source, args)
-    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setmoney.params.id.name")]))
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setmoney.params.id.name")]) --[[@as number]])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
         return
     end
-    player.Functions.SetMoney(tostring(args[Lang:t("command.setmoney.params.moneytype.name")]), tonumber(args[Lang:t("command.setmoney.params.amount.name")]))
+    player.Functions.SetMoney(tostring(args[Lang:t("command.setmoney.params.moneytype.name")]), tonumber(args[Lang:t("command.setmoney.params.amount.name")]) --[[@as number]])
 end)
 
 -- Job
@@ -220,7 +220,7 @@ lib.addCommand('job', {
     help = Lang:t("command.job.help")
 }, function(source)
     local PlayerJob = QBCore.Functions.GetPlayer(source).PlayerData.job
-    TriggerClientEvent('QBCore:Notify', source, Lang:t('info.job_info', {value = PlayerJob.label, value2 = PlayerJob.grade.name, value3 = PlayerJob.onduty}))
+    TriggerClientEvent('QBCore:Notify', source, Lang:t('info.job_info', {value = PlayerJob?.label, value2 = PlayerJob?.grade.name, value3 = PlayerJob?.onduty}))
 end)
 
 lib.addCommand('setjob', {
@@ -232,13 +232,13 @@ lib.addCommand('setjob', {
     },
     restricted = "group.god"
 }, function(source, args)
-    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setjob.params.id.name")]))
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setjob.params.id.name")]) --[[@as number]])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
         return
     end
     if args[Lang:t("command.setjob.params.grade.name")] then
-        player.Functions.SetJob(tostring(args[Lang:t("command.setjob.params.job.name")]), tonumber(args[Lang:t("command.setjob.params.grade.name")]))
+        player.Functions.SetJob(tostring(args[Lang:t("command.setjob.params.job.name")]), tonumber(args[Lang:t("command.setjob.params.grade.name")]) --[[@as number]])
     else
         player.Functions.SetJob(tostring(args[Lang:t("command.setjob.params.job.name")]), 0)
     end
@@ -250,7 +250,7 @@ lib.addCommand('gang', {
     help = Lang:t("command.gang.help")
 }, function(source)
     local PlayerGang = QBCore.Functions.GetPlayer(source).PlayerData.gang
-    TriggerClientEvent('QBCore:Notify', source, Lang:t('info.gang_info', {value = PlayerGang.label, value2 = PlayerGang.grade.name}))
+    TriggerClientEvent('QBCore:Notify', source, Lang:t('info.gang_info', {value = PlayerGang?.label, value2 = PlayerGang?.grade.name}))
 end)
 
 lib.addCommand('setgang', {
@@ -262,13 +262,13 @@ lib.addCommand('setgang', {
     },
     restricted = "group.god"
 }, function(source, args)
-    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setgang.params.id.name")]))
+    local player = QBCore.Functions.GetPlayer(tonumber(args[Lang:t("command.setgang.params.id.name")]) --[[@as number]])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
         return
     end
     if args[Lang:t("command.setgang.params.grade.name")] then
-        player.Functions.SetGang(tostring(args[Lang:t("command.setgang.params.gang.name")]), tonumber(args[Lang:t("command.setgang.params.grade.name")]))
+        player.Functions.SetGang(tostring(args[Lang:t("command.setgang.params.gang.name")]), tonumber(args[Lang:t("command.setgang.params.grade.name")]) --[[@as number]])
     else
         player.Functions.SetGang(tostring(args[Lang:t("command.setgang.params.gang.name")]), 0)
     end
