@@ -349,7 +349,7 @@ RegisterNetEvent('qbx-core:client:spawnNoApartments', function() -- This event i
     TriggerEvent('qb-clothes:client:CreateFirstCharacter')
 end)
 
-RegisterNetEvent('qbx-core:client:chooseCharacter', function()
+RegisterNetEvent('qbx-core:client:playerLoggedOut', function()
     if GetInvokingResource() then return end -- Make sure this can only be triggered from the server
     chooseCharacter()
 end)
