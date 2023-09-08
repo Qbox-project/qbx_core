@@ -176,8 +176,9 @@ function FetchPlayerSkin(citizenId)
 end
 
 local function convertPosition(position)
-    local pos = json.decode(result[i].position)
-    return vec4(pos.x or QBCore.Config.DefaultSpawn.x, pos.y or QBCore.Config.DefaultSpawn.y, pos.z or QBCore.Config.DefaultSpawn.z, pos.w or QBCore.Config.DefaultSpawn.w)
+    local pos = json.decode(position)
+    local actualPos = (not pos.x or not pos.y or not pos.z) and QBCore.Config.DefaultSpawn or pos
+    return vec4(actualPos.x, actualPos.y, actualPos.z, actualPos.w or QBCore.Config.DefaultSpawn.w)
 end
 
 ---@param license2 string
