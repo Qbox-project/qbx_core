@@ -61,7 +61,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     end
 
     PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.GenerateUniqueIdentifier('citizenid')
-    PlayerData.cid = PlayerData.charinfo?.cid or 1
+    PlayerData.cid = PlayerData.charinfo?.cid or PlayerData.cid or 1
     PlayerData.money = PlayerData.money or {}
     PlayerData.optin = PlayerData.optin or true
     for moneytype, startamount in pairs(QBCore.Config.Money.MoneyTypes) do
@@ -78,6 +78,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.charinfo.nationality = PlayerData.charinfo.nationality or 'USA'
     PlayerData.charinfo.phone = PlayerData.charinfo.phone or QBCore.Player.GenerateUniqueIdentifier('PhoneNumber')
     PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Player.GenerateUniqueIdentifier('AccountNumber')
+    PlayerData.charinfo.cid = PlayerData.charinfo.cid or PlayerData.cid
     -- Metadata
     PlayerData.metadata = PlayerData.metadata or {}
     PlayerData.metadata.health = PlayerData.metadata.health or 200
