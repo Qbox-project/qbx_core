@@ -10,7 +10,6 @@ QBShared.VehicleHashes = {}
 ---@field price number
 ---@field category string
 ---@field hash string | integer actually just an integer but string is required for types to align when using `asbo` for example
----@field shop string
 
 ---@type table<string, Vehicle>
 QBShared.Vehicles = {
