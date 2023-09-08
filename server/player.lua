@@ -182,7 +182,7 @@ function QBCore.Player.Logout(source)
     Wait(200)
     QBCore.Players[source] = nil
     GlobalState.PlayerCount -= 1
-    TriggerClientEvent('qbx-core:client:chooseCharacter', source)
+    TriggerClientEvent('qbx-core:client:playerLoggedOut', source)
 end
 
 ---@class Player
