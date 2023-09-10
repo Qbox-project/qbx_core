@@ -116,7 +116,7 @@ local function characterDialog()
             required = true,
             icon = 'circle-user',
             label = Lang:t('info.gender'),
-            placeholder = Lang:t('select_gender'),
+            placeholder = Lang:t('info.select_gender'),
             options = {
                 {
                     value = Lang:t('info.char_male')
