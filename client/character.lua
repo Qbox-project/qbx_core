@@ -308,6 +308,7 @@ local function chooseCharacter()
         options = options
     })
 
+    SetTimecycleModifier('default')
     lib.showContext('qbx_core_multichar_characters')
 end
 
