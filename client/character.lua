@@ -94,25 +94,29 @@ local function characterDialog()
             type = 'input', -- First name
             required = true,
             icon = 'user-pen',
-            label = Lang:t('info.first_name')
+            label = Lang:t('info.first_name'),
+            placeholder = 'Hank'
         },
         {
             type = 'input', -- Last name
             required = true,
             icon = 'user-pen',
-            label = Lang:t('info.last_name')
+            label = Lang:t('info.last_name'),
+            placeholder = 'Jordan'
         },
         {
             type = 'input', -- Nationality
             required = true,
             icon = 'user-shield',
-            label = Lang:t('info.nationality')
+            label = Lang:t('info.nationality'),
+            placeholder = 'Duck'
         },
         {
             type = 'select', -- Gender
             required = true,
             icon = 'circle-user',
             label = Lang:t('info.gender'),
+            placeholder = Lang:t('select_gender'),
             options = {
                 {
                     value = Lang:t('info.char_male')
