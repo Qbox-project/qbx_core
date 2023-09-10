@@ -168,14 +168,14 @@ end
 ---@param input integer
 ---@return boolean
 local function checkStrings(dialog, input)
-    local matched = true
+    local matched
     for i = 5, 1, -1 do
         local str = dialog[input]
         local pattern = createPattern(i)
 
-        matched = not string.match(str, '^%s') -- Don't match if there is a trailing whitespace at the beginning
-        matched = not string.match(str, '%s$') -- Don't match if there is a trailing whitespace at the end
-        matched = string.match(str, pattern)
+        -- ^%s matches if there is a trailing whitespace at the beginning
+        -- %s$ matches if there is a trailing whitespace at the end
+        matched = not string.match(str, '^%s') and not string.match(str, '%s$') and string.match(str, pattern)
         if matched then
             matched = not QBCore.Config.Characters.ProfanityWords[matched:lower()]
         end
