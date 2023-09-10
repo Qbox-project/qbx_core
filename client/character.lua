@@ -125,7 +125,7 @@ local function characterDialog()
         {
             type = 'date', -- Birth date
             required = true,
-            icon = 'calender-days',
+            icon = 'calendar-days',
             label = Lang:t('info.birth_date'),
             format = 'YYYY-MM-DD',
             returnString = true,
