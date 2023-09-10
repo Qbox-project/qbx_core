@@ -128,6 +128,7 @@ local function characterDialog()
             icon = 'calender-days',
             label = Lang:t('info.birth_date'),
             format = 'YYYY-MM-DD',
+            returnString = true,
             min = '01/01/1900',
             max = '31/12/2006',
             default = '2006-12-31'
@@ -208,7 +209,7 @@ local function createCharacter(cid)
         lastname = dialog[2],
         nationality = dialog[3],
         gender = dialog[4] == Lang:t('info.char_male') and 0 or 1,
-        birthdate = lib.callback.await('qbx-core:server:convertMsToDate', false, dialog[5]),
+        birthdate = dialog[5],
         cid = cid
     })
     destroyPreviewCam()
