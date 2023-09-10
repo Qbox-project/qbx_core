@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `players` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `citizenid` varchar(50) NOT NULL,
+  `cid` int(11) DEFAULT NULL,
   `license` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `money` text NOT NULL,

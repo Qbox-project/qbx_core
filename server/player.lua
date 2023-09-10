@@ -3,7 +3,6 @@
 ---@type table<Source, Player>
 QBCore.Players = {}
 
----@type Player
 QBCore.Player = {}
 
 GlobalState.PlayerCount = 0
@@ -17,7 +16,7 @@ GlobalState.PlayerCount = 0
 ---Will cause major issues!
 ---@param source Source
 ---@param citizenid? string
----@param newData PlayerEntity
+---@param newData? PlayerEntity
 ---@return boolean sourceExists true if source exists
 function QBCore.Player.Login(source, citizenid, newData)
     if not source or source == '' then
@@ -49,7 +48,7 @@ function QBCore.Player.GetOfflinePlayer(citizenid)
 end
 
 ---@param source? integer if player is online
----@param PlayerData PlayerEntity|PlayerData
+---@param PlayerData? PlayerEntity|PlayerData
 ---@return Player? player if offline
 function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData = PlayerData or {}
@@ -62,7 +61,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     end
 
     PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.GenerateUniqueIdentifier('citizenid')
-    PlayerData.cid = PlayerData.charinfo?.cid or 1
+    PlayerData.cid = PlayerData.charinfo?.cid or PlayerData.cid or 1
     PlayerData.money = PlayerData.money or {}
     PlayerData.optin = PlayerData.optin or true
     for moneytype, startamount in pairs(QBCore.Config.Money.MoneyTypes) do
@@ -79,6 +78,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.charinfo.nationality = PlayerData.charinfo.nationality or 'USA'
     PlayerData.charinfo.phone = PlayerData.charinfo.phone or QBCore.Player.GenerateUniqueIdentifier('PhoneNumber')
     PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Player.GenerateUniqueIdentifier('AccountNumber')
+    PlayerData.charinfo.cid = PlayerData.charinfo.cid or PlayerData.cid
     -- Metadata
     PlayerData.metadata = PlayerData.metadata or {}
     PlayerData.metadata.health = PlayerData.metadata.health or 200
@@ -182,6 +182,7 @@ function QBCore.Player.Logout(source)
     Wait(200)
     QBCore.Players[source] = nil
     GlobalState.PlayerCount -= 1
+    TriggerClientEvent('qbx-core:client:playerLoggedOut', source)
 end
 
 ---@class Player

@@ -1,29 +1,29 @@
---- @class Locale
---- @field fallback? Locale
---- @field warnOnMissing boolean
---- @field phrases table
---- @field currentLocale string
---- @field new fun(_: Locale, opts: table<string, any>): Locale
---- @field extend fun(self: Locale, phrases: table<string, string>, prefix: string?)
---- @field clear fun(self: Locale)
---- @field replace fun(self: Locale, phrases: table<string, any>)
---- @field locale fun(self: Locale, newLocale: string): string
---- @field t fun(self: Locale, key: string, subs: table<string, any>?): string
---- @field has fun(self: Locale, key: string): boolean
---- @field delete fun(self: Locale, phraseTarget: string | table, prefix: string)
+---@class Locale
+---@field fallback? Locale
+---@field warnOnMissing boolean
+---@field phrases table
+---@field currentLocale string
+---@field new fun(_: Locale, opts: table<string, any>): Locale
+---@field extend fun(self: Locale, phrases: table<string, string>, prefix: string?)
+---@field clear fun(self: Locale)
+---@field replace fun(self: Locale, phrases: table<string, any>)
+---@field locale fun(self: Locale, newLocale: string): string
+---@field t fun(self: Locale, key: string, subs: table<string, any>?): string
+---@field has fun(self: Locale, key: string): boolean
+---@field delete fun(self: Locale, phraseTarget: string | table, prefix: string)
 Locale = {}
 Locale.__index = Locale
 
---- Translate a key
---- @param phrase string
---- @param subs table
---- @return string
+---Translate a key
+---@param phrase string
+---@param subs table
+---@return string
 local function translateKey(phrase, subs)
     if type(phrase) ~= 'string' then
         error('TypeError: translateKey function expects arg #1 to be a string')
     end
 
-    -- Substituions
+    -- Substitutions
     if not subs then
         return phrase
     end
@@ -43,19 +43,19 @@ local function translateKey(phrase, subs)
     return result
 end
 
---- Constructor function for a new Locale class instance
---- @param _ Locale kept for backwards compatibility
---- @param opts table<string, any> - Constructor opts param
---- @return Locale
+---Constructor function for a new Locale class instance
+---@param _ Locale kept for backwards compatibility
+---@param opts { warnOnMissing: boolean, fallbackLang?: Locale, phrases?: table<string, any> } - Constructor opts param
+---@return Locale
 function Locale.new(_, opts)
     local self = setmetatable({}, Locale)
 
-    self.fallback = opts.fallbackLang and Locale.new({}, {
+    self.fallback = opts.fallbackLang and Locale.new(opts.fallbackLang, {
         warnOnMissing = false,
         phrases = opts.fallbackLang.phrases,
     }) or nil
 
-    self.warnOnMissing = type(opts.warnOnMissing) ~= 'boolean' and true or opts.warnOnMissing
+    self.warnOnMissing = type(opts.warnOnMissing) ~= 'boolean' or opts.warnOnMissing
 
     self.phrases = {}
     self:extend(opts.phrases or {})
@@ -63,10 +63,10 @@ function Locale.new(_, opts)
     return self
 end
 
---- Method for extending an instances phrases map. This is also, used
---- internally for initial population of phrases field.
---- @param phrases table<string, string> - Table of phrase definitions
---- @param prefix string | nil - Optional prefix used for recursive calls
+---Method for extending an instances phrases map. This is also, used
+---internally for initial population of phrases field.
+---@param phrases table<string, any> - Table of phrase definitions
+---@param prefix? string - Optional prefix used for recursive calls
 function Locale:extend(phrases, prefix)
     for key, phrase in pairs(phrases) do
         local prefixKey = prefix and ('%s.%s'):format(prefix, key) or key
@@ -79,23 +79,23 @@ function Locale:extend(phrases, prefix)
     end
 end
 
---- Clear locale instance phrases
---- Might be useful for memory management of large phrase maps.
+---Clear locale instance phrases
+---Might be useful for memory management of large phrase maps.
 function Locale:clear()
     self.phrases = {}
 end
 
---- Clears all phrases and replaces it with the passed phrases table
---- @param phrases table<string, any>
+---Clears all phrases and replaces it with the passed phrases table
+---@param phrases table<string, any>
 function Locale:replace(phrases)
     phrases = phrases or {}
     self:clear()
     self:extend(phrases)
 end
 
---- Gets & Sets a locale depending on if an argument is passed
---- @param newLocale string - Optional new locale to set
---- @return string
+---Gets & Sets a locale depending on if an argument is passed
+---@param newLocale? string - Optional new locale to set
+---@return string
 function Locale:locale(newLocale)
     if newLocale then
         self.currentLocale = newLocale
@@ -103,10 +103,10 @@ function Locale:locale(newLocale)
     return self.currentLocale
 end
 
---- Primary translation method for a phrase of given key
---- @param key string - The phrase key to target
---- @param subs table<string, any> | nil
---- @return string
+---Primary translation method for a phrase of given key
+---@param key string - The phrase key to target
+---@param subs? table<string, any>
+---@return string
 function Locale:t(key, subs)
     local phrase, result
     subs = subs or {}
@@ -132,15 +132,15 @@ function Locale:t(key, subs)
     return result
 end
 
---- Check if a phrase key has already been defined within the Locale instance phrase maps.
---- @return boolean
+---Check if a phrase key has already been defined within the Locale instance phrase maps.
+---@return boolean
 function Locale:has(key)
     return self.phrases[key] ~= nil
 end
 
---- Will remove phrase keys from a Locale instance, using recursion/
---- @param phraseTarget string | table
---- @param prefix string
+---Will remove phrase keys from a Locale instance, using recursion/
+---@param phraseTarget string | table
+---@param prefix string
 function Locale:delete(phraseTarget, prefix)
     -- If the target is a string, we know that this is the end
     -- of nested table tree.
