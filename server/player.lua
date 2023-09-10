@@ -114,9 +114,9 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         date = nil
     }
     PlayerData.metadata.licences = PlayerData.metadata.licences or {
+        id = true,
         driver = true,
-        business = false,
-        weapon = false
+        weapon = false,
     }
     PlayerData.metadata.inside = PlayerData.metadata.inside or {
         house = nil,
