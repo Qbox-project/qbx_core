@@ -253,7 +253,7 @@ function DeletePlayerEntity(citizenId)
     end
 
     local success = MySQL.transaction.await(queries)
-    return success and true or false
+    return not not success
 end
 
 ---checks the storage for uniqueness of the given value
