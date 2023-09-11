@@ -87,7 +87,7 @@ end
 ---@field birthdate string
 ---@field cid integer
 
----@return any[]?
+---@return string[]?
 local function characterDialog()
     return lib.inputDialog(Lang:t('info.character_registration_title'), {
         {
@@ -168,7 +168,7 @@ local function createPattern(i)
     return pattern
 end
 
----@param dialog any[]
+---@param dialog string[]
 ---@param input integer
 ---@return boolean
 local function checkStrings(dialog, input)
