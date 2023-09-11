@@ -54,7 +54,7 @@ local Translations = {
         first_name = 'First Name',
         last_name = 'Last Name',
         nationality = 'Nationality',
-        gender = 'Gender',
+        gender = 'Sex',
         birth_date = 'Birth Date'
     },
     command = {
