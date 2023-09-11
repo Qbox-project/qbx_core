@@ -91,28 +91,28 @@ end
 local function characterDialog()
     return lib.inputDialog(Lang:t('info.character_registration_title'), {
         {
-            type = 'input', -- First name
+            type = 'input',
             required = true,
             icon = 'user-pen',
             label = Lang:t('info.first_name'),
             placeholder = 'Hank'
         },
         {
-            type = 'input', -- Last name
+            type = 'input',
             required = true,
             icon = 'user-pen',
             label = Lang:t('info.last_name'),
             placeholder = 'Jordan'
         },
         {
-            type = 'input', -- Nationality
+            type = 'input',
             required = true,
             icon = 'user-shield',
             label = Lang:t('info.nationality'),
             placeholder = 'Duck'
         },
         {
-            type = 'select', -- Gender
+            type = 'select',
             required = true,
             icon = 'circle-user',
             label = Lang:t('info.gender'),
@@ -127,7 +127,7 @@ local function characterDialog()
             }
         },
         {
-            type = 'date', -- Birth date
+            type = 'date',
             required = true,
             icon = 'calendar-days',
             label = Lang:t('info.birth_date'),
@@ -140,52 +140,21 @@ local function characterDialog()
     })
 end
 
----@param i integer
----@return string
-local function createPattern(i)
-    local pattern = ''
-    for p = 1, i do
-        local isDone = false
-        if p == 1 then
-            pattern = '%u%l*%s'
-            isDone = true
-        end
-
-        if p == i then
-            pattern = pattern .. '%u%l*'
-            isDone = true
-        end
-
-        if p == 1 and p == i then
-            pattern = '%u%l*' -- %u checks for uppercase letter, %l checks for a lowercase letter and * extends it until there is none of them left
-        end
-
-        if not isDone then
-            pattern = pattern .. '%u%l*%s' -- %s here checks for a whitespace to allow for whitespaces in between words
-        end
-    end
-
-    return pattern
-end
-
 ---@param dialog string[]
 ---@param input integer
 ---@return boolean
 local function checkStrings(dialog, input)
-    local matched
-    for i = 5, 1, -1 do
-        local str = dialog[input]
-        local pattern = createPattern(i)
+    local str = dialog[input]
+    local split = {string.strsplit(' ', str)}
+    if #split > 5 then return false end
 
-        -- ^%s matches if there is a trailing whitespace at the beginning
-        -- %s$ matches if there is a trailing whitespace at the end
-        matched = not string.match(str, '^%s') and not string.match(str, '%s$') and string.match(str, pattern)
-        if matched then
-            matched = not QBCore.Config.Characters.ProfanityWords[matched:lower()]
-        end
+    for i = 1, #split do
+        local word = split[i]
+        if QBCore.Config.Characters.ProfanityWords[word:lower()] then return false end
+        if not string.match(word, '%u%l*') then return false end -- Pattern checks for an uppercase letter at the first character and lowercase for the rest
     end
 
-    return matched
+    return true
 end
 
 ---@param cid integer
@@ -201,7 +170,7 @@ local function createCharacter(cid)
 
     for input = 1, 3 do -- Run through first 3 inputs, aka first name, last name and nationality
         if not checkStrings(dialog, input) then
-            QBCore.Functions.Notify(Lang:t('error.no_match_character_registration'), 'error')
+            QBCore.Functions.Notify(Lang:t('error.no_match_character_registration'), 'error', 10000)
             goto noMatch
             break
         end
