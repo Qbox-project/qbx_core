@@ -13,7 +13,7 @@ end
 ---@deprecated use GetCoordsFromEntity from imports/utils.lua
 QBCore.Functions.GetCoords = GetCoordsFromEntity
 
----@deprecated use HasItem from imports/utils.lua
+---@deprecated use https://overextended.dev/ox_inventory/Functions/Client#search
 QBCore.Functions.HasItem = HasItem
 
 -- Utility

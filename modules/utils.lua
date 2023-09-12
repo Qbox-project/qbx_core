@@ -281,10 +281,7 @@ if isServer then
         return false
     end
 
-    ---QBCore.Functions.HasItem checks if a player has the specified `items` in their inventory
-    ---with the specified `amount`. Returns true if the player has at least the amount specified
-    ---and not that the player has the exact amount. If the user passes nil for `amount` then we
-    ---default to 1 - as it's self explainatory within the functions name.
+    ---@deprecated use https://overextended.dev/ox_inventory/Functions/Server#search
     ---@param source Source
     ---@param items string | string[] The item(s) to check for. Can be a string or a table and is mandatory.
     ---@param amount? integer The desired quantity of each item. Acceptable to pass nil, will default to 1.
@@ -426,10 +423,7 @@ else
         end)
     end
 
-    ---QBCore.Functions.HasItem checks if a player has the specified `items` in their inventory
-    ---with the specified `amount`. Returns true if the player has at least the amount specified
-    ---and not that the player has the exact amount. If the user passes nil for `amount` then we
-    ---default to 1 - as it's self explainatory within the functions name.
+    ---@deprecated use https://overextended.dev/ox_inventory/Functions/Client#search
     ---@param items string | string[] The item(s) to check for. Can be a string or a table and is mandatory.
     ---@param amount? integer The desired quantity of each item. Acceptable to pass nil, will default to 1.
     ---@return boolean Returns true if the player has the specified items in the desired quantity, false otherwise
