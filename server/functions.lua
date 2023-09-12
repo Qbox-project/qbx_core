@@ -357,15 +357,8 @@ QBCore.Functions.IsLicenseInUse = IsLicenseInUse
 
 -- Utility functions
 
----@deprecated use HasItem from imports/utils.lua
----@param source Source
----@param items unknown[]
----@param amount number
----@return boolean
-function QBCore.Functions.HasItem(source, items, amount)
-    if GetResourceState('qb-inventory') == 'missing' then return false end
-    return exports['qb-inventory']:HasItem(source, items, amount)
-end
+---@deprecated use https://overextended.dev/ox_inventory/Functions/Server#search
+QBCore.Functions.HasItem = HasItem
 
 ---@see client/functions.lua:QBCore.Functions.Notify
 function QBCore.Functions.Notify(source, text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
