@@ -145,6 +145,8 @@ end
 ---@return boolean
 local function checkStrings(dialog, input)
     local str = dialog[input]
+    if QBCore.Config.Characters.ProfanityWords[str:lower()] then return false end
+
     local split = {string.strsplit(' ', str)}
     if #split > 5 then return false end
 
