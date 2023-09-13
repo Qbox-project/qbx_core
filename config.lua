@@ -109,4 +109,21 @@ QBConfig.Server.Discord = "" -- Discord invite link
 QBConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar license on join
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
+QBConfig.Storage = {}
+QBConfig.Storage.PlayerDataTables = {
+    ['players'] = 'citizenid',
+    ['apartments'] = 'citizenid',
+    ['bank_accounts'] = 'citizenid',
+    ['crypto_transactions'] = 'citizenid',
+    ['phone_invoices'] = 'citizenid',
+    ['phone_messages'] = 'citizenid',
+    ['playerskins'] = 'citizenid',
+    ['player_contacts'] = 'citizenid',
+    ['player_houses'] = 'citizenid',
+    ['player_mails'] = 'citizenid',
+    ['player_outfits'] = 'citizenid',
+    ['player_vehicles'] = 'citizenid',
+    -- ['bank_accounts_new'] = 'creator'
+}
+
 QBConfig.NotifyPosition = 'top-right' -- 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
