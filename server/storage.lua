@@ -222,15 +222,16 @@ function FetchPlayerEntity(citizenId)
     } or nil
 end
 
+---deletes character data using the CharacterDataTables object in the config file
 ---@param citizenId string
 ---@return boolean success if operation is successful.
 function DeletePlayerEntity(citizenId)
-    local query = 'DELETE FROM %s WHERE %s = ?'
+    local query = "DELETE FROM %s WHERE %s = ?"
     local queries = {}
 
-    for tableName, identifierColumnName in pairs(QBCore.Config.Storage.PlayerDataTables) do
+    for tableName, columnName in pairs(CharacterDataTables) do
         queries[#queries + 1] = {
-            query = query:format(tableName, identifierColumnName),
+            query = query:format(tableName, columnName),
             values = {
                 citizenId,
             }
