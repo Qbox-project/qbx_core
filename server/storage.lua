@@ -229,7 +229,7 @@ function DeletePlayerEntity(citizenId)
     local query = "DELETE FROM %s WHERE %s = ?"
     local queries = {}
 
-    for tableName, columnName in pairs(CharacterDataTables) do
+    for tableName, columnName in pairs(Config.CharacterDataTables) do
         queries[#queries + 1] = {
             query = query:format(tableName, columnName),
             values = {
