@@ -111,10 +111,11 @@ QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as
 
 QBConfig.NotifyPosition = 'top-right' -- 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
 
+Config = {}
 ---@alias TableName string
 ---@alias ColumnName string
 ---@type table<TableName, ColumnName>
-CharacterDataTables = {
+Config.CharacterDataTables = {
     ['players'] = 'citizenid',
     ['apartments'] = 'citizenid',
     ['bank_accounts'] = 'citizenid',
