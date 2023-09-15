@@ -212,7 +212,6 @@ local function createCharacter(cid)
         cid = cid
     })
     destroyPreviewCam()
-    TriggerServerEvent('qb-cityhall:server:getIDs')
     return true
 end
 
