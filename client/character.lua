@@ -133,8 +133,8 @@ local function characterDialog()
             label = Lang:t('info.birth_date'),
             format = 'YYYY-MM-DD',
             returnString = true,
-            min = '01/01/1900',
-            max = '31/12/2006',
+            min = '1900-01-01', -- Has to be in the same in the same format as the format argument
+            max = '2006-12-31', -- Has to be in the same in the same format as the format argument
             default = '2006-12-31'
         }
     })
