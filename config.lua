@@ -110,3 +110,22 @@ QBConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar lic
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
 QBConfig.NotifyPosition = 'top-right' -- 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
+
+Config = {}
+---@alias TableName string
+---@alias ColumnName string
+---@type table<TableName, ColumnName>
+Config.CharacterDataTables = {
+    ['players'] = 'citizenid',
+    ['apartments'] = 'citizenid',
+    ['bank_accounts'] = 'citizenid',
+    ['crypto_transactions'] = 'citizenid',
+    ['phone_invoices'] = 'citizenid',
+    ['phone_messages'] = 'citizenid',
+    ['playerskins'] = 'citizenid',
+    ['player_contacts'] = 'citizenid',
+    ['player_houses'] = 'citizenid',
+    ['player_mails'] = 'citizenid',
+    ['player_outfits'] = 'citizenid',
+    ['player_vehicles'] = 'citizenid',
+} -- Rows to be deleted when the character is deleted
