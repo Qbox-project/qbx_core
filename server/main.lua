@@ -1,3 +1,7 @@
+---@type 'strict'|'relaxed'|'inactive'
+local bucketLockDownMode = GetConvar('qbx:bucketlockdownmode', 'relaxed')
+SetRoutingBucketEntityLockdownMode(0, bucketLockDownMode)
+
 QBCore = {}
 QBCore.Config = QBConfig
 QBCore.Shared = QBShared
