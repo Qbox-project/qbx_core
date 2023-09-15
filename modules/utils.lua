@@ -362,7 +362,7 @@ else
         ClearDrawOrigin()
     end
 
-    ---Waits for the callback to return a value, [source](https://github.com/overextended/ox_core/blob/main/client/utils.lua)
+    ---@deprecated use https://overextended.dev/ox_lib/Modules/WaitFor/Shared instead
     ---@async
     ---@param cb fun(): any
     ---@param timeout integer
