@@ -2,7 +2,7 @@ QBCore.Functions = {}
 
 -- Player
 
----get playerData via callback or return
+---@deprecated import playerdata module instead
 ---@param cb? fun(playerData: PlayerData)
 ---@return PlayerData? playerData
 function QBCore.Functions.GetPlayerData(cb)
