@@ -8,26 +8,8 @@ end
 
 ---@param source Source
 local function giveStarterItems(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-
     for _, v in pairs(QBCore.Shared.StarterItems) do
-        if v.item == 'id_card' then
-            local metadata = {
-                type = string.format('%s %s', Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname),
-                description = string.format('CID: %s  \nBirth date: %s  \nSex: %s  \nNationality: %s',
-                Player.PlayerData.citizenid, Player.PlayerData.charinfo.birthdate, Player.PlayerData.charinfo.gender == 0 and Lang:t('info.char_male') or Lang:t('char_female'), Player.PlayerData.charinfo.nationality)
-            }
-            exports.ox_inventory:AddItem(source, v.item, v.amount, metadata)
-        elseif v.item == 'driver_license' then
-            local metadata = {
-                type = 'Class C Driver License',
-                description = string.format('First name: %s  \nLast name: %s  \nBirth date: %s',
-                Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname, Player.PlayerData.charinfo.birthdate)
-            }
-            exports.ox_inventory:AddItem(source, v.item, v.amount, metadata)
-        else
-            exports.ox_inventory:AddItem(source, v.item, v.amount)
-        end
+        exports.ox_inventory:AddItem(source, v.item, v.amount)
     end
 end
 
