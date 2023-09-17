@@ -222,31 +222,16 @@ function FetchPlayerEntity(citizenId)
     } or nil
 end
 
+---deletes character data using the CharacterDataTables object in the config file
 ---@param citizenId string
 ---@return boolean success if operation is successful.
 function DeletePlayerEntity(citizenId)
-    local playerTables = {
-        'players',
-        'apartments',
-        'bank_accounts',
-        'crypto_transactions',
-        'phone_invoices',
-        'phone_messages',
-        'playerskins',
-        'player_contacts',
-        'player_houses',
-        'player_mails',
-        'player_outfits',
-        'player_vehicles',
-    }
-
-    local query = "DELETE FROM %s WHERE citizenid = ?"
+    local query = "DELETE FROM %s WHERE %s = ?"
     local queries = {}
 
-    for i = 1, #playerTables do
-        local table = playerTables[i]
-        queries[i] = {
-            query = query:format(table),
+    for tableName, columnName in pairs(Config.CharacterDataTables) do
+        queries[#queries + 1] = {
+            query = query:format(tableName, columnName),
             values = {
                 citizenId,
             }
