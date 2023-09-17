@@ -42,6 +42,9 @@ QBConfig.Characters.Locations = { -- Spawn locations for multichar, these are ch
         camCoords = vec4(2268.24, 2925.02, -84.36, 90.88),
     }
 }
+QBConfig.StarterItems = {  -- Place starting items here, use qbx-cityhall/um-idcard to create IDs
+    phone = { amount = 1, item = 'phone' },
+}
 
 QBConfig.Money = {}
 

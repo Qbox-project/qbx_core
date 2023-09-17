@@ -8,7 +8,7 @@ end
 
 ---@param source Source
 local function giveStarterItems(source)
-    for _, v in pairs(QBCore.Shared.StarterItems) do
+    for _, v in pairs(QBConfig.StarterItems) do
         exports.ox_inventory:AddItem(source, v.item, v.amount)
     end
 end

@@ -1,9 +1,5 @@
 QBShared = QBShared or {}
 
-QBShared.StarterItems = {
-    phone = { amount = 1, item = 'phone' },
-}
-
 ---@deprecated use CommaValue from imports/utils.lua
 QBShared.CommaValue = CommaValue
 
