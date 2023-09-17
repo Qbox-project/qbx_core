@@ -16,12 +16,18 @@ local Translations = {
         server_already_closed = 'Der Server ist schon geschlossen',
         no_permission = 'Du hast keine Rechte dafür..',
         no_waypoint = 'Kein Wegpunkt gesetzt.',
-        tp_error = 'Error beim teleportieren.',
+        tp_error = 'Fehler beim Teleportieren.',
+        connecting_database_timeout = 'Die Verbindung zur Datenbank nicht möglich. (Ist der SQL-Server eingeschaltet?)',
+        connecting_error = 'Beim Herstellen der Verbindung zum Server ist ein Fehler aufgetreten. (Überprüfe die Serverkonsole)',
+        no_match_character_registration = 'In den Eingabefeldern sind nur Buchstaben zulässig. Leerzeichen am Ende sind nicht zulässig und Wörter müssen mit einem Großbuchstaben beginnen. Du kannst jedoch Wörter mit Leerzeichen dazwischen hinzufügen.'
     },
     success = {
         server_opened = 'Der Server wurde geöffnet',
         server_closed = 'Der Server wurde geschlossen',
         teleported_waypoint = 'Zum Wegpunkt teleportiert.',
+        character_deleted = 'Charakter gelöscht!',
+        character_deleted_citizenid = 'Du hast den Charakter mit der Spieler-ID %{citizenid} erfolgreich gelöscht.'
+   
     },
     info = {
         received_paycheck = 'Du hast dein Gehalt in Höhe von $%{value} erhalten',
@@ -33,7 +39,25 @@ local Translations = {
         join_server = 'Willkommen %s bei {Server Name}.',
         checking_whitelisted = 'Hallo %s. Wir prüfen deine Erlaubnis.',
         exploit_banned = 'Du wurdest fürs Cheaten gebannt. Meld dich auf dem Discord: %{discord}',
-        exploit_dropped = 'Du wurdest gekickt, für das Ausnutzen von Fehlern',
+        exploit_dropped = 'Du wurdest gekickt, für das Ausnutzen von Exploits',
+        multichar_title = 'Qbox Multichar',
+        multichar_new_character = 'Neuen Charakter #%{number}',
+        char_male = 'Männlich',
+        char_female = 'Weiblich',
+        play = 'Aufwachen',
+        play_description = 'Aufwachen als %{playerName}',
+        delete_character = 'Charakter löschen',
+        delete_character_description = 'Lösche %{playerName}',
+        logout_command_help = 'Loggt dich aus deinem aktuellen Charakter aus.',
+        deletechar_command_help = 'Löscht den Charakter eines Spielers.',
+        deletechar_command_arg_player_id = 'Spieler-ID',
+        character_registration_title = 'Charakterregistrierung',
+        first_name = 'Vorname',
+        last_name = 'Nachname',
+        nationality = 'Nationalität',
+        gender = 'Geschlecht',
+        birth_date = 'Geburtsdatum',
+        select_gender = 'Wähle dein Geschlecht'
     },
     command = {
         tp = {
@@ -47,14 +71,14 @@ local Translations = {
         tpm = { help = 'TP zum Marker (Nur Admins)' },
         togglepvp = { help = 'Schalte PVP ein oder aus (Nur Admins)' },
         addpermission = {
-            help = 'Gebe einem Spieler Rechte (God Only)',
+            help = 'Gebe einem Spieler Rechte (Nur God)',
             params = {
                 id = { name = 'id', help = 'ID des Spielers' },
                 permission = { name = 'permission', help = 'Zugriffsrechte' },
             },
         },
         removepermission = {
-            help = 'Nimm jemand die Rechte (God Only)',
+            help = 'Nimm jemand die Rechte (Nur God)',
             params = {
                 id = { name = 'id', help = 'ID des Spielers' },
                 permission = { name = 'permission', help = 'Zugriffsrechte' },
