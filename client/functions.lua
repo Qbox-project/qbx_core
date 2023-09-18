@@ -2,7 +2,7 @@ QBCore.Functions = {}
 
 -- Player
 
----get playerData via callback or return
+---@deprecated import PlayerData using module 'qbx-core:playerdata' https://qbox-docs.vercel.app/resources/core/import
 ---@param cb? fun(playerData: PlayerData)
 ---@return PlayerData? playerData
 function QBCore.Functions.GetPlayerData(cb)

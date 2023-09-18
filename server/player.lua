@@ -557,9 +557,12 @@ end
 ---Save player info to database (make sure citizenid is the primary key in your database)
 ---@param source Source
 function QBCore.Player.Save(source)
-    local ped = GetPlayerPed(source)
-    local pcoords = GetEntityCoords(ped)
+     local ped = GetPlayerPed(source)
     local PlayerData = QBCore.Players[source].PlayerData
+    local pcoords = PlayerData.position
+    if not Player(source)?.state.inApartment and not Player(source)?.state.inProperty then
+        pcoords = vec4(GetEntityCoords(ped), GetEntityHeading(ped))
+    end
     if not PlayerData then
         DebugPrint('^1ERROR: QBCORE.PLAYER.SAVE - PLAYERDATA IS EMPTY!')
         return
