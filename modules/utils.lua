@@ -362,29 +362,6 @@ else
         ClearDrawOrigin()
     end
 
-    ---Waits for the callback to return a value, [source](https://github.com/overextended/ox_core/blob/main/client/utils.lua)
-    ---@async
-    ---@param cb fun(): any
-    ---@param timeout integer
-    ---@return any
-    function WaitFor(cb, timeout)
-        local hasValue = cb()
-        local i = 0
-
-        while not hasValue do
-            if timeout then
-                i += 1
-
-                if i > timeout then return end
-            end
-
-            Wait(0)
-            hasValue = cb()
-        end
-
-        return hasValue
-    end
-
     ---Wrapper for getting an entity handle and network id from a state bag name, [source](https://github.com/overextended/ox_core/blob/main/client/utils.lua)
     ---@async
     ---@param bagName string
@@ -392,12 +369,9 @@ else
     function GetEntityAndNetIdFromBagName(bagName)
         local netId = tonumber(bagName:gsub('entity:', ''), 10)
 
-        if not WaitFor(function()
+        lib.waitFor(function()
             return NetworkDoesEntityExistWithNetworkId(netId)
-        end, 10000) then
-            print(('statebag timed out while awaiting entity creation! (%s)'):format(bagName))
-            return 0, 0
-        end
+        end, ('statebag timed out while awaiting entity creation! (%s)'):format(bagName), 10000)
 
         local entity = NetworkDoesEntityExistWithNetworkId(netId) and NetworkGetEntityFromNetworkId(netId) or 0
 
