@@ -362,15 +362,6 @@ else
         ClearDrawOrigin()
     end
 
-    ---@deprecated use https://overextended.dev/ox_lib/Modules/WaitFor/Shared instead
-    ---@async
-    ---@param cb fun(): any
-    ---@param timeout integer
-    ---@return any
-    function WaitFor(cb, timeout)
-        return lib.waitFor(cb, nil, timeout)
-    end
-
     ---Wrapper for getting an entity handle and network id from a state bag name, [source](https://github.com/overextended/ox_core/blob/main/client/utils.lua)
     ---@async
     ---@param bagName string
