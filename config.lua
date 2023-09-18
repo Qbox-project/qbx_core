@@ -144,7 +144,7 @@ end
 ---@param item string
 ---@param itemType string
 ---@return table
-local function itemMetadata(item, itemType)
+local function getItemMetadata(item, itemType)
     local metadata
     if type(item) ~= "string" or type(itemType) ~= "string" then return end
 
@@ -165,15 +165,19 @@ local function itemMetadata(item, itemType)
         firstname = PlayerData.charinfo.firstname,
         lastname = PlayerData.charinfo.lastname,
         birthdate = PlayerData.charinfo.birthdate,
-        sex =  getSexString(PlayerData.charinfo.gender),
+        sex = getSexString(PlayerData.charinfo.gender),
         nationality = PlayerData.charinfo.nationality,
         mugShot = 'none',
     }
     return metadata
 end
 
+---@alias ItemName string
+---@alias ItemAmount number
+---@alias ItemMetadata table
+---@type table<ItemName, ItemAmount, ItemMetadata>
 Config.StarterItems = { -- Character starting items
-    { item = 'phone', amount = 1,  },
-    { item = 'id_card', amount = 1, metadata = itemMetadata('id_card', 'id')},
-    { item = 'driver_license', amount = 1, metadata = itemMetadata('driver_license', 'license')},
+    { item = 'phone', amount = 1 },
+    { item = 'id_card', amount = 1, metadata = getItemMetadata('id_card', 'id')},
+    { item = 'driver_license', amount = 1, metadata = getItemMetadata('driver_license', 'license')},
 }
