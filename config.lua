@@ -130,8 +130,50 @@ Config.CharacterDataTables = {
     ['player_vehicles'] = 'citizenid',
 } -- Rows to be deleted when the character is deleted
 
+---@param sexString number | string 
+---@return string
+local function getSexString(sexString)
+    if sexString ~= 1 then
+        sexString = 'M'
+    else
+        sexString = 'F'
+    end
+    return sexString
+end
+
+---@param item string
+---@param itemType string
+---@return table
+local function itemMetadata(item, itemType)
+    local metadata
+    if type(item) ~= "string" or type(itemType) ~= "string" then return end
+
+    if itemType == 'id' then
+        metadata = {
+            type = string.format('%s %s', PlayerData.charinfo.firstname, PlayerData.charinfo.lastname),
+            description = string.format('CID: %s  \nBirth date: %s  \nSex: %s  \nNationality: %s', PlayerData.citizenid, PlayerData.charinfo.birthdate, getSexString(PlayerData.charinfo.gender), PlayerData.charinfo.nationality)
+        }
+    else
+        metadata = {
+            type = 'License',
+            description = string.format('First name: %s  \nLast name: %s  \nBirth date: %s', PlayerData.charinfo.firstname, PlayerData.charinfo.lastname, PlayerData.charinfo.birthdate)
+        }
+    end
+    metadata = {
+        cardtype = item,
+        citizenid = PlayerData.citizenid,
+        firstname = PlayerData.charinfo.firstname,
+        lastname = PlayerData.charinfo.lastname,
+        birthdate = PlayerData.charinfo.birthdate,
+        sex =  getSexString(PlayerData.charinfo.gender),
+        nationality = PlayerData.charinfo.nationality,
+        mugShot = 'none',
+    }
+    return metadata
+end
+
 Config.StarterItems = { -- Character starting items
-    phone = { amount = 1, item = 'phone' },
-    id_card = { amount = 1, item = 'id_card', type = 'id'},
-    driver_license = { amount = 1, item = 'driver_license', type = 'license'},
+    { item = 'phone', amount = 1,  },
+    { item = 'id_card', amount = 1, metadata = itemMetadata('id_card', 'id')},
+    { item = 'driver_license', amount = 1, metadata = itemMetadata('driver_license', 'license')},
 }

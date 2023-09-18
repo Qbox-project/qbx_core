@@ -6,50 +6,11 @@ local function getAllowedAmountOfCharacters(license2, license)
     return QBCore.Config.Characters.PlayersNumberOfCharacters[license2] or license and QBCore.Config.Characters.PlayersNumberOfCharacters[license] or QBCore.Config.Characters.DefaultNumberOfCharacters
 end
 
----@param sexString number | string 
----@return string
-local function getSexString(sexString)
-    if sexString ~= 1 then
-        sexString = 'M'
-    else
-        sexString = 'F'
-    end
-    return sexString
-end
-
 ---@param source Source
 local function giveStarterItems(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-
     for _, v in pairs(Config.StarterItems) do
-        if v.type == 'id' then
-            local metadata = {
-                cardtype = v,
-                citizenid = Player.PlayerData.citizenid,
-                firstname = Player.PlayerData.charinfo.firstname,
-                lastname = Player.PlayerData.charinfo.lastname,
-                birthdate = Player.PlayerData.charinfo.birthdate,
-                sex =  getSexString(Player.PlayerData.charinfo.gender),
-                nationality = Player.PlayerData.charinfo.nationality,
-                mugShot = 'none',
-                type = string.format('%s %s', Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname),
-                description = string.format('CID: %s  \nBirth date: %s  \nSex: %s  \nNationality: %s', Player.PlayerData.citizenid, Player.PlayerData.charinfo.birthdate, getSexString(Player.PlayerData.charinfo.gender), Player.PlayerData.charinfo.nationality)
-            }
-            exports.ox_inventory:AddItem(source, v.item, v.amount, metadata)
-        elseif v.type == 'license' then
-            local metadata = {
-                cardtype = v,
-                citizenid = Player.PlayerData.citizenid,
-                firstname = Player.PlayerData.charinfo.firstname,
-                lastname = Player.PlayerData.charinfo.lastname,
-                birthdate = Player.PlayerData.charinfo.birthdate,
-                sex =  getSexString(Player.PlayerData.charinfo.gender),
-                nationality = Player.PlayerData.charinfo.nationality,
-                mugShot = 'none',
-                type = 'License',
-                description = string.format('First name: %s  \nLast name: %s  \nBirth date: %s', Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname, Player.PlayerData.charinfo.birthdate)
-            }
-            exports.ox_inventory:AddItem(source, v.item, v.amount, metadata)
+        if v.metadata then
+            exports.ox_inventory:AddItem(source, v.item, v.amount, v.metadata)
         else
             exports.ox_inventory:AddItem(source, v.item, v.amount)
         end
