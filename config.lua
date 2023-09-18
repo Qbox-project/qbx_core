@@ -130,42 +130,9 @@ Config.CharacterDataTables = {
     ['player_vehicles'] = 'citizenid',
 } -- Rows to be deleted when the character is deleted
 
----@param sexString number | string 
----@return string
-local function getSexString(sexString)
-    if sexString ~= 1 then
-        sexString = 'M'
-    else
-        sexString = 'F'
-    end
-    return sexString
-end
-
----@type { item: string, amount: integer, metadata: table|function }
+---@type { name: string, amount: integer, metadata: table | fun(source: number): table}
 Config.StarterItems = { -- Character starting items
-    { item = 'phone', amount = 1 },
-    { item = 'id_card', amount = 1, metadata = {
-        cardtype = 'id_card',
-        citizenid = PlayerData.citizenid,
-        firstname = PlayerData.charinfo.firstname,
-        lastname = PlayerData.charinfo.lastname,
-        birthdate = PlayerData.charinfo.birthdate,
-        sex = getSexString(PlayerData.charinfo.gender),
-        nationality = PlayerData.charinfo.nationality,
-        mugShot = 'none',
-        type = Lang:t('info.player_name', {firstname = PlayerData.charinfo.firstname, lastname = PlayerData.charinfo.lastname}),
-        description = Lang:t('info.id_metadata_desc', {citizenid = PlayerData.citizenid, birthdate = PlayerData.charinfo.birthdate, sex = getSexString(PlayerData.charinfo.gender), nationality = PlayerData.charinfo.nationality})
-    }},
-    { item = 'driver_license', amount = 1, metadata = {
-        cardtype = 'driver_license',
-        citizenid = PlayerData.citizenid,
-        firstname = PlayerData.charinfo.firstname,
-        lastname = PlayerData.charinfo.lastname,
-        birthdate = PlayerData.charinfo.birthdate,
-        sex = getSexString(PlayerData.charinfo.gender),
-        nationality = PlayerData.charinfo.nationality,
-        mugShot = 'none',
-        type = Lang:t('info.license'),
-        description = Lang:t('info.license_metadata_desc', {firstname = PlayerData.charinfo.firstname, lastname = PlayerData.charinfo.lastname, birthdate = PlayerData.charinfo.birthdate})
-    }},
+    { name = 'phone', amount = 1 },
+    { name = 'id_card', amount = 1, metadata = function(source) exports['um-idcard']:CreateMetaLicense(source, {'id_card'}) end },
+    { name = 'driver_license', amount = 1, metadata = function(source) exports['um-idcard']:CreateMetaLicense(source, {'driver_license'}) end },
 }

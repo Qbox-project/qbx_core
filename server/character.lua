@@ -8,11 +8,12 @@ end
 
 ---@param source Source
 local function giveStarterItems(source)
-    for _, v in pairs(Config.StarterItems) do
-        if v.metadata then
-            exports.ox_inventory:AddItem(source, v.item, v.amount, v.metadata)
+    for i = 1, #Config.StarterItems do
+        local item = Config.StarterItems[i]
+        if item.metadata and type(item.metadata) == 'function' then
+            exports.ox_inventory:AddItem(source, item.name, item.amount, item.metadata(source))
         else
-            exports.ox_inventory:AddItem(source, v.item, v.amount)
+            exports.ox_inventory:AddItem(source, item.name, item.amount, item.metadata)
         end
     end
 end
