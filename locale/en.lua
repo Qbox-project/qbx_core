@@ -55,7 +55,10 @@ local Translations = {
         last_name = 'Last Name',
         nationality = 'Nationality',
         gender = 'Gender',
-        birth_date = 'Birth Date'
+        birth_date = 'Birth Date',
+        id_metadata_desc = 'CID: %{citizenid} \nBirth date: %{birthdate} \nSex: %{sex}\nNationality: %{nationality}',
+        license_metadata_desc = 'First name: %s  \nLast name: %s  \nBirth date: %s',
+        player_name = '%{firstname} %{lastname}'
     },
     command = {
         tp = {

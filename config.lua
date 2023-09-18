@@ -141,26 +141,11 @@ local function getSexString(sexString)
     return sexString
 end
 
----@param item string
----@param itemType string
----@return table
-local function getItemMetadata(item, itemType)
-    local metadata
-    if type(item) ~= "string" or type(itemType) ~= "string" then return end
-
-    if itemType == 'id' then
-        metadata = {
-            type = string.format('%s %s', PlayerData.charinfo.firstname, PlayerData.charinfo.lastname),
-            description = string.format('CID: %s  \nBirth date: %s  \nSex: %s  \nNationality: %s', PlayerData.citizenid, PlayerData.charinfo.birthdate, getSexString(PlayerData.charinfo.gender), PlayerData.charinfo.nationality)
-        }
-    else
-        metadata = {
-            type = 'License',
-            description = string.format('First name: %s  \nLast name: %s  \nBirth date: %s', PlayerData.charinfo.firstname, PlayerData.charinfo.lastname, PlayerData.charinfo.birthdate)
-        }
-    end
-    metadata = {
-        cardtype = item,
+---@type { item: string, amount: integer, metadata: table|function }
+Config.StarterItems = { -- Character starting items
+    { item = 'phone', amount = 1 },
+    { item = 'id_card', amount = 1, metadata = {
+        cardtype = 'id_card',
         citizenid = PlayerData.citizenid,
         firstname = PlayerData.charinfo.firstname,
         lastname = PlayerData.charinfo.lastname,
@@ -168,16 +153,19 @@ local function getItemMetadata(item, itemType)
         sex = getSexString(PlayerData.charinfo.gender),
         nationality = PlayerData.charinfo.nationality,
         mugShot = 'none',
-    }
-    return metadata
-end
-
----@alias ItemName string
----@alias ItemAmount number
----@alias ItemMetadata table
----@type table<ItemName, ItemAmount, ItemMetadata>
-Config.StarterItems = { -- Character starting items
-    { item = 'phone', amount = 1 },
-    { item = 'id_card', amount = 1, metadata = getItemMetadata('id_card', 'id')},
-    { item = 'driver_license', amount = 1, metadata = getItemMetadata('driver_license', 'license')},
+        type = Lang:t('info.player_name', {firstname = PlayerData.charinfo.firstname, lastname = PlayerData.charinfo.lastname}),
+        description = Lang:t('info.id_metadata_desc', {citizenid = PlayerData.citizenid, birthdate = PlayerData.charinfo.birthdate, sex = getSexString(PlayerData.charinfo.gender), nationality = PlayerData.charinfo.nationality})
+    }},
+    { item = 'driver_license', amount = 1, metadata = {
+        cardtype = 'driver_license',
+        citizenid = PlayerData.citizenid,
+        firstname = PlayerData.charinfo.firstname,
+        lastname = PlayerData.charinfo.lastname,
+        birthdate = PlayerData.charinfo.birthdate,
+        sex = getSexString(PlayerData.charinfo.gender),
+        nationality = PlayerData.charinfo.nationality,
+        mugShot = 'none',
+        type = Lang:t('info.license'),
+        description = Lang:t('info.license_metadata_desc', {firstname = PlayerData.charinfo.firstname, lastname = PlayerData.charinfo.lastname, birthdate = PlayerData.charinfo.birthdate})
+    }},
 }
