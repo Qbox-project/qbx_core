@@ -1,8 +1,8 @@
 QBCore = QBCore or exports['qbx-core']:GetCoreObject()
-PlayerData = QBCore.Functions.GetPlayerData()
+PlayerData = QBCore.PlayerData
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    PlayerData = QBCore.Functions.GetPlayerData()
+    PlayerData = QBCore.PlayerData
     if OnPlayerData then
         OnPlayerData(PlayerData)
     end
