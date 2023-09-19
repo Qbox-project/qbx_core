@@ -130,9 +130,21 @@ Config.CharacterDataTables = {
     ['player_vehicles'] = 'citizenid',
 } -- Rows to be deleted when the character is deleted
 
----@type { name: string, amount: integer, metadata: table | fun(source: number): table}
+---@type { name: string, amount: integer, metadata: fun(source: number): table }
 Config.StarterItems = { -- Character starting items
     { name = 'phone', amount = 1 },
-    { name = 'id_card', amount = 1, metadata = function(source) if not lib.checkDependency('um-idcard', '1.2.8', true) then error() end exports['um-idcard']:GetMetaLicense(source, {'id_card'}) end },
-    { name = 'driver_license', amount = 1, metadata = function(source) if not lib.checkDependency('um-idcard', '1.2.8', true) then error() end exports['um-idcard']:GetMetaLicense(source, {'driver_license'}) end },
+    { name = 'id_card', amount = 1, metadata = function(source)
+            if not lib.checkDependency('um-idcard', '1.2.8', true) then
+                error("Failed to satisfy um-idcard dependency version 1.2.8")
+            end
+            return exports['um-idcard']:GetMetaLicense(source, {'id_card'})
+        end
+    },
+    { name = 'driver_license', amount = 1, metadata = function(source)
+            if not lib.checkDependency('um-idcard', '1.2.8', true) then
+                error("Failed to satisfy um-idcard dependency version 1.2.8")
+            end
+            return exports['um-idcard']:GetMetaLicense(source, {'driver_license'})
+        end
+    },
 }
