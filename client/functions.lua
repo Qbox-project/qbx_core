@@ -50,6 +50,8 @@ function QBCore.Functions.Notify(text, notifyType, duration, subTitle, notifyPos
     if type(text) == "table" then
         title = text.text or 'Placeholder'
         description = text.caption or nil
+    elseif not subTitle then
+        description = text
     else
         title = text
         description = subTitle
