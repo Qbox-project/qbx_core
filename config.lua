@@ -133,6 +133,6 @@ Config.CharacterDataTables = {
 ---@type { name: string, amount: integer, metadata: table | fun(source: number): table}
 Config.StarterItems = { -- Character starting items
     { name = 'phone', amount = 1 },
-    { name = 'id_card', amount = 1, metadata = function(source) if not lib.checkDependency('um-idcard', '1.2.8', true) then error() end exports['um-idcard']:GetMetaLicense(source, {'id_card'}) end end },
-    { name = 'driver_license', amount = 1, metadata = function(source) if not lib.checkDependency('um-idcard', '1.2.8', true) then error() end exports['um-idcard']:GetMetaLicense(source, {'driver_license'}) end end },
+    { name = 'id_card', amount = 1, metadata = function(source) if not lib.checkDependency('um-idcard', '1.2.8', true) then error() end exports['um-idcard']:GetMetaLicense(source, {'id_card'}) end },
+    { name = 'driver_license', amount = 1, metadata = function(source) if not lib.checkDependency('um-idcard', '1.2.8', true) then error() end exports['um-idcard']:GetMetaLicense(source, {'driver_license'}) end },
 }
