@@ -368,9 +368,11 @@ function QBCore.Functions.Notify(source, text, notifyType, duration, subTitle, n
     if type(text) == "table" then
         title = text.text or 'Placeholder'
         description = text.caption or nil
-    else
+    elseif subTitle then
         title = text
         description = subTitle
+    else
+        description = text
     end
     local position = notifyPosition or QBConfig.NotifyPosition
 
