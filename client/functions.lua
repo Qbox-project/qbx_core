@@ -239,8 +239,8 @@ QBCore.Functions.StartParticleAtCoord = StartParticleAtCoord
 ---@deprecated use StartParticleOnEntity from imports/utils.lua
 QBCore.Functions.StartParticleOnEntity = StartParticleOnEntity
 
----@deprecated use GetStreetNametAtCoords from imports/utils.lua
-QBCore.Functions.GetStreetNametAtCoords = GetStreetNametAtCoords
+---@deprecated use GetStreetNameAtCoords from imports/utils.lua
+QBCore.Functions.GetStreetNametAtCoords = GetStreetNameAtCoords
 
 ---@deprecated use GetZoneAtCoords from imports/utils.lua
 QBCore.Functions.GetZoneAtCoords = GetZoneAtCoords

@@ -3,7 +3,7 @@ local isServer = IsDuplicityVersion()
 ---Get the coords including the heading from an entity
 ---@param entity number
 ---@return vector4
-function GetCoordsFromEntity(entity)
+function GetCoordsFromEntity(entity) -- luacheck: ignore
     local coords = GetEntityCoords(entity)
     return vec4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
 end
@@ -11,7 +11,7 @@ end
 ---Returns the number plate of the specified vehicle
 ---@param vehicle integer
 ---@return string?
-function GetPlate(vehicle)
+function GetPlate(vehicle) -- luacheck: ignore
     if not vehicle or vehicle == 0 then return end
     return GetVehicleNumberPlateText(vehicle):trim()
 end
@@ -19,7 +19,7 @@ end
 ---When sending a table, prints the contents of it, otherwise it prints the string directly
 ---@param value string | table
 ---@param indent? integer
-function DebugPrint(value, indent)
+function DebugPrint(value, indent) -- luacheck: ignore
     indent = indent or 0
     if type(value) == 'table' then
         for k, v in pairs(value) do
@@ -49,7 +49,7 @@ end
 ---Converts a number to a string version with commas
 ---@param num number
 ---@return string
-function CommaValue(num)
+function CommaValue(num) -- luacheck: ignore
     local formatted = tostring(num)
     local numChanged
     repeat
@@ -62,7 +62,7 @@ end
 ---@param str string
 ---@param delimiter string character
 ---@return string[]
-function string.split(str, delimiter)
+function string.split(str, delimiter) -- luacheck: ignore
     local result = {}
     local from = 1
     local delim_from, delim_to = string.find(str, delimiter, from)
@@ -79,7 +79,7 @@ end
 ---@param str string
 ---@return string?
 ---@return number? count
-function string.trim(str)
+function string.trim(str) -- luacheck: ignore
     if not str then return end
     return string.gsub(str, '^%s*(.-)%s*$', '%1')
 end
@@ -88,7 +88,7 @@ end
 ---@param str string
 ---@return string?
 ---@return number? count
-function string.firstToUpper(str)
+function string.firstToUpper(str) -- luacheck: ignore
     if not str or str == '' then return end
     return str:gsub("^%l", string.upper)
 end
@@ -97,7 +97,7 @@ end
 ---@param value number
 ---@param numDecimalPlaces integer
 ---@return integer
-function math.round(value, numDecimalPlaces)
+function math.round(value, numDecimalPlaces) -- luacheck: ignore
     if not numDecimalPlaces then return math.floor(value + 0.5) end
     local power = 10 ^ numDecimalPlaces
     return math.floor((value * power) + 0.5) / power
@@ -117,7 +117,7 @@ for i = 1, #stringCharset do globalCharset[#globalCharset + 1] = stringCharset[i
 ---Returns a random letter
 ---@param length integer
 ---@return string
-function RandomLetter(length)
+function RandomLetter(length) -- luacheck: ignore
     if length <= 0 then return '' end
     return RandomLetter(length - 1) .. stringCharset[math.random(1, #stringCharset)]
 end
@@ -125,7 +125,7 @@ end
 ---Returns a random number
 ---@param length integer
 ---@return string
-function RandomNumber(length)
+function RandomNumber(length) -- luacheck: ignore
     if length <= 0 then return '' end
     return RandomNumber(length - 1) .. numberCharset[math.random(1, #numberCharset)]
 end
@@ -133,14 +133,14 @@ end
 ---Returns a random number or letter
 ---@param length integer
 ---@return string
-function RandomNumberOrLetter(length)
+function RandomNumberOrLetter(length) -- luacheck: ignore
     if length <= 0 then return '' end
     return RandomNumberOrLetter(length - 1) .. globalCharset[math.random(1, #globalCharset)]
 end
 
 ---Generates a random number plate according to a pattern, [pattern format](https://docs.fivem.net/natives/?_0x79780FD2), [plate generation source](https://github.com/citizenfx/fivem/blob/cb97fbc54050e2309930128d6deed515d004a1bd/code/components/extra-natives-five/src/VehicleNumberPlateNatives.cpp#L25-L112)
 ---@return string
-function GenerateRandomPlate(pattern)
+function GenerateRandomPlate(pattern) -- luacheck: ignore
     local newPattern = ''
     local skipNext = false
     for i = 1, #pattern do
@@ -193,7 +193,7 @@ if isServer then
     ---@param coords? vector4 defaults to player's position
     ---@param warp? boolean
     ---@return integer? netId
-    function SpawnVehicle(source, model, coords, warp)
+    function SpawnVehicle(source, model, coords, warp) -- luacheck: ignore
         model = type(model) == 'string' and joaat(model) or model
 
         if not CreateVehicleServerSetter then
@@ -234,7 +234,7 @@ if isServer then
     ---@param reason string
     ---@param setKickReason? fun(reason: string)
     ---@param deferrals? Deferrals
-    function KickWithReason(source, reason, setKickReason, deferrals)
+    function KickWithReason(source, reason, setKickReason, deferrals) -- luacheck: ignore
         reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBCore.Config.Server.Discord
         if setKickReason then
             setKickReason(reason)
@@ -267,7 +267,7 @@ if isServer then
     ---Check for duplicate license
     ---@param license string
     ---@return boolean
-    function IsLicenseInUse(license)
+    function IsLicenseInUse(license) -- luacheck: ignore
         local players = GetPlayers()
 
         for _, player in pairs(players) do
@@ -286,7 +286,7 @@ if isServer then
     ---@param items string | string[] The item(s) to check for. Can be a string or a table and is mandatory.
     ---@param amount? integer The desired quantity of each item. Acceptable to pass nil, will default to 1.
     ---@return boolean Returns true if the player has the specified items in the desired quantity, false otherwise
-    function HasItem(source, items, amount)
+    function HasItem(source, items, amount) -- luacheck: ignore
         amount = amount or 1
         local count = exports.ox_inventory:Search(source, 'count', items)
         if type(items) == 'table' and type(count) == 'table' then
@@ -311,7 +311,7 @@ else
     ---@param g? integer green 0-255
     ---@param b? integer blue 0-255
     ---@param a? integer alpha 0-255
-    function DrawText2D(text, coords, width, height, scale, font, r, g, b, a)
+    function DrawText2D(text, coords, width, height, scale, font, r, g, b, a) -- luacheck: ignore
         r = r or 255
         g = g or 255
         b = b or 255
@@ -341,7 +341,7 @@ else
     ---@param g? integer green 0-255
     ---@param b? integer blue 0-255
     ---@param a? integer alpha 0-255
-    function DrawText3D(text, coords, scale, font, r, g, b, a)
+    function DrawText3D(text, coords, scale, font, r, g, b, a) -- luacheck: ignore
         r = r or 255
         g = g or 255
         b = b or 255
@@ -366,7 +366,7 @@ else
     ---@async
     ---@param bagName string
     ---@return integer, integer
-    function GetEntityAndNetIdFromBagName(bagName)
+    function GetEntityAndNetIdFromBagName(bagName) -- luacheck: ignore
         local netId = tonumber(bagName:gsub('entity:', ''), 10)
 
         lib.waitFor(function()
@@ -387,7 +387,7 @@ else
     ---@param keyFilter string
     ---@param cb fun(entity: number, netId: number, value: any, bagName: string)
     ---@return number
-    function EntityStateHandler(keyFilter, cb)
+    function EntityStateHandler(keyFilter, cb) -- luacheck: ignore
         return AddStateBagChangeHandler(keyFilter, '', function(bagName, _, value)
             local entity, netId = GetEntityAndNetIdFromBagName(bagName)
 
@@ -401,7 +401,7 @@ else
     ---@param items string | string[] The item(s) to check for. Can be a string or a table and is mandatory.
     ---@param amount? integer The desired quantity of each item. Acceptable to pass nil, will default to 1.
     ---@return boolean Returns true if the player has the specified items in the desired quantity, false otherwise
-    function HasItem(items, amount)
+    function HasItem(items, amount) -- luacheck: ignore
         amount = amount or 1
         local count = exports.ox_inventory:Search('count', items)
         if type(items) == 'table' and type(count) == 'table' then
@@ -421,7 +421,7 @@ else
     ---@param animName string
     ---@param upperbodyOnly boolean
     ---@param duration integer ms
-    function PlayAnim(animDict, animName, upperbodyOnly, duration)
+    function PlayAnim(animDict, animName, upperbodyOnly, duration) -- luacheck: ignore
         local flags = upperbodyOnly and 16 or 0
         local runTime = duration or -1
         lib.requestAnimDict(animDict)
@@ -433,7 +433,7 @@ else
     ---@param pool string
     ---@param ignoreList? integer[]
     ---@return integer[]
-    function GetEntities(pool, ignoreList)
+    function GetEntities(pool, ignoreList) -- luacheck: ignore
         ignoreList = ignoreList or {}
         local ents = GetGamePool(pool)
         local entities = {}
@@ -454,35 +454,35 @@ else
     ---Returns all vehicles in the current scope
     ---@param ignoreList? integer[] ignore specific vehicle handles
     ---@return integer[]
-    function GetVehicles(ignoreList)
+    function GetVehicles(ignoreList) -- luacheck: ignore
         return GetEntities('CVehicle', ignoreList)
     end
 
     ---Returns all objects in the current scope
     ---@param ignoreList? integer[] ignore specific object handles
     ---@return integer[]
-    function GetObjects(ignoreList)
+    function GetObjects(ignoreList) -- luacheck: ignore
         return GetEntities('CObject', ignoreList)
     end
 
     ---Returns all peds in the current scope
     ---@param ignoreList? integer[] ignore specific ped handles
     ---@return integer[]
-    function GetPeds(ignoreList)
+    function GetPeds(ignoreList) -- luacheck: ignore
         return GetEntities('CPed', ignoreList)
     end
 
     ---Returns all pickups in the current scope
     ---@param ignoreList? integer[] ignore specific pickup handles
     ---@return integer[]
-    function GetPickups(ignoreList)
+    function GetPickups(ignoreList) -- luacheck: ignore
         return GetEntities('CPickups', ignoreList)
     end
 
     ---Returns all players in the current scope
     ---@param ignoreList? integer[] ignore specific player ids
     ---@return integer[]
-    function GetPlayersInScope(ignoreList)
+    function GetPlayersInScope(ignoreList) -- luacheck: ignore
         ignoreList = ignoreList or {}
         local plys = GetActivePlayers()
         local players = {}
@@ -505,7 +505,7 @@ else
     ---@param coords vector3? if unset uses player coords
     ---@return integer closestObj or -1
     ---@return number closestDistance or -1
-    function GetClosestEntity(entities, coords)
+    function GetClosestEntity(entities, coords) -- luacheck: ignore
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
         local closestDistance = -1
         local closestEntity = -1
@@ -527,7 +527,7 @@ else
     ---@param ignoreList? integer[]
     ---@return integer closestPed or -1
     ---@return number closestDistance or -1
-    function GetClosestPed(coords, ignoreList)
+    function GetClosestPed(coords, ignoreList) -- luacheck: ignore
         return GetClosestEntity(GetPeds(ignoreList), coords)
     end
 
@@ -536,14 +536,14 @@ else
     ---@param ignoreList? integer[]
     ---@return integer? vehicle
     ---@return number? closestDistance
-    function GetClosestVehicle(coords, ignoreList)
+    function GetClosestVehicle(coords, ignoreList) -- luacheck: ignore
         return GetClosestEntity(GetVehicles(ignoreList), coords)
     end
 
     ---Returns the closest object
     ---@return number?
     ---@return integer|nil
-    function GetClosestObject(coords, ignoreList)
+    function GetClosestObject(coords, ignoreList) -- luacheck: ignore
         return GetClosestEntity(GetObjects(ignoreList), coords)
     end
 
@@ -552,7 +552,7 @@ else
     ---Deletes the specified vehicle
     ---@param vehicle integer
     ---@return boolean
-    function DeleteVehicle(vehicle)
+    function DeleteVehicle(vehicle) -- luacheck: ignore
         SetEntityAsMissionEntity(vehicle, true, true)
         _deleteVehicle(vehicle)
         return DoesEntityExist(vehicle)
@@ -563,7 +563,7 @@ else
     ---@param maxDistance? number
     ---@return integer? playerId
     ---@return number? closestDistance
-    function GetClosestPlayer(coords, maxDistance)
+    function GetClosestPlayer(coords, maxDistance) -- luacheck: ignore
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
         local playerId, _, playerCoords = lib.getClosestPlayer(coords, maxDistance or 50, false)
         local closestDistance = playerCoords and #(playerCoords - coords) or nil
@@ -574,7 +574,7 @@ else
     ---@param coords? vector3 uses player position if not set
     ---@param distance? number
     ---@return number[] playerIds
-    function GetPlayersFromCoords(coords, distance)
+    function GetPlayersFromCoords(coords, distance) -- luacheck: ignore
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
         local players = lib.getNearbyPlayers(coords, distance or 5, true)
 
@@ -592,7 +592,7 @@ else
     ---@return integer | {id: integer} | {id: integer, type: string, name: string}
     ---@return vector3 boneCoords
     ---@return number boneDistance
-    function GetClosestBone(entity, list)
+    function GetClosestBone(entity, list) -- luacheck: ignore
         local playerCoords = GetEntityCoords(cache.ped)
 
         ---@type integer | {id: integer} | {id: integer, type: string, name: string}, vector3, number
@@ -619,7 +619,7 @@ else
     ---@param boneType integer
     ---@param bone string | integer
     ---@return number distance
-    function GetBoneDistance(entity, boneType, bone)
+    function GetBoneDistance(entity, boneType, bone) -- luacheck: ignore
         local boneIndex = boneType == 1 and GetPedBoneIndex(entity, bone --[[@as integer]]) or GetEntityBoneIndexByName(entity, bone --[[@as string]])
         local boneCoords = GetWorldPositionOfEntityBone(entity, boneIndex)
         local playerCoords = GetEntityCoords(cache.ped)
@@ -637,7 +637,7 @@ else
     ---@param zR number
     ---@param vertex boolean
     ---@return integer prop
-    function AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, vertex)
+    function AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, vertex) -- luacheck: ignore
         local modelHash = type(model) == 'string' and joaat(model) or model
         local bone = GetPedBoneIndex(ped, boneId)
         lib.requestModel(modelHash)
@@ -650,14 +650,14 @@ else
     ---Returns the model name of the vehicle
     ---@param vehicle integer
     ---@return string
-    function GetVehicleDisplayName(vehicle)
+    function GetVehicleDisplayName(vehicle) -- luacheck: ignore
         return GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
     end
 
     ---Returns the brand name of the vehicle
     ---@param vehicle integer
     ---@return string
-    function GetVehicleMakeName(vehicle)
+    function GetVehicleMakeName(vehicle) -- luacheck: ignore
         return GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
     end
 
@@ -665,7 +665,7 @@ else
     ---@param coords vector3? defaults to player position
     ---@param radius? number
     ---@return boolean
-    function IsVehicleSpawnClear(coords, radius)
+    function IsVehicleSpawnClear(coords, radius) -- luacheck: ignore
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
         radius = radius or 5
         local vehicles = GetGamePool('CVehicle')
@@ -691,7 +691,7 @@ else
     ---@param color? {r: number, g: number, b: number}
     ---@param duration? integer ms
     ---@return integer
-    function StartParticleAtCoord(dict, ptName, looped, coords, rot, scale, alpha, color, duration)
+    function StartParticleAtCoord(dict, ptName, looped, coords, rot, scale, alpha, color, duration) -- luacheck: ignore
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
 
         lib.requestNamedPtfxAsset(dict)
@@ -732,7 +732,7 @@ else
     ---@param evolution? {name: string, amount: number}
     ---@param duration? integer ms
     ---@return number
-    function StartParticleOnEntity(dict, ptName, looped, entity, bone, offset, rot, scale, alpha, color, evolution, duration)
+    function StartParticleOnEntity(dict, ptName, looped, entity, bone, offset, rot, scale, alpha, color, evolution, duration) -- luacheck: ignore
         lib.requestNamedPtfxAsset(dict)
         UseParticleFxAssetNextCall(dict)
         local particleHandle = nil
@@ -771,7 +771,7 @@ else
     ---Returns the street name and cross section from the coords
     ---@param coords vector3
     ---@return {main: string, cross: string}
-    function GetStreetNameAtCoords(coords)
+    function GetStreetNameAtCoords(coords) -- luacheck: ignore
         local street1, street2 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
         return { main = GetStreetNameFromHashKey(street1), cross = GetStreetNameFromHashKey(street2) }
     end
@@ -779,14 +779,14 @@ else
     ---Returns the name of the zone at the specified coords
     ---@param coords vector3
     ---@return string
-    function GetZoneAtCoords(coords)
+    function GetZoneAtCoords(coords) -- luacheck: ignore
         return GetLabelText(GetNameOfZone(coords.x, coords.y, coords.z))
     end
 
     ---Returns the direction the specified entity or local ped is standing towards
     ---@param entity? number defaults to player ped
     ---@return 'North' | 'South' | 'East' | 'West' | string direction or error message
-    function GetCardinalDirection(entity)
+    function GetCardinalDirection(entity) -- luacheck: ignore
         entity = entity or cache.ped
         if not entity or not DoesEntityExist(entity) then
             return 'Entity does not exist'
@@ -816,7 +816,7 @@ else
 
     ---Returns the current time in-game
     ---@return CurrentTime
-    function GetCurrentTime()
+    function GetCurrentTime() -- luacheck: ignore
         local obj = {}
         obj.min = GetClockMinutes()
         obj.hour = GetClockHours()
@@ -838,7 +838,7 @@ else
     ---Returns the z coord at the first ground the game can find
     ---@param coords vector3
     ---@return vector3?
-    function GetGroundZCoord(coords)
+    function GetGroundZCoord(coords) -- luacheck: ignore
         if not coords then return end
 
         local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, false)
@@ -852,7 +852,7 @@ else
 
         ---Clear all vehicle extras
     ---@param vehicle integer
-    local function ClearAllVehicleExtras(vehicle)
+    local function ClearAllVehicleExtras(vehicle) -- luacheck: ignore
         for i = 1, 20 do
             if DoesExtraExist(vehicle, i) then
                 SetVehicleExtra(vehicle, i, false)
@@ -864,7 +864,7 @@ else
     ---@param vehicle integer
     ---@param extra integer
     ---@param enable boolean
-    function ChangeVehicleExtra(vehicle, extra, enable)
+    function ChangeVehicleExtra(vehicle, extra, enable) -- luacheck: ignore
         if not DoesExtraExist(vehicle, extra) then return end
         local isExtraOn = IsVehicleExtraTurnedOn(vehicle, extra)
 
@@ -876,7 +876,7 @@ else
     ---Set the vehicle extras of a vehicle according to a table
     ---@param vehicle integer
     ---@param extras table<integer, boolean>
-    function SetVehicleExtras(vehicle, extras)
+    function SetVehicleExtras(vehicle, extras) -- luacheck: ignore
         ClearAllVehicleExtras(vehicle)
 
         for id, enabled in pairs(extras) do
@@ -967,7 +967,7 @@ else
 
     ---Returns if the local ped is wearing gloves
     ---@return boolean
-    function IsWearingGloves()
+    function IsWearingGloves() -- luacheck: ignore
         local armIndex = GetPedDrawableVariation(cache.ped, 3)
         local model = GetEntityModel(cache.ped)
         local tbl = model == `mp_m_freemode_01` and MaleNoGloves or FemaleNoGloves
