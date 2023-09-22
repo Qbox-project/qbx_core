@@ -223,6 +223,7 @@ function QBCore.Functions.CanUseItem(item)
     return QBCore.UsableItems[item]
 end
 
+---@deprecated No replacement. See https://overextended.dev/ox_inventory/Functions/Client#useitem
 ---@param source Source
 ---@param item string name
 function QBCore.Functions.UseItem(source, item)
@@ -243,13 +244,14 @@ function QBCore.Functions.IsWhitelisted(source)
 end
 
 -- Setting & Removing Permissions
+-- TODO: Should these be moved to the utility module?
 
 ---@param source Source
 ---@param permission string
 function QBCore.Functions.AddPermission(source, permission)
     if not IsPlayerAceAllowed(source --[[@as string]], permission) then
-        ExecuteCommand(('add_principal player.%s group.%s'):format(source, permission))
-        ExecuteCommand(('add_ace player.%s group.%s allow'):format(source, permission))
+        lib.addPrincipal('player.' .. source, 'group.' .. permission)
+        lib.addAce('player.' .. source, 'group.' .. permission)
         TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
         TriggerEvent('QBCore:Server:OnPermissionUpdate', source)
     end
@@ -260,8 +262,8 @@ end
 function QBCore.Functions.RemovePermission(source, permission)
     if permission then
         if IsPlayerAceAllowed(source --[[@as string]], permission) then
-            ExecuteCommand(('remove_principal player.%s group.%s'):format(source, permission))
-            ExecuteCommand(('remove_ace player.%s group.%s allow'):format(source, permission))
+            lib.removePrincipal('player.' .. source, 'group.' .. permission)
+            lib.removeAce('player.' .. source, 'group.' .. permission)
             TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
             TriggerEvent('QBCore:Server:OnPermissionUpdate', source)
         end
@@ -269,8 +271,8 @@ function QBCore.Functions.RemovePermission(source, permission)
         local hasUpdated = false
         for _, v in pairs(QBCore.Config.Server.Permissions) do
             if IsPlayerAceAllowed(source --[[@as string]], v) then
-                ExecuteCommand(('remove_principal player.%s group.%s'):format(source, v))
-                ExecuteCommand(('remove_ace player.%s group.%s allow'):format(source, v))
+                lib.removePrincipal('player.' .. source, 'group.' .. v)
+                lib.removeAce('player.' .. source, 'group.' .. v)
                 hasUpdated = true
             end
         end
@@ -283,7 +285,7 @@ end
 
 -- Checking for Permission Level
 ---@param source Source
----@param permission string
+---@param permission string|string[]
 ---@return boolean
 function QBCore.Functions.HasPermission(source, permission)
     if type(permission) == "string" then
@@ -357,15 +359,8 @@ QBCore.Functions.IsLicenseInUse = IsLicenseInUse
 
 -- Utility functions
 
----@deprecated use HasItem from imports/utils.lua
----@param source Source
----@param items unknown[]
----@param amount number
----@return boolean
-function QBCore.Functions.HasItem(source, items, amount)
-    if GetResourceState('qb-inventory') == 'missing' then return false end
-    return exports['qb-inventory']:HasItem(source, items, amount)
-end
+---@deprecated use https://overextended.dev/ox_inventory/Functions/Server#search
+QBCore.Functions.HasItem = HasItem
 
 ---@see client/functions.lua:QBCore.Functions.Notify
 function QBCore.Functions.Notify(source, text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
@@ -373,9 +368,11 @@ function QBCore.Functions.Notify(source, text, notifyType, duration, subTitle, n
     if type(text) == "table" then
         title = text.text or 'Placeholder'
         description = text.caption or nil
-    else
+    elseif subTitle then
         title = text
         description = subTitle
+    else
+        description = text
     end
     local position = notifyPosition or QBConfig.NotifyPosition
 

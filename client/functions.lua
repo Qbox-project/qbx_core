@@ -2,7 +2,7 @@ QBCore.Functions = {}
 
 -- Player
 
----get playerData via callback or return
+---@deprecated import PlayerData using module 'qbx-core:playerdata' https://qbox-docs.vercel.app/resources/core/import
 ---@param cb? fun(playerData: PlayerData)
 ---@return PlayerData? playerData
 function QBCore.Functions.GetPlayerData(cb)
@@ -13,7 +13,7 @@ end
 ---@deprecated use GetCoordsFromEntity from imports/utils.lua
 QBCore.Functions.GetCoords = GetCoordsFromEntity
 
----@deprecated use HasItem from imports/utils.lua
+---@deprecated use https://overextended.dev/ox_inventory/Functions/Client#search
 QBCore.Functions.HasItem = HasItem
 
 -- Utility
@@ -50,9 +50,11 @@ function QBCore.Functions.Notify(text, notifyType, duration, subTitle, notifyPos
     if type(text) == "table" then
         title = text.text or 'Placeholder'
         description = text.caption or nil
-    else
+    elseif subTitle then
         title = text
         description = subTitle
+    else
+        description = text
     end
     local position = notifyPosition or QBConfig.NotifyPosition
 

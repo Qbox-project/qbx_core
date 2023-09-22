@@ -281,10 +281,7 @@ if isServer then
         return false
     end
 
-    ---QBCore.Functions.HasItem checks if a player has the specified `items` in their inventory
-    ---with the specified `amount`. Returns true if the player has at least the amount specified
-    ---and not that the player has the exact amount. If the user passes nil for `amount` then we
-    ---default to 1 - as it's self explainatory within the functions name.
+    ---@deprecated use https://overextended.dev/ox_inventory/Functions/Server#search
     ---@param source Source
     ---@param items string | string[] The item(s) to check for. Can be a string or a table and is mandatory.
     ---@param amount? integer The desired quantity of each item. Acceptable to pass nil, will default to 1.
@@ -365,29 +362,6 @@ else
         ClearDrawOrigin()
     end
 
-    ---Waits for the callback to return a value, [source](https://github.com/overextended/ox_core/blob/main/client/utils.lua)
-    ---@async
-    ---@param cb fun(): any
-    ---@param timeout integer
-    ---@return any
-    function WaitFor(cb, timeout) -- luacheck: ignore
-        local hasValue = cb()
-        local i = 0
-
-        while not hasValue do
-            if timeout then
-                i += 1
-
-                if i > timeout then return end
-            end
-
-            Wait(0)
-            hasValue = cb()
-        end
-
-        return hasValue
-    end
-
     ---Wrapper for getting an entity handle and network id from a state bag name, [source](https://github.com/overextended/ox_core/blob/main/client/utils.lua)
     ---@async
     ---@param bagName string
@@ -395,12 +369,9 @@ else
     function GetEntityAndNetIdFromBagName(bagName) -- luacheck: ignore
         local netId = tonumber(bagName:gsub('entity:', ''), 10)
 
-        if not WaitFor(function()
+        lib.waitFor(function()
             return NetworkDoesEntityExistWithNetworkId(netId)
-        end, 10000) then
-            print(('statebag timed out while awaiting entity creation! (%s)'):format(bagName))
-            return 0, 0
-        end
+        end, ('statebag timed out while awaiting entity creation! (%s)'):format(bagName), 10000)
 
         local entity = NetworkDoesEntityExistWithNetworkId(netId) and NetworkGetEntityFromNetworkId(netId) or 0
 
@@ -426,10 +397,7 @@ else
         end)
     end
 
-    ---QBCore.Functions.HasItem checks if a player has the specified `items` in their inventory
-    ---with the specified `amount`. Returns true if the player has at least the amount specified
-    ---and not that the player has the exact amount. If the user passes nil for `amount` then we
-    ---default to 1 - as it's self explainatory within the functions name.
+    ---@deprecated use https://overextended.dev/ox_inventory/Functions/Client#search
     ---@param items string | string[] The item(s) to check for. Can be a string or a table and is mandatory.
     ---@param amount? integer The desired quantity of each item. Acceptable to pass nil, will default to 1.
     ---@return boolean Returns true if the player has the specified items in the desired quantity, false otherwise
