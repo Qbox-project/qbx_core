@@ -1,4 +1,4 @@
-if QBCore.Config.Characters.UseExternalCharacters then return end
+if QBCore.Config.Characters.UseExternalCharacters or not lib.checkDependency('overextended/ox_lib', '3.10.0') then return end
 
 local previewCam = nil
 local randomLocation = QBCore.Config.Characters.Locations[math.random(1, #QBCore.Config.Characters.Locations)]
