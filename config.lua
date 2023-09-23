@@ -129,3 +129,22 @@ Config.CharacterDataTables = {
     ['player_outfits'] = 'citizenid',
     ['player_vehicles'] = 'citizenid',
 } -- Rows to be deleted when the character is deleted
+
+---@type { name: string, amount: integer, metadata: fun(source: number): table }
+Config.StarterItems = { -- Character starting items
+    { name = 'phone', amount = 1 },
+    { name = 'id_card', amount = 1, metadata = function(source)
+            if GetResourceState("qbx_idcard") ~= 'started' then
+                error("qbx_idcard resource not found. Required to give an id_card as a starting item")
+            end
+            return exports.qbx_idcard:GetMetaLicense(source, {'id_card'})
+        end
+    },
+    { name = 'driver_license', amount = 1, metadata = function(source)
+            if GetResourceState("qbx_idcard") ~= 'started' then
+                error("qbx_idcard resource not found. Required to give an id_card as a starting item")
+            end
+            return exports.qbx_idcard:GetMetaLicense(source, {'driver_license'})
+        end
+    },
+}
