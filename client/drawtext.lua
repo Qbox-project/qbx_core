@@ -59,7 +59,7 @@ end)
 
 ---@deprecated use ox_lib showTextUI calls directly
 RegisterNetEvent('qb-core:client:HideText', function()
-    hideText()
+    lib.hideTextUI()
 end)
 
 ---@deprecated use ox_lib showTextUI calls directly
@@ -79,7 +79,7 @@ end)
 
 ---@deprecated use ox_lib showTextUI calls directly
 RegisterNetEvent('qbx-core:client:HideText', function()
-    hideText()
+    lib.hideTextUI()
 end)
 
 ---@deprecated use ox_lib showTextUI calls directly

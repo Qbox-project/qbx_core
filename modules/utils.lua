@@ -353,7 +353,7 @@ else
         local entity = NetworkDoesEntityExistWithNetworkId(netId) and NetworkGetEntityFromNetworkId(netId) or 0
 
         if entity == 0 then
-            print(('statebag received invalid entity! (%s)'):format(bagName))
+            lib.print.error(('statebag received invalid entity! (%s)'):format(bagName))
             return 0, 0
         end
 
@@ -823,7 +823,7 @@ else
             return vec3(coords.x, coords.y, groundZ)
         end
 
-        print('Couldn\'t find Ground Z Coordinates given 3D Coordinates:', coords)
+        lib.print.verbose('Couldn\'t find Ground Z Coordinates given 3D Coordinates:', coords)
         return coords
     end
 
