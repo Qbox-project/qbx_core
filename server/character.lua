@@ -79,7 +79,7 @@ RegisterNetEvent('qbx-core:server:loadCharacter', function(citizenId)
     end
     SetPlayerRoutingBucket(src, 0)
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Loaded', 'green', '**'.. GetPlayerName(src) .. '** ('..(GetPlayerIdentifierByType(src, 'discord') or 'undefined') ..' |  ||'  ..(GetPlayerIdentifierByType(src, 'ip') or 'undefined') ..  '|| | ' ..(GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license') or 'undefined') ..' | ' ..citizenId..' | '..src..') loaded..')
-    print('^2[qbx-core]^7 '..GetPlayerName(src)..' (Citizen ID: '..citizenId..') has succesfully loaded!')
+    lib.print.info(GetPlayerName(src)..' (Citizen ID: '..citizenId..') has succesfully loaded!')
 end)
 
 RegisterNetEvent('qbx-core:server:createCharacter', function(data)
@@ -96,17 +96,17 @@ RegisterNetEvent('qbx-core:server:createCharacter', function(data)
     giveStarterItems(src)
     if GetResourceState('qbx-spawn') ~= 'missing' then
         if QBCore.Config.Characters.StartingApartment then
-            print('^2[qbx-core]^7 '..GetPlayerName(src)..' has succesfully loaded!')
+            lib.print.info(GetPlayerName(src)..' has succesfully loaded!')
             TriggerClientEvent('apartments:client:setupSpawnUI', src, newData)
         else
-            print('^2[qbx-core]^7 '..GetPlayerName(src)..' has succesfully loaded!')
+            lib.print.info(GetPlayerName(src)..' has succesfully loaded!')
             TriggerClientEvent('qbx-core:client:spawnNoApartments', src)
         end
     else
         SetPlayerRoutingBucket(src, 0)
         lib.callback.await('qbx-core:client:spawnDefault', src)
         TriggerClientEvent('qb-clothes:client:CreateFirstCharacter', src)
-        print('^2[qbx-core]^7 '..GetPlayerName(src)..' has succesfully loaded!')
+        lib.print.info(GetPlayerName(src)..' has succesfully loaded!')
     end
 end)
 
