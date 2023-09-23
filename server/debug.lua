@@ -1,27 +1,23 @@
----prints invoking resource, and tbl.
----@deprecated
+---@deprecated Call lib.print.debug() instead
 ---@param tbl any
----@param indent integer
-RegisterServerEvent('QBCore:DebugSomething', function(tbl, indent)
+RegisterServerEvent('QBCore:DebugSomething', function(tbl)
     local resource = GetInvokingResource() or "qbx-core"
-    print(('\x1b[4m\x1b[36m[ %s : DEBUG]\x1b[0m'):format(resource))
-    DebugPrint(tbl, indent)
-    print('\x1b[4m\x1b[36m[ END DEBUG ]\x1b[0m')
+    lib.print.debug(resource, tbl)
 end)
 
----@deprecated
+---@deprecated Call lib.print.debug() instead
 QBCore.Debug = DebugPrint
 
----@deprecated
+---@deprecated Call lib.print.error() instead
 ---@param resource string
 ---@param msg string
 function QBCore.ShowError(resource, msg)
-    DebugPrint(('\x1b[31m[%s:ERROR]\x1b[0m %s'):format(resource, msg))
+    lib.print.error(resource, msg)
 end
 
----@deprecated
+---@deprecated Use lib.print.info() instead
 ---@param resource string
 ---@param msg string
 function QBCore.ShowSuccess(resource, msg)
-    DebugPrint(('\x1b[32m[%s:LOG]\x1b[0m %s'):format(resource, msg))
+    lib.print.info(resource, msg)
 end

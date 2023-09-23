@@ -20,7 +20,7 @@ GlobalState.PlayerCount = 0
 ---@return boolean sourceExists true if source exists
 function QBCore.Player.Login(source, citizenid, newData)
     if not source or source == '' then
-        DebugPrint('^1ERROR: QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!')
+        lib.print.error('QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!')
         return false
     end
     if citizenid then
@@ -564,7 +564,7 @@ function QBCore.Player.Save(source)
         pcoords = vec4(GetEntityCoords(ped), GetEntityHeading(ped))
     end
     if not playerData then
-        DebugPrint('^1ERROR: QBCORE.PLAYER.SAVE - PLAYERDATA IS EMPTY!')
+        lib.print.error('QBCORE.PLAYER.SAVE - PLAYERDATA IS EMPTY!')
         return
     end
 
@@ -578,13 +578,13 @@ function QBCore.Player.Save(source)
         })
     end)
     if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(source) end
-    DebugPrint(('^2%s PLAYER SAVED!'):format(playerData.name))
+    lib.print.verbose(('%s PLAYER SAVED!'):format(playerData.name))
 end
 
 ---@param playerData PlayerEntity
 function QBCore.Player.SaveOffline(playerData)
     if not playerData then
-        DebugPrint('^1ERROR: QBCORE.PLAYER.SAVEOFFLINE - PLAYERDATA IS EMPTY!')
+        lib.print.error('QBCORE.PLAYER.SAVEOFFLINE - PLAYERDATA IS EMPTY!')
         return
     end
 
@@ -595,7 +595,7 @@ function QBCore.Player.SaveOffline(playerData)
         })
     end)
     if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(playerData, true) end
-    DebugPrint(('^2%s OFFLINE PLAYER SAVED!'):format(playerData.name))
+    lib.print.verbose(('%s OFFLINE PLAYER SAVED!'):format(playerData.name))
 end
 
 ---@param source Source
