@@ -109,7 +109,7 @@ local function onPlayerConnecting(name, _, deferrals)
         deferrals.done()
     end, function(err)
         deferrals.done(Lang:t('error.connecting_error'))
-        print('^1' .. err)
+        lib.print.error(err)
     end)
 
     -- if conducting db checks for too long then raise error
