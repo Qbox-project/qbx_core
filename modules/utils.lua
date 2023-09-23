@@ -20,7 +20,6 @@ end
 ---@param value string | table
 ---@param indent? integer
 function DebugPrint(value, indent) -- luacheck: ignore
-    lib.print.warn("invocation of deprecated function DebugPrint. Call lib.print.debug() instead")
     lib.print.debug(value)
 end
 

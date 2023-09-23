@@ -75,7 +75,6 @@ end
 ---@param obj any
 ---@param indent integer
 function QBCore.Debug(_, obj, indent)
-    lib.print.warn("invocation of deprecated function QBCore.Debug. Use lib.print.debug() instead")
     lib.print.debug(obj)
 end
 
