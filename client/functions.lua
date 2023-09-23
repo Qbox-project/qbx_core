@@ -73,8 +73,7 @@ end
 
 ---@deprecated Use lib.print.debug()
 ---@param obj any
----@param indent integer
-function QBCore.Debug(_, obj, indent)
+function QBCore.Debug(_, obj)
     lib.print.debug(obj)
 end
 

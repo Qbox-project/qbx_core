@@ -1,7 +1,6 @@
 ---@deprecated Call lib.print.debug() instead
 ---@param tbl any
----@param indent integer
-RegisterServerEvent('QBCore:DebugSomething', function(tbl, indent)
+RegisterServerEvent('QBCore:DebugSomething', function(tbl)
     local resource = GetInvokingResource() or "qbx-core"
     lib.print.debug(resource, tbl)
 end)
