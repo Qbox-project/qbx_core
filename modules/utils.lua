@@ -17,9 +17,8 @@ function GetPlate(vehicle) -- luacheck: ignore
 end
 
 ---@deprecated Call lib.print.debug() instead
----@param value string | table
----@param indent? integer
-function DebugPrint(value, indent) -- luacheck: ignore
+---@param value any
+function DebugPrint(value) -- luacheck: ignore
     lib.print.debug(value)
 end
 
