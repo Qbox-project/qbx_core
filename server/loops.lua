@@ -20,9 +20,9 @@ end)
 lib.cron.new(('*/%s * * * *'):format(QBCore.Config.Money.PaycheckTimeout), function()
     for _, Player in pairs(QBCore.Players) do
         if Player then
-            local payment = QBShared.Jobs[Player.PlayerData.job.name].grades[Player.PlayerData.job.grade.level].payment
+            local payment = QBCore.Shared.Jobs[Player.PlayerData.job.name].grades[Player.PlayerData.job.grade.level].payment
             if not payment then payment = Player.PlayerData.job.payment end
-            if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
+            if Player.PlayerData.job and payment > 0 and (QBCore.Shared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
                 if QBCore.Config.Money.PaycheckSociety then
                     local account = exports['qbx-management']:GetAccount(Player.PlayerData.job.name)
                     if account ~= 0 then -- Checks if player is employed by a society
