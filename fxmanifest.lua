@@ -10,7 +10,8 @@ shared_scripts {
     'locale/en.lua',
     'locale/*.lua',
     '@ox_lib/init.lua',
-    'import.lua'
+    'import.lua',
+    'bridge/qb/shared.lua',
 }
 
 client_scripts {
