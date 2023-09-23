@@ -16,34 +16,12 @@ function GetPlate(vehicle) -- luacheck: ignore
     return GetVehicleNumberPlateText(vehicle):trim()
 end
 
----When sending a table, prints the contents of it, otherwise it prints the string directly
+---@deprecated Call lib.print.debug() instead
 ---@param value string | table
 ---@param indent? integer
 function DebugPrint(value, indent) -- luacheck: ignore
-    indent = indent or 0
-    if type(value) == 'table' then
-        for k, v in pairs(value) do
-            local tblType = type(v)
-            local formatting = ("%s ^3%s:^0"):format(string.rep("  ", indent), k)
-
-            if tblType == "table" then
-                print(formatting)
-                DebugPrint(v, indent + 1)
-            elseif tblType == 'boolean' then
-                print(("%s^1 %s ^0"):format(formatting, v))
-            elseif tblType == "function" then
-                print(("%s^9 %s ^0"):format(formatting, v))
-            elseif tblType == 'number' then
-                print(("%s^5 %s ^0"):format(formatting, v))
-            elseif tblType == 'string' then
-                print(("%s ^2'%s' ^0"):format(formatting, v))
-            else
-                print(("%s^2 %s ^0"):format(formatting, v))
-            end
-        end
-    else
-        print(("%s ^0%s^0"):format(string.rep("  ", indent), value))
-    end
+    lib.print.warn("invocation of deprecated function DebugPrint. Call lib.print.debug() instead")
+    lib.print.debug(value)
 end
 
 ---Converts a number to a string version with commas
