@@ -37,10 +37,6 @@ lib.callback.register('qbx-core:server:getPreviewPedData', function(_, citizenId
     return ped.skin, ped.model and joaat(ped.model)
 end)
 
-lib.callback.register('qbx-core:server:convertMsToDate', function(_, ms)
-    return os.date('%Y-%m-%d', math.round(ms / 1000, 0))
-end)
-
 AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
     Wait(1000) -- 1 second should be enough to do the preloading in other resources
     hasDonePreloading[Player.PlayerData.source] = true

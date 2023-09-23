@@ -1,4 +1,4 @@
-if QBCore.Config.Characters.UseExternalCharacters then return end
+if QBCore.Config.Characters.UseExternalCharacters or not lib.checkDependency('ox_lib', '3.10.0', true) then return end
 
 local previewCam = nil
 local randomLocation = QBCore.Config.Characters.Locations[math.random(1, #QBCore.Config.Characters.Locations)]
@@ -87,32 +87,36 @@ end
 ---@field birthdate string
 ---@field cid integer
 
----@return any[]?
+---@return string[]?
 local function characterDialog()
     return lib.inputDialog(Lang:t('info.character_registration_title'), {
         {
-            type = 'input', -- First name
+            type = 'input',
             required = true,
             icon = 'user-pen',
-            label = Lang:t('info.first_name')
+            label = Lang:t('info.first_name'),
+            placeholder = 'Hank'
         },
         {
-            type = 'input', -- Last name
+            type = 'input',
             required = true,
             icon = 'user-pen',
-            label = Lang:t('info.last_name')
+            label = Lang:t('info.last_name'),
+            placeholder = 'Jordan'
         },
         {
-            type = 'input', -- Nationality
+            type = 'input',
             required = true,
             icon = 'user-shield',
-            label = Lang:t('info.nationality')
+            label = Lang:t('info.nationality'),
+            placeholder = 'Duck'
         },
         {
-            type = 'select', -- Gender
+            type = 'select',
             required = true,
             icon = 'circle-user',
             label = Lang:t('info.gender'),
+            placeholder = Lang:t('info.select_gender'),
             options = {
                 {
                     value = Lang:t('info.char_male')
@@ -123,64 +127,36 @@ local function characterDialog()
             }
         },
         {
-            type = 'date', -- Birth date
+            type = 'date',
             required = true,
-            icon = 'calender-days',
+            icon = 'calendar-days',
             label = Lang:t('info.birth_date'),
             format = 'YYYY-MM-DD',
-            min = '01/01/1900',
-            max = '31/12/2006',
+            returnString = true,
+            min = '1900-01-01', -- Has to be in the same in the same format as the format argument
+            max = '2006-12-31', -- Has to be in the same in the same format as the format argument
             default = '2006-12-31'
         }
     })
 end
 
----@param i integer
----@return string
-local function createPattern(i)
-    local pattern = ''
-    for p = 1, i do
-        local isDone = false
-        if p == 1 then
-            pattern = '%u%l*%s'
-            isDone = true
-        end
-
-        if p == i then
-            pattern = pattern .. '%u%l*'
-            isDone = true
-        end
-
-        if p == 1 and p == i then
-            pattern = '%u%l*' -- %u checks for uppercase letter, %l checks for a lowercase letter and * extends it until there is none of them left
-        end
-
-        if not isDone then
-            pattern = pattern .. '%u%l*%s' -- %s here checks for a whitespace to allow for whitespaces in between words
-        end
-    end
-
-    return pattern
-end
-
----@param dialog any[]
+---@param dialog string[]
 ---@param input integer
 ---@return boolean
 local function checkStrings(dialog, input)
-    local matched = true
-    for i = 5, 1, -1 do
-        local str = dialog[input]
-        local pattern = createPattern(i)
+    local str = dialog[input]
+    if QBCore.Config.Characters.ProfanityWords[str:lower()] then return false end
 
-        matched = not string.match(str, '^%s') -- Don't match if there is a trailing whitespace at the beginning
-        matched = not string.match(str, '%s$') -- Don't match if there is a trailing whitespace at the end
-        matched = string.match(str, pattern)
-        if matched then
-            matched = not QBCore.Config.Characters.ProfanityWords[matched:lower()]
-        end
+    local split = {string.strsplit(' ', str)}
+    if #split > 5 then return false end
+
+    for i = 1, #split do
+        local word = split[i]
+        if QBCore.Config.Characters.ProfanityWords[word:lower()] then return false end
+        if not string.match(word, '%u%l*') then return false end -- Pattern checks for an uppercase letter at the first character and lowercase for the rest
     end
 
-    return matched
+    return true
 end
 
 ---@param cid integer
@@ -196,7 +172,7 @@ local function createCharacter(cid)
 
     for input = 1, 3 do -- Run through first 3 inputs, aka first name, last name and nationality
         if not checkStrings(dialog, input) then
-            QBCore.Functions.Notify(Lang:t('error.no_match_character_registration'), 'error')
+            QBCore.Functions.Notify(Lang:t('error.no_match_character_registration'), 'error', 10000)
             goto noMatch
             break
         end
@@ -208,7 +184,7 @@ local function createCharacter(cid)
         lastname = dialog[2],
         nationality = dialog[3],
         gender = dialog[4] == Lang:t('info.char_male') and 0 or 1,
-        birthdate = lib.callback.await('qbx-core:server:convertMsToDate', false, dialog[5]),
+        birthdate = dialog[5],
         cid = cid
     })
     destroyPreviewCam()
@@ -307,6 +283,7 @@ local function chooseCharacter()
         options = options
     })
 
+    SetTimecycleModifier('default')
     lib.showContext('qbx_core_multichar_characters')
 end
 

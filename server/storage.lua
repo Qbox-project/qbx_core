@@ -71,9 +71,8 @@ end
 
 ---@param request UpsertPlayerRequest
 function UpsertPlayerEntity(request)
-    MySQL.insert.await('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+    MySQL.insert.await('INSERT INTO players (citizenid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
         citizenid = request.playerEntity.citizenid,
-        cid = request.playerEntity.charinfo.cid,
         license = request.playerEntity.license,
         name = request.playerEntity.name,
         money = json.encode(request.playerEntity.money),
@@ -239,7 +238,7 @@ function DeletePlayerEntity(citizenId)
     end
 
     local success = MySQL.transaction.await(queries)
-    return success and true or false
+    return not not success
 end
 
 ---checks the storage for uniqueness of the given value
