@@ -134,17 +134,17 @@ Config.CharacterDataTables = {
 Config.StarterItems = { -- Character starting items
     { name = 'phone', amount = 1 },
     { name = 'id_card', amount = 1, metadata = function(source)
-            if not lib.checkDependency('um-idcard', '1.2.8', true) then
-                error("Failed to satisfy um-idcard dependency version 1.2.8")
+            if GetResourceState("qbx_idcard") ~= 'started' then
+                error("qbx_idcard resource not found. Required to give an id_card as a starting item")
             end
-            return exports['um-idcard']:GetMetaLicense(source, {'id_card'})
+            return exports.qbx_idcard:GetMetaLicense(source, {'id_card'})
         end
     },
     { name = 'driver_license', amount = 1, metadata = function(source)
-            if not lib.checkDependency('um-idcard', '1.2.8', true) then
-                error("Failed to satisfy um-idcard dependency version 1.2.8")
+            if GetResourceState("qbx_idcard") ~= 'started' then
+                error("qbx_idcard resource not found. Required to give an id_card as a starting item")
             end
-            return exports['um-idcard']:GetMetaLicense(source, {'driver_license'})
+            return exports.qbx_idcard:GetMetaLicense(source, {'driver_license'})
         end
     },
 }
