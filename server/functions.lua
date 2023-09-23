@@ -8,15 +8,9 @@ QBCore.UsableItems = {}
 -- ex: local player = QBCore.Functions.GetPlayer(source)
 -- ex: local example = player.Functions.functionname(parameter)
 
----@deprecated
-QBCore.Functions.GetCoords = GetCoordsFromEntity
-
 ---@alias Identifier 'steam'|'license'|'license2'|'xbl'|'ip'|'discord'|'live'
 
----@deprecated use the native GetPlayerIdentifierByType?
-QBCore.Functions.GetIdentifier = GetPlayerIdentifierByType
-
----@param identifier string
+---@param identifier Identifier
 ---@return integer source of the player with the matching identifier or 0 if no player found
 function QBCore.Functions.GetSource(identifier)
     for src in pairs(QBCore.Players) do
@@ -65,9 +59,6 @@ function QBCore.Functions.GetPlayerByPhone(number)
         end
     end
 end
-
----@deprecated use the native GetPlayers instead
-QBCore.Functions.GetPlayers = GetPlayers
 
 ---Will return an array of QB Player class instances
 ---unlike the GetPlayers() wrapper which only returns IDs
@@ -181,35 +172,6 @@ function QBCore.Functions.GetEntitiesInBucket(bucket)
     return curr_bucket_pool
 end
 
----@deprecated Use QBCore.Functions.CreateVehicle instead.
-function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
-    return SpawnVehicle(source, model, coords, warp)
-end
-
----@deprecated use SpawnVehicle from imports/utils.lua
-QBCore.Functions.CreateVehicle = SpawnVehicle
-
--- Callback Functions --
-
--- Client Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function QBCore.Functions.TriggerClientCallback(name, source, cb, ...)
-    QBCore.ClientCallbacks[name] = cb
-    TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
-end
-
--- Server Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function QBCore.Functions.CreateCallback(name, cb)
-    QBCore.ServerCallbacks[name] = cb
-end
-
----@deprecated call a function instead
-function QBCore.Functions.TriggerCallback(name, source, cb, ...)
-    if not QBCore.ServerCallbacks[name] then return end
-    QBCore.ServerCallbacks[name](source, cb, ...)
-end
-
 -- Items
 ---@param item string name
 ---@param data fun(source: Source, item: unknown)
@@ -222,17 +184,6 @@ end
 function QBCore.Functions.CanUseItem(item)
     return QBCore.UsableItems[item]
 end
-
----@deprecated No replacement. See https://overextended.dev/ox_inventory/Functions/Client#useitem
----@param source Source
----@param item string name
-function QBCore.Functions.UseItem(source, item)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    exports['qb-inventory']:UseItem(source, item)
-end
-
----@deprecated use KickWithReason from imports/utils.lua
-QBCore.Functions.Kick = KickWithReason
 
 -- Check if player is whitelisted, kept like this for backwards compatibility or future plans
 ---@param source Source
@@ -354,14 +305,6 @@ function QBCore.Functions.IsPlayerBanned(source)
     return false
 end
 
----@deprecated use IsLicenseInUse from imports/utils.lua
-QBCore.Functions.IsLicenseInUse = IsLicenseInUse
-
--- Utility functions
-
----@deprecated use https://overextended.dev/ox_inventory/Functions/Server#search
-QBCore.Functions.HasItem = HasItem
-
 ---@see client/functions.lua:QBCore.Functions.Notify
 function QBCore.Functions.Notify(source, text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
     local title, description
@@ -388,6 +331,3 @@ function QBCore.Functions.Notify(source, text, notifyType, duration, subTitle, n
         iconColor = notifyIconColor
     })
 end
-
----@deprecated use GetPlate from imports/utils.lua
-QBCore.Functions.GetPlate = GetPlate

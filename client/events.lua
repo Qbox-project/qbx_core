@@ -17,12 +17,6 @@ RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
     NetworkSetFriendlyFireOption(pvp_state)
 end)
 
--- Trigger Command
---- @deprecated
-RegisterNetEvent('QBCore:Command:CallCommand', function(command)
-    ExecuteCommand(command)
-end)
-
 -- Teleport Commands
 
 ---@param coords vector3
@@ -171,25 +165,6 @@ end)
 ---@see client/functions.lua:QBCore.Functions.Notify
 RegisterNetEvent('QBCore:Notify', function(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
     QBCore.Functions.Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
-end)
-
--- Callback Events --
-
--- Client Callback
----@deprecated call a function instead
-RegisterNetEvent('QBCore:Client:TriggerClientCallback', function(name, ...)
-    QBCore.Functions.TriggerClientCallback(name, function(...)
-        TriggerServerEvent('QBCore:Server:TriggerClientCallback', name, ...)
-    end, ...)
-end)
-
--- Server Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
-RegisterNetEvent('QBCore:Client:TriggerCallback', function(name, ...)
-    if QBCore.ServerCallbacks[name] then
-        QBCore.ServerCallbacks[name](...)
-        QBCore.ServerCallbacks[name] = nil
-    end
 end)
 
 -- Me command

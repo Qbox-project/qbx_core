@@ -167,26 +167,6 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     end
 end)
 
--- Callback Events --
-
--- Client Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
-    if QBCore.ClientCallbacks[name] then
-        QBCore.ClientCallbacks[name](...)
-        QBCore.ClientCallbacks[name] = nil
-    end
-end)
-
--- Server Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
-    local src = source
-    QBCore.Functions.TriggerCallback(name, src, function(...)
-        TriggerClientEvent('QBCore:Client:TriggerCallback', src, name, ...)
-    end, ...)
-end)
-
 -- Player
 
 RegisterNetEvent('QBCore:ToggleDuty', function()
@@ -201,31 +181,4 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
         TriggerClientEvent('QBCore:Notify', src, Lang:t('info.on_duty'))
     end
     TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
-end)
-
---- @deprecated
-RegisterNetEvent('QBCore:CallCommand', function(command, args)
-    local src = source --[[@as Source]]
-    if not QBCore.Commands.List[command] then return end
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    if IsPlayerAceAllowed(src, string.format('command.%s', command)) then
-        local commandString = command
-        for _, value in pairs(args) do
-            commandString = string.format('%s %s', commandString, value)
-        end
-        TriggerClientEvent('QBCore:Command:CallCommand', src, commandString)
-    end
-end)
-
----@deprecated call server function SpawnVehicle instead from imports/utils.lua.
-QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
-    local netId = SpawnVehicle(source, model, coords, warp)
-    if netId then cb(netId) end
-end)
-
----@deprecated call server function SpawnVehicle instead from imports/utils.lua.
-QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
-    local netId = SpawnVehicle(source, model, coords, warp)
-    if netId then cb(netId) end
 end)
