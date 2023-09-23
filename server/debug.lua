@@ -5,9 +5,6 @@ RegisterServerEvent('QBCore:DebugSomething', function(tbl)
     lib.print.debug(resource, tbl)
 end)
 
----@deprecated Call lib.print.debug() instead
-QBCore.Debug = DebugPrint
-
 ---@deprecated Call lib.print.error() instead
 ---@param resource string
 ---@param msg string
