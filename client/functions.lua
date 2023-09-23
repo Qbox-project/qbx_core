@@ -71,12 +71,10 @@ function QBCore.Functions.Notify(text, notifyType, duration, subTitle, notifyPos
     })
 end
 
----@deprecated use DebugPrint from imports/utils.lua
----prints invoking resource and obj using indent
+---@deprecated Use lib.print.debug()
 ---@param obj any
----@param indent integer
-function QBCore.Debug(_, obj, indent)
-    DebugPrint(obj, indent)
+function QBCore.Debug(_, obj)
+    lib.print.debug(obj)
 end
 
 -- Callback Functions --
