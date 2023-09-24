@@ -1,17 +1,9 @@
----@deprecated file will be deleted in a future version
-
 ---@enum Position
 local positions = {
     left = 'left-center',
     right = 'right-center',
     top = 'top-center'
 }
-
-local function ExportHandler(name, cb)
-    AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
-        setCB(cb)
-    end)
-end
 
 ---@deprecated use ox_lib showTextUI calls directly
 local function hideText()
@@ -68,39 +60,10 @@ RegisterNetEvent('qb-core:client:KeyPressed', function()
 end)
 
 ---@deprecated use ox_lib showTextUI calls directly
-RegisterNetEvent('qbx-core:client:DrawText', function(text, position)
-    drawText(text, position)
-end)
-
+CreateQbExport('DrawText', drawText)
 ---@deprecated use ox_lib showTextUI calls directly
-RegisterNetEvent('qbx-core:client:ChangeText', function(text, position)
-    changeText(text, position)
-end)
-
+CreateQbExport('ChangeText', changeText)
 ---@deprecated use ox_lib showTextUI calls directly
-RegisterNetEvent('qbx-core:client:HideText', function()
-    lib.hideTextUI()
-end)
-
+CreateQbExport('HideText', hideText)
 ---@deprecated use ox_lib showTextUI calls directly
-RegisterNetEvent('qbx-core:client:KeyPressed', function()
-    keyPressed()
-end)
-
----@deprecated use ox_lib showTextUI calls directly
-exports('DrawText', drawText)
----@deprecated use ox_lib showTextUI calls directly
-exports('ChangeText', changeText)
----@deprecated use ox_lib showTextUI calls directly
-exports('HideText', hideText)
----@deprecated use ox_lib showTextUI calls directly
-exports('KeyPressed', keyPressed)
-
----@deprecated use ox_lib showTextUI calls directly
-ExportHandler('DrawText', drawText)
----@deprecated use ox_lib showTextUI calls directly
-ExportHandler('ChangeText', changeText)
----@deprecated use ox_lib showTextUI calls directly
-ExportHandler('HideText', hideText)
----@deprecated use ox_lib showTextUI calls directly
-ExportHandler('KeyPressed', keyPressed)
+CreateQbExport('KeyPressed', keyPressed)

@@ -5,15 +5,9 @@ local functions = {}
 -- ex: local player = functions.GetPlayer(source)
 -- ex: local example = player.Functions.functionname(parameter)
 
----@deprecated
-functions.GetCoords = GetCoordsFromEntity
-
 ---@alias Identifier 'steam'|'license'|'license2'|'xbl'|'ip'|'discord'|'live'
 
----@deprecated use the native GetPlayerIdentifierByType?
-functions.GetIdentifier = GetPlayerIdentifierByType
-
----@param identifier string
+---@param identifier Identifier
 ---@return integer source of the player with the matching identifier or 0 if no player found
 function functions.GetSource(identifier)
     for src in pairs(QBCore.Players) do
@@ -62,9 +56,6 @@ function functions.GetPlayerByPhone(number)
         end
     end
 end
-
----@deprecated use the native GetPlayers instead
-functions.GetPlayers = GetPlayers
 
 ---Will return an array of QB Player class instances
 ---unlike the GetPlayers() wrapper which only returns IDs
@@ -178,35 +169,6 @@ function functions.GetEntitiesInBucket(bucket)
     return curr_bucket_pool
 end
 
----@deprecated Use functions.CreateVehicle instead.
-function functions.SpawnVehicle(source, model, coords, warp)
-    return SpawnVehicle(source, model, coords, warp)
-end
-
----@deprecated use SpawnVehicle from imports/utils.lua
-functions.CreateVehicle = SpawnVehicle
-
--- Callback Functions --
-
--- Client Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function functions.TriggerClientCallback(name, source, cb, ...)
-    QBCore.ClientCallbacks[name] = cb
-    TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
-end
-
--- Server Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function functions.CreateCallback(name, cb)
-    QBCore.ServerCallbacks[name] = cb
-end
-
----@deprecated call a function instead
-function functions.TriggerCallback(name, source, cb, ...)
-    if not QBCore.ServerCallbacks[name] then return end
-    QBCore.ServerCallbacks[name](source, cb, ...)
-end
-
 -- Items
 ---@param item string name
 ---@param data fun(source: Source, item: unknown)
@@ -219,17 +181,6 @@ end
 function functions.CanUseItem(item)
     return QBCore.UsableItems[item]
 end
-
----@deprecated No replacement. See https://overextended.dev/ox_inventory/Functions/Client#useitem
----@param source Source
----@param item string name
-function functions.UseItem(source, item)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    exports['qb-inventory']:UseItem(source, item)
-end
-
----@deprecated use KickWithReason from imports/utils.lua
-functions.Kick = KickWithReason
 
 -- Check if player is whitelisted, kept like this for backwards compatibility or future plans
 ---@param source Source
@@ -351,14 +302,6 @@ function functions.IsPlayerBanned(source)
     return false
 end
 
----@deprecated use IsLicenseInUse from imports/utils.lua
-functions.IsLicenseInUse = IsLicenseInUse
-
--- Utility functions
-
----@deprecated use https://overextended.dev/ox_inventory/Functions/Server#search
-functions.HasItem = HasItem
-
 ---@see client/functions.lua:functions.Notify
 function functions.Notify(source, text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
     local title, description
@@ -385,10 +328,6 @@ function functions.Notify(source, text, notifyType, duration, subTitle, notifyPo
         iconColor = notifyIconColor
     })
 end
-
----@deprecated use GetPlate from imports/utils.lua
-functions.GetPlate = GetPlate
-
 
 ---Add a new function to the Functions table of the player class
 ---Use-case:
@@ -587,104 +526,6 @@ end
 
 functions.UpdateJob = UpdateJob
 exports('UpdateJob', UpdateJob)
-
--- Single add item
----@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
-local function AddItem(itemName, item)
-    lib.print.warn(string.format("%s invoked Deprecated function AddItem. This is incompatible with ox_inventory", GetInvokingResource() or 'unknown resource'))
-    if type(itemName) ~= "string" then
-        return false, "invalid_item_name"
-    end
-
-    if QBCore.Shared.Items[itemName] then
-        return false, "item_exists"
-    end
-
-    QBCore.Shared.Items[itemName] = item
-
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
-    TriggerEvent('QBCore:Server:UpdateObject')
-    return true, "success"
-end
-
-functions.AddItem = AddItem
-exports('AddItem', AddItem)
-
--- Single update item
----@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
-local function UpdateItem(itemName, item)
-    lib.print.warn(string.format("%s invoked deprecated function UpdateItem. This is incompatible with ox_inventory", GetInvokingResource() or 'unknown resource'))
-    if type(itemName) ~= "string" then
-        return false, "invalid_item_name"
-    end
-    if not QBCore.Shared.Items[itemName] then
-        return false, "item_not_exists"
-    end
-    QBCore.Shared.Items[itemName] = item
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
-    TriggerEvent('QBCore:Server:UpdateObject')
-    return true, "success"
-end
-
-functions.UpdateItem = UpdateItem
-exports('UpdateItem', UpdateItem)
-
--- Multiple Add Items
----@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
-local function AddItems(items)
-    lib.print.warn(string.format("%s invoked deprecated function AddItems. This is incompatible with ox_inventory", GetInvokingResource() or 'unknown resource'))
-    local shouldContinue = true
-    local message = "success"
-    local errorItem = nil
-
-    for key, value in pairs(items) do
-        if type(key) ~= "string" then
-            message = "invalid_item_name"
-            shouldContinue = false
-            errorItem = items[key]
-            break
-        end
-
-        if QBCore.Shared.Items[key] then
-            message = "item_exists"
-            shouldContinue = false
-            errorItem = items[key]
-            break
-        end
-
-        QBCore.Shared.Items[key] = value
-    end
-
-    if not shouldContinue then return false, message, errorItem end
-    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Items', items)
-    TriggerEvent('QBCore:Server:UpdateObject')
-    return true, message, nil
-end
-
-functions.AddItems = AddItems
-exports('AddItems', AddItems)
-
--- Single Remove Item
----@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
-local function RemoveItem(itemName)
-    lib.print.warn(string.format("%s invoked deprecated function RemoveItem. This is incompatible with ox_inventory", GetInvokingResource() or 'unknown resource'))
-    if type(itemName) ~= "string" then
-        return false, "invalid_item_name"
-    end
-
-    if not QBCore.Shared.Items[itemName] then
-        return false, "item_not_exists"
-    end
-
-    QBCore.Shared.Items[itemName] = nil
-
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, nil)
-    TriggerEvent('QBCore:Server:UpdateObject')
-    return true, "success"
-end
-
-functions.RemoveItem = RemoveItem
-exports('RemoveItem', RemoveItem)
 
 -- Single Add Gang
 ---@param gangName string

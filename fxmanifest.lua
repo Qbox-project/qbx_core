@@ -9,7 +9,6 @@ shared_scripts {
     'shared/locale.lua',
     'locale/en.lua',
     'locale/*.lua',
-    'shared/main.lua',
     'import.lua'
 }
 
@@ -17,8 +16,10 @@ client_scripts {
     'client/main.lua',
     'client/loops.lua',
     'client/events.lua',
-    'client/drawtext.lua',
-    'client/character.lua'
+    'client/character.lua',
+    'bridge/qb/client/drawtext.lua',
+    'bridge/qb/client/events.lua',
+    'bridge/qb/client/main.lua',
 }
 
 server_scripts {
@@ -26,10 +27,12 @@ server_scripts {
     'server/main.lua',
     'server/events.lua',
     'server/commands.lua',
-    'server/debug.lua',
     'server/loops.lua',
     'server/storage.lua',
-    'server/character.lua'
+    'server/character.lua',
+    'bridge/qb/server/commands.lua',
+    'bridge/qb/server/debug.lua',
+    'bridge/qb/server/main.lua',
 }
 
 modules {
@@ -43,11 +46,17 @@ files {
     'shared/items.lua',
     'shared/jobs.lua',
     'shared/locations.lua',
+    'shared/main.lua',
     'shared/vehicles.lua',
     'shared/weapons.lua',
     'server/functions.lua',
     'server/player.lua',
     'client/functions.lua',
+    'bridge/qb/client/functions.lua',
+    'bridge/qb/shared/main.lua',
+    'bridge/qb/server/functions.lua',
+    'bridge/qb/server/main.lua',
+    'bridge/qb/server/player.lua',
 }
 
 dependency 'oxmysql'
