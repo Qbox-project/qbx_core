@@ -1,5 +1,11 @@
 local functions = require 'server.functions'
 
+function CreateQbExport(name, cb)
+    AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
+        setCB(cb)
+    end)
+end
+
 ---@deprecated
 functions.GetCoords = GetCoordsFromEntity
 
@@ -22,7 +28,7 @@ functions.CreateVehicle = SpawnVehicle
 ---@param item string name
 function functions.UseItem(source, item)
     if GetResourceState('qb-inventory') == 'missing' then return end
-    CreateQbExport['qb-inventory']:UseItem(source, item)
+    exports['qb-inventory']:UseItem(source, item)
 end
 
 ---@deprecated use KickWithReason from imports/utils.lua
@@ -136,11 +142,5 @@ end
 
 functions.RemoveItem = RemoveItem
 CreateQbExport('RemoveItem', RemoveItem)
-
-function CreateQbExport(name, cb)
-    AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
-        setCB(cb)
-    end)
-end
 
 return functions
