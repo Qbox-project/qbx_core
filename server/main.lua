@@ -8,6 +8,13 @@ QBCore = {}
 QBCore.Config = QBConfig
 QBCore.Shared = require 'shared.main'
 
+---@alias Source integer
+---@type table<Source, Player>
+QBCore.Players = {}
+GlobalState.PlayerCount = 0
+
+QBCore.Player = require 'player'
+
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
 QBCore.ClientCallbacks = {}
 
