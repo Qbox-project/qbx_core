@@ -6,7 +6,7 @@ if not lib.checkDependency('ox_lib', '3.10.0', true) then error() return end
 
 QBCore = {}
 QBCore.Config = QBConfig
-QBCore.Shared = QBShared
+QBCore.Shared = require 'shared.main'
 
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
 QBCore.ClientCallbacks = {}
