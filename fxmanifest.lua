@@ -5,17 +5,16 @@ description 'QBX-Core'
 version '1.0.0'
 
 shared_scripts {
-    'config.lua',
-    'shared/*.lua',
+    '@ox_lib/init.lua',
+    'shared/locale.lua',
     'locale/en.lua',
     'locale/*.lua',
-    '@ox_lib/init.lua',
+    'shared/main.lua',
     'import.lua'
 }
 
 client_scripts {
     'client/main.lua',
-    'client/functions.lua',
     'client/loops.lua',
     'client/events.lua',
     'client/drawtext.lua',
@@ -25,8 +24,6 @@ client_scripts {
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'server/main.lua',
-    'server/functions.lua',
-    'server/player.lua',
     'server/events.lua',
     'server/commands.lua',
     'server/debug.lua',
@@ -40,7 +37,17 @@ modules {
 }
 
 files {
-    'modules/*.lua'
+    'modules/*.lua',
+    'config.lua',
+    'shared/gangs.lua',
+    'shared/items.lua',
+    'shared/jobs.lua',
+    'shared/locations.lua',
+    'shared/vehicles.lua',
+    'shared/weapons.lua',
+    'server/functions.lua',
+    'server/player.lua',
+    'client/functions.lua',
 }
 
 dependency 'oxmysql'
