@@ -30,10 +30,10 @@ AddEventHandler('playerDropped', function(reason)
     if license then usedLicenses[license] = nil end
     if not QBCore.Players[src] then return end
     GlobalState.PlayerCount -= 1
-    local Player = QBCore.Players[src]
-    TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason)
-    Player.Functions.Save()
-    QBCore.Player_Buckets[Player.PlayerData.license] = nil
+    local player = QBCore.Players[src]
+    TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason)
+    player.Functions.Save()
+    QBCore.Player_Buckets[player.PlayerData.license] = nil
     QBCore.Players[src] = nil
 end)
 
@@ -171,14 +171,14 @@ end)
 
 RegisterNetEvent('QBCore:ToggleDuty', function()
     local src = source --[[@as Source]]
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    if Player.PlayerData.job.onduty then
-        Player.Functions.SetJobDuty(false)
+    local player = QBCore.Functions.GetPlayer(src)
+    if not player then return end
+    if player.PlayerData.job.onduty then
+        player.Functions.SetJobDuty(false)
         TriggerClientEvent('QBCore:Notify', src, Lang:t('info.off_duty'))
     else
-        Player.Functions.SetJobDuty(true)
+        player.Functions.SetJobDuty(true)
         TriggerClientEvent('QBCore:Notify', src, Lang:t('info.on_duty'))
     end
-    TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
+    TriggerClientEvent('QBCore:Client:SetDuty', src, player.PlayerData.job.onduty)
 end)
