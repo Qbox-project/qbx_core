@@ -148,3 +148,5 @@ Config.StarterItems = { -- Character starting items
         end
     },
 }
+
+return QBConfig
