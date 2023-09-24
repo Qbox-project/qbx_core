@@ -1,11 +1,11 @@
 local qbShared = {}
-qbShared.Gangs = require 'gangs'
-qbShared.Items = require 'items'
+qbShared.Gangs = require 'shared.gangs'
+qbShared.Items = require 'shared.items'
 qbShared.ForceJobDefaultDutyAtLogin = true -- true: Force duty state to jobdefaultDuty | false: set duty state from database last saved
-qbShared.Jobs = require 'jobs'
-qbShared.Locations = require 'locations'
-qbShared.Vehicles = require 'vehicles'
-qbShared.Weapons = require 'weapons'
+qbShared.Jobs = require 'shared.jobs'
+qbShared.Locations = require 'shared.locations'
+qbShared.Vehicles = require 'shared.vehicles'
+qbShared.Weapons = require 'shared.weapons'
 
 ---@type table<number, Vehicle>
 qbShared.VehicleHashes = {}
