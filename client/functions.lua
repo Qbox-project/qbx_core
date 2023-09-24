@@ -1,40 +1,40 @@
-QBCore.Functions = {}
+local functions = {}
 
 -- Player
 
 ---@deprecated import PlayerData using module 'qbx-core:playerdata' https://qbox-docs.vercel.app/resources/core/import
 ---@param cb? fun(playerData: PlayerData)
 ---@return PlayerData? playerData
-function QBCore.Functions.GetPlayerData(cb)
+function functions.GetPlayerData(cb)
     if not cb then return QBCore.PlayerData end
     cb(QBCore.PlayerData)
 end
 
 ---@deprecated use GetCoordsFromEntity from imports/utils.lua
-QBCore.Functions.GetCoords = GetCoordsFromEntity
+functions.GetCoords = GetCoordsFromEntity
 
 ---@deprecated use https://overextended.dev/ox_inventory/Functions/Client#search
-QBCore.Functions.HasItem = HasItem
+functions.HasItem = HasItem
 
 -- Utility
 
 ---@deprecated use DrawText2D from imports/utils.lua
-QBCore.Functions.DrawText = DrawText2D
+functions.DrawText = DrawText2D
 
 ---@deprecated use DrawText3D from imports/utils.lua
-QBCore.Functions.DrawText3D = DrawText3D
+functions.DrawText3D = DrawText3D
 
 ---@deprecated use lib.requestAnimDict from ox_lib
-QBCore.Functions.RequestAnimDict = lib.requestAnimDict
+functions.RequestAnimDict = lib.requestAnimDict
 
 ---@deprecated use PlayAnim from imports/utils.lua
-QBCore.Functions.PlayAnim = PlayAnim
+functions.PlayAnim = PlayAnim
 
 ---@deprecated use lib.requestModel from ox_lib
-QBCore.Functions.LoadModel = lib.requestModel
+functions.LoadModel = lib.requestModel
 
 ---@deprecated use lib.requestAnimSet from ox_lib
-QBCore.Functions.LoadAnimSet = lib.requestAnimSet
+functions.LoadAnimSet = lib.requestAnimSet
 
 ---Text box popup for player which dissappears after a set time.
 ---@param text table|string text of the notification
@@ -45,7 +45,7 @@ QBCore.Functions.LoadAnimSet = lib.requestAnimSet
 ---@param notifyStyle? table Custom styling. Please refer too https://overextended.dev/ox_lib/Modules/Interface/Client/notify#libnotify
 ---@param notifyIcon? string Font Awesome 6 icon name
 ---@param notifyIconColor? string Custom color for the icon chosen before
-function QBCore.Functions.Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
+function functions.Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
     local title, description
     if type(text) == "table" then
         title = text.text or 'Placeholder'
@@ -81,19 +81,19 @@ end
 
 -- Client Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
-function QBCore.Functions.CreateClientCallback(name, cb)
+function functions.CreateClientCallback(name, cb)
     QBCore.ClientCallbacks[name] = cb
 end
 
 ---@deprecated call a function instead
-function QBCore.Functions.TriggerClientCallback(name, cb, ...)
+function functions.TriggerClientCallback(name, cb, ...)
     if not QBCore.ClientCallbacks[name] then return end
     QBCore.ClientCallbacks[name](cb, ...)
 end
 
 -- Server Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
-function QBCore.Functions.TriggerCallback(name, cb, ...)
+function functions.TriggerCallback(name, cb, ...)
     QBCore.ServerCallbacks[name] = cb
     TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
 end
@@ -108,7 +108,7 @@ end
 ---@param prop? unknown
 ---@param onFinish fun()
 ---@param onCancel fun()
-function QBCore.Functions.Progressbar(_, label, duration, useWhileDead, canCancel, disableControls, animation, prop, _, onFinish, onCancel)
+function functions.Progressbar(_, label, duration, useWhileDead, canCancel, disableControls, animation, prop, _, onFinish, onCancel)
     if lib.progressBar({
         duration = duration,
         label = label,
@@ -144,44 +144,44 @@ end
 -- Getters
 
 ---@deprecated use GetVehicles from imports/utils.lua
-QBCore.Functions.GetVehicles = GetVehicles
+functions.GetVehicles = GetVehicles
 
 ---@deprecated use GetObjects from imports/utils.lua
-QBCore.Functions.GetObjects = GetObjects
+functions.GetObjects = GetObjects
 
 ---@deprecated use GetPlayersInScope from imports/utils.lua
-QBCore.Functions.GetPlayers = GetPlayersInScope
+functions.GetPlayers = GetPlayersInScope
 
 ---@deprecated use GetPeds from imports/utils.lua
-QBCore.Functions.GetPeds = GetPeds
+functions.GetPeds = GetPeds
 
 ---@deprecated use GetClosestPed from imports/utils.lua
 ---Use GetClosestPlayer if wanting to ignore non-player peds
-QBCore.Functions.GetClosestPed = GetClosestPed
+functions.GetClosestPed = GetClosestPed
 
 ---@deprecated use IsWearingGloves from imports/utils.lua
-QBCore.Functions.IsWearingGloves = IsWearingGloves
+functions.IsWearingGloves = IsWearingGloves
 
 ---@deprecated use GetClosestPlayer from imports/utils.lua
-QBCore.Functions.GetClosestPlayer = GetClosestPlayer
+functions.GetClosestPlayer = GetClosestPlayer
 
 ---@deprecated use GetPlayersFromCoords from imports/utils.lua
-QBCore.Functions.GetPlayersFromCoords = GetPlayersFromCoords
+functions.GetPlayersFromCoords = GetPlayersFromCoords
 
 ---@deprecated use GetClosestVehicle from imports/utils.lua
-QBCore.Functions.GetClosestVehicle = GetClosestVehicle
+functions.GetClosestVehicle = GetClosestVehicle
 
 ---@deprecated use GetClosestObject from imports/utils.lua
-QBCore.Functions.GetClosestObject = GetClosestObject
+functions.GetClosestObject = GetClosestObject
 
 ---@deprecated use GetClosestBone from imports/utils.lua
-QBCore.Functions.GetClosestBone = GetClosestBone
+functions.GetClosestBone = GetClosestBone
 
 ---@deprecated use GetBoneDistance from imports/utils.lua
-QBCore.Functions.GetBoneDistance = GetBoneDistance
+functions.GetBoneDistance = GetBoneDistance
 
 ---@deprecated use AttachProp from imports/utils.lua
-QBCore.Functions.AttachProp = AttachProp
+functions.AttachProp = AttachProp
 
 -- Vehicle
 
@@ -191,7 +191,7 @@ QBCore.Functions.AttachProp = AttachProp
 ---@param coords? vector4 player position if not specified
 ---@param isnetworked? boolean defaults to true
 ---@param teleportInto boolean teleport player to driver seat if true
-function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
+function functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
     coords = type(coords) == 'table' and vec4(coords.x, coords.y, coords.z, coords.w or GetEntityHeading(cache.ped)) or coords or GetCoordsFromEntity(cache.ped)
     model = type(model) == 'string' and joaat(model) or model
     if not IsModelInCdimage(model) then return end
@@ -211,43 +211,45 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportI
 end
 
 ---@deprecated use DeleteVehicle from imports/utils.lua
-QBCore.Functions.DeleteVehicle = DeleteVehicle
+functions.DeleteVehicle = DeleteVehicle
 
 ---@deprecated use GetPlate from imports/utils.lua
-QBCore.Functions.GetPlate = GetPlate
+functions.GetPlate = GetPlate
 
 ---@deprecated use GetVehicleDisplayName from imports/utils.lua
-QBCore.Functions.GetVehicleLabel = GetVehicleDisplayName
+functions.GetVehicleLabel = GetVehicleDisplayName
 
 ---@deprecated use IsVehicleSpawnClear from imports/utils.lua
-QBCore.Functions.SpawnClear = IsVehicleSpawnClear
+functions.SpawnClear = IsVehicleSpawnClear
 
 ---@deprecated use lib.getVehicleProperties from ox_lib
-QBCore.Functions.GetVehicleProperties = lib.getVehicleProperties
+functions.GetVehicleProperties = lib.getVehicleProperties
 
 ---@deprecated use lib.setVehicleProperties from ox_lib
-QBCore.Functions.SetVehicleProperties = lib.setVehicleProperties
+functions.SetVehicleProperties = lib.setVehicleProperties
 
 ---@deprecated use lib.requestNamedPtfxAsset from ox_lib
-QBCore.Functions.LoadParticleDictionary = lib.requestNamedPtfxAsset
+functions.LoadParticleDictionary = lib.requestNamedPtfxAsset
 
 ---@deprecated use StartParticleAtCoord from imports/utils.lua
-QBCore.Functions.StartParticleAtCoord = StartParticleAtCoord
+functions.StartParticleAtCoord = StartParticleAtCoord
 
 ---@deprecated use StartParticleOnEntity from imports/utils.lua
-QBCore.Functions.StartParticleOnEntity = StartParticleOnEntity
+functions.StartParticleOnEntity = StartParticleOnEntity
 
 ---@deprecated use GetStreetNameAtCoords from imports/utils.lua
-QBCore.Functions.GetStreetNametAtCoords = GetStreetNameAtCoords
+functions.GetStreetNametAtCoords = GetStreetNameAtCoords
 
 ---@deprecated use GetZoneAtCoords from imports/utils.lua
-QBCore.Functions.GetZoneAtCoords = GetZoneAtCoords
+functions.GetZoneAtCoords = GetZoneAtCoords
 
 ---@deprecated use GetCardinalDirection from imports/utils.lua
-QBCore.Functions.GetCardinalDirection = GetCardinalDirection
+functions.GetCardinalDirection = GetCardinalDirection
 
 ---@deprecated use GetCurrentTime from imports/utils.lua
-QBCore.Functions.GetCurrentTime = GetCurrentTime
+functions.GetCurrentTime = GetCurrentTime
 
 ---@deprecated use GetGroundZCoord from imports/utils.lua
-QBCore.Functions.GetGroundZCoord = GetGroundZCoord
+functions.GetGroundZCoord = GetGroundZCoord
+
+return functions
