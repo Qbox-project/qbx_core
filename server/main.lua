@@ -18,7 +18,7 @@ QBCore.Player = require 'server.player'
 QBCore.Player_Buckets = {}
 QBCore.Entity_Buckets = {}
 QBCore.UsableItems = {}
-QBCore.Functions = require 'functions'
+QBCore.Functions = require 'server.functions'
 
 ---@deprecated Call lib.print.debug() instead
 QBCore.Debug = DebugPrint
