@@ -52,7 +52,7 @@ files {
     'server/functions.lua',
     'server/player.lua',
     'client/functions.lua',
-    'bridge/qb/client/functions.lua,
+    'bridge/qb/client/functions.lua',
     'bridge/qb/shared/main.lua',
     'bridge/qb/server/functions.lua',
     'bridge/qb/server/main.lua',
