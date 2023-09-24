@@ -22,7 +22,7 @@ functions.CreateVehicle = SpawnVehicle
 ---@param item string name
 function functions.UseItem(source, item)
     if GetResourceState('qb-inventory') == 'missing' then return end
-    exports['qb-inventory']:UseItem(source, item)
+    CreateQbExport['qb-inventory']:UseItem(source, item)
 end
 
 ---@deprecated use KickWithReason from imports/utils.lua
@@ -59,7 +59,7 @@ local function AddItem(itemName, item)
 end
 
 functions.AddItem = AddItem
-exports('AddItem', AddItem)
+CreateQbExport('AddItem', AddItem)
 
 -- Single update item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -78,7 +78,7 @@ local function UpdateItem(itemName, item)
 end
 
 functions.UpdateItem = UpdateItem
-exports('UpdateItem', UpdateItem)
+CreateQbExport('UpdateItem', UpdateItem)
 
 -- Multiple Add Items
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -113,7 +113,7 @@ local function AddItems(items)
 end
 
 functions.AddItems = AddItems
-exports('AddItems', AddItems)
+CreateQbExport('AddItems', AddItems)
 
 -- Single Remove Item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -135,6 +135,6 @@ local function RemoveItem(itemName)
 end
 
 functions.RemoveItem = RemoveItem
-exports('RemoveItem', RemoveItem)
+CreateQbExport('RemoveItem', RemoveItem)
 
 return functions

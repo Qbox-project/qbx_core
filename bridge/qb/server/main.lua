@@ -93,8 +93,12 @@ qbCoreCompat.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(so
     if netId then cb(netId) end
 end)
 
-AddEventHandler('__cfx_export_qb-core_GetCoreObject', function(setCB)
-    setCB(function()
-        return qbCoreCompat
+function CreateQbExport(name, cb)
+    AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
+        setCB(cb)
     end)
+end
+
+CreateQbExport('GetCoreObject', function()
+    return qbCoreCompat
 end)
