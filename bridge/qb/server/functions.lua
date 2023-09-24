@@ -137,4 +137,10 @@ end
 functions.RemoveItem = RemoveItem
 CreateQbExport('RemoveItem', RemoveItem)
 
+function CreateQbExport(name, cb)
+    AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
+        setCB(cb)
+    end)
+end
+
 return functions

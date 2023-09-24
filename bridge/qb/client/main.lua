@@ -56,12 +56,12 @@ function qbCoreCompat.Debug(_, obj)
     lib.print.debug(obj)
 end
 
-function CreateQbExport(name, cb)
+local function createQbExport(name, cb)
     AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
         setCB(cb)
     end)
 end
 
-CreateQbExport('GetCoreObject', function()
+createQbExport('GetCoreObject', function()
     return qbCoreCompat
 end)
