@@ -16,12 +16,6 @@ function GetPlate(vehicle) -- luacheck: ignore
     return GetVehicleNumberPlateText(vehicle):trim()
 end
 
----@deprecated Call lib.print.debug() instead
----@param value any
-function DebugPrint(value) -- luacheck: ignore
-    lib.print.debug(value)
-end
-
 ---Converts a number to a string version with commas
 ---@param num number
 ---@return string

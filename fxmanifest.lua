@@ -7,32 +7,22 @@ version '1.0.0'
 shared_scripts {
     'config.lua',
     'shared/*.lua',
+    'bridge/qb/shared/*',
     'locale/en.lua',
     'locale/*.lua',
     '@ox_lib/init.lua',
-    'import.lua'
+    'import.lua',
 }
 
 client_scripts {
-    'client/main.lua',
-    'client/functions.lua',
-    'client/loops.lua',
-    'client/events.lua',
-    'client/drawtext.lua',
-    'client/character.lua'
+    'client/*',
+    'bridge/qb/client/*',
 }
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
-    'server/main.lua',
-    'server/functions.lua',
-    'server/player.lua',
-    'server/events.lua',
-    'server/commands.lua',
-    'server/debug.lua',
-    'server/loops.lua',
-    'server/storage.lua',
-    'server/character.lua'
+    'server/*',
+    'bridge/qb/server/*',
 }
 
 modules {
