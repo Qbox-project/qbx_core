@@ -5,7 +5,7 @@ SetRoutingBucketEntityLockdownMode(0, bucketLockDownMode)
 if not lib.checkDependency('ox_lib', '3.10.0', true) then error() return end
 
 QBCore = {}
-QBCore.Config = QBConfig
+QBCore.Config = require 'config'
 QBCore.Shared = require 'shared.main'
 
 ---@alias Source integer
@@ -13,7 +13,7 @@ QBCore.Shared = require 'shared.main'
 QBCore.Players = {}
 GlobalState.PlayerCount = 0
 
-QBCore.Player = require 'player'
+QBCore.Player = require 'server.player'
 
 QBCore.Player_Buckets = {}
 QBCore.Entity_Buckets = {}
