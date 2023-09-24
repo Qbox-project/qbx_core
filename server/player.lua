@@ -1,11 +1,4 @@
----@alias Source integer
-
----@type table<Source, Player>
-QBCore.Players = {}
-
-QBCore.Player = {}
-
-GlobalState.PlayerCount = 0
+local playerObj = {}
 
 ---@class PlayerData : PlayerEntity
 ---@field source? Source present if player is online
@@ -18,7 +11,7 @@ GlobalState.PlayerCount = 0
 ---@param citizenid? string
 ---@param newData? PlayerEntity
 ---@return boolean sourceExists true if source exists
-function QBCore.Player.Login(source, citizenid, newData)
+function playerObj.Login(source, citizenid, newData)
     if not source or source == '' then
         lib.print.error('QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!')
         return false
@@ -40,7 +33,7 @@ end
 
 ---@param citizenid string
 ---@return Player? player if found in storage
-function QBCore.Player.GetOfflinePlayer(citizenid)
+function playerObj.GetOfflinePlayer(citizenid)
     if not citizenid then return end
     local playerData = FetchPlayerEntity(citizenid)
     if not playerData then return end
@@ -50,7 +43,7 @@ end
 ---@param source? integer if player is online
 ---@param playerData? PlayerEntity|PlayerData
 ---@return Player? player if offline
-function QBCore.Player.CheckPlayerData(source, playerData)
+function playerObj.CheckPlayerData(source, playerData)
     playerData = playerData or {}
     local Offline = true
     if source then
@@ -160,7 +153,7 @@ end
 
 ---On player logout
 ---@param source Source
-function QBCore.Player.Logout(source)
+function playerObj.Logout(source)
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
 
@@ -216,7 +209,7 @@ end
 ---@param playerData PlayerData
 ---@param Offline boolean
 ---@return Player? player if player is offline
-function QBCore.Player.CreatePlayer(playerData, Offline)
+function playerObj.CreatePlayer(playerData, Offline)
     local self = {}
     self.Functions = {}
     self.PlayerData = playerData
@@ -496,7 +489,7 @@ end
 
 ---Save player info to database (make sure citizenid is the primary key in your database)
 ---@param source Source
-function QBCore.Player.Save(source)
+function playerObj.Save(source)
      local ped = GetPlayerPed(source)
     local playerData = QBCore.Players[source].PlayerData
     local pcoords = playerData.position
@@ -522,7 +515,7 @@ function QBCore.Player.Save(source)
 end
 
 ---@param playerData PlayerEntity
-function QBCore.Player.SaveOffline(playerData)
+function playerObj.SaveOffline(playerData)
     if not playerData then
         lib.print.error('QBCORE.PLAYER.SAVEOFFLINE - PLAYERDATA IS EMPTY!')
         return
@@ -540,7 +533,7 @@ end
 
 ---@param source Source
 ---@param citizenid string
-function QBCore.Player.DeleteCharacter(source, citizenid)
+function playerObj.DeleteCharacter(source, citizenid)
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
     local result = FetchPlayerEntity(citizenid).license
     if license == result or license2 == result then
@@ -557,7 +550,7 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
 end
 
 ---@param citizenid string
-function QBCore.Player.ForceDeleteCharacter(citizenid)
+function playerObj.ForceDeleteCharacter(citizenid)
     local result = FetchPlayerEntity(citizenid).license
     if result then
         local player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
@@ -578,14 +571,14 @@ end
 
 ---@deprecated ox_inventory automatically saves
 ---@param source Source
-function QBCore.Player.SaveInventory(source)
+function playerObj.SaveInventory(source)
     if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:SaveInventory(source, false)
 end
 
 ---@deprecated ox_inventory automatically saves
 ---@param playerData PlayerData
-function QBCore.Player.SaveOfflineInventory(playerData)
+function playerObj.SaveOfflineInventory(playerData)
     if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:SaveInventory(playerData, true)
 end
@@ -593,7 +586,7 @@ end
 ---@deprecated call ox_inventory exports directly
 ---@param items any[]
 ---@return number?
-function QBCore.Player.GetTotalWeight(items)
+function playerObj.GetTotalWeight(items)
     if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:GetTotalWeight(items)
 end
@@ -602,7 +595,7 @@ end
 ---@param items any[]
 ---@param itemName string
 ---@return integer[]? slots
-function QBCore.Player.GetSlotsByItem(items, itemName)
+function playerObj.GetSlotsByItem(items, itemName)
     if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:GetSlotsByItem(items, itemName)
 end
@@ -611,7 +604,7 @@ end
 ---@param items any[]
 ---@param itemName string
 ---@return integer? slot
-function QBCore.Player.GetFirstSlotByItem(items, itemName)
+function playerObj.GetFirstSlotByItem(items, itemName)
     if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:GetFirstSlotByItem(items, itemName)
 end
@@ -619,7 +612,7 @@ end
 ---Generate unique values for player identifiers
 ---@param type UniqueIdType The type of unique value to generate
 ---@return string | number UniqueVal unique value generated
-function QBCore.Player.GenerateUniqueIdentifier(type)
+function playerObj.GenerateUniqueIdentifier(type)
     local isUnique, uniqueId
     local table = QBConfig.Player.IdentifierTypes[type]
     repeat
@@ -628,3 +621,5 @@ function QBCore.Player.GenerateUniqueIdentifier(type)
     until isUnique
     return uniqueId
 end
+
+return playerObj

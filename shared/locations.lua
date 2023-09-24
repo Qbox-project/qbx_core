@@ -1,6 +1,4 @@
-QBShared = QBShared or {}
-
-QBShared.Locations = {
+return {
     -- Unknown/Random/Vanilla
     ['burgershot'] = vector4(-1199.0568, -882.4495, 13.3500, 209.1105),
     ['casino'] = vector4(923.2289, 47.3113, 81.1063, 237.6052),
