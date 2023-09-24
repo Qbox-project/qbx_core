@@ -1,34 +1,50 @@
-QBShared = QBShared or {}
+local qbShared = {}
+qbShared.Gangs = require 'gangs'
+qbShared.Items = require 'items'
+qbShared.ForceJobDefaultDutyAtLogin = true -- true: Force duty state to jobdefaultDuty | false: set duty state from database last saved
+qbShared.Jobs = require 'jobs'
+qbShared.Locations = require 'locations'
+qbShared.Vehicles = require 'vehicles'
+qbShared.Weapons = require 'weapons'
+
+---@type table<number, Vehicle>
+qbShared.VehicleHashes = {}
+
+for _, v in pairs(qbShared.Vehicles) do
+	qbShared.VehicleHashes[v.hash] = v
+end
 
 ---@deprecated use CommaValue from imports/utils.lua
-QBShared.CommaValue = CommaValue
+qbShared.CommaValue = CommaValue
 
 ---@deprecated use RandomLetter from imports/utils.lua
-QBShared.RandomStr = RandomLetter
+qbShared.RandomStr = RandomLetter
 
 ---@deprecated use RandomNumber from imports/utils.lua
-QBShared.RandomInt = RandomNumber
+qbShared.RandomInt = RandomNumber
 
 ---@deprecated use string.split from imports/utils.lua
-QBShared.SplitStr = string.split
+qbShared.SplitStr = string.split
 
 ---@deprecated use string.trim from imports/utils.lua
-QBShared.Trim = string.trim
+qbShared.Trim = string.trim
 
 ---@deprecated use string.firstToUpper from imports/utils.lua
-QBShared.FirstToUpper = string.firstToUpper
+qbShared.FirstToUpper = string.firstToUpper
 
 ---@deprecated use math.round from imports/utils.lua
-QBShared.Round = math.round
+qbShared.Round = math.round
 
 ---@deprecated use ChangeVehicleExtra from imports/utils.lua
-QBShared.ChangeVehicleExtra = ChangeVehicleExtra
+qbShared.ChangeVehicleExtra = ChangeVehicleExtra
 
 ---@deprecated use SetVehicleExtras from imports/utils.lua
-QBShared.SetDefaultVehicleExtras = SetVehicleExtras
+qbShared.SetDefaultVehicleExtras = SetVehicleExtras
 
 ---@deprecated use MaleNoGloves from imports/utils.lua
-QBShared.MaleNoGloves = MaleNoGloves
+qbShared.MaleNoGloves = MaleNoGloves
 
 ---@deprecated use FemaleNoGloves from imports/utils.lua
-QBShared.FemaleNoGloves = FemaleNoGloves
+qbShared.FemaleNoGloves = FemaleNoGloves
+
+return qbShared

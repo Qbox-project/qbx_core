@@ -1,7 +1,7 @@
 QBCore = {}
 QBCore.PlayerData = {}
 QBCore.Config = QBConfig
-QBCore.Shared = QBShared
+QBCore.Shared = require 'shared.main'
 
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
 QBCore.ClientCallbacks = {}

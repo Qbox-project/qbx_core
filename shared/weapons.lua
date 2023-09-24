@@ -1,5 +1,3 @@
-QBShared = QBShared or {}
-
 ---@class Weapon
 ---@field name string
 ---@field label string
@@ -8,7 +6,7 @@ QBShared = QBShared or {}
 ---@field damagereason string
 
 ---@type table<number, Weapon>
-QBShared.Weapons = {
+return {
 	-- // WEAPONS
 	-- Melee
 	[`weapon_unarmed`] 				 = {name = 'weapon_unarmed', 		label = 'Fists', 				weapontype = 'Melee',	ammotype = nil, damagereason = 'Melee killed / Whacked / Executed / Beat down / Murdered / Battered'},
