@@ -249,10 +249,10 @@ lib.addCommand('ooc', {
     help = Lang:t("command.ooc.help")
 }, function(source, args)
     local message = table.concat(args, ' ')
-    local Players = GetPlayers()
-    local Player = QBCore.Functions.GetPlayer(source)
+    local players = GetPlayers()
+    local player = QBCore.Functions.GetPlayer(source)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
-    for _, v in pairs(Players) do
+    for _, v in pairs(players) do
         if v == source then
             TriggerClientEvent('chat:addMessage', v --[[@as Source]], {
                 color = { 0, 0, 255},
@@ -272,7 +272,7 @@ lib.addCommand('ooc', {
                     multiline = true,
                     args = {('Proximity OOC | %s'):format(GetPlayerName(source)), message}
                 })
-                TriggerEvent('qb-log:server:CreateLog', 'ooc', 'OOC', 'white', '**' .. GetPlayerName(source) .. '** (CitizenID: ' .. Player.PlayerData.citizenid .. ' | ID: ' .. source .. ') **Message:** ' .. message, false)
+                TriggerEvent('qb-log:server:CreateLog', 'ooc', 'OOC', 'white', '**' .. GetPlayerName(source) .. '** (CitizenID: ' .. player.PlayerData.citizenid .. ' | ID: ' .. source .. ') **Message:** ' .. message, false)
             end
         end
     end
@@ -311,10 +311,10 @@ lib.addCommand('deletechar', {
         { name = 'id', help = Lang:t('info.deletechar_command_arg_player_id'), type = 'number' },
     }
 }, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(args.id)
-    if not Player then return end
+    local player = QBCore.Functions.GetPlayer(args.id)
+    if not player then return end
 
-    local citizenId = Player.PlayerData.citizenid
+    local citizenId = player.PlayerData.citizenid
     QBCore.Player.ForceDeleteCharacter(citizenId)
     TriggerClientEvent('QBCore:Notify', source, Lang:t('success.character_deleted_citizenid', {citizenid = citizenId}))
 end)

@@ -71,9 +71,9 @@ end
 function functions.GetDutyCountJob(job)
     local players = {}
     local count = 0
-    for src, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.name == job then
-            if Player.PlayerData.job.onduty then
+    for src, player in pairs(QBCore.Players) do
+        if player.PlayerData.job.name == job then
+            if player.PlayerData.job.onduty then
                 players[#players + 1] = src
                 count += 1
             end
@@ -89,9 +89,9 @@ end
 function functions.GetDutyCountType(type)
     local players = {}
     local count = 0
-    for src, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.type == type then
-            if Player.PlayerData.job.onduty then
+    for src, player in pairs(QBCore.Players) do
+        if player.PlayerData.job.type == type then
+            if player.PlayerData.job.onduty then
                 players[#players + 1] = src
                 count += 1
             end
@@ -265,8 +265,8 @@ end
 function functions.IsOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     if not license or not functions.HasPermission(source, 'admin') then return false end
-    local Player = functions.GetPlayer(source)
-    return Player.PlayerData.optin
+    local player = functions.GetPlayer(source)
+    return player.PlayerData.optin
 end
 
 ---Opt in or out of admin reports
@@ -274,9 +274,9 @@ end
 function functions.ToggleOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     if not license or not functions.HasPermission(source, 'admin') then return end
-    local Player = functions.GetPlayer(source)
-    Player.PlayerData.optin = not Player.PlayerData.optin
-    Player.Functions.SetPlayerData('optin', Player.PlayerData.optin)
+    local player = functions.GetPlayer(source)
+    player.PlayerData.optin = not player.PlayerData.optin
+    player.Functions.SetPlayerData('optin', player.PlayerData.optin)
 end
 
 -- Check if player is banned
