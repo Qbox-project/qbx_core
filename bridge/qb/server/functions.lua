@@ -143,4 +143,165 @@ end
 functions.RemoveItem = RemoveItem
 CreateQbExport('RemoveItem', RemoveItem)
 
+-- Single add job function which should only be used if you planning on adding a single job
+---@deprecated use export CreateJobs
+---@param jobName string
+---@param job Job
+---@return boolean success
+---@return string message
+local function AddJob(jobName, job)
+    if type(jobName) ~= "string" then
+        return false, "invalid_job_name"
+    end
+
+    if QBCore.Shared.Jobs[jobName] then
+        return false, "job_exists"
+    end
+
+    QBCore.Shared.Jobs[jobName] = job
+
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
+    TriggerEvent('QBCore:Server:UpdateObject')
+    return true, "success"
+end
+
+functions.AddJob = AddJob
+CreateQbExport('AddJob', AddJob)
+
+-- Multiple Add Jobs
+---@deprecated call export CreateJobs
+---@param jobs table<string, Job>
+---@return boolean success
+---@return string message
+---@return Job? errorJob job causing the error message. Only present if success is false.
+local function AddJobs(jobs)
+
+    for key, value in pairs(jobs) do
+        if type(key) ~= "string" then
+            return false, 'invalid_job_name', jobs[key]
+        end
+
+        if QBCore.Shared.Jobs[key] then
+            return false, 'job_exists', jobs[key]
+        end
+
+        QBCore.Shared.Jobs[key] = value
+    end
+
+    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Jobs', jobs)
+    TriggerEvent('QBCore:Server:UpdateObject')
+    return true, 'success'
+end
+
+functions.AddJobs = AddJobs
+CreateQbExport('AddJobs', AddJobs)
+
+-- Single Update Job
+---@deprecated call CreateJobs
+---@param jobName string
+---@param job Job
+---@return boolean success
+---@return string message
+local function UpdateJob(jobName, job)
+    if type(jobName) ~= "string" then
+        return false, "invalid_job_name"
+    end
+
+    if not QBCore.Shared.Jobs[jobName] then
+        return false, "job_not_exists"
+    end
+
+    QBCore.Shared.Jobs[jobName] = job
+
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
+    TriggerEvent('QBCore:Server:UpdateObject')
+    return true, "success"
+end
+
+functions.UpdateJob = UpdateJob
+CreateQbExport('UpdateJob', UpdateJob)
+
+-- Single Add Gang
+---@deprecated call export CreateGangs
+---@param gangName string
+---@param gang Gang
+---@return boolean success
+---@return string message
+local function AddGang(gangName, gang)
+    if type(gangName) ~= "string" then
+        return false, "invalid_gang_name"
+    end
+
+    if QBCore.Shared.Gangs[gangName] then
+        return false, "gang_exists"
+    end
+
+    QBCore.Shared.Gangs[gangName] = gang
+
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
+    TriggerEvent('QBCore:Server:UpdateObject')
+    return true, "success"
+end
+
+functions.AddGang = AddGang
+CreateQbExport('AddGang', AddGang)
+
+-- Single Update Gang
+---@deprecated call export CreateGangs
+---@param gangName string
+---@param gang Gang
+---@return boolean success
+---@return string message
+local function UpdateGang(gangName, gang)
+    if type(gangName) ~= "string" then
+        return false, "invalid_gang_name"
+    end
+
+    if not QBCore.Shared.Gangs[gangName] then
+        return false, "gang_not_exists"
+    end
+
+    QBCore.Shared.Gangs[gangName] = gang
+
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
+    TriggerEvent('QBCore:Server:UpdateObject')
+    return true, "success"
+end
+
+functions.UpdateGang = UpdateGang
+CreateQbExport('UpdateGang', UpdateGang)
+
+-- Multiple Add Gangs
+---@deprecated call export CreateGangs
+---@param gangs table<string, Gang>
+---@return boolean success
+---@return string message
+---@return Gang? errorGang present if success is false. Gang that caused the error message.
+local function AddGangs(gangs)
+    for key, value in pairs(gangs) do
+        if type(key) ~= "string" then
+            return false, 'invalid_gang_name', gangs[key]
+        end
+
+        if QBCore.Shared.Gangs[key] then
+            return false, 'gang_exists', gangs[key]
+        end
+
+        QBCore.Shared.Gangs[key] = value
+    end
+
+    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Gangs', gangs)
+    TriggerEvent('QBCore:Server:UpdateObject')
+    return true, 'success'
+end
+
+functions.AddGangs = AddGangs
+CreateQbExport('AddGangs', AddGangs)
+
+functions.RemoveJob = RemoveJob
+CreateQbExport('RemoveJob', RemoveJob)
+
+functions.RemoveGang = RemoveGang
+CreateQbExport('RemoveGang', RemoveGang)
+
 return functions
