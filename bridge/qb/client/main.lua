@@ -1,7 +1,8 @@
-local qbCoreCompat = QBCore
-
-qbCoreCompat.Functions = require 'bridge.qb.client.functions'
+local qbCoreCompat = {}
+qbCoreCompat.PlayerData = QBCore.PlayerData
+qbCoreCompat.Config = QBCore.Config
 qbCoreCompat.Shared = require 'bridge.qb.shared.main'
+qbCoreCompat.Functions = require 'bridge.qb.client.functions'
 
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
 qbCoreCompat.ClientCallbacks = {}

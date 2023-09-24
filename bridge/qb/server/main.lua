@@ -1,9 +1,14 @@
-local qbCoreCompat = QBCore
+local qbCoreCompat = {}
 
-qbCoreCompat.Commands = require 'bridge.qb.server.commands'
-qbCoreCompat.Functions = require 'bridge.qb.server.functions'
-qbCoreCompat.Player = require 'bridge.qb.server.player'
+qbCoreCompat.Config = QBCore.Config
 qbCoreCompat.Shared = require 'bridge.qb.shared.main'
+qbCoreCompat.Players = QBCore.Players
+qbCoreCompat.Player = require 'bridge.qb.server.player'
+qbCoreCompat.Player_Buckets = QBCore.Player_Buckets
+qbCoreCompat.Entity_Buckets = QBCore.Entity_Buckets
+qbCoreCompat.UsableItems = QBCore.UsableItems
+qbCoreCompat.Functions = require 'bridge.qb.server.functions'
+qbCoreCompat.Commands = require 'bridge.qb.server.commands'
 
 ---@deprecated Call lib.print.debug() instead
 qbCoreCompat.Debug = lib.print.debug
