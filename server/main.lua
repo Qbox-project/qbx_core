@@ -15,6 +15,14 @@ GlobalState.PlayerCount = 0
 
 QBCore.Player = require 'player'
 
+QBCore.Player_Buckets = {}
+QBCore.Entity_Buckets = {}
+QBCore.UsableItems = {}
+QBCore.Functions = require 'functions'
+
+---@deprecated Call lib.print.debug() instead
+QBCore.Debug = DebugPrint
+
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
 QBCore.ClientCallbacks = {}
 
