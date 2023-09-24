@@ -194,26 +194,6 @@ end)
 
 -- Me command
 
----@param coords vector3
----@param str string
-local function Draw3DText(coords, str)
-    local onScreen, worldX, worldY = World3dToScreen2d(coords.x, coords.y, coords.z)
-    local camCoords = GetGameplayCamCoord()
-    local scale = 200 / (GetGameplayCamFov() * #(camCoords - coords))
-    if onScreen then
-        SetTextScale(1.0, 0.5 * scale)
-        SetTextFont(4)
-        SetTextColour(255, 255, 255, 255)
-        SetTextEdge(2, 0, 0, 0, 150)
-        SetTextProportional(true)
-        SetTextOutline()
-        SetTextCentre(true)
-        BeginTextCommandDisplayText("STRING")
-        AddTextComponentSubstringPlayerName(str)
-        EndTextCommandDisplayText(worldX, worldY)
-    end
-end
-
 ---@param bagName string
 ---@param value string
 AddStateBagChangeHandler('me', nil, function(bagName, _, value)
@@ -236,7 +216,7 @@ AddStateBagChangeHandler('me', nil, function(bagName, _, value)
         local displayTime = 5000 + GetGameTimer()
         while displayTime > GetGameTimer() do
             playerPed = isLocalPlayer and cache.ped or GetPlayerPed(playerId)
-            Draw3DText(GetEntityCoords(playerPed), value)
+            DrawText3D(value, GetEntityCoords(playerPed))
             Wait(0)
         end
     end)
