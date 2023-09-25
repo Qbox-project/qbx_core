@@ -1,4 +1,4 @@
-QbxCore = QBCore
+QbxCore = QBCore -- luacheck: ignore
 PlayerData = QBCore.PlayerData -- luacheck: ignore
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()

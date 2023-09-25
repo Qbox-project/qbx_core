@@ -1,1 +1,1 @@
-QbxCore = QBCore
+QbxCore = QBCore -- luacheck: ignore
