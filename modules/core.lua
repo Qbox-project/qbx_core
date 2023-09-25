@@ -1,1 +1,1 @@
-QBCore = exports['qbx-core']:GetCoreObject()
+QBX = QBCore -- luacheck: ignore
