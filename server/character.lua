@@ -1,7 +1,7 @@
 ---@param license2 string
 ---@param license? string
 local function getAllowedAmountOfCharacters(license2, license)
-    return QBCore.Config.Characters.PlayersNumberOfCharacters[license2] or license and QBCore.Config.Characters.PlayersNumberOfCharacters[license] or QBCore.Config.Characters.DefaultNumberOfCharacters
+    return QBX.Config.Characters.PlayersNumberOfCharacters[license2] or license and QBX.Config.Characters.PlayersNumberOfCharacters[license] or QBX.Config.Characters.DefaultNumberOfCharacters
 end
 
 ---@param source Source
@@ -16,7 +16,7 @@ local function giveStarterItems(source)
     end
 end
 
-lib.callback.register('qbx-core:server:getCharacters', function(source)
+lib.callback.register('qbx_core:server:getCharacters', function(source)
     local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
     local chars = FetchAllPlayerEntities(license2, license)
     local allowedAmount = getAllowedAmountOfCharacters(license2, license)
@@ -28,7 +28,7 @@ lib.callback.register('qbx-core:server:getCharacters', function(source)
     return sortedChars, allowedAmount
 end)
 
-lib.callback.register('qbx-core:server:getPreviewPedData', function(_, citizenId)
+lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId)
     local ped = FetchPlayerSkin(citizenId)
     if not ped then return end
 
@@ -52,8 +52,8 @@ AddEventHandler('onResourceStart', function(resourceName)
     end
 end)
 
-lib.callback.register('qbx-core:server:loadCharacter', function(source, citizenId)
-    local player = QBCore.Player.LoginV2(source, citizenId)
+lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenId)
+    local player = QBX.Player.LoginV2(source, citizenId)
     if not player then return end
 
     SetPlayerRoutingBucket(source, 0)
@@ -63,11 +63,11 @@ end)
 
 ---@param data unknown
 ---@return table? newData
-lib.callback.register('qbx-core:server:createCharacter', function(source, data)
+lib.callback.register('qbx_core:server:createCharacter', function(source, data)
     local newData = {}
     newData.charinfo = data
 
-    local player = QBCore.Player.LoginV2(source, nil, newData)
+    local player = QBX.Player.LoginV2(source, nil, newData)
     if not player then return end
 
     giveStarterItems(source)
@@ -79,8 +79,8 @@ lib.callback.register('qbx-core:server:createCharacter', function(source, data)
     return newData
 end)
 
-RegisterNetEvent('qbx-core:server:deleteCharacter', function(citizenId)
+RegisterNetEvent('qbx_core:server:deleteCharacter', function(citizenId)
     local src = source
-    QBCore.Player.DeleteCharacter(src, citizenId)
+    QBX.Player.DeleteCharacter(src, citizenId)
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.character_deleted'), 'success')
 end)
