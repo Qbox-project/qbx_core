@@ -54,7 +54,7 @@ end)
 
 lib.callback.register('qbx-core:server:loadCharacter', function(citizenId)
     local src = source
-    local player = QBCore.Player.Login(src, citizenId)
+    local player = QBCore.Player.LoginV2(src, citizenId)
     if not player then return end
 
     SetPlayerRoutingBucket(src, 0)
@@ -69,7 +69,7 @@ lib.callback.register('qbx-core:server:createCharacter', function(data)
     local newData = {}
     newData.charinfo = data
 
-    local player = QBCore.Player.Login(src, nil, newData)
+    local player = QBCore.Player.LoginV2(src, nil, newData)
     if not player then return end
 
     giveStarterItems(src)
