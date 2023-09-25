@@ -1,3 +1,4 @@
+if IsDuplicityVersion() then return end
 QBX = QBCore -- luacheck: ignore
 PlayerData = QBCore.PlayerData -- luacheck: ignore
 
