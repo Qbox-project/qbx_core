@@ -216,7 +216,6 @@ function playerObj.CreatePlayer(playerData, Offline)
 
     function self.Functions.UpdatePlayerData()
         if self.Offline then return end -- Unsupported for Offline Players
-        SetPlayerData(self.PlayerData)
         TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
     end
