@@ -90,7 +90,5 @@ end
 
 exports('RemoveGang', RemoveGang)
 
----@deprecated import QBCore using module 'qbx-core:core' https://qbox-docs.vercel.app/resources/core/import
-exports('GetCoreObject', function()
-    return QBCore
-end)
+---import QBX using module 'qbx-core:core' https://qbox-project.github.io/resources/core/import
+exports('GetCoreObject', function() return QBCore end)
