@@ -10,25 +10,24 @@ local playerObj = {}
 ---@param source Source
 ---@param citizenid? string
 ---@param newData? PlayerEntity
----@return boolean sourceExists true if source exists
+---@return Player? player if logged in successfully
 function playerObj.Login(source, citizenid, newData)
     if not source or source == '' then
         lib.print.error('QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!')
-        return false
+        return
     end
     if citizenid then
         local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
         local playerData = FetchPlayerEntity(citizenid)
         if playerData and (license2 == playerData.license or license == playerData.license) then
-            QBCore.Player.CheckPlayerData(source, playerData)
+            return QBCore.Player.CheckPlayerData(source, playerData)
         else
             DropPlayer(tostring(source), Lang:t("info.exploit_dropped"))
             TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', ('%s Has Been Dropped For Character Joining Exploit'):format(GetPlayerName(source)), false)
         end
     else
-        QBCore.Player.CheckPlayerData(source, newData)
+        return QBCore.Player.CheckPlayerData(source, newData)
     end
-    return true
 end
 
 ---@param citizenid string
@@ -42,7 +41,7 @@ end
 
 ---@param source? integer if player is online
 ---@param playerData? PlayerEntity|PlayerData
----@return Player? player if offline
+---@return Player player
 function playerObj.CheckPlayerData(source, playerData)
     playerData = playerData or {}
     local Offline = true
@@ -208,7 +207,7 @@ end
 ---Will cause major issues!
 ---@param playerData PlayerData
 ---@param Offline boolean
----@return Player? player if player is offline
+---@return Player player
 function playerObj.CreatePlayer(playerData, Offline)
     local self = {}
     self.Functions = {}
@@ -474,17 +473,17 @@ function playerObj.CreatePlayer(playerData, Offline)
         self[fieldName] = data
     end
 
-    if self.Offline then
-        return self
-    else
+    if not self.Offline then
         QBCore.Players[self.PlayerData.source] = self
         QBCore.Player.Save(self.PlayerData.source)
 
         -- At this point we are safe to emit new instance to third party resource for load handling
         GlobalState.PlayerCount += 1
-        TriggerEvent('QBCore:Server:PlayerLoaded', self)
         self.Functions.UpdatePlayerData()
+        TriggerEvent('QBCore:Server:PlayerLoaded', self)
     end
+
+    return self
 end
 
 ---Save player info to database (make sure citizenid is the primary key in your database)

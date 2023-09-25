@@ -1,5 +1,3 @@
-local hasDonePreloading = {}
-
 ---@param license2 string
 ---@param license? string
 local function getAllowedAmountOfCharacters(license2, license)
@@ -37,15 +35,6 @@ lib.callback.register('qbx-core:server:getPreviewPedData', function(_, citizenId
     return ped.skin, ped.model and joaat(ped.model)
 end)
 
-AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
-    Wait(1000) -- 1 second should be enough to do the preloading in other resources
-    hasDonePreloading[Player.PlayerData.source] = true
-end)
-
-AddEventHandler('QBCore:Server:OnPlayerUnload', function(src)
-    hasDonePreloading[src] = false
-end)
-
 AddEventHandler('playerJoining', function()
     SetPlayerRoutingBucket(source, source)
 end)
@@ -63,51 +52,33 @@ AddEventHandler('onResourceStart', function(resourceName)
     end
 end)
 
-RegisterNetEvent('qbx-core:server:loadCharacter', function(citizenId)
+lib.callback.register('qbx-core:server:loadCharacter', function(citizenId)
     local src = source
-    if not QBCore.Player.Login(src, citizenId) then return end
+    local player = QBCore.Player.Login(src, citizenId)
+    if not player then return end
 
-    repeat
-        Wait(0)
-    until hasDonePreloading[src]
-
-    if GetResourceState('qbx-apartments'):find('start') then
-        TriggerClientEvent('apartments:client:setupSpawnUI', src, { citizenid = citizenId })
-    else
-        TriggerClientEvent('qb-spawn:client:setupSpawns', src, { citizenid = citizenId })
-        TriggerClientEvent('qb-spawn:client:openUI', src, true)
-    end
     SetPlayerRoutingBucket(src, 0)
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Loaded', 'green', '**'.. GetPlayerName(src) .. '** ('..(GetPlayerIdentifierByType(src, 'discord') or 'undefined') ..' |  ||'  ..(GetPlayerIdentifierByType(src, 'ip') or 'undefined') ..  '|| | ' ..(GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license') or 'undefined') ..' | ' ..citizenId..' | '..src..') loaded..')
     lib.print.info(GetPlayerName(src)..' (Citizen ID: '..citizenId..') has succesfully loaded!')
 end)
 
-RegisterNetEvent('qbx-core:server:createCharacter', function(data)
+---@param data unknown
+---@return table? newData
+lib.callback.register('qbx-core:server:createCharacter', function(data)
     local src = source
     local newData = {}
     newData.charinfo = data
 
-    if not QBCore.Player.Login(src, nil, newData) then return end
-
-    repeat
-        Wait(0)
-    until hasDonePreloading[src]
+    local player = QBCore.Player.Login(src, nil, newData)
+    if not player then return end
 
     giveStarterItems(src)
-    if GetResourceState('qbx-spawn') ~= 'missing' then
-        if QBCore.Config.Characters.StartingApartment then
-            lib.print.info(GetPlayerName(src)..' has succesfully loaded!')
-            TriggerClientEvent('apartments:client:setupSpawnUI', src, newData)
-        else
-            lib.print.info(GetPlayerName(src)..' has succesfully loaded!')
-            TriggerClientEvent('qbx-core:client:spawnNoApartments', src)
-        end
-    else
+    if GetResourceState('qbx-spawn') == 'missing' then
         SetPlayerRoutingBucket(src, 0)
-        lib.callback.await('qbx-core:client:spawnDefault', src)
-        TriggerClientEvent('qb-clothes:client:CreateFirstCharacter', src)
-        lib.print.info(GetPlayerName(src)..' has succesfully loaded!')
     end
+
+    lib.print.info(GetPlayerName(src)..' has created a character')
+    return newData
 end)
 
 RegisterNetEvent('qbx-core:server:deleteCharacter', function(citizenId)

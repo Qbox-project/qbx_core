@@ -1,12 +1,3 @@
--- Player load and unload handling
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    ShutdownLoadingScreenNui()
-    IsLoggedIn = true
-    if not QBConfig.Server.PVP then return end
-    SetCanAttackFriendly(cache.ped, true, false)
-    NetworkSetFriendlyFireOption(true)
-end)
-
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     IsLoggedIn = false
 end)
@@ -154,13 +145,6 @@ RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
 end)
 
 -- Other stuff
-
----@param val PlayerData
-RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
-    local invokingResource = GetInvokingResource()
-    if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
-    QBCore.PlayerData = val
-end)
 
 ---@see client/functions.lua:QBCore.Functions.Notify
 RegisterNetEvent('QBCore:Notify', function(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
