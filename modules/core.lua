@@ -1,1 +1,1 @@
-QBX = QBCore -- luacheck: ignore
+QBX = exports.qbx_core:GetCoreObject()
