@@ -20,7 +20,7 @@ function functions.Notify(text, notifyType, duration, subTitle, notifyPosition, 
     else
         description = text
     end
-    local position = notifyPosition or QBConfig.NotifyPosition
+    local position = notifyPosition or QBX.Config.NotifyPosition
 
     lib.notify({
         id = title,
