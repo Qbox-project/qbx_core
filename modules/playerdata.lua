@@ -1,5 +1,5 @@
 QBCore = QBCore or exports['qbx-core']:GetCoreObject()
-PlayerData = QBCore.PlayerData
+PlayerData = QBCore.PlayerData -- luacheck: ignore
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     PlayerData = {}
