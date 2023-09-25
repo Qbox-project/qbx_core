@@ -11,7 +11,7 @@ local playerObj = {}
 ---@return boolean success
 function playerObj.Login(source, citizenid, newData)
     if not source or source == '' then
-        lib.print.error('QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!')
+        lib.print.error('QBX.PLAYER.LOGIN - NO SOURCE GIVEN!')
         return false
     end
     return playerObj.LoginV2(source, citizenid, newData) and true or false
@@ -27,13 +27,13 @@ function playerObj.LoginV2(source, citizenid, newData)
         local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
         local playerData = FetchPlayerEntity(citizenid)
         if playerData and (license2 == playerData.license or license == playerData.license) then
-            return QBCore.Player.CheckPlayerData(source, playerData)
+            return QBX.Player.CheckPlayerData(source, playerData)
         else
             DropPlayer(tostring(source), Lang:t("info.exploit_dropped"))
             TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', ('%s Has Been Dropped For Character Joining Exploit'):format(GetPlayerName(source)), false)
         end
     else
-        return QBCore.Player.CheckPlayerData(source, newData)
+        return QBX.Player.CheckPlayerData(source, newData)
     end
 end
 
@@ -43,7 +43,7 @@ function playerObj.GetOfflinePlayer(citizenid)
     if not citizenid then return end
     local playerData = FetchPlayerEntity(citizenid)
     if not playerData then return end
-    return QBCore.Player.CheckPlayerData(nil, playerData)
+    return QBX.Player.CheckPlayerData(nil, playerData)
 end
 
 ---@param source? integer if player is online
@@ -59,11 +59,11 @@ function playerObj.CheckPlayerData(source, playerData)
         Offline = false
     end
 
-    playerData.citizenid = playerData.citizenid or QBCore.Player.GenerateUniqueIdentifier('citizenid')
+    playerData.citizenid = playerData.citizenid or QBX.Player.GenerateUniqueIdentifier('citizenid')
     playerData.cid = playerData.charinfo?.cid or playerData.cid or 1
     playerData.money = playerData.money or {}
     playerData.optin = playerData.optin or true
-    for moneytype, startamount in pairs(QBCore.Config.Money.MoneyTypes) do
+    for moneytype, startamount in pairs(QBX.Config.Money.MoneyTypes) do
         playerData.money[moneytype] = playerData.money[moneytype] or startamount
     end
 
@@ -75,8 +75,8 @@ function playerObj.CheckPlayerData(source, playerData)
     playerData.charinfo.gender = playerData.charinfo.gender or 0
     playerData.charinfo.backstory = playerData.charinfo.backstory or 'placeholder backstory'
     playerData.charinfo.nationality = playerData.charinfo.nationality or 'USA'
-    playerData.charinfo.phone = playerData.charinfo.phone or QBCore.Player.GenerateUniqueIdentifier('PhoneNumber')
-    playerData.charinfo.account = playerData.charinfo.account or QBCore.Player.GenerateUniqueIdentifier('AccountNumber')
+    playerData.charinfo.phone = playerData.charinfo.phone or QBX.Player.GenerateUniqueIdentifier('PhoneNumber')
+    playerData.charinfo.account = playerData.charinfo.account or QBX.Player.GenerateUniqueIdentifier('AccountNumber')
     playerData.charinfo.cid = playerData.charinfo.cid or playerData.cid
     -- Metadata
     playerData.metadata = playerData.metadata or {}
@@ -95,7 +95,7 @@ function playerObj.CheckPlayerData(source, playerData)
     playerData.metadata.phone = playerData.metadata.phone or {}
     playerData.metadata.fitbit = playerData.metadata.fitbit or {}
     playerData.metadata.commandbinds = playerData.metadata.commandbinds or {}
-    playerData.metadata.bloodtype = playerData.metadata.bloodtype or QBCore.Config.Player.Bloodtypes[math.random(1, #QBCore.Config.Player.Bloodtypes)]
+    playerData.metadata.bloodtype = playerData.metadata.bloodtype or QBX.Config.Player.Bloodtypes[math.random(1, #QBX.Config.Player.Bloodtypes)]
     playerData.metadata.dealerrep = playerData.metadata.dealerrep or 0
     playerData.metadata.craftingrep = playerData.metadata.craftingrep or 0
     playerData.metadata.attachmentcraftingrep = playerData.metadata.attachmentcraftingrep or 0
@@ -106,8 +106,8 @@ function playerObj.CheckPlayerData(source, playerData)
     playerData.metadata.jobrep.taxi = playerData.metadata.jobrep.taxi or 0
     playerData.metadata.jobrep.hotdog = playerData.metadata.jobrep.hotdog or 0
     playerData.metadata.callsign = playerData.metadata.callsign or 'NO CALLSIGN'
-    playerData.metadata.fingerprint = playerData.metadata.fingerprint or QBCore.Player.GenerateUniqueIdentifier('FingerId')
-    playerData.metadata.walletid = playerData.metadata.walletid or QBCore.Player.GenerateUniqueIdentifier('WalletId')
+    playerData.metadata.fingerprint = playerData.metadata.fingerprint or QBX.Player.GenerateUniqueIdentifier('FingerId')
+    playerData.metadata.walletid = playerData.metadata.walletid or QBX.Player.GenerateUniqueIdentifier('WalletId')
     playerData.metadata.criminalrecord = playerData.metadata.criminalrecord or {
         hasRecord = false,
         date = nil
@@ -125,25 +125,25 @@ function playerObj.CheckPlayerData(source, playerData)
         }
     }
     playerData.metadata.phonedata = playerData.metadata.phonedata or {
-        SerialNumber = QBCore.Player.GenerateUniqueIdentifier('SerialNumber'),
+        SerialNumber = QBX.Player.GenerateUniqueIdentifier('SerialNumber'),
         InstalledApps = {},
     }
     -- Job
-    if playerData.job and playerData.job.name and not QBCore.Shared.Jobs[playerData.job.name] then playerData.job = nil end
+    if playerData.job and playerData.job.name and not QBX.Shared.Jobs[playerData.job.name] then playerData.job = nil end
     playerData.job = playerData.job or {}
     playerData.job.name = playerData.job.name or 'unemployed'
     playerData.job.label = playerData.job.label or 'Civilian'
     playerData.job.payment = playerData.job.payment or 10
     playerData.job.type = playerData.job.type or 'none'
-    if QBCore.Shared.ForceJobDefaultDutyAtLogin or playerData.job.onduty == nil then
-        playerData.job.onduty = QBCore.Shared.Jobs[playerData.job.name].defaultDuty
+    if QBX.Shared.ForceJobDefaultDutyAtLogin or playerData.job.onduty == nil then
+        playerData.job.onduty = QBX.Shared.Jobs[playerData.job.name].defaultDuty
     end
     playerData.job.isboss = playerData.job.isboss or false
     playerData.job.grade = playerData.job.grade or {}
     playerData.job.grade.name = playerData.job.grade.name or 'Freelancer'
     playerData.job.grade.level = playerData.job.grade.level or 0
     -- Gang
-    if playerData.gang and playerData.gang.name and not QBCore.Shared.Gangs[playerData.gang.name] then playerData.gang = nil end
+    if playerData.gang and playerData.gang.name and not QBX.Shared.Gangs[playerData.gang.name] then playerData.gang = nil end
     playerData.gang = playerData.gang or {}
     playerData.gang.name = playerData.gang.name or 'none'
     playerData.gang.label = playerData.gang.label or 'No Gang Affiliation'
@@ -152,9 +152,9 @@ function playerObj.CheckPlayerData(source, playerData)
     playerData.gang.grade.name = playerData.gang.grade.name or 'none'
     playerData.gang.grade.level = playerData.gang.grade.level or 0
     -- Other
-    playerData.position = playerData.position or QBConfig.DefaultSpawn
+    playerData.position = playerData.position or QBX.Config.DefaultSpawn
     playerData.items = GetResourceState('qb-inventory') ~= 'missing' and exports['qb-inventory']:LoadInventory(playerData.source, playerData.citizenid) or {}
-    return QBCore.Player.CreatePlayer(playerData --[[@as PlayerData]], Offline)
+    return QBX.Player.CreatePlayer(playerData --[[@as PlayerData]], Offline)
 end
 
 ---On player logout
@@ -163,10 +163,10 @@ function playerObj.Logout(source)
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
 
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
     if not player then return end
-    local newHunger = player.PlayerData.metadata.hunger - QBCore.Config.Player.HungerRate
-    local newThirst = player.PlayerData.metadata.thirst - QBCore.Config.Player.ThirstRate
+    local newHunger = player.PlayerData.metadata.hunger - QBX.Config.Player.HungerRate
+    local newThirst = player.PlayerData.metadata.thirst - QBX.Config.Player.ThirstRate
     if newHunger <= 0 then
         newHunger = 0
     end
@@ -179,9 +179,9 @@ function playerObj.Logout(source)
     player.Functions.Save()
 
     Wait(200)
-    QBCore.Players[source] = nil
+    QBX.Players[source] = nil
     GlobalState.PlayerCount -= 1
-    TriggerClientEvent('qbx-core:client:playerLoggedOut', source)
+    TriggerClientEvent('qbx_core:client:playerLoggedOut', source)
 end
 
 ---@class Player
@@ -233,13 +233,13 @@ function playerObj.CreatePlayer(playerData, Offline)
     function self.Functions.SetJob(job, grade)
         job = job or ''
         grade = tonumber(grade) or 0
-        if not QBCore.Shared.Jobs[job] then return false end
+        if not QBX.Shared.Jobs[job] then return false end
         self.PlayerData.job.name = job
-        self.PlayerData.job.label = QBCore.Shared.Jobs[job].label
-        self.PlayerData.job.onduty = QBCore.Shared.Jobs[job].defaultDuty
-        self.PlayerData.job.type = QBCore.Shared.Jobs[job].type or 'none'
-        if QBCore.Shared.Jobs[job].grades[grade] then
-            local jobgrade = QBCore.Shared.Jobs[job].grades[grade]
+        self.PlayerData.job.label = QBX.Shared.Jobs[job].label
+        self.PlayerData.job.onduty = QBX.Shared.Jobs[job].defaultDuty
+        self.PlayerData.job.type = QBX.Shared.Jobs[job].type or 'none'
+        if QBX.Shared.Jobs[job].grades[grade] then
+            local jobgrade = QBX.Shared.Jobs[job].grades[grade]
             self.PlayerData.job.grade = {}
             self.PlayerData.job.grade.name = jobgrade.name
             self.PlayerData.job.grade.level = grade
@@ -268,11 +268,11 @@ function playerObj.CreatePlayer(playerData, Offline)
     function self.Functions.SetGang(gang, grade)
         gang = gang or ''
         grade = tonumber(grade) or 0
-        if not QBCore.Shared.Gangs[gang] then return false end
+        if not QBX.Shared.Gangs[gang] then return false end
         self.PlayerData.gang.name = gang
-        self.PlayerData.gang.label = QBCore.Shared.Gangs[gang].label
-        if QBCore.Shared.Gangs[gang].grades[grade] then
-            local ganggrade = QBCore.Shared.Gangs[gang].grades[grade]
+        self.PlayerData.gang.label = QBX.Shared.Gangs[gang].label
+        if QBX.Shared.Gangs[gang].grades[grade] then
+            local ganggrade = QBX.Shared.Gangs[gang].grades[grade]
             self.PlayerData.gang.grade = {}
             self.PlayerData.gang.grade.name = ganggrade.name
             self.PlayerData.gang.grade.level = grade
@@ -373,7 +373,7 @@ function playerObj.CreatePlayer(playerData, Offline)
         amount = tonumber(amount) --[[@as number]]
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
-        for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
+        for _, mtype in pairs(QBX.Config.Money.DontAllowMinus) do
             if mtype == moneytype then
                 if (self.PlayerData.money[moneytype] - amount) < 0 then
                     return false
@@ -454,15 +454,15 @@ function playerObj.CreatePlayer(playerData, Offline)
 
     function self.Functions.Save()
         if self.Offline then
-            QBCore.Player.SaveOffline(self.PlayerData)
+            QBX.Player.SaveOffline(self.PlayerData)
         else
-            QBCore.Player.Save(self.PlayerData.source)
+            QBX.Player.Save(self.PlayerData.source)
         end
     end
 
     function self.Functions.Logout()
         if self.Offline then return end -- Unsupported for Offline Players
-        QBCore.Player.Logout(self.PlayerData.source)
+        QBX.Player.Logout(self.PlayerData.source)
     end
 
     ---adds a new player method at runtime
@@ -481,8 +481,8 @@ function playerObj.CreatePlayer(playerData, Offline)
     end
 
     if not self.Offline then
-        QBCore.Players[self.PlayerData.source] = self
-        QBCore.Player.Save(self.PlayerData.source)
+        QBX.Players[self.PlayerData.source] = self
+        QBX.Player.Save(self.PlayerData.source)
 
         -- At this point we are safe to emit new instance to third party resource for load handling
         GlobalState.PlayerCount += 1
@@ -496,14 +496,15 @@ end
 ---Save player info to database (make sure citizenid is the primary key in your database)
 ---@param source Source
 function playerObj.Save(source)
-     local ped = GetPlayerPed(source)
-    local playerData = QBCore.Players[source].PlayerData
+    local ped = GetPlayerPed(source)
+    local playerData = QBX.Players[source].PlayerData
     local pcoords = playerData.position
     if not Player(source)?.state.inApartment and not Player(source)?.state.inProperty then
-        pcoords = vec4(GetEntityCoords(ped), GetEntityHeading(ped))
+        local coords = GetEntityCoords(ped)
+        pcoords = vec4(coords.x, coords.y, coords.z, GetEntityHeading(ped))
     end
     if not playerData then
-        lib.print.error('QBCORE.PLAYER.SAVE - PLAYERDATA IS EMPTY!')
+        lib.print.error('QBX.PLAYER.SAVE - PLAYERDATA IS EMPTY!')
         return
     end
 
@@ -523,7 +524,7 @@ end
 ---@param playerData PlayerEntity
 function playerObj.SaveOffline(playerData)
     if not playerData then
-        lib.print.error('QBCORE.PLAYER.SAVEOFFLINE - PLAYERDATA IS EMPTY!')
+        lib.print.error('QBX.PLAYER.SAVEOFFLINE - PLAYERDATA IS EMPTY!')
         return
     end
 
@@ -559,7 +560,7 @@ end
 function playerObj.ForceDeleteCharacter(citizenid)
     local result = FetchPlayerEntity(citizenid).license
     if result then
-        local player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
+        local player = QBX.Functions.GetPlayerByCitizenId(citizenid)
         if player then
             DropPlayer(player.PlayerData.source --[[@as string]], "An admin deleted the character which you are currently using")
         end
@@ -578,7 +579,7 @@ end
 ---@return string | number UniqueVal unique value generated
 function playerObj.GenerateUniqueIdentifier(type)
     local isUnique, uniqueId
-    local table = QBConfig.Player.IdentifierTypes[type]
+    local table = QBX.Config.Player.IdentifierTypes[type]
     repeat
         uniqueId = table.valueFunction()
         isUnique = FetchIsUnique(type, uniqueId)
