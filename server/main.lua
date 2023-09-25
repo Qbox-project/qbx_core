@@ -4,27 +4,27 @@ SetRoutingBucketEntityLockdownMode(0, bucketLockDownMode)
 
 if not lib.checkDependency('ox_lib', '3.10.0', true) then error() return end
 
-QBCore = {}
-QBCore.Config = require 'config'
-QBCore.Shared = require 'shared.main'
+QBX = {}
+QBX.Config = require 'config'
+QBX.Shared = require 'shared.main'
 
 ---@alias Source integer
 ---@type table<Source, Player>
-QBCore.Players = {}
+QBX.Players = {}
 GlobalState.PlayerCount = 0
 
-QBCore.Player = require 'server.player'
+QBX.Player = require 'server.player'
 
-QBCore.Player_Buckets = {}
-QBCore.Entity_Buckets = {}
-QBCore.UsableItems = {}
-QBCore.Functions = require 'server.functions'
+QBX.Player_Buckets = {}
+QBX.Entity_Buckets = {}
+QBX.UsableItems = {}
+QBX.Functions = require 'server.functions'
 
 ---Adds or overwrites jobs in shared/jobs.lua
 ---@param jobs table<string, Job>
 local function createJobs(jobs)
     for jobName, job in pairs(jobs) do
-        QBCore.Shared.Jobs[jobName] = job
+        QBX.Shared.Jobs[jobName] = job
     end
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Jobs', jobs)
@@ -42,11 +42,11 @@ function RemoveJob(jobName)
         return false, "invalid_job_name"
     end
 
-    if not QBCore.Shared.Jobs[jobName] then
+    if not QBX.Shared.Jobs[jobName] then
         return false, "job_not_exists"
     end
 
-    QBCore.Shared.Jobs[jobName] = nil
+    QBX.Shared.Jobs[jobName] = nil
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, nil)
     TriggerEvent('QBCore:Server:UpdateObject')
@@ -59,7 +59,7 @@ exports('RemoveJob', RemoveJob)
 ---@param gangs table<string, Gang>
 local function createGangs(gangs)
     for gangName, gang in pairs(gangs) do
-        QBCore.Shared.Gangs[gangName] = gang
+        QBX.Shared.Gangs[gangName] = gang
     end
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Gangs', gangs)
@@ -77,11 +77,11 @@ function RemoveGang(gangName)
         return false, "invalid_gang_name"
     end
 
-    if not QBCore.Shared.Gangs[gangName] then
+    if not QBX.Shared.Gangs[gangName] then
         return false, "gang_not_exists"
     end
 
-    QBCore.Shared.Gangs[gangName] = nil
+    QBX.Shared.Gangs[gangName] = nil
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, nil)
     TriggerEvent('QBCore:Server:UpdateObject')
@@ -90,5 +90,5 @@ end
 
 exports('RemoveGang', RemoveGang)
 
----import QBX using module 'qbx-core:core' https://qbox-project.github.io/resources/core/import
-exports('GetCoreObject', function() return QBCore end)
+---import QBX using module 'qbx_core:core' https://qbox-project.github.io/resources/core/import
+exports('GetCoreObject', function() return QBX end)
