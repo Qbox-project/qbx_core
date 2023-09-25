@@ -7,12 +7,12 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     NetworkSetFriendlyFireOption(true)
 end)
 
----@param val PlayerData
-RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
-    local invokingResource = GetInvokingResource()
-    if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
-    QBCore.PlayerData = val
-end)
+-- ---@param val PlayerData
+-- RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
+--     local invokingResource = GetInvokingResource()
+--     if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
+--     QBCore.PlayerData = val
+-- end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     IsLoggedIn = false
