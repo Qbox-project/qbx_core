@@ -52,32 +52,30 @@ AddEventHandler('onResourceStart', function(resourceName)
     end
 end)
 
-lib.callback.register('qbx-core:server:loadCharacter', function(citizenId)
-    local src = source
-    local player = QBCore.Player.LoginV2(src, citizenId)
+lib.callback.register('qbx-core:server:loadCharacter', function(source, citizenId)
+    local player = QBCore.Player.LoginV2(source, citizenId)
     if not player then return end
 
-    SetPlayerRoutingBucket(src, 0)
+    SetPlayerRoutingBucket(source, 0)
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Loaded', 'green', '**'.. GetPlayerName(src) .. '** ('..(GetPlayerIdentifierByType(src, 'discord') or 'undefined') ..' |  ||'  ..(GetPlayerIdentifierByType(src, 'ip') or 'undefined') ..  '|| | ' ..(GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license') or 'undefined') ..' | ' ..citizenId..' | '..src..') loaded..')
-    lib.print.info(GetPlayerName(src)..' (Citizen ID: '..citizenId..') has succesfully loaded!')
+    lib.print.info(GetPlayerName(source)..' (Citizen ID: '..citizenId..') has succesfully loaded!')
 end)
 
 ---@param data unknown
 ---@return table? newData
-lib.callback.register('qbx-core:server:createCharacter', function(data)
-    local src = source
+lib.callback.register('qbx-core:server:createCharacter', function(source, data)
     local newData = {}
     newData.charinfo = data
 
-    local player = QBCore.Player.LoginV2(src, nil, newData)
+    local player = QBCore.Player.LoginV2(source, nil, newData)
     if not player then return end
 
-    giveStarterItems(src)
+    giveStarterItems(source)
     if GetResourceState('qbx-spawn') == 'missing' then
-        SetPlayerRoutingBucket(src, 0)
+        SetPlayerRoutingBucket(source, 0)
     end
 
-    lib.print.info(GetPlayerName(src)..' has created a character')
+    lib.print.info(GetPlayerName(source)..' has created a character')
     return newData
 end)
 
