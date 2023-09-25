@@ -10,7 +10,7 @@ local functions = {}
 ---@param identifier Identifier
 ---@return integer source of the player with the matching identifier or 0 if no player found
 function functions.GetSource(identifier)
-    for src in pairs(QBCore.Players) do
+    for src in pairs(QBX.Players) do
         local idens = GetPlayerIdentifiers(src)
         for _, id in pairs(idens) do
             if identifier == id then
@@ -25,18 +25,18 @@ end
 ---@return Player
 function functions.GetPlayer(source)
     if type(source) == 'number' then
-        return QBCore.Players[source]
+        return QBX.Players[source]
     else
-        return QBCore.Players[functions.GetSource(source --[[@as string]])]
+        return QBX.Players[functions.GetSource(source --[[@as string]])]
     end
 end
 
 ---@param citizenid string
 ---@return Player?
 function functions.GetPlayerByCitizenId(citizenid)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.citizenid == citizenid then
-            return QBCore.Players[src]
+    for src in pairs(QBX.Players) do
+        if QBX.Players[src].PlayerData.citizenid == citizenid then
+            return QBX.Players[src]
         end
     end
 end
@@ -44,15 +44,15 @@ end
 ---@param citizenid string
 ---@return Player?
 function functions.GetOfflinePlayerByCitizenId(citizenid)
-    return QBCore.Player.GetOfflinePlayer(citizenid)
+    return QBX.Player.GetOfflinePlayer(citizenid)
 end
 
 ---@param number string
 ---@return Player?
 function functions.GetPlayerByPhone(number)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.charinfo.phone == number then
-            return QBCore.Players[src]
+    for src in pairs(QBX.Players) do
+        if QBX.Players[src].PlayerData.charinfo.phone == number then
+            return QBX.Players[src]
         end
     end
 end
@@ -61,7 +61,7 @@ end
 ---unlike the GetPlayers() wrapper which only returns IDs
 ---@return table<Source, Player>
 function functions.GetQBPlayers()
-    return QBCore.Players
+    return QBX.Players
 end
 
 ---Gets a list of all on duty players of a specified job and the number
@@ -71,7 +71,7 @@ end
 function functions.GetDutyCountJob(job)
     local players = {}
     local count = 0
-    for src, player in pairs(QBCore.Players) do
+    for src, player in pairs(QBX.Players) do
         if player.PlayerData.job.name == job then
             if player.PlayerData.job.onduty then
                 players[#players + 1] = src
@@ -89,7 +89,7 @@ end
 function functions.GetDutyCountType(type)
     local players = {}
     local count = 0
-    for src, player in pairs(QBCore.Players) do
+    for src, player in pairs(QBX.Players) do
         if player.PlayerData.job.type == type then
             if player.PlayerData.job.onduty then
                 players[#players + 1] = src
@@ -106,7 +106,7 @@ end
 ---@return table
 ---@return table
 function functions.GetBucketObjects()
-    return QBCore.Player_Buckets, QBCore.Entity_Buckets
+    return QBX.Player_Buckets, QBX.Entity_Buckets
 end
 
 -- Will set the provided player id / source into the provided bucket id
@@ -117,7 +117,7 @@ function functions.SetPlayerBucket(source, bucket)
     if not (source or bucket) then return false end
 
     SetPlayerRoutingBucket(source --[[@as string]], bucket)
-    QBCore.Player_Buckets[source] = bucket
+    QBX.Player_Buckets[source] = bucket
     return true
 end
 
@@ -129,7 +129,7 @@ function functions.SetEntityBucket(entity, bucket)
     if not (entity or bucket) then return false end
 
     SetEntityRoutingBucket(entity, bucket)
-    QBCore.Entity_Buckets[entity] = bucket
+    QBX.Entity_Buckets[entity] = bucket
     return true
 end
 
@@ -138,11 +138,11 @@ end
 ---@return Source[]|boolean
 function functions.GetPlayersInBucket(bucket)
     local curr_bucket_pool = {}
-    if not (QBCore.Player_Buckets or next(QBCore.Player_Buckets)) then
+    if not (QBX.Player_Buckets or next(QBX.Player_Buckets)) then
         return false
     end
 
-    for k, v in pairs(QBCore.Player_Buckets) do
+    for k, v in pairs(QBX.Player_Buckets) do
         if v == bucket then
             curr_bucket_pool[#curr_bucket_pool + 1] = k
         end
@@ -156,11 +156,11 @@ end
 ---@return boolean | integer[]
 function functions.GetEntitiesInBucket(bucket)
     local curr_bucket_pool = {}
-    if not (QBCore.Entity_Buckets or next(QBCore.Entity_Buckets)) then
+    if not (QBX.Entity_Buckets or next(QBX.Entity_Buckets)) then
         return false
     end
 
-    for k, v in pairs(QBCore.Entity_Buckets) do
+    for k, v in pairs(QBX.Entity_Buckets) do
         if v == bucket then
             curr_bucket_pool[#curr_bucket_pool + 1] = k
         end
@@ -173,21 +173,21 @@ end
 ---@param item string name
 ---@param data fun(source: Source, item: unknown)
 function functions.CreateUseableItem(item, data)
-    QBCore.UsableItems[item] = data
+    QBX.UsableItems[item] = data
 end
 
 ---@param item string name
 ---@return unknown
 function functions.CanUseItem(item)
-    return QBCore.UsableItems[item]
+    return QBX.UsableItems[item]
 end
 
 -- Check if player is whitelisted, kept like this for backwards compatibility or future plans
 ---@param source Source
 ---@return boolean
 function functions.IsWhitelisted(source)
-    if not QBCore.Config.Server.Whitelist then return true end
-    if functions.HasPermission(source, QBCore.Config.Server.WhitelistPermission) then return true end
+    if not QBX.Config.Server.Whitelist then return true end
+    if functions.HasPermission(source, QBX.Config.Server.WhitelistPermission) then return true end
     return false
 end
 
@@ -217,7 +217,7 @@ function functions.RemovePermission(source, permission)
         end
     else
         local hasUpdated = false
-        for _, v in pairs(QBCore.Config.Server.Permissions) do
+        for _, v in pairs(QBX.Config.Server.Permissions) do
             if IsPlayerAceAllowed(source --[[@as string]], v) then
                 lib.removePrincipal('player.' .. source, 'group.' .. v)
                 lib.removeAce('player.' .. source, 'group.' .. v)
@@ -251,7 +251,7 @@ end
 ---@return table<string, boolean>
 function functions.GetPermission(source)
     local perms = {}
-    for _, v in pairs (QBCore.Config.Server.Permissions) do
+    for _, v in pairs (QBX.Config.Server.Permissions) do
         if IsPlayerAceAllowed(source --[[@as string]], v) then
             perms[v] = true
         end
@@ -314,7 +314,7 @@ function functions.Notify(source, text, notifyType, duration, subTitle, notifyPo
     else
         description = text
     end
-    local position = notifyPosition or QBConfig.NotifyPosition
+    local position = notifyPosition or QBX.Config.NotifyPosition
 
     TriggerClientEvent('ox_lib:notify', source, {
         id = title,
@@ -333,7 +333,7 @@ end
 ---Use-case:
 -- [[
 --     AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
---         QBCore.Functions.AddPlayerMethod(Player.PlayerData.source, "functionName", function(oneArg, orMore)
+--         QBX.Functions.AddPlayerMethod(Player.PlayerData.source, "functionName", function(oneArg, orMore)
 --             -- do something here
 --         end)
 --     end)
@@ -345,17 +345,17 @@ function functions.AddPlayerMethod(ids, methodName, handler)
     local idType = type(ids)
     if idType == "number" then
         if ids == -1 then
-            for _, v in pairs(QBCore.Players) do
+            for _, v in pairs(QBX.Players) do
                 v.Functions.AddMethod(methodName, handler)
             end
         else
-            if not QBCore.Players[ids] then return end
+            if not QBX.Players[ids] then return end
 
-            QBCore.Players[ids].Functions.AddMethod(methodName, handler)
+            QBX.Players[ids].Functions.AddMethod(methodName, handler)
         end
     elseif idType == "table" and table.type(ids) == "array" then
         for i = 1, #ids do
-            QBCore.Functions.AddPlayerMethod(ids[i], methodName, handler)
+            QBX.Functions.AddPlayerMethod(ids[i], methodName, handler)
         end
     end
 end
@@ -364,7 +364,7 @@ end
 ---Use-case:
 --[[
     AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
-        QBCore.Functions.AddPlayerField(Player.PlayerData.source, "fieldName", "fieldData")
+        QBX.Functions.AddPlayerField(Player.PlayerData.source, "fieldName", "fieldData")
     end)
 ]]
 ---@param ids number|number[] which players to add a new field to. -1 for all players
@@ -374,22 +374,22 @@ function functions.AddPlayerField(ids, fieldName, data)
     local idType = type(ids)
     if idType == "number" then
         if ids == -1 then
-            for _, v in pairs(QBCore.Players) do
+            for _, v in pairs(QBX.Players) do
                 v.Functions.AddField(fieldName, data)
             end
         else
-            if not QBCore.Players[ids] then return end
+            if not QBX.Players[ids] then return end
 
-            QBCore.Players[ids].Functions.AddField(fieldName, data)
+            QBX.Players[ids].Functions.AddField(fieldName, data)
         end
     elseif idType == "table" and table.type(ids) == "array" then
         for i = 1, #ids do
-            QBCore.Functions.AddPlayerField(ids[i], fieldName, data)
+            QBX.Functions.AddPlayerField(ids[i], fieldName, data)
         end
     end
 end
 
--- Add or change (a) method(s) in the QBCore.Functions table
+-- Add or change (a) method(s) in the QBX.Functions table
 ---@param methodName string
 ---@param handler function
 ---@return boolean success
@@ -399,7 +399,7 @@ local function SetMethod(methodName, handler)
         return false, "invalid_method_name"
     end
 
-    QBCore.Functions[methodName] = handler
+    QBX.Functions[methodName] = handler
 
     TriggerEvent('QBCore:Server:UpdateObject')
 
@@ -458,7 +458,7 @@ local function ExploitBan(playerId, origin)
             bannedBy = 'Anti Cheat'
         })
     end)
-    DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = QBCore.Config.Server.Discord}))
+    DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = QBX.Config.Server.Discord}))
     TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
 end
 
