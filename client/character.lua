@@ -159,14 +159,6 @@ local function checkStrings(dialog, input)
     return true
 end
 
-local function onPlayerLoaded()
-    ShutdownLoadingScreenNui()
-    IsLoggedIn = true
-    if not QBConfig.Server.PVP then return end
-    SetCanAttackFriendly(cache.ped, true, false)
-    NetworkSetFriendlyFireOption(true)
-end
-
 local function spawnDefault() -- We use a callback to make the server wait on this to be done
     DoScreenFadeOut(500)
 
@@ -179,7 +171,6 @@ local function spawnDefault() -- We use a callback to make the server wait on th
     pcall(function() exports.spawnmanager:spawnPlayer() end)
 
     TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-    onPlayerLoaded()
     TriggerEvent('QBCore:Client:OnPlayerLoaded')
     TriggerServerEvent('qb-houses:server:SetInsideMeta', 0, false)
     TriggerServerEvent('qb-apartments:server:SetInsideMeta', 0, 0, false)
@@ -347,7 +338,6 @@ RegisterNetEvent('qbx-core:client:spawnNoApartments', function() -- This event i
     Wait(500)
     DoScreenFadeIn(250)
     TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-    onPlayerLoaded()
     TriggerEvent('QBCore:Client:OnPlayerLoaded')
     TriggerServerEvent('qb-houses:server:SetInsideMeta', 0, false)
     TriggerServerEvent('qb-apartments:server:SetInsideMeta', 0, 0, false)

@@ -4,18 +4,25 @@ local playerObj = {}
 ---@field source? Source present if player is online
 ---@field optin? boolean present if player is online
 
+---@deprecated call LoginV2
+---@param source Source
+---@param citizenid? string
+---@param newData? PlayerEntity
+---@return boolean success
+function playerObj.Login(source, citizenid, newData)
+    if not source or source == '' then
+        lib.print.error('QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!')
+        return false
+    end
+    return playerObj.LoginV2(source, citizenid, newData) and true or false
+end
+
 ---On player login get their data or set defaults
----Don't touch any of this unless you know what you are doing
----Will cause major issues!
 ---@param source Source
 ---@param citizenid? string
 ---@param newData? PlayerEntity
 ---@return Player? player if logged in successfully
-function playerObj.Login(source, citizenid, newData)
-    if not source or source == '' then
-        lib.print.error('QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!')
-        return
-    end
+function playerObj.LoginV2(source, citizenid, newData)
     if citizenid then
         local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
         local playerData = FetchPlayerEntity(citizenid)

@@ -1,3 +1,19 @@
+-- Player load and unload handling
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    ShutdownLoadingScreenNui()
+    IsLoggedIn = true
+    if not QBConfig.Server.PVP then return end
+    SetCanAttackFriendly(cache.ped, true, false)
+    NetworkSetFriendlyFireOption(true)
+end)
+
+---@param val PlayerData
+RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
+    local invokingResource = GetInvokingResource()
+    if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
+    QBCore.PlayerData = val
+end)
+
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     IsLoggedIn = false
 end)
