@@ -1,1 +1,1 @@
-QBCore = exports['qbx-core']:GetCoreObject()
+QbxCore = QBCore
