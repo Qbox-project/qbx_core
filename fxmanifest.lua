@@ -17,9 +17,9 @@ client_scripts {
     'client/loops.lua',
     'client/events.lua',
     'client/character.lua',
+    'bridge/qb/client/main.lua',
     'bridge/qb/client/drawtext.lua',
     'bridge/qb/client/events.lua',
-    'bridge/qb/client/main.lua',
 }
 
 server_scripts {
