@@ -49,10 +49,10 @@ jobs:
 
       - name: Bundle files
         run: |
-          mkdir -p ./temp/qbx-core
-          cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,import.lua,qbcore.sql} ./temp/qbx-core
-          cp -r ./{client,locale,modules,server,shared} ./temp/qbx-core
-          cd ./temp && zip -r ../qbx-core.zip ./qbx-core
+          mkdir -p ./temp/qbx_core
+          cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,import.lua,qbx_core.sql} ./temp/qbx_core
+          cp -r ./{client,locale,modules,server,shared,bridge} ./temp/qbx_core
+          cd ./temp && zip -r ../qbx_core.zip ./qbx_core
 
       - name: Create Release
         uses: 'marvinpinto/action-automatic-releases@v1.2.1'
@@ -61,7 +61,7 @@ jobs:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
           title: ${{ env.RELEASE_VERSION }}
           prerelease: false
-          files: qbx-core.zip
+          files: qbx_core.zip
 
         env:
           CI: false
