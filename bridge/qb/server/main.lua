@@ -1,12 +1,12 @@
 local qbCoreCompat = {}
 
-qbCoreCompat.Config = QBCore.Config
+qbCoreCompat.Config = QBX.Config
 qbCoreCompat.Shared = require 'bridge.qb.shared.main'
-qbCoreCompat.Players = QBCore.Players
+qbCoreCompat.Players = QBX.Players
 qbCoreCompat.Player = require 'bridge.qb.server.player'
-qbCoreCompat.Player_Buckets = QBCore.Player_Buckets
-qbCoreCompat.Entity_Buckets = QBCore.Entity_Buckets
-qbCoreCompat.UsableItems = QBCore.UsableItems
+qbCoreCompat.Player_Buckets = QBX.Player_Buckets
+qbCoreCompat.Entity_Buckets = QBX.Entity_Buckets
+qbCoreCompat.UsableItems = QBX.UsableItems
 qbCoreCompat.Functions = require 'bridge.qb.server.functions'
 qbCoreCompat.Commands = require 'bridge.qb.server.commands'
 
@@ -49,7 +49,7 @@ end)
 RegisterNetEvent('QBCore:CallCommand', function(command, args)
     local src = source --[[@as Source]]
     if not qbCoreCompat.Commands.List[command] then return end
-    local player = QBCore.Functions.GetPlayer(src)
+    local player = QBX.Functions.GetPlayer(src)
     if not player then return end
     if IsPlayerAceAllowed(src, string.format('command.%s', command)) then
         local commandString = command

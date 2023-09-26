@@ -53,11 +53,11 @@ local function AddItem(itemName, item)
         return false, "invalid_item_name"
     end
 
-    if QBCore.Shared.Items[itemName] then
+    if QBX.Shared.Items[itemName] then
         return false, "item_exists"
     end
 
-    QBCore.Shared.Items[itemName] = item
+    QBX.Shared.Items[itemName] = item
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
@@ -74,10 +74,10 @@ local function UpdateItem(itemName, item)
     if type(itemName) ~= "string" then
         return false, "invalid_item_name"
     end
-    if not QBCore.Shared.Items[itemName] then
+    if not QBX.Shared.Items[itemName] then
         return false, "item_not_exists"
     end
-    QBCore.Shared.Items[itemName] = item
+    QBX.Shared.Items[itemName] = item
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
@@ -102,14 +102,14 @@ local function AddItems(items)
             break
         end
 
-        if QBCore.Shared.Items[key] then
+        if QBX.Shared.Items[key] then
             message = "item_exists"
             shouldContinue = false
             errorItem = items[key]
             break
         end
 
-        QBCore.Shared.Items[key] = value
+        QBX.Shared.Items[key] = value
     end
 
     if not shouldContinue then return false, message, errorItem end
@@ -129,11 +129,11 @@ local function RemoveItem(itemName)
         return false, "invalid_item_name"
     end
 
-    if not QBCore.Shared.Items[itemName] then
+    if not QBX.Shared.Items[itemName] then
         return false, "item_not_exists"
     end
 
-    QBCore.Shared.Items[itemName] = nil
+    QBX.Shared.Items[itemName] = nil
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, nil)
     TriggerEvent('QBCore:Server:UpdateObject')
@@ -154,11 +154,11 @@ local function AddJob(jobName, job)
         return false, "invalid_job_name"
     end
 
-    if QBCore.Shared.Jobs[jobName] then
+    if QBX.Shared.Jobs[jobName] then
         return false, "job_exists"
     end
 
-    QBCore.Shared.Jobs[jobName] = job
+    QBX.Shared.Jobs[jobName] = job
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
     TriggerEvent('QBCore:Server:UpdateObject')
@@ -181,11 +181,11 @@ local function AddJobs(jobs)
             return false, 'invalid_job_name', jobs[key]
         end
 
-        if QBCore.Shared.Jobs[key] then
+        if QBX.Shared.Jobs[key] then
             return false, 'job_exists', jobs[key]
         end
 
-        QBCore.Shared.Jobs[key] = value
+        QBX.Shared.Jobs[key] = value
     end
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Jobs', jobs)
@@ -207,11 +207,11 @@ local function UpdateJob(jobName, job)
         return false, "invalid_job_name"
     end
 
-    if not QBCore.Shared.Jobs[jobName] then
+    if not QBX.Shared.Jobs[jobName] then
         return false, "job_not_exists"
     end
 
-    QBCore.Shared.Jobs[jobName] = job
+    QBX.Shared.Jobs[jobName] = job
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
     TriggerEvent('QBCore:Server:UpdateObject')
@@ -232,11 +232,11 @@ local function AddGang(gangName, gang)
         return false, "invalid_gang_name"
     end
 
-    if QBCore.Shared.Gangs[gangName] then
+    if QBX.Shared.Gangs[gangName] then
         return false, "gang_exists"
     end
 
-    QBCore.Shared.Gangs[gangName] = gang
+    QBX.Shared.Gangs[gangName] = gang
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
     TriggerEvent('QBCore:Server:UpdateObject')
@@ -257,11 +257,11 @@ local function UpdateGang(gangName, gang)
         return false, "invalid_gang_name"
     end
 
-    if not QBCore.Shared.Gangs[gangName] then
+    if not QBX.Shared.Gangs[gangName] then
         return false, "gang_not_exists"
     end
 
-    QBCore.Shared.Gangs[gangName] = gang
+    QBX.Shared.Gangs[gangName] = gang
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
     TriggerEvent('QBCore:Server:UpdateObject')
@@ -283,11 +283,11 @@ local function AddGangs(gangs)
             return false, 'invalid_gang_name', gangs[key]
         end
 
-        if QBCore.Shared.Gangs[key] then
+        if QBX.Shared.Gangs[key] then
             return false, 'gang_exists', gangs[key]
         end
 
-        QBCore.Shared.Gangs[key] = value
+        QBX.Shared.Gangs[key] = value
     end
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Gangs', gangs)

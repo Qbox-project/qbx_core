@@ -419,7 +419,7 @@ local function SetField(fieldName, data)
         return false, "invalid_field_name"
     end
 
-    QBCore[fieldName] = data
+    QBX[fieldName] = data
 
     TriggerEvent('QBCore:Server:UpdateObject')
 
