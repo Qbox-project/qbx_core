@@ -176,8 +176,8 @@ end
 
 local function convertPosition(position)
     local pos = json.decode(position)
-    local actualPos = (not pos.x or not pos.y or not pos.z) and QBCore.Config.DefaultSpawn or pos
-    return vec4(actualPos.x, actualPos.y, actualPos.z, actualPos.w or QBCore.Config.DefaultSpawn.w)
+    local actualPos = (not pos.x or not pos.y or not pos.z) and QBX.Config.DefaultSpawn or pos
+    return vec4(actualPos.x, actualPos.y, actualPos.z, actualPos.w or QBX.Config.DefaultSpawn.w)
 end
 
 ---@param license2 string

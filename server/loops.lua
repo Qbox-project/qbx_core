@@ -1,8 +1,8 @@
-lib.cron.new(('*/%s * * * *'):format(QBCore.Config.UpdateInterval), function()
-    for src, player in pairs(QBCore.Players) do
+lib.cron.new(('*/%s * * * *'):format(QBX.Config.UpdateInterval), function()
+    for src, player in pairs(QBX.Players) do
         if player then
-            local newHunger = player.PlayerData.metadata.hunger - QBCore.Config.Player.HungerRate
-            local newThirst = player.PlayerData.metadata.thirst - QBCore.Config.Player.ThirstRate
+            local newHunger = player.PlayerData.metadata.hunger - QBX.Config.Player.HungerRate
+            local newThirst = player.PlayerData.metadata.thirst - QBX.Config.Player.ThirstRate
             if newHunger <= 0 then
                 newHunger = 0
             end
@@ -17,13 +17,13 @@ lib.cron.new(('*/%s * * * *'):format(QBCore.Config.UpdateInterval), function()
     end
 end)
 
-lib.cron.new(('*/%s * * * *'):format(QBCore.Config.Money.PaycheckTimeout), function()
-    for _, player in pairs(QBCore.Players) do
+lib.cron.new(('*/%s * * * *'):format(QBX.Config.Money.PaycheckTimeout), function()
+    for _, player in pairs(QBX.Players) do
         if player then
-            local payment = QBCore.Shared.Jobs[player.PlayerData.job.name].grades[player.PlayerData.job.grade.level].payment
+            local payment = QBX.Shared.Jobs[player.PlayerData.job.name].grades[player.PlayerData.job.grade.level].payment
             if not payment then payment = player.PlayerData.job.payment end
-            if player.PlayerData.job and payment > 0 and (QBCore.Shared.Jobs[player.PlayerData.job.name].offDutyPay or player.PlayerData.job.onduty) then
-                if QBCore.Config.Money.PaycheckSociety then
+            if player.PlayerData.job and payment > 0 and (QBX.Shared.Jobs[player.PlayerData.job.name].offDutyPay or player.PlayerData.job.onduty) then
+                if QBX.Config.Money.PaycheckSociety then
                     local account = exports['qbx-management']:GetAccount(player.PlayerData.job.name)
                     if account ~= 0 then -- Checks if player is employed by a society
                         if account < payment then -- Checks if company has enough money to pay society

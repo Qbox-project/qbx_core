@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
 
-description 'QBX-Core'
+description 'QBX_Core'
 version '1.0.0'
 
 shared_scripts {

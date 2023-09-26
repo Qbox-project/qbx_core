@@ -204,7 +204,7 @@ if isServer then
     ---@param setKickReason? fun(reason: string)
     ---@param deferrals? Deferrals
     function KickWithReason(source, reason, setKickReason, deferrals) -- luacheck: ignore
-        reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBCore.Config.Server.Discord
+        reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBX.Config.Server.Discord
         if setKickReason then
             setKickReason(reason)
         end
@@ -700,12 +700,17 @@ else
     ---@param color? {r: number, b: number, g: number}
     ---@param evolution? {name: string, amount: number}
     ---@param duration? integer ms
-    ---@return number
+    ---@return number?
     function StartParticleOnEntity(dict, ptName, looped, entity, bone, offset, rot, scale, alpha, color, evolution, duration) -- luacheck: ignore
         lib.requestNamedPtfxAsset(dict)
         UseParticleFxAssetNextCall(dict)
         local particleHandle = nil
-        local boneID = bone and (GetEntityType(entity) == 1 and GetPedBoneIndex(entity, bone --[[@as number]]) or GetEntityBoneIndexByName(entity, bone --[[@as string]])) or nil
+        ---@cast bone number
+        local pedBoneIndex = bone and GetPedBoneIndex(entity, bone) or 0
+        ---@cast bone string
+        local nameBoneIndex = bone and GetEntityBoneIndexByName(entity, bone) or 0
+        local entityType = GetEntityType(entity)
+        local boneID = entityType == 1 and (pedBoneIndex ~= 0 and pedBoneIndex) or (looped and nameBoneIndex ~= 0 and nameBoneIndex)
         if looped then
             if boneID then
                 particleHandle = StartParticleFxLoopedOnEntityBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale or 1.0, false, false, false)

@@ -11,7 +11,7 @@ AddEventHandler('chatMessage', function(_, _, message)
 end)
 
 AddEventHandler('playerJoining', function()
-    if not QBConfig.Server.CheckDuplicateLicense then return end
+    if not QBX.Config.Server.CheckDuplicateLicense then return end
     local src = source --[[@as string]]
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
     if not license then return end
@@ -28,13 +28,13 @@ AddEventHandler('playerDropped', function(reason)
     local src = source --[[@as string]]
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
     if license then usedLicenses[license] = nil end
-    if not QBCore.Players[src] then return end
+    if not QBX.Players[src] then return end
     GlobalState.PlayerCount -= 1
-    local player = QBCore.Players[src]
+    local player = QBX.Players[src]
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason)
     player.Functions.Save()
-    QBCore.Player_Buckets[player.PlayerData.license] = nil
-    QBCore.Players[src] = nil
+    QBX.Player_Buckets[player.PlayerData.license] = nil
+    QBX.Players[src] = nil
 end)
 
 ---@class Deferrals https://docs.fivem.net/docs/scripting-reference/events/list/playerConnecting/#deferring-connections
@@ -56,9 +56,9 @@ local function onPlayerConnecting(name, _, deferrals)
     -- Mandatory wait
     Wait(0)
 
-    if QBCore.Config.Server.Closed then
+    if QBX.Config.Server.Closed then
         if not IsPlayerAceAllowed(src, 'qbadmin.join') then
-            deferrals.done(QBCore.Config.Server.ClosedReason)
+            deferrals.done(QBX.Config.Server.ClosedReason)
         end
     end
 
@@ -71,7 +71,7 @@ local function onPlayerConnecting(name, _, deferrals)
 
     if not license then
         deferrals.done(Lang:t('error.no_valid_license'))
-    elseif QBCore.Config.Server.CheckDuplicateLicense and IsLicenseInUse(license) then
+    elseif QBX.Config.Server.CheckDuplicateLicense and IsLicenseInUse(license) then
         deferrals.done(Lang:t('error.duplicate_license'))
     end
 
@@ -82,16 +82,16 @@ local function onPlayerConnecting(name, _, deferrals)
     CreateThread(function()
         deferrals.update(string.format(Lang:t('info.checking_ban'), name))
         local success, err = pcall(function()
-            local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src --[[@as Source]])
+            local isBanned, Reason = QBX.Functions.IsPlayerBanned(src --[[@as Source]])
             if isBanned then
                 deferrals.done(Reason)
             end
         end)
 
-        if QBCore.Config.Server.Whitelist and success then
+        if QBX.Config.Server.Whitelist and success then
             deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
             success, err = pcall(function()
-                if not QBCore.Functions.IsWhitelisted(src --[[@as Source]]) then
+                if not QBX.Functions.IsWhitelisted(src --[[@as Source]]) then
                     deferrals.done(Lang:t('error.not_whitelisted'))
                 end
             end)
@@ -144,12 +144,12 @@ end)
 ---@param reason string
 RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
     local src = source --[[@as Source]]
-    if QBCore.Functions.HasPermission(src, 'admin') then
+    if QBX.Functions.HasPermission(src, 'admin') then
         reason = reason or 'No reason specified'
-        QBCore.Config.Server.Closed = true
-        QBCore.Config.Server.ClosedReason = reason
-        for k in pairs(QBCore.Players) do
-            if not QBCore.Functions.HasPermission(k, QBCore.Config.Server.WhitelistPermission) then
+        QBX.Config.Server.Closed = true
+        QBX.Config.Server.ClosedReason = reason
+        for k in pairs(QBX.Players) do
+            if not QBX.Functions.HasPermission(k, QBX.Config.Server.WhitelistPermission) then
                 KickWithReason(k, reason, nil, nil)
             end
         end
@@ -160,8 +160,8 @@ end)
 
 RegisterNetEvent('QBCore:Server:OpenServer', function()
     local src = source --[[@as Source]]
-    if QBCore.Functions.HasPermission(src, 'admin') then
-        QBCore.Config.Server.Closed = false
+    if QBX.Functions.HasPermission(src, 'admin') then
+        QBX.Config.Server.Closed = false
     else
         KickWithReason(src, Lang:t("error.no_permission"), nil, nil)
     end
@@ -171,7 +171,7 @@ end)
 
 RegisterNetEvent('QBCore:ToggleDuty', function()
     local src = source --[[@as Source]]
-    local player = QBCore.Functions.GetPlayer(src)
+    local player = QBX.Functions.GetPlayer(src)
     if not player then return end
     if player.PlayerData.job.onduty then
         player.Functions.SetJobDuty(false)

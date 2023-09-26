@@ -1,10 +1,9 @@
-QBCore = {}
-QBCore.PlayerData = {}
-QBCore.Config = require 'config'
-QBCore.Shared = require 'shared.main'
-QBCore.Functions = require 'client.functions'
+QBX = {}
+QBX.PlayerData = {}
+QBX.Config = require 'config'
+QBX.Shared = require 'shared.main'
+QBX.Functions = require 'client.functions'
+QBX.IsLoggedIn = LocalPlayer.state.isLoggedIn
 
-IsLoggedIn = false
-
----import QBX using module 'qbx-core:core' https://qbox-project.github.io/resources/core/import
-exports('GetCoreObject', function() return QBCore end)
+---@deprecated import QBX using module 'qbx_core:core' https://qbox-project.github.io/resources/core/import
+exports('GetCoreObject', function() return QBX end)

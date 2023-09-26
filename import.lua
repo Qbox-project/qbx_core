@@ -1,12 +1,12 @@
 --[[
     Usage:
 
-    shared_script '@qbx-core/import.lua'
+    shared_script '@qbx_core/import.lua'
 
     modules { -- Can be `module 'module_name'` as well
         'module_name', -- This is the name of the file in the modules folder in your resource without the .lua
         'client:module_name', -- You can specify the side it should be loaded on like this
-        'resourceName:module_name', -- You can also specify the resource it should be loaded from if you don't want to load it from your own resource, like when you want to load it from qbx-core
+        'resourceName:module_name', -- You can also specify the resource it should be loaded from if you don't want to load it from your own resource, like when you want to load it from qbx_core
         'resourceName:client:module_name' -- The resource loading also accepts a side to load on
     }
 

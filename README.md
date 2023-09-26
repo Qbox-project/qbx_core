@@ -1,3 +1,3 @@
-# qbx-core
+# qbx_core
 
 This is just it

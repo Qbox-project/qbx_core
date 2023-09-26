@@ -2,12 +2,12 @@ local functions = require 'client.functions'
 
 -- Player
 
----@deprecated import PlayerData using module 'qbx-core:playerdata' https://qbox-docs.vercel.app/resources/core/import
+---@deprecated import PlayerData using module 'qbx_core:playerdata' https://qbox-docs.vercel.app/resources/core/import
 ---@param cb? fun(playerData: PlayerData)
 ---@return PlayerData? playerData
 function functions.GetPlayerData(cb)
-    if not cb then return QBCore.PlayerData end
-    cb(QBCore.PlayerData)
+    if not cb then return QBX.PlayerData end
+    cb(QBX.PlayerData)
 end
 
 ---@deprecated use GetCoordsFromEntity from imports/utils.lua

@@ -1,7 +1,7 @@
-if QBCore.Config.Characters.UseExternalCharacters then return end
+if QBX.Config.Characters.UseExternalCharacters then return end
 
 local previewCam = nil
-local randomLocation = QBCore.Config.Characters.Locations[math.random(1, #QBCore.Config.Characters.Locations)]
+local randomLocation = QBX.Config.Characters.Locations[math.random(1, #QBX.Config.Characters.Locations)]
 
 local function setupPreviewCam()
     DoScreenFadeIn(1000)
@@ -61,7 +61,7 @@ local function previewPed(citizenId, gender)
         return
     end
 
-    local clothing, model = lib.callback.await('qbx-core:server:getPreviewPedData', false, citizenId)
+    local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
 
     if model then
         local currentModel = GetEntityModel(cache.ped)
@@ -145,14 +145,14 @@ end
 ---@return boolean
 local function checkStrings(dialog, input)
     local str = dialog[input]
-    if QBCore.Config.Characters.ProfanityWords[str:lower()] then return false end
+    if QBX.Config.Characters.ProfanityWords[str:lower()] then return false end
 
     local split = {string.strsplit(' ', str)}
     if #split > 5 then return false end
 
     for i = 1, #split do
         local word = split[i]
-        if QBCore.Config.Characters.ProfanityWords[word:lower()] then return false end
+        if QBX.Config.Characters.ProfanityWords[word:lower()] then return false end
         if not string.match(word, '%u%l*') then return false end -- Pattern checks for an uppercase letter at the first character and lowercase for the rest
     end
 
@@ -194,14 +194,14 @@ local function createCharacter(cid)
 
     for input = 1, 3 do -- Run through first 3 inputs, aka first name, last name and nationality
         if not checkStrings(dialog, input) then
-            QBCore.Functions.Notify(Lang:t('error.no_match_character_registration'), 'error', 10000)
+            QBX.Functions.Notify(Lang:t('error.no_match_character_registration'), 'error', 10000)
             goto noMatch
             break
         end
     end
 
     DoScreenFadeOut(150)
-    local newData = lib.callback.await('qbx-core:server:createCharacter', false, {
+    local newData = lib.callback.await('qbx_core:server:createCharacter', false, {
         firstname = dialog[1],
         lastname = dialog[2],
         nationality = dialog[3],
@@ -214,10 +214,10 @@ local function createCharacter(cid)
         spawnDefault()
         TriggerEvent('qb-clothes:client:CreateFirstCharacter')
     else
-        if QBCore.Config.Characters.StartingApartment then
+        if QBX.Config.Characters.StartingApartment then
             TriggerEvent('apartments:client:setupSpawnUI', newData)
         else
-            TriggerEvent('qbx-core:client:spawnNoApartments')
+            TriggerEvent('qbx_core:client:spawnNoApartments')
         end
     end
 
@@ -226,7 +226,7 @@ local function createCharacter(cid)
 end
 
 local function chooseCharacter()
-    randomLocation = QBCore.Config.Characters.Locations[math.random(1, #QBCore.Config.Characters.Locations)]
+    randomLocation = QBX.Config.Characters.Locations[math.random(1, #QBX.Config.Characters.Locations)]
 
     DoScreenFadeOut(500)
 
@@ -245,7 +245,7 @@ local function chooseCharacter()
     setupPreviewCam()
 
     ---@type PlayerEntity[], integer
-    local characters, amount = lib.callback.await('qbx-core:server:getCharacters')
+    local characters, amount = lib.callback.await('qbx_core:server:getCharacters')
     local options = {}
     for i = 1, amount do
         local character = characters[i]
@@ -291,22 +291,22 @@ local function chooseCharacter()
                         icon = 'play',
                         onSelect = function()
                             DoScreenFadeOut(10)
-                            lib.callback.await('qbx-core:server:loadCharacter', false, character.citizenid)
+                            lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
                             if GetResourceState('qbx-apartments'):find('start') then
-                                TriggerEvent('apartments:client:setupSpawnUI', { citizenid = character.citizenId })
+                                TriggerEvent('apartments:client:setupSpawnUI', { citizenid = character.citizenid })
                             else
-                                TriggerEvent('qb-spawn:client:setupSpawns', { citizenid = character.citizenId })
+                                TriggerEvent('qb-spawn:client:setupSpawns', { citizenid = character.citizenid })
                                 TriggerEvent('qb-spawn:client:openUI', true)
                             end
                             destroyPreviewCam()
                         end
                     },
-                    QBCore.Config.Characters.EnableDeleteButton and {
+                    QBX.Config.Characters.EnableDeleteButton and {
                         title = Lang:t('info.delete_character'),
                         description = Lang:t('info.delete_character_description', { playerName = name }),
                         icon = 'trash',
                         onSelect = function()
-                            TriggerServerEvent('qbx-core:server:deleteCharacter', character.citizenid)
+                            TriggerServerEvent('qbx_core:server:deleteCharacter', character.citizenid)
                             destroyPreviewCam()
                             chooseCharacter()
                         end
@@ -327,11 +327,11 @@ local function chooseCharacter()
     lib.showContext('qbx_core_multichar_characters')
 end
 
-RegisterNetEvent('qbx-core:client:spawnNoApartments', function() -- This event is only for no starting apartments
+RegisterNetEvent('qbx_core:client:spawnNoApartments', function() -- This event is only for no starting apartments
     DoScreenFadeOut(500)
     Wait(2000)
-    SetEntityCoords(cache.ped, QBCore.Config.DefaultSpawn.x, QBCore.Config.DefaultSpawn.y, QBCore.Config.DefaultSpawn.z, false, false, false, false)
-    SetEntityHeading(cache.ped, QBCore.Config.DefaultSpawn.w)
+    SetEntityCoords(cache.ped, QBX.Config.DefaultSpawn.x, QBX.Config.DefaultSpawn.y, QBX.Config.DefaultSpawn.z, false, false, false, false)
+    SetEntityHeading(cache.ped, QBX.Config.DefaultSpawn.w)
     Wait(500)
     destroyPreviewCam()
     SetEntityVisible(cache.ped, true, false)
@@ -345,7 +345,7 @@ RegisterNetEvent('qbx-core:client:spawnNoApartments', function() -- This event i
     TriggerEvent('qb-clothes:client:CreateFirstCharacter')
 end)
 
-RegisterNetEvent('qbx-core:client:playerLoggedOut', function()
+RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     if GetInvokingResource() then return end -- Make sure this can only be triggered from the server
     chooseCharacter()
 end)
