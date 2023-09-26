@@ -17,7 +17,6 @@ client_scripts {
     'client/loops.lua',
     'client/events.lua',
     'client/character.lua',
-    'bridge/qb/client/main.lua',
     'bridge/qb/client/drawtext.lua',
     'bridge/qb/client/events.lua',
 }
@@ -52,6 +51,7 @@ files {
     'server/functions.lua',
     'server/player.lua',
     'client/functions.lua',
+    'bridge/qb/client/main.lua',
     'bridge/qb/client/functions.lua',
     'bridge/qb/shared/main.lua',
     'bridge/qb/server/functions.lua',

@@ -59,6 +59,8 @@ RegisterNetEvent('qb-core:client:KeyPressed', function()
     keyPressed()
 end)
 
+require 'bridge.qb.client.main'
+
 ---@deprecated use ox_lib showTextUI calls directly
 CreateQbExport('DrawText', drawText)
 ---@deprecated use ox_lib showTextUI calls directly
