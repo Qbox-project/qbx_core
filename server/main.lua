@@ -90,5 +90,5 @@ end
 
 exports('RemoveGang', RemoveGang)
 
----import QBX using module 'qbx_core:core' https://qbox-project.github.io/resources/core/import
+---@deprecated import QBX using module 'qbx_core:core' https://qbox-project.github.io/resources/core/import
 exports('GetCoreObject', function() return QBX end)
