@@ -304,4 +304,79 @@ CreateQbExport('RemoveJob', RemoveJob)
 functions.RemoveGang = RemoveGang
 CreateQbExport('RemoveGang', RemoveGang)
 
+-- Routing buckets (Only touch if you know what you are doing)
+
+-- Returns the objects related to buckets, first returned value is the player buckets, second one is entity buckets
+---@deprecated use natives
+---@return table
+---@return table
+function functions.GetBucketObjects()
+    return QbCoreCompat.Player_Buckets, QbCoreCompat.Entity_Buckets
+end
+
+-- Will set the provided player id / source into the provided bucket id
+---@deprecated use natives
+---@param source Source
+---@param bucket integer
+---@return boolean
+function functions.SetPlayerBucket(source, bucket)
+    if not (source or bucket) then return false end
+
+    SetPlayerRoutingBucket(source --[[@as string]], bucket)
+    QbCoreCompat.Player_Buckets[source] = bucket
+    return true
+end
+
+
+-- Will set any entity into the provided bucket, for example peds / vehicles / props / etc.
+---@deprecated use natives
+---@param entity integer
+---@param bucket integer
+---@return boolean
+function functions.SetEntityBucket(entity, bucket)
+    if not (entity or bucket) then return false end
+
+    SetEntityRoutingBucket(entity, bucket)
+    QbCoreCompat.Entity_Buckets[entity] = bucket
+    return true
+end
+
+-- Will return an array of all the player ids inside the current bucket
+---@deprecated use natives
+---@param bucket integer
+---@return Source[]|boolean
+function functions.GetPlayersInBucket(bucket)
+    local curr_bucket_pool = {}
+    if not (QbCoreCompat.Player_Buckets or next(QbCoreCompat.Player_Buckets)) then
+        return false
+    end
+
+    for k, v in pairs(QbCoreCompat.Player_Buckets) do
+        if v == bucket then
+            curr_bucket_pool[#curr_bucket_pool + 1] = k
+        end
+    end
+
+    return curr_bucket_pool
+end
+
+-- Will return an array of all the entities inside the current bucket (not for player entities, use GetPlayersInBucket for that)
+---@deprecated use natives
+---@param bucket integer
+---@return boolean | integer[]
+function functions.GetEntitiesInBucket(bucket)
+    local curr_bucket_pool = {}
+    if not (QbCoreCompat.Entity_Buckets or next(QbCoreCompat.Entity_Buckets)) then
+        return false
+    end
+
+    for k, v in pairs(QbCoreCompat.Entity_Buckets) do
+        if v == bucket then
+            curr_bucket_pool[#curr_bucket_pool + 1] = k
+        end
+    end
+
+    return curr_bucket_pool
+end
+
 return functions

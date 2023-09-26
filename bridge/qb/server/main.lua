@@ -1,38 +1,38 @@
-local qbCoreCompat = {}
+QbCoreCompat = {}
 
-qbCoreCompat.Config = QBX.Config
-qbCoreCompat.Shared = require 'bridge.qb.shared.main'
-qbCoreCompat.Players = QBX.Players
-qbCoreCompat.Player = require 'bridge.qb.server.player'
-qbCoreCompat.Player_Buckets = QBX.Player_Buckets
-qbCoreCompat.Entity_Buckets = QBX.Entity_Buckets
-qbCoreCompat.UsableItems = QBX.UsableItems
-qbCoreCompat.Functions = require 'bridge.qb.server.functions'
-qbCoreCompat.Commands = require 'bridge.qb.server.commands'
+QbCoreCompat.Config = QBX.Config
+QbCoreCompat.Shared = require 'bridge.qb.shared.main'
+QbCoreCompat.Players = QBX.Players
+QbCoreCompat.Player = require 'bridge.qb.server.player'
+QbCoreCompat.Player_Buckets = {}
+QbCoreCompat.Entity_Buckets = {}
+QbCoreCompat.UsableItems = QBX.UsableItems
+QbCoreCompat.Functions = require 'bridge.qb.server.functions'
+QbCoreCompat.Commands = require 'bridge.qb.server.commands'
 
 ---@deprecated Call lib.print.debug() instead
-qbCoreCompat.Debug = lib.print.debug
+QbCoreCompat.Debug = lib.print.debug
 
 ---@deprecated Call lib.print.error() instead
-qbCoreCompat.ShowError = lib.print.error
+QbCoreCompat.ShowError = lib.print.error
 
 ---@deprecated Use lib.print.info() instead
-qbCoreCompat.ShowSuccess = lib.print.info
+QbCoreCompat.ShowSuccess = lib.print.info
 
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-qbCoreCompat.ClientCallbacks = {}
+QbCoreCompat.ClientCallbacks = {}
 
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-qbCoreCompat.ServerCallbacks = {}
+QbCoreCompat.ServerCallbacks = {}
 
 -- Callback Events --
 
 -- Client Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
 RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
-    if qbCoreCompat.ClientCallbacks[name] then
-        qbCoreCompat.ClientCallbacks[name](...)
-        qbCoreCompat.ClientCallbacks[name] = nil
+    if QbCoreCompat.ClientCallbacks[name] then
+        QbCoreCompat.ClientCallbacks[name](...)
+        QbCoreCompat.ClientCallbacks[name] = nil
     end
 end)
 
@@ -40,7 +40,7 @@ end)
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
 RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
     local src = source
-    qbCoreCompat.Functions.TriggerCallback(name, src, function(...)
+    QbCoreCompat.Functions.TriggerCallback(name, src, function(...)
         TriggerClientEvent('QBCore:Client:TriggerCallback', src, name, ...)
     end, ...)
 end)
@@ -48,7 +48,7 @@ end)
 --- @deprecated
 RegisterNetEvent('QBCore:CallCommand', function(command, args)
     local src = source --[[@as Source]]
-    if not qbCoreCompat.Commands.List[command] then return end
+    if not QbCoreCompat.Commands.List[command] then return end
     local player = QBX.Functions.GetPlayer(src)
     if not player then return end
     if IsPlayerAceAllowed(src, string.format('command.%s', command)) then
@@ -64,35 +64,35 @@ end)
 
 -- Client Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function qbCoreCompat.Functions.TriggerClientCallback(name, source, cb, ...)
-    qbCoreCompat.ClientCallbacks[name] = cb
+function QbCoreCompat.Functions.TriggerClientCallback(name, source, cb, ...)
+    QbCoreCompat.ClientCallbacks[name] = cb
     TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
 end
 
 -- Server Callback
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function qbCoreCompat.Functions.CreateCallback(name, cb)
-    qbCoreCompat.ServerCallbacks[name] = cb
+function QbCoreCompat.Functions.CreateCallback(name, cb)
+    QbCoreCompat.ServerCallbacks[name] = cb
 end
 
 ---@deprecated call a function instead
-function qbCoreCompat.Functions.TriggerCallback(name, source, cb, ...)
-    if not qbCoreCompat.ServerCallbacks[name] then return end
-    qbCoreCompat.ServerCallbacks[name](source, cb, ...)
+function QbCoreCompat.Functions.TriggerCallback(name, source, cb, ...)
+    if not QbCoreCompat.ServerCallbacks[name] then return end
+    QbCoreCompat.ServerCallbacks[name](source, cb, ...)
 end
 
 ---@deprecated call server function SpawnVehicle instead from imports/utils.lua.
-qbCoreCompat.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
+QbCoreCompat.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
     local netId = SpawnVehicle(source, model, coords, warp)
     if netId then cb(netId) end
 end)
 
 ---@deprecated call server function SpawnVehicle instead from imports/utils.lua.
-qbCoreCompat.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
+QbCoreCompat.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
     local netId = SpawnVehicle(source, model, coords, warp)
     if netId then cb(netId) end
 end)
 
 CreateQbExport('GetCoreObject', function()
-    return qbCoreCompat
+    return QbCoreCompat
 end)
