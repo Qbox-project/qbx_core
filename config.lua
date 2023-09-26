@@ -111,11 +111,11 @@ qbxConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups a
 
 qbxConfig.NotifyPosition = 'top-right' -- 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
 
-Config = {}
 ---@alias TableName string
 ---@alias ColumnName string
+
 ---@type table<TableName, ColumnName>
-Config.CharacterDataTables = {
+qbxConfig.CharacterDataTables = {
     players = 'citizenid',
     apartments = 'citizenid',
     bank_accounts = 'citizenid',
@@ -131,7 +131,7 @@ Config.CharacterDataTables = {
 } -- Rows to be deleted when the character is deleted
 
 ---@type { name: string, amount: integer, metadata: fun(source: number): table }
-Config.StarterItems = { -- Character starting items
+qbxConfig.StarterItems = { -- Character starting items
     { name = 'phone', amount = 1 },
     { name = 'id_card', amount = 1, metadata = function(source)
             if GetResourceState("qbx_idcard") ~= 'started' then
