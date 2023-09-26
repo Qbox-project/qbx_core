@@ -1,7 +1,7 @@
 -- Player load and unload handling
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
-    IsLoggedIn = true
+    QBX.IsLoggedIn = true
     if not QBX.Config.Server.PVP then return end
     SetCanAttackFriendly(cache.ped, true, false)
     NetworkSetFriendlyFireOption(true)

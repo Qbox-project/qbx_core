@@ -1,6 +1,8 @@
 QBX = exports.qbx_core:GetCoreObject()
-QBX.IsLoggedIn = LocalPlayer.state.isLoggedIn
 
-AddStateBagChangeHandler('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
-    QBX.IsLoggedIn = value
-end)
+if not IsDuplicityVersion() then
+    QBX.IsLoggedIn = LocalPlayer.state.isLoggedIn
+    AddStateBagChangeHandler('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
+        QBX.IsLoggedIn = value
+    end)
+end
