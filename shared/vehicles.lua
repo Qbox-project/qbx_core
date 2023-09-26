@@ -1,8 +1,3 @@
-QBShared = QBShared or {}
-
----@type table<number, Vehicle>
-QBShared.VehicleHashes = {}
-
 ---@class Vehicle
 ---@field name string
 ---@field brand string
@@ -10,10 +5,9 @@ QBShared.VehicleHashes = {}
 ---@field price number
 ---@field category string
 ---@field hash string | integer actually just an integer but string is required for types to align when using `asbo` for example
----@field shop string
 
 ---@type table<string, Vehicle>
-QBShared.Vehicles = {
+return {
 	--- Compacts
 	asbo = {
 		name = 'Asbo',
@@ -4087,7 +4081,3 @@ QBShared.Vehicles = {
         hash = `weevil2`,
     },
 }
-
-for _, v in pairs(QBShared.Vehicles) do
-	QBShared.VehicleHashes[v.hash] = v
-end

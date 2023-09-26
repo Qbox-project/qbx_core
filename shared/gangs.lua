@@ -1,11 +1,9 @@
-QBShared = QBShared or {}
-
 ---@class Gang
 ---@field label string
 ---@field grades table<integer, {name: string, isboss: boolean}>
 
 ---@type table<string, Gang>
-QBShared.Gangs = {
+return {
 	['none'] = {
 		label = 'No Gang',
 		grades = {

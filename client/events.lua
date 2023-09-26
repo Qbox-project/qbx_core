@@ -1,26 +1,27 @@
 -- Player load and unload handling
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
-    IsLoggedIn = true
-    if not QBConfig.Server.PVP then return end
+    QBX.IsLoggedIn = true
+    if not QBX.Config.Server.PVP then return end
     SetCanAttackFriendly(cache.ped, true, false)
     NetworkSetFriendlyFireOption(true)
 end)
 
+---@param val PlayerData
+RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
+    local invokingResource = GetInvokingResource()
+    if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
+    QBX.PlayerData = val
+end)
+
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-    IsLoggedIn = false
+    QBX.IsLoggedIn = false
 end)
 
 ---@param pvp_state boolean
 RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
     SetCanAttackFriendly(cache.ped, pvp_state, false)
     NetworkSetFriendlyFireOption(pvp_state)
-end)
-
--- Trigger Command
---- @deprecated
-RegisterNetEvent('QBCore:Command:CallCommand', function(command)
-    ExecuteCommand(command)
 end)
 
 -- Teleport Commands
@@ -43,7 +44,7 @@ end)
 RegisterNetEvent('QBCore:Command:GoToMarker', function()
     local blipMarker <const> = GetFirstBlipInfoId(8)
     if not DoesBlipExist(blipMarker) then
-        QBCore.Functions.Notify(Lang:t("error.no_waypoint"), 'error')
+        QBX.Functions.Notify(Lang:t("error.no_waypoint"), 'error')
         return 'marker'
     end
 
@@ -114,12 +115,12 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
         -- If we can't find the coords, set the coords to the old ones.
         -- We don't unpack them before since they aren't in a loop and only called once.
         SetPedCoordsKeepVehicle(ped, oldCoords.x, oldCoords.y, oldCoords.z - 1.0)
-        QBCore.Functions.Notify(Lang:t("error.tp_error"), 'error')
+        QBX.Functions.Notify(Lang:t("error.tp_error"), 'error')
     end
 
     -- If Z coord was found, set coords in found coords.
     SetPedCoordsKeepVehicle(ped, x, y, groundZ)
-    QBCore.Functions.Notify(Lang:t("success.teleported_waypoint"), 'success')
+    QBX.Functions.Notify(Lang:t("success.teleported_waypoint"), 'success')
 end)
 
 -- Vehicle Commands
@@ -161,62 +162,16 @@ end)
 
 -- Other stuff
 
----@param val PlayerData
-RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
-    local invokingResource = GetInvokingResource()
-    if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
-    QBCore.PlayerData = val
-end)
-
 ---@see client/functions.lua:QBCore.Functions.Notify
 RegisterNetEvent('QBCore:Notify', function(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
-    QBCore.Functions.Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
-end)
-
--- Callback Events --
-
--- Client Callback
----@deprecated call a function instead
-RegisterNetEvent('QBCore:Client:TriggerClientCallback', function(name, ...)
-    QBCore.Functions.TriggerClientCallback(name, function(...)
-        TriggerServerEvent('QBCore:Server:TriggerClientCallback', name, ...)
-    end, ...)
-end)
-
--- Server Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
-RegisterNetEvent('QBCore:Client:TriggerCallback', function(name, ...)
-    if QBCore.ServerCallbacks[name] then
-        QBCore.ServerCallbacks[name](...)
-        QBCore.ServerCallbacks[name] = nil
-    end
+    QBX.Functions.Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
 end)
 
 -- Me command
 
----@param coords vector3
----@param str string
-local function Draw3DText(coords, str)
-    local onScreen, worldX, worldY = World3dToScreen2d(coords.x, coords.y, coords.z)
-    local camCoords = GetGameplayCamCoord()
-    local scale = 200 / (GetGameplayCamFov() * #(camCoords - coords))
-    if onScreen then
-        SetTextScale(1.0, 0.5 * scale)
-        SetTextFont(4)
-        SetTextColour(255, 255, 255, 255)
-        SetTextEdge(2, 0, 0, 0, 150)
-        SetTextProportional(true)
-        SetTextOutline()
-        SetTextCentre(true)
-        BeginTextCommandDisplayText("STRING")
-        AddTextComponentSubstringPlayerName(str)
-        EndTextCommandDisplayText(worldX, worldY)
-    end
-end
-
 ---@param bagName string
 ---@param value string
-AddStateBagChangeHandler('me', nil, function(bagName, _, value)
+AddStateBagChangeHandler('me', ('player:%s'):format(cache.serverId), function(bagName, _, value)
     if not value then return end
 
     local playerId = GetPlayerFromStateBagName(bagName)
@@ -236,7 +191,7 @@ AddStateBagChangeHandler('me', nil, function(bagName, _, value)
         local displayTime = 5000 + GetGameTimer()
         while displayTime > GetGameTimer() do
             playerPed = isLocalPlayer and cache.ped or GetPlayerPed(playerId)
-            Draw3DText(GetEntityCoords(playerPed), value)
+            DrawText3D(value, GetEntityCoords(playerPed))
             Wait(0)
         end
     end)
@@ -247,7 +202,7 @@ end)
 ---@param key any
 ---@param value any
 RegisterNetEvent('QBCore:Client:OnSharedUpdate', function(tableName, key, value)
-    QBCore.Shared[tableName][key] = value
+    QBX.Shared[tableName][key] = value
     TriggerEvent('QBCore:Client:UpdateObject')
 end)
 
@@ -255,7 +210,7 @@ end)
 ---@param values table<any, any>
 RegisterNetEvent('QBCore:Client:OnSharedUpdateMultiple', function(tableName, values)
     for key, value in pairs(values) do
-        QBCore.Shared[tableName][key] = value
+        QBX.Shared[tableName][key] = value
     end
     TriggerEvent('QBCore:Client:UpdateObject')
 end)

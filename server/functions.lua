@@ -1,25 +1,16 @@
-QBCore.Functions = {}
-QBCore.Player_Buckets = {}
-QBCore.Entity_Buckets = {}
-QBCore.UsableItems = {}
+local functions = {}
 
 -- Getters
 -- Get your player first and then trigger a function on them
--- ex: local player = QBCore.Functions.GetPlayer(source)
+-- ex: local player = functions.GetPlayer(source)
 -- ex: local example = player.Functions.functionname(parameter)
-
----@deprecated
-QBCore.Functions.GetCoords = GetCoordsFromEntity
 
 ---@alias Identifier 'steam'|'license'|'license2'|'xbl'|'ip'|'discord'|'live'
 
----@deprecated use the native GetPlayerIdentifierByType?
-QBCore.Functions.GetIdentifier = GetPlayerIdentifierByType
-
----@param identifier string
+---@param identifier Identifier
 ---@return integer source of the player with the matching identifier or 0 if no player found
-function QBCore.Functions.GetSource(identifier)
-    for src in pairs(QBCore.Players) do
+function functions.GetSource(identifier)
+    for src in pairs(QBX.Players) do
         local idens = GetPlayerIdentifiers(src)
         for _, id in pairs(idens) do
             if identifier == id then
@@ -32,60 +23,57 @@ end
 
 ---@param source Source|string source or identifier of the player
 ---@return Player
-function QBCore.Functions.GetPlayer(source)
+function functions.GetPlayer(source)
     if type(source) == 'number' then
-        return QBCore.Players[source]
+        return QBX.Players[source]
     else
-        return QBCore.Players[QBCore.Functions.GetSource(source --[[@as string]])]
+        return QBX.Players[functions.GetSource(source --[[@as string]])]
     end
 end
 
 ---@param citizenid string
 ---@return Player?
-function QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.citizenid == citizenid then
-            return QBCore.Players[src]
+function functions.GetPlayerByCitizenId(citizenid)
+    for src in pairs(QBX.Players) do
+        if QBX.Players[src].PlayerData.citizenid == citizenid then
+            return QBX.Players[src]
         end
     end
 end
 
 ---@param citizenid string
 ---@return Player?
-function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
-    return QBCore.Player.GetOfflinePlayer(citizenid)
+function functions.GetOfflinePlayerByCitizenId(citizenid)
+    return QBX.Player.GetOfflinePlayer(citizenid)
 end
 
 ---@param number string
 ---@return Player?
-function QBCore.Functions.GetPlayerByPhone(number)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.charinfo.phone == number then
-            return QBCore.Players[src]
+function functions.GetPlayerByPhone(number)
+    for src in pairs(QBX.Players) do
+        if QBX.Players[src].PlayerData.charinfo.phone == number then
+            return QBX.Players[src]
         end
     end
 end
 
----@deprecated use the native GetPlayers instead
-QBCore.Functions.GetPlayers = GetPlayers
-
 ---Will return an array of QB Player class instances
 ---unlike the GetPlayers() wrapper which only returns IDs
 ---@return table<Source, Player>
-function QBCore.Functions.GetQBPlayers()
-    return QBCore.Players
+function functions.GetQBPlayers()
+    return QBX.Players
 end
 
 ---Gets a list of all on duty players of a specified job and the number
 ---@param job string name
 ---@return integer
 ---@return Source[]
-function QBCore.Functions.GetDutyCountJob(job)
+function functions.GetDutyCountJob(job)
     local players = {}
     local count = 0
-    for src, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.name == job then
-            if Player.PlayerData.job.onduty then
+    for src, player in pairs(QBX.Players) do
+        if player.PlayerData.job.name == job then
+            if player.PlayerData.job.onduty then
                 players[#players + 1] = src
                 count += 1
             end
@@ -98,12 +86,12 @@ end
 ---@param type string
 ---@return integer
 ---@return Source[]
-function QBCore.Functions.GetDutyCountType(type)
+function functions.GetDutyCountType(type)
     local players = {}
     local count = 0
-    for src, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.type == type then
-            if Player.PlayerData.job.onduty then
+    for src, player in pairs(QBX.Players) do
+        if player.PlayerData.job.type == type then
+            if player.PlayerData.job.onduty then
                 players[#players + 1] = src
                 count += 1
             end
@@ -117,19 +105,19 @@ end
 -- Returns the objects related to buckets, first returned value is the player buckets, second one is entity buckets
 ---@return table
 ---@return table
-function QBCore.Functions.GetBucketObjects()
-    return QBCore.Player_Buckets, QBCore.Entity_Buckets
+function functions.GetBucketObjects()
+    return QBX.Player_Buckets, QBX.Entity_Buckets
 end
 
 -- Will set the provided player id / source into the provided bucket id
 ---@param source Source
 ---@param bucket integer
 ---@return boolean
-function QBCore.Functions.SetPlayerBucket(source, bucket)
+function functions.SetPlayerBucket(source, bucket)
     if not (source or bucket) then return false end
 
     SetPlayerRoutingBucket(source --[[@as string]], bucket)
-    QBCore.Player_Buckets[source] = bucket
+    QBX.Player_Buckets[source] = bucket
     return true
 end
 
@@ -137,24 +125,24 @@ end
 ---@param entity integer
 ---@param bucket integer
 ---@return boolean
-function QBCore.Functions.SetEntityBucket(entity, bucket)
+function functions.SetEntityBucket(entity, bucket)
     if not (entity or bucket) then return false end
 
     SetEntityRoutingBucket(entity, bucket)
-    QBCore.Entity_Buckets[entity] = bucket
+    QBX.Entity_Buckets[entity] = bucket
     return true
 end
 
 -- Will return an array of all the player ids inside the current bucket
 ---@param bucket integer
 ---@return Source[]|boolean
-function QBCore.Functions.GetPlayersInBucket(bucket)
+function functions.GetPlayersInBucket(bucket)
     local curr_bucket_pool = {}
-    if not (QBCore.Player_Buckets or next(QBCore.Player_Buckets)) then
+    if not (QBX.Player_Buckets or next(QBX.Player_Buckets)) then
         return false
     end
 
-    for k, v in pairs(QBCore.Player_Buckets) do
+    for k, v in pairs(QBX.Player_Buckets) do
         if v == bucket then
             curr_bucket_pool[#curr_bucket_pool + 1] = k
         end
@@ -166,13 +154,13 @@ end
 -- Will return an array of all the entities inside the current bucket (not for player entities, use GetPlayersInBucket for that)
 ---@param bucket integer
 ---@return boolean | integer[]
-function QBCore.Functions.GetEntitiesInBucket(bucket)
+function functions.GetEntitiesInBucket(bucket)
     local curr_bucket_pool = {}
-    if not (QBCore.Entity_Buckets or next(QBCore.Entity_Buckets)) then
+    if not (QBX.Entity_Buckets or next(QBX.Entity_Buckets)) then
         return false
     end
 
-    for k, v in pairs(QBCore.Entity_Buckets) do
+    for k, v in pairs(QBX.Entity_Buckets) do
         if v == bucket then
             curr_bucket_pool[#curr_bucket_pool + 1] = k
         end
@@ -181,75 +169,37 @@ function QBCore.Functions.GetEntitiesInBucket(bucket)
     return curr_bucket_pool
 end
 
----@deprecated Use QBCore.Functions.CreateVehicle instead.
-function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
-    return SpawnVehicle(source, model, coords, warp)
-end
-
----@deprecated use SpawnVehicle from imports/utils.lua
-QBCore.Functions.CreateVehicle = SpawnVehicle
-
--- Callback Functions --
-
--- Client Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function QBCore.Functions.TriggerClientCallback(name, source, cb, ...)
-    QBCore.ClientCallbacks[name] = cb
-    TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
-end
-
--- Server Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
-function QBCore.Functions.CreateCallback(name, cb)
-    QBCore.ServerCallbacks[name] = cb
-end
-
----@deprecated call a function instead
-function QBCore.Functions.TriggerCallback(name, source, cb, ...)
-    if not QBCore.ServerCallbacks[name] then return end
-    QBCore.ServerCallbacks[name](source, cb, ...)
-end
-
 -- Items
 ---@param item string name
 ---@param data fun(source: Source, item: unknown)
-function QBCore.Functions.CreateUseableItem(item, data)
-    QBCore.UsableItems[item] = data
+function functions.CreateUseableItem(item, data)
+    QBX.UsableItems[item] = data
 end
 
 ---@param item string name
 ---@return unknown
-function QBCore.Functions.CanUseItem(item)
-    return QBCore.UsableItems[item]
+function functions.CanUseItem(item)
+    return QBX.UsableItems[item]
 end
-
----@param source Source
----@param item string name
-function QBCore.Functions.UseItem(source, item)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    exports['qb-inventory']:UseItem(source, item)
-end
-
----@deprecated use KickWithReason from imports/utils.lua
-QBCore.Functions.Kick = KickWithReason
 
 -- Check if player is whitelisted, kept like this for backwards compatibility or future plans
 ---@param source Source
 ---@return boolean
-function QBCore.Functions.IsWhitelisted(source)
-    if not QBCore.Config.Server.Whitelist then return true end
-    if QBCore.Functions.HasPermission(source, QBCore.Config.Server.WhitelistPermission) then return true end
+function functions.IsWhitelisted(source)
+    if not QBX.Config.Server.Whitelist then return true end
+    if functions.HasPermission(source, QBX.Config.Server.WhitelistPermission) then return true end
     return false
 end
 
 -- Setting & Removing Permissions
+-- TODO: Should these be moved to the utility module?
 
 ---@param source Source
 ---@param permission string
-function QBCore.Functions.AddPermission(source, permission)
+function functions.AddPermission(source, permission)
     if not IsPlayerAceAllowed(source --[[@as string]], permission) then
-        ExecuteCommand(('add_principal player.%s group.%s'):format(source, permission))
-        ExecuteCommand(('add_ace player.%s group.%s allow'):format(source, permission))
+        lib.addPrincipal('player.' .. source, 'group.' .. permission)
+        lib.addAce('player.' .. source, 'group.' .. permission)
         TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
         TriggerEvent('QBCore:Server:OnPermissionUpdate', source)
     end
@@ -257,20 +207,20 @@ end
 
 ---@param source Source
 ---@param permission string
-function QBCore.Functions.RemovePermission(source, permission)
+function functions.RemovePermission(source, permission)
     if permission then
         if IsPlayerAceAllowed(source --[[@as string]], permission) then
-            ExecuteCommand(('remove_principal player.%s group.%s'):format(source, permission))
-            ExecuteCommand(('remove_ace player.%s group.%s allow'):format(source, permission))
+            lib.removePrincipal('player.' .. source, 'group.' .. permission)
+            lib.removeAce('player.' .. source, 'group.' .. permission)
             TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source)
             TriggerEvent('QBCore:Server:OnPermissionUpdate', source)
         end
     else
         local hasUpdated = false
-        for _, v in pairs(QBCore.Config.Server.Permissions) do
+        for _, v in pairs(QBX.Config.Server.Permissions) do
             if IsPlayerAceAllowed(source --[[@as string]], v) then
-                ExecuteCommand(('remove_principal player.%s group.%s'):format(source, v))
-                ExecuteCommand(('remove_ace player.%s group.%s allow'):format(source, v))
+                lib.removePrincipal('player.' .. source, 'group.' .. v)
+                lib.removeAce('player.' .. source, 'group.' .. v)
                 hasUpdated = true
             end
         end
@@ -283,9 +233,9 @@ end
 
 -- Checking for Permission Level
 ---@param source Source
----@param permission string
+---@param permission string|string[]
 ---@return boolean
-function QBCore.Functions.HasPermission(source, permission)
+function functions.HasPermission(source, permission)
     if type(permission) == "string" then
         if IsPlayerAceAllowed(source --[[@as string]], permission) then return true end
     elseif type(permission) == "table" then
@@ -299,9 +249,9 @@ end
 
 ---@param source Source
 ---@return table<string, boolean>
-function QBCore.Functions.GetPermission(source)
+function functions.GetPermission(source)
     local perms = {}
-    for _, v in pairs (QBCore.Config.Server.Permissions) do
+    for _, v in pairs (QBX.Config.Server.Permissions) do
         if IsPlayerAceAllowed(source --[[@as string]], v) then
             perms[v] = true
         end
@@ -312,28 +262,28 @@ end
 -- Opt in or out of admin reports
 ---@param source Source
 ---@return boolean
-function QBCore.Functions.IsOptin(source)
+function functions.IsOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    if not license or not QBCore.Functions.HasPermission(source, 'admin') then return false end
-    local Player = QBCore.Functions.GetPlayer(source)
-    return Player.PlayerData.optin
+    if not license or not functions.HasPermission(source, 'admin') then return false end
+    local player = functions.GetPlayer(source)
+    return player.PlayerData.optin
 end
 
 ---Opt in or out of admin reports
 ---@param source Source
-function QBCore.Functions.ToggleOptin(source)
+function functions.ToggleOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    if not license or not QBCore.Functions.HasPermission(source, 'admin') then return end
-    local Player = QBCore.Functions.GetPlayer(source)
-    Player.PlayerData.optin = not Player.PlayerData.optin
-    Player.Functions.SetPlayerData('optin', Player.PlayerData.optin)
+    if not license or not functions.HasPermission(source, 'admin') then return end
+    local player = functions.GetPlayer(source)
+    player.PlayerData.optin = not player.PlayerData.optin
+    player.Functions.SetPlayerData('optin', player.PlayerData.optin)
 end
 
 -- Check if player is banned
 ---@param source Source
 ---@return boolean
 ---@return string? playerMessage
-function QBCore.Functions.IsPlayerBanned(source)
+function functions.IsPlayerBanned(source)
     local plicense = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     local result = FetchBanEntity({
         license = plicense
@@ -352,32 +302,19 @@ function QBCore.Functions.IsPlayerBanned(source)
     return false
 end
 
----@deprecated use IsLicenseInUse from imports/utils.lua
-QBCore.Functions.IsLicenseInUse = IsLicenseInUse
-
--- Utility functions
-
----@deprecated use HasItem from imports/utils.lua
----@param source Source
----@param items unknown[]
----@param amount number
----@return boolean
-function QBCore.Functions.HasItem(source, items, amount)
-    if GetResourceState('qb-inventory') == 'missing' then return false end
-    return exports['qb-inventory']:HasItem(source, items, amount)
-end
-
----@see client/functions.lua:QBCore.Functions.Notify
-function QBCore.Functions.Notify(source, text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
+---@see client/functions.lua:functions.Notify
+function functions.Notify(source, text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
     local title, description
     if type(text) == "table" then
         title = text.text or 'Placeholder'
         description = text.caption or nil
-    else
+    elseif subTitle then
         title = text
         description = subTitle
+    else
+        description = text
     end
-    local position = notifyPosition or QBConfig.NotifyPosition
+    local position = notifyPosition or QBX.Config.NotifyPosition
 
     TriggerClientEvent('ox_lib:notify', source, {
         id = title,
@@ -392,5 +329,139 @@ function QBCore.Functions.Notify(source, text, notifyType, duration, subTitle, n
     })
 end
 
----@deprecated use GetPlate from imports/utils.lua
-QBCore.Functions.GetPlate = GetPlate
+---Add a new function to the Functions table of the player class
+---Use-case:
+-- [[
+--     AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
+--         QBX.Functions.AddPlayerMethod(Player.PlayerData.source, "functionName", function(oneArg, orMore)
+--             -- do something here
+--         end)
+--     end)
+-- ]]
+---@param ids number|number[] which players to add the method to. -1 for all players
+---@param methodName string
+---@param handler function
+function functions.AddPlayerMethod(ids, methodName, handler)
+    local idType = type(ids)
+    if idType == "number" then
+        if ids == -1 then
+            for _, v in pairs(QBX.Players) do
+                v.Functions.AddMethod(methodName, handler)
+            end
+        else
+            if not QBX.Players[ids] then return end
+
+            QBX.Players[ids].Functions.AddMethod(methodName, handler)
+        end
+    elseif idType == "table" and table.type(ids) == "array" then
+        for i = 1, #ids do
+            QBX.Functions.AddPlayerMethod(ids[i], methodName, handler)
+        end
+    end
+end
+
+---Add a new field table of the player class
+---Use-case:
+--[[
+    AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
+        QBX.Functions.AddPlayerField(Player.PlayerData.source, "fieldName", "fieldData")
+    end)
+]]
+---@param ids number|number[] which players to add a new field to. -1 for all players
+---@param fieldName string
+---@param data any
+function functions.AddPlayerField(ids, fieldName, data)
+    local idType = type(ids)
+    if idType == "number" then
+        if ids == -1 then
+            for _, v in pairs(QBX.Players) do
+                v.Functions.AddField(fieldName, data)
+            end
+        else
+            if not QBX.Players[ids] then return end
+
+            QBX.Players[ids].Functions.AddField(fieldName, data)
+        end
+    elseif idType == "table" and table.type(ids) == "array" then
+        for i = 1, #ids do
+            QBX.Functions.AddPlayerField(ids[i], fieldName, data)
+        end
+    end
+end
+
+-- Add or change (a) method(s) in the QBX.Functions table
+---@param methodName string
+---@param handler function
+---@return boolean success
+---@return string message
+local function SetMethod(methodName, handler)
+    if type(methodName) ~= "string" then
+        return false, "invalid_method_name"
+    end
+
+    QBX.Functions[methodName] = handler
+
+    TriggerEvent('QBCore:Server:UpdateObject')
+
+    return true, "success"
+end
+
+functions.SetMethod = SetMethod
+exports("SetMethod", SetMethod)
+
+-- Add or change (a) field(s) in the QBCore table
+---@param fieldName string
+---@param data any
+---@return boolean success
+---@return string message
+local function SetField(fieldName, data)
+    if type(fieldName) ~= "string" then
+        return false, "invalid_field_name"
+    end
+
+    QBX[fieldName] = data
+
+    TriggerEvent('QBCore:Server:UpdateObject')
+
+    return true, "success"
+end
+
+functions.SetField = SetField
+exports("SetField", SetField)
+
+---@param InvokingResource string
+---@return string version
+local function GetCoreVersion(InvokingResource)
+    ---@diagnostic disable-next-line: missing-parameter
+    local resourceVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
+    if InvokingResource and InvokingResource ~= '' then
+        lib.print.debug(("%s called qbcore version check: %s"):format(InvokingResource or 'Unknown Resource', resourceVersion))
+    end
+    return resourceVersion
+end
+
+functions.GetCoreVersion = GetCoreVersion
+exports('GetCoreVersion', GetCoreVersion)
+
+---@param playerId Source server id
+---@param origin string reason
+local function ExploitBan(playerId, origin)
+    local name = GetPlayerName(playerId)
+    CreateThread(function()
+        InsertBanEntity({
+            name = name,
+            license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
+            discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
+            ip = GetPlayerIdentifierByType(playerId --[[@as string]], 'ip'),
+            reason = origin,
+            expiration = 2147483647,
+            bannedBy = 'Anti Cheat'
+        })
+    end)
+    DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = QBX.Config.Server.Discord}))
+    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
+end
+
+exports('ExploitBan', ExploitBan)
+
+return functions

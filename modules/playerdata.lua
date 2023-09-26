@@ -1,23 +1,12 @@
-QBCore = QBCore or exports['qbx-core']:GetCoreObject()
-PlayerData = QBCore.Functions.GetPlayerData()
+if IsDuplicityVersion() then return end
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    PlayerData = QBCore.Functions.GetPlayerData()
-    if OnPlayerData then
-        OnPlayerData(PlayerData)
-    end
-end)
+QBX = QBX or exports.qbx_core:GetCoreObject() -- luacheck: ignore
+QBX.PlayerData = QBX.Functions.GetPlayerData()
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-    PlayerData = {}
-    if OnPlayerData then
-        OnPlayerData(PlayerData)
-    end
+    QBX.PlayerData = {}
 end)
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(value)
-    PlayerData = value
-    if OnPlayerData then
-        OnPlayerData(PlayerData)
-    end
+    QBX.PlayerData = value
 end)

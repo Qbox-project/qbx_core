@@ -1,37 +1,37 @@
 fx_version 'cerulean'
 game 'gta5'
 
-description 'QBX-Core'
+description 'QBX_Core'
 version '1.0.0'
 
 shared_scripts {
-    'config.lua',
-    'shared/*.lua',
+    '@ox_lib/init.lua',
+    'shared/locale.lua',
     'locale/en.lua',
     'locale/*.lua',
-    '@ox_lib/init.lua',
     'import.lua'
 }
 
 client_scripts {
     'client/main.lua',
-    'client/functions.lua',
     'client/loops.lua',
     'client/events.lua',
-    'client/drawtext.lua'
+    'client/character.lua',
+    'bridge/qb/client/drawtext.lua',
+    'bridge/qb/client/events.lua',
 }
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'server/main.lua',
-    'server/functions.lua',
-    'server/player.lua',
     'server/events.lua',
     'server/commands.lua',
-    'server/exports.lua',
-    'server/debug.lua',
     'server/loops.lua',
     'server/storage.lua',
+    'server/character.lua',
+    'bridge/qb/server/commands.lua',
+    'bridge/qb/server/debug.lua',
+    'bridge/qb/server/main.lua',
 }
 
 modules {
@@ -39,7 +39,24 @@ modules {
 }
 
 files {
-    'modules/*.lua'
+    'modules/*.lua',
+    'config.lua',
+    'shared/gangs.lua',
+    'shared/items.lua',
+    'shared/jobs.lua',
+    'shared/locations.lua',
+    'shared/main.lua',
+    'shared/vehicles.lua',
+    'shared/weapons.lua',
+    'server/functions.lua',
+    'server/player.lua',
+    'client/functions.lua',
+    'bridge/qb/client/main.lua',
+    'bridge/qb/client/functions.lua',
+    'bridge/qb/shared/main.lua',
+    'bridge/qb/server/functions.lua',
+    'bridge/qb/server/main.lua',
+    'bridge/qb/server/player.lua',
 }
 
 dependency 'oxmysql'

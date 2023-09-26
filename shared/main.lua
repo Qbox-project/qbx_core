@@ -1,40 +1,17 @@
-QBShared = QBShared or {}
+local qbShared = {}
+qbShared.Gangs = require 'shared.gangs'
+qbShared.Items = require 'shared.items'
+qbShared.ForceJobDefaultDutyAtLogin = true -- true: Force duty state to jobdefaultDuty | false: set duty state from database last saved
+qbShared.Jobs = require 'shared.jobs'
+qbShared.Locations = require 'shared.locations'
+qbShared.Vehicles = require 'shared.vehicles'
+qbShared.Weapons = require 'shared.weapons'
 
-QBShared.StarterItems = {
-    phone = { amount = 1, item = 'phone' },
-    id_card = { amount = 1, item = 'id_card' },
-    driver_license = { amount = 1, item = 'driver_license' },
-}
+---@type table<number, Vehicle>
+qbShared.VehicleHashes = {}
 
----@deprecated use CommaValue from imports/utils.lua
-QBShared.CommaValue = CommaValue
+for _, v in pairs(qbShared.Vehicles) do
+	qbShared.VehicleHashes[v.hash] = v
+end
 
----@deprecated use RandomLetter from imports/utils.lua
-QBShared.RandomStr = RandomLetter
-
----@deprecated use RandomNumber from imports/utils.lua
-QBShared.RandomInt = RandomNumber
-
----@deprecated use string.split from imports/utils.lua
-QBShared.SplitStr = string.split
-
----@deprecated use string.trim from imports/utils.lua
-QBShared.Trim = string.trim
-
----@deprecated use string.firstToUpper from imports/utils.lua
-QBShared.FirstToUpper = string.firstToUpper
-
----@deprecated use math.round from imports/utils.lua
-QBShared.Round = math.round
-
----@deprecated use ChangeVehicleExtra from imports/utils.lua
-QBShared.ChangeVehicleExtra = ChangeVehicleExtra
-
----@deprecated use SetVehicleExtras from imports/utils.lua
-QBShared.SetDefaultVehicleExtras = SetVehicleExtras
-
----@deprecated use MaleNoGloves from imports/utils.lua
-QBShared.MaleNoGloves = MaleNoGloves
-
----@deprecated use FemaleNoGloves from imports/utils.lua
-QBShared.FemaleNoGloves = FemaleNoGloves
+return qbShared

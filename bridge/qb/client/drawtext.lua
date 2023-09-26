@@ -5,16 +5,12 @@ local positions = {
     top = 'top-center'
 }
 
-local function ExportHandler(name, cb)
-    AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
-        setCB(cb)
-    end)
-end
-
+---@deprecated use ox_lib showTextUI calls directly
 local function hideText()
     lib.hideTextUI()
 end
 
+---@deprecated use ox_lib showTextUI calls directly
 ---@param text string
 ---@param position Position
 local function drawText(text, position)
@@ -24,6 +20,7 @@ local function drawText(text, position)
     })
 end
 
+---@deprecated use ox_lib showTextUI calls directly
 ---@param text string
 ---@param position Position
 local function changeText(text, position)
@@ -34,6 +31,7 @@ local function changeText(text, position)
     })
 end
 
+---@deprecated use ox_lib showTextUI calls directly
 local function keyPressed()
     CreateThread(function() -- Not sure if a thread is needed but why not eh?
         Wait(500)
@@ -41,44 +39,33 @@ local function keyPressed()
     end)
 end
 
+---@deprecated use ox_lib showTextUI calls directly
 RegisterNetEvent('qb-core:client:DrawText', function(text, position)
     drawText(text, position)
 end)
 
+---@deprecated use ox_lib showTextUI calls directly
 RegisterNetEvent('qb-core:client:ChangeText', function(text, position)
     changeText(text, position)
 end)
 
+---@deprecated use ox_lib showTextUI calls directly
 RegisterNetEvent('qb-core:client:HideText', function()
-    hideText()
+    lib.hideTextUI()
 end)
 
+---@deprecated use ox_lib showTextUI calls directly
 RegisterNetEvent('qb-core:client:KeyPressed', function()
     keyPressed()
 end)
 
-RegisterNetEvent('qbx-core:client:DrawText', function(text, position)
-    drawText(text, position)
-end)
+require 'bridge.qb.client.main'
 
-RegisterNetEvent('qbx-core:client:ChangeText', function(text, position)
-    changeText(text, position)
-end)
-
-RegisterNetEvent('qbx-core:client:HideText', function()
-    hideText()
-end)
-
-RegisterNetEvent('qbx-core:client:KeyPressed', function()
-    keyPressed()
-end)
-
-exports('DrawText', drawText)
-exports('ChangeText', changeText)
-exports('HideText', hideText)
-exports('KeyPressed', keyPressed)
-
-ExportHandler('DrawText', drawText)
-ExportHandler('ChangeText', changeText)
-ExportHandler('HideText', hideText)
-ExportHandler('KeyPressed', keyPressed)
+---@deprecated use ox_lib showTextUI calls directly
+CreateQbExport('DrawText', drawText)
+---@deprecated use ox_lib showTextUI calls directly
+CreateQbExport('ChangeText', changeText)
+---@deprecated use ox_lib showTextUI calls directly
+CreateQbExport('HideText', hideText)
+---@deprecated use ox_lib showTextUI calls directly
+CreateQbExport('KeyPressed', keyPressed)
