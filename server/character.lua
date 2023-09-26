@@ -6,8 +6,8 @@ end
 
 ---@param source Source
 local function giveStarterItems(source)
-    for i = 1, #Config.StarterItems do
-        local item = Config.StarterItems[i]
+    for i = 1, #QBX.Config.StarterItems do
+        local item = QBX.Config.StarterItems[i]
         if item.metadata and type(item.metadata) == 'function' then
             exports.ox_inventory:AddItem(source, item.name, item.amount, item.metadata(source))
         else
