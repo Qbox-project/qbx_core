@@ -2,7 +2,7 @@ local functions = require 'client.functions'
 
 -- Player
 
----@deprecated import PlayerData using module 'qbx-core:playerdata' https://qbox-docs.vercel.app/resources/core/import
+---@deprecated import PlayerData using module 'qbx_core:playerdata' https://qbox-docs.vercel.app/resources/core/import
 ---@param cb? fun(playerData: PlayerData)
 ---@return PlayerData? playerData
 function functions.GetPlayerData(cb)
