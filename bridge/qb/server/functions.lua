@@ -575,3 +575,5 @@ end
 function functions.GetCoreVersion(InvokingResource)
     return exports.qbx_core:GetCoreVersion(InvokingResource)
 end
+
+return functions
