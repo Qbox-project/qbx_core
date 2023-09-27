@@ -9,6 +9,7 @@ shared_scripts {
     'shared/locale.lua',
     'locale/en.lua',
     'locale/*.lua',
+    'config.lua',
     'import.lua'
 }
 
@@ -43,7 +44,6 @@ modules {
 
 files {
     'modules/*.lua',
-    'config.lua',
     'shared/gangs.lua',
     'shared/items.lua',
     'shared/jobs.lua',
