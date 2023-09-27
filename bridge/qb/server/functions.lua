@@ -1,4 +1,4 @@
-local functions = require 'server.functions'
+local functions = {}
 
 function CreateQbExport(name, cb)
     AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
@@ -308,7 +308,7 @@ CreateQbExport('RemoveGang', RemoveGang)
 ---Use-case:
 -- [[
 --     AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
---         QBX.Functions.AddPlayerMethod(Player.PlayerData.source, "functionName", function(oneArg, orMore)
+--         functions.AddPlayerMethod(Player.PlayerData.source, "functionName", function(oneArg, orMore)
 --             -- do something here
 --         end)
 --     end)
@@ -331,7 +331,7 @@ function functions.AddPlayerMethod(ids, methodName, handler)
         end
     elseif idType == "table" and table.type(ids) == "array" then
         for i = 1, #ids do
-            QBX.Functions.AddPlayerMethod(ids[i], methodName, handler)
+            functions.AddPlayerMethod(ids[i], methodName, handler)
         end
     end
 end
@@ -340,7 +340,7 @@ end
 ---Use-case:
 --[[
     AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
-        QBX.Functions.AddPlayerField(Player.PlayerData.source, "fieldName", "fieldData")
+        functions.AddPlayerField(Player.PlayerData.source, "fieldName", "fieldData")
     end)
 ]]
 ---@deprecated
@@ -361,12 +361,12 @@ function functions.AddPlayerField(ids, fieldName, data)
         end
     elseif idType == "table" and table.type(ids) == "array" then
         for i = 1, #ids do
-            QBX.Functions.AddPlayerField(ids[i], fieldName, data)
+            functions.AddPlayerField(ids[i], fieldName, data)
         end
     end
 end
 
--- Add or change (a) method(s) in the QBX.Functions table
+-- Add or change (a) method(s) in the Functions table
 ---@deprecated
 ---@param methodName string
 ---@param handler function
@@ -377,7 +377,7 @@ local function SetMethod(methodName, handler)
         return false, "invalid_method_name"
     end
 
-    QBX.Functions[methodName] = handler
+    functions[methodName] = handler
 
     TriggerEvent('QBCore:Server:UpdateObject')
 
@@ -412,6 +412,37 @@ exports("SetField", SetField)
 ---@return integer source of the player with the matching identifier or 0 if no player found
 function functions.GetSource(identifier)
     return exports.qbx_core:GetSource(identifier)
+end
+
+---@param source Source|string source or identifier of the player
+---@return Player
+function functions.GetPlayer(source)
+    return exports.qbx_core:GetPlayer(source)
+end
+
+---@param citizenid string
+---@return Player?
+function functions.GetPlayerByCitizenId(citizenid)
+    return exports.qbx_core:GetPlayerByCitizenId(citizenid)
+end
+
+---@param citizenid string
+---@return Player?
+function functions.GetOfflinePlayerByCitizenId(citizenid)
+    return exports.qbx_core:GetOfflinePlayerByCitizenId(citizenid)
+end
+
+---@param number string
+---@return Player?
+function functions.GetPlayerByPhone(number)
+    return exports.qbx_core:GetPlayersByPhone(number)
+end
+
+---Will return an array of QB Player class instances
+---unlike the GetPlayers() wrapper which only returns IDs
+---@return table<Source, Player>
+function functions.GetQBPlayers()
+    return exports.qbx_core:GetQBPlayers()
 end
 
 ---Gets a list of all on duty players of a specified job and the number
@@ -544,5 +575,3 @@ end
 function functions.GetCoreVersion(InvokingResource)
     return exports.qbx_core:GetCoreVersion(InvokingResource)
 end
-
-return functions

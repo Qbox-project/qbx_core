@@ -1,5 +1,3 @@
-local functions = {}
-
 ---Text box popup for player which dissappears after a set time.
 ---@param text table|string text of the notification
 ---@param notifyType? NotificationType informs default styling. Defaults to 'inform'
@@ -37,4 +35,7 @@ end
 
 exports('Notify', Notify)
 
-return functions
+---@return PlayerData? playerData
+function GetPlayerData()
+    return QBX.PlayerData
+end

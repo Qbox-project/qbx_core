@@ -1,4 +1,4 @@
-local functions = require 'client.functions'
+local functions = {}
 
 -- Player
 

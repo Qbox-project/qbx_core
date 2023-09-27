@@ -1,7 +1,7 @@
 if IsDuplicityVersion() then return end
 
 QBX = QBX or exports.qbx_core:GetCoreObject() -- luacheck: ignore
-QBX.PlayerData = QBX.Functions.GetPlayerData()
+QBX.PlayerData = GetPlayerData()
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     QBX.PlayerData = {}

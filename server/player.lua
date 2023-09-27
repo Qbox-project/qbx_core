@@ -166,7 +166,7 @@ function Logout(source)
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
 
-    local player = QBX.Functions.GetPlayer(source)
+    local player = GetPlayer(source)
     if not player then return end
     local newHunger = player.PlayerData.metadata.hunger - QBX.Config.Player.HungerRate
     local newThirst = player.PlayerData.metadata.thirst - QBX.Config.Player.ThirstRate
@@ -573,7 +573,7 @@ exports('DeleteCharacter', DeleteCharacter)
 function ForceDeleteCharacter(citizenid)
     local result = FetchPlayerEntity(citizenid).license
     if result then
-        local player = QBX.Functions.GetPlayerByCitizenId(citizenid)
+        local player = GetPlayerByCitizenId(citizenid)
         if player then
             DropPlayer(player.PlayerData.source --[[@as string]], "An admin deleted the character which you are currently using")
         end

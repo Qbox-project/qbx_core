@@ -1,5 +1,3 @@
-local functions = {}
-
 -- Getters
 -- Get your player first and then trigger a function on them
 -- ex: local player = functions.GetPlayer(source)
@@ -25,7 +23,7 @@ exports('GetSource', GetSource)
 
 ---@param source Source|string source or identifier of the player
 ---@return Player
-function functions.GetPlayer(source)
+function GetPlayer(source)
     if type(source) == 'number' then
         return QBX.Players[source]
     else
@@ -33,9 +31,11 @@ function functions.GetPlayer(source)
     end
 end
 
+exports('GetPlayer', GetPlayer)
+
 ---@param citizenid string
 ---@return Player?
-function functions.GetPlayerByCitizenId(citizenid)
+function GetPlayerByCitizenId(citizenid)
     for src in pairs(QBX.Players) do
         if QBX.Players[src].PlayerData.citizenid == citizenid then
             return QBX.Players[src]
@@ -43,15 +43,19 @@ function functions.GetPlayerByCitizenId(citizenid)
     end
 end
 
+exports('GetPlayerByCitizenId', GetPlayerByCitizenId)
+
 ---@param citizenid string
 ---@return Player?
-function functions.GetOfflinePlayerByCitizenId(citizenid)
+function GetOfflinePlayerByCitizenId(citizenid)
     return GetOfflinePlayer(citizenid)
 end
 
+exports('GetOfflinePlayerByCitizenId', GetOfflinePlayerByCitizenId)
+
 ---@param number string
 ---@return Player?
-function functions.GetPlayerByPhone(number)
+function GetPlayerByPhone(number)
     for src in pairs(QBX.Players) do
         if QBX.Players[src].PlayerData.charinfo.phone == number then
             return QBX.Players[src]
@@ -59,12 +63,16 @@ function functions.GetPlayerByPhone(number)
     end
 end
 
+exports('GetPlayerByPhone', GetPlayerByPhone)
+
 ---Will return an array of QB Player class instances
 ---unlike the GetPlayers() wrapper which only returns IDs
 ---@return table<Source, Player>
-function functions.GetQBPlayers()
+function GetQBPlayers()
     return QBX.Players
 end
+
+exports('GetQBPlayers', GetQBPlayers)
 
 ---Gets a list of all on duty players of a specified job and the number
 ---@param job string name
@@ -400,5 +408,3 @@ local function ExploitBan(playerId, origin)
 end
 
 exports('ExploitBan', ExploitBan)
-
-return functions

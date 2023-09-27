@@ -194,7 +194,7 @@ local function createCharacter(cid)
 
     for input = 1, 3 do -- Run through first 3 inputs, aka first name, last name and nationality
         if not checkStrings(dialog, input) then
-            QBX.Functions.Notify(Lang:t('error.no_match_character_registration'), 'error', 10000)
+            Notify(Lang:t('error.no_match_character_registration'), 'error', 10000)
             goto noMatch
             break
         end

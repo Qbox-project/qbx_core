@@ -16,7 +16,6 @@ GlobalState.PlayerCount = 0
 QBX.Player_Buckets = {}
 QBX.Entity_Buckets = {}
 QBX.UsableItems = {}
-QBX.Functions = require 'server.functions'
 
 ---Adds or overwrites jobs in shared/jobs.lua
 ---@param jobs table<string, Job>

@@ -82,7 +82,7 @@ local function onPlayerConnecting(name, _, deferrals)
     CreateThread(function()
         deferrals.update(string.format(Lang:t('info.checking_ban'), name))
         local success, err = pcall(function()
-            local isBanned, Reason = QBX.Functions.IsPlayerBanned(src --[[@as Source]])
+            local isBanned, Reason = IsPlayerBanned(src --[[@as Source]])
             if isBanned then
                 deferrals.done(Reason)
             end
@@ -91,7 +91,7 @@ local function onPlayerConnecting(name, _, deferrals)
         if QBX.Config.Server.Whitelist and success then
             deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
             success, err = pcall(function()
-                if not QBX.Functions.IsWhitelisted(src --[[@as Source]]) then
+                if not IsWhitelisted(src --[[@as Source]]) then
                     deferrals.done(Lang:t('error.not_whitelisted'))
                 end
             end)
@@ -144,12 +144,12 @@ end)
 ---@param reason string
 RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
     local src = source --[[@as Source]]
-    if QBX.Functions.HasPermission(src, 'admin') then
+    if HasPermission(src, 'admin') then
         reason = reason or 'No reason specified'
         QBX.Config.Server.Closed = true
         QBX.Config.Server.ClosedReason = reason
         for k in pairs(QBX.Players) do
-            if not QBX.Functions.HasPermission(k, QBX.Config.Server.WhitelistPermission) then
+            if not HasPermission(k, QBX.Config.Server.WhitelistPermission) then
                 KickWithReason(k, reason, nil, nil)
             end
         end
@@ -160,7 +160,7 @@ end)
 
 RegisterNetEvent('QBCore:Server:OpenServer', function()
     local src = source --[[@as Source]]
-    if QBX.Functions.HasPermission(src, 'admin') then
+    if HasPermission(src, 'admin') then
         QBX.Config.Server.Closed = false
     else
         KickWithReason(src, Lang:t("error.no_permission"), nil, nil)
@@ -171,7 +171,7 @@ end)
 
 RegisterNetEvent('QBCore:ToggleDuty', function()
     local src = source --[[@as Source]]
-    local player = QBX.Functions.GetPlayer(src)
+    local player = GetPlayer(src)
     if not player then return end
     if player.PlayerData.job.onduty then
         player.Functions.SetJobDuty(false)
