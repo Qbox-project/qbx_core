@@ -1,13 +1,13 @@
 ---@param license2 string
 ---@param license? string
 local function getAllowedAmountOfCharacters(license2, license)
-    return QBX.Config.Characters.PlayersNumberOfCharacters[license2] or license and QBX.Config.Characters.PlayersNumberOfCharacters[license] or QBX.Config.Characters.DefaultNumberOfCharacters
+    return Config.Characters.PlayersNumberOfCharacters[license2] or license and Config.Characters.PlayersNumberOfCharacters[license] or Config.Characters.DefaultNumberOfCharacters
 end
 
 ---@param source Source
 local function giveStarterItems(source)
-    for i = 1, #QBX.Config.StarterItems do
-        local item = QBX.Config.StarterItems[i]
+    for i = 1, #Config.StarterItems do
+        local item = Config.StarterItems[i]
         if item.metadata and type(item.metadata) == 'function' then
             exports.ox_inventory:AddItem(source, item.name, item.amount, item.metadata(source))
         else

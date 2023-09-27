@@ -1,6 +1,5 @@
 QBX = {}
 QBX.PlayerData = {}
-QBX.Config = require 'config'
 QBX.Shared = require 'shared.main'
 QBX.IsLoggedIn = false
 

@@ -2,7 +2,7 @@
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     QBX.IsLoggedIn = true
-    if not QBX.Config.Server.PVP then return end
+    if not Config.Server.PVP then return end
     SetCanAttackFriendly(cache.ped, true, false)
     NetworkSetFriendlyFireOption(true)
 end)

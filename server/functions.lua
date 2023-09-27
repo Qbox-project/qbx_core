@@ -1,7 +1,7 @@
 -- Getters
 -- Get your player first and then trigger a function on them
--- ex: local player = functions.GetPlayer(source)
--- ex: local example = player.Functions.functionname(parameter)
+-- ex: local player = GetPlayer(source)
+-- ex: local example = player.functionname(parameter)
 
 ---@alias Identifier 'steam'|'license'|'license2'|'xbl'|'ip'|'discord'|'live'
 
@@ -27,7 +27,7 @@ function GetPlayer(source)
     if type(source) == 'number' then
         return QBX.Players[source]
     else
-        return QBX.Players[functions.GetSource(source --[[@as string]])]
+        return QBX.Players[GetSource(source --[[@as string]])]
     end
 end
 
@@ -214,8 +214,8 @@ exports('CanUseItem', CanUseItem)
 ---@param source Source
 ---@return boolean
 function IsWhitelisted(source)
-    if not QBX.Config.Server.Whitelist then return true end
-    if functions.HasPermission(source, QBX.Config.Server.WhitelistPermission) then return true end
+    if not Config.Server.Whitelist then return true end
+    if HasPermission(source, Config.Server.WhitelistPermission) then return true end
     return false
 end
 
@@ -249,7 +249,7 @@ function RemovePermission(source, permission)
         end
     else
         local hasUpdated = false
-        for _, v in pairs(QBX.Config.Server.Permissions) do
+        for _, v in pairs(Config.Server.Permissions) do
             if IsPlayerAceAllowed(source --[[@as string]], v) then
                 lib.removePrincipal('player.' .. source, 'group.' .. v)
                 lib.removeAce('player.' .. source, 'group.' .. v)
@@ -287,7 +287,7 @@ exports('HasPermission', HasPermission)
 ---@return table<string, boolean>
 function GetPermission(source)
     local perms = {}
-    for _, v in pairs (QBX.Config.Server.Permissions) do
+    for _, v in pairs (Config.Server.Permissions) do
         if IsPlayerAceAllowed(source --[[@as string]], v) then
             perms[v] = true
         end
@@ -302,8 +302,8 @@ exports('GetPermission', GetPermission)
 ---@return boolean
 function IsOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    if not license or not functions.HasPermission(source, 'admin') then return false end
-    local player = functions.GetPlayer(source)
+    if not license or not HasPermission(source, 'admin') then return false end
+    local player = GetPlayer(source)
     return player.PlayerData.optin
 end
 
@@ -313,10 +313,10 @@ exports('IsOptin', IsOptin)
 ---@param source Source
 function ToggleOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    if not license or not functions.HasPermission(source, 'admin') then return end
-    local player = functions.GetPlayer(source)
+    if not license or not HasPermission(source, 'admin') then return end
+    local player = GetPlayer(source)
     player.PlayerData.optin = not player.PlayerData.optin
-    player.Functions.SetPlayerData('optin', player.PlayerData.optin)
+    player.SetPlayerData('optin', player.PlayerData.optin)
 end
 
 exports('ToggleOptin', ToggleOptin)
@@ -346,7 +346,7 @@ end
 
 exports('IsPlayerBanned', IsPlayerBanned)
 
----@see client/functions.lua:functions.Notify
+---@see client/lua:Notify
 function Notify(source, text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
     local title, description
     if type(text) == "table" then
@@ -358,7 +358,7 @@ function Notify(source, text, notifyType, duration, subTitle, notifyPosition, no
     else
         description = text
     end
-    local position = notifyPosition or QBX.Config.NotifyPosition
+    local position = notifyPosition or Config.NotifyPosition
 
     TriggerClientEvent('ox_lib:notify', source, {
         id = title,
@@ -403,7 +403,7 @@ local function ExploitBan(playerId, origin)
             bannedBy = 'Anti Cheat'
         })
     end)
-    DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = QBX.Config.Server.Discord}))
+    DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = Config.Server.Discord}))
     TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
 end
 

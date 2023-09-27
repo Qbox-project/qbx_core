@@ -43,8 +43,8 @@ lib.addCommand('togglepvp', {
     help = Lang:t("command.togglepvp.help"),
     restricted = "group.admin"
 }, function()
-    QBX.Config.Server.PVP = not QBX.Config.Server.PVP
-    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, QBX.Config.Server.PVP)
+    Config.Server.PVP = not Config.Server.PVP
+    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, Config.Server.PVP)
 end)
 
 -- Permissions
@@ -89,12 +89,12 @@ lib.addCommand('openserver', {
     help = Lang:t("command.openserver.help"),
     restricted = "group.admin"
 }, function(source)
-    if not QBX.Config.Server.Closed then
+    if not Config.Server.Closed then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.server_already_open'), 'error')
         return
     end
     if HasPermission(source, 'admin') then
-        QBX.Config.Server.Closed = false
+        Config.Server.Closed = false
         TriggerClientEvent('QBCore:Notify', source, Lang:t('success.server_opened'), 'success')
     else
         KickWithReason(source, Lang:t("error.no_permission"), nil, nil)
@@ -108,16 +108,16 @@ lib.addCommand('closeserver', {
     },
     restricted = "group.admin"
 }, function(source, args)
-    if QBX.Config.Server.Closed then
+    if Config.Server.Closed then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.server_already_closed'), 'error')
         return
     end
     if HasPermission(source, 'admin') then
         local reason = args[Lang:t("command.closeserver.params.reason.name")] or 'No reason specified'
-        QBX.Config.Server.Closed = true
-        QBX.Config.Server.ClosedReason = reason
+        Config.Server.Closed = true
+        Config.Server.ClosedReason = reason
         for k in pairs(QBX.Players) do
-            if not HasPermission(k, QBX.Config.Server.WhitelistPermission) then
+            if not HasPermission(k, Config.Server.WhitelistPermission) then
                 KickWithReason(k, reason, nil, nil)
             end
         end

@@ -5,7 +5,6 @@ SetRoutingBucketEntityLockdownMode(0, bucketLockDownMode)
 if not lib.checkDependency('ox_lib', '3.10.0', true) then error() return end
 
 QBX = {}
-QBX.Config = require 'config'
 QBX.Shared = require 'shared.main'
 
 ---@alias Source integer

@@ -204,7 +204,7 @@ if isServer then
     ---@param setKickReason? fun(reason: string)
     ---@param deferrals? Deferrals
     function KickWithReason(source, reason, setKickReason, deferrals) -- luacheck: ignore
-        reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBX.Config.Server.Discord
+        reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. Config.Server.Discord
         if setKickReason then
             setKickReason(reason)
         end
