@@ -39,3 +39,5 @@ exports('Notify', Notify)
 function GetPlayerData()
     return QBX.PlayerData
 end
+
+exports('GetPlayerData', GetPlayerData)

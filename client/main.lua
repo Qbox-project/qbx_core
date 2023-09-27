@@ -27,5 +27,6 @@ end
 
 exports('GetVehiclesByHash', GetVehiclesByHash)
 
----@deprecated import QBX using module 'qbx_core:core' https://qbox-project.github.io/resources/core/import
-exports('GetCoreObject', function() return QBX end)
+AddStateBagChangeHandler('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
+    QBX.IsLoggedIn = value
+end)
