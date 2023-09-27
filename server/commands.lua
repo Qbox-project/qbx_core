@@ -137,7 +137,7 @@ lib.addCommand('car', {
     restricted = "group.admin"
 }, function(source, args)
     if not args then return end
-    CreateVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
+    SpawnVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
 end)
 
 lib.addCommand('dv', {
