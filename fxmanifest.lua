@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 description 'QBX_Core'
-version '1.0.0'
+version '0.1.0'
 
 shared_scripts {
     '@ox_lib/init.lua',
