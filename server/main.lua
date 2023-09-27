@@ -13,8 +13,6 @@ QBX.Shared = require 'shared.main'
 QBX.Players = {}
 GlobalState.PlayerCount = 0
 
-QBX.Player = require 'server.player'
-
 QBX.Player_Buckets = {}
 QBX.Entity_Buckets = {}
 QBX.UsableItems = {}

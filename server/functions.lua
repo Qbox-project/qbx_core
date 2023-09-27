@@ -46,7 +46,7 @@ end
 ---@param citizenid string
 ---@return Player?
 function functions.GetOfflinePlayerByCitizenId(citizenid)
-    return QBX.Player.GetOfflinePlayer(citizenid)
+    return GetOfflinePlayer(citizenid)
 end
 
 ---@param number string

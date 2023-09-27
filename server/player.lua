@@ -1,55 +1,56 @@
-local playerObj = {}
-
 ---@class PlayerData : PlayerEntity
 ---@field source? Source present if player is online
 ---@field optin? boolean present if player is online
 
----@deprecated call LoginV2
 ---@param source Source
 ---@param citizenid? string
 ---@param newData? PlayerEntity
 ---@return boolean success
-function playerObj.Login(source, citizenid, newData)
+function Login(source, citizenid, newData)
     if not source or source == '' then
         lib.print.error('QBX.PLAYER.LOGIN - NO SOURCE GIVEN!')
         return false
     end
-    return playerObj.LoginV2(source, citizenid, newData) and true or false
+    return LoginV2(source, citizenid, newData) and true or false
 end
+
+exports('Login', Login)
 
 ---On player login get their data or set defaults
 ---@param source Source
 ---@param citizenid? string
 ---@param newData? PlayerEntity
 ---@return Player? player if logged in successfully
-function playerObj.LoginV2(source, citizenid, newData)
+function LoginV2(source, citizenid, newData)
     if citizenid then
         local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
         local playerData = FetchPlayerEntity(citizenid)
         if playerData and (license2 == playerData.license or license == playerData.license) then
-            return QBX.Player.CheckPlayerData(source, playerData)
+            return CheckPlayerData(source, playerData)
         else
             DropPlayer(tostring(source), Lang:t("info.exploit_dropped"))
             TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', ('%s Has Been Dropped For Character Joining Exploit'):format(GetPlayerName(source)), false)
         end
     else
-        return QBX.Player.CheckPlayerData(source, newData)
+        return CheckPlayerData(source, newData)
     end
 end
 
 ---@param citizenid string
 ---@return Player? player if found in storage
-function playerObj.GetOfflinePlayer(citizenid)
+function GetOfflinePlayer(citizenid)
     if not citizenid then return end
     local playerData = FetchPlayerEntity(citizenid)
     if not playerData then return end
-    return QBX.Player.CheckPlayerData(nil, playerData)
+    return CheckPlayerData(nil, playerData)
 end
+
+exports('GetOfflinePlayer', GetOfflinePlayer)
 
 ---@param source? integer if player is online
 ---@param playerData? PlayerEntity|PlayerData
 ---@return Player player
-function playerObj.CheckPlayerData(source, playerData)
+function CheckPlayerData(source, playerData)
     playerData = playerData or {}
     local Offline = true
     if source then
@@ -59,7 +60,7 @@ function playerObj.CheckPlayerData(source, playerData)
         Offline = false
     end
 
-    playerData.citizenid = playerData.citizenid or QBX.Player.GenerateUniqueIdentifier('citizenid')
+    playerData.citizenid = playerData.citizenid or GenerateUniqueIdentifier('citizenid')
     playerData.cid = playerData.charinfo?.cid or playerData.cid or 1
     playerData.money = playerData.money or {}
     playerData.optin = playerData.optin or true
@@ -75,8 +76,8 @@ function playerObj.CheckPlayerData(source, playerData)
     playerData.charinfo.gender = playerData.charinfo.gender or 0
     playerData.charinfo.backstory = playerData.charinfo.backstory or 'placeholder backstory'
     playerData.charinfo.nationality = playerData.charinfo.nationality or 'USA'
-    playerData.charinfo.phone = playerData.charinfo.phone or QBX.Player.GenerateUniqueIdentifier('PhoneNumber')
-    playerData.charinfo.account = playerData.charinfo.account or QBX.Player.GenerateUniqueIdentifier('AccountNumber')
+    playerData.charinfo.phone = playerData.charinfo.phone or GenerateUniqueIdentifier('PhoneNumber')
+    playerData.charinfo.account = playerData.charinfo.account or GenerateUniqueIdentifier('AccountNumber')
     playerData.charinfo.cid = playerData.charinfo.cid or playerData.cid
     -- Metadata
     playerData.metadata = playerData.metadata or {}
@@ -106,8 +107,8 @@ function playerObj.CheckPlayerData(source, playerData)
     playerData.metadata.jobrep.taxi = playerData.metadata.jobrep.taxi or 0
     playerData.metadata.jobrep.hotdog = playerData.metadata.jobrep.hotdog or 0
     playerData.metadata.callsign = playerData.metadata.callsign or 'NO CALLSIGN'
-    playerData.metadata.fingerprint = playerData.metadata.fingerprint or QBX.Player.GenerateUniqueIdentifier('FingerId')
-    playerData.metadata.walletid = playerData.metadata.walletid or QBX.Player.GenerateUniqueIdentifier('WalletId')
+    playerData.metadata.fingerprint = playerData.metadata.fingerprint or GenerateUniqueIdentifier('FingerId')
+    playerData.metadata.walletid = playerData.metadata.walletid or GenerateUniqueIdentifier('WalletId')
     playerData.metadata.criminalrecord = playerData.metadata.criminalrecord or {
         hasRecord = false,
         date = nil
@@ -125,7 +126,7 @@ function playerObj.CheckPlayerData(source, playerData)
         }
     }
     playerData.metadata.phonedata = playerData.metadata.phonedata or {
-        SerialNumber = QBX.Player.GenerateUniqueIdentifier('SerialNumber'),
+        SerialNumber = GenerateUniqueIdentifier('SerialNumber'),
         InstalledApps = {},
     }
     -- Job
@@ -154,12 +155,14 @@ function playerObj.CheckPlayerData(source, playerData)
     -- Other
     playerData.position = playerData.position or QBX.Config.DefaultSpawn
     playerData.items = GetResourceState('qb-inventory') ~= 'missing' and exports['qb-inventory']:LoadInventory(playerData.source, playerData.citizenid) or {}
-    return QBX.Player.CreatePlayer(playerData --[[@as PlayerData]], Offline)
+    return CreatePlayer(playerData --[[@as PlayerData]], Offline)
 end
+
+exports('CheckPlayerData', CheckPlayerData)
 
 ---On player logout
 ---@param source Source
-function playerObj.Logout(source)
+function Logout(source)
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
 
@@ -183,6 +186,8 @@ function playerObj.Logout(source)
     GlobalState.PlayerCount -= 1
     TriggerClientEvent('qbx_core:client:playerLoggedOut', source)
 end
+
+exports('Logout', Logout)
 
 ---@class Player
 ---@field Functions PlayerFunctions
@@ -215,7 +220,7 @@ end
 ---@param playerData PlayerData
 ---@param Offline boolean
 ---@return Player player
-function playerObj.CreatePlayer(playerData, Offline)
+function CreatePlayer(playerData, Offline)
     local self = {}
     self.Functions = {}
     self.PlayerData = playerData
@@ -454,15 +459,15 @@ function playerObj.CreatePlayer(playerData, Offline)
 
     function self.Functions.Save()
         if self.Offline then
-            QBX.Player.SaveOffline(self.PlayerData)
+            SaveOffline(self.PlayerData)
         else
-            QBX.Player.Save(self.PlayerData.source)
+            Save(self.PlayerData.source)
         end
     end
 
     function self.Functions.Logout()
         if self.Offline then return end -- Unsupported for Offline Players
-        QBX.Player.Logout(self.PlayerData.source)
+        Logout(self.PlayerData.source)
     end
 
     ---adds a new player method at runtime
@@ -482,7 +487,7 @@ function playerObj.CreatePlayer(playerData, Offline)
 
     if not self.Offline then
         QBX.Players[self.PlayerData.source] = self
-        QBX.Player.Save(self.PlayerData.source)
+        Save(self.PlayerData.source)
 
         -- At this point we are safe to emit new instance to third party resource for load handling
         GlobalState.PlayerCount += 1
@@ -493,9 +498,11 @@ function playerObj.CreatePlayer(playerData, Offline)
     return self
 end
 
+exports('CreatePlayer', CreatePlayer)
+
 ---Save player info to database (make sure citizenid is the primary key in your database)
 ---@param source Source
-function playerObj.Save(source)
+function Save(source)
     local ped = GetPlayerPed(source)
     local playerData = QBX.Players[source].PlayerData
     local pcoords = playerData.position
@@ -521,10 +528,12 @@ function playerObj.Save(source)
     lib.print.verbose(('%s PLAYER SAVED!'):format(playerData.name))
 end
 
+exports('Save', Save)
+
 ---@param playerData PlayerEntity
-function playerObj.SaveOffline(playerData)
+function SaveOffline(playerData)
     if not playerData then
-        lib.print.error('QBX.PLAYER.SAVEOFFLINE - PLAYERDATA IS EMPTY!')
+        lib.print.error('SaveOffline - PLAYERDATA IS EMPTY!')
         return
     end
 
@@ -538,9 +547,11 @@ function playerObj.SaveOffline(playerData)
     lib.print.verbose(('%s OFFLINE PLAYER SAVED!'):format(playerData.name))
 end
 
+exports('SaveOffline', SaveOffline)
+
 ---@param source Source
 ---@param citizenid string
-function playerObj.DeleteCharacter(source, citizenid)
+function DeleteCharacter(source, citizenid)
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
     local result = FetchPlayerEntity(citizenid).license
     if license == result or license2 == result then
@@ -556,8 +567,10 @@ function playerObj.DeleteCharacter(source, citizenid)
     end
 end
 
+exports('DeleteCharacter', DeleteCharacter)
+
 ---@param citizenid string
-function playerObj.ForceDeleteCharacter(citizenid)
+function ForceDeleteCharacter(citizenid)
     local result = FetchPlayerEntity(citizenid).license
     if result then
         local player = QBX.Functions.GetPlayerByCitizenId(citizenid)
@@ -574,10 +587,12 @@ function playerObj.ForceDeleteCharacter(citizenid)
     end
 end
 
+exports('ForceDeleteCharacter', ForceDeleteCharacter)
+
 ---Generate unique values for player identifiers
 ---@param type UniqueIdType The type of unique value to generate
 ---@return string | number UniqueVal unique value generated
-function playerObj.GenerateUniqueIdentifier(type)
+function GenerateUniqueIdentifier(type)
     local isUnique, uniqueId
     local table = QBX.Config.Player.IdentifierTypes[type]
     repeat
@@ -587,4 +602,4 @@ function playerObj.GenerateUniqueIdentifier(type)
     return uniqueId
 end
 
-return playerObj
+exports('GenerateUniqueIdentifier', GenerateUniqueIdentifier)

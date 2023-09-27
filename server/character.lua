@@ -53,7 +53,7 @@ AddEventHandler('onResourceStart', function(resourceName)
 end)
 
 lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenId)
-    local player = QBX.Player.LoginV2(source, citizenId)
+    local player = LoginV2(source, citizenId)
     if not player then return end
 
     SetPlayerRoutingBucket(source, 0)
@@ -67,7 +67,7 @@ lib.callback.register('qbx_core:server:createCharacter', function(source, data)
     local newData = {}
     newData.charinfo = data
 
-    local player = QBX.Player.LoginV2(source, nil, newData)
+    local player = LoginV2(source, nil, newData)
     if not player then return end
 
     giveStarterItems(source)
@@ -81,6 +81,6 @@ end)
 
 RegisterNetEvent('qbx_core:server:deleteCharacter', function(citizenId)
     local src = source
-    QBX.Player.DeleteCharacter(src, citizenId)
+    DeleteCharacter(src, citizenId)
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.character_deleted'), 'success')
 end)

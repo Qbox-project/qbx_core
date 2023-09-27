@@ -301,7 +301,7 @@ end)
 lib.addCommand('logout', {
     help = Lang:t('info.logout_command_help'),
     restricted = 'group.admin',
-}, QBX.Player.Logout)
+}, Logout)
 
 lib.addCommand('deletechar', {
     help = Lang:t('info.deletechar_command_help'),
@@ -314,6 +314,6 @@ lib.addCommand('deletechar', {
     if not player then return end
 
     local citizenId = player.PlayerData.citizenid
-    QBX.Player.ForceDeleteCharacter(citizenId)
+    ForceDeleteCharacter(citizenId)
     TriggerClientEvent('QBCore:Notify', source, Lang:t('success.character_deleted_citizenid', {citizenid = citizenId}))
 end)
