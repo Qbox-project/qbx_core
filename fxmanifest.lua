@@ -14,6 +14,7 @@ shared_scripts {
 
 client_scripts {
     'client/main.lua',
+    'client/functions.lua',
     'client/loops.lua',
     'client/events.lua',
     'client/character.lua',
@@ -24,6 +25,8 @@ client_scripts {
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'server/main.lua',
+    'server/functions.lua',
+    'server/player.lua',
     'server/events.lua',
     'server/commands.lua',
     'server/loops.lua',
@@ -48,9 +51,6 @@ files {
     'shared/main.lua',
     'shared/vehicles.lua',
     'shared/weapons.lua',
-    'server/functions.lua',
-    'server/player.lua',
-    'client/functions.lua',
     'bridge/qb/client/main.lua',
     'bridge/qb/client/functions.lua',
     'bridge/qb/shared/main.lua',

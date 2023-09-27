@@ -43,8 +43,8 @@ lib.addCommand('togglepvp', {
     help = Lang:t("command.togglepvp.help"),
     restricted = "group.admin"
 }, function()
-    QBX.Config.Server.PVP = not QBX.Config.Server.PVP
-    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, QBX.Config.Server.PVP)
+    Config.Server.PVP = not Config.Server.PVP
+    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, Config.Server.PVP)
 end)
 
 -- Permissions
@@ -57,13 +57,13 @@ lib.addCommand('addpermission', {
     },
     restricted = "group.admin"
 }, function(source, args)
-    local player = QBX.Functions.GetPlayer(tonumber(args[Lang:t("command.addpermission.params.id.name")]) --[[@as number]])
+    local player = GetPlayer(tonumber(args[Lang:t("command.addpermission.params.id.name")]) --[[@as number]])
     local permission = tostring(args[Lang:t("command.addpermission.params.permission.name")])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
         return
     end
-    QBX.Functions.AddPermission(player.PlayerData.source, permission)
+    AddPermission(player.PlayerData.source, permission)
 end)
 
 lib.addCommand('removepermission', {
@@ -74,13 +74,13 @@ lib.addCommand('removepermission', {
     },
     restricted = "group.admin"
 }, function(source, args)
-    local player = QBX.Functions.GetPlayer(tonumber(args[Lang:t("command.removepermission.params.id.name")]) --[[@as number]])
+    local player = GetPlayer(tonumber(args[Lang:t("command.removepermission.params.id.name")]) --[[@as number]])
     local permission = tostring(args[Lang:t("command.removepermission.params.permission.name")])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
         return
     end
-    QBX.Functions.RemovePermission(player.PlayerData.source, permission)
+    RemovePermission(player.PlayerData.source, permission)
 end)
 
 -- Open & Close Server
@@ -89,12 +89,12 @@ lib.addCommand('openserver', {
     help = Lang:t("command.openserver.help"),
     restricted = "group.admin"
 }, function(source)
-    if not QBX.Config.Server.Closed then
+    if not Config.Server.Closed then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.server_already_open'), 'error')
         return
     end
-    if QBX.Functions.HasPermission(source, 'admin') then
-        QBX.Config.Server.Closed = false
+    if HasPermission(source, 'admin') then
+        Config.Server.Closed = false
         TriggerClientEvent('QBCore:Notify', source, Lang:t('success.server_opened'), 'success')
     else
         KickWithReason(source, Lang:t("error.no_permission"), nil, nil)
@@ -108,16 +108,16 @@ lib.addCommand('closeserver', {
     },
     restricted = "group.admin"
 }, function(source, args)
-    if QBX.Config.Server.Closed then
+    if Config.Server.Closed then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.server_already_closed'), 'error')
         return
     end
-    if QBX.Functions.HasPermission(source, 'admin') then
+    if HasPermission(source, 'admin') then
         local reason = args[Lang:t("command.closeserver.params.reason.name")] or 'No reason specified'
-        QBX.Config.Server.Closed = true
-        QBX.Config.Server.ClosedReason = reason
+        Config.Server.Closed = true
+        Config.Server.ClosedReason = reason
         for k in pairs(QBX.Players) do
-            if not QBX.Functions.HasPermission(k, QBX.Config.Server.WhitelistPermission) then
+            if not HasPermission(k, Config.Server.WhitelistPermission) then
                 KickWithReason(k, reason, nil, nil)
             end
         end
@@ -137,7 +137,7 @@ lib.addCommand('car', {
     restricted = "group.admin"
 }, function(source, args)
     if not args then return end
-    QBX.Functions.CreateVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
+    CreateVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
 end)
 
 lib.addCommand('dv', {
@@ -158,7 +158,7 @@ lib.addCommand('givemoney', {
     },
     restricted = "group.admin"
 }, function(source, args)
-    local player = QBX.Functions.GetPlayer(tonumber(args[Lang:t("command.givemoney.params.id.name")]) --[[@as number]])
+    local player = GetPlayer(tonumber(args[Lang:t("command.givemoney.params.id.name")]) --[[@as number]])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
         return
@@ -175,7 +175,7 @@ lib.addCommand('setmoney', {
     },
     restricted = "group.admin"
 }, function(source, args)
-    local player = QBX.Functions.GetPlayer(tonumber(args[Lang:t("command.setmoney.params.id.name")]) --[[@as number]])
+    local player = GetPlayer(tonumber(args[Lang:t("command.setmoney.params.id.name")]) --[[@as number]])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
         return
@@ -187,7 +187,7 @@ end)
 lib.addCommand('job', {
     help = Lang:t("command.job.help")
 }, function(source)
-    local PlayerJob = QBX.Functions.GetPlayer(source).PlayerData.job
+    local PlayerJob = GetPlayer(source).PlayerData.job
     TriggerClientEvent('QBCore:Notify', source, Lang:t('info.job_info', {value = PlayerJob?.label, value2 = PlayerJob?.grade.name, value3 = PlayerJob?.onduty}))
 end)
 
@@ -200,7 +200,7 @@ lib.addCommand('setjob', {
     },
     restricted = "group.admin"
 }, function(source, args)
-    local player = QBX.Functions.GetPlayer(tonumber(args[Lang:t("command.setjob.params.id.name")]) --[[@as number]])
+    local player = GetPlayer(tonumber(args[Lang:t("command.setjob.params.id.name")]) --[[@as number]])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
         return
@@ -217,7 +217,7 @@ end)
 lib.addCommand('gang', {
     help = Lang:t("command.gang.help")
 }, function(source)
-    local PlayerGang = QBX.Functions.GetPlayer(source).PlayerData.gang
+    local PlayerGang = GetPlayer(source).PlayerData.gang
     TriggerClientEvent('QBCore:Notify', source, Lang:t('info.gang_info', {value = PlayerGang?.label, value2 = PlayerGang?.grade.name}))
 end)
 
@@ -230,7 +230,7 @@ lib.addCommand('setgang', {
     },
     restricted = "group.admin"
 }, function(source, args)
-    local player = QBX.Functions.GetPlayer(tonumber(args[Lang:t("command.setgang.params.id.name")]) --[[@as number]])
+    local player = GetPlayer(tonumber(args[Lang:t("command.setgang.params.id.name")]) --[[@as number]])
     if not player then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
         return
@@ -249,7 +249,7 @@ lib.addCommand('ooc', {
 }, function(source, args)
     local message = table.concat(args, ' ')
     local players = GetPlayers()
-    local player = QBX.Functions.GetPlayer(source)
+    local player = GetPlayer(source)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     for _, v in pairs(players) do
         if v == source then
@@ -264,8 +264,8 @@ lib.addCommand('ooc', {
                 multiline = true,
                 args = {('OOC | %s'):format(GetPlayerName(source)), message}
             })
-        elseif QBX.Functions.HasPermission(v --[[@as Source]], 'admin') then
-            if QBX.Functions.IsOptin(v --[[@as Source]]) then
+        elseif HasPermission(v --[[@as Source]], 'admin') then
+            if IsOptin(v --[[@as Source]]) then
                 TriggerClientEvent('chat:addMessage', v --[[@as Source]], {
                     color = { 0, 0, 255},
                     multiline = true,
@@ -301,7 +301,7 @@ end)
 lib.addCommand('logout', {
     help = Lang:t('info.logout_command_help'),
     restricted = 'group.admin',
-}, QBX.Player.Logout)
+}, Logout)
 
 lib.addCommand('deletechar', {
     help = Lang:t('info.deletechar_command_help'),
@@ -310,10 +310,10 @@ lib.addCommand('deletechar', {
         { name = 'id', help = Lang:t('info.deletechar_command_arg_player_id'), type = 'number' },
     }
 }, function(source, args)
-    local player = QBX.Functions.GetPlayer(args.id)
+    local player = GetPlayer(args.id)
     if not player then return end
 
     local citizenId = player.PlayerData.citizenid
-    QBX.Player.ForceDeleteCharacter(citizenId)
+    ForceDeleteCharacter(citizenId)
     TriggerClientEvent('QBCore:Notify', source, Lang:t('success.character_deleted_citizenid', {citizenid = citizenId}))
 end)

@@ -2,7 +2,7 @@
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     QBX.IsLoggedIn = true
-    if not QBX.Config.Server.PVP then return end
+    if not Config.Server.PVP then return end
     SetCanAttackFriendly(cache.ped, true, false)
     NetworkSetFriendlyFireOption(true)
 end)
@@ -44,7 +44,7 @@ end)
 RegisterNetEvent('QBCore:Command:GoToMarker', function()
     local blipMarker <const> = GetFirstBlipInfoId(8)
     if not DoesBlipExist(blipMarker) then
-        QBX.Functions.Notify(Lang:t("error.no_waypoint"), 'error')
+        Notify(Lang:t("error.no_waypoint"), 'error')
         return 'marker'
     end
 
@@ -115,12 +115,12 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
         -- If we can't find the coords, set the coords to the old ones.
         -- We don't unpack them before since they aren't in a loop and only called once.
         SetPedCoordsKeepVehicle(ped, oldCoords.x, oldCoords.y, oldCoords.z - 1.0)
-        QBX.Functions.Notify(Lang:t("error.tp_error"), 'error')
+        Notify(Lang:t("error.tp_error"), 'error')
     end
 
     -- If Z coord was found, set coords in found coords.
     SetPedCoordsKeepVehicle(ped, x, y, groundZ)
-    QBX.Functions.Notify(Lang:t("success.teleported_waypoint"), 'success')
+    Notify(Lang:t("success.teleported_waypoint"), 'success')
 end)
 
 -- Vehicle Commands
@@ -164,7 +164,7 @@ end)
 
 ---@see client/functions.lua:QBCore.Functions.Notify
 RegisterNetEvent('QBCore:Notify', function(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
-    QBX.Functions.Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
+    Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
 end)
 
 -- Me command

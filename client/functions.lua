@@ -1,5 +1,3 @@
-local functions = {}
-
 ---Text box popup for player which dissappears after a set time.
 ---@param text table|string text of the notification
 ---@param notifyType? NotificationType informs default styling. Defaults to 'inform'
@@ -9,7 +7,7 @@ local functions = {}
 ---@param notifyStyle? table Custom styling. Please refer too https://overextended.dev/ox_lib/Modules/Interface/Client/notify#libnotify
 ---@param notifyIcon? string Font Awesome 6 icon name
 ---@param notifyIconColor? string Custom color for the icon chosen before
-function functions.Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
+function Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
     local title, description
     if type(text) == "table" then
         title = text.text or 'Placeholder'
@@ -20,7 +18,7 @@ function functions.Notify(text, notifyType, duration, subTitle, notifyPosition, 
     else
         description = text
     end
-    local position = notifyPosition or QBX.Config.NotifyPosition
+    local position = notifyPosition or Config.NotifyPosition
 
     lib.notify({
         id = title,
@@ -35,4 +33,11 @@ function functions.Notify(text, notifyType, duration, subTitle, notifyPosition, 
     })
 end
 
-return functions
+exports('Notify', Notify)
+
+---@return PlayerData? playerData
+function GetPlayerData()
+    return QBX.PlayerData
+end
+
+exports('GetPlayerData', GetPlayerData)

@@ -1,7 +1,7 @@
-if QBX.Config.Characters.UseExternalCharacters then return end
+if Config.Characters.UseExternalCharacters then return end
 
 local previewCam = nil
-local randomLocation = QBX.Config.Characters.Locations[math.random(1, #QBX.Config.Characters.Locations)]
+local randomLocation = Config.Characters.Locations[math.random(1, #Config.Characters.Locations)]
 
 local function setupPreviewCam()
     DoScreenFadeIn(1000)
@@ -145,14 +145,14 @@ end
 ---@return boolean
 local function checkStrings(dialog, input)
     local str = dialog[input]
-    if QBX.Config.Characters.ProfanityWords[str:lower()] then return false end
+    if Config.Characters.ProfanityWords[str:lower()] then return false end
 
     local split = {string.strsplit(' ', str)}
     if #split > 5 then return false end
 
     for i = 1, #split do
         local word = split[i]
-        if QBX.Config.Characters.ProfanityWords[word:lower()] then return false end
+        if Config.Characters.ProfanityWords[word:lower()] then return false end
         if not string.match(word, '%u%l*') then return false end -- Pattern checks for an uppercase letter at the first character and lowercase for the rest
     end
 
@@ -194,7 +194,7 @@ local function createCharacter(cid)
 
     for input = 1, 3 do -- Run through first 3 inputs, aka first name, last name and nationality
         if not checkStrings(dialog, input) then
-            QBX.Functions.Notify(Lang:t('error.no_match_character_registration'), 'error', 10000)
+            Notify(Lang:t('error.no_match_character_registration'), 'error', 10000)
             goto noMatch
             break
         end
@@ -214,7 +214,7 @@ local function createCharacter(cid)
         spawnDefault()
         TriggerEvent('qb-clothes:client:CreateFirstCharacter')
     else
-        if QBX.Config.Characters.StartingApartment then
+        if Config.Characters.StartingApartment then
             TriggerEvent('apartments:client:setupSpawnUI', newData)
         else
             TriggerEvent('qbx_core:client:spawnNoApartments')
@@ -226,7 +226,7 @@ local function createCharacter(cid)
 end
 
 local function chooseCharacter()
-    randomLocation = QBX.Config.Characters.Locations[math.random(1, #QBX.Config.Characters.Locations)]
+    randomLocation = Config.Characters.Locations[math.random(1, #Config.Characters.Locations)]
 
     DoScreenFadeOut(500)
 
@@ -301,7 +301,7 @@ local function chooseCharacter()
                             destroyPreviewCam()
                         end
                     },
-                    QBX.Config.Characters.EnableDeleteButton and {
+                    Config.Characters.EnableDeleteButton and {
                         title = Lang:t('info.delete_character'),
                         description = Lang:t('info.delete_character_description', { playerName = name }),
                         icon = 'trash',
@@ -330,8 +330,8 @@ end
 RegisterNetEvent('qbx_core:client:spawnNoApartments', function() -- This event is only for no starting apartments
     DoScreenFadeOut(500)
     Wait(2000)
-    SetEntityCoords(cache.ped, QBX.Config.DefaultSpawn.x, QBX.Config.DefaultSpawn.y, QBX.Config.DefaultSpawn.z, false, false, false, false)
-    SetEntityHeading(cache.ped, QBX.Config.DefaultSpawn.w)
+    SetEntityCoords(cache.ped, Config.DefaultSpawn.x, Config.DefaultSpawn.y, Config.DefaultSpawn.z, false, false, false, false)
+    SetEntityHeading(cache.ped, Config.DefaultSpawn.w)
     Wait(500)
     destroyPreviewCam()
     SetEntityVisible(cache.ped, true, false)

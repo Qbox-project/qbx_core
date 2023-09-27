@@ -1,22 +1,22 @@
-local qbxConfig = {}
+Config = {}
 
-qbxConfig.MaxPlayers = GetConvarInt('sv_maxclients', 48) -- Gets max players from config file, default 48. Only works for server
-qbxConfig.DefaultSpawn = vec4(-540.58, -212.02, 37.65, 208.88)
-qbxConfig.UpdateInterval = 5 -- how often to update player data in minutes
-qbxConfig.StatusInterval = 5 -- how often to check hunger/thirst status in minutes
+Config.MaxPlayers = GetConvarInt('sv_maxclients', 48) -- Gets max players from config file, default 48. Only works for server
+Config.DefaultSpawn = vec4(-540.58, -212.02, 37.65, 208.88)
+Config.UpdateInterval = 5 -- how often to update player data in minutes
+Config.StatusInterval = 5 -- how often to check hunger/thirst status in minutes
 
-qbxConfig.Characters = {}
-qbxConfig.Characters.UseExternalCharacters = false -- Whether you have an external character management resource. (If true, disables the character management inside the core)
-qbxConfig.Characters.EnableDeleteButton = true -- Whether players should be able to delete characters themselves.
-qbxConfig.Characters.StartingApartment = true -- If set to false, skips apartment choice in the beginning (requires qbx-spawn if true)
-qbxConfig.Characters.DefaultNumberOfCharacters = 3 -- Define maximum amount of default characters (maximum 3 characters defined by default)
-qbxConfig.Characters.PlayersNumberOfCharacters = { -- Define maximum amount of player characters by rockstar license (you can find this license in your server's database in the player table)
+Config.Characters = {}
+Config.Characters.UseExternalCharacters = false -- Whether you have an external character management resource. (If true, disables the character management inside the core)
+Config.Characters.EnableDeleteButton = true -- Whether players should be able to delete characters themselves.
+Config.Characters.StartingApartment = true -- If set to false, skips apartment choice in the beginning (requires qbx-spawn if true)
+Config.Characters.DefaultNumberOfCharacters = 3 -- Define maximum amount of default characters (maximum 3 characters defined by default)
+Config.Characters.PlayersNumberOfCharacters = { -- Define maximum amount of player characters by rockstar license (you can find this license in your server's database in the player table)
     ['license2:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'] = 5,
 }
-qbxConfig.Characters.ProfanityWords = {
+Config.Characters.ProfanityWords = {
     ['bad word'] = true
 }
-qbxConfig.Characters.Locations = { -- Spawn locations for multichar, these are chosen randomly
+Config.Characters.Locations = { -- Spawn locations for multichar, these are chosen randomly
     {
         pedCoords = vec4(969.25, 72.61, 116.18, 276.55),
         camCoords = vec4(972.2, 72.9, 116.68, 97.27),
@@ -43,29 +43,29 @@ qbxConfig.Characters.Locations = { -- Spawn locations for multichar, these are c
     }
 }
 
-qbxConfig.Money = {}
+Config.Money = {}
 
 ---@alias MoneyType 'cash' | 'bank' | 'crypto'
 ---@alias Money {cash: number, bank: number, crypto: number}
 ---@type Money
-qbxConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
+Config.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
 
-qbxConfig.Money.DontAllowMinus = { 'cash', 'crypto' } -- Money that is not allowed going in minus
-qbxConfig.Money.PaycheckTimeout = 10 -- The time in minutes that it will give the paycheck
-qbxConfig.Money.PaycheckSociety = false -- If true paycheck will come from the society account that the player is employed at, requires qb-management
+Config.Money.DontAllowMinus = { 'cash', 'crypto' } -- Money that is not allowed going in minus
+Config.Money.PaycheckTimeout = 10 -- The time in minutes that it will give the paycheck
+Config.Money.PaycheckSociety = false -- If true paycheck will come from the society account that the player is employed at, requires qb-management
 
-qbxConfig.Player = {}
-qbxConfig.Player.HungerRate = 4.2 -- Rate at which hunger goes down.
-qbxConfig.Player.ThirstRate = 3.8 -- Rate at which thirst goes down.
+Config.Player = {}
+Config.Player.HungerRate = 4.2 -- Rate at which hunger goes down.
+Config.Player.ThirstRate = 3.8 -- Rate at which thirst goes down.
 
 ---@enum BloodType
-qbxConfig.Player.Bloodtypes = {
+Config.Player.Bloodtypes = {
     "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-",
 }
 
 ---@alias UniqueIdType 'citizenid' | 'AccountNumber' | 'PhoneNumber' | 'FingerId' | 'WalletId' | 'SerialNumber'
 ---@type table<UniqueIdType, {valueFunction: function}>
-qbxConfig.Player.IdentifierTypes = {
+Config.Player.IdentifierTypes = {
     citizenid = {
         valueFunction = function()
             return tostring(RandomLetter(3) .. RandomNumber(5)):upper()
@@ -98,24 +98,24 @@ qbxConfig.Player.IdentifierTypes = {
     },
 }
 
-qbxConfig.Server = {} -- General server config
-qbxConfig.Server.Closed = false -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
-qbxConfig.Server.ClosedReason = "Server Closed" -- Reason message to display when people can't join the server
-qbxConfig.Server.Uptime = 0 -- Time the server has been up.
-qbxConfig.Server.Whitelist = false -- Enable or disable whitelist on the server
-qbxConfig.Server.WhitelistPermission = 'admin' -- Permission that's able to enter the server when the whitelist is on
-qbxConfig.Server.PVP = true -- Enable or disable pvp on the server (Ability to shoot other players)
-qbxConfig.Server.Discord = "" -- Discord invite link
-qbxConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar license on join
-qbxConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
+Config.Server = {} -- General server config
+Config.Server.Closed = false -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
+Config.Server.ClosedReason = "Server Closed" -- Reason message to display when people can't join the server
+Config.Server.Uptime = 0 -- Time the server has been up.
+Config.Server.Whitelist = false -- Enable or disable whitelist on the server
+Config.Server.WhitelistPermission = 'admin' -- Permission that's able to enter the server when the whitelist is on
+Config.Server.PVP = true -- Enable or disable pvp on the server (Ability to shoot other players)
+Config.Server.Discord = "" -- Discord invite link
+Config.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar license on join
+Config.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
-qbxConfig.NotifyPosition = 'top-right' -- 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
+Config.NotifyPosition = 'top-right' -- 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
 
 ---@alias TableName string
 ---@alias ColumnName string
 
 ---@type table<TableName, ColumnName>
-qbxConfig.CharacterDataTables = {
+Config.CharacterDataTables = {
     players = 'citizenid',
     apartments = 'citizenid',
     bank_accounts = 'citizenid',
@@ -131,7 +131,7 @@ qbxConfig.CharacterDataTables = {
 } -- Rows to be deleted when the character is deleted
 
 ---@type { name: string, amount: integer, metadata: fun(source: number): table }
-qbxConfig.StarterItems = { -- Character starting items
+Config.StarterItems = { -- Character starting items
     { name = 'phone', amount = 1 },
     { name = 'id_card', amount = 1, metadata = function(source)
             if GetResourceState("qbx_idcard") ~= 'started' then
@@ -148,5 +148,3 @@ qbxConfig.StarterItems = { -- Character starting items
         end
     },
 }
-
-return qbxConfig

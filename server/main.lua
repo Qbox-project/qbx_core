@@ -5,7 +5,6 @@ SetRoutingBucketEntityLockdownMode(0, bucketLockDownMode)
 if not lib.checkDependency('ox_lib', '3.10.0', true) then error() return end
 
 QBX = {}
-QBX.Config = require 'config'
 QBX.Shared = require 'shared.main'
 
 ---@alias Source integer
@@ -13,12 +12,9 @@ QBX.Shared = require 'shared.main'
 QBX.Players = {}
 GlobalState.PlayerCount = 0
 
-QBX.Player = require 'server.player'
-
 QBX.Player_Buckets = {}
 QBX.Entity_Buckets = {}
 QBX.UsableItems = {}
-QBX.Functions = require 'server.functions'
 
 ---Adds or overwrites jobs in shared/jobs.lua
 ---@param jobs table<string, Job>
@@ -90,5 +86,26 @@ end
 
 exports('RemoveGang', RemoveGang)
 
----@deprecated import QBX using module 'qbx_core:core' https://qbox-project.github.io/resources/core/import
-exports('GetCoreObject', function() return QBX end)
+function GetJobs()
+    return QBX.Shared.Jobs
+end
+
+exports('GetJobs', GetJobs)
+
+function GetGangs()
+    return QBX.Shared.Gangs
+end
+
+exports('GetGangs', GetGangs)
+
+function GetVehiclesByName()
+    return QBX.Shared.Vehicles
+end
+
+exports('GetVehiclesByName', GetVehiclesByName)
+
+function GetVehiclesByHash()
+    return QBX.Shared.VehicleHashes
+end
+
+exports('GetVehiclesByHash', GetVehiclesByHash)

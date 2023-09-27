@@ -1,6 +1,6 @@
 local qbCoreCompat = {}
 
-qbCoreCompat.Config = QBX.Config
+qbCoreCompat.Config = Config
 qbCoreCompat.Shared = require 'bridge.qb.shared.main'
 qbCoreCompat.Players = QBX.Players
 qbCoreCompat.Player = require 'bridge.qb.server.player'
@@ -49,7 +49,7 @@ end)
 RegisterNetEvent('QBCore:CallCommand', function(command, args)
     local src = source --[[@as Source]]
     if not qbCoreCompat.Commands.List[command] then return end
-    local player = QBX.Functions.GetPlayer(src)
+    local player = GetPlayer(src)
     if not player then return end
     if IsPlayerAceAllowed(src, string.format('command.%s', command)) then
         local commandString = command

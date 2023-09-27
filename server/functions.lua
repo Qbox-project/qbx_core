@@ -1,15 +1,13 @@
-local functions = {}
-
 -- Getters
 -- Get your player first and then trigger a function on them
--- ex: local player = functions.GetPlayer(source)
--- ex: local example = player.Functions.functionname(parameter)
+-- ex: local player = GetPlayer(source)
+-- ex: local example = player.functionname(parameter)
 
 ---@alias Identifier 'steam'|'license'|'license2'|'xbl'|'ip'|'discord'|'live'
 
 ---@param identifier Identifier
 ---@return integer source of the player with the matching identifier or 0 if no player found
-function functions.GetSource(identifier)
+function GetSource(identifier)
     for src in pairs(QBX.Players) do
         local idens = GetPlayerIdentifiers(src)
         for _, id in pairs(idens) do
@@ -21,19 +19,23 @@ function functions.GetSource(identifier)
     return 0
 end
 
+exports('GetSource', GetSource)
+
 ---@param source Source|string source or identifier of the player
 ---@return Player
-function functions.GetPlayer(source)
+function GetPlayer(source)
     if type(source) == 'number' then
         return QBX.Players[source]
     else
-        return QBX.Players[functions.GetSource(source --[[@as string]])]
+        return QBX.Players[GetSource(source --[[@as string]])]
     end
 end
 
+exports('GetPlayer', GetPlayer)
+
 ---@param citizenid string
 ---@return Player?
-function functions.GetPlayerByCitizenId(citizenid)
+function GetPlayerByCitizenId(citizenid)
     for src in pairs(QBX.Players) do
         if QBX.Players[src].PlayerData.citizenid == citizenid then
             return QBX.Players[src]
@@ -41,15 +43,19 @@ function functions.GetPlayerByCitizenId(citizenid)
     end
 end
 
+exports('GetPlayerByCitizenId', GetPlayerByCitizenId)
+
 ---@param citizenid string
 ---@return Player?
-function functions.GetOfflinePlayerByCitizenId(citizenid)
-    return QBX.Player.GetOfflinePlayer(citizenid)
+function GetOfflinePlayerByCitizenId(citizenid)
+    return GetOfflinePlayer(citizenid)
 end
+
+exports('GetOfflinePlayerByCitizenId', GetOfflinePlayerByCitizenId)
 
 ---@param number string
 ---@return Player?
-function functions.GetPlayerByPhone(number)
+function GetPlayerByPhone(number)
     for src in pairs(QBX.Players) do
         if QBX.Players[src].PlayerData.charinfo.phone == number then
             return QBX.Players[src]
@@ -57,18 +63,22 @@ function functions.GetPlayerByPhone(number)
     end
 end
 
+exports('GetPlayerByPhone', GetPlayerByPhone)
+
 ---Will return an array of QB Player class instances
 ---unlike the GetPlayers() wrapper which only returns IDs
 ---@return table<Source, Player>
-function functions.GetQBPlayers()
+function GetQBPlayers()
     return QBX.Players
 end
+
+exports('GetQBPlayers', GetQBPlayers)
 
 ---Gets a list of all on duty players of a specified job and the number
 ---@param job string name
 ---@return integer
 ---@return Source[]
-function functions.GetDutyCountJob(job)
+function GetDutyCountJob(job)
     local players = {}
     local count = 0
     for src, player in pairs(QBX.Players) do
@@ -82,11 +92,13 @@ function functions.GetDutyCountJob(job)
     return count, players
 end
 
+exports('GetDutyCountJob', GetDutyCountJob)
+
 ---Gets a list of all on duty players of a specified job type and the number
 ---@param type string
 ---@return integer
 ---@return Source[]
-function functions.GetDutyCountType(type)
+function GetDutyCountType(type)
     local players = {}
     local count = 0
     for src, player in pairs(QBX.Players) do
@@ -100,20 +112,24 @@ function functions.GetDutyCountType(type)
     return count, players
 end
 
+exports('GetDutyCountType', GetDutyCountType)
+
 -- Routing buckets (Only touch if you know what you are doing)
 
 -- Returns the objects related to buckets, first returned value is the player buckets, second one is entity buckets
 ---@return table
 ---@return table
-function functions.GetBucketObjects()
+function GetBucketObjects()
     return QBX.Player_Buckets, QBX.Entity_Buckets
 end
+
+exports('GetBucketObjects', GetBucketObjects)
 
 -- Will set the provided player id / source into the provided bucket id
 ---@param source Source
 ---@param bucket integer
 ---@return boolean
-function functions.SetPlayerBucket(source, bucket)
+function SetPlayerBucket(source, bucket)
     if not (source or bucket) then return false end
 
     SetPlayerRoutingBucket(source --[[@as string]], bucket)
@@ -121,11 +137,13 @@ function functions.SetPlayerBucket(source, bucket)
     return true
 end
 
+exports('SetPlayerBucket', SetPlayerBucket)
+
 -- Will set any entity into the provided bucket, for example peds / vehicles / props / etc.
 ---@param entity integer
 ---@param bucket integer
 ---@return boolean
-function functions.SetEntityBucket(entity, bucket)
+function SetEntityBucket(entity, bucket)
     if not (entity or bucket) then return false end
 
     SetEntityRoutingBucket(entity, bucket)
@@ -133,10 +151,12 @@ function functions.SetEntityBucket(entity, bucket)
     return true
 end
 
+exports('SetEntityBucket', SetEntityBucket)
+
 -- Will return an array of all the player ids inside the current bucket
 ---@param bucket integer
 ---@return Source[]|boolean
-function functions.GetPlayersInBucket(bucket)
+function GetPlayersInBucket(bucket)
     local curr_bucket_pool = {}
     if not (QBX.Player_Buckets or next(QBX.Player_Buckets)) then
         return false
@@ -151,10 +171,12 @@ function functions.GetPlayersInBucket(bucket)
     return curr_bucket_pool
 end
 
+exports('GetPlayersInBucket', GetPlayersInBucket)
+
 -- Will return an array of all the entities inside the current bucket (not for player entities, use GetPlayersInBucket for that)
 ---@param bucket integer
 ---@return boolean | integer[]
-function functions.GetEntitiesInBucket(bucket)
+function GetEntitiesInBucket(bucket)
     local curr_bucket_pool = {}
     if not (QBX.Entity_Buckets or next(QBX.Entity_Buckets)) then
         return false
@@ -169,34 +191,42 @@ function functions.GetEntitiesInBucket(bucket)
     return curr_bucket_pool
 end
 
+exports('GetEntitiesInBucket', GetEntitiesInBucket)
+
 -- Items
 ---@param item string name
 ---@param data fun(source: Source, item: unknown)
-function functions.CreateUseableItem(item, data)
+function CreateUseableItem(item, data)
     QBX.UsableItems[item] = data
 end
 
+exports('CreateUseableItem', CreateUseableItem)
+
 ---@param item string name
 ---@return unknown
-function functions.CanUseItem(item)
+function CanUseItem(item)
     return QBX.UsableItems[item]
 end
+
+exports('CanUseItem', CanUseItem)
 
 -- Check if player is whitelisted, kept like this for backwards compatibility or future plans
 ---@param source Source
 ---@return boolean
-function functions.IsWhitelisted(source)
-    if not QBX.Config.Server.Whitelist then return true end
-    if functions.HasPermission(source, QBX.Config.Server.WhitelistPermission) then return true end
+function IsWhitelisted(source)
+    if not Config.Server.Whitelist then return true end
+    if HasPermission(source, Config.Server.WhitelistPermission) then return true end
     return false
 end
+
+exports('IsWhitelisted', IsWhitelisted)
 
 -- Setting & Removing Permissions
 -- TODO: Should these be moved to the utility module?
 
 ---@param source Source
 ---@param permission string
-function functions.AddPermission(source, permission)
+function AddPermission(source, permission)
     if not IsPlayerAceAllowed(source --[[@as string]], permission) then
         lib.addPrincipal('player.' .. source, 'group.' .. permission)
         lib.addAce('player.' .. source, 'group.' .. permission)
@@ -205,9 +235,11 @@ function functions.AddPermission(source, permission)
     end
 end
 
+exports('AddPermission', AddPermission)
+
 ---@param source Source
 ---@param permission string
-function functions.RemovePermission(source, permission)
+function RemovePermission(source, permission)
     if permission then
         if IsPlayerAceAllowed(source --[[@as string]], permission) then
             lib.removePrincipal('player.' .. source, 'group.' .. permission)
@@ -217,7 +249,7 @@ function functions.RemovePermission(source, permission)
         end
     else
         local hasUpdated = false
-        for _, v in pairs(QBX.Config.Server.Permissions) do
+        for _, v in pairs(Config.Server.Permissions) do
             if IsPlayerAceAllowed(source --[[@as string]], v) then
                 lib.removePrincipal('player.' .. source, 'group.' .. v)
                 lib.removeAce('player.' .. source, 'group.' .. v)
@@ -231,11 +263,13 @@ function functions.RemovePermission(source, permission)
     end
 end
 
+exports('RemovePermission', RemovePermission)
+
 -- Checking for Permission Level
 ---@param source Source
 ---@param permission string|string[]
 ---@return boolean
-function functions.HasPermission(source, permission)
+function HasPermission(source, permission)
     if type(permission) == "string" then
         if IsPlayerAceAllowed(source --[[@as string]], permission) then return true end
     elseif type(permission) == "table" then
@@ -247,11 +281,13 @@ function functions.HasPermission(source, permission)
     return false
 end
 
+exports('HasPermission', HasPermission)
+
 ---@param source Source
 ---@return table<string, boolean>
-function functions.GetPermission(source)
+function GetPermission(source)
     local perms = {}
-    for _, v in pairs (QBX.Config.Server.Permissions) do
+    for _, v in pairs (Config.Server.Permissions) do
         if IsPlayerAceAllowed(source --[[@as string]], v) then
             perms[v] = true
         end
@@ -259,31 +295,37 @@ function functions.GetPermission(source)
     return perms
 end
 
+exports('GetPermission', GetPermission)
+
 -- Opt in or out of admin reports
 ---@param source Source
 ---@return boolean
-function functions.IsOptin(source)
+function IsOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    if not license or not functions.HasPermission(source, 'admin') then return false end
-    local player = functions.GetPlayer(source)
+    if not license or not HasPermission(source, 'admin') then return false end
+    local player = GetPlayer(source)
     return player.PlayerData.optin
 end
 
+exports('IsOptin', IsOptin)
+
 ---Opt in or out of admin reports
 ---@param source Source
-function functions.ToggleOptin(source)
+function ToggleOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    if not license or not functions.HasPermission(source, 'admin') then return end
-    local player = functions.GetPlayer(source)
+    if not license or not HasPermission(source, 'admin') then return end
+    local player = GetPlayer(source)
     player.PlayerData.optin = not player.PlayerData.optin
-    player.Functions.SetPlayerData('optin', player.PlayerData.optin)
+    player.SetPlayerData('optin', player.PlayerData.optin)
 end
+
+exports('ToggleOptin', ToggleOptin)
 
 -- Check if player is banned
 ---@param source Source
 ---@return boolean
 ---@return string? playerMessage
-function functions.IsPlayerBanned(source)
+function IsPlayerBanned(source)
     local plicense = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     local result = FetchBanEntity({
         license = plicense
@@ -302,8 +344,10 @@ function functions.IsPlayerBanned(source)
     return false
 end
 
----@see client/functions.lua:functions.Notify
-function functions.Notify(source, text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
+exports('IsPlayerBanned', IsPlayerBanned)
+
+---@see client/lua:Notify
+function Notify(source, text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
     local title, description
     if type(text) == "table" then
         title = text.text or 'Placeholder'
@@ -314,7 +358,7 @@ function functions.Notify(source, text, notifyType, duration, subTitle, notifyPo
     else
         description = text
     end
-    local position = notifyPosition or QBX.Config.NotifyPosition
+    local position = notifyPosition or Config.NotifyPosition
 
     TriggerClientEvent('ox_lib:notify', source, {
         id = title,
@@ -329,105 +373,7 @@ function functions.Notify(source, text, notifyType, duration, subTitle, notifyPo
     })
 end
 
----Add a new function to the Functions table of the player class
----Use-case:
--- [[
---     AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
---         QBX.Functions.AddPlayerMethod(Player.PlayerData.source, "functionName", function(oneArg, orMore)
---             -- do something here
---         end)
---     end)
--- ]]
----@param ids number|number[] which players to add the method to. -1 for all players
----@param methodName string
----@param handler function
-function functions.AddPlayerMethod(ids, methodName, handler)
-    local idType = type(ids)
-    if idType == "number" then
-        if ids == -1 then
-            for _, v in pairs(QBX.Players) do
-                v.Functions.AddMethod(methodName, handler)
-            end
-        else
-            if not QBX.Players[ids] then return end
-
-            QBX.Players[ids].Functions.AddMethod(methodName, handler)
-        end
-    elseif idType == "table" and table.type(ids) == "array" then
-        for i = 1, #ids do
-            QBX.Functions.AddPlayerMethod(ids[i], methodName, handler)
-        end
-    end
-end
-
----Add a new field table of the player class
----Use-case:
---[[
-    AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
-        QBX.Functions.AddPlayerField(Player.PlayerData.source, "fieldName", "fieldData")
-    end)
-]]
----@param ids number|number[] which players to add a new field to. -1 for all players
----@param fieldName string
----@param data any
-function functions.AddPlayerField(ids, fieldName, data)
-    local idType = type(ids)
-    if idType == "number" then
-        if ids == -1 then
-            for _, v in pairs(QBX.Players) do
-                v.Functions.AddField(fieldName, data)
-            end
-        else
-            if not QBX.Players[ids] then return end
-
-            QBX.Players[ids].Functions.AddField(fieldName, data)
-        end
-    elseif idType == "table" and table.type(ids) == "array" then
-        for i = 1, #ids do
-            QBX.Functions.AddPlayerField(ids[i], fieldName, data)
-        end
-    end
-end
-
--- Add or change (a) method(s) in the QBX.Functions table
----@param methodName string
----@param handler function
----@return boolean success
----@return string message
-local function SetMethod(methodName, handler)
-    if type(methodName) ~= "string" then
-        return false, "invalid_method_name"
-    end
-
-    QBX.Functions[methodName] = handler
-
-    TriggerEvent('QBCore:Server:UpdateObject')
-
-    return true, "success"
-end
-
-functions.SetMethod = SetMethod
-exports("SetMethod", SetMethod)
-
--- Add or change (a) field(s) in the QBCore table
----@param fieldName string
----@param data any
----@return boolean success
----@return string message
-local function SetField(fieldName, data)
-    if type(fieldName) ~= "string" then
-        return false, "invalid_field_name"
-    end
-
-    QBX[fieldName] = data
-
-    TriggerEvent('QBCore:Server:UpdateObject')
-
-    return true, "success"
-end
-
-functions.SetField = SetField
-exports("SetField", SetField)
+exports('Notify', Notify)
 
 ---@param InvokingResource string
 ---@return string version
@@ -440,7 +386,6 @@ local function GetCoreVersion(InvokingResource)
     return resourceVersion
 end
 
-functions.GetCoreVersion = GetCoreVersion
 exports('GetCoreVersion', GetCoreVersion)
 
 ---@param playerId Source server id
@@ -458,10 +403,8 @@ local function ExploitBan(playerId, origin)
             bannedBy = 'Anti Cheat'
         })
     end)
-    DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = QBX.Config.Server.Discord}))
+    DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = Config.Server.Discord}))
     TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
 end
 
 exports('ExploitBan', ExploitBan)
-
-return functions

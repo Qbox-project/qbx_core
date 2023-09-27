@@ -1,5 +1,5 @@
 CreateThread(function()
-    local timeout = 60000 * QBX.Config.StatusInterval
+    local timeout = 60000 * Config.StatusInterval
     while true do
         Wait(timeout)
 
