@@ -8,6 +8,8 @@ function CreateQbExport(name, cb)
 end
 
 function AddDeprecatedFunctions(player)
+    if not player then return end
+    
     ---@deprecated call ox_inventory instead
     function player.Functions.GetCardSlot()
         error("player.Functions.GetCardSlot is unsupported. Call ox_inventory directly")
