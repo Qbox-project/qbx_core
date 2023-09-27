@@ -50,6 +50,10 @@ local function checkModule(module, resourceName)
 
     local path = ('modules/%s.lua'):format(file)
     local import = LoadResourceFile(resourceName, path)
+    if not path or not import then
+        lib.print.error("attempted to import a module from qbx_core that doesn't exist")
+        return
+    end
     local chunk = assert(load(import, ('@@%s/%s'):format(resourceName, path)))
     if not chunk then return end
 
