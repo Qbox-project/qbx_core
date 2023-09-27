@@ -45,14 +45,6 @@ end
 
 exports('GetPlayerByCitizenId', GetPlayerByCitizenId)
 
----@param citizenid string
----@return Player?
-function GetOfflinePlayerByCitizenId(citizenid)
-    return GetOfflinePlayer(citizenid)
-end
-
-exports('GetOfflinePlayerByCitizenId', GetOfflinePlayerByCitizenId)
-
 ---@param number string
 ---@return Player?
 function GetPlayerByPhone(number)

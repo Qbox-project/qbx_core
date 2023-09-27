@@ -7,6 +7,25 @@ function CreateQbExport(name, cb)
     end)
 end
 
+function AddDeprecatedFunctions(player)
+    ---@deprecated call ox_inventory instead
+    function player.Functions.GetCardSlot()
+        error("player.Functions.GetCardSlot is unsupported. Call ox_inventory directly")
+    end
+
+    ---@deprecated player.Functions.SetMetaData instead
+    function player.Functions.AddField()
+        error("player.Functions.AddField is unsupported. Use player.Functions.SetMetaData instead")
+    end
+
+    ---@deprecated
+    function player.Functions.AddMethod()
+        error("player.Functions.AddMethod is unsupported")
+    end
+
+    return player
+end
+
 ---@deprecated
 functions.GetCoords = GetCoordsFromEntity
 
@@ -418,32 +437,37 @@ end
 ---@param source Source|string source or identifier of the player
 ---@return Player
 function functions.GetPlayer(source)
-    return exports.qbx_core:GetPlayer(source)
+    return AddDeprecatedFunctions(exports.qbx_core:GetPlayer(source))
 end
 
 ---@param citizenid string
 ---@return Player?
 function functions.GetPlayerByCitizenId(citizenid)
-    return exports.qbx_core:GetPlayerByCitizenId(citizenid)
+    return AddDeprecatedFunctions(exports.qbx_core:GetPlayerByCitizenId(citizenid))
 end
 
 ---@param citizenid string
 ---@return Player?
 function functions.GetOfflinePlayerByCitizenId(citizenid)
-    return exports.qbx_core:GetOfflinePlayerByCitizenId(citizenid)
+    return AddDeprecatedFunctions(exports.qbx_core:GetOfflinePlayer(citizenid))
 end
 
 ---@param number string
 ---@return Player?
 function functions.GetPlayerByPhone(number)
-    return exports.qbx_core:GetPlayersByPhone(number)
+    return AddDeprecatedFunctions(exports.qbx_core:GetPlayersByPhone(number))
 end
 
 ---Will return an array of QB Player class instances
 ---unlike the GetPlayers() wrapper which only returns IDs
 ---@return table<Source, Player>
 function functions.GetQBPlayers()
-    return exports.qbx_core:GetQBPlayers()
+    local players = exports.qbx_core:GetQBPlayers()
+    local deprecatedPlayers = {}
+    for k, player in pairs(players) do
+        deprecatedPlayers[k] = AddDeprecatedFunctions(player)
+    end
+    return deprecatedPlayers
 end
 
 ---Gets a list of all on duty players of a specified job and the number

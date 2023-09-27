@@ -158,8 +158,6 @@ function CheckPlayerData(source, playerData)
     return CreatePlayer(playerData --[[@as PlayerData]], Offline)
 end
 
-exports('CheckPlayerData', CheckPlayerData)
-
 ---On player logout
 ---@param source Source
 function Logout(source)
@@ -208,11 +206,8 @@ exports('Logout', Logout)
 ---@field SetMoney fun(moneytype: MoneyType, amount: number, reason?: string): boolean
 ---@field GetMoney fun(moneytype: MoneyType): boolean | number
 ---@field SetCreditCard fun(cardNumber: number)
----@field GetCardSlot fun(cardNumber: number, cardType: 'visa' | 'mastercard' | string): number?
 ---@field Save fun()
 ---@field Logout fun()
----@field AddMethod fun(methodName: string, handler: function)
----@field AddField fun(fieldName: string, data: any)
 
 ---Create a new character
 ---Don't touch any of this unless you know what you are doing
@@ -441,22 +436,6 @@ function CreatePlayer(playerData, Offline)
         self.Functions.UpdatePlayerData()
     end
 
-    ---@param cardNumber number
-    ---@param cardType 'visa' | 'mastercard' | string
-    ---@return number? slot of the card if found
-    function self.Functions.GetCardSlot(cardNumber, cardType)
-        local item = tostring(cardType)
-        local slots = exports['qb-inventory']:GetSlotsByItem(self.PlayerData.items, item)
-        for _, slot in pairs(slots) do
-            if slot then
-                if self.PlayerData.items[slot].info.cardNumber == cardNumber then
-                    return slot
-                end
-            end
-        end
-        return nil
-    end
-
     function self.Functions.Save()
         if self.Offline then
             SaveOffline(self.PlayerData)
@@ -465,24 +444,10 @@ function CreatePlayer(playerData, Offline)
         end
     end
 
+    ---@deprecated call exports.qbx_core:Logout(source)
     function self.Functions.Logout()
         if self.Offline then return end -- Unsupported for Offline Players
         Logout(self.PlayerData.source)
-    end
-
-    ---adds a new player method at runtime
-    ---@param methodName string
-    ---@param handler function
-    function self.Functions.AddMethod(methodName, handler)
-        self.Functions[methodName] = handler
-    end
-
-    ---adds a new player field at runtime
-    ---note this probably isn't what you want. If data should be persistent, see self.Functions.SetMetaData instead.
-    ---@param fieldName string
-    ---@param data any
-    function self.Functions.AddField(fieldName, data)
-        self[fieldName] = data
     end
 
     if not self.Offline then
@@ -567,8 +532,6 @@ function DeleteCharacter(source, citizenid)
     end
 end
 
-exports('DeleteCharacter', DeleteCharacter)
-
 ---@param citizenid string
 function ForceDeleteCharacter(citizenid)
     local result = FetchPlayerEntity(citizenid).license
@@ -587,7 +550,7 @@ function ForceDeleteCharacter(citizenid)
     end
 end
 
-exports('ForceDeleteCharacter', ForceDeleteCharacter)
+exports('DeleteCharacter', ForceDeleteCharacter)
 
 ---Generate unique values for player identifiers
 ---@param type UniqueIdType The type of unique value to generate

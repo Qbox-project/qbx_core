@@ -51,14 +51,12 @@ end
 ---@param citizenid string
 ---@return Player? player if found in storage
 function playerObj.GetOfflinePlayer(citizenid)
-    return exports.qbx_core:GetOfflinePlayer(citizenid)
+    return AddDeprecatedFunctions(exports.qbx_core:GetOfflinePlayer(citizenid))
 end
 
----@param source? integer if player is online
----@param playerData? PlayerEntity|PlayerData
----@return Player player
-function playerObj.CheckPlayerData(source, playerData)
-    return exports.qbx_core:CheckPlayerData(source, playerData)
+---@deprecated unsupported. Call Login or CreatePlayer
+function playerObj.CheckPlayerData()
+    error("Unsupported. Call Login or CreatePlayer")
 end
 
 ---On player logout
@@ -74,7 +72,7 @@ end
 ---@param Offline boolean
 ---@return Player player
 function playerObj.CreatePlayer(playerData, Offline)
-    return exports.qbx_core:CreatePlayer(playerData, Offline)
+    AddDeprecatedFunctions(exports.qbx_core:CreatePlayer(playerData, Offline))
 end
 
 ---Save player info to database (make sure citizenid is the primary key in your database)
@@ -91,12 +89,12 @@ end
 ---@param source Source
 ---@param citizenid string
 function playerObj.DeleteCharacter(source, citizenid)
-    exports.qbx_core:DeleteCharacter(source, citizenid)
+    DeleteCharacter(source, citizenid)
 end
 
 ---@param citizenid string
 function playerObj.ForceDeleteCharacter(citizenid)
-    exports.qbx_core:ForceDeleteCharacter(citizenid)
+    exports.qbx_core:DeleteCharacter(citizenid)
 end
 
 ---Generate unique values for player identifiers
