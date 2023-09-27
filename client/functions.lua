@@ -9,7 +9,7 @@ local functions = {}
 ---@param notifyStyle? table Custom styling. Please refer too https://overextended.dev/ox_lib/Modules/Interface/Client/notify#libnotify
 ---@param notifyIcon? string Font Awesome 6 icon name
 ---@param notifyIconColor? string Custom color for the icon chosen before
-function functions.Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
+function Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
     local title, description
     if type(text) == "table" then
         title = text.text or 'Placeholder'
@@ -34,5 +34,7 @@ function functions.Notify(text, notifyType, duration, subTitle, notifyPosition, 
         iconColor = notifyIconColor
     })
 end
+
+exports('Notify', Notify)
 
 return functions
