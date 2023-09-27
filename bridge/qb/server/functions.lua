@@ -1,3 +1,4 @@
+require 'server.functions'
 local functions = {}
 
 function CreateQbExport(name, cb)

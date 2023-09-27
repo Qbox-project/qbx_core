@@ -1,3 +1,4 @@
+require 'client.functions'
 local functions = {}
 
 -- Player
