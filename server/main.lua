@@ -109,6 +109,3 @@ function GetVehiclesByHash()
 end
 
 exports('GetVehiclesByHash', GetVehiclesByHash)
-
----@deprecated import QBX using module 'qbx_core:core' https://qbox-project.github.io/resources/core/import
-exports('GetCoreObject', function() return QBX end)
