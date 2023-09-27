@@ -31,6 +31,13 @@ end
 
 exports('GetVehiclesByHash', GetVehiclesByHash)
 
+---@return table<number, Weapon>
+function GetWeapons()
+    return QBX.Shared.Weapons
+end
+
+exports('GetWeapons', GetWeapons)
+
 AddStateBagChangeHandler('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
     QBX.IsLoggedIn = value
 end)
