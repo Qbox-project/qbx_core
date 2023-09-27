@@ -9,7 +9,7 @@ end
 
 function AddDeprecatedFunctions(player)
     if not player then return end
-    
+
     ---@deprecated call ox_inventory instead
     function player.Functions.GetCardSlot()
         error("player.Functions.GetCardSlot is unsupported. Call ox_inventory directly")
@@ -344,12 +344,12 @@ function functions.AddPlayerMethod(ids, methodName, handler)
     if idType == "number" then
         if ids == -1 then
             for _, v in pairs(QBX.Players) do
-                v.Functions.AddMethod(methodName, handler)
+                v.Functions[methodName] = handler
             end
         else
             if not QBX.Players[ids] then return end
 
-            QBX.Players[ids].Functions.AddMethod(methodName, handler)
+            QBX.Players[ids].Functions[methodName] = handler
         end
     elseif idType == "table" and table.type(ids) == "array" then
         for i = 1, #ids do
