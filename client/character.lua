@@ -181,6 +181,32 @@ local function spawnDefault() -- We use a callback to make the server wait on th
     TriggerEvent('qb-clothes:client:CreateFirstCharacter')
 end
 
+local function spawnLastLocation()
+    DoScreenFadeOut(500)
+
+    while not IsScreenFadedOut() do
+        Wait(0)
+    end
+
+    destroyPreviewCam()
+
+    pcall(function() exports.spawnmanager:spawnPlayer({
+        x = QBX.PlayerData.position.x,
+        y = QBX.PlayerData.position.y,
+        z = QBX.PlayerData.position.z,
+        heading = QBX.PlayerData.position.w
+    }) end)
+
+    TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
+    TriggerEvent('QBCore:Client:OnPlayerLoaded')
+    TriggerServerEvent('qb-houses:server:SetInsideMeta', 0, false)
+    TriggerServerEvent('qb-apartments:server:SetInsideMeta', 0, 0, false)
+
+    while not IsScreenFadedIn() do
+        Wait(0)
+    end
+end
+
 ---@param cid integer
 ---@return boolean
 local function createCharacter(cid)
@@ -210,7 +236,7 @@ local function createCharacter(cid)
         cid = cid
     })
 
-    if GetResourceState('qbx-spawn') == 'missing' then
+    if GetResourceState('qbx_spawn') == 'missing' then
         spawnDefault()
         TriggerEvent('qb-clothes:client:CreateFirstCharacter')
     else
@@ -294,9 +320,11 @@ local function chooseCharacter()
                             lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
                             if GetResourceState('qbx-apartments'):find('start') then
                                 TriggerEvent('apartments:client:setupSpawnUI', { citizenid = character.citizenid })
-                            else
+                            elseif GetResourceState('qbx_spawn'):find('start') then
                                 TriggerEvent('qb-spawn:client:setupSpawns', { citizenid = character.citizenid })
                                 TriggerEvent('qb-spawn:client:openUI', true)
+                            else
+                                spawnLastLocation()
                             end
                             destroyPreviewCam()
                         end
