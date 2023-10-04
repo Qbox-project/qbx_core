@@ -71,7 +71,7 @@ lib.callback.register('qbx_core:server:createCharacter', function(source, data)
     if not player then return end
 
     giveStarterItems(source)
-    if GetResourceState('qbx-spawn') == 'missing' then
+    if GetResourceState('qbx_spawn') == 'missing' then
         SetPlayerRoutingBucket(source, 0)
     end
 
