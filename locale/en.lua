@@ -56,7 +56,8 @@ local Translations = {
         nationality = 'Nationality',
         gender = 'Sex',
         birth_date = 'Birth Date',
-        select_gender = 'Select your gender...'
+        select_gender = 'Select your gender...',
+        confirm_delete = 'Are you sure you wish to delete this character?'
     },
     command = {
         tp = {

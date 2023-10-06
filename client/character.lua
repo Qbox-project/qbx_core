@@ -334,9 +334,18 @@ local function chooseCharacter()
                         description = Lang:t('info.delete_character_description', { playerName = name }),
                         icon = 'trash',
                         onSelect = function()
-                            TriggerServerEvent('qbx_core:server:deleteCharacter', character.citizenid)
-                            destroyPreviewCam()
-                            chooseCharacter()
+                            if lib.alertDialog({
+                                header = Lang:t('info.delete_character'),
+                                content = Lang:t('info.confirm_delete'),
+                                centered = true,
+                                cancel = true
+                            }) then
+                                TriggerServerEvent('qbx_core:server:deleteCharacter', character.citizenid)
+                                destroyPreviewCam()
+                                chooseCharacter()
+                            else
+                                lib.showContext('qbx_core_multichar_character_'..i)
+                            end
                         end
                     } or nil
                 }
