@@ -339,7 +339,7 @@ local function chooseCharacter()
                                 content = Lang:t('info.confirm_delete'),
                                 centered = true,
                                 cancel = true
-                            }) 
+                            })
                             if alert == 'confirm' then
                                 TriggerServerEvent('qbx_core:server:deleteCharacter', character.citizenid)
                                 destroyPreviewCam()
