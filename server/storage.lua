@@ -225,7 +225,7 @@ end
 ---@param citizenId string
 ---@return boolean success if operation is successful.
 function DeletePlayerEntity(citizenId)
-    local query = "DELETE IGNORE FROM %s WHERE %s = ?"
+    local query = "DELETE FROM %s WHERE %s = ?"
     local queries = {}
 
     for tableName, columnName in pairs(Config.CharacterDataTables) do
