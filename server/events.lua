@@ -1,5 +1,5 @@
 -- Event Handler
-
+QBX.Player_Buckets = {}
 local usedLicenses = {}
 
 ---@param message string
