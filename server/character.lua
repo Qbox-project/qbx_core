@@ -6,9 +6,16 @@ end
 
 ---@param source Source
 local function giveStarterItems(source)
-    while not exports.ox_inventory:GetInventory(source) do
+    local getInv = function(source) return exports.ox_inventory:GetInventory(source) ~= false end
+    local i = 0
+    local invCreated = getInv(source)
+    while not invCreated and i < 100 do
+        i += 1
         Wait(100)
+        invCreated = getInv(source)
     end
+
+    if not invCreated then return error('starting items could not be given because no inventory could be found') end
     
     for i = 1, #Config.StarterItems do
         local item = Config.StarterItems[i]
