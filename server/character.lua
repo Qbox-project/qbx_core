@@ -6,6 +6,10 @@ end
 
 ---@param source Source
 local function giveStarterItems(source)
+    while not exports.ox_inventory:GetInventory(source) do
+        Wait(100)
+    end
+    
     for i = 1, #Config.StarterItems do
         local item = Config.StarterItems[i]
         if item.metadata and type(item.metadata) == 'function' then
