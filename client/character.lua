@@ -54,21 +54,16 @@ local function randomClothes(entity)
 end
 
 ---@param citizenId? string
----@param gender? integer
-local function previewPed(citizenId, gender)
+local function previewPed(citizenId)
     if not citizenId then
         randomClothes(cache.ped)
         return
     end
 
     local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
-
     if model then
-        local currentModel = GetEntityModel(cache.ped)
-        if (currentModel ~= `mp_m_freemode_01` and gender == 0) or (currentModel ~= `mp_f_freemode_01` and gender == 1) then
-            lib.requestModel(model)
-            SetPlayerModel(cache.playerId, model)
-        end
+        lib.requestModel(model)
+        SetPlayerModel(cache.playerId, model)
         SetModelAsNoLongerNeeded(model)
     end
 
@@ -294,7 +289,7 @@ local function chooseCharacter()
             onSelect = function()
                 if character then
                     lib.showContext('qbx_core_multichar_character_'..i)
-                    previewPed(character.citizenid, character.charinfo.gender)
+                    previewPed(character.citizenid)
                 else
                     local success = createCharacter(i)
                     if success then return end
