@@ -61,7 +61,7 @@ local function previewPed(citizenId)
         SetPlayerModel(cache.playerId, model)
         pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), json.decode(clothing)) end)
     else
-        local model = randomPedModels[math.random(1, #randomPedModels)]
+        model = randomPedModels[math.random(1, #randomPedModels)]
         lib.requestModel(model)
         SetPlayerModel(cache.playerId, model)
     end
