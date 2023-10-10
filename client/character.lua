@@ -3,6 +3,19 @@ if Config.Characters.UseExternalCharacters then return end
 local previewCam = nil
 local randomLocation = Config.Characters.Locations[math.random(1, #Config.Characters.Locations)]
 
+local randomPedModels = {
+    `a_m_o_soucent_02`,
+    `mp_g_m_pros_01`,
+    `a_m_m_prolhost_01`,
+    `a_f_m_prolhost_01`,
+    `a_f_y_smartcaspat_01`,
+    `a_f_y_runner_01`,
+    `a_f_y_vinewood_04`,
+    `a_f_o_soucent_02`,
+    `a_m_y_cyclist_01`,
+    `a_m_m_hillbilly_02`,
+}
+
 local function setupPreviewCam()
     DoScreenFadeIn(1000)
     SetTimecycleModifier('hud_def_blur')
@@ -33,44 +46,24 @@ local function destroyPreviewCam()
     FreezeEntityPosition(cache.ped, false)
 end
 
----@param entity integer
-local function randomClothes(entity)
-    for i = 0, 11 do
-        SetPedComponentVariation(entity, i, 0, 0, 0)
-    end
-    for i = 0, 7 do
-        ClearPedProp(entity, i)
-    end
-    SetPedHeadBlendData(entity, math.random(0, 45), math.random(0, 45), 0, math.random(0, 15), math.random(0, 15), 0, math.random(0, 100) / 100, math.random(0, 100) / 100, 0, true)
-    SetPedComponentVariation(entity, 4, math.random(0, 110), 0, 0)
-    SetPedComponentVariation(entity, 2, math.random(0, 45), 0, 0)
-    SetPedHairColor(entity, math.random(0, 45), math.random(0, 45))
-    SetPedHeadOverlay(entity, 2, math.random(0, 34), 1.0)
-    SetPedHeadOverlayColor(entity, 2, 1, math.random(0, 45), 0)
-    SetPedComponentVariation(entity, 3, math.random(0, 160), 0, 2)
-    SetPedComponentVariation(entity, 8, math.random(0, 160), 0, 2)
-    SetPedComponentVariation(entity, 11, math.random(0, 340), 0, 2)
-    SetPedComponentVariation(entity, 6, math.random(0, 78), 0, 2)
-end
-
 ---@param citizenId? string
 local function previewPed(citizenId)
     if not citizenId then
-        randomClothes(cache.ped)
+        local model = randomPedModels[math.random(1, #randomPedModels)]
+        lib.requestModel(model)
+        SetPlayerModel(cache.playerId, model)
         return
     end
 
     local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
-    if model then
+    if model and clothing then
         lib.requestModel(model)
         SetPlayerModel(cache.playerId, model)
-        SetModelAsNoLongerNeeded(model)
-    end
-
-    if clothing then
-        pcall(function() exports['illenium-appearance']:setPedAppearance(cache.ped, json.decode(clothing)) end)
+        pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), json.decode(clothing)) end)
     else
-        randomClothes(cache.ped)
+        model = randomPedModels[math.random(1, #randomPedModels)]
+        lib.requestModel(model)
+        SetPlayerModel(cache.playerId, model)
     end
 end
 
@@ -251,7 +244,7 @@ local function chooseCharacter()
 
     DoScreenFadeOut(500)
 
-    while not IsScreenFadedOut() do
+    while not IsScreenFadedOut() and cache.ped ~= PlayerPedId()  do
         Wait(0)
     end
 
@@ -259,7 +252,6 @@ local function chooseCharacter()
     Wait(1000)
     SetEntityCoords(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false, false)
     SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
-    randomClothes(cache.ped)
     Wait(1500)
     ShutdownLoadingScreen()
     ShutdownLoadingScreenNui()
@@ -274,15 +266,17 @@ local function chooseCharacter()
         options[i] = {
             title = character and string.format('%s %s - %s', character.charinfo.firstname, character.charinfo.lastname, character.citizenid) or Lang:t('info.multichar_new_character', { number = i }),
             metadata = character and {
+                Name = name,
+                Gender = character.charinfo.gender == 0 and Lang:t('info.char_male') or Lang:t('info.char_female'),
+                Birthdate = character.charinfo.birthdate,
+                Nationality = character.charinfo.nationality,
                 ['Account Number'] = character.charinfo.account,
                 Bank = CommaValue(character.money.bank),
-                Birthdate = character.charinfo.birthdate,
                 Cash = CommaValue(character.money.cash),
-                Gender = character.charinfo.gender == 0 and Lang:t('info.char_male') or Lang:t('info.char_female'),
                 Job = character.job.label,
                 ['Job Grade'] = character.job.grade.name,
-                Name = name,
-                Nationality = character.charinfo.nationality,
+                Gang = character.gang.label,
+                ['Gang Grade'] = character.gang.grade.name,
                 ['Phone Number'] = character.charinfo.phone
             } or nil,
             icon = 'user',
@@ -384,19 +378,16 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
 end)
 
 CreateThread(function()
-	local modelHash = `mp_m_freemode_01`
-	while true do
-		Wait(0)
-		if NetworkIsSessionStarted() then
+    local model = randomPedModels[math.random(1, #randomPedModels)]
+    while true do
+        Wait(0)
+        if NetworkIsSessionStarted() then
             pcall(function() exports.spawnmanager:setAutoSpawn(false) end)
             Wait(250)
+            lib.requestModel(model)
+            SetPlayerModel(cache.playerId, model)
             chooseCharacter()
-            lib.requestModel(modelHash)
-            while GetEntityModel(cache.ped) ~= modelHash do
-                SetPlayerModel(cache.playerId, modelHash)
-                Wait(100)
-            end
             break
         end
-	end
+    end
 end)

@@ -16,7 +16,7 @@ local function giveStarterItems(source)
     end
 
     if not invCreated then return error('starting items could not be given because no inventory could be found') end
-    
+
     for i = 1, #Config.StarterItems do
         local item = Config.StarterItems[i]
         if item.metadata and type(item.metadata) == 'function' then
