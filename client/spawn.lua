@@ -100,8 +100,6 @@ lib.callback.register('qbx_core:client:getSpawnLocation', function(data)
         promise:resolve(false)
     end
 
-    :: skip ::
-
     return Citizen.Await(promise)
 end)
 
