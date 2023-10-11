@@ -168,10 +168,33 @@ end
 ---@field skin string
 ---@field active integer
 
+---@class PlayerApartment
+---@field citizenid string
+---@field name string
+---@field label string
+---@field type string
+
+---@class PlayerHouse
+---@field citizenid string
+---@field coords {enter: table, cam: table}
+---@field label string
+
 ---@param citizenId string
 ---@return PlayerSkin?
 function FetchPlayerSkin(citizenId)
     return MySQL.single.await('SELECT * FROM playerskins WHERE citizenid = ? AND active = 1', {citizenId})
+end
+
+---@param citizenId string
+---@return PlayerApartment?
+function FetchPlayerApartment(citizenId)
+    return MySQL.single.await('SELECT * FROM apartments WHERE citizenid = ?', {citizenId})
+end
+
+---@param citizenId string
+---@return PlayerHouse?
+function FetchPlayerHouses(citizenId)
+    return MySQL.query.await('SELECT ph.`citizenid`, hl.`coords`, hl.`label`, hl.`name` FROM `player_houses` ph JOIN `houselocations` hl ON ph.`house` = hl.`name` WHERE ph.`citizenid` = ?', {citizenId})
 end
 
 local function convertPosition(position)

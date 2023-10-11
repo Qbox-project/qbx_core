@@ -8,7 +8,7 @@ Config.StatusInterval = 5 -- how often to check hunger/thirst status in minutes
 Config.Characters = {}
 Config.Characters.UseExternalCharacters = false -- Whether you have an external character management resource. (If true, disables the character management inside the core)
 Config.Characters.EnableDeleteButton = true -- Whether players should be able to delete characters themselves.
-Config.Characters.StartingApartment = true -- If set to false, skips apartment choice in the beginning (requires qbx_spawn if true)
+Config.Characters.StartingApartment = true -- If set to false, skips apartment choice in the beginning
 Config.Characters.DefaultNumberOfCharacters = 3 -- Define maximum amount of default characters (maximum 3 characters defined by default)
 Config.Characters.PlayersNumberOfCharacters = { -- Define maximum amount of player characters by rockstar license (you can find this license in your server's database in the player table)
     ['license2:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'] = 5,
@@ -41,6 +41,29 @@ Config.Characters.Locations = { -- Spawn locations for multichar, these are chos
         pedCoords = vec4(2265.27, 2925.02, -84.8, 267.77),
         camCoords = vec4(2268.24, 2925.02, -84.36, 90.88),
     }
+}
+
+Config.Spawn = {}
+Config.Spawn.EnableSelector = true -- activates the ability to select the start position
+Config.Spawn.AllowSpawningInsideOwnedHouses = true -- adds owned houses in spawn locations (requires qbx_houses if true)
+Config.Spawn.AllowSpawningInsideOwnedApartment = true -- adds owned apartment in spawn locations (requires qbx_apartments if true)
+Config.Spawn.Locations = {
+    {
+        coords = vec4(195.17, -933.77, 29.7, 144.5),
+        label = 'Legion Square'
+    },
+    {
+        coords = vec4(428.23, -984.28, 29.76, 3.5),
+        label = 'Police Department'
+    },
+    {
+        coords = vec4(80.35, 6424.12, 31.67, 45.5),
+        label = 'Paleto Bay'
+    },
+    {
+        coords = vec4(327.56, -205.08, 53.08, 163.5),
+        label = 'Motel'
+    },
 }
 
 Config.Money = {}

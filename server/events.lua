@@ -130,7 +130,8 @@ AddEventHandler('playerConnecting', onPlayerConnecting)
 -- New method for checking if logged in across all scripts (optional)
 -- `if LocalPlayer.state.isLoggedIn then` for the client side
 -- `if Player(source).state.isLoggedIn then` for the server side
-RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
+---@param source Source
+AddEventHandler('qbx_core:server:playerLoaded', function(source)
     Player(source --[[@as Source]]).state:set('isLoggedIn', true, true)
 end)
 

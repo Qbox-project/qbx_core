@@ -194,6 +194,7 @@ exports('Logout', Logout)
 
 ---@class PlayerFunctions
 ---@field UpdatePlayerData fun()
+---@field SetCoords fun(coords: vector4|vector3)
 ---@field SetJob fun(job: string, grade: integer): boolean
 ---@field SetGang fun(gang: string, grade: integer): boolean
 ---@field SetJobDuty fun(onDuty: boolean)
@@ -298,6 +299,18 @@ function CreatePlayer(playerData, Offline)
         self.PlayerData.job.onduty = not not onDuty -- Make sure the value is a boolean if nil is sent
         TriggerEvent('QBCore:Server:SetDuty', self.PlayerData.source, self.PlayerData.job.onduty)
         TriggerClientEvent('QBCore:Client:SetDuty', self.PlayerData.source, self.PlayerData.job.onduty)
+        self.Functions.UpdatePlayerData()
+    end
+
+    ---@param coords vector4|vector3
+    function self.Functions.SetCoords(coords)
+        if type(coords) == 'vector3' and type(coords) ~= 'vector4' then
+            local ped = GetPlayerPed(self.PlayerData.source)
+            coords = vec4(coords.x, coords.y, coords.z, GetEntityHeading(ped) or 0.0)
+        else
+            return false
+        end
+        self.PlayerData.position = coords
         self.Functions.UpdatePlayerData()
     end
 

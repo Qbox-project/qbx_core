@@ -19,6 +19,7 @@ client_scripts {
     'client/loops.lua',
     'client/events.lua',
     'client/character.lua',
+    'client/spawn.lua',
     'bridge/qb/client/drawtext.lua',
     'bridge/qb/client/events.lua',
 }

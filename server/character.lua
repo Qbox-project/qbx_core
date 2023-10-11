@@ -6,9 +6,16 @@ end
 
 ---@param source Source
 local function giveStarterItems(source)
-    while not exports.ox_inventory:GetInventory(source) do
+    local getInv = function(...) return exports.ox_inventory:GetInventory(...) ~= false end
+    local i = 0
+    local invCreated = getInv(source)
+    while not invCreated and i < 100 do
+        i += 1
         Wait(100)
+        invCreated = getInv(source)
     end
+
+    if not invCreated then return error('starting items could not be given because no inventory could be found') end
 
     for i = 1, #Config.StarterItems do
         local item = Config.StarterItems[i]
@@ -56,31 +63,58 @@ AddEventHandler('onResourceStart', function(resourceName)
     end
 end)
 
-lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenId)
-    local player = LoginV2(source, citizenId)
+---@param citizenId string
+RegisterNetEvent('qbx_core:server:loadCharacter', function(citizenId)
+    local src = source
+    local player = LoginV2(src, citizenId)
     if not player then return end
 
-    SetPlayerRoutingBucket(source, 0)
-    TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Loaded', 'green', '**'.. GetPlayerName(source) .. '** ('..(GetPlayerIdentifierByType(source, 'discord') or 'undefined') ..' |  ||'  ..(GetPlayerIdentifierByType(source, 'ip') or 'undefined') ..  '|| | ' ..(GetPlayerIdentifierByType(source, 'license2') or GetPlayerIdentifierByType(source, 'license') or 'undefined') ..' | ' ..citizenId..' | '..source..') loaded..')
-    lib.print.info(GetPlayerName(source)..' (Citizen ID: '..citizenId..') has succesfully loaded!')
+    TriggerEvent('qbx_core:server:playerLoaded', src)
+    TriggerClientEvent('qbx_core:client:playerLoaded', src, player.PlayerData)
+
+    if Config.Spawn.EnableSelector then
+        local houses, apartment
+        if GetResourceState('qbx_houses'):find('start') and Config.Spawn.AllowSpawningInsideOwnedHouses then
+            houses = FetchPlayerHouses(citizenId)
+        end
+        if GetResourceState('qbx_apartments'):find('start') and Config.Spawn.AllowSpawningInsideOwnedApartment then
+            apartment = FetchPlayerApartment(citizenId)
+        end
+        local spawnData = lib.callback.await('qbx_core:client:getSpawnLocation', src, {isNew = false, houses = houses, apartment = apartment})
+        if spawnData?.coords then
+            player.Functions.SetCoords(spawnData.coords)
+            player.PlayerData.position = spawnData.coords
+        end
+        TriggerClientEvent('qbx_core:client:spawn', src, spawnData)
+    else
+        TriggerClientEvent('qbx_core:client:spawn', src)
+    end
+
+    SetPlayerRoutingBucket(src, 0)
+    TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Loaded', 'green', '**'.. GetPlayerName(src) .. '** ('..(GetPlayerIdentifierByType(src, 'discord') or 'undefined') ..' |  ||'  ..(GetPlayerIdentifierByType(src, 'ip') or 'undefined') ..  '|| | ' ..(GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license') or 'undefined') ..' | ' ..citizenId..' | '..src..') loaded..')
+    lib.print.info(GetPlayerName(src)..' (Citizen ID: '..citizenId..') has succesfully loaded!')
 end)
 
 ---@param data unknown
----@return table? newData
-lib.callback.register('qbx_core:server:createCharacter', function(source, data)
-    local newData = {}
-    newData.charinfo = data
-
-    local player = LoginV2(source, nil, newData)
+RegisterNetEvent('qbx_core:server:createCharacter', function(data)
+    local src = source
+    local player = LoginV2(src, nil, {charinfo = data})
     if not player then return end
 
-    giveStarterItems(source)
-    if GetResourceState('qbx_spawn') == 'missing' then
-        SetPlayerRoutingBucket(source, 0)
+    TriggerEvent('qbx_core:server:playerLoaded', src)
+    TriggerClientEvent('qbx_core:client:playerLoaded', src, player.PlayerData)
+
+    if Config.Spawn.EnableSelector then
+        local spawnData = lib.callback.await('qbx_core:client:getSpawnLocation', src, {isNew = true})
+        TriggerClientEvent('qbx_core:client:spawn', src, spawnData)
+    else
+        TriggerClientEvent('qbx_core:client:spawn', src, {isNew = true})
     end
 
-    lib.print.info(GetPlayerName(source)..' has created a character')
-    return newData
+    giveStarterItems(src)
+    SetPlayerRoutingBucket(src, 0)
+
+    lib.print.info(GetPlayerName(src)..' has created a character')
 end)
 
 RegisterNetEvent('qbx_core:server:deleteCharacter', function(citizenId)

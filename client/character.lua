@@ -147,54 +147,6 @@ local function checkStrings(dialog, input)
     return true
 end
 
-local function spawnDefault() -- We use a callback to make the server wait on this to be done
-    DoScreenFadeOut(500)
-
-    while not IsScreenFadedOut() do
-        Wait(0)
-    end
-
-    destroyPreviewCam()
-
-    pcall(function() exports.spawnmanager:spawnPlayer() end)
-
-    TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-    TriggerEvent('QBCore:Client:OnPlayerLoaded')
-    TriggerServerEvent('qb-houses:server:SetInsideMeta', 0, false)
-    TriggerServerEvent('qb-apartments:server:SetInsideMeta', 0, 0, false)
-
-    while not IsScreenFadedIn() do
-        Wait(0)
-    end
-    TriggerEvent('qb-clothes:client:CreateFirstCharacter')
-end
-
-local function spawnLastLocation()
-    DoScreenFadeOut(500)
-
-    while not IsScreenFadedOut() do
-        Wait(0)
-    end
-
-    destroyPreviewCam()
-
-    pcall(function() exports.spawnmanager:spawnPlayer({
-        x = QBX.PlayerData.position.x,
-        y = QBX.PlayerData.position.y,
-        z = QBX.PlayerData.position.z,
-        heading = QBX.PlayerData.position.w
-    }) end)
-
-    TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-    TriggerEvent('QBCore:Client:OnPlayerLoaded')
-    TriggerServerEvent('qb-houses:server:SetInsideMeta', 0, false)
-    TriggerServerEvent('qb-apartments:server:SetInsideMeta', 0, 0, false)
-
-    while not IsScreenFadedIn() do
-        Wait(0)
-    end
-end
-
 ---@param cid integer
 ---@return boolean
 local function createCharacter(cid)
@@ -215,7 +167,7 @@ local function createCharacter(cid)
     end
 
     DoScreenFadeOut(150)
-    local newData = lib.callback.await('qbx_core:server:createCharacter', false, {
+    TriggerServerEvent('qbx_core:server:createCharacter', {
         firstname = dialog[1],
         lastname = dialog[2],
         nationality = dialog[3],
@@ -223,17 +175,6 @@ local function createCharacter(cid)
         birthdate = dialog[5],
         cid = cid
     })
-
-    if GetResourceState('qbx_spawn') == 'missing' then
-        spawnDefault()
-        TriggerEvent('qb-clothes:client:CreateFirstCharacter')
-    else
-        if Config.Characters.StartingApartment then
-            TriggerEvent('apartments:client:setupSpawnUI', newData)
-        else
-            TriggerEvent('qbx_core:client:spawnNoApartments')
-        end
-    end
 
     destroyPreviewCam()
     return true
@@ -306,15 +247,7 @@ local function chooseCharacter()
                         icon = 'play',
                         onSelect = function()
                             DoScreenFadeOut(10)
-                            lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
-                            if GetResourceState('qbx-apartments'):find('start') then
-                                TriggerEvent('apartments:client:setupSpawnUI', { citizenid = character.citizenid })
-                            elseif GetResourceState('qbx_spawn'):find('start') then
-                                TriggerEvent('qb-spawn:client:setupSpawns', { citizenid = character.citizenid })
-                                TriggerEvent('qb-spawn:client:openUI', true)
-                            else
-                                spawnLastLocation()
-                            end
+                            TriggerServerEvent('qbx_core:server:loadCharacter', character.citizenid)
                             destroyPreviewCam()
                         end
                     },
@@ -353,24 +286,6 @@ local function chooseCharacter()
     SetTimecycleModifier('default')
     lib.showContext('qbx_core_multichar_characters')
 end
-
-RegisterNetEvent('qbx_core:client:spawnNoApartments', function() -- This event is only for no starting apartments
-    DoScreenFadeOut(500)
-    Wait(2000)
-    SetEntityCoords(cache.ped, Config.DefaultSpawn.x, Config.DefaultSpawn.y, Config.DefaultSpawn.z, false, false, false, false)
-    SetEntityHeading(cache.ped, Config.DefaultSpawn.w)
-    Wait(500)
-    destroyPreviewCam()
-    SetEntityVisible(cache.ped, true, false)
-    Wait(500)
-    DoScreenFadeIn(250)
-    TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-    TriggerEvent('QBCore:Client:OnPlayerLoaded')
-    TriggerServerEvent('qb-houses:server:SetInsideMeta', 0, false)
-    TriggerServerEvent('qb-apartments:server:SetInsideMeta', 0, 0, false)
-    TriggerEvent('qb-weathersync:client:EnableSync')
-    TriggerEvent('qb-clothes:client:CreateFirstCharacter')
-end)
 
 RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     if GetInvokingResource() then return end -- Make sure this can only be triggered from the server
