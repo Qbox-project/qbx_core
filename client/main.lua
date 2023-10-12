@@ -38,6 +38,13 @@ end
 
 exports('GetWeapons', GetWeapons)
 
+---@return table<string, vector4>
+function GetLocations()
+    return QBX.Shared.Locations
+end
+
+exports('GetLocations', GetLocations)
+
 AddStateBagChangeHandler('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
     QBX.IsLoggedIn = value
 end)
