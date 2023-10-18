@@ -308,7 +308,7 @@ function ToggleOptin(source)
     if not license or not HasPermission(source, 'admin') then return end
     local player = GetPlayer(source)
     player.PlayerData.optin = not player.PlayerData.optin
-    player.SetPlayerData('optin', player.PlayerData.optin)
+    player.Functions.SetPlayerData('optin', player.PlayerData.optin)
 end
 
 exports('ToggleOptin', ToggleOptin)
