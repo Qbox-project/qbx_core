@@ -137,7 +137,9 @@ lib.addCommand('car', {
     restricted = "group.admin"
 }, function(source, args)
     if not args then return end
-    SpawnVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
+    local netId = SpawnVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
+    local plate = GetPlate(NetworkGetEntityFromNetworkId(netId))
+    exports.qbx_vehiclekeys:GiveKeys(source, plate)
 end)
 
 lib.addCommand('dv', {
