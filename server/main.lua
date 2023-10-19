@@ -117,7 +117,7 @@ exports('GetVehiclesByHash', GetVehiclesByHash)
 ---@param vehicles table<string, Vehicle>
 ---@return table<string, table<number, Vehicle>>
 function GetVehiclesByCategory(vehicles)
-	MapTableBySubfield('category', vehicles)
+	return MapTableBySubfield('category', vehicles)
 end
 
 exports('GetVehiclesByCategory', GetVehiclesByCategory)
