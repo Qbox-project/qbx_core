@@ -149,7 +149,7 @@ end
 function MapTableBySubfield(subfield, table)
 	local mappedTable = {}
 	for tableIndex, tableData in pairs(table) do
-		if not vehicleData[subfield] then
+		if not tableData[subfield] then
 			goto continue
 		end
 		if not mappedTable[tableData[subfield]] then
