@@ -142,7 +142,7 @@ function GenerateRandomPlate(pattern) -- luacheck: ignore
     return newPattern:upper()
 end
 
---- mapps a table by the given subfield
+--- maps a table by the given subfield
 --- @param subfield string
 --- @param table table
 --- @return table
