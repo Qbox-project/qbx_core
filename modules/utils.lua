@@ -142,19 +142,24 @@ function GenerateRandomPlate(pattern) -- luacheck: ignore
     return newPattern:upper()
 end
 
---- Returns a mapped table of vehicles by category
---- @param Vehicles table
+--- mapps a table by the given subfield
+--- @param subfield string
+--- @param table table
 --- @return table
-function GetVehiclesByCategory(Vehicles)
-	local mappedVehicles = {}
-	for vehicleIndex, vehicleData in pairs(Vehicles) do
-		if not mappedVehicles[vehicleData.category] then
-			mappedVehicles[vehicleData.category] = {}
+function MapTableBySubfield(subfield, table)
+	local mappedTable = {}
+	for tableIndex, tableData in pairs(table) do
+		if not vehicleData[subfield] then
+			goto continue
+		end
+		if not mappedTable[tableData[subfield]] then
+			mappedTable[tableData[subfield]] = {}
 		end
 
-		mappedVehicles[vehicleData.category][vehicleIndex] = vehicleData
+		mappedTable[tableData[subfield]][tableIndex] = tableData
+		::continue::
 	end
-	return mappedVehicles
+	return mappedTable
 end
 
 if isServer then
