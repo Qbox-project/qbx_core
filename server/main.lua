@@ -114,16 +114,11 @@ end
 
 exports('GetVehiclesByHash', GetVehiclesByHash)
 
+exports('GetVehiclesByCategory', GetVehiclesByCategory)
+
 ---@return table<number, Weapon>
 function GetWeapons()
     return QBX.Shared.Weapons
 end
 
 exports('GetWeapons', GetWeapons)
-
----@return table<string, vector4>
-function GetLocations()
-    return QBX.Shared.Locations
-end
-
-exports('GetLocations', GetLocations)

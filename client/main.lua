@@ -31,6 +31,8 @@ end
 
 exports('GetVehiclesByHash', GetVehiclesByHash)
 
+exports('GetVehiclesByCategory', GetVehiclesByCategory)
+
 ---@return table<number, Weapon>
 function GetWeapons()
     return QBX.Shared.Weapons

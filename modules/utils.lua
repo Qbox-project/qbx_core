@@ -142,6 +142,21 @@ function GenerateRandomPlate(pattern) -- luacheck: ignore
     return newPattern:upper()
 end
 
+--- Returns a mapped table of vehicles by category
+--- @param Vehicles table
+--- @return table
+function GetVehiclesByCategory(Vehicles)
+	local mappedVehicles = {}
+	for vehicleIndex, vehicleData in pairs(Vehicles) do
+		if not mappedVehicles[vehicleData.category] then
+			mappedVehicles[vehicleData.category] = {}
+		end
+
+		mappedVehicles[vehicleData.category][vehicleIndex] = vehicleData
+	end
+	return mappedVehicles
+end
+
 if isServer then
     -- Server side vehicle creation
     -- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
