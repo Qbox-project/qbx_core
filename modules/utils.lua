@@ -145,7 +145,7 @@ end
 --- maps a table by the given subfield
 --- @param subfield string
 --- @param table table
---- @return table<string, table>
+--- @return table<any, table[]>
 function MapTableBySubfield(subfield, table)
 	local mappedTable = {}
 	for _, tableData in pairs(table) do
