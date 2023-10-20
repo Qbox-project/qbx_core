@@ -145,18 +145,19 @@ end
 --- maps a table by the given subfield
 --- @param subfield string
 --- @param table table
---- @return table
+--- @return table<string, table>
 function MapTableBySubfield(subfield, table)
 	local mappedTable = {}
-	for tableIndex, tableData in pairs(table) do
-		if not tableData[subfield] then
+	for _, tableData in pairs(table) do
+        local tableSubfield = tableData[subfield]
+		if not tableSubfield then
 			goto continue
 		end
-		if not mappedTable[tableData[subfield]] then
-			mappedTable[tableData[subfield]] = {}
+		if not mappedTable[tableSubfield] then
+			mappedTable[tableSubfield] = {}
 		end
 
-		mappedTable[tableData[subfield]][tableIndex] = tableData
+		mappedTable[tableSubfield][#mappedTable[tableSubfield]+1] = tableData
 		::continue::
 	end
 	return mappedTable
