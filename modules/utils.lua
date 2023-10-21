@@ -142,6 +142,27 @@ function GenerateRandomPlate(pattern) -- luacheck: ignore
     return newPattern:upper()
 end
 
+--- maps a table by the given subfield
+--- @param subfield string
+--- @param table table
+--- @return table<any, table[]>
+function MapTableBySubfield(subfield, table)
+	local mappedTable = {}
+	for _, tableData in pairs(table) do
+        local tableSubfield = tableData[subfield]
+		if not tableSubfield then
+			goto continue
+		end
+		if not mappedTable[tableSubfield] then
+			mappedTable[tableSubfield] = {}
+		end
+
+		mappedTable[tableSubfield][#mappedTable[tableSubfield]+1] = tableData
+		::continue::
+	end
+	return mappedTable
+end
+
 if isServer then
     -- Server side vehicle creation
     -- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
