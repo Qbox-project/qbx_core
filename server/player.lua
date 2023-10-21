@@ -32,7 +32,9 @@ function LoginV2(source, citizenid, newData)
             TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', ('%s Has Been Dropped For Character Joining Exploit'):format(GetPlayerName(source)), false)
         end
     else
-        return CheckPlayerData(source, newData)
+        local player = CheckPlayerData(source, newData)
+        player.Functions.Save()
+        return player
     end
 end
 
@@ -452,8 +454,9 @@ function CreatePlayer(playerData, Offline)
 
     if not self.Offline then
         QBX.Players[self.PlayerData.source] = self
-        Save(self.PlayerData.source)
-
+        local ped = GetPlayerPed(self.PlayerData.source)
+        lib.callback.await('qbx_core:client:setHealth', self.PlayerData.source, self.PlayerData.metadata.health)
+        SetPedArmour(ped, self.PlayerData.metadata.armor)
         -- At this point we are safe to emit new instance to third party resource for load handling
         GlobalState.PlayerCount += 1
         self.Functions.UpdatePlayerData()
