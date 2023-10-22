@@ -55,3 +55,7 @@ exports('GetLocations', GetLocations)
 AddStateBagChangeHandler('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
     QBX.IsLoggedIn = value
 end)
+
+lib.callback.register('qbx_core:client:setHealth', function(health)
+    SetEntityHealth(cache.ped, health)
+end)
