@@ -37,13 +37,16 @@ functions.GetIdentifier = GetPlayerIdentifierByType
 ---@deprecated use the native GetPlayers instead
 functions.GetPlayers = GetPlayers
 
----@deprecated Use functions.CreateVehicle instead.
+---@deprecated use SpawnVehicle from imports/utils.lua
+---@return number?
 function functions.SpawnVehicle(source, model, coords, warp)
-    return SpawnVehicle(source, model, coords, warp)
+    local netId = SpawnVehicle(source, model, coords, warp)
+    if not netId then return end
+    return NetworkGetEntityFromNetworkId(netId)
 end
 
 ---@deprecated use SpawnVehicle from imports/utils.lua
-functions.CreateVehicle = SpawnVehicle
+functions.CreateVehicle = functions.SpawnVehicle
 
 ---@deprecated No replacement. See https://overextended.dev/ox_inventory/Functions/Client#useitem
 ---@param source Source
