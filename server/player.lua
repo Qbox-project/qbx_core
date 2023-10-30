@@ -168,17 +168,6 @@ function Logout(source)
 
     local player = GetPlayer(source)
     if not player then return end
-    local newHunger = player.PlayerData.metadata.hunger - Config.Player.HungerRate
-    local newThirst = player.PlayerData.metadata.thirst - Config.Player.ThirstRate
-    if newHunger <= 0 then
-        newHunger = 0
-    end
-    if newThirst <= 0 then
-        newThirst = 0
-    end
-    player.Functions.SetMetaData('thirst', newThirst)
-    player.Functions.SetMetaData('hunger', newHunger)
-    TriggerClientEvent('hud:client:UpdateNeeds', source, newHunger, newThirst)
     player.Functions.Save()
 
     Wait(200)
