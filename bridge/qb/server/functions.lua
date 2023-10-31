@@ -34,8 +34,16 @@ functions.GetCoords = GetCoordsFromEntity
 ---@deprecated use the native GetPlayerIdentifierByType?
 functions.GetIdentifier = GetPlayerIdentifierByType
 
----@deprecated use the native GetPlayers instead
-functions.GetPlayers = GetPlayers
+---@return Source[]
+function functions.GetPlayers()
+    local sources = {}
+    local players = exports.qbx_core:GetQBPlayers()
+    for k in players do
+        sources[#sources+1] = k
+    end
+
+    return sources
+end
 
 ---@deprecated use SpawnVehicle from imports/utils.lua
 ---@return number?
