@@ -36,6 +36,7 @@ server_scripts {
     'bridge/qb/server/commands.lua',
     'bridge/qb/server/debug.lua',
     'bridge/qb/server/main.lua',
+    'bridge/qb/server/events.lua',
 }
 
 modules {
