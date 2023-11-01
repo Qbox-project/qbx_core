@@ -38,7 +38,7 @@ functions.GetIdentifier = GetPlayerIdentifierByType
 function functions.GetPlayers()
     local sources = {}
     local players = exports.qbx_core:GetQBPlayers()
-    for k in players do
+    for k in pairs(players) do
         sources[#sources+1] = k
     end
 
