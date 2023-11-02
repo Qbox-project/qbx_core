@@ -491,14 +491,6 @@ function functions.GetDutyCount(job)
     return exports.qbx_core:GetDutyCountJob(job)
 end
 
----Gets a list of all on duty players of a specified job type and the number
----@param type string
----@return integer
----@return Source[]
-function functions.GetDutyCountType(type)
-    return exports.qbx_core:GetDutyCountType(type)
-end
-
 -- Returns the objects related to buckets, first returned value is the player buckets, second one is entity buckets
 ---@return table
 ---@return table
