@@ -487,7 +487,7 @@ end
 ---@param job string name
 ---@return integer
 ---@return Source[]
-function functions.GetDutyCountJob(job)
+function functions.GetDutyCount(job)
     return exports.qbx_core:GetDutyCountJob(job)
 end
 
