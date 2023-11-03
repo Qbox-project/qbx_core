@@ -6,6 +6,7 @@ Config.UpdateInterval = 5 -- how often to update player data in minutes
 Config.StatusInterval = 5 -- how often to check hunger/thirst status in minutes
 
 Config.Characters = {}
+Config.LoadingModelsTimeout = 10000 -- Waiting time for ox_lib to load the models before throws an error, for low specs pc
 Config.Characters.UseExternalCharacters = false -- Whether you have an external character management resource. (If true, disables the character management inside the core)
 Config.Characters.EnableDeleteButton = true -- Whether players should be able to delete characters themselves.
 Config.Characters.StartingApartment = true -- If set to false, skips apartment choice in the beginning (requires qbx_spawn if true)

@@ -50,19 +50,19 @@ end
 local function previewPed(citizenId)
     if not citizenId then
         local model = randomPedModels[math.random(1, #randomPedModels)]
-        lib.requestModel(model)
+        lib.requestModel(model, Config.LoadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
         return
     end
 
     local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
     if model and clothing then
-        lib.requestModel(model)
+        lib.requestModel(model, Config.LoadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
         pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), json.decode(clothing)) end)
     else
         model = randomPedModels[math.random(1, #randomPedModels)]
-        lib.requestModel(model)
+        lib.requestModel(model, Config.LoadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
     end
 end
@@ -384,7 +384,7 @@ CreateThread(function()
         if NetworkIsSessionStarted() then
             pcall(function() exports.spawnmanager:setAutoSpawn(false) end)
             Wait(250)
-            lib.requestModel(model)
+            lib.requestModel(model, Config.LoadingModelsTimeout)
             SetPlayerModel(cache.playerId, model)
             chooseCharacter()
             break
