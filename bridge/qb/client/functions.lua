@@ -136,7 +136,7 @@ function functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
     if not IsModelInCdimage(model) then return end
 
     isnetworked = isnetworked == nil or isnetworked
-    lib.requestModel(model, Config.LoadingModelsTimeout)
+    lib.requestModel(model)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
     local netid = NetworkGetNetworkIdFromEntity(veh)
     SetVehicleHasBeenOwnedByPlayer(veh, true)
