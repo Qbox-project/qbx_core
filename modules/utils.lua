@@ -630,7 +630,7 @@ else
     function AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, vertex) -- luacheck: ignore
         local modelHash = type(model) == 'string' and joaat(model) or model
         local bone = GetPedBoneIndex(ped, boneId)
-        lib.requestModel(modelHash, Config.LoadingModelsTimeout)
+        lib.requestModel(modelHash)
         local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, true, true, false)
         AttachEntityToEntity(prop, ped, bone, x, y, z, xR, yR, zR, true, true, false, true, not vertex and 2 or 0, true)
         SetModelAsNoLongerNeeded(modelHash)
