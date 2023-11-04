@@ -39,23 +39,6 @@ lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId
     return ped.skin, ped.model and joaat(ped.model)
 end)
 
-AddEventHandler('playerJoining', function()
-    SetPlayerRoutingBucket(source, source)
-end)
-
-AddEventHandler('onResourceStart', function(resourceName)
-    if resourceName ~= GetCurrentResourceName() then return end
-    Wait(100)
-    local players = GetPlayers()
-    for i = 1, #players do
-        local playerId = players[i]
-        local playerIdNum = tonumber(playerId)
-        if playerIdNum then
-            SetPlayerRoutingBucket(playerId, playerIdNum)
-        end
-    end
-end)
-
 lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenId)
     local player = LoginV2(source, citizenId)
     if not player then return end
