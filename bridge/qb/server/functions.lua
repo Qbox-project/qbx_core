@@ -50,7 +50,9 @@ end
 function functions.SpawnVehicle(source, model, coords, warp)
     local netId = SpawnVehicle(source, model, coords, warp)
     if not netId then return end
-    return NetworkGetEntityFromNetworkId(netId)
+    local veh = NetworkGetEntityFromNetworkId(netId)
+    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
+    return veh
 end
 
 ---@deprecated use SpawnVehicle from imports/utils.lua
