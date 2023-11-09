@@ -1,8 +1,12 @@
+local function getVehicleData(event)
+
+end
+
 -- Vehicles
 RegisterServerEvent('baseevents:enteringVehicle', function(veh,seat,modelName)
     local src = source
     local data = {
-        vehicle = veh,
+        vehicle = NetworkGetNetworkIdFromEntity(veh),
         seat = seat,
         name = modelName,
         event = 'Entering'
@@ -13,7 +17,7 @@ end)
 RegisterServerEvent('baseevents:enteredVehicle', function(veh,seat,modelName)
     local src = source
     local data = {
-        vehicle = veh,
+        vehicle = NetworkGetNetworkIdFromEntity(veh),
         seat = seat,
         name = modelName,
         event = 'Entered'
@@ -29,7 +33,7 @@ end)
 RegisterServerEvent('baseevents:leftVehicle', function(veh,seat,modelName)
     local src = source
     local data = {
-        vehicle = veh,
+        vehicle = NetworkGetNetworkIdFromEntity(veh),
         seat = seat,
         name = modelName,
         event = 'Left'

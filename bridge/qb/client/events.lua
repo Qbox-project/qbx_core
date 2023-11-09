@@ -5,6 +5,8 @@ RegisterNetEvent('QBCore:Command:CallCommand', function(command)
 end)
 
 RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
+    lib.print.info('QBCore:Client:VehicleInfo invoked', info)
+    info.vehicle = NetworkGetEntityFromNetworkId(info.vehicle)
     local plate = GetPlate(info.vehicle)
     local hasKeys = true
 
