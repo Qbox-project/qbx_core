@@ -5,7 +5,8 @@ RegisterNetEvent('QBCore:Command:CallCommand', function(command)
 end)
 
 RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
-    local plate = GetPlate(info.vehicle)
+    local vehicle = NetworkGetEntityFromNetworkId(info.netId)
+    local plate = GetPlate(vehicle)
     local hasKeys = true
 
     if GetResourceState('qb-vehiclekeys') == 'started' then
@@ -13,12 +14,12 @@ RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
     end
 
     local data = {
-        vehicle = info.vehicle,
+        vehicle = vehicle,
         seat = info.seat,
         name = info.modelName,
         plate = plate,
-        driver = GetPedInVehicleSeat(info.vehicle, -1),
-        inseat = GetPedInVehicleSeat(info.vehicle, info.seat),
+        driver = GetPedInVehicleSeat(vehicle, -1),
+        inseat = GetPedInVehicleSeat(vehicle, info.seat),
         haskeys = hasKeys
     }
 
