@@ -162,10 +162,98 @@ functions.GetVehicleLabel = GetVehicleDisplayName
 functions.SpawnClear = IsVehicleSpawnClear
 
 ---@deprecated use lib.getVehicleProperties from ox_lib
-functions.GetVehicleProperties = lib.getVehicleProperties
+function functions.GetVehicleProperties(vehicle)
+    local props = lib.getVehicleProperties(vehicle)
+    if not props then return end
+
+    local tireHealth = {}
+        for i = 0, 3 do
+            tireHealth[i] = GetVehicleWheelHealth(vehicle, i)
+        end
+
+    local tireBurstState = {}
+    local tireBurstCompletely = {}
+
+    for i = 0, 7 do
+        local damage = props.damage.tyres[i]
+        tireBurstState[i] = damage == 1 or damage == 2
+        tireBurstCompletely[i] = damage == 2
+    end
+
+    local windowStatus = {}
+    for i = 0, 7 do
+        windowStatus[i] = IsVehicleWindowIntact(vehicle, i)
+    end
+
+    local doorStatus = {}
+    for i = 0, 5 do
+        doorStatus[i] = IsVehicleDoorDamaged(vehicle, i) == 1
+    end
+
+    -- qb properties not in ox
+    props.tireHealth = tireHealth
+    props.tireBurstState = tireBurstState
+    props.tireBurstCompletely = tireBurstCompletely
+    props.windowStatus = windowStatus
+    props.doorStatus = doorStatus
+    props.headlightColor = GetVehicleHeadlightsColour(vehicle)
+    props.modKit17 = props.modNitrous
+    props.modKit19 = props.modSubwoofer
+    props.modKit21 = props.modHydraulics
+    props.modKit47 = props.modDoorR
+    props.modKit49 = props.modLightbar
+    props.liveryRoof = props.modRoofLivery
+
+    return props
+end
 
 ---@deprecated use lib.setVehicleProperties from ox_lib
-functions.SetVehicleProperties = lib.setVehicleProperties
+function functions.SetVehicleProperties(vehicle, props)
+    if props.tireHealth and not props.tyres then
+        for wheelIndex, health in pairs(props.tireHealth) do
+            SetVehicleWheelHealth(vehicle, wheelIndex, health)
+        end
+    end
+    if props.headlightColor then
+        SetVehicleHeadlightsColour(vehicle, props.headlightColor)
+    end
+
+    local tyres = {}
+    for i = 0, 7 do
+        tyres[i] = props.tireBurstCompletely[i] and 2 or props.tireBurstState[i] and 1 or nil
+    end
+
+    local windows = {}
+    local numWindowsDamaged = 0
+    for i, isDamaged in pairs(props.windowStatus) do
+        if isDamaged then
+            numWindowsDamaged += 1
+            windows[numWindowsDamaged] = i
+        end
+    end
+
+    local doors = {}
+    local numDoorsDamaged = 0
+    for i, isDamaged in pairs(props.doorStatus) do
+        if isDamaged then
+            numDoorsDamaged += 1
+            doors[numDoorsDamaged] = i
+        end
+    end
+
+    -- qb properties converted to ox
+    props.modNitrous = props.modNitrous or props.modKit17
+    props.modSubwoofer = props.modSubwoofer or props.modKit17
+    props.modHydraulics = props.modHydraulics or props.props.modKit21
+    props.modDoorR = props.modDoorR or props.modKit47
+    props.modLightbar = props.modLightbar or props.modKit49
+    props.modRoofLivery = props.modRoofLivery or props.liveryRoof
+    props.tyres = props.tyres or #tyres > 0 and tyres or nil
+    props.windows = props.windows or numWindowsDamaged > 0 and windows or nil
+    props.doors = props.doors or numDoorsDamaged > 0 and doors or nil
+
+    return lib.setVehicleProperties(vehicle, props)
+end
 
 ---@deprecated use lib.requestNamedPtfxAsset from ox_lib
 functions.LoadParticleDictionary = lib.requestNamedPtfxAsset
