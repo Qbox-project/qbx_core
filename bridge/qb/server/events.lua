@@ -1,9 +1,5 @@
-local function getVehicleData(event)
-
-end
-
 -- Vehicles
-RegisterServerEvent('baseevents:enteringVehicle', function(veh,seat,modelName, netId)
+RegisterServerEvent('baseevents:enteringVehicle', function(veh, seat, modelName, netId)
     local src = source
     local data = {
         vehicle = veh,
@@ -15,7 +11,7 @@ RegisterServerEvent('baseevents:enteringVehicle', function(veh,seat,modelName, n
     TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
 end)
 
-RegisterServerEvent('baseevents:enteredVehicle', function(veh,seat,modelName, netId)
+RegisterServerEvent('baseevents:enteredVehicle', function(veh, seat, modelName, netId)
     local src = source
     local data = {
         vehicle = veh,
@@ -32,7 +28,7 @@ RegisterServerEvent('baseevents:enteringAborted', function()
     TriggerClientEvent('QBCore:Client:AbortVehicleEntering', src)
 end)
 
-RegisterServerEvent('baseevents:leftVehicle', function(veh,seat,modelName, netId)
+RegisterServerEvent('baseevents:leftVehicle', function(veh, seat, modelName, netId)
     local src = source
     local data = {
         vehicle = veh,
