@@ -215,6 +215,9 @@ if isServer then
         end
 
         if warp then SetPedIntoVehicle(ped, veh, -1) end
+        lib.waitFor(function()
+            if NetworkGetEntityOwner(veh) ~= -1 then return true end
+        end, 5000)
         Entity(veh).state:set('initVehicle', true, true)
         return NetworkGetNetworkIdFromEntity(veh)
     end
