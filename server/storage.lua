@@ -73,7 +73,7 @@ end
 function UpsertPlayerEntity(request)
     MySQL.insert.await('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
         citizenid = request.playerEntity.citizenid,
-        cid = tonumber(request.playerEntity.charinfo.cid),
+        cid = request.playerEntity.charinfo.cid,
         license = request.playerEntity.license,
         name = request.playerEntity.name,
         money = json.encode(request.playerEntity.money),
