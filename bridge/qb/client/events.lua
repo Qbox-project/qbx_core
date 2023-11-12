@@ -23,6 +23,5 @@ RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
         haskeys = hasKeys
     }
 
-    lib.print.info('QBCore:Client:'..info.event..'Vehicle', data)
     TriggerEvent('QBCore:Client:'..info.event..'Vehicle', data)
 end)
