@@ -48,6 +48,7 @@ local Translations = {
         delete_character = 'Delete Character',
         delete_character_description = 'Delete %{playerName}',
         logout_command_help = 'Logs you out of your current character',
+        check_id = 'Check your Server ID'
         deletechar_command_help = 'Delete a players character',
         deletechar_command_arg_player_id = 'Player ID',
         character_registration_title = 'Character Registration',
