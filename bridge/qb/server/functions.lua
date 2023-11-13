@@ -65,7 +65,7 @@ function functions.SpawnVehicle(source, model, coords, warp)
 end
 
 ---@deprecated use SpawnVehicle from imports/utils.lua
-function QBCore.Functions.CreateVehicle(source, model, _, coords, warp)
+function functions.CreateVehicle(source, model, _, coords, warp)
     local netId = SpawnVehicle(source, model, coords, warp)
     return NetworkGetEntityFromNetworkId(netId)
 end
