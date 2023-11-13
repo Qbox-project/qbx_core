@@ -12,3 +12,9 @@ CreateThread(function()
         end
     end
 end)
+
+CreateThread(function()
+    local mapText = Config.Server.PauseMapText
+    if mapText == '' or type(mapText) ~= 'string' then mapText = 'FiveM' end
+    Citizen.InvokeNative(joaat('ADD_TEXT_ENTRY'), 'FE_THDR_GTAO', mapText)
+end)
