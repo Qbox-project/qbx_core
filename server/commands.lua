@@ -298,6 +298,12 @@ lib.addCommand('me', {
     playerState:set('me', nil, true)
 end)
 
+-- ID command
+
+lib.addCommand('id', {help = Lang:t('info.check_id')}, function(source)
+    exports.qbx_core:Notify(source, 'ID: ' .. source)
+end)
+
 -- Character commands
 
 lib.addCommand('logout', {
