@@ -1,6 +1,7 @@
 AddStateBagChangeHandler('PlayerCount', nil, function(bagName, _, value)
      if bagName ~= 'global' or not value then return end
-     SetRichPresence(('Players %s/' .. Config.MaxPlayers):format(value))
+     local players = 'Players %s/' .. Config.MaxPlayers
+     SetRichPresence((players):format(value))
 end)
 
 SetDiscordAppId(Config.Discord.AppId)
