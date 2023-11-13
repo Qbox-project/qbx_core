@@ -59,3 +59,7 @@ end)
 lib.callback.register('qbx_core:client:setHealth', function(health)
     SetEntityHealth(cache.ped, health)
 end)
+
+local mapText = Config.Server.PauseMapText
+if mapText == '' or type(mapText) ~= 'string' then mapText = 'FiveM' end
+AddTextEntry('FE_THDR_GTAO', mapText)

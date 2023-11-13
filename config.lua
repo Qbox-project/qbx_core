@@ -109,8 +109,28 @@ Config.Server.PVP = true -- Enable or disable pvp on the server (Ability to shoo
 Config.Server.Discord = "" -- Discord invite link
 Config.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar license on join
 Config.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
+Config.Server.PauseMapText = 'Powered by Qbox' -- Text shown above the map when ESC is pressed. If left empty 'FiveM' will appear
 
 Config.NotifyPosition = 'top-right' -- 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
+
+Config.Discord = {} -- Discord Rich Presence config
+Config.Discord.AppId = '' -- This is the Application ID (Replace this with you own)
+Config.Discord.LargeIcon = { -- To set this up, visit https://forum.cfx.re/t/how-to-updated-discord-rich-presence-custom-image/157686
+    icon = 'logo_name', -- Here you will have to put the image name for the 'large' icon.
+    text = 'This is a large icon with text', -- Here you can add hover text for the 'large' icon.
+}
+Config.Discord.SmallIcon = {
+    icon = 'logo_name', -- Here you will have to put the image name for the 'small' icon.
+    text = 'This is a small icon with text', -- Here you can add hover text for the 'small' icon.
+}
+Config.Discord.FirstButton = {
+    text = 'First Button!',
+    link = 'fivem://connect/localhost:30120',
+}
+Config.Discord.SecondButton = {
+    text = 'Second Button!',
+    link = 'fivem://connect/localhost:30120',
+}
 
 ---@alias TableName string
 ---@alias ColumnName string
