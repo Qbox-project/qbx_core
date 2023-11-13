@@ -215,11 +215,15 @@ if isServer then
         end
 
         if warp then SetPedIntoVehicle(ped, veh, -1) end
-        lib.waitFor(function()
-            if NetworkGetEntityOwner(veh) ~= -1 then return true end
+        
+        local owner = lib.waitFor(function()
+            local owner = NetworkGetEntityOwner(veh)
+            if owner ~= -1 then return owner end
         end, 5000)
-        Entity(veh).state:set('initVehicle', true, true)
-        return NetworkGetNetworkIdFromEntity(veh)
+        
+        local netId = NetworkGetNetworkIdFromEntity(veh)
+        TriggerClientEvent('qbx_core:client:vehicleSpawned', owner, netId)
+        return netId
     end
 
     --Kick Player
