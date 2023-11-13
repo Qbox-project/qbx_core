@@ -136,7 +136,9 @@ RegisterNetEvent('qbx_core:client:vehicleSpawned', function(netId, props)
         end
     end
 
-    lib.setVehicleProperties(veh, props)
+    if props then
+        lib.setVehicleProperties(veh, props)
+    end
 end)
 
 RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
