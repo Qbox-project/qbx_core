@@ -175,7 +175,7 @@ function functions.GetVehicleProperties(vehicle)
     local tireBurstCompletely = {}
 
     for i = 0, 7 do
-        local damage = props.damage.tyres[i]
+        local damage = props.tyres[i]
         tireBurstState[i] = damage == 1 or damage == 2
         tireBurstCompletely[i] = damage == 2
     end
@@ -218,39 +218,39 @@ function functions.SetVehicleProperties(vehicle, props)
         SetVehicleHeadlightsColour(vehicle, props.headlightColor)
     end
 
-    local tyres = {}
-    for i = 0, 7 do
-        tyres[i] = props.tireBurstCompletely[i] and 2 or props.tireBurstState[i] and 1 or nil
-    end
-
-    local windows = {}
-    local numWindowsDamaged = 0
-    for i, isDamaged in pairs(props.windowStatus) do
-        if isDamaged then
-            numWindowsDamaged += 1
-            windows[numWindowsDamaged] = i
+    if not props.tyres then
+        for i = 0, 7 do
+            props.tyres[i] = props.tireBurstCompletely and props.tireBurstCompletely[i] and 2 or props.tireBurstState and props.tireBurstState[i] and 1 or nil
         end
     end
 
-    local doors = {}
+    local numWindowsDamaged = 0
+    if props.windowStatus and not props.windows then
+        for i, isDamaged in pairs(props.windowStatus) do
+            if isDamaged then
+                numWindowsDamaged += 1
+                props.windows[numWindowsDamaged] = i
+            end
+        end
+    end
+
     local numDoorsDamaged = 0
-    for i, isDamaged in pairs(props.doorStatus) do
-        if isDamaged then
-            numDoorsDamaged += 1
-            doors[numDoorsDamaged] = i
+    if props.doorStatus and not props.doors then
+        for i, isDamaged in pairs(props.doorStatus) do
+            if isDamaged then
+                numDoorsDamaged += 1
+                props.doors[numDoorsDamaged] = i
+            end
         end
     end
 
     -- qb properties converted to ox
     props.modNitrous = props.modNitrous or props.modKit17
     props.modSubwoofer = props.modSubwoofer or props.modKit17
-    props.modHydraulics = props.modHydraulics or props.props.modKit21
+    props.modHydraulics = props.modHydraulics or props.modKit21
     props.modDoorR = props.modDoorR or props.modKit47
     props.modLightbar = props.modLightbar or props.modKit49
     props.modRoofLivery = props.modRoofLivery or props.liveryRoof
-    props.tyres = props.tyres or #tyres > 0 and tyres or nil
-    props.windows = props.windows or numWindowsDamaged > 0 and windows or nil
-    props.doors = props.doors or numDoorsDamaged > 0 and doors or nil
 
     return lib.setVehicleProperties(vehicle, props)
 end

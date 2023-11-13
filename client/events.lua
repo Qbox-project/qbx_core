@@ -126,23 +126,19 @@ end)
 
 -- Vehicle Commands
 
-EntityStateHandler('initVehicle', function(entity, _, value)
-    if not value then return end
+RegisterNetEvent('qbx_core:client:vehicleSpawned', function(netId, props)
+    local veh = NetworkGetEntityFromNetworkId(netId)
 
     for i = -1, 0 do
-        local ped = GetPedInVehicleSeat(entity, i)
-
+        local ped = GetPedInVehicleSeat(veh, i)
         if ped ~= cache.ped and ped > 0 and NetworkGetEntityOwner(ped) == cache.playerId then
             DeleteEntity(ped)
         end
     end
 
-    if NetworkGetEntityOwner(entity) ~= cache.playerId then return end
-    SetVehicleNeedsToBeHotwired(entity, false)
-    SetVehRadioStation(entity, 'OFF')
-    SetVehicleFuelLevel(entity, 100.0)
-    SetVehicleDirtLevel(entity, 0.0)
-    Entity(entity).state:set('initVehicle', nil, true)
+    if props then
+        lib.setVehicleProperties(veh, props)
+    end
 end)
 
 RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
