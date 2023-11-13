@@ -183,7 +183,7 @@ if isServer then
     ---@param model string | integer
     ---@param coords? vector4 defaults to player's position
     ---@param warp? boolean
-    ---@param props table vehicle properties to set https://github.com/overextended/ox_lib/blob/master/resource/vehicleProperties/client.lua#L3
+    ---@param props? table vehicle properties to set https://github.com/overextended/ox_lib/blob/master/resource/vehicleProperties/client.lua#L3
     ---@return integer? netId
     function SpawnVehicle(source, model, coords, warp, props) -- luacheck: ignore
         model = type(model) == 'string' and joaat(model) or model
