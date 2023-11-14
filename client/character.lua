@@ -141,10 +141,17 @@ local function checkStrings(dialog, input)
     for i = 1, #split do
         local word = split[i]
         if Config.Characters.ProfanityWords[word:lower()] then return false end
-        if not string.match(word, '%u%l*') then return false end -- Pattern checks for an uppercase letter at the first character and lowercase for the rest
     end
 
     return true
+end
+
+-- @param str string
+-- @return string?
+local function capString(str)
+    return str:gsub("(%w)([%w']*)", function(first, rest)
+        return first:upper() .. rest:lower()
+    end)
 end
 
 local function spawnDefault() -- We use a callback to make the server wait on this to be done
@@ -216,9 +223,9 @@ local function createCharacter(cid)
 
     DoScreenFadeOut(150)
     local newData = lib.callback.await('qbx_core:server:createCharacter', false, {
-        firstname = dialog[1],
-        lastname = dialog[2],
-        nationality = dialog[3],
+        firstname = capString(dialog[1]),
+        lastname = capString(dialog[2]),
+        nationality = capString(dialog[3]),
         gender = dialog[4] == Lang:t('info.char_male') and 0 or 1,
         birthdate = dialog[5],
         cid = cid
