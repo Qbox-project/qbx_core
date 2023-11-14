@@ -169,3 +169,7 @@ Config.StarterItems = { -- Character starting items
         end
     },
 }
+
+Config.GiveVehicleKeys = function(src, plate)
+    exports.qbx_vehiclekeys:GiveKeys(src, plate)
+end

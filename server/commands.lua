@@ -139,7 +139,7 @@ lib.addCommand('car', {
     if not args then return end
     local netId = SpawnVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
     local plate = GetPlate(NetworkGetEntityFromNetworkId(netId))
-    exports.qbx_vehiclekeys:GiveKeys(source, plate)
+    Config.GiveVehicleKeys(source, plate)
 end)
 
 lib.addCommand('dv', {
