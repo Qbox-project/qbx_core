@@ -1,28 +1,8 @@
 require 'server.functions'
+require 'bridge.qb.server.player'
 local functions = {}
 
 local createQbExport = require 'bridge.qb.shared.export-function'
-
-function AddDeprecatedFunctions(player)
-    if not player then return end
-
-    ---@deprecated call ox_inventory instead
-    function player.Functions.GetCardSlot()
-        error("player.Functions.GetCardSlot is unsupported. Call ox_inventory directly")
-    end
-
-    ---@deprecated player.Functions.SetMetaData instead
-    function player.Functions.AddField()
-        error("player.Functions.AddField is unsupported. Use player.Functions.SetMetaData instead")
-    end
-
-    ---@deprecated
-    function player.Functions.AddMethod()
-        error("player.Functions.AddMethod is unsupported")
-    end
-
-    return player
-end
 
 ---@deprecated
 functions.GetCoords = GetCoordsFromEntity
