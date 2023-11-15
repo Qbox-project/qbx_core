@@ -44,6 +44,7 @@ local function destroyPreviewCam()
     DestroyCam(previewCam, true)
     RenderScriptCams(false, false, 1, true, true)
     FreezeEntityPosition(cache.ped, false)
+    NetworkConcealPlayer(cache.ped, false)
 end
 
 ---@param citizenId? string
@@ -256,6 +257,7 @@ local function chooseCharacter()
     end
 
     FreezeEntityPosition(cache.ped, true)
+    NetworkConcealPlayer(cache.ped, true)
     Wait(1000)
     SetEntityCoords(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false, false)
     SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
