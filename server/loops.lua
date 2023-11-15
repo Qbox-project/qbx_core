@@ -19,7 +19,7 @@ end)
 
 local function sendPaycheck(player, payment)
     player.Functions.AddMoney('bank', payment)
-    TriggerClientEvent('QBCore:Notify', player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
+    Notify(player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
 end
 
 local function pay(player)
@@ -37,7 +37,7 @@ local function pay(player)
         return
     end
     if account < payment then -- Checks if company has enough money to pay society
-        TriggerClientEvent('QBCore:Notify', player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
+        Notify(player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
         return
     end
     exports['qbx_management']:RemoveMoney(job.name, payment)
