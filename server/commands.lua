@@ -48,7 +48,7 @@ lib.addCommand('togglepvp', {
     restricted = "group.admin"
 }, function()
     Config.Server.PVP = not Config.Server.PVP
-    GlobalState.PVPEnabled = PVPEnabled
+    GlobalState.PVPEnabled = Config.Server.PVP
 end)
 
 -- Permissions
