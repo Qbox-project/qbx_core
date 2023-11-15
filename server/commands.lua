@@ -161,7 +161,7 @@ lib.addCommand('dv', {
     local pedCar = GetVehiclePedIsIn(ped, false)
 
     if not pedCar then
-        local vehicle = lib.callback.await('qbox_getNearestVehicle', source)
+        local vehicle = lib.callback.await('qbx_core:client:getNearestVehicle', source)
 
         if vehicle then
             pedCar = NetworkGetEntityFromNetworkId(vehicle)

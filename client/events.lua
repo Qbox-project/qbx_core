@@ -145,7 +145,7 @@ RegisterNetEvent('qbx_core:client:vehicleSpawned', function(netId, props)
     end
 end)
 
-lib.callback.register('qbox_getNearestVehicle', function()
+lib.callback.register('qbx_core:client:getNearestVehicle', function()
     local vehicle = lib.getClosestVehicle(GetEntityCoords(cache.ped), 5)
 
     return vehicle and VehToNet(vehicle)
