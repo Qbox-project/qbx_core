@@ -1,3 +1,8 @@
+if GetConvar('qbx:enablebridge', 'true') == 'false' then return end
+
+require 'bridge.qb.client.drawtext'
+require 'bridge.qb.client.events'
+
 local qbCoreCompat = {}
 qbCoreCompat.PlayerData = QBX.PlayerData
 qbCoreCompat.Config = lib.table.merge(require 'config.client', require 'config.shared')
@@ -56,12 +61,8 @@ function qbCoreCompat.Debug(_, obj)
     lib.print.debug(obj)
 end
 
-function CreateQbExport(name, cb)
-    AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
-        setCB(cb)
-    end)
-end
+local createQbExport = require 'bridge.qb.shared.export-function'
 
-CreateQbExport('GetCoreObject', function()
+createQbExport('GetCoreObject', function()
     return qbCoreCompat
 end)

@@ -59,13 +59,13 @@ RegisterNetEvent('qb-core:client:KeyPressed', function()
     keyPressed()
 end)
 
-require 'bridge.qb.client.main'
+local createQbExport = require 'bridge.qb.shared.export-function'
 
 ---@deprecated use ox_lib showTextUI calls directly
-CreateQbExport('DrawText', drawText)
+createQbExport('DrawText', drawText)
 ---@deprecated use ox_lib showTextUI calls directly
-CreateQbExport('ChangeText', changeText)
+createQbExport('ChangeText', changeText)
 ---@deprecated use ox_lib showTextUI calls directly
-CreateQbExport('HideText', hideText)
+createQbExport('HideText', hideText)
 ---@deprecated use ox_lib showTextUI calls directly
-CreateQbExport('KeyPressed', keyPressed)
+createQbExport('KeyPressed', keyPressed)

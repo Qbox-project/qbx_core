@@ -20,8 +20,7 @@ client_scripts {
     'client/events.lua',
     'client/character.lua',
     'client/discord.lua',
-    'bridge/qb/client/drawtext.lua',
-    'bridge/qb/client/events.lua',
+    'bridge/qb/client/main.lua',
 }
 
 server_scripts {
@@ -34,10 +33,7 @@ server_scripts {
     'server/loops.lua',
     'server/storage.lua',
     'server/character.lua',
-    'bridge/qb/server/commands.lua',
-    'bridge/qb/server/debug.lua',
     'bridge/qb/server/main.lua',
-    'bridge/qb/server/events.lua',
 }
 
 modules {
@@ -53,12 +49,16 @@ files {
     'shared/main.lua',
     'shared/vehicles.lua',
     'shared/weapons.lua',
-    'bridge/qb/client/main.lua',
     'bridge/qb/client/functions.lua',
+    'bridge/qb/client/drawtext.lua',
+    'bridge/qb/client/events.lua',
     'bridge/qb/shared/main.lua',
+    'bridge/qb/shared/export-function.lua',
     'bridge/qb/server/functions.lua',
-    'bridge/qb/server/main.lua',
     'bridge/qb/server/player.lua',
+    'bridge/qb/server/commands.lua',
+    'bridge/qb/server/debug.lua',
+    'bridge/qb/server/events.lua',
     'config/client.lua',
     'config/shared.lua'
 }
