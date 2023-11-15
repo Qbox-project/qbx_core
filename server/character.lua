@@ -69,5 +69,5 @@ end)
 RegisterNetEvent('qbx_core:server:deleteCharacter', function(citizenId)
     local src = source
     DeleteCharacter(src, citizenId)
-    TriggerClientEvent('QBCore:Notify', src, Lang:t('success.character_deleted'), 'success')
+    Notify(src, Lang:t('success.character_deleted'), 'success')
 end)
