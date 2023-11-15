@@ -1,3 +1,8 @@
+if GetConvar('qbx:enablebridge', 'true') == 'false' then return end
+
+require 'bridge.qb.server.debug'
+require 'bridge.qb.server.events'
+
 local qbCoreCompat = {}
 
 qbCoreCompat.Config = lib.table.merge(require 'config.server', require 'config.shared')
@@ -93,6 +98,8 @@ qbCoreCompat.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(so
     if netId then cb(netId) end
 end)
 
-CreateQbExport('GetCoreObject', function()
+local createQbExport = require 'bridge.qb.shared.export-function'
+
+createQbExport('GetCoreObject', function()
     return qbCoreCompat
 end)

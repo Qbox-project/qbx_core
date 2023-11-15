@@ -1,11 +1,7 @@
 require 'server.functions'
 local functions = {}
 
-function CreateQbExport(name, cb)
-    AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
-        setCB(cb)
-    end)
-end
+local createQbExport = require 'bridge.qb.shared.export-function'
 
 function AddDeprecatedFunctions(player)
     if not player then return end
@@ -112,7 +108,7 @@ local function AddItem(itemName, item)
 end
 
 functions.AddItem = AddItem
-CreateQbExport('AddItem', AddItem)
+createQbExport('AddItem', AddItem)
 
 -- Single update item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -131,7 +127,7 @@ local function UpdateItem(itemName, item)
 end
 
 functions.UpdateItem = UpdateItem
-CreateQbExport('UpdateItem', UpdateItem)
+createQbExport('UpdateItem', UpdateItem)
 
 -- Multiple Add Items
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -166,7 +162,7 @@ local function AddItems(items)
 end
 
 functions.AddItems = AddItems
-CreateQbExport('AddItems', AddItems)
+createQbExport('AddItems', AddItems)
 
 -- Single Remove Item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -188,7 +184,7 @@ local function RemoveItem(itemName)
 end
 
 functions.RemoveItem = RemoveItem
-CreateQbExport('RemoveItem', RemoveItem)
+createQbExport('RemoveItem', RemoveItem)
 
 -- Single add job function which should only be used if you planning on adding a single job
 ---@deprecated use export CreateJobs
@@ -213,7 +209,7 @@ local function AddJob(jobName, job)
 end
 
 functions.AddJob = AddJob
-CreateQbExport('AddJob', AddJob)
+createQbExport('AddJob', AddJob)
 
 -- Multiple Add Jobs
 ---@deprecated call export CreateJobs
@@ -241,7 +237,7 @@ local function AddJobs(jobs)
 end
 
 functions.AddJobs = AddJobs
-CreateQbExport('AddJobs', AddJobs)
+createQbExport('AddJobs', AddJobs)
 
 -- Single Update Job
 ---@deprecated call CreateJobs
@@ -266,7 +262,7 @@ local function UpdateJob(jobName, job)
 end
 
 functions.UpdateJob = UpdateJob
-CreateQbExport('UpdateJob', UpdateJob)
+createQbExport('UpdateJob', UpdateJob)
 
 -- Single Add Gang
 ---@deprecated call export CreateGangs
@@ -291,7 +287,7 @@ local function AddGang(gangName, gang)
 end
 
 functions.AddGang = AddGang
-CreateQbExport('AddGang', AddGang)
+createQbExport('AddGang', AddGang)
 
 -- Single Update Gang
 ---@deprecated call export CreateGangs
@@ -316,7 +312,7 @@ local function UpdateGang(gangName, gang)
 end
 
 functions.UpdateGang = UpdateGang
-CreateQbExport('UpdateGang', UpdateGang)
+createQbExport('UpdateGang', UpdateGang)
 
 -- Multiple Add Gangs
 ---@deprecated call export CreateGangs
@@ -343,13 +339,13 @@ local function AddGangs(gangs)
 end
 
 functions.AddGangs = AddGangs
-CreateQbExport('AddGangs', AddGangs)
+createQbExport('AddGangs', AddGangs)
 
 functions.RemoveJob = RemoveJob
-CreateQbExport('RemoveJob', RemoveJob)
+createQbExport('RemoveJob', RemoveJob)
 
 functions.RemoveGang = RemoveGang
-CreateQbExport('RemoveGang', RemoveGang)
+createQbExport('RemoveGang', RemoveGang)
 
 ---Add a new function to the Functions table of the player class
 ---Use-case:
@@ -432,7 +428,7 @@ local function SetMethod(methodName, handler)
 end
 
 functions.SetMethod = SetMethod
-CreateQbExport("SetMethod", SetMethod)
+createQbExport("SetMethod", SetMethod)
 
 -- Add or change (a) field(s) in the QBCore table
 ---@deprecated
