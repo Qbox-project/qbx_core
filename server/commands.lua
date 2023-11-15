@@ -1,3 +1,7 @@
+local Config = require 'config.server'
+
+GlobalState.PVPEnabled = Config.Server.PVP
+
 -- Teleport
 lib.addCommand('tp', {
     help = Lang:t("command.tp.help"),
@@ -44,7 +48,7 @@ lib.addCommand('togglepvp', {
     restricted = "group.admin"
 }, function()
     Config.Server.PVP = not Config.Server.PVP
-    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, Config.Server.PVP)
+    GlobalState.PVPEnabled = PVPEnabled
 end)
 
 -- Permissions
@@ -147,6 +151,26 @@ lib.addCommand('dv', {
     restricted = "group.admin"
 }, function(source)
     TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
+end)
+
+lib.addCommand('dv', {
+    help = Lang:t("command.dv.help"),
+    restricted = 'group.admin'
+}, function(source)
+    local ped = GetPlayerPed(source)
+    local pedCar = GetVehiclePedIsIn(ped, false)
+
+    if not pedCar then
+        local vehicle = lib.callback.await('qbox_getNearestVehicle', source)
+
+        if vehicle then
+            pedCar = NetworkGetEntityFromNetworkId(vehicle)
+        end
+    end
+
+    if pedCar and DoesEntityExist(pedCar) then
+        DeleteEntity(pedCar)
+    end
 end)
 
 -- Money

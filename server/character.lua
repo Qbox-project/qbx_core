@@ -1,3 +1,5 @@
+local Config = require 'config.server'
+
 ---@param license2 string
 ---@param license? string
 local function getAllowedAmountOfCharacters(license2, license)

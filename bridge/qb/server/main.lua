@@ -1,6 +1,6 @@
 local qbCoreCompat = {}
 
-qbCoreCompat.Config = Config
+qbCoreCompat.Config = lib.table.merge(require 'config.server', require 'config.shared')
 qbCoreCompat.Shared = require 'bridge.qb.shared.main'
 qbCoreCompat.Players = QBX.Players
 qbCoreCompat.Player = require 'bridge.qb.server.player'

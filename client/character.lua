@@ -1,3 +1,6 @@
+local Config = require 'config.client'
+local DefaultSpawn = require 'config.shared'.DefaultSpawn
+
 if Config.Characters.UseExternalCharacters then return end
 
 local previewCam = nil
@@ -364,8 +367,8 @@ end
 RegisterNetEvent('qbx_core:client:spawnNoApartments', function() -- This event is only for no starting apartments
     DoScreenFadeOut(500)
     Wait(2000)
-    SetEntityCoords(cache.ped, Config.DefaultSpawn.x, Config.DefaultSpawn.y, Config.DefaultSpawn.z, false, false, false, false)
-    SetEntityHeading(cache.ped, Config.DefaultSpawn.w)
+    SetEntityCoords(cache.ped, DefaultSpawn.x, DefaultSpawn.y, DefaultSpawn.z, false, false, false, false)
+    SetEntityHeading(cache.ped, DefaultSpawn.w)
     Wait(500)
     destroyPreviewCam()
     SetEntityVisible(cache.ped, true, false)

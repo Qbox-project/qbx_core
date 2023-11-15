@@ -1,3 +1,6 @@
+local Config = require 'config.server'
+local DefaultSpawn = require 'config.shared'.DefaultSpawn
+
 ---@class PlayerData : PlayerEntity
 ---@field source? Source present if player is online
 ---@field optin? boolean present if player is online
@@ -155,7 +158,7 @@ function CheckPlayerData(source, playerData)
     playerData.gang.grade.name = playerData.gang.grade.name or 'none'
     playerData.gang.grade.level = playerData.gang.grade.level or 0
     -- Other
-    playerData.position = playerData.position or Config.DefaultSpawn
+    playerData.position = playerData.position or DefaultSpawn
     playerData.items = GetResourceState('qb-inventory') ~= 'missing' and exports['qb-inventory']:LoadInventory(playerData.source, playerData.citizenid) or {}
     return CreatePlayer(playerData --[[@as PlayerData]], Offline)
 end

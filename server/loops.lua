@@ -1,3 +1,5 @@
+local Config = require 'config.server'
+
 lib.cron.new(('*/%s * * * *'):format(Config.UpdateInterval), function()
     for src, player in pairs(QBX.Players) do
         if player then

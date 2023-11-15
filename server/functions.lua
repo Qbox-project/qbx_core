@@ -1,3 +1,6 @@
+local ServerConfig = require 'config.server'.Server
+local NotifyPosition = require 'config.shared'.NotifyPosition
+
 -- Getters
 -- Get your player first and then trigger a function on them
 -- ex: local player = GetPlayer(source)
@@ -206,8 +209,8 @@ exports('CanUseItem', CanUseItem)
 ---@param source Source
 ---@return boolean
 function IsWhitelisted(source)
-    if not Config.Server.Whitelist then return true end
-    if HasPermission(source, Config.Server.WhitelistPermission) then return true end
+    if not ServerConfig.Whitelist then return true end
+    if HasPermission(source, ServerConfig.WhitelistPermission) then return true end
     return false
 end
 
@@ -241,7 +244,7 @@ function RemovePermission(source, permission)
         end
     else
         local hasUpdated = false
-        for _, v in pairs(Config.Server.Permissions) do
+        for _, v in pairs(ServerConfig.Permissions) do
             if IsPlayerAceAllowed(source --[[@as string]], v) then
                 lib.removePrincipal('player.' .. source, 'group.' .. v)
                 lib.removeAce('player.' .. source, 'group.' .. v)
@@ -279,7 +282,7 @@ exports('HasPermission', HasPermission)
 ---@return table<string, boolean>
 function GetPermission(source)
     local perms = {}
-    for _, v in pairs (Config.Server.Permissions) do
+    for _, v in pairs (ServerConfig.Permissions) do
         if IsPlayerAceAllowed(source --[[@as string]], v) then
             perms[v] = true
         end
@@ -350,7 +353,7 @@ function Notify(source, text, notifyType, duration, subTitle, notifyPosition, no
     else
         description = text
     end
-    local position = notifyPosition or Config.NotifyPosition
+    local position = notifyPosition or NotifyPosition
 
     TriggerClientEvent('ox_lib:notify', source, {
         id = title,
@@ -395,7 +398,7 @@ local function ExploitBan(playerId, origin)
             bannedBy = 'Anti Cheat'
         })
     end)
-    DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = Config.Server.Discord}))
+    DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = ServerConfig.Discord}))
     TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
 end
 
