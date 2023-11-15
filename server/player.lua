@@ -1,4 +1,4 @@
-local Config = require 'config.server'
+local config = require 'config.server'
 local defaultSpawn = require 'config.shared'.DefaultSpawn
 
 ---@class PlayerData : PlayerEntity
@@ -69,7 +69,7 @@ function CheckPlayerData(source, playerData)
     playerData.cid = playerData.charinfo?.cid or playerData.cid or 1
     playerData.money = playerData.money or {}
     playerData.optin = playerData.optin or true
-    for moneytype, startamount in pairs(Config.Money.MoneyTypes) do
+    for moneytype, startamount in pairs(config.Money.MoneyTypes) do
         playerData.money[moneytype] = playerData.money[moneytype] or startamount
     end
 
@@ -101,7 +101,7 @@ function CheckPlayerData(source, playerData)
     playerData.metadata.phone = playerData.metadata.phone or {}
     playerData.metadata.fitbit = playerData.metadata.fitbit or {}
     playerData.metadata.commandbinds = playerData.metadata.commandbinds or {}
-    playerData.metadata.bloodtype = playerData.metadata.bloodtype or Config.Player.Bloodtypes[math.random(1, #Config.Player.Bloodtypes)]
+    playerData.metadata.bloodtype = playerData.metadata.bloodtype or config.Player.Bloodtypes[math.random(1, #config.Player.Bloodtypes)]
     playerData.metadata.dealerrep = playerData.metadata.dealerrep or 0
     playerData.metadata.craftingrep = playerData.metadata.craftingrep or 0
     playerData.metadata.attachmentcraftingrep = playerData.metadata.attachmentcraftingrep or 0
@@ -367,7 +367,7 @@ function CreatePlayer(playerData, Offline)
         amount = tonumber(amount) --[[@as number]]
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
-        for _, mtype in pairs(Config.Money.DontAllowMinus) do
+        for _, mtype in pairs(config.Money.DontAllowMinus) do
             if mtype == moneytype then
                 if (self.PlayerData.money[moneytype] - amount) < 0 then
                     return false
@@ -552,7 +552,7 @@ exports('DeleteCharacter', ForceDeleteCharacter)
 ---@return string | number UniqueVal unique value generated
 function GenerateUniqueIdentifier(type)
     local isUnique, uniqueId
-    local table = Config.Player.IdentifierTypes[type]
+    local table = config.Player.IdentifierTypes[type]
     repeat
         uniqueId = table.valueFunction()
         isUnique = FetchIsUnique(type, uniqueId)
