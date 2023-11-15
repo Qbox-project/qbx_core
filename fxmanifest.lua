@@ -2,6 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 description 'QBX_Core'
+repository 'https://github.com/Qbox-project/qbx_core'
 version '0.4.0'
 
 shared_scripts {
@@ -10,7 +11,7 @@ shared_scripts {
     'locale/en.lua',
     'locale/*.lua',
     'config.lua',
-    'import.lua'
+    'import.lua',
 }
 
 client_scripts {
