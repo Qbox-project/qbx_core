@@ -175,10 +175,10 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     if not player then return end
     if player.PlayerData.job.onduty then
         player.Functions.SetJobDuty(false)
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('info.off_duty'))
+        Notify(src, Lang:t('info.off_duty'))
     else
         player.Functions.SetJobDuty(true)
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('info.on_duty'))
+        Notify(src, Lang:t('info.on_duty'))
     end
     TriggerClientEvent('QBCore:Client:SetDuty', src, player.PlayerData.job.onduty)
 end)
