@@ -6,6 +6,11 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     if not Config.Server.PVP then return end
     SetCanAttackFriendly(cache.ped, true, false)
     NetworkSetFriendlyFireOption(true)
+    SetEntityHealth(cache.ped, QBX.PlayerData.metadata.health)
+    SetEntityMaxHealth(cache.ped, 200)
+    SetPlayerHealthRechargeMultiplier(cache.playerId, 0.0)
+    SetPlayerHealthRechargeLimit(cache.playerId, 0.0)
+    SetPedArmour(cache.ped, QBX.PlayerData.metadata.armor)
 end)
 
 ---@param val PlayerData
