@@ -3,12 +3,6 @@ local functions = {}
 
 local createQbExport = require 'bridge.qb.shared.export-function'
 
-function createQbExport(name, cb)
-    AddEventHandler(string.format('__cfx_export_qb-core_%s', name), function(setCB)
-        setCB(cb)
-    end)
-end
-
 function AddDeprecatedFunctions(player)
     if not player then return end
 
