@@ -1,5 +1,5 @@
-local DefaultSpawn = require 'config.shared'.DefaultSpawn
-local CharacterDataTables = require 'config.server'.CharacterDataTables
+local defaultSpawn = require 'config.shared'.defaultSpawn
+local characterDataTables = require 'config.server'.characterDataTables
 
 ---@class InsertBanRequest
 ---@field name string
@@ -180,8 +180,8 @@ end
 
 local function convertPosition(position)
     local pos = json.decode(position)
-    local actualPos = (not pos.x or not pos.y or not pos.z) and DefaultSpawn or pos
-    return vec4(actualPos.x, actualPos.y, actualPos.z, actualPos.w or DefaultSpawn.w)
+    local actualPos = (not pos.x or not pos.y or not pos.z) and defaultSpawn or pos
+    return vec4(actualPos.x, actualPos.y, actualPos.z, actualPos.w or defaultSpawn.w)
 end
 
 ---@param license2 string
@@ -225,14 +225,14 @@ function FetchPlayerEntity(citizenId)
     } or nil
 end
 
----deletes character data using the CharacterDataTables object in the config file
+---deletes character data using the characterDataTables object in the config file
 ---@param citizenId string
 ---@return boolean success if operation is successful.
 function DeletePlayerEntity(citizenId)
     local query = "DELETE FROM %s WHERE %s = ?"
     local queries = {}
 
-    for tableName, columnName in pairs(CharacterDataTables) do
+    for tableName, columnName in pairs(characterDataTables) do
         queries[#queries + 1] = {
             query = query:format(tableName, columnName),
             values = {

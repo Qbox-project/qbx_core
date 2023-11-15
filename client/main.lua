@@ -60,6 +60,6 @@ lib.callback.register('qbx_core:client:setHealth', function(health)
     SetEntityHealth(cache.ped, health)
 end)
 
-local mapText = require 'config.client'.PauseMapText
+local mapText = require 'config.client'.pauseMapText
 if mapText == '' or type(mapText) ~= 'string' then mapText = 'FiveM' end
 AddTextEntry('FE_THDR_GTAO', mapText)
