@@ -218,7 +218,8 @@ function functions.SetVehicleProperties(vehicle, props)
         SetVehicleHeadlightsColour(vehicle, props.headlightColor)
     end
 
-    if not props.tyres then
+    if (props.tireBurstCompletely or props.tireBurstState) and not props.tyres then
+        props.tyres = {}
         for i = 0, 7 do
             props.tyres[i] = props.tireBurstCompletely and props.tireBurstCompletely[i] and 2 or props.tireBurstState and props.tireBurstState[i] and 1 or nil
         end
@@ -226,6 +227,7 @@ function functions.SetVehicleProperties(vehicle, props)
 
     local numWindowsDamaged = 0
     if props.windowStatus and not props.windows then
+        props.windows = {}
         for i, isDamaged in pairs(props.windowStatus) do
             if isDamaged then
                 numWindowsDamaged += 1
@@ -236,6 +238,7 @@ function functions.SetVehicleProperties(vehicle, props)
 
     local numDoorsDamaged = 0
     if props.doorStatus and not props.doors then
+        props.doors = {}
         for i, isDamaged in pairs(props.doorStatus) do
             if isDamaged then
                 numDoorsDamaged += 1
