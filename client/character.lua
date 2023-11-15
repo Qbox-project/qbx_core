@@ -1,7 +1,10 @@
-if Config.Characters.UseExternalCharacters then return end
+local config = require 'config.client'
+local defaultSpawn = require 'config.shared'.DefaultSpawn
+
+if config.Characters.UseExternalCharacters then return end
 
 local previewCam = nil
-local randomLocation = Config.Characters.Locations[math.random(1, #Config.Characters.Locations)]
+local randomLocation = config.Characters.Locations[math.random(1, #config.Characters.Locations)]
 
 local randomPedModels = {
     `a_m_o_soucent_02`,
@@ -50,19 +53,19 @@ end
 local function previewPed(citizenId)
     if not citizenId then
         local model = randomPedModels[math.random(1, #randomPedModels)]
-        lib.requestModel(model, Config.LoadingModelsTimeout)
+        lib.requestModel(model, config.LoadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
         return
     end
 
     local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
     if model and clothing then
-        lib.requestModel(model, Config.LoadingModelsTimeout)
+        lib.requestModel(model, config.LoadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
         pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), json.decode(clothing)) end)
     else
         model = randomPedModels[math.random(1, #randomPedModels)]
-        lib.requestModel(model, Config.LoadingModelsTimeout)
+        lib.requestModel(model, config.LoadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
     end
 end
@@ -133,14 +136,14 @@ end
 ---@return boolean
 local function checkStrings(dialog, input)
     local str = dialog[input]
-    if Config.Characters.ProfanityWords[str:lower()] then return false end
+    if config.Characters.ProfanityWords[str:lower()] then return false end
 
     local split = {string.strsplit(' ', str)}
     if #split > 5 then return false end
 
     for i = 1, #split do
         local word = split[i]
-        if Config.Characters.ProfanityWords[word:lower()] then return false end
+        if config.Characters.ProfanityWords[word:lower()] then return false end
     end
 
     return true
@@ -235,7 +238,7 @@ local function createCharacter(cid)
         spawnDefault()
         TriggerEvent('qb-clothes:client:CreateFirstCharacter')
     else
-        if Config.Characters.StartingApartment then
+        if config.Characters.StartingApartment then
             TriggerEvent('apartments:client:setupSpawnUI', newData)
         else
             TriggerEvent('qbx_core:client:spawnNoApartments')
@@ -247,7 +250,7 @@ local function createCharacter(cid)
 end
 
 local function chooseCharacter()
-    randomLocation = Config.Characters.Locations[math.random(1, #Config.Characters.Locations)]
+    randomLocation = config.Characters.Locations[math.random(1, #config.Characters.Locations)]
 
     DoScreenFadeOut(500)
 
@@ -325,7 +328,7 @@ local function chooseCharacter()
                             destroyPreviewCam()
                         end
                     },
-                    Config.Characters.EnableDeleteButton and {
+                    config.Characters.EnableDeleteButton and {
                         title = Lang:t('info.delete_character'),
                         description = Lang:t('info.delete_character_description', { playerName = name }),
                         icon = 'trash',
@@ -364,8 +367,8 @@ end
 RegisterNetEvent('qbx_core:client:spawnNoApartments', function() -- This event is only for no starting apartments
     DoScreenFadeOut(500)
     Wait(2000)
-    SetEntityCoords(cache.ped, Config.DefaultSpawn.x, Config.DefaultSpawn.y, Config.DefaultSpawn.z, false, false, false, false)
-    SetEntityHeading(cache.ped, Config.DefaultSpawn.w)
+    SetEntityCoords(cache.ped, defaultSpawn.x, defaultSpawn.y, defaultSpawn.z, false, false, false, false)
+    SetEntityHeading(cache.ped, defaultSpawn.w)
     Wait(500)
     destroyPreviewCam()
     SetEntityVisible(cache.ped, true, false)
@@ -391,7 +394,7 @@ CreateThread(function()
         if NetworkIsSessionStarted() then
             pcall(function() exports.spawnmanager:setAutoSpawn(false) end)
             Wait(250)
-            lib.requestModel(model, Config.LoadingModelsTimeout)
+            lib.requestModel(model, config.LoadingModelsTimeout)
             SetPlayerModel(cache.playerId, model)
             chooseCharacter()
             break

@@ -216,24 +216,26 @@ if isServer then
         end
 
         if warp then SetPedIntoVehicle(ped, veh, -1) end
-        
+
         local owner = lib.waitFor(function()
             local owner = NetworkGetEntityOwner(veh)
             if owner ~= -1 then return owner end
         end, 5000)
-        
+
         local netId = NetworkGetNetworkIdFromEntity(veh)
         TriggerClientEvent('qbx_core:client:vehicleSpawned', owner, netId, props)
         return netId
     end
 
+
+    local discordLink = GetConvar('qbx:discordlink', 'discord.gg/qbox')
     --Kick Player
     ---@param source Source
     ---@param reason string
     ---@param setKickReason? fun(reason: string)
     ---@param deferrals? Deferrals
     function KickWithReason(source, reason, setKickReason, deferrals) -- luacheck: ignore
-        reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. Config.Server.Discord
+        reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. discordLink
         if setKickReason then
             setKickReason(reason)
         end

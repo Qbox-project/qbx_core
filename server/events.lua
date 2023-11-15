@@ -1,3 +1,5 @@
+local serverConfig = require 'config.server'.Server
+
 -- Event Handler
 
 local usedLicenses = {}
@@ -11,7 +13,7 @@ AddEventHandler('chatMessage', function(_, _, message)
 end)
 
 AddEventHandler('playerJoining', function()
-    if not Config.Server.CheckDuplicateLicense then return end
+    if not serverConfig.CheckDuplicateLicense then return end
     local src = source --[[@as string]]
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
     if not license then return end
@@ -56,9 +58,9 @@ local function onPlayerConnecting(name, _, deferrals)
     -- Mandatory wait
     Wait(0)
 
-    if Config.Server.Closed then
+    if serverConfig.Closed then
         if not IsPlayerAceAllowed(src, 'qbadmin.join') then
-            deferrals.done(Config.Server.ClosedReason)
+            deferrals.done(serverConfig.ClosedReason)
         end
     end
 
@@ -71,7 +73,7 @@ local function onPlayerConnecting(name, _, deferrals)
 
     if not license then
         deferrals.done(Lang:t('error.no_valid_license'))
-    elseif Config.Server.CheckDuplicateLicense and IsLicenseInUse(license) then
+    elseif serverConfig.CheckDuplicateLicense and IsLicenseInUse(license) then
         deferrals.done(Lang:t('error.duplicate_license'))
     end
 
@@ -88,7 +90,7 @@ local function onPlayerConnecting(name, _, deferrals)
             end
         end)
 
-        if Config.Server.Whitelist and success then
+        if serverConfig.Whitelist and success then
             deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
             success, err = pcall(function()
                 if not IsWhitelisted(src --[[@as Source]]) then
@@ -146,10 +148,10 @@ RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
     local src = source --[[@as Source]]
     if HasPermission(src, 'admin') then
         reason = reason or 'No reason specified'
-        Config.Server.Closed = true
-        Config.Server.ClosedReason = reason
+        serverConfig.Closed = true
+        serverConfig.ClosedReason = reason
         for k in pairs(QBX.Players) do
-            if not HasPermission(k, Config.Server.WhitelistPermission) then
+            if not HasPermission(k, serverConfig.WhitelistPermission) then
                 KickWithReason(k, reason, nil, nil)
             end
         end
@@ -161,7 +163,7 @@ end)
 RegisterNetEvent('QBCore:Server:OpenServer', function()
     local src = source --[[@as Source]]
     if HasPermission(src, 'admin') then
-        Config.Server.Closed = false
+        serverConfig.Closed = false
     else
         KickWithReason(src, Lang:t("error.no_permission"), nil, nil)
     end

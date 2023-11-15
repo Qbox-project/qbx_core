@@ -1,3 +1,7 @@
+local config = require 'config.server'
+
+GlobalState.PVPEnabled = config.Server.PVP
+
 -- Teleport
 lib.addCommand('tp', {
     help = Lang:t("command.tp.help"),
@@ -43,8 +47,8 @@ lib.addCommand('togglepvp', {
     help = Lang:t("command.togglepvp.help"),
     restricted = "group.admin"
 }, function()
-    Config.Server.PVP = not Config.Server.PVP
-    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, Config.Server.PVP)
+    config.Server.PVP = not config.Server.PVP
+    GlobalState.PVPEnabled = config.Server.PVP
 end)
 
 -- Permissions
@@ -89,12 +93,12 @@ lib.addCommand('openserver', {
     help = Lang:t("command.openserver.help"),
     restricted = "group.admin"
 }, function(source)
-    if not Config.Server.Closed then
+    if not config.Server.Closed then
         Notify(source, Lang:t('error.server_already_open'), 'error')
         return
     end
     if HasPermission(source, 'admin') then
-        Config.Server.Closed = false
+        config.Server.Closed = false
         Notify(source, Lang:t('success.server_opened'), 'success')
     else
         KickWithReason(source, Lang:t("error.no_permission"), nil, nil)
@@ -108,16 +112,16 @@ lib.addCommand('closeserver', {
     },
     restricted = "group.admin"
 }, function(source, args)
-    if Config.Server.Closed then
+    if config.Server.Closed then
         Notify(source, Lang:t('error.server_already_closed'), 'error')
         return
     end
     if HasPermission(source, 'admin') then
         local reason = args[Lang:t("command.closeserver.params.reason.name")] or 'No reason specified'
-        Config.Server.Closed = true
-        Config.Server.ClosedReason = reason
+        config.Server.Closed = true
+        config.Server.ClosedReason = reason
         for k in pairs(QBX.Players) do
-            if not HasPermission(k, Config.Server.WhitelistPermission) then
+            if not HasPermission(k, config.Server.WhitelistPermission) then
                 KickWithReason(k, reason, nil, nil)
             end
         end
@@ -139,7 +143,7 @@ lib.addCommand('car', {
     if not args then return end
     local netId = SpawnVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
     local plate = GetPlate(NetworkGetEntityFromNetworkId(netId))
-    Config.GiveVehicleKeys(source, plate)
+    config.GiveVehicleKeys(source, plate)
 end)
 
 lib.addCommand('dv', {
@@ -147,6 +151,26 @@ lib.addCommand('dv', {
     restricted = "group.admin"
 }, function(source)
     TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
+end)
+
+lib.addCommand('dv', {
+    help = Lang:t("command.dv.help"),
+    restricted = 'group.admin'
+}, function(source)
+    local ped = GetPlayerPed(source)
+    local pedCar = GetVehiclePedIsIn(ped, false)
+
+    if not pedCar then
+        local vehicle = lib.callback.await('qbx_core:client:getNearestVehicle', source)
+
+        if vehicle then
+            pedCar = NetworkGetEntityFromNetworkId(vehicle)
+        end
+    end
+
+    if pedCar and DoesEntityExist(pedCar) then
+        DeleteEntity(pedCar)
+    end
 end)
 
 -- Money

@@ -1,3 +1,5 @@
+local NotifyPosition = require 'config.shared'.NotifyPosition
+
 ---Text box popup for player which dissappears after a set time.
 ---@param text table|string text of the notification
 ---@param notifyType? NotificationType informs default styling. Defaults to 'inform'
@@ -18,7 +20,7 @@ function Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyl
     else
         description = text
     end
-    local position = notifyPosition or Config.NotifyPosition
+    local position = notifyPosition or NotifyPosition
 
     lib.notify({
         id = title,

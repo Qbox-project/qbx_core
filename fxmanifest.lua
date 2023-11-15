@@ -10,7 +10,6 @@ shared_scripts {
     'shared/locale.lua',
     'locale/en.lua',
     'locale/*.lua',
-    'config.lua',
     'import.lua',
 }
 
@@ -60,9 +59,15 @@ files {
     'bridge/qb/server/functions.lua',
     'bridge/qb/server/main.lua',
     'bridge/qb/server/player.lua',
+    'config/client.lua',
+    'config/shared.lua'
 }
 
-dependency 'oxmysql'
+dependencies {
+    'ox_lib',
+    'oxmysql',
+}
+
 provide 'qb-core'
 lua54 'yes'
 use_experimental_fxv2_oal 'yes'

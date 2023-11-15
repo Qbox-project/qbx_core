@@ -1,6 +1,6 @@
 local qbCoreCompat = {}
 qbCoreCompat.PlayerData = QBX.PlayerData
-qbCoreCompat.Config = Config
+qbCoreCompat.Config = lib.table.merge(require 'config.client', require 'config.shared')
 qbCoreCompat.Shared = require 'bridge.qb.shared.main'
 qbCoreCompat.Functions = require 'bridge.qb.client.functions'
 

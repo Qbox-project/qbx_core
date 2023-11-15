@@ -3,9 +3,11 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
     QBX.IsLoggedIn = true
-    if not Config.Server.PVP then return end
-    SetCanAttackFriendly(cache.ped, true, false)
-    NetworkSetFriendlyFireOption(true)
+
+    if GlobalState.PVPEnabled then
+        SetCanAttackFriendly(cache.ped, true, false)
+        NetworkSetFriendlyFireOption(true)
+    end
 end)
 
 ---@param val PlayerData
@@ -19,10 +21,12 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     QBX.IsLoggedIn = false
 end)
 
----@param pvp_state boolean
-RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
-    SetCanAttackFriendly(cache.ped, pvp_state, false)
-    NetworkSetFriendlyFireOption(pvp_state)
+---@param value boolean
+AddStateBagChangeHandler('PVPEnabled', nil, function(bagName, _, value)
+    if bagName == 'global' then
+        SetCanAttackFriendly(cache.ped, value, false)
+        NetworkSetFriendlyFireOption(value)
+    end
 end)
 
 -- Teleport Commands
@@ -141,20 +145,10 @@ RegisterNetEvent('qbx_core:client:vehicleSpawned', function(netId, props)
     end
 end)
 
-RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
-    if cache.vehicle then
-        SetEntityAsMissionEntity(cache.vehicle, true, true)
-        DeleteVehicle(cache.vehicle)
-    else
-        local pcoords = GetEntityCoords(cache.ped)
-        local vehicles = GetGamePool('CVehicle')
-        for _, v in pairs(vehicles) do
-            if #(pcoords - GetEntityCoords(v)) <= 5.0 then
-                SetEntityAsMissionEntity(v, true, true)
-                DeleteVehicle(v)
-            end
-        end
-    end
+lib.callback.register('qbx_core:client:getNearestVehicle', function()
+    local vehicle = lib.getClosestVehicle(GetEntityCoords(cache.ped), 5)
+
+    return vehicle and VehToNet(vehicle)
 end)
 
 -- Other stuff

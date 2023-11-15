@@ -1,8 +1,10 @@
-lib.cron.new(('*/%s * * * *'):format(Config.UpdateInterval), function()
+local config = require 'config.server'
+
+lib.cron.new(('*/%s * * * *'):format(config.UpdateInterval), function()
     for src, player in pairs(QBX.Players) do
         if player then
-            local newHunger = player.PlayerData.metadata.hunger - Config.Player.HungerRate
-            local newThirst = player.PlayerData.metadata.thirst - Config.Player.ThirstRate
+            local newHunger = player.PlayerData.metadata.hunger - config.Player.HungerRate
+            local newThirst = player.PlayerData.metadata.thirst - config.Player.ThirstRate
             if newHunger <= 0 then
                 newHunger = 0
             end
@@ -27,7 +29,7 @@ local function pay(player)
     local payment = QBX.Shared.Jobs[job.name].grades[job.grade.level].payment or job.payment
     if payment <= 0 then return end
     if not QBX.Shared.Jobs[job.name].offDutyPay and not job.onduty then return end
-    if not Config.Money.PaycheckSociety then
+    if not config.Money.PaycheckSociety then
         sendPaycheck(player, payment)
         return
     end
@@ -44,7 +46,7 @@ local function pay(player)
     sendPaycheck(player, payment)
 end
 
-lib.cron.new(('*/%s * * * *'):format(Config.Money.PaycheckTimeout), function()
+lib.cron.new(('*/%s * * * *'):format(config.Money.PaycheckTimeout), function()
     for _, player in pairs(QBX.Players) do
         pay(player)
     end
