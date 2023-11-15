@@ -1,4 +1,4 @@
-local notifyPosition = require 'config.shared'.notifyPosition
+local positionConfig = require 'config.shared'.notifyPosition
 
 ---Text box popup for player which dissappears after a set time.
 ---@param text table|string text of the notification
@@ -20,7 +20,7 @@ function Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyl
     else
         description = text
     end
-    local position = notifyPosition or notifyPosition
+    local position = notifyPosition or positionConfig
 
     lib.notify({
         id = title,
