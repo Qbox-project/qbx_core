@@ -7,13 +7,14 @@ version '0.4.0'
 
 shared_scripts {
     '@ox_lib/init.lua',
+    'modules/utils.lua',
     'shared/locale.lua',
     'locale/en.lua',
     'locale/*.lua',
-    'import.lua',
 }
 
 client_scripts {
+    'modules/utils.lua',
     'client/main.lua',
     'client/functions.lua',
     'client/loops.lua',
@@ -34,10 +35,6 @@ server_scripts {
     'server/storage.lua',
     'server/character.lua',
     'bridge/qb/server/main.lua',
-}
-
-modules {
-    'utils'
 }
 
 files {
