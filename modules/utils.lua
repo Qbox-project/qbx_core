@@ -370,7 +370,7 @@ else
         local netId = tonumber(bagName:gsub('entity:', ''), 10)
 
         local idExsist = lib.waitFor(function()
-            local netIdExsist = NetworkDoesEntityExistWithNetworkId(netId)
+            local netIdExist = NetworkDoesEntityExistWithNetworkId(netId)
 
             if netIdExsist then return netIdExsist end
         end, ('statebag timed out while awaiting entity creation! (%s)'):format(bagName), 10000)
