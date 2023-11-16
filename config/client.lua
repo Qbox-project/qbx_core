@@ -7,7 +7,7 @@ return {
     characters = {
         useExternalCharacters = false, -- Whether you have an external character management resource. (If true, disables the character management inside the core)
         enableDeleteButton = true, -- Whether players should be able to delete characters themselves.
-        startingApartment = false, -- If set to false, skips apartment choice in the beginning (requires qbx_spawn if true)
+        startingApartment = true, -- If set to false, skips apartment choice in the beginning (requires qbx_spawn if true)
 
         profanityWords = {
             ['bad word'] = true
