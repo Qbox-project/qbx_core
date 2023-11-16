@@ -1,5 +1,5 @@
 local maxPlayers = GlobalState.MaxPlayers
-local discord = require 'config.client'.Discord
+local discord = require 'config.client'.discord
 
 AddStateBagChangeHandler('PlayerCount', nil, function(bagName, _, value)
     if bagName == 'global' and value then
@@ -8,10 +8,10 @@ AddStateBagChangeHandler('PlayerCount', nil, function(bagName, _, value)
     end
 end)
 
-SetDiscordAppId(discord.AppId)
-SetDiscordRichPresenceAsset(discord.LargeIcon.icon)
-SetDiscordRichPresenceAssetText(discord.LargeIcon.text)
-SetDiscordRichPresenceAssetSmall(discord.SmallIcon.icon)
-SetDiscordRichPresenceAssetSmallText(discord.SmallIcon.text)
-SetDiscordRichPresenceAction(0, discord.FirstButton.text, discord.FirstButton.link)
-SetDiscordRichPresenceAction(1, discord.SecondButton.text, discord.SecondButton.link)
+SetDiscordAppId(discord.appId)
+SetDiscordRichPresenceAsset(discord.largeIcon.icon)
+SetDiscordRichPresenceAssetText(discord.largeIcon.text)
+SetDiscordRichPresenceAssetSmall(discord.smallIcon.icon)
+SetDiscordRichPresenceAssetSmallText(discord.smallIcon.text)
+SetDiscordRichPresenceAction(0, discord.firstButton.text, discord.firstButton.link)
+SetDiscordRichPresenceAction(1, discord.secondButton.text, discord.secondButton.link)

@@ -51,11 +51,6 @@ files {
     'bridge/qb/client/events.lua',
     'bridge/qb/shared/main.lua',
     'bridge/qb/shared/export-function.lua',
-    'bridge/qb/server/functions.lua',
-    'bridge/qb/server/player.lua',
-    'bridge/qb/server/commands.lua',
-    'bridge/qb/server/debug.lua',
-    'bridge/qb/server/events.lua',
     'config/client.lua',
     'config/shared.lua'
 }

@@ -1,10 +1,10 @@
 local config = require 'config.client'
-local defaultSpawn = require 'config.shared'.DefaultSpawn
+local defaultSpawn = require 'config.shared'.defaultSpawn
 
-if config.Characters.UseExternalCharacters then return end
+if config.characters.useExternalCharacters then return end
 
 local previewCam = nil
-local randomLocation = config.Characters.Locations[math.random(1, #config.Characters.Locations)]
+local randomLocation = config.characters.locations[math.random(1, #config.characters.locations)]
 
 local randomPedModels = {
     `a_m_o_soucent_02`,
@@ -53,19 +53,19 @@ end
 local function previewPed(citizenId)
     if not citizenId then
         local model = randomPedModels[math.random(1, #randomPedModels)]
-        lib.requestModel(model, config.LoadingModelsTimeout)
+        lib.requestModel(model, config.loadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
         return
     end
 
     local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
     if model and clothing then
-        lib.requestModel(model, config.LoadingModelsTimeout)
+        lib.requestModel(model, config.loadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
         pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), json.decode(clothing)) end)
     else
         model = randomPedModels[math.random(1, #randomPedModels)]
-        lib.requestModel(model, config.LoadingModelsTimeout)
+        lib.requestModel(model, config.loadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
     end
 end
@@ -136,14 +136,14 @@ end
 ---@return boolean
 local function checkStrings(dialog, input)
     local str = dialog[input]
-    if config.Characters.ProfanityWords[str:lower()] then return false end
+    if config.characters.profanityWords[str:lower()] then return false end
 
     local split = {string.strsplit(' ', str)}
     if #split > 5 then return false end
 
     for i = 1, #split do
         local word = split[i]
-        if config.Characters.ProfanityWords[word:lower()] then return false end
+        if config.characters.profanityWords[word:lower()] then return false end
     end
 
     return true
@@ -238,7 +238,7 @@ local function createCharacter(cid)
         spawnDefault()
         TriggerEvent('qb-clothes:client:CreateFirstCharacter')
     else
-        if config.Characters.StartingApartment then
+        if config.characters.startingApartment then
             TriggerEvent('apartments:client:setupSpawnUI', newData)
         else
             TriggerEvent('qbx_core:client:spawnNoApartments')
@@ -250,7 +250,7 @@ local function createCharacter(cid)
 end
 
 local function chooseCharacter()
-    randomLocation = config.Characters.Locations[math.random(1, #config.Characters.Locations)]
+    randomLocation = config.characters.locations[math.random(1, #config.characters.locations)]
 
     DoScreenFadeOut(500)
 
@@ -328,7 +328,7 @@ local function chooseCharacter()
                             destroyPreviewCam()
                         end
                     },
-                    config.Characters.EnableDeleteButton and {
+                    config.characters.enableDeleteButton and {
                         title = Lang:t('info.delete_character'),
                         description = Lang:t('info.delete_character_description', { playerName = name }),
                         icon = 'trash',
@@ -394,7 +394,7 @@ CreateThread(function()
         if NetworkIsSessionStarted() then
             pcall(function() exports.spawnmanager:setAutoSpawn(false) end)
             Wait(250)
-            lib.requestModel(model, config.LoadingModelsTimeout)
+            lib.requestModel(model, config.loadingModelsTimeout)
             SetPlayerModel(cache.playerId, model)
             chooseCharacter()
             break
