@@ -369,10 +369,10 @@ else
     function GetEntityAndNetIdFromBagName(bagName) -- luacheck: ignore
         local netId = tonumber(bagName:gsub('entity:', ''), 10)
 
-        local idExsist = lib.waitFor(function()
+        local idExist = lib.waitFor(function()
             local netIdExist = NetworkDoesEntityExistWithNetworkId(netId)
 
-            if netIdExsist then return netIdExsist end
+            if netIdExist then return netIdExist end
         end, ('statebag timed out while awaiting entity creation! (%s)'):format(bagName), 10000)
 
         local entity = idExist and NetworkGetEntityFromNetworkId(netId) or 0
