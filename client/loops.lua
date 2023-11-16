@@ -1,7 +1,7 @@
-local StatusInterval = require 'config.client'.StatusInterval
+local statusInterval = require 'config.client'.statusInterval
 
 CreateThread(function()
-    local timeout = 60000 * StatusInterval
+    local timeout = 60000 * statusInterval
     while true do
         Wait(timeout)
 

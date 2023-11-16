@@ -1,6 +1,6 @@
 local config = require 'config.server'
 
-GlobalState.PVPEnabled = config.Server.PVP
+GlobalState.PVPEnabled = config.server.pvp
 
 -- Teleport
 lib.addCommand('tp', {
@@ -47,8 +47,8 @@ lib.addCommand('togglepvp', {
     help = Lang:t("command.togglepvp.help"),
     restricted = "group.admin"
 }, function()
-    config.Server.PVP = not config.Server.PVP
-    GlobalState.PVPEnabled = config.Server.PVP
+    config.server.pvp = not config.server.pvp
+    GlobalState.PVPEnabled = config.server.pvp
 end)
 
 -- Permissions
@@ -93,12 +93,12 @@ lib.addCommand('openserver', {
     help = Lang:t("command.openserver.help"),
     restricted = "group.admin"
 }, function(source)
-    if not config.Server.Closed then
+    if not config.server.closed then
         Notify(source, Lang:t('error.server_already_open'), 'error')
         return
     end
     if HasPermission(source, 'admin') then
-        config.Server.Closed = false
+        config.server.closed = false
         Notify(source, Lang:t('success.server_opened'), 'success')
     else
         KickWithReason(source, Lang:t("error.no_permission"), nil, nil)
@@ -112,16 +112,16 @@ lib.addCommand('closeserver', {
     },
     restricted = "group.admin"
 }, function(source, args)
-    if config.Server.Closed then
+    if config.server.closed then
         Notify(source, Lang:t('error.server_already_closed'), 'error')
         return
     end
     if HasPermission(source, 'admin') then
         local reason = args[Lang:t("command.closeserver.params.reason.name")] or 'No reason specified'
-        config.Server.Closed = true
-        config.Server.ClosedReason = reason
+        config.server.closed = true
+        config.server.closedReason = reason
         for k in pairs(QBX.Players) do
-            if not HasPermission(k, config.Server.WhitelistPermission) then
+            if not HasPermission(k, config.server.whitelistPermission) then
                 KickWithReason(k, reason, nil, nil)
             end
         end
@@ -143,7 +143,7 @@ lib.addCommand('car', {
     if not args then return end
     local netId = SpawnVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
     local plate = GetPlate(NetworkGetEntityFromNetworkId(netId))
-    config.GiveVehicleKeys(source, plate)
+    config.giveVehicleKeys(source, plate)
 end)
 
 lib.addCommand('dv', {

@@ -3,7 +3,7 @@ local config = require 'config.server'
 ---@param license2 string
 ---@param license? string
 local function getAllowedAmountOfCharacters(license2, license)
-    return config.Characters.PlayersNumberOfCharacters[license2] or license and config.Characters.PlayersNumberOfCharacters[license] or config.Characters.DefaultNumberOfCharacters
+    return config.characters.playersNumberOfCharacters[license2] or license and config.characters.playersNumberOfCharacters[license] or config.characters.defaultNumberOfCharacters
 end
 
 ---@param source Source
@@ -12,8 +12,8 @@ local function giveStarterItems(source)
         Wait(100)
     end
 
-    for i = 1, #config.StarterItems do
-        local item = config.StarterItems[i]
+    for i = 1, #config.starterItems do
+        local item = config.starterItems[i]
         if item.metadata and type(item.metadata) == 'function' then
             exports.ox_inventory:AddItem(source, item.name, item.amount, item.metadata(source))
         else
