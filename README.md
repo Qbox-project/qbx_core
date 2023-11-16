@@ -5,7 +5,7 @@ _<p align="center">"And then there was Qbox"</p>_
 
 # qbx_core
 
-qbx_core is a framework created on September 27, 2022, as a successor to qb-core to continue the development of a solid foundation for building easy-to-use, performant, and secure server resources.
+qbx_core is a framework created on September 27, 2022, as a successor to qb-core and continues the development of a solid foundation for building easy-to-use, performant, and secure server resources.
 
 Want to know more? View our [documentation](https://qbox-project.github.io/)
 
@@ -25,7 +25,7 @@ Want to know more? View our [documentation](https://qbox-project.github.io/)
 
 #
 
-⚠️ **Please do not edit core** ⚠️
+⚠️We advise not modifying the core outside of the config files⚠️
 
 If you feel something is missing or want to suggest additional functionality that can be added to qbx_core, bring it up on the official [Qbox Discord](https://discord.gg/qbox)!
 
