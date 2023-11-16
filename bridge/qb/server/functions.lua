@@ -24,7 +24,6 @@ end
 ---@deprecated use SpawnVehicle from imports/utils.lua
 ---@return number?
 function functions.SpawnVehicle(source, model, coords, warp)
-    SpawnVehicle(source, model, coords, warp, )
     local ped = GetPlayerPed(source)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(ped) end

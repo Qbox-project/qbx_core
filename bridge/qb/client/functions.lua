@@ -207,6 +207,8 @@ function functions.GetVehicleProperties(vehicle)
     return props
 end
 
+local gameBuild = GetGameBuildNumber()
+
 ---@deprecated use lib.setVehicleProperties from ox_lib
 function functions.SetVehicleProperties(vehicle, props)
     if props.tireHealth and not props.tyres then
