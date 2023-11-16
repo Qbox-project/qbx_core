@@ -58,9 +58,9 @@ local function onPlayerConnecting(name, _, deferrals)
     -- Mandatory wait
     Wait(0)
 
-    if serverConfig.Closed then
+    if serverConfig.closed then
         if not IsPlayerAceAllowed(src, 'qbadmin.join') then
-            deferrals.done(serverConfig.ClosedReason)
+            deferrals.done(serverConfig.closedReason)
         end
     end
 
@@ -148,10 +148,10 @@ RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
     local src = source --[[@as Source]]
     if HasPermission(src, 'admin') then
         reason = reason or 'No reason specified'
-        serverConfig.Closed = true
-        serverConfig.ClosedReason = reason
+        serverConfig.closed = true
+        serverConfig.closedReason = reason
         for k in pairs(QBX.Players) do
-            if not HasPermission(k, serverConfig.WhitelistPermission) then
+            if not HasPermission(k, serverConfig.whitelistPermission) then
                 KickWithReason(k, reason, nil, nil)
             end
         end
@@ -163,7 +163,7 @@ end)
 RegisterNetEvent('QBCore:Server:OpenServer', function()
     local src = source --[[@as Source]]
     if HasPermission(src, 'admin') then
-        serverConfig.Closed = false
+        serverConfig.closed = false
     else
         KickWithReason(src, Lang:t("error.no_permission"), nil, nil)
     end

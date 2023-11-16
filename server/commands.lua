@@ -143,7 +143,7 @@ lib.addCommand('car', {
     if not args then return end
     local netId = SpawnVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
     local plate = GetPlate(NetworkGetEntityFromNetworkId(netId))
-    config.GiveVehicleKeys(source, plate)
+    config.giveVehicleKeys(source, plate)
 end)
 
 lib.addCommand('dv', {

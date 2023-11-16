@@ -210,7 +210,7 @@ exports('CanUseItem', CanUseItem)
 ---@return boolean
 function IsWhitelisted(source)
     if not serverConfig.whitelist then return true end
-    if HasPermission(source, serverConfig.WhitelistPermission) then return true end
+    if HasPermission(source, serverConfig.whitelistPermission) then return true end
     return false
 end
 
