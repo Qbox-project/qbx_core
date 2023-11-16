@@ -1,4 +1,5 @@
-![image](https://github.com/Popcorn-RP/qbx_core/assets/85725579/d77a2278-68c0-4e3f-9ea8-5adb31fa7518)
+![image](https://github.com/alberttheprince/qbx-core/assets/85725579/f2c1a8ee-c315-46a1-8c9e-07530a896ba8)
+
 
 _<p align="center">"And then there was Qbox"</p>_
 
