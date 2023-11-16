@@ -1,11 +1,10 @@
 return {
     updateInterval = 5, -- how often to update player data in minutes
 
-
-    ---@alias MoneyType 'cash' | 'bank' | 'crypto'
-    ---@alias Money {cash: number, bank: number, crypto: number}
-    ---@type Money
     money = {
+        ---@alias MoneyType 'cash' | 'bank' | 'crypto'
+        ---@alias Money {cash: number, bank: number, crypto: number}
+        ---@type Money
         moneyTypes = { cash = 500, bank = 5000, crypto = 0 }, -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
         dontAllowMinus = { 'cash', 'crypto' }, -- Money that is not allowed going in minus
         paycheckTimeout = 10, -- The time in minutes that it will give the paycheck
@@ -96,7 +95,7 @@ return {
         defaultNumberOfCharacters = 3, -- Define maximum amount of default characters (maximum 3 characters defined by default)
     },
 
-    ---@type { name: string, amount: integer, metadata: fun(source: number): table }
+    ---@type { name: string, amount: integer, metadata: fun(source: number): table }[]
     starterItems = { -- Character starting items
         { name = 'phone', amount = 1 },
         { name = 'id_card', amount = 1, metadata = function(source)
