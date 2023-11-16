@@ -52,7 +52,7 @@ jobs:
       - name: Bundle files
         run: |
           mkdir -p ./temp/qbx_core
-          cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,import.lua,qbx_core.sql} ./temp/qbx_core
+          cp ./{LICENSE,README.md,fxmanifest.lua,qbx_core.sql} ./temp/qbx_core
           cp -r ./{client,locale,modules,server,shared,bridge,config} ./temp/qbx_core
           cd ./temp && zip -r ../qbx_core.zip ./qbx_core
 
