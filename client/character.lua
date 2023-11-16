@@ -166,7 +166,12 @@ local function spawnDefault() -- We use a callback to make the server wait on th
 
     destroyPreviewCam()
 
-    pcall(function() exports.spawnmanager:spawnPlayer() end)
+    pcall(function() exports.spawnmanager:spawnPlayer({
+        x = defaultSpawn.x,
+        y = defaultSpawn.y,
+        z = defaultSpawn.z,
+        heading = defaultSpawn.w
+    }) end)
 
     TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
     TriggerEvent('QBCore:Client:OnPlayerLoaded')
