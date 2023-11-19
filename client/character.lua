@@ -322,7 +322,7 @@ local function chooseCharacter()
                         onSelect = function()
                             DoScreenFadeOut(10)
                             lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
-                            if GetResourceState('qbx-apartments'):find('start') then
+                            if GetResourceState('qbx_apartments'):find('start') then
                                 TriggerEvent('apartments:client:setupSpawnUI', { citizenid = character.citizenid })
                             elseif GetResourceState('qbx_spawn'):find('start') then
                                 TriggerEvent('qb-spawn:client:setupSpawns', { citizenid = character.citizenid })
