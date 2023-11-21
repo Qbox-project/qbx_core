@@ -148,13 +148,6 @@ end)
 
 lib.addCommand('dv', {
     help = Lang:t("command.dv.help"),
-    restricted = "group.admin"
-}, function(source)
-    TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
-end)
-
-lib.addCommand('dv', {
-    help = Lang:t("command.dv.help"),
     restricted = 'group.admin'
 }, function(source)
     local ped = GetPlayerPed(source)
