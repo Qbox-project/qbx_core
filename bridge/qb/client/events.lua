@@ -1,3 +1,5 @@
+local config = require 'config.client'
+
 -- Trigger Command
 --- @deprecated
 RegisterNetEvent('QBCore:Command:CallCommand', function(command)

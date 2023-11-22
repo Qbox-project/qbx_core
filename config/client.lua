@@ -64,5 +64,9 @@ return {
             text = 'Second Button!',
             link = 'fivem://connect/localhost:30120',
         }
-    }
+    },
+
+    hasKeys = function()
+        exports.qbx_vehiclekeys:HasKeys()
+    end,
 }
