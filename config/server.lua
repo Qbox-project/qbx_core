@@ -122,7 +122,7 @@ return {
         return exports.qbx_management:GetAccount(accountName)
     end,
     
-    removeMoney = function(jobName, payment)
+    removeSocietyMoney = function(accountName, payment)
         exports.qbx_management:RemoveMoney(jobName, payment)
     end
 }
