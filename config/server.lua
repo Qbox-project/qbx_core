@@ -118,7 +118,7 @@ return {
         exports.qbx_vehiclekeys:GiveKeys(src, plate)
     end,
 
-    getAccount = function(jobName)
+    getSocietyAccount = function(accountName)
         exports.qbx_management:GetAccount(jobName)
     end,
     
