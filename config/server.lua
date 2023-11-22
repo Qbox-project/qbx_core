@@ -115,7 +115,7 @@ return {
     },
 
     giveVehicleKeys = function(src, plate)
-        exports.qbx_vehiclekeys:GiveKeys(src, plate)
+        return exports.qbx_vehiclekeys:GiveKeys(src, plate)
     end,
 
     getSocietyAccount = function(accountName)
@@ -123,6 +123,6 @@ return {
     end,
     
     removeSocietyMoney = function(accountName, payment)
-        exports.qbx_management:RemoveMoney(jobName, payment)
+        return exports.qbx_management:RemoveMoney(accountName, payment)
     end
 }
