@@ -67,6 +67,6 @@ return {
     },
 
     hasKeys = function()
-        exports.qbx_vehiclekeys:HasKeys()
+        return exports.qbx_vehiclekeys:HasKeys()
     end,
 }
