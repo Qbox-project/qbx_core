@@ -116,5 +116,17 @@ return {
 
     giveVehicleKeys = function(src, plate)
         exports.qbx_vehiclekeys:GiveKeys(src, plate)
+    end,
+
+    hasKeys = function()
+        exports.qbx_vehiclekeys:HasKeys()
+    end,
+
+    getAccount = function(jobName)
+        exports.qbx_management:GetAccount(jobName)
+    end,
+    
+    removeMoney = function(jobName, payment)
+        exports.qbx_management:RemoveMoney(jobName, payment)
     end
 }

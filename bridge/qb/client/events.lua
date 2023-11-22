@@ -7,11 +7,7 @@ end)
 RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
     local vehicle = NetworkGetEntityFromNetworkId(info.netId)
     local plate = GetPlate(vehicle)
-    local hasKeys = true
-
-    if GetResourceState('qb-vehiclekeys') == 'started' then
-        hasKeys = exports['qb-vehiclekeys']:HasKeys()
-    end
+    local hasKeys = config.hasKeys
 
     local data = {
         vehicle = vehicle,
