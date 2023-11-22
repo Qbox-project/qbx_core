@@ -39,7 +39,7 @@ local function pay(player)
         sendPaycheck(player, payment)
         return
     end
-    local account = exports['qbx_management']:GetAccount(job.name)
+    local account = config.getSocietyAccount(job.name)
     if not account or account == 0 then -- Checks if player is employed by a society
         sendPaycheck(player, payment)
         return
@@ -48,7 +48,7 @@ local function pay(player)
         Notify(player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
         return
     end
-    exports['qbx_management']:RemoveMoney(job.name, payment)
+    config.removeSocietyMoney(job.name, payment)
     sendPaycheck(player, payment)
 end
 

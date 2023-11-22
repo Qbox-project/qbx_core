@@ -64,5 +64,10 @@ return {
             text = 'Second Button!',
             link = 'fivem://connect/localhost:30120',
         }
-    }
+    },
+
+    --- Only used by QB bridge
+    hasKeys = function()
+        return exports['qb-vehiclekeys']:HasKeys()
+    end,
 }
