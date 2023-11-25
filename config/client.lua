@@ -68,6 +68,6 @@ return {
 
     --- Only used by QB bridge
     hasKeys = function()
-        return exports['qb-vehiclekeys']:HasKeys()
+        return exports.qbx_vehiclekeys:HasKeys()
     end,
 }
