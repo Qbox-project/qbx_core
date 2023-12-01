@@ -1,6 +1,6 @@
 ---@class Gang
 ---@field label string
----@field grades table<integer, {name: string, isboss: boolean}>
+---@field grades table<integer, {name: string, isboss: boolean, bankAuth: boolean}>
 
 ---@type table<string, Gang>
 return {
@@ -26,7 +26,8 @@ return {
             },
 			[3] = {
                 name = 'Boss',
-				isboss = true
+                isboss = true,
+                bankAuth = true
             },
         },
 	},
@@ -44,7 +45,8 @@ return {
             },
 			[3] = {
                 name = 'Boss',
-				isboss = true
+                isboss = true,
+                bankAuth = true
             },
         },
 	},
@@ -62,7 +64,8 @@ return {
             },
 			[3] = {
                 name = 'Boss',
-				isboss = true
+                isboss = true,
+                bankAuth = true
             },
         },
 	},
@@ -80,7 +83,8 @@ return {
             },
 			[3] = {
                 name = 'Boss',
-				isboss = true
+                isboss = true,
+                bankAuth = true
             },
         },
 	},
@@ -98,7 +102,8 @@ return {
             },
 			[3] = {
                 name = 'Boss',
-				isboss = true
+                isboss = true,
+                bankAuth = true
             },
         },
 	},
@@ -116,7 +121,8 @@ return {
             },
 			[3] = {
                 name = 'Boss',
-				isboss = true
+                isboss = true,
+                bankAuth = true
             },
         },
 	}

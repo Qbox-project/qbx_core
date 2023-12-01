@@ -3,7 +3,7 @@
 ---@field type? string
 ---@field defaultDuty boolean
 ---@field offDutyPay boolean
----@field grades table<integer, {name: string, payment: number, isboss: boolean}>
+---@field grades table<integer, {name: string, payment: number, isboss: boolean, bankAuth: boolean}>
 
 ---@type table<string, Job>
 return {
@@ -42,7 +42,8 @@ return {
             },
 			[4] = {
                 name = 'Chief',
-				isboss = true,
+                isboss = true,
+                bankAuth = true,
                 payment = 150
             },
         },
@@ -71,7 +72,8 @@ return {
             },
 			[4] = {
                 name = 'Chief',
-				isboss = true,
+                isboss = true,
+                bankAuth = true,
                 payment = 150
             },
         },
@@ -100,7 +102,8 @@ return {
             },
 			[4] = {
                 name = 'Chief',
-				isboss = true,
+                isboss = true,
+                bankAuth = true,
                 payment = 150
             },
         },
@@ -129,7 +132,8 @@ return {
             },
 			[4] = {
                 name = 'Chief',
-				isboss = true,
+                isboss = true,
+                bankAuth = true,
                 payment = 150
             },
         },
@@ -157,7 +161,8 @@ return {
             },
 			[4] = {
                 name = 'Manager',
-				isboss = true,
+                isboss = true,
+                bankAuth = true,
                 payment = 150
             },
         },
@@ -185,7 +190,8 @@ return {
             },
 			[4] = {
                 name = 'Manager',
-				isboss = true,
+                isboss = true,
+                bankAuth = true,
                 payment = 150
             },
         },
@@ -224,7 +230,8 @@ return {
             },
 			[4] = {
                 name = 'Manager',
-				isboss = true,
+                isboss = true,
+                bankAuth = true,
                 payment = 150
             },
         },
@@ -253,7 +260,8 @@ return {
             },
 			[4] = {
                 name = 'Manager',
-				isboss = true,
+                isboss = true,
+                bankAuth = true,
                 payment = 150
             },
         },
