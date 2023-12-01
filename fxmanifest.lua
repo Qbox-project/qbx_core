@@ -3,7 +3,7 @@ game 'gta5'
 
 description 'QBX_Core'
 repository 'https://github.com/Qbox-project/qbx_core'
-version '1.1.0'
+version '1.2.0'
 
 shared_scripts {
     '@ox_lib/init.lua',
