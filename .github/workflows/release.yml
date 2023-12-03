@@ -35,6 +35,7 @@ jobs:
           author_name: Manifest Bumper
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
           message: 'chore: bump manifest version to ${{ inputs.version }}'
+          tag_push: '--force'
   
       - name: Install ZIP
         run: sudo apt install zip
