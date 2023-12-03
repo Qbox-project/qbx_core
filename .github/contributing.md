@@ -104,7 +104,7 @@ Before creating enhancement suggestions, please check [this list](#before-submit
 
 * **Make sure it doesn't already exist.** Sounds silly, but there's a lot of features built in to Qbox that people don't realize so take a look through the docs and stuff to make sure it's not already there.
 * **Check if there's already PR which provides that enhancement.**
-* **Determine which resource the enhancement should be suggested in.** Whichever resource the suggestion is about, is where it should go. If the suggestion is about Qbox as a whole, make the suggestion in the qbx_core repository.
+* **Determine which resource the enhancement should be suggested in.** Whichever resource the suggestion is about, is where it should go. If the suggestion is about Qbox as a whole, make the suggestion in the qbx-core repository.
 * **Perform a [cursory search](https://github.com/search?q=is%3Aissue+user%3Aqbox-project++&type=issues&state=open)** to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Enhancement Suggestion?
