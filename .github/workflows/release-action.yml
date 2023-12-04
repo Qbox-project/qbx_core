@@ -18,16 +18,23 @@ jobs:
 
             - name: Install ZIP
               run: sudo apt install zip
-    
+
             - name: Bundle files
               run: |
                 rm -rf ./.github ./.vscode ./.git
                 zip -r ./${{ github.event.repository.name }}.zip ./
-        
+
+            - name: Get App Token
+              uses: actions/create-github-app-token@v1.6.1
+              id: generate_token
+              with:
+                app-id: ${{ secrets.APP_ID }}
+                private-key: ${{ secrets.PRIVATE_KEY }}
+
             - name: Create Release
               uses: 'marvinpinto/action-automatic-releases@latest'
               with:
                 title: ${{ github.ref_name }}
-                repo_token: '${{ secrets.GITHUB_TOKEN }}'
+                repo_token: '${{ steps.generate_token.outputs.token }}'
                 prerelease: false
                 files: ${{ github.event.repository.name }}.zip
