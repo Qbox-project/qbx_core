@@ -162,7 +162,7 @@ end)
 
 ---@param bagName string
 ---@param value string
-AddStateBagChangeHandler('me', ('player:%s'):format(cache.serverId), function(bagName, _, value)
+AddStateBagChangeHandler('me', nil, function(bagName, _, value)
     if not value then return end
 
     local playerId = GetPlayerFromStateBagName(bagName)
