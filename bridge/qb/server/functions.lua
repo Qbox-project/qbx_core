@@ -458,7 +458,7 @@ end
 ---@param number string
 ---@return Player?
 function functions.GetPlayerByPhone(number)
-    return AddDeprecatedFunctions(exports.qbx_core:GetPlayersByPhone(number))
+    return AddDeprecatedFunctions(exports.qbx_core:GetPlayerByPhone(number))
 end
 
 ---Will return an array of QB Player class instances
