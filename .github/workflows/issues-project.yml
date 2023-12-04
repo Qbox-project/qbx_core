@@ -10,7 +10,13 @@ jobs:
     name: Add issue to project
     runs-on: ubuntu-latest
     steps:
+      - name: Get App Token
+        uses: actions/create-github-app-token@v1.6.1
+        id: generate_token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
       - uses: actions/add-to-project@v0.5.0
         with:
           project-url: https://github.com/orgs/Qbox-project/projects/4
-          github-token: ${{ secrets.PROJECTS_PAT }}
+          github-token: ${{ steps.generate_token.outputs.token }}
