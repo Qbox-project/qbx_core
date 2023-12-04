@@ -39,8 +39,6 @@ jobs:
         with:
           add: fxmanifest.lua
           push: true
-          author_name: Qbox Duck
-          author_email: 671927+qbox-duck[bot]@users.noreply.github.com
           message: 'chore: bump manifest version to ${{ inputs.version }}'
   
       - name: Install ZIP
