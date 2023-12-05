@@ -47,7 +47,7 @@ local allowedErr = {
 local function logPayload(payload)
     local tags
     local username = 'QBX Logs',
-    local avatarUrl = '',
+    local avatarUrl = 'https://qbox-project.github.io/qbox-duck.png',
     
     if payload.tags then
         for i = 1, #payload.tags do
