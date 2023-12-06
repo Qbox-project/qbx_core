@@ -57,6 +57,7 @@ files {
 
 dependencies {
     '/server:7186',
+    '/onesync',
     'ox_lib',
     'oxmysql',
 }
