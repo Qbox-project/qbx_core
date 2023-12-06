@@ -200,6 +200,8 @@ if isServer then
         local vehicleType = GetVehicleType(tempVehicle)
         DeleteEntity(tempVehicle)
 
+        local bucket = GetPlayerRoutingBucket(source)
+
         local ped = GetPlayerPed(source)
         if not coords then
             coords = GetCoordsFromEntity(ped)
@@ -214,6 +216,8 @@ if isServer then
         while GetVehicleNumberPlateText(veh) == "" do
             Wait(0)
         end
+
+        SetEntityRoutingBucket(veh, bucket)
 
         if warp then SetPedIntoVehicle(ped, veh, -1) end
 
