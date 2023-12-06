@@ -56,6 +56,7 @@ files {
 }
 
 dependencies {
+    '/server:7186',
     'ox_lib',
     'oxmysql',
 }
