@@ -46,7 +46,9 @@ local allowedErr = {
 ---@param payload Log Queue
 local function logPayload(payload)
     local tags
-
+    local username = 'QBX Logs'
+    local avatarUrl = 'https://qbox-project.github.io/qbox-duck.png'
+    
     if payload.tags then
         for i = 1, #payload.tags do
             if not tags then tags = '' end
@@ -71,7 +73,7 @@ local function logPayload(payload)
                 requestDelay = resetDelay * 1000 / 10
             end
         end
-    end, 'POST', json.encode({content = tags, embeds = payload.embed}), { ['Content-Type'] = 'application/json' })
+    end, 'POST', json.encode({username = username, avatar_url = avatarUrl, content = tags, embeds = payload.embed}), { ['Content-Type'] = 'application/json' })
 end
 
 ---Log Queue
@@ -115,7 +117,7 @@ local function discordLog(log)
             },
             description = log.message,
             author = {
-                name = 'QBX Logs',
+                name = log.source,
             },
         }
     }
