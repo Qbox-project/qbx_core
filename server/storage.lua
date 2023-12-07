@@ -135,7 +135,6 @@ end
 ---@field jailitems table TODO: expand
 ---@field status table TODO: expand
 ---@field phone {background: any, profilepicture: any} TODO: figure out more specific types
----@field fitbit {thirst: number, food: number}
 ---@field bloodtype BloodType
 ---@field dealerrep number
 ---@field craftingrep number

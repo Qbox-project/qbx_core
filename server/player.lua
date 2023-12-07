@@ -99,7 +99,6 @@ function CheckPlayerData(source, playerData)
     playerData.metadata.jailitems = playerData.metadata.jailitems or {}
     playerData.metadata.status = playerData.metadata.status or {}
     playerData.metadata.phone = playerData.metadata.phone or {}
-    playerData.metadata.fitbit = playerData.metadata.fitbit or {}
     playerData.metadata.bloodtype = playerData.metadata.bloodtype or config.player.bloodTypes[math.random(1, #config.player.bloodTypes)]
     playerData.metadata.dealerrep = playerData.metadata.dealerrep or 0
     playerData.metadata.craftingrep = playerData.metadata.craftingrep or 0
