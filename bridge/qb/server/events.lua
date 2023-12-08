@@ -1,6 +1,3 @@
-local config = require 'config.server'
-local logger = require 'modules.logger'
-
 -- Vehicles
 RegisterServerEvent('baseevents:enteringVehicle', function(veh, seat, modelName, netId)
     local src = source
