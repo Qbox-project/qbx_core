@@ -1,4 +1,4 @@
-local config = require 'config.server'
+local loggingConfig = require 'config.server'.logging
 local isServer = IsDuplicityVersion()
 if not isServer then
     lib.print.error('cannot use the logger on the client')
@@ -147,12 +147,12 @@ end
 ---Creates a log using either ox_lib logger, discord webhooks depending on convar
 ---@param log Log
 local function createLog(log)
-    if config.logging.enableWebhooks then
-        log.webhook = config.logging.webhook[log.webhook] or config.logging.webhook['default']
+    if loggingConfig.enableWebhooks then
+        log.webhook = loggingConfig.webhook[log.webhook] or loggingConfig.webhook['default']
         ---@diagnostic disable-next-line: param-type-mismatch
         discordLog(log)
     end
-    if config.logging.enableOxLogging then
+    if loggingConfig.enableOxLogging then
         lib.logger(log.source, log.event, log.message)
     end
 end
