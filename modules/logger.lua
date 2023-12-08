@@ -1,4 +1,3 @@
-local loggingConfig = require 'config.server'.logging
 local isServer = IsDuplicityVersion()
 if not isServer then
     lib.print.error('cannot use the logger on the client')
@@ -140,21 +139,18 @@ end
 ---@field source string source of the log. Usually a playerId or name of a resource.
 ---@field event string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
 ---@field message string the message attached to the log
----@field webhook? string Discord logs only. shortname of the webhook this log should send to. looks up via config
+---@field webhook? string Discord logs only. url of the webhook this log should send to. looks up via config
 ---@field color? string Discord logs only. what color the message should be
 ---@field tags? string[] Discord logs only. tags in discord. Example: {'<@%roleid>', '@everyone'}
 
 ---Creates a log using either ox_lib logger, discord webhooks depending on convar
 ---@param log Log
 local function createLog(log)
-    if loggingConfig.enableWebhooks then
-        log.webhook = loggingConfig.webhook[log.webhook] or loggingConfig.webhook['default']
+    if log.webhook then
         ---@diagnostic disable-next-line: param-type-mismatch
         discordLog(log)
     end
-    if loggingConfig.enableOxLogging then
-        lib.logger(log.source, log.event, log.message)
-    end
+    lib.logger(log.source, log.event, log.message) -- oxlib fails silently if logging isn't setup correctly.
 end
 
 return {
