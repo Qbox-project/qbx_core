@@ -1,6 +1,7 @@
 local serverConfig = require 'config.server'.server
 local positionConfig = require 'config.shared'.notifyPosition
 local logger = require 'modules.logger'
+local loggingConfig = require 'config.server'.logging
 
 -- Getters
 -- Get your player first and then trigger a function on them
@@ -405,7 +406,7 @@ local function ExploitBan(playerId, origin)
         webhook = 'anticheat',
         event = 'Anti-Cheat',
         color = 'red',
-        tags = config.logging.role,
+        tags = loggingConfig.role,
         message = name .. " has been banned for exploiting " .. origin
     })
 end
