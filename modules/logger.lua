@@ -148,7 +148,7 @@ end
 ---@param log Log
 local function createLog(log)
     if config.logging.enableWebhooks then
-        log.webhook = config.logging.webhook[log.webhook] or nil
+        log.webhook = config.logging.webhook[log.webhook] or config.logging.webhook['default']
         ---@diagnostic disable-next-line: param-type-mismatch
         discordLog(log)
     end
