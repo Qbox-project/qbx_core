@@ -1,5 +1,5 @@
 local serverConfig = require 'config.server'.server
-local logger = require 'module.logger'
+local logger = require 'modules.logger'
 
 -- Event Handler
 
