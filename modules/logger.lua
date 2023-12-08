@@ -42,6 +42,15 @@ local allowedErr = {
     [304] = true
 }
 
+---@class DiscordLog
+---@field source string source of the log. Usually a playerId or name of a resource.
+---@field event string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
+---@field message string the message attached to the log
+---@field webhook string url of the webhook this log should send to
+---@field color? string what color the message should be
+---@field tags? string[] tags in discord. Example: {'<@%roleid>', '@everyone'}
+---@field embed table formatted embed table for discord webhook
+
 ---Log Queue
 ---@param payload DiscordLog Queue
 local function logPayload(payload)
@@ -96,15 +105,6 @@ local function processLogQueue()
         isProcessingQueue = false
     end
 end
-
----@class DiscordLog
----@field source string source of the log. Usually a playerId or name of a resource.
----@field event string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
----@field message string the message attached to the log
----@field webhook string url of the webhook this log should send to
----@field color? string what color the message should be
----@field tags? string[] tags in discord. Example: {'<@%roleid>', '@everyone'}
----@field embed table formatted embed table for discord webhook
 
 ---Creates a discord log
 ---@param log Log
