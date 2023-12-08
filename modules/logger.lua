@@ -1,3 +1,4 @@
+local config = require 'config.server'
 local isServer = IsDuplicityVersion()
 if not isServer then
     lib.print.error('cannot use the logger on the client')
@@ -43,7 +44,7 @@ local allowedErr = {
 }
 
 ---Log Queue
----@param payload Log Queue
+---@param payload DiscordLog Queue
 local function logPayload(payload)
     local tags
     local username = 'QBX Logs'
@@ -104,6 +105,7 @@ end
 ---@field webhook string url of the webhook this log should send to
 ---@field color? string what color the message should be
 ---@field tags? string[] tags in discord. Example: ['@admin', '@everyone']
+---@field embed table formatted embed table for discord webhook
 
 ---Creates a discord log
 ---@param log DiscordLog
@@ -145,10 +147,12 @@ end
 ---Creates a log using either ox_lib logger, discord webhooks depending on convar
 ---@param log Log
 local function createLog(log)
-    if log.webhook then
+    if config.logging.enableWebhooks then
+        log.webhook = config.logging.webhook[log.webhook] or nil
         ---@diagnostic disable-next-line: param-type-mismatch
         discordLog(log)
-    else
+    end
+    if config.logging.enableOxLogging then
         lib.logger(log.source, log.event, log.message)
     end
 end

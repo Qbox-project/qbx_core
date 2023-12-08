@@ -113,6 +113,20 @@ return {
             end
         },
     },
+    logging = {
+        enableOxLogging = false,
+        enableWebhooks = false,
+        webhook = {
+            ['default'] = '', -- default
+            ['joinleave'] = '', -- default
+            ['ooc'] = '', -- default
+            ['anticheat'] = '', -- default
+            ['playermoney'] = '', -- default
+        },
+        role = {
+            '@everyone' --Role to tag for logging data. Roles use <@%roleid> and users/channels are <@userid/channelid>
+        }
+    },
 
     giveVehicleKeys = function(src, plate)
         return exports.qbx_vehiclekeys:GiveKeys(src, plate)
