@@ -101,7 +101,7 @@ end
 ---@field source string source of the log. Usually a playerId or name of a resource.
 ---@field event string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
 ---@field message string the message attached to the log
----@field webhook string shortname of the webhook this log should send to. looks up via config
+---@field webhook string url of the webhook this log should send to
 ---@field color? string what color the message should be
 ---@field tags? string[] tags in discord. Example: {'<@%roleid>', '@everyone'}
 ---@field embed table formatted embed table for discord webhook
@@ -139,7 +139,7 @@ end
 ---@field source string source of the log. Usually a playerId or name of a resource.
 ---@field event string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
 ---@field message string the message attached to the log
----@field webhook? string Discord logs only. url of the webhook this log should send to. looks up via config
+---@field webhook? string Discord logs only. url of the webhook this log should send to
 ---@field color? string Discord logs only. what color the message should be
 ---@field tags? string[] Discord logs only. tags in discord. Example: {'<@%roleid>', '@everyone'}
 
