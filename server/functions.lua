@@ -403,7 +403,7 @@ local function ExploitBan(playerId, origin)
     DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = serverConfig.discord}))
     logger.log({
         source = GetInvokingResource(),
-        webhook = 'anticheat',
+        webhook = loggingConfig.webhook['anticheat'],
         event = 'Anti-Cheat',
         color = 'red',
         tags = loggingConfig.role,

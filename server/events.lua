@@ -1,4 +1,5 @@
 local serverConfig = require 'config.server'.server
+local loggingConfig = require 'config.server'.logging
 local logger = require 'modules.logger'
 
 -- Event Handler
@@ -36,7 +37,7 @@ AddEventHandler('playerDropped', function(reason)
     local player = QBX.Players[src]
     logger.log({
         source = GetInvokingResource(),
-        webhook = 'joinleave',
+        webhook = loggingConfig.webhook['joinleave'],
         event = 'Dropped',
         color = 'red',
         message = '**' .. GetPlayerName(src) .. '** (' .. player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason,

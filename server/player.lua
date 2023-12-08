@@ -35,7 +35,7 @@ function LoginV2(source, citizenid, newData)
             DropPlayer(tostring(source), Lang:t("info.exploit_dropped"))
             logger.log({
                 source = GetInvokingResource(),
-                webhook = 'anticheat',
+                webhook = config.logging.webhook['anticheat'],
                 event = 'Anti-Cheat',
                 color = 'white',
                 tags = config.logging.role,
@@ -354,7 +354,7 @@ function CreatePlayer(playerData, Offline)
             local tags = amount > 100000 and config.logging.role or nil
             logger.log({
                 source = GetInvokingResource(),
-                webhook = 'playermoney',
+                webhook = config.logging.webhook['playermoney'],
                 event = 'AddMoney',
                 color = 'lightgreen',
                 tags = tags,
@@ -391,7 +391,7 @@ function CreatePlayer(playerData, Offline)
             local tags = amount > 100000 and config.logging.role or nil
             logger.log({
                 source = GetInvokingResource(),
-                webhook = 'playermoney',
+                webhook = config.logging.webhook['playermoney'],
                 event = 'RemoveMoney',
                 color = 'red',
                 tags = tags,
@@ -424,7 +424,7 @@ function CreatePlayer(playerData, Offline)
             self.Functions.UpdatePlayerData()
             logger.log({
                 source = GetInvokingResource(),
-                webhook = 'playermoney',
+                webhook = config.logging.webhook['playermoney'],
                 event = 'SetMoney',
                 color = 'green',
                 message = '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason,
@@ -540,7 +540,7 @@ function DeleteCharacter(source, citizenid)
             if success then
                 logger.log({
                     source = GetInvokingResource(),
-                    webhook = 'joinleave',
+                    webhook = config.logging.webhook['joinleave'],
                     event = 'Character Deleted',
                     color = 'red',
                     message = '**' .. GetPlayerName(source) .. '** ' .. license2 .. ' deleted **' .. citizenid .. '**..'
@@ -551,7 +551,7 @@ function DeleteCharacter(source, citizenid)
         DropPlayer(tostring(source), Lang:t("info.exploit_dropped"))
         logger.log({
             source = GetInvokingResource(),
-            webhook = 'anticheat',
+            webhook = config.logging.webhook['anticheat'],
             event = 'Anti-Cheat',
             color = 'white',
             tags = config.logging.role,
@@ -574,7 +574,7 @@ function ForceDeleteCharacter(citizenid)
             if success then
                 logger.log({
                     source = GetInvokingResource(),
-                    webhook = 'joinleave',
+                    webhook = config.logging.webhook['joinleave'],
                     event = 'Character Force Deleted',
                     color = 'red',
                     message = 'Character **' .. citizenid .. '** got deleted'
