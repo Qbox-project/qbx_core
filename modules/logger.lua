@@ -143,7 +143,7 @@ end
 ---@field color? string Discord logs only. what color the message should be
 ---@field tags? string[] Discord logs only. tags in discord. Example: {'<@%roleid>', '@everyone'}
 
----Creates a log using either ox_lib logger, discord webhooks depending on convar
+---Logs using ox_lib if ox_lib logging is configured. Additionally logs to discord if a web hook is passed.
 ---@param log Log
 local function createLog(log)
     if log.webhook then
