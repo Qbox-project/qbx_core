@@ -1,6 +1,7 @@
 local serverConfig = require 'config.server'.server
 local loggingConfig = require 'config.server'.logging
 local logger = require 'modules.logger'
+local queue = require 'server.queue'
 
 -- Event Handler
 
@@ -19,6 +20,9 @@ AddEventHandler('playerJoining', function()
     local src = source --[[@as string]]
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
     if not license then return end
+    if queue then
+        queue.registerPlayerJoined(license)
+    end
     if usedLicenses[license] then
         Wait(0) -- mandatory wait for the drop reason to show up
         DropPlayer(src, Lang:t('error.duplicate_license'))
@@ -108,7 +112,11 @@ local function onPlayerConnecting(name, _, deferrals)
     -- wait for database to finish
     databasePromise:next(function()
         deferrals.update(string.format(Lang:t('info.join_server'), name))
-        deferrals.done()
+        if not queue then
+            deferrals.done()
+            return
+        end
+        queue.enqueue(src --[[@as Source]], license, deferrals)
     end, function(err)
         deferrals.done(Lang:t('error.connecting_error'))
         lib.print.error(err)

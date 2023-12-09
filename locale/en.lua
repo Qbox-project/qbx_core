@@ -19,7 +19,8 @@ local Translations = {
         tp_error = 'Error While Teleporting.',
         connecting_database_timeout = 'Connection to database timed out. (Is the SQL server on?)',
         connecting_error = 'An error occurred while connecting to the server. (Check your server console)',
-        no_match_character_registration = 'Anything other than letters aren\'t allowed, trailing whitespaces aren\'t allowed either and words must start with a capital letter in input fields. You can however add words with spaces inbetween.'
+        no_match_character_registration = 'Anything other than letters aren\'t allowed, trailing whitespaces aren\'t allowed either and words must start with a capital letter in input fields. You can however add words with spaces inbetween.',
+        no_queue = 'You were not let in any queue.',
     },
     success = {
         server_opened = 'The server has been opened',
