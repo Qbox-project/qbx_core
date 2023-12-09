@@ -34,7 +34,7 @@ function LoginV2(source, citizenid, newData)
         else
             DropPlayer(tostring(source), Lang:t("info.exploit_dropped"))
             logger.log({
-                source = GetInvokingResource(),
+                source = 'qbx_core',
                 webhook = config.logging.webhook['anticheat'],
                 event = 'Anti-Cheat',
                 color = 'white',
@@ -353,7 +353,7 @@ function CreatePlayer(playerData, Offline)
             self.Functions.UpdatePlayerData()
             local tags = amount > 100000 and config.logging.role or nil
             logger.log({
-                source = GetInvokingResource(),
+                source = 'qbx_core',
                 webhook = config.logging.webhook['playermoney'],
                 event = 'AddMoney',
                 color = 'lightgreen',
@@ -390,7 +390,7 @@ function CreatePlayer(playerData, Offline)
             self.Functions.UpdatePlayerData()
             local tags = amount > 100000 and config.logging.role or nil
             logger.log({
-                source = GetInvokingResource(),
+                source = 'qbx_core',
                 webhook = config.logging.webhook['playermoney'],
                 event = 'RemoveMoney',
                 color = 'red',
