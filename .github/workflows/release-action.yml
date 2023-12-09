@@ -22,7 +22,9 @@ jobs:
             - name: Bundle files
               run: |
                 rm -rf ./.github ./.vscode ./.git
-                zip -r ./${{ github.event.repository.name }}.zip ./
+                mkdir ./${{ github.event.repository.name }}
+                find . -mindepth 1 -type d -exec cp * {} \;
+                zip -r ./${{ github.event.repository.name }}.zip ./${{ github.event.repository.name }}
 
             - name: Get App Token
               uses: actions/create-github-app-token@v1.6.1
