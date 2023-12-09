@@ -16,6 +16,7 @@ return {
 		price = 4000,
 		category = 'compacts',
 		hash = `asbo`,
+		shop = 'pdm',
 	},
 	blista = {
 		name = 'Blista',
@@ -24,6 +25,7 @@ return {
 		price = 13000,
 		category = 'compacts',
 		hash = `blista`,
+		shop = 'pdm',
 	},
 	brioso = {
 		name = 'Brioso R/A',
@@ -32,6 +34,7 @@ return {
 		price = 20000,
 		category = 'compacts',
 		hash = `brioso`,
+		shop = 'pdm',
 	},
 	club = {
 		name = 'Club',
@@ -40,6 +43,7 @@ return {
 		price = 8000,
 		category = 'compacts',
 		hash = `club`,
+		shop = 'pdm',
 	},
 	dilettante = {
 		name = 'Dilettante',
@@ -48,6 +52,7 @@ return {
 		price = 9000,
 		category = 'compacts',
 		hash = `dilettante`,
+		shop = 'pdm',
 	},
 	dilettante2 = {
 		name = 'Dilettante Patrol',
@@ -56,6 +61,7 @@ return {
 		price = 12000,
 		category = 'compacts',
 		hash = `dilettante2`,
+		shop = 'pdm',
 	},
 	kanjo = {
 		name = 'Blista Kanjo',
@@ -64,6 +70,7 @@ return {
 		price = 12000,
 		category = 'compacts',
 		hash = `kanjo`,
+		shop = 'pdm',
 	},
 	issi2 = {
 		name = 'Issi',
@@ -72,6 +79,7 @@ return {
 		price = 7000,
 		category = 'compacts',
 		hash = `issi2`,
+		shop = 'pdm',
 	},
 	issi3 = {
 		name = 'Issi Classic',
@@ -80,6 +88,7 @@ return {
 		price = 5000,
 		category = 'compacts',
 		hash = `issi3`,
+		shop = 'pdm',
 	},
 	issi4 = {							--DLC
 		name = 'Issi Arena',
@@ -88,6 +97,7 @@ return {
 		price = 80000,
 		category = 'compacts',
 		hash = `issi4`,
+		shop = 'pdm',
 	},
 	issi5 = {							--DLC
 		name = 'Issi Arena',
@@ -96,6 +106,7 @@ return {
 		price = 80000,
 		category = 'compacts',
 		hash = `issi5`,
+		shop = 'pdm',
 	},
 	issi6 = {							--DLC
 		name = 'Issi Arena',
@@ -104,6 +115,7 @@ return {
 		price = 80000,
 		category = 'compacts',
 		hash = `issi6`,
+		shop = 'pdm',
 	},
 	panto = {
 		name = 'Panto',
@@ -112,6 +124,7 @@ return {
 		price = 3200,
 		category = 'compacts',
 		hash = `panto`,
+		shop = 'pdm',
 	},
 	prairie = {
 		name = 'Prairie',
@@ -120,6 +133,7 @@ return {
 		price = 30000,
 		category = 'compacts',
 		hash = `prairie`,
+		shop = 'pdm',
 	},
 	rhapsody = {
 		name = 'Rhapsody',
@@ -128,6 +142,7 @@ return {
 		price = 10000,
 		category = 'compacts',
 		hash = `rhapsody`,
+		shop = 'pdm',
 	},
 	brioso2 = {
 		name = 'Brioso 300',
@@ -136,6 +151,7 @@ return {
 		price = 12000,
 		category = 'compacts',
 		hash = `brioso2`,
+		shop = 'pdm',
 	},
 	weevil = {
 		name = 'Weevil',
@@ -144,6 +160,7 @@ return {
 		price = 9000,
 		category = 'compacts',
 		hash = `weevil`,
+		shop = 'pdm',
 	},
 	--- Coupes
 	cogcabrio = {
@@ -153,6 +170,7 @@ return {
 		price = 30000,
 		category = 'coupes',
 		hash = `cogcabrio`,
+		shop = 'pdm',
 	},
 	exemplar = {
 		name = 'Exemplar',
@@ -161,6 +179,7 @@ return {
 		price = 40000,
 		category = 'coupes',
 		hash = `exemplar`,
+		shop = 'pdm',
 	},
 	f620 = {
 		name = 'F620',
@@ -169,6 +188,7 @@ return {
 		price = 32500,
 		category = 'coupes',
 		hash = `f620`,
+		shop = 'pdm',
 	},
 	felon = {
 		name = 'Felon',
@@ -177,6 +197,7 @@ return {
 		price = 31000,
 		category = 'coupes',
 		hash = `felon`,
+		shop = 'pdm',
 	},
 	felon2 = {
 		name = 'Felon GT',
@@ -185,6 +206,7 @@ return {
 		price = 37000,
 		category = 'coupes',
 		hash = `felon2`,
+		shop = 'pdm',
 	},
 	jackal = {
 		name = 'Jackal',
@@ -193,6 +215,7 @@ return {
 		price = 19000,
 		category = 'coupes',
 		hash = `jackal`,
+		shop = 'pdm',
 	},
 	oracle = {
 		name = 'Oracle',
@@ -201,6 +224,7 @@ return {
 		price = 22000,
 		category = 'sedans',
 		hash = `oracle`,
+		shop = 'pdm',
 	},
 	oracle2 = {
 		name = 'Oracle XS',
@@ -209,6 +233,7 @@ return {
 		price = 28000,
 		category = 'coupes',
 		hash = `oracle2`,
+		shop = 'pdm',
 	},
 	sentinel = {
 		name = 'Sentinel',
@@ -217,6 +242,7 @@ return {
 		price = 30000,
 		category = 'coupes',
 		hash = `sentinel`,
+		shop = 'pdm',
 	},
 	sentinel2 = {
 		name = 'Sentinel XS',
@@ -225,6 +251,7 @@ return {
 		price = 33000,
 		category = 'coupes',
 		hash = `sentinel2`,
+		shop = 'pdm',
 	},
 	windsor = {
 		name = 'Windsor',
@@ -233,6 +260,7 @@ return {
 		price = 27000,
 		category = 'coupes',
 		hash = `windsor`,
+		shop = 'pdm',
 	},
 	windsor2 = {
 		name = 'Windsor Drop',
@@ -241,6 +269,7 @@ return {
 		price = 34000,
 		category = 'coupes',
 		hash = `windsor2`,
+		shop = 'pdm',
 	},
 	zion = {
 		name = 'Zion',
@@ -249,6 +278,7 @@ return {
 		price = 22000,
 		category = 'coupes',
 		hash = `zion`,
+		shop = 'pdm',
 	},
 	zion2 = {
 		name = 'Zion Cabrio',
@@ -257,6 +287,7 @@ return {
 		price = 28000,
 		category = 'coupes',
 		hash = `zion2`,
+		shop = 'pdm',
 	},
 	previon = {			--DLC +set sv_enforceGameBuild 2372
 		name = 'Previon',
@@ -265,6 +296,7 @@ return {
 		price = 149000,
 		category = 'coupes',
 		hash = `previon`,
+		shop = 'pdm',
 	},
 	champion = {		--DLC +set sv_enforceGameBuild 2545
 		name = 'Champion',
@@ -273,6 +305,7 @@ return {
 		price = 205000,
 		category = 'coupes',
 		hash = `champion`,
+		shop = 'pdm',
 	},
 	ignus = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Ignus',
@@ -281,6 +314,7 @@ return {
 		price = 1120000,
 		category = 'coupes',
 		hash = `ignus`,
+		shop = 'pdm',
 	},
 	zeno = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Zeno',
@@ -289,6 +323,7 @@ return {
 		price = 1350000,
 		category = 'coupes',
 		hash = `zeno`,
+		shop = 'pdm',
 	},
 	--- Cycles
 	bmx = {
@@ -298,6 +333,7 @@ return {
 		price = 160,
 		category = 'cycles',
 		hash = `bmx`,
+		shop = 'pdm',
 	},
 	cruiser = {
 		name = 'Cruiser',
@@ -306,6 +342,7 @@ return {
 		price = 510,
 		category = 'cycles',
 		hash = `cruiser`,
+		shop = 'pdm',
 	},
 	fixter = {
 		name = 'Fixter',
@@ -314,6 +351,7 @@ return {
 		price = 225,
 		category = 'cycles',
 		hash = `fixter`,
+		shop = 'pdm',
 	},
 	scorcher = {
 		name = 'Scorcher',
@@ -322,6 +360,7 @@ return {
 		price = 280,
 		category = 'cycles',
 		hash = `scorcher`,
+		shop = 'pdm',
 	},
 	tribike = {
 		name = 'Tri Bike',
@@ -330,6 +369,7 @@ return {
 		price = 500,
 		category = 'cycles',
 		hash = `tribike`,
+		shop = 'pdm',
 	},
 	tribike2 = {
 		name = 'Tri Bike 2',
@@ -338,6 +378,7 @@ return {
 		price = 700,
 		category = 'cycles',
 		hash = `tribike2`,
+		shop = 'pdm',
 	},
 	tribike3 = {
 		name = 'Tri Bike 3',
@@ -346,6 +387,7 @@ return {
 		price = 520,
 		category = 'cycles',
 		hash = `tribike3`,
+		shop = 'pdm',
 	},
 	--- Motorcycles
 	akuma = {
@@ -355,6 +397,7 @@ return {
 		price = 55000,
 		category = 'motorcycles',
 		hash = `akuma`,
+		shop = 'pdm',
 	},
 	avarus = {
 		name = 'Avarus',
@@ -363,6 +406,7 @@ return {
 		price = 20000,
 		category = 'motorcycles',
 		hash = `avarus`,
+		shop = 'pdm',
 	},
 	bagger = {
 		name = 'Bagger',
@@ -371,6 +415,7 @@ return {
 		price = 13500,
 		category = 'motorcycles',
 		hash = `bagger`,
+		shop = 'pdm',
 	},
 	bati = {
 		name = 'Bati 801',
@@ -379,6 +424,7 @@ return {
 		price = 24000,
 		category = 'motorcycles',
 		hash = `bati`,
+		shop = 'pdm',
 	},
 	bati2 = {
 		name = 'Bati 801RR',
@@ -387,6 +433,7 @@ return {
 		price = 19000,
 		category = 'motorcycles',
 		hash = `bati2`,
+		shop = 'pdm',
 	},
 	bf400 = {
 		name = 'BF400',
@@ -395,6 +442,7 @@ return {
 		price = 22000,
 		category = 'motorcycles',
 		hash = `bf400`,
+		shop = 'pdm',
 	},
 	carbonrs = {
 		name = 'Carbon RS',
@@ -403,6 +451,7 @@ return {
 		price = 22000,
 		category = 'motorcycles',
 		hash = `carbonrs`,
+		shop = 'pdm',
 	},
 	chimera = {
 		name = 'Chimera',
@@ -411,6 +460,7 @@ return {
 		price = 21000,
 		category = 'motorcycles',
 		hash = `chimera`,
+		shop = 'pdm',
 	},
 	cliffhanger = {
 		name = 'Cliffhanger',
@@ -419,6 +469,7 @@ return {
 		price = 28500,
 		category = 'motorcycles',
 		hash = `cliffhanger`,
+		shop = 'pdm',
 	},
 	daemon = {
 		name = 'Daemon',
@@ -427,6 +478,7 @@ return {
 		price = 14000,
 		category = 'motorcycles',
 		hash = `daemon`,
+		shop = 'pdm',
 	},
 	daemon2 = {
 		name = 'Daemon Custom',
@@ -435,6 +487,7 @@ return {
 		price = 23000,
 		category = 'motorcycles',
 		hash = `daemon2`,
+		shop = 'pdm',
 	},
 	defiler = {
 		name = 'Defiler',
@@ -443,6 +496,7 @@ return {
 		price = 30000,
 		category = 'motorcycles',
 		hash = `defiler`,
+		shop = 'pdm',
 	},
 	deathbike = {							--DLC
 		name = 'deathbike',
@@ -451,6 +505,7 @@ return {
 		price = 30000,
 		category = 'motorcycles',
 		hash = `deathbike`,
+		shop = 'pdm',
 	},
 	deathbike2 = {							--DLC
 		name = 'deathbike2',
@@ -459,6 +514,7 @@ return {
 		price = 30000,
 		category = 'motorcycles',
 		hash = `deathbike2`,
+		shop = 'pdm',
 	},
 	deathbike3 = {							--DLC
 		name = 'deathbike3',
@@ -467,6 +523,7 @@ return {
 		price = 30000,
 		category = 'motorcycles',
 		hash = `deathbike3`,
+		shop = 'pdm',
 	},
 	diablous = {
 		name = 'Diablous',
@@ -475,6 +532,7 @@ return {
 		price = 30000,
 		category = 'motorcycles',
 		hash = `diablous`,
+		shop = 'pdm',
 	},
 	diablous2 = {
 		name = 'Diablous Custom',
@@ -483,6 +541,7 @@ return {
 		price = 38000,
 		category = 'motorcycles',
 		hash = `diablous2`,
+		shop = 'pdm',
 	},
 	double = {
 		name = 'Double-T',
@@ -491,6 +550,7 @@ return {
 		price = 28000,
 		category = 'motorcycles',
 		hash = `double`,
+		shop = 'pdm',
 	},
 	enduro = {
 		name = 'Enduro',
@@ -499,6 +559,7 @@ return {
 		price = 5500,
 		category = 'motorcycles',
 		hash = `enduro`,
+		shop = 'pdm',
 	},
 	esskey = {
 		name = 'Esskey',
@@ -507,6 +568,7 @@ return {
 		price = 12000,
 		category = 'motorcycles',
 		hash = `esskey`,
+		shop = 'pdm',
 	},
 	faggio = {
 		name = 'Faggio Sport',
@@ -515,6 +577,7 @@ return {
 		price = 2000,
 		category = 'motorcycles',
 		hash = `faggio`,
+		shop = 'pdm',
 	},
 	faggio2 = {
 		name = 'Faggio',
@@ -523,6 +586,7 @@ return {
 		price = 1900,
 		category = 'motorcycles',
 		hash = `faggio2`,
+		shop = 'pdm',
 	},
 	faggio3 = {
 		name = 'Faggio Mod',
@@ -531,6 +595,7 @@ return {
 		price = 2500,
 		category = 'motorcycles',
 		hash = `faggio3`,
+		shop = 'pdm',
 	},
 	fcr = {
 		name = 'FCR 1000',
@@ -539,6 +604,7 @@ return {
 		price = 5000,
 		category = 'motorcycles',
 		hash = `fcr`,
+		shop = 'pdm',
 	},
 	fcr2 = {
 		name = 'FCR 1000 Custom',
@@ -547,6 +613,7 @@ return {
 		price = 19000,
 		category = 'motorcycles',
 		hash = `fcr2`,
+		shop = 'pdm',
 	},
 	gargoyle = {
 		name = 'Gargoyle',
@@ -555,6 +622,7 @@ return {
 		price = 32000,
 		category = 'motorcycles',
 		hash = `gargoyle`,
+		shop = 'pdm',
 	},
 	hakuchou = {
 		name = 'Hakuchou',
@@ -563,6 +631,7 @@ return {
 		price = 17000,
 		category = 'motorcycles',
 		hash = `hakuchou`,
+		shop = 'pdm',
 	},
 	hakuchou2 = {
 		name = 'Hakuchou Drag',
@@ -571,6 +640,7 @@ return {
 		price = 45000,
 		category = 'motorcycles',
 		hash = `hakuchou2`,
+		shop = 'pdm',
 	},
 	hexer = {
 		name = 'Hexer',
@@ -579,6 +649,7 @@ return {
 		price = 16000,
 		category = 'motorcycles',
 		hash = `hexer`,
+		shop = 'pdm',
 	},
 	innovation = {
 		name = 'Innovation',
@@ -587,6 +658,7 @@ return {
 		price = 33500,
 		category = 'motorcycles',
 		hash = `innovation`,
+		shop = 'pdm',
 	},
 	lectro = {
 		name = 'Lectro',
@@ -595,6 +667,7 @@ return {
 		price = 28000,
 		category = 'motorcycles',
 		hash = `lectro`,
+		shop = 'pdm',
 	},
 	manchez = {
 		name = 'Manchez',
@@ -603,6 +676,7 @@ return {
 		price = 8300,
 		category = 'motorcycles',
 		hash = `manchez`,
+		shop = 'pdm',
 	},
 	nemesis = {
 		name = 'Nemesis',
@@ -611,6 +685,7 @@ return {
 		price = 20000,
 		category = 'motorcycles',
 		hash = `nemesis`,
+		shop = 'pdm',
 	},
 	nightblade = {
 		name = 'Nightblade',
@@ -619,6 +694,7 @@ return {
 		price = 23000,
 		category = 'motorcycles',
 		hash = `nightblade`,
+		shop = 'pdm',
 	},
 	oppressor = {
 		name = 'Oppressor',
@@ -627,6 +703,7 @@ return {
 		price = 9999999,
 		category = 'super',
 		hash = `oppressor`,
+		shop = 'luxury',
 	},
 	pcj = {
 		name = 'PCJ-600',
@@ -635,6 +712,7 @@ return {
 		price = 15000,
 		category = 'motorcycles',
 		hash = `pcj`,
+		shop = 'pdm',
 	},
 	ratbike = {
 		name = 'Rat Bike',
@@ -643,6 +721,7 @@ return {
 		price = 3000,
 		category = 'motorcycles',
 		hash = `ratbike`,
+		shop = 'pdm',
 	},
 	ruffian = {
 		name = 'Ruffian',
@@ -651,6 +730,7 @@ return {
 		price = 25000,
 		category = 'motorcycles',
 		hash = `ruffian`,
+		shop = 'pdm',
 	},
 	sanchez = {
 		name = 'Sanchez Livery',
@@ -659,6 +739,7 @@ return {
 		price = 5300,
 		category = 'motorcycles',
 		hash = `sanchez`,
+		shop = 'pdm',
 	},
 	sanchez2 = {
 		name = 'Sanchez',
@@ -667,6 +748,7 @@ return {
 		price = 5300,
 		category = 'motorcycles',
 		hash = `sanchez2`,
+		shop = 'pdm',
 	},
 	sanctus = {
 		name = 'Sanctus',
@@ -675,6 +757,7 @@ return {
 		price = 35000,
 		category = 'motorcycles',
 		hash = `sanctus`,
+		shop = 'pdm',
 	},
 	shotaro = {
 		name = 'Shotaro Concept',
@@ -683,6 +766,7 @@ return {
 		price = 320000,
 		category = 'motorcycles',
 		hash = `shotaro`,
+		shop = 'pdm',
 	},
 	sovereign = {
 		name = 'Sovereign',
@@ -691,6 +775,7 @@ return {
 		price = 8000,
 		category = 'motorcycles',
 		hash = `sovereign`,
+		shop = 'pdm',
 	},
 	stryder = {
 		name = 'Stryder',
@@ -699,6 +784,7 @@ return {
 		price = 50000,
 		category = 'motorcycles',
 		hash = `stryder`,
+		shop = 'pdm',
 	},
 	thrust = {
 		name = 'Thrust',
@@ -707,6 +793,7 @@ return {
 		price = 22000,
 		category = 'motorcycles',
 		hash = `thrust`,
+		shop = 'pdm',
 	},
 	vader = {
 		name = 'Vader',
@@ -715,6 +802,7 @@ return {
 		price = 7200,
 		category = 'motorcycles',
 		hash = `vader`,
+		shop = 'pdm',
 	},
 	vindicator = {
 		name = 'Vindicator',
@@ -723,6 +811,7 @@ return {
 		price = 19000,
 		category = 'motorcycles',
 		hash = `vindicator`,
+		shop = 'pdm',
 	},
 	vortex = {
 		name = 'Vortex',
@@ -731,6 +820,7 @@ return {
 		price = 31000,
 		category = 'motorcycles',
 		hash = `vortex`,
+		shop = 'pdm',
 	},
 	wolfsbane = {
 		name = 'Wolfsbane',
@@ -739,6 +829,7 @@ return {
 		price = 14000,
 		category = 'motorcycles',
 		hash = `wolfsbane`,
+		shop = 'pdm',
 	},
 	zombiea = {
 		name = 'Zombie Bobber',
@@ -747,6 +838,7 @@ return {
 		price = 28000,
 		category = 'motorcycles',
 		hash = `zombiea`,
+		shop = 'pdm',
 	},
 	zombieb = {
 		name = 'Zombie Chopper',
@@ -755,6 +847,7 @@ return {
 		price = 27000,
 		category = 'motorcycles',
 		hash = `zombieb`,
+		shop = 'pdm',
 	},
 	manchez2 = {
 		name = 'Manchez',
@@ -763,6 +856,7 @@ return {
 		price = 14000,
 		category = 'motorcycles',
 		hash = `manchez2`,
+		shop = 'pdm',
 	},
 	shinobi = {		--DLC +set sv_enforceGameBuild 2545
 		name = 'Shinobi',
@@ -771,6 +865,7 @@ return {
 		price = 25000,
 		category = 'motorcycles',
 		hash = `shinobi`,
+		shop = 'pdm',
 	},
 	reever = {		--DLC +set sv_enforceGameBuild 2545
 		name = 'Reever',
@@ -779,6 +874,7 @@ return {
 		price = 25000,
 		category = 'motorcycles',
 		hash = `reever`,
+		shop = 'pdm',
 	},
 	--- Muscle
 	blade = {
@@ -788,6 +884,7 @@ return {
 		price = 23500,
 		category = 'muscle',
 		hash = `blade`,
+		shop = 'pdm',
 	},
 	buccaneer = {
 		name = 'Buccaneer',
@@ -796,6 +893,7 @@ return {
 		price = 22500,
 		category = 'muscle',
 		hash = `buccaneer`,
+		shop = 'pdm',
 	},
 	buccaneer2 = {
 		name = 'Buccaneer Rider',
@@ -804,6 +902,7 @@ return {
 		price = 24500,
 		category = 'muscle',
 		hash = `buccaneer2`,
+		shop = 'pdm',
 	},
 	chino = {
 		name = 'Chino',
@@ -812,6 +911,7 @@ return {
 		price = 5000,
 		category = 'muscle',
 		hash = `chino`,
+		shop = 'pdm',
 	},
 	chino2 = {
 		name = 'Chino Luxe',
@@ -820,6 +920,7 @@ return {
 		price = 8000,
 		category = 'muscle',
 		hash = `chino2`,
+		shop = 'pdm',
 	},
 	clique = {							--DLC
 		name = 'Clique',
@@ -828,6 +929,7 @@ return {
 		price = 20000,
 		category = 'muscle',
 		hash = `clique`,
+		shop = 'pdm',
 	},
 	coquette3 = {
 		name = 'Coquette BlackFin',
@@ -836,6 +938,7 @@ return {
 		price = 180000,
 		category = 'muscle',
 		hash = `coquette3`,
+		shop = 'pdm',
 	},
 	deviant = {							--DLC
 		name = 'Deviant',
@@ -844,6 +947,7 @@ return {
 		price = 70000,
 		category = 'muscle',
 		hash = `deviant`,
+		shop = 'pdm',
 	},
 	dominator = {
 		name = 'Dominator',
@@ -852,6 +956,7 @@ return {
 		price = 62500,
 		category = 'muscle',
 		hash = `dominator`,
+		shop = 'pdm',
 	},
 	dominator2 = {
 		name = 'Pißwasser Dominator',
@@ -860,6 +965,7 @@ return {
 		price = 50000,
 		category = 'muscle',
 		hash = `dominator2`,
+		shop = 'pdm',
 	},
 	dominator3 = {
 		name = 'Dominator GTX',
@@ -868,6 +974,7 @@ return {
 		price = 70000,
 		category = 'muscle',
 		hash = `dominator3`,
+		shop = 'pdm',
 	},
 	dominator4 = {							--DLC
 		name = 'Dominator Arena',
@@ -876,6 +983,7 @@ return {
 		price = 200000,
 		category = 'muscle',
 		hash = `dominator4`,
+		shop = 'pdm',
 	},
 	dominator7 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Dominator ASP',
@@ -884,6 +992,7 @@ return {
 		price = 110000,
 		category = 'muscle',
 		hash = `dominator7`,
+		shop = 'pdm',
 	},
 	dominator8 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Dominator GTT',
@@ -892,6 +1001,7 @@ return {
 		price = 80000,
 		category = 'muscle',
 		hash = `dominator8`,
+		shop = 'pdm',
 	},
 	dukes = {
 		name = 'Dukes',
@@ -900,6 +1010,7 @@ return {
 		price = 23500,
 		category = 'muscle',
 		hash = `dukes`,
+		shop = 'pdm',
 	},
 	dukes2 = {
 		name = 'Dukes Nightrider',
@@ -908,6 +1019,7 @@ return {
 		price = 60000,
 		category = 'muscle',
 		hash = `dukes2`,
+		shop = 'pdm',
 	},
 	dukes3 = {
 		name = 'Beater Dukes',
@@ -916,6 +1028,7 @@ return {
 		price = 45000,
 		category = 'muscle',
 		hash = `dukes3`,
+		shop = 'pdm',
 	},
 	faction = {
 		name = 'Faction',
@@ -924,6 +1037,7 @@ return {
 		price = 17000,
 		category = 'muscle',
 		hash = `faction`,
+		shop = 'pdm',
 	},
 	faction2 = {
 		name = 'Faction Rider',
@@ -932,6 +1046,7 @@ return {
 		price = 19000,
 		category = 'muscle',
 		hash = `faction2`,
+		shop = 'pdm',
 	},
 	faction3 = {
 		name = 'Faction Custom Donk',
@@ -940,6 +1055,7 @@ return {
 		price = 35000,
 		category = 'muscle',
 		hash = `faction3`,
+		shop = 'pdm',
 	},
 	ellie = {
 		name = 'Ellie',
@@ -948,6 +1064,7 @@ return {
 		price = 42250,
 		category = 'muscle',
 		hash = `ellie`,
+		shop = 'pdm',
 	},
 	gauntlet = {
 		name = 'Gauntlet',
@@ -956,6 +1073,7 @@ return {
 		price = 28500,
 		category = 'muscle',
 		hash = `gauntlet`,
+		shop = 'pdm',
 	},
 	gauntlet2 = {
 		name = 'Redwood Gauntlet',
@@ -964,6 +1082,7 @@ return {
 		price = 70000,
 		category = 'muscle',
 		hash = `gauntlet2`,
+		shop = 'pdm',
 	},
 	gauntlet3 = {							--DLC
 		name = 'Classic Gauntlet',
@@ -972,6 +1091,7 @@ return {
 		price = 75000,
 		category = 'muscle',
 		hash = `gauntlet3`,
+		shop = 'pdm',
 	},
 	gauntlet4 = {							--DLC
 		name = 'Gauntlet Hellfire',
@@ -980,6 +1100,7 @@ return {
 		price = 80000,
 		category = 'muscle',
 		hash = `gauntlet4`,
+		shop = 'pdm',
 	},
 	gauntlet5 = {
 		name = 'Gauntlet Classic Custom',
@@ -988,6 +1109,7 @@ return {
 		price = 120000,
 		category = 'muscle',
 		hash = `gauntlet5`,
+		shop = 'pdm',
 	},
 	hermes = {
 		name = 'Hermes',
@@ -996,6 +1118,7 @@ return {
 		price = 535000,
 		category = 'muscle',
 		hash = `hermes`,
+		shop = 'pdm',
 	},
 	hotknife = {
 		name = 'Hotknife',
@@ -1004,6 +1127,7 @@ return {
 		price = 90000,
 		category = 'muscle',
 		hash = `hotknife`,
+		shop = 'pdm',
 	},
 	hustler = {
 		name = 'Hustler',
@@ -1012,6 +1136,7 @@ return {
 		price = 95000,
 		category = 'muscle',
 		hash = `hustler`,
+		shop = 'pdm',
 	},
 	impaler = {							--DLC
 		name = 'impaler',
@@ -1020,6 +1145,7 @@ return {
 		price = 95000,
 		category = 'muscle',
 		hash = `impaler`,
+		shop = 'pdm',
 	},
 	impaler2 = {							--DLC
 		name = 'impaler2',
@@ -1028,6 +1154,7 @@ return {
 		price = 95000,
 		category = 'muscle',
 		hash = `impaler2`,
+		shop = 'pdm',
 	},
 	impaler3 = {							--DLC
 		name = 'impaler3',
@@ -1036,6 +1163,7 @@ return {
 		price = 95000,
 		category = 'muscle',
 		hash = `impaler3`,
+		shop = 'pdm',
 	},
 	impaler4 = {							--DLC
 		name = 'impaler4',
@@ -1044,6 +1172,7 @@ return {
 		price = 95000,
 		category = 'muscle',
 		hash = `impaler4`,
+		shop = 'pdm',
 	},
 	imperator = {							--DLC
 		name = 'imperator',
@@ -1052,6 +1181,7 @@ return {
 		price = 95000,
 		category = 'muscle',
 		hash = `imperator`,
+		shop = 'pdm',
 	},
 	imperator2 = {							--DLC
 		name = 'imperator2',
@@ -1060,6 +1190,7 @@ return {
 		price = 95000,
 		category = 'muscle',
 		hash = `imperator2`,
+		shop = 'pdm',
 	},
 	imperator3 = {							--DLC
 		name = 'imperator3',
@@ -1068,6 +1199,7 @@ return {
 		price = 95000,
 		category = 'muscle',
 		hash = `imperator3`,
+		shop = 'pdm',
 	},
 	lurcher = {
 		name = 'Gauntlet Classic Custom',
@@ -1076,6 +1208,7 @@ return {
 		price = 21000,
 		category = 'muscle',
 		hash = `lurcher`,
+		shop = 'pdm',
 	},
 	moonbeam = {
 		name = 'Moonbeam',
@@ -1084,6 +1217,7 @@ return {
 		price = 13000,
 		category = 'vans',
 		hash = `moonbeam`,
+		shop = 'pdm',
 	},
 	moonbeam2 = {
 		name = 'Moonbeam Custom',
@@ -1092,6 +1226,7 @@ return {
 		price = 15000,
 		category = 'vans',
 		hash = `moonbeam2`,
+		shop = 'pdm',
 	},
 	nightshade = {
 		name = 'Nightshade',
@@ -1100,6 +1235,7 @@ return {
 		price = 70000,
 		category = 'muscle',
 		hash = `nightshade`,
+		shop = 'pdm',
 	},
 	peyote2 = {							--DLC
 		name = 'Peyote Gasser',
@@ -1108,6 +1244,7 @@ return {
 		price = 40000,
 		category = 'sportsclassics',
 		hash = `peyote2`,
+		shop = 'pdm',
 	},
 	phoenix = {
 		name = 'Phoenix',
@@ -1116,6 +1253,7 @@ return {
 		price = 65000,
 		category = 'muscle',
 		hash = `phoenix`,
+		shop = 'pdm',
 	},
 	picador = {
 		name = 'Picador',
@@ -1124,6 +1262,7 @@ return {
 		price = 20000,
 		category = 'muscle',
 		hash = `picador`,
+		shop = 'pdm',
 	},
 	ratloader2 = {
 		name = 'ratloader2',
@@ -1132,6 +1271,7 @@ return {
 		price = 20000,
 		category = 'muscle',
 		hash = `ratloader2`,
+		shop = 'pdm',
 	},
 	ruiner = {
 		name = 'Ruiner',
@@ -1140,6 +1280,7 @@ return {
 		price = 29000,
 		category = 'muscle',
 		hash = `ruiner`,
+		shop = 'pdm',
 	},
 	ruiner2 = {
 		name = 'Ruiner 2000',
@@ -1148,6 +1289,7 @@ return {
 		price = 50000,
 		category = 'muscle',
 		hash = `ruiner2`,
+		shop = 'pdm',
 	},
 	sabregt = {
 		name = 'Sabre Turbo',
@@ -1156,6 +1298,7 @@ return {
 		price = 23000,
 		category = 'muscle',
 		hash = `sabregt`,
+		shop = 'pdm',
 	},
 	sabregt2 = {
 		name = 'Sabre GT',
@@ -1164,6 +1307,7 @@ return {
 		price = 26500,
 		category = 'muscle',
 		hash = `sabregt2`,
+		shop = 'pdm',
 	},
 	slamvan = {
 		name = 'Slam Van',
@@ -1172,6 +1316,7 @@ return {
 		price = 30000,
 		category = 'muscle',
 		hash = `slamvan`,
+		shop = 'pdm',
 	},
 	slamvan2 = {
 		name = 'Lost Slam Van',
@@ -1180,6 +1325,7 @@ return {
 		price = 90000,
 		category = 'muscle',
 		hash = `slamvan2`,
+		shop = 'pdm',
 	},
 	slamvan3 = {
 		name = 'Slam Van Custom',
@@ -1188,6 +1334,7 @@ return {
 		price = 17000,
 		category = 'muscle',
 		hash = `slamvan3`,
+		shop = 'pdm',
 	},
 	stalion = {
 		name = 'Stallion',
@@ -1196,6 +1343,7 @@ return {
 		price = 33000,
 		category = 'muscle',
 		hash = `stalion`,
+		shop = 'pdm',
 	},
 	stalion2 = {
 		name = 'Stallion Burgershot',
@@ -1204,6 +1352,7 @@ return {
 		price = 40000,
 		category = 'muscle',
 		hash = `stalion2`,
+		shop = 'pdm',
 	},
 	tampa = {
 		name = 'Tampa',
@@ -1212,6 +1361,7 @@ return {
 		price = 24500,
 		category = 'muscle',
 		hash = `tampa`,
+		shop = 'pdm',
 	},
 	tulip = {							--DLC
 		name = 'Tulip',
@@ -1220,6 +1370,7 @@ return {
 		price = 80000,
 		category = 'muscle',
 		hash = `tulip`,
+		shop = 'pdm',
 	},
 	vamos = {							--DLC
 		name = 'Vamos',
@@ -1228,6 +1379,7 @@ return {
 		price = 30000,
 		category = 'muscle',
 		hash = `vamos`,
+		shop = 'pdm',
 	},
 	vigero = {
 		name = 'Vigero',
@@ -1236,6 +1388,7 @@ return {
 		price = 39500,
 		category = 'muscle',
 		hash = `vigero`,
+		shop = 'pdm',
 	},
 	virgo = {
 		name = 'Virgo',
@@ -1244,6 +1397,7 @@ return {
 		price = 22000,
 		category = 'muscle',
 		hash = `virgo`,
+		shop = 'pdm',
 	},
 	virgo2 = {
 		name = 'Virgo Custom Classic',
@@ -1252,6 +1406,7 @@ return {
 		price = 21000,
 		category = 'muscle',
 		hash = `virgo2`,
+		shop = 'pdm',
 	},
 	virgo3 = {
 		name = 'Virgo Custom Classic',
@@ -1260,6 +1415,7 @@ return {
 		price = 21000,
 		category = 'muscle',
 		hash = `virgo3`,
+		shop = 'pdm',
 	},
 	voodoo = {
 		name = 'Voodoo',
@@ -1268,6 +1424,7 @@ return {
 		price = 13000,
 		category = 'muscle',
 		hash = `voodoo`,
+		shop = 'pdm',
 	},
 	yosemite = {
 		name = 'Yosemite',
@@ -1276,6 +1433,7 @@ return {
 		price = 19500,
 		category = 'muscle',
 		hash = `yosemite`,
+		shop = 'pdm',
 	},
 	yosemite2 = {
 		name = 'Yosemite Drift',
@@ -1284,6 +1442,7 @@ return {
 		price = 55000,
 		category = 'muscle',
 		hash = `yosemite2`,
+		shop = 'pdm',
 	},
 	yosemite3 = {
 		name = 'Yosemite Rancher',
@@ -1292,6 +1451,7 @@ return {
 		category = 'offroad',
 		model = 'yosemite3',
 		hash = `yosemite3`,
+		shop = 'pdm',
 	},
 	buffalo4 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Buffalo STX',
@@ -1300,6 +1460,7 @@ return {
 		price = 345000,
 		category = 'muscle',
 		hash = `buffalo4`,
+		shop = 'pdm',
 	},
 	--- Off-Road
 	bfinjection = {
@@ -1309,6 +1470,7 @@ return {
 		category = 'offroad',
 		model = 'bfinjection',
 		hash = `bfinjection`,
+		shop = 'pdm',
 	},
 	bifta = {
 		name = 'Bifta',
@@ -1317,6 +1479,7 @@ return {
 		category = 'offroad',
 		model = 'bifta',
 		hash = `bifta`,
+		shop = 'pdm',
 	},
 	blazer = {
 		name = 'Blazer',
@@ -1325,6 +1488,7 @@ return {
 		category = 'offroad',
 		model = 'blazer',
 		hash = `blazer`,
+		shop = 'pdm',
 	},
 	blazer2 = {
 		name = 'Blazer Lifeguard',
@@ -1333,6 +1497,7 @@ return {
 		price = 7000,
 		category = 'offroad',
 		hash = `blazer2`,
+		shop = 'pdm',
 	},
 	blazer3 = {
 		name = 'Blazer Hot Rod',
@@ -1341,6 +1506,7 @@ return {
 		price = 7000,
 		category = 'offroad',
 		hash = `blazer3`,
+		shop = 'pdm',
 	},
 	blazer4 = {
 		name = 'Blazer Sport',
@@ -1349,6 +1515,7 @@ return {
 		category = 'offroad',
 		model = 'blazer4',
 		hash = `blazer4`,
+		shop = 'pdm',
 	},
 	blazer5 = {
 		name = 'Blazer Aqua',
@@ -1357,6 +1524,7 @@ return {
 		price = 40000,
 		category = 'offroad',
 		hash = `blazer5`,
+		shop = 'pdm',
 	},
 	brawler = {
 		name = 'Brawler',
@@ -1365,6 +1533,7 @@ return {
 		category = 'offroad',
 		model = 'brawler',
 		hash = `brawler`,
+		shop = 'pdm',
 	},
 	caracara = {
 		name = 'Caracara',
@@ -1373,6 +1542,7 @@ return {
 		price = 60000,
 		category = 'offroad',
 		hash = `caracara`,
+		shop = 'pdm',
 	},
 	caracara2 = {							--DLC
 		name = 'Caracara 4x4',
@@ -1381,6 +1551,7 @@ return {
 		price = 80000,
 		category = 'offroad',
 		hash = `caracara2`,
+		shop = 'pdm',
 	},
 	dubsta3 = {
 		name = 'Dubsta 6x6',
@@ -1389,6 +1560,7 @@ return {
 		category = 'offroad',
 		model = 'dubsta3',
 		hash = `dubsta3`,
+		shop = 'pdm',
 	},
 	dune = {
 		name = 'Dune Buggy',
@@ -1397,6 +1569,7 @@ return {
 		category = 'offroad',
 		model = 'dune',
 		hash = `dune`,
+		shop = 'pdm',
 	},
 	everon = {
 		name = 'Everon',
@@ -1405,6 +1578,7 @@ return {
 		price = 60000,
 		category = 'offroad',
 		hash = `everon`,
+		shop = 'pdm',
 	},
 	freecrawler = {							--DLC
 		name = 'Freecrawler',
@@ -1413,6 +1587,7 @@ return {
 		price = 24000,
 		category = 'offroad',
 		hash = `freecrawler`,
+		shop = 'pdm',
 	},
 	hellion = {							--DLC
 		name = 'Hellion',
@@ -1421,6 +1596,7 @@ return {
 		price = 38000,
 		category = 'offroad',
 		hash = `hellion`,
+		shop = 'pdm',
 	},
 	kalahari = {
 		name = 'Kalahari',
@@ -1429,6 +1605,7 @@ return {
 		price = 14000,
 		category = 'offroad',
 		hash = `kalahari`,
+		shop = 'pdm',
 	},
 	kamacho = {
 		name = 'Kamacho',
@@ -1437,6 +1614,7 @@ return {
 		price = 50000,
 		category = 'offroad',
 		hash = `kamacho`,
+		shop = 'pdm',
 	},
 	mesa3 = {
 		name = 'Mesa Merryweather',
@@ -1445,6 +1623,7 @@ return {
 		price = 400000,
 		category = 'offroad',
 		hash = `mesa3`,
+		shop = 'pdm',
 	},
 	outlaw = {
 		name = 'Outlaw',
@@ -1453,6 +1632,7 @@ return {
 		price = 15000,
 		category = 'offroad',
 		hash = `outlaw`,
+		shop = 'pdm',
 	},
 	rancherxl = {
 		name = 'Rancher XL',
@@ -1461,6 +1641,7 @@ return {
 		price = 24000,
 		category = 'offroad',
 		hash = `rancherxl`,
+		shop = 'pdm',
 	},
 	rebel2 = {
 		name = 'Rebel',
@@ -1469,6 +1650,7 @@ return {
 		price = 20000,
 		category = 'offroad',
 		hash = `rebel2`,
+		shop = 'pdm',
 	},
 	riata = {
 		name = 'Riata',
@@ -1477,6 +1659,7 @@ return {
 		price = 380000,
 		category = 'offroad',
 		hash = `riata`,
+		shop = 'pdm',
 	},
 	sandking = {
 		name = 'Sandking',
@@ -1485,6 +1668,7 @@ return {
 		category = 'offroad',
 		model = 'sandking',
 		hash = `sandking`,
+		shop = 'pdm',
 	},
 	sandking2 = {
 		name = 'Sandking SWB',
@@ -1493,6 +1677,7 @@ return {
 		category = 'offroad',
 		model = 'sandking2',
 		hash = `sandking2`,
+		shop = 'pdm',
 	},
 	trophytruck = {
 		name = 'Trophy Truck',
@@ -1501,6 +1686,7 @@ return {
 		category = 'offroad',
 		model = 'trophytruck',
 		hash = `trophytruck`,
+		shop = 'pdm',
 	},
 	trophytruck2 = {
 		name = 'Trophy Truck Limited',
@@ -1509,6 +1695,7 @@ return {
 		category = 'offroad',
 		model = 'trophytruck2',
 		hash = `trophytruck2`,
+		shop = 'pdm',
 	},
 	vagrant = {
 		name = 'Vagrant',
@@ -1517,6 +1704,7 @@ return {
 		category = 'offroad',
 		model = 'vagrant',
 		hash = `vagrant`,
+		shop = 'pdm',
 	},
 	verus = {
 		name = 'Verus',
@@ -1525,6 +1713,7 @@ return {
 		category = 'offroad',
 		model = 'verus',
 		hash = `verus`,
+		shop = 'pdm',
 	},
 	winky = {
 		name = 'Winky',
@@ -1533,6 +1722,7 @@ return {
 		category = 'offroad',
 		model = 'winky',
 		hash = `winky`,
+		shop = 'pdm',
 	},
 	--- SUVs
 	baller = {
@@ -1542,6 +1732,7 @@ return {
 		price = 22000,
 		category = 'suvs',
 		hash = `baller`,
+		shop = 'pdm',
 	},
 	baller2 = {
 		name = 'Baller',
@@ -1550,6 +1741,7 @@ return {
 		price = 15000,
 		category = 'suvs',
 		hash = `baller2`,
+		shop = 'pdm',
 	},
 	baller3 = {
 		name = 'Baller LE',
@@ -1558,6 +1750,7 @@ return {
 		price = 15000,
 		category = 'suvs',
 		hash = `baller3`,
+		shop = 'pdm',
 	},
 	baller4 = {
 		name = 'Baller LE LWB',
@@ -1566,6 +1759,7 @@ return {
 		price = 29000,
 		category = 'suvs',
 		hash = `baller4`,
+		shop = 'pdm',
 	},
 	baller5 = {
 		name = 'Baller LE (Armored)',
@@ -1574,6 +1768,7 @@ return {
 		price = 78000,
 		category = 'suvs',
 		hash = `baller5`,
+		shop = 'pdm',
 	},
 	baller6 = {
 		name = 'Baller LE LWB (Armored)',
@@ -1582,6 +1777,7 @@ return {
 		price = 82000,
 		category = 'suvs',
 		hash = `baller6`,
+		shop = 'pdm',
 	},
 	bjxl = {
 		name = 'BeeJay XL',
@@ -1590,6 +1786,7 @@ return {
 		price = 19000,
 		category = 'suvs',
 		hash = `bjxl`,
+		shop = 'pdm',
 	},
 	cavalcade = {
 		name = 'Cavalcade',
@@ -1598,6 +1795,7 @@ return {
 		price = 14000,
 		category = 'suvs',
 		hash = `cavalcade`,
+		shop = 'pdm',
 	},
 	cavalcade2 = {
 		name = 'Cavalcade',
@@ -1606,6 +1804,7 @@ return {
 		price = 16500,
 		category = 'suvs',
 		hash = `cavalcade2`,
+		shop = 'pdm',
 	},
 	contender = {
 		name = 'Contender',
@@ -1614,6 +1813,7 @@ return {
 		price = 35000,
 		category = 'suvs',
 		hash = `contender`,
+		shop = 'pdm',
 	},
 	dubsta = {
 		name = 'Dubsta',
@@ -1622,6 +1822,7 @@ return {
 		price = 19000,
 		category = 'suvs',
 		hash = `dubsta`,
+		shop = 'pdm',
 	},
 	dubsta2 = {
 		name = 'Dubsta Luxuary',
@@ -1630,6 +1831,7 @@ return {
 		price = 19500,
 		category = 'suvs',
 		hash = `dubsta2`,
+		shop = 'pdm',
 	},
 	fq2 = {
 		name = 'FQ2',
@@ -1638,6 +1840,7 @@ return {
 		price = 18500,
 		category = 'suvs',
 		hash = `fq2`,
+		shop = 'pdm',
 	},
 	granger = {
 		name = 'Granger',
@@ -1646,6 +1849,7 @@ return {
 		price = 22000,
 		category = 'suvs',
 		hash = `granger`,
+		shop = 'pdm',
 	},
 	gresley = {
 		name = 'Gresley',
@@ -1654,6 +1858,7 @@ return {
 		price = 25000,
 		category = 'suvs',
 		hash = `gresley`,
+		shop = 'pdm',
 	},
 	habanero = {
 		name = 'Habanero',
@@ -1662,6 +1867,7 @@ return {
 		price = 20000,
 		category = 'suvs',
 		hash = `habanero`,
+		shop = 'pdm',
 	},
 	huntley = {
 		name = 'Huntley S',
@@ -1670,6 +1876,7 @@ return {
 		price = 24500,
 		category = 'suvs',
 		hash = `huntley`,
+		shop = 'pdm',
 	},
 	landstalker = {
 		name = 'Landstalker',
@@ -1678,6 +1885,7 @@ return {
 		price = 12000,
 		category = 'suvs',
 		hash = `landstalker`,
+		shop = 'pdm',
 	},
 	landstalker2 = {
 		name = 'Landstalker XL',
@@ -1686,6 +1894,7 @@ return {
 		price = 26000,
 		category = 'suvs',
 		hash = `landstalker2`,
+		shop = 'pdm',
 	},
 	mesa = {
 		name = 'Mesa',
@@ -1694,6 +1903,7 @@ return {
 		price = 12000,
 		category = 'offroad',
 		hash = `mesa`,
+		shop = 'pdm',
 	},
 	novak = {							--DLC
 		name = 'Novak',
@@ -1702,6 +1912,7 @@ return {
 		price = 70000,
 		category = 'suvs',
 		hash = `novak`,
+		shop = 'pdm',
 	},
 	patriot = {
 		name = 'Patriot',
@@ -1710,6 +1921,7 @@ return {
 		price = 21000,
 		category = 'suvs',
 		hash = `patriot`,
+		shop = 'pdm',
 	},
 	radi = {
 		name = 'Radius',
@@ -1718,6 +1930,7 @@ return {
 		price = 18000,
 		category = 'suvs',
 		hash = `radi`,
+		shop = 'pdm',
 	},
 	rebla = {
 		name = 'Rebla GTS',
@@ -1726,6 +1939,7 @@ return {
 		price = 21000,
 		category = 'suvs',
 		hash = `rebla`,
+		shop = 'pdm',
 	},
 	rocoto = {
 		name = 'Rocoto',
@@ -1734,6 +1948,7 @@ return {
 		price = 13000,
 		category = 'suvs',
 		hash = `rocoto`,
+		shop = 'pdm',
 	},
 	seminole = {
 		name = 'Seminole',
@@ -1742,6 +1957,7 @@ return {
 		price = 20000,
 		category = 'suvs',
 		hash = `seminole`,
+		shop = 'pdm',
 	},
 	seminole2 = {
 		name = 'Seminole Frontier',
@@ -1750,6 +1966,7 @@ return {
 		price = 13000,
 		category = 'suvs',
 		hash = `seminole2`,
+		shop = 'pdm',
 	},
 	serrano = {
 		name = 'Serrano',
@@ -1758,6 +1975,7 @@ return {
 		price = 48000,
 		category = 'suvs',
 		hash = `serrano`,
+		shop = 'pdm',
 	},
 	toros = {							--DLC
 		name = 'Toros',
@@ -1766,6 +1984,7 @@ return {
 		price = 65000,
 		category = 'suvs',
 		hash = `toros`,
+		shop = 'pdm',
 	},
 	xls = {
 		name = 'XLS',
@@ -1774,6 +1993,7 @@ return {
 		price = 17000,
 		category = 'suvs',
 		hash = `xls`,
+		shop = 'pdm',
 	},
 	granger2 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Granger 3600LX',
@@ -1782,6 +2002,7 @@ return {
 		price = 221000,
 		category = 'suvs',
 		hash = `granger2`,
+		shop = 'pdm',
 	},
 	--- Sedans
 	asea = {
@@ -1791,6 +2012,7 @@ return {
 		price = 2500,
 		category = 'sedans',
 		hash = `asea`,
+		shop = 'pdm',
 	},
 	asterope = {
 		name = 'Asterope',
@@ -1799,6 +2021,7 @@ return {
 		price = 11000,
 		category = 'sedans',
 		hash = `asterope`,
+		shop = 'pdm',
 	},
 	cog55 = {
 		name = 'Cognoscenti 55',
@@ -1807,6 +2030,7 @@ return {
 		price = 22000,
 		category = 'sedans',
 		hash = `cog55`,
+		shop = 'pdm',
 	},
 	cognoscenti = {
 		name = 'Cognoscenti',
@@ -1815,6 +2039,7 @@ return {
 		price = 22500,
 		category = 'sedans',
 		hash = `cognoscenti`,
+		shop = 'pdm',
 	},
 	emperor = {
 		name = 'Emperor',
@@ -1823,6 +2048,7 @@ return {
 		price = 4250,
 		category = 'sedans',
 		hash = `emperor`,
+		shop = 'pdm',
 	},
 	fugitive = {
 		name = 'Fugitive',
@@ -1831,6 +2057,7 @@ return {
 		price = 20000,
 		category = 'sedans',
 		hash = `fugitive`,
+		shop = 'pdm',
 	},
 	glendale = {
 		name = 'Glendale',
@@ -1839,6 +2066,7 @@ return {
 		price = 3400,
 		category = 'sedans',
 		hash = `glendale`,
+		shop = 'pdm',
 	},
 	glendale2 = {
 		name = 'Glendale',
@@ -1847,6 +2075,7 @@ return {
 		price = 12000,
 		category = 'sedans',
 		hash = `glendale2`,
+		shop = 'pdm',
 	},
 	ingot = {
 		name = 'Ingot',
@@ -1855,6 +2084,7 @@ return {
 		price = 4999,
 		category = 'sedans',
 		hash = `ingot`,
+		shop = 'pdm',
 	},
 	intruder = {
 		name = 'Intruder',
@@ -1863,6 +2093,7 @@ return {
 		price = 11250,
 		category = 'sedans',
 		hash = `intruder`,
+		shop = 'pdm',
 	},
 	premier = {
 		name = 'Premier',
@@ -1871,6 +2102,7 @@ return {
 		price = 12000,
 		category = 'sedans',
 		hash = `premier`,
+		shop = 'pdm',
 	},
 	primo = {
 		name = 'Primo',
@@ -1879,6 +2111,7 @@ return {
 		price = 5000,
 		category = 'sedans',
 		hash = `primo`,
+		shop = 'pdm',
 	},
 	primo2 = {
 		name = 'Primo Custom',
@@ -1887,6 +2120,7 @@ return {
 		price = 14500,
 		category = 'sedans',
 		hash = `primo2`,
+		shop = 'pdm',
 	},
 	regina = {
 		name = 'Regina',
@@ -1895,6 +2129,7 @@ return {
 		price = 7000,
 		category = 'sedans',
 		hash = `regina`,
+		shop = 'pdm',
 	},
 	stafford = {							--DLC
 		name = 'Stafford',
@@ -1903,6 +2138,7 @@ return {
 		price = 30000,
 		category = 'sedans',
 		hash = `stafford`,
+		shop = 'pdm',
 	},
 	stanier = {
 		name = 'Stanier',
@@ -1911,6 +2147,7 @@ return {
 		price = 19000,
 		category = 'sedans',
 		hash = `stanier`,
+		shop = 'pdm',
 	},
 	stratum = {
 		name = 'Stratum',
@@ -1919,6 +2156,7 @@ return {
 		price = 15000,
 		category = 'sedans',
 		hash = `stratum`,
+		shop = 'pdm',
 	},
 	stretch = {
 		name = 'Stretch',
@@ -1927,6 +2165,7 @@ return {
 		price = 19000,
 		category = 'sedans',
 		hash = `stretch`,
+		shop = 'pdm',
 	},
 	superd = {
 		name = 'Super Diamond',
@@ -1935,6 +2174,7 @@ return {
 		price = 17000,
 		category = 'sedans',
 		hash = `superd`,
+		shop = 'pdm',
 	},
 	surge = {
 		name = 'Surge',
@@ -1943,6 +2183,7 @@ return {
 		price = 20000,
 		category = 'sedans',
 		hash = `surge`,
+		shop = 'pdm',
 	},
 	tailgater = {
 		name = 'Tailgater',
@@ -1951,6 +2192,7 @@ return {
 		price = 22000,
 		category = 'sedans',
 		hash = `tailgater`,
+		shop = 'pdm',
 	},
 	warrener = {
 		name = 'Warrener',
@@ -1959,6 +2201,7 @@ return {
 		price = 4000,
 		category = 'sedans',
 		hash = `warrener`,
+		shop = 'pdm',
 	},
 	washington = {
 		name = 'Washington',
@@ -1967,6 +2210,7 @@ return {
 		price = 7000,
 		category = 'sedans',
 		hash = `washington`,
+		shop = 'pdm',
 	},
 	tailgater2 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Tailgater S',
@@ -1975,6 +2219,7 @@ return {
 		price = 51000,
 		category = 'sedans',
 		hash = `tailgater2`,
+		shop = 'pdm',
 	},
 	cinquemila = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Lampadati',
@@ -1983,6 +2228,7 @@ return {
 		price = 125000,
 		category = 'sedans',
 		hash = `cinquemila`,
+		shop = 'pdm',
 	},
 	iwagen = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Obey',
@@ -1991,6 +2237,7 @@ return {
 		price = 225000,
 		category = 'sedans',
 		hash = `iwagen`,
+		shop = 'pdm',
 	},
 	astron = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Pfister',
@@ -1999,6 +2246,7 @@ return {
 		price = 150000,
 		category = 'sedans',
 		hash = `astron`,
+		shop = 'pdm',
 	},
 	baller7 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Baller ST',
@@ -2007,6 +2255,7 @@ return {
 		price = 145000,
 		category = 'sedans',
 		hash = `baller7`,
+		shop = 'pdm',
 	},
 	comet7 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Comet',
@@ -2015,6 +2264,7 @@ return {
 		price = 25000,
 		category = 'sedans',
 		hash = `comet7`,
+		shop = 'pdm',
 	},
 	deity = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Deity',
@@ -2023,6 +2273,7 @@ return {
 		price = 505000,
 		category = 'sedans',
 		hash = `deity`,
+		shop = 'pdm',
 	},
 	jubilee = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Jubilee',
@@ -2031,6 +2282,7 @@ return {
 		price = 485000,
 		category = 'sedans',
 		hash = `jubilee`,
+		shop = 'pdm',
 	},
 	patriot3 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Patriot',
@@ -2039,6 +2291,7 @@ return {
 		price = 270000,
 		category = 'sedans',
 		hash = `patriot3`,
+		shop = 'pdm',
 	},
 	--- Sports
 	alpha = {
@@ -2048,6 +2301,7 @@ return {
 		price = 53000,
 		category = 'sports',
 		hash = `alpha`,
+		shop = 'luxury',
 	},
 	banshee = {
 		name = 'Banshee',
@@ -2056,6 +2310,7 @@ return {
 		price = 56000,
 		category = 'sports',
 		hash = `banshee`,
+		shop = 'luxury',
 	},
 	bestiagts = {
 		name = 'Bestia GTS',
@@ -2064,6 +2319,7 @@ return {
 		price = 37000,
 		category = 'sports',
 		hash = `bestiagts`,
+		shop = 'luxury',
 	},
 	blista2 = {
 		name = 'Blista Compact',
@@ -2072,6 +2328,7 @@ return {
 		price = 18950,
 		category = 'compacts',
 		hash = `blista2`,
+		shop = 'pdm',
 	},
 	blista3 = {
 		name = 'Blista Go Go Monkey',
@@ -2080,6 +2337,7 @@ return {
 		price = 15000,
 		category = 'compacts',
 		hash = `blista3`,
+		shop = 'pdm',
 	},
 	buffalo = {
 		name = 'Buffalo',
@@ -2088,6 +2346,7 @@ return {
 		price = 18750,
 		category = 'sports',
 		hash = `buffalo`,
+		shop = 'luxury',
 	},
 	buffalo2 = {
 		name = 'Buffalo S',
@@ -2096,6 +2355,7 @@ return {
 		price = 24500,
 		category = 'sports',
 		hash = `buffalo2`,
+		shop = 'luxury',
 	},
 	carbonizzare = {
 		name = 'Carbonizzare',
@@ -2104,6 +2364,7 @@ return {
 		price = 155000,
 		category = 'sports',
 		hash = `carbonizzare`,
+		shop = 'luxury',
 	},
 	comet2 = {
 		name = 'Comet',
@@ -2112,6 +2373,7 @@ return {
 		price = 130000,
 		category = 'sports',
 		hash = `comet2`,
+		shop = 'luxury',
 	},
 	comet3 = {
 		name = 'Comet Retro Custom',
@@ -2120,6 +2382,7 @@ return {
 		price = 175000,
 		category = 'sports',
 		hash = `comet3`,
+		shop = 'luxury',
 	},
 	comet4 = {
 		name = 'Comet Safari',
@@ -2128,6 +2391,7 @@ return {
 		price = 110000,
 		category = 'sports',
 		hash = `comet4`,
+		shop = 'luxury',
 	},
 	comet5 = {
 		name = 'Comet SR',
@@ -2136,6 +2400,7 @@ return {
 		price = 155000,
 		category = 'sports',
 		hash = `comet5`,
+		shop = 'luxury',
 	},
 	coquette = {
 		name = 'Coquette',
@@ -2144,6 +2409,7 @@ return {
 		price = 145000,
 		category = 'sports',
 		hash = `coquette`,
+		shop = 'luxury',
 	},
 	coquette2 = {
 		name = 'Coquette Classic',
@@ -2152,6 +2418,7 @@ return {
 		price = 165000,
 		category = 'sportsclassics',
 		hash = `coquette2`,
+		shop = 'pdm',
 	},
 	coquette4 = {
 		name = 'Coquette D10',
@@ -2160,6 +2427,7 @@ return {
 		price = 220000,
 		category = 'sports',
 		hash = `coquette4`,
+		shop = 'luxury',
 	},
 	drafter = {							--DLC
 		name = '8F Drafter',
@@ -2168,6 +2436,7 @@ return {
 		price = 80000,
 		category = 'sports',
 		hash = `drafter`,
+		shop = 'luxury',
 	},
 	deveste = {							--DLC
 		name = 'Deveste',
@@ -2176,6 +2445,7 @@ return {
 		price = 234000,
 		category = 'super',
 		hash = `deveste`,
+		shop = 'luxury',
 	},
 	elegy = {							--DLC
 		name = 'Elegy Retro Custom',
@@ -2184,6 +2454,7 @@ return {
 		price = 145000,
 		category = 'sports',
 		hash = `elegy`,
+		shop = 'luxury',
 	},
 	elegy2 = {
 		name = 'Elegy RH8',
@@ -2192,6 +2463,7 @@ return {
 		price = 150000,
 		category = 'sports',
 		hash = `elegy2`,
+		shop = 'luxury',
 	},
 	feltzer2 = {
 		name = 'Feltzer',
@@ -2200,6 +2472,7 @@ return {
 		price = 97000,
 		category = 'sports',
 		hash = `feltzer2`,
+		shop = 'luxury',
 	},
 	flashgt = {
 		name = 'Flash GT',
@@ -2208,6 +2481,7 @@ return {
 		price = 48000,
 		category = 'sports',
 		hash = `flashgt`,
+		shop = 'luxury',
 	},
 	furoregt = {
 		name = 'Furore GT',
@@ -2216,6 +2490,7 @@ return {
 		price = 78000,
 		category = 'sports',
 		hash = `furoregt`,
+		shop = 'luxury',
 	},
 	futo = {
 		name = 'Futo',
@@ -2224,6 +2499,7 @@ return {
 		price = 17500,
 		category = 'coupes',
 		hash = `futo`,
+		shop = 'pdm',
 	},
 	gb200 = {
 		name = 'GB 200',
@@ -2232,6 +2508,7 @@ return {
 		price = 140000,
 		category = 'sports',
 		hash = `gb200`,
+		shop = 'luxury',
 	},
 	komoda = {
 		name = 'Komoda',
@@ -2240,6 +2517,7 @@ return {
 		price = 55000,
 		category = 'sports',
 		hash = `komoda`,
+		shop = 'luxury',
 	},
 	imorgon = {
 		name = 'Imorgon',
@@ -2248,6 +2526,7 @@ return {
 		price = 120000,
 		category = 'sports',
 		hash = `imorgon`,
+		shop = 'luxury',
 	},
 	issi7 = {							--DLC
 		name = 'Issi Sport',
@@ -2256,6 +2535,7 @@ return {
 		price = 100000,
 		category = 'compacts',
 		hash = `issi7`,
+		shop = 'pdm',
 	},
 	italigto = {							--DLC
 		name = 'Itali GTO',
@@ -2264,6 +2544,7 @@ return {
 		price = 260000,
 		category = 'sports',
 		hash = `italigto`,
+		shop = 'luxury',
 	},
 	jugular = {							--DLC
 		name = 'Jugular',
@@ -2272,6 +2553,7 @@ return {
 		price = 80000,
 		category = 'sports',
 		hash = `jugular`,
+		shop = 'luxury',
 	},
 	jester = {
 		name = 'Jester',
@@ -2280,6 +2562,7 @@ return {
 		price = 132250,
 		category = 'sports',
 		hash = `jester`,
+		shop = 'luxury',
 	},
 	jester2 = {
 		name = 'Jester Racecar',
@@ -2288,6 +2571,7 @@ return {
 		price = 210000,
 		category = 'sports',
 		hash = `jester2`,
+		shop = 'luxury',
 	},
 	jester3 = {
 		name = 'Jester Classic',
@@ -2296,6 +2580,7 @@ return {
 		price = 85000,
 		category = 'sports',
 		hash = `jester3`,
+		shop = 'luxury',
 	},
 	khamelion = {
 		name = 'Khamelion',
@@ -2304,6 +2589,7 @@ return {
 		price = 90000,
 		category = 'sports',
 		hash = `khamelion`,
+		shop = 'luxury',
 	},
 	kuruma = {
 		name = 'Kuruma',
@@ -2312,6 +2598,7 @@ return {
 		price = 72000,
 		category = 'sports',
 		hash = `kuruma`,
+		shop = 'luxury',
 	},
 	kuruma2 = {
 		name = 'kuruma2',
@@ -2320,6 +2607,7 @@ return {
 		price = 72000,
 		category = 'sports',
 		hash = `kuruma2`,
+		shop = 'luxury',
 	},
 	locust = {							--DLC
 		name = 'Locust',
@@ -2328,6 +2616,7 @@ return {
 		price = 200000,
 		category = 'sports',
 		hash = `locust`,
+		shop = 'luxury',
 	},
 	lynx = {
 		name = 'Lynx',
@@ -2336,6 +2625,7 @@ return {
 		price = 150000,
 		category = 'sports',
 		hash = `lynx`,
+		shop = 'luxury',
 	},
 	massacro = {
 		name = 'Massacro',
@@ -2344,6 +2634,7 @@ return {
 		price = 110000,
 		category = 'sports',
 		hash = `massacro`,
+		shop = 'luxury',
 	},
 	massacro2 = {
 		name = 'Massacro Racecar',
@@ -2352,6 +2643,7 @@ return {
 		price = 80000,
 		category = 'sports',
 		hash = `massacro2`,
+		shop = 'luxury',
 	},
 	neo = {							--DLC
 		name = 'Neo',
@@ -2360,6 +2652,7 @@ return {
 		price = 230000,
 		category = 'sports',
 		hash = `neo`,
+		shop = 'luxury',
 	},
 	neon = {							--DLC
 		name = 'Neon',
@@ -2368,6 +2661,7 @@ return {
 		price = 220000,
 		category = 'sports',
 		hash = `neon`,
+		shop = 'luxury',
 	},
 	ninef = {
 		name = '9F',
@@ -2376,6 +2670,7 @@ return {
 		price = 95000,
 		category = 'sports',
 		hash = `ninef`,
+		shop = 'luxury',
 	},
 	ninef2 = {
 		name = '9F Cabrio',
@@ -2384,6 +2679,7 @@ return {
 		price = 105000,
 		category = 'sports',
 		hash = `ninef2`,
+		shop = 'luxury',
 	},
 	omnis = {
 		name = 'Omnis',
@@ -2392,6 +2688,7 @@ return {
 		price = 90000,
 		category = 'sports',
 		hash = `omnis`,
+		shop = 'luxury',
 	},
 	paragon = {							--DLC
 		name = 'Paragon',
@@ -2400,6 +2697,7 @@ return {
 		price = 60000,
 		category = 'sports',
 		hash = `paragon`,
+		shop = 'luxury',
 	},
 	pariah = {
 		name = 'Pariah',
@@ -2408,6 +2706,7 @@ return {
 		price = 90000,
 		category = 'sports',
 		hash = `pariah`,
+		shop = 'luxury',
 	},
 	penumbra = {
 		name = 'Penumbra',
@@ -2416,6 +2715,7 @@ return {
 		price = 22000,
 		category = 'sports',
 		hash = `penumbra`,
+		shop = 'luxury',
 	},
 	penumbra2 = {
 		name = 'Penumbra FF',
@@ -2424,6 +2724,7 @@ return {
 		price = 30000,
 		category = 'sports',
 		hash = `penumbra2`,
+		shop = 'luxury',
 	},
 	rapidgt = {
 		name = 'Rapid GT',
@@ -2432,6 +2733,7 @@ return {
 		price = 86000,
 		category = 'sports',
 		hash = `rapidgt`,
+		shop = 'luxury',
 	},
 	rapidgt2 = {
 		name = 'Rapid GT Convertible',
@@ -2440,6 +2742,7 @@ return {
 		price = 92000,
 		category = 'sports',
 		hash = `rapidgt2`,
+		shop = 'luxury',
 	},
 	raptor = {
 		name = 'Raptor',
@@ -2448,6 +2751,7 @@ return {
 		price = 90000,
 		category = 'sports',
 		hash = `raptor`,
+		shop = 'luxury',
 	},
 	revolter = {
 		name = 'Revolter',
@@ -2456,6 +2760,7 @@ return {
 		price = 95000,
 		category = 'sports',
 		hash = `revolter`,
+		shop = 'luxury',
 	},
 	ruston = {
 		name = 'Ruston',
@@ -2464,6 +2769,7 @@ return {
 		price = 130000,
 		category = 'sports',
 		hash = `ruston`,
+		shop = 'luxury',
 	},
 	schafter2 = {
 		name = 'Schafter',
@@ -2472,6 +2778,7 @@ return {
 		price = 16000,
 		category = 'sedans',
 		hash = `schafter2`,
+		shop = 'pdm',
 	},
 	schafter3 = {
 		name = 'Schafter V12',
@@ -2480,6 +2787,7 @@ return {
 		price = 35000,
 		category = 'sports',
 		hash = `schafter3`,
+		shop = 'luxury',
 	},
 	schafter4 = {
 		name = 'Schafter LWB',
@@ -2488,6 +2796,7 @@ return {
 		price = 21000,
 		category = 'sports',
 		hash = `schafter4`,
+		shop = 'luxury',
 	},
 	schlagen = {							--DLC
 		name = 'Schlagen GT',
@@ -2496,6 +2805,7 @@ return {
 		price = 160000,
 		category = 'sports',
 		hash = `schlagen`,
+		shop = 'luxury',
 	},
 	schwarzer = {
 		name = 'Schwartzer',
@@ -2504,6 +2814,7 @@ return {
 		price = 47000,
 		category = 'sports',
 		hash = `schwarzer`,
+		shop = 'luxury',
 	},
 	sentinel3 = {
 		name = 'Sentinel Classic',
@@ -2512,6 +2823,7 @@ return {
 		price = 70000,
 		category = 'coupes',
 		hash = `sentinel3`,
+		shop = 'pdm',
 	},
 	seven70 = {
 		name = 'Seven-70',
@@ -2520,6 +2832,7 @@ return {
 		price = 140000,
 		category = 'sports',
 		hash = `seven70`,
+		shop = 'luxury',
 	},
 	specter = {
 		name = 'Specter',
@@ -2528,6 +2841,7 @@ return {
 		price = 160000,
 		category = 'sports',
 		hash = `specter`,
+		shop = 'luxury',
 	},
 	streiter = {
 		name = 'Streiter',
@@ -2536,6 +2850,7 @@ return {
 		price = 40000,
 		category = 'sports',
 		hash = `streiter`,
+		shop = 'luxury',
 	},
 	sugoi = {
 		name = 'Sugoi',
@@ -2544,6 +2859,7 @@ return {
 		price = 85000,
 		category = 'sports',
 		hash = `sugoi`,
+		shop = 'luxury',
 	},
 	sultan = {
 		name = 'Sultan',
@@ -2552,6 +2868,7 @@ return {
 		price = 50000,
 		category = 'sports',
 		hash = `sultan`,
+		shop = 'luxury',
 	},
 	sultan2 = {
 		name = 'Sultan Custom',
@@ -2560,6 +2877,7 @@ return {
 		price = 55000,
 		category = 'sports',
 		hash = `sultan2`,
+		shop = 'luxury',
 	},
 	surano = {
 		name = 'Surano',
@@ -2568,6 +2886,7 @@ return {
 		price = 80000,
 		category = 'sports',
 		hash = `surano`,
+		shop = 'luxury',
 	},
 	tampa2 = {
 		name = 'Drift Tampa',
@@ -2576,6 +2895,7 @@ return {
 		price = 80000,
 		category = 'muscle',
 		hash = `tampa2`,
+		shop = 'pdm',
 	},
 	tropos = {
 		name = 'Tropos Rallye',
@@ -2584,6 +2904,7 @@ return {
 		price = 65000,
 		category = 'sports',
 		hash = `tropos`,
+		shop = 'luxury',
 	},
 	verlierer2 = {
 		name = 'Verlierer',
@@ -2592,6 +2913,7 @@ return {
 		price = 90500,
 		category = 'sports',
 		hash = `verlierer2`,
+		shop = 'luxury',
 	},
 	vstr = {
 		name = 'V-STR',
@@ -2600,6 +2922,7 @@ return {
 		price = 80000,
 		category = 'sports',
 		hash = `vstr`,
+		shop = 'luxury',
 	},
 	italirsx = {
 		name = 'Itali RSX',
@@ -2608,6 +2931,7 @@ return {
 		price = 260000,
 		category = 'sports',
 		hash = `italirsx`,
+		shop = 'luxury',
 	},
 	zr350 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'ZR350',
@@ -2616,6 +2940,7 @@ return {
 		price = 38000,
 		category = 'sports',
 		hash = `zr350`,
+		shop = 'luxury',
 	},
 	calico = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Calico GTF',
@@ -2624,6 +2949,7 @@ return {
 		price = 39000,
 		category = 'sports',
 		hash = `calico`,
+		shop = 'luxury',
 	},
 	futo2 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Futo GTX',
@@ -2632,6 +2958,7 @@ return {
 		price = 39000,
 		category = 'sports',
 		hash = `futo2`,
+		shop = 'luxury',
 	},
 	euros = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Euros',
@@ -2640,6 +2967,7 @@ return {
 		price = 80000,
 		category = 'sports',
 		hash = `euros`,
+		shop = 'luxury',
 	},
 	jester4 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Jester RR',
@@ -2648,6 +2976,7 @@ return {
 		price = 240000,
 		category = 'sports',
 		hash = `jester4`,
+		shop = 'luxury',
 	},
 	remus = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Remus',
@@ -2656,6 +2985,7 @@ return {
 		price = 48000,
 		category = 'sports',
 		hash = `remus`,
+		shop = 'luxury',
 	},
 	comet6 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Comet S2',
@@ -2664,6 +2994,7 @@ return {
 		price = 230000,
 		category = 'sports',
 		hash = `comet6`,
+		shop = 'luxury',
 	},
 	growler = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Growler',
@@ -2672,6 +3003,7 @@ return {
 		price = 205000,
 		category = 'sports',
 		hash = `growler`,
+		shop = 'luxury',
 	},
 	vectre = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Emperor Vectre',
@@ -2680,6 +3012,7 @@ return {
 		price = 80000,
 		category = 'sports',
 		hash = `vectre`,
+		shop = 'luxury',
 	},
 	cypher = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Cypher',
@@ -2688,6 +3021,7 @@ return {
 		price = 155000,
 		category = 'sports',
 		hash = `cypher`,
+		shop = 'luxury',
 	},
 	sultan3 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Sultan Classic Custom',
@@ -2696,6 +3030,7 @@ return {
 		price = 56000,
 		category = 'sports',
 		hash = `sultan3`,
+		shop = 'luxury',
 	},
 	rt3000 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'RT3000',
@@ -2704,6 +3039,7 @@ return {
 		price = 65000,
 		category = 'sports',
 		hash = `rt3000`,
+		shop = 'luxury',
 	},
 	--- Sports Classic
 	ardent = {
@@ -2713,6 +3049,7 @@ return {
 		price = 30000,
 		category = 'sportsclassics',
 		hash = `ardent`,
+		shop = 'pdm',
 	},
 	btype = {              --meme car that goes pretty fast
 		name = 'Roosevelt',
@@ -2721,6 +3058,7 @@ return {
 		price = 75000,
 		category = 'sportsclassics',
 		hash = `btype`,
+		shop = 'pdm',
 	},
 	btype2 = {
 		name = 'Franken Stange',
@@ -2729,6 +3067,7 @@ return {
 		price = 87000,
 		category = 'sportsclassics',
 		hash = `btype2`,
+		shop = 'pdm',
 	},
 	btype3 = {
 		name = 'Roosevelt Valor',
@@ -2737,6 +3076,7 @@ return {
 		price = 63000,
 		category = 'sportsclassics',
 		hash = `btype3`,
+		shop = 'pdm',
 	},
 	casco = {
 		name = 'Casco',
@@ -2745,6 +3085,7 @@ return {
 		price = 100000,
 		category = 'sportsclassics',
 		hash = `casco`,
+		shop = 'pdm',
 	},
 	cheetah2 = {
 		name = 'Cheetah Classic',
@@ -2753,6 +3094,7 @@ return {
 		price = 195000,
 		category = 'sports',
 		hash = `cheetah2`,
+		shop = 'luxury',
 	},
 	deluxo = {
 		name = 'Deluxo',
@@ -2761,6 +3103,7 @@ return {
 		price = 55000,
 		category = 'sportsclassics',
 		hash = `deluxo`,
+		shop = 'pdm',
 	},
 	dynasty = {							--DLC
 		name = 'Dynasty',
@@ -2769,6 +3112,7 @@ return {
 		price = 25000,
 		category = 'sportsclassics',
 		hash = `dynasty`,
+		shop = 'pdm',
 	},
 	fagaloa = {
 		name = 'Fagaloa',
@@ -2777,6 +3121,7 @@ return {
 		price = 13000,
 		category = 'sportsclassics',
 		hash = `fagaloa`,
+		shop = 'pdm',
 	},
 	feltzer3 = {							--DLC
 		name = 'Stirling GT',
@@ -2785,6 +3130,7 @@ return {
 		price = 115000,
 		category = 'sportsclassics',
 		hash = `feltzer3`,
+		shop = 'pdm',
 	},
 	gt500 = {
 		name = 'GT500',
@@ -2793,6 +3139,7 @@ return {
 		price = 130000,
 		category = 'sportsclassics',
 		hash = `gt500`,
+		shop = 'pdm',
 	},
 	infernus2 = {
 		name = 'Infernus Classic',
@@ -2801,6 +3148,7 @@ return {
 		price = 245000,
 		category = 'sportsclassics',
 		hash = `infernus2`,
+		shop = 'pdm',
 	},
 	jb700 = {
 		name = 'JB 700',
@@ -2809,6 +3157,7 @@ return {
 		price = 240000,
 		category = 'sportsclassics',
 		hash = `jb700`,
+		shop = 'pdm',
 	},
 	jb7002 = {
 		name = 'JB 700W',
@@ -2817,6 +3166,7 @@ return {
 		price = 40000,
 		category = 'sportsclassics',
 		hash = `jb7002`,
+		shop = 'pdm',
 	},
 	mamba = {
 		name = 'Mamba',
@@ -2825,6 +3175,7 @@ return {
 		price = 140000,
 		category = 'sportsclassics',
 		hash = `mamba`,
+		shop = 'pdm',
 	},
 	manana = {
 		name = 'Manana',
@@ -2833,6 +3184,7 @@ return {
 		price = 12800,
 		category = 'muscle',
 		hash = `manana`,
+		shop = 'pdm',
 	},
 	manana2 = {
 		name = 'Manana Custom',
@@ -2841,6 +3193,7 @@ return {
 		price = 24000,
 		category = 'muscle',
 		hash = `manana2`,
+		shop = 'pdm',
 	},
 	michelli = {
 		name = 'Michelli GT',
@@ -2849,6 +3202,7 @@ return {
 		price = 30000,
 		category = 'sportsclassics',
 		hash = `michelli`,
+		shop = 'pdm',
 	},
 	monroe = {
 		name = 'Monroe',
@@ -2857,6 +3211,7 @@ return {
 		price = 115000,
 		category = 'sportsclassics',
 		hash = `monroe`,
+		shop = 'pdm',
 	},
 	nebula = {							--DLC
 		name = 'Nebula',
@@ -2865,6 +3220,7 @@ return {
 		price = 22000,
 		category = 'sportsclassics',
 		hash = `nebula`,
+		shop = 'pdm',
 	},
 	peyote = {
 		name = 'Peyote',
@@ -2873,6 +3229,7 @@ return {
 		price = 23500,
 		category = 'sportsclassics',
 		hash = `peyote`,
+		shop = 'pdm',
 	},
 	peyote3 = {
 		name = 'Peyote Custom',
@@ -2881,6 +3238,7 @@ return {
 		price = 48000,
 		category = 'sportsclassics',
 		hash = `peyote3`,
+		shop = 'pdm',
 	},
 	pigalle = {
 		name = 'Pigalle',
@@ -2889,6 +3247,7 @@ return {
 		price = 92000,
 		category = 'sportsclassics',
 		hash = `pigalle`,
+		shop = 'pdm',
 	},
 	rapidgt3 = {
 		name = 'Rapid GT',
@@ -2897,6 +3256,7 @@ return {
 		price = 90000,
 		category = 'sportsclassics',
 		hash = `rapidgt3`,
+		shop = 'pdm',
 	},
 	retinue = {
 		name = 'Retinue',
@@ -2905,6 +3265,7 @@ return {
 		price = 32000,
 		category = 'sportsclassics',
 		hash = `retinue`,
+		shop = 'pdm',
 	},
 	retinue2 = {
 		name = 'Retinue MKII',
@@ -2913,6 +3274,7 @@ return {
 		price = 38000,
 		category = 'sportsclassics',
 		hash = `retinue2`,
+		shop = 'pdm',
 	},
 	savestra = {
 		name = 'Savestra',
@@ -2921,6 +3283,7 @@ return {
 		price = 67000,
 		category = 'sportsclassics',
 		hash = `savestra`,
+		shop = 'pdm',
 	},
 	stinger = {
 		name = 'Stinger',
@@ -2929,6 +3292,7 @@ return {
 		price = 39500,
 		category = 'sportsclassics',
 		hash = `stinger`,
+		shop = 'pdm',
 	},
 	stingergt = {
 		name = 'Stinger GT',
@@ -2937,6 +3301,7 @@ return {
 		price = 70000,
 		category = 'sportsclassics',
 		hash = `stingergt`,
+		shop = 'pdm',
 	},
 	stromberg = {
 		name = 'Stromberg',
@@ -2945,6 +3310,7 @@ return {
 		price = 80000,
 		category = 'sportsclassics',
 		hash = `stromberg`,
+		shop = 'pdm',
 	},
 	swinger = {							--DLC
 		name = 'Swinger',
@@ -2953,6 +3319,7 @@ return {
 		price = 221000,
 		category = 'sportsclassics',
 		hash = `swinger`,
+		shop = 'pdm',
 	},
 	torero = {
 		name = 'Torero',
@@ -2961,6 +3328,7 @@ return {
 		price = 84000,
 		category = 'sportsclassics',
 		hash = `torero`,
+		shop = 'pdm',
 	},
 	tornado = {
 		name = 'Tornado',
@@ -2969,6 +3337,7 @@ return {
 		price = 21000,
 		category = 'sportsclassics',
 		hash = `tornado`,
+		shop = 'pdm',
 	},
 	tornado2 = {
 		name = 'Tornado Gang',
@@ -2977,6 +3346,7 @@ return {
 		price = 22000,
 		category = 'sportsclassics',
 		hash = `tornado2`,
+		shop = 'pdm',
 	},
 	tornado5 = {
 		name = 'Tornado Custom',
@@ -2985,6 +3355,7 @@ return {
 		price = 22000,
 		category = 'sportsclassics',
 		hash = `tornado5`,
+		shop = 'pdm',
 	},
 	turismo2 = {
 		name = 'Turismo Classic',
@@ -2993,6 +3364,7 @@ return {
 		price = 170000,
 		category = 'sportsclassics',
 		hash = `turismo2`,
+		shop = 'pdm',
 	},
 	viseris = {
 		name = 'Viseris',
@@ -3001,6 +3373,7 @@ return {
 		price = 210000,
 		category = 'sportsclassics',
 		hash = `viseris`,
+		shop = 'pdm',
 	},
 	z190 = {
 		name = '190Z',
@@ -3009,6 +3382,7 @@ return {
 		price = 78000,
 		category = 'sportsclassics',
 		hash = `z190`,
+		shop = 'pdm',
 	},
 	ztype = {
 		name = 'Z-Type',
@@ -3017,6 +3391,7 @@ return {
 		price = 270000,
 		category = 'sportsclassics',
 		hash = `ztype`,
+		shop = 'pdm',
 	},
 	zion3 = {							--DLC
 		name = 'Zion Classic',
@@ -3025,6 +3400,7 @@ return {
 		price = 45000,
 		category = 'sportsclassics',
 		hash = `zion3`,
+		shop = 'pdm',
 	},
 	cheburek = {
 		name = 'Cheburek',
@@ -3033,6 +3409,7 @@ return {
 		price = 7000,
 		category = 'sportsclassics',
 		hash = `cheburek`,
+		shop = 'pdm',
 	},
 	toreador = {
 		name = 'Toreador',
@@ -3041,6 +3418,7 @@ return {
 		price = 50000,
 		category = 'sportsclassics',
 		hash = `toreador`,
+		shop = 'pdm',
 	},
 	--- Super
 	adder = {
@@ -3050,6 +3428,7 @@ return {
 		price = 280000,
 		category = 'super',
 		hash = `adder`,
+		shop = 'luxury',
 	},
 	autarch = {
 		name = 'Autarch',
@@ -3058,6 +3437,7 @@ return {
 		price = 224000,
 		category = 'super',
 		hash = `autarch`,
+		shop = 'luxury',
 	},
 	banshee2 = {
 		name = 'Banshee 900R',
@@ -3066,6 +3446,7 @@ return {
 		price = 120000,
 		category = 'super',
 		hash = `banshee2`,
+		shop = 'luxury',
 	},
 	bullet = {
 		name = 'Bullet',
@@ -3074,6 +3455,7 @@ return {
 		price = 120000,
 		category = 'super',
 		hash = `bullet`,
+		shop = 'luxury',
 	},
 	cheetah = {
 		name = 'Cheetah',
@@ -3082,6 +3464,7 @@ return {
 		price = 214000,
 		category = 'super',
 		hash = `cheetah`,
+		shop = 'luxury',
 	},
 	cyclone = {         --might be too overpowered
 		name = 'Cyclone',
@@ -3090,6 +3473,7 @@ return {
 		price = 300000,
 		category = 'super',
 		hash = `cyclone`,
+		shop = 'luxury',
 	},
 	entity2 = {
 		name = 'Entity XXR',
@@ -3098,6 +3482,7 @@ return {
 		price = 164000,
 		category = 'super',
 		hash = `entity2`,
+		shop = 'luxury',
 	},
 	entityxf = {
 		name = 'Entity XF',
@@ -3106,6 +3491,7 @@ return {
 		price = 180000,
 		category = 'super',
 		hash = `entityxf`,
+		shop = 'luxury',
 	},
 	emerus = {							--DLC
 		name = 'Emerus',
@@ -3114,6 +3500,7 @@ return {
 		price = 220000,
 		category = 'super',
 		hash = `emerus`,
+		shop = 'luxury',
 	},
 	fmj = {
 		name = 'FMJ',
@@ -3122,6 +3509,7 @@ return {
 		price = 125000,
 		category = 'super',
 		hash = `fmj`,
+		shop = 'luxury',
 	},
 	furia = {
 		name = 'Furia',
@@ -3130,6 +3518,7 @@ return {
 		price = 230000,
 		category = 'super',
 		hash = `furia`,
+		shop = 'luxury',
 	},
 	gp1 = {
 		name = 'GP1',
@@ -3138,6 +3527,7 @@ return {
 		price = 110000,
 		category = 'super',
 		hash = `gp1`,
+		shop = 'luxury',
 	},
 	infernus = {
 		name = 'Infernus',
@@ -3146,6 +3536,7 @@ return {
 		price = 235000,
 		category = 'super',
 		hash = `infernus`,
+		shop = 'luxury',
 	},
 	italigtb = {
 		name = 'Itali GTB',
@@ -3154,6 +3545,7 @@ return {
 		price = 170000,
 		category = 'super',
 		hash = `italigtb`,
+		shop = 'luxury',
 	},
 	italigtb2 = {
 		name = 'Itali GTB',
@@ -3162,6 +3554,7 @@ return {
 		price = 250000,
 		category = 'super',
 		hash = `italigtb2`,
+		shop = 'luxury',
 	},
 	krieger = {							--DLC
 		name = 'Krieger',
@@ -3170,6 +3563,7 @@ return {
 		price = 222000,
 		category = 'super',
 		hash = `krieger`,
+		shop = 'luxury',
 	},
 	le7b = {
 		name = 'RE-7B',
@@ -3178,6 +3572,7 @@ return {
 		price = 260000,
 		category = 'super',
 		hash = `le7b`,
+		shop = 'luxury',
 	},
 	nero = {
 		name = 'Nero',
@@ -3186,6 +3581,7 @@ return {
 		price = 200000,
 		category = 'super',
 		hash = `nero`,
+		shop = 'luxury',
 	},
 	nero2 = {
 		name = 'Nero Custom',
@@ -3194,6 +3590,7 @@ return {
 		price = 260000,
 		category = 'super',
 		hash = `nero2`,
+		shop = 'luxury',
 	},
 	osiris = {
 		name = 'Osiris',
@@ -3202,6 +3599,7 @@ return {
 		price = 220000,
 		category = 'super',
 		hash = `osiris`,
+		shop = 'luxury',
 	},
 	penetrator = {
 		name = 'Penetrator',
@@ -3210,6 +3608,7 @@ return {
 		price = 130000,
 		category = 'super',
 		hash = `penetrator`,
+		shop = 'luxury',
 	},
 	pfister811 = {
 		name = '811',
@@ -3218,6 +3617,7 @@ return {
 		price = 220000,
 		category = 'super',
 		hash = `pfister811`,
+		shop = 'luxury',
 	},
 	prototipo = {
 		name = 'X80 Proto',
@@ -3226,6 +3626,7 @@ return {
 		price = 235000,
 		category = 'super',
 		hash = `prototipo`,
+		shop = 'luxury',
 	},
 	reaper = {
 		name = 'Reaper',
@@ -3234,6 +3635,7 @@ return {
 		price = 100000,
 		category = 'super',
 		hash = `reaper`,
+		shop = 'luxury',
 	},
 	s80 = {							--DLC
 		name = 'S80RR',
@@ -3242,6 +3644,7 @@ return {
 		price = 205000,
 		category = 'super',
 		hash = `s80`,
+		shop = 'luxury',
 	},
 	sc1 = {
 		name = 'SC1',
@@ -3250,6 +3653,7 @@ return {
 		price = 90000,
 		category = 'super',
 		hash = `sc1`,
+		shop = 'luxury',
 	},
 	sheava = {							--DLC
 		name = 'ETR1',
@@ -3258,6 +3662,7 @@ return {
 		price = 220000,
 		category = 'super',
 		hash = `sheava`,
+		shop = 'luxury',
 	},
 	sultanrs = {
 		name = 'Sultan RS',
@@ -3266,6 +3671,7 @@ return {
 		price = 76500,
 		category = 'sports',
 		hash = `sultanrs`,
+		shop = 'luxury',
 	},
 	t20 = {
 		name = 'T20',
@@ -3274,6 +3680,7 @@ return {
 		price = 1650000,
 		category = 'super',
 		hash = `t20`,
+		shop = 'luxury',
 	},
 	taipan = {
 		name = 'Taipan',
@@ -3282,6 +3689,7 @@ return {
 		price = 1850000,
 		category = 'super',
 		hash = `taipan`,
+		shop = 'luxury',
 	},
 	tempesta = {
 		name = 'Tempesta',
@@ -3290,6 +3698,7 @@ return {
 		price = 120000,
 		category = 'super',
 		hash = `tempesta`,
+		shop = 'luxury',
 	},
 	tezeract = {
 		name = 'Tezeract',
@@ -3298,6 +3707,7 @@ return {
 		price = 220000,
 		category = 'super',
 		hash = `tezeract`,
+		shop = 'luxury',
 	},
 	thrax = {							--DLC
 		name = 'Thrax',
@@ -3306,6 +3716,7 @@ return {
 		price = 180000,
 		category = 'super',
 		hash = `thrax`,
+		shop = 'luxury',
 	},
 	tigon = {
 		name = 'Tigon',
@@ -3314,6 +3725,7 @@ return {
 		price = 240000,
 		category = 'super',
 		hash = `tigon`,
+		shop = 'luxury',
 	},
 	turismor = {
 		name = 'Turismo R',
@@ -3322,6 +3734,7 @@ return {
 		price = 140000,
 		category = 'super',
 		hash = `turismor`,
+		shop = 'luxury',
 	},
 	tyrant = {
 		name = 'Tyrant',
@@ -3330,6 +3743,7 @@ return {
 		price = 2100000,
 		category = 'super',
 		hash = `tyrant`,
+		shop = 'luxury',
 	},
 	tyrus = {
 		name = 'Tyrus',
@@ -3338,6 +3752,7 @@ return {
 		price = 230000,
 		category = 'super',
 		hash = `tyrus`,
+		shop = 'luxury',
 	},
 	vacca = {
 		name = 'Vacca',
@@ -3346,6 +3761,7 @@ return {
 		price = 105000,
 		category = 'super',
 		hash = `vacca`,
+		shop = 'luxury',
 	},
 	vagner = {
 		name = 'Vagner',
@@ -3354,6 +3770,7 @@ return {
 		price = 1660000,
 		category = 'super',
 		hash = `vagner`,
+		shop = 'luxury',
 	},
 	visione = {
 		name = 'Visione',
@@ -3362,6 +3779,7 @@ return {
 		price = 750000,
 		category = 'sports',
 		hash = `visione`,
+		shop = 'luxury',
 	},
 	voltic = {
 		name = 'Voltic',
@@ -3370,6 +3788,7 @@ return {
 		price = 120000,
 		category = 'super',
 		hash = `voltic`,
+		shop = 'luxury',
 	},
 	voltic2 = {
 		name = 'Rocket Voltic',
@@ -3378,6 +3797,7 @@ return {
 		price = 9830400,
 		category = 'super',
 		hash = `voltic2`,
+		shop = 'luxury',
 	},
 	xa21 = {
 		name = 'XA-21',
@@ -3386,6 +3806,7 @@ return {
 		price = 180000,
 		category = 'super',
 		hash = `xa21`,
+		shop = 'luxury',
 	},
 	zentorno = {
 		name = 'Zentorno',
@@ -3394,6 +3815,7 @@ return {
 		price = 340000,
 		category = 'super',
 		hash = `zentorno`,
+		shop = 'luxury',
 	},
 	zorrusso = {							--DLC
 		name = 'Zorrusso',
@@ -3402,6 +3824,7 @@ return {
 		price = 277000,
 		category = 'super',
 		hash = `zorrusso`,
+		shop = 'luxury',
 	},
 	-- Vans
 	bison = {
@@ -3411,6 +3834,7 @@ return {
 		price = 18000,
 		category = 'vans',
 		hash = `bison`,
+		shop = 'pdm',
 	},
 	bobcatxl = {
 		name = 'Bobcat XL Open',
@@ -3419,6 +3843,7 @@ return {
 		price = 13500,
 		category = 'vans',
 		hash = `bobcatxl`,
+		shop = 'pdm',
 	},
 	burrito3 = {
 		name = 'Burrito',
@@ -3427,6 +3852,7 @@ return {
 		price = 4000,
 		category = 'vans',
 		hash = `burrito3`,
+		shop = 'pdm',
 	},
 	gburrito2 = {
 		name = 'Burrito Custom',
@@ -3435,6 +3861,7 @@ return {
 		price = 11500,
 		category = 'vans',
 		hash = `gburrito2`,
+		shop = 'pdm',
 	},
 	rumpo = {
 		name = 'Rumpo',
@@ -3443,6 +3870,7 @@ return {
 		price = 9000,
 		category = 'vans',
 		hash = `rumpo`,
+		shop = 'pdm',
 	},
 	journey = {
 		name = 'Journey',
@@ -3451,6 +3879,7 @@ return {
 		price = 6500,
 		category = 'vans',
 		hash = `journey`,
+		shop = 'pdm',
 	},
 	minivan = {
 		name = 'Minivan',
@@ -3459,6 +3888,7 @@ return {
 		price = 7000,
 		category = 'vans',
 		hash = `minivan`,
+		shop = 'pdm',
 	},
 	minivan2 = {
 		name = 'Minivan Custom',
@@ -3467,6 +3897,7 @@ return {
 		price = 10000,
 		category = 'vans',
 		hash = `minivan2`,
+		shop = 'pdm',
 	},
 	paradise = {
 		name = 'Paradise',
@@ -3475,6 +3906,7 @@ return {
 		price = 9000,
 		category = 'vans',
 		hash = `paradise`,
+		shop = 'pdm',
 	},
 	rumpo3 = {
 		name = 'Rumpo Custom',
@@ -3483,6 +3915,7 @@ return {
 		price = 19500,
 		category = 'vans',
 		hash = `rumpo3`,
+		shop = 'pdm',
 	},
 	speedo = {
 		name = 'Speedo',
@@ -3491,6 +3924,7 @@ return {
 		price = 10000,
 		category = 'vans',
 		hash = `speedo`,
+		shop = 'pdm',
 	},
 	speedo4 = {
 		name = 'Speedo Custom',
@@ -3499,6 +3933,7 @@ return {
 		price = 15000,
 		category = 'vans',
 		hash = `speedo4`,
+		shop = 'pdm',
 	},
 	surfer = {
 		name = 'Surfer',
@@ -3507,6 +3942,7 @@ return {
 		price = 9000,
 		category = 'vans',
 		hash = `surfer`,
+		shop = 'pdm',
 	},
 	youga3 = {
 		name = 'Youga Classic 4x4',
@@ -3515,6 +3951,7 @@ return {
 		price = 15000,
 		category = 'vans',
 		hash = `youga3`,
+		shop = 'pdm',
 	},
 	youga = {
 		name = 'Youga',
@@ -3523,6 +3960,7 @@ return {
 		price = 8000,
 		category = 'vans',
 		hash = `youga`,
+		shop = 'pdm',
 	},
 	youga2 = {
 		name = 'Youga Classic',
@@ -3531,6 +3969,7 @@ return {
 		price = 14500,
 		category = 'vans',
 		hash = `youga2`,
+		shop = 'pdm',
 	},
 	youga4 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Youga',
@@ -3539,6 +3978,7 @@ return {
 		price = 85000,
 		category = 'vans',
 		hash = `youga4`,
+		shop = 'pdm',
 	},
 	mule5 = { 	 	--DLC +set sv_enforceGameBuild 2545
 		name = 'Mule',
@@ -3547,6 +3987,7 @@ return {
 		price = 221000,
 		category = 'vans',
 		hash = `mule5`,
+		shop = 'pdm',
 	},
 	-- Utility
 	sadler = {
@@ -3556,6 +3997,7 @@ return {
 		price = 20000,
 		category = 'offroad',
 		hash = `sadler`,
+		shop = 'pdm',
 	},
 	guardian = {
 		name = 'Guardian',
@@ -3564,6 +4006,7 @@ return {
 		category = 'offroad',
 		model = 'guardian',
 		hash = `guardian`,
+		shop = 'pdm',
 	},
 	slamtruck = {
 		name = 'Slam Truck',
@@ -3572,6 +4015,7 @@ return {
 		price = 100000,
 		category = 'muscle',
 		hash = `slamtruck`,
+		shop = 'pdm',
 	},
 	warrener2 = {							--DLC +set sv_enforceGameBuild 2372
 		name = 'Warrener HKR',
@@ -3580,6 +4024,7 @@ return {
 		price = 30000,
 		category = 'sedans',
 		hash = `warrener2`,
+		shop = 'pdm',
 	},
 		-- Boats
 	squalo = {
@@ -3589,6 +4034,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `squalo`,
+		shop = 'boats',
 	},
 	marquis = {
 		name = 'Marquis',
@@ -3597,6 +4043,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `marquis`,
+		shop = 'boats',
 	},
 	seashark = {
 		name = 'Seashark',
@@ -3605,6 +4052,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `seashark`,
+		shop = 'boats',
 	},
 	seashark2 = {
 		name = 'Seashark',
@@ -3613,6 +4061,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `seashark2`,
+		shop = 'boats',
 	},
 	seashark3 = {
 		name = 'Seashark',
@@ -3621,6 +4070,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `seashark3`,
+		shop = 'boats',
 	},
 	jetmax = {
 		name = 'Shitzu',
@@ -3629,6 +4079,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `jetmax`,
+		shop = 'boats',
 	},
 	tropic = {
 		name = 'Shitzu',
@@ -3637,6 +4088,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `tropic`,
+		shop = 'boats',
 	},
 	tropic2 = {
 		name = 'Shitzu',
@@ -3645,6 +4097,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `tropic2`,
+		shop = 'boats',
 	},
 	dinghy = {
 		name = 'Nagasaki',
@@ -3653,6 +4106,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `dinghy`,
+		shop = 'boats',
 	},
 	dinghy2 = {
 		name = 'Nagasaki',
@@ -3661,6 +4115,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `dinghy2`,
+		shop = 'boats',
 	},
 	dinghy3 = {
 		name = 'Nagasaki',
@@ -3669,6 +4124,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `dinghy3`,
+		shop = 'boats',
 	},
 	dinghy4 = {
 		name = 'Nagasaki',
@@ -3677,6 +4133,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `dinghy4`,
+		shop = 'boats',
 	},
 	suntrap = {
 		name = 'Shitzu',
@@ -3685,6 +4142,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `suntrap`,
+		shop = 'boats',
 	},
 	speeder = {
 		name = 'Speeder',
@@ -3693,6 +4151,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `speeder`,
+		shop = 'boats',
 	},
 	speeder2 = {
 		name = 'Speeder',
@@ -3701,6 +4160,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `speeder2`,
+		shop = 'boats',
 	},
 	longfin = {
 		name = 'Longfin',
@@ -3709,6 +4169,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `longfin`,
+		shop = 'boats',
 	},
 	toro = {
 		name = 'Toro',
@@ -3717,6 +4178,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `toro`,
+		shop = 'boats',
 	},
 	toro2 = {
 		name = 'Toro',
@@ -3725,6 +4187,7 @@ return {
 		price = 40000,
 		category = 'boats',
 		hash = `toro2`,
+		shop = 'boats',
 	},
 	-- helicopters
 	buzzard2 = {
@@ -3734,6 +4197,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `buzzard2`,
+		shop = 'air',
 	},
 	frogger = {
 		name = 'Frogger',
@@ -3742,6 +4206,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `frogger`,
+		shop = 'air',
 	},
 	frogger2 = {
 		name = 'Frogger',
@@ -3750,6 +4215,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `frogger2`,
+		shop = 'air',
 	},
 	maverick = {
 		name = 'Maverick',
@@ -3758,6 +4224,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `maverick`,
+		shop = 'air',
 	},
 	swift = {
 		name = 'Swift',
@@ -3766,6 +4233,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `swift`,
+		shop = 'air',
 	},
 	swift2 = {
 		name = 'Swift',
@@ -3774,6 +4242,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `swift2`,
+		shop = 'air',
 	},
 	seasparrow = {
 		name = 'Sea Sparrow',
@@ -3782,6 +4251,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `seasparrow`,
+		shop = 'air',
 	},
 	seasparrow2 = {
 		name = 'Sparrow',
@@ -3790,6 +4260,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `seasparrow2`,
+		shop = 'air',
 	},
 	seasparrow3 = {
 		name = 'Sparrow',
@@ -3798,6 +4269,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `seasparrow3`,
+		shop = 'air',
 	},
 	supervolito = {
 		name = 'SuperVolito',
@@ -3806,6 +4278,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `supervolito`,
+		shop = 'air',
 	},
 	supervolito2 = {
 		name = 'SuperVolito Carbon',
@@ -3814,6 +4287,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `supervolito2`,
+		shop = 'air',
 	},
 	volatus = {
 		name = 'Volatus',
@@ -3822,6 +4296,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `volatus`,
+		shop = 'air',
 	},
 	havok = {
 		name = 'Havok',
@@ -3830,6 +4305,7 @@ return {
 		price = 52000,
 		category = 'helicopters',
 		hash = `havok`,
+		shop = 'air',
 	},
 	-- Planes
 	duster = {
@@ -3839,6 +4315,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `duster`,
+		shop = 'air',
 	},
 	luxor = {
 		name = 'Luxor',
@@ -3847,6 +4324,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `luxor`,
+		shop = 'air',
 	},
 	luxor2 = {
 		name = 'Luxor Deluxe',
@@ -3855,6 +4333,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `luxor2`,
+		shop = 'air',
 	},
 	stunt = {
 		name = 'Mallard',
@@ -3863,6 +4342,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `stunt`,
+		shop = 'air',
 	},
 	mammatus = {
 		name = 'Mammatus',
@@ -3871,6 +4351,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `mammatus`,
+		shop = 'air',
 	},
 	velum = {
 		name = 'Velum',
@@ -3879,6 +4360,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `velum`,
+		shop = 'air',
 	},
 	velum2 = {
 		name = 'Velum',
@@ -3887,6 +4369,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `velum2`,
+		shop = 'air',
 	},
 	shamal = {
 		name = 'Shamal',
@@ -3895,6 +4378,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `shamal`,
+		shop = 'air',
 	},
 	vestra = {
 		name = 'Vestra',
@@ -3903,6 +4387,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `vestra`,
+		shop = 'air',
 	},
 	dodo = {
 		name = 'Dodo',
@@ -3911,6 +4396,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `dodo`,
+		shop = 'air',
 	},
 	howard = {
 		name = 'Howard NX-25',
@@ -3919,6 +4405,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `howard`,
+		shop = 'air',
 	},
 	alphaz1 = {
 		name = 'Alpha-Z1',
@@ -3927,6 +4414,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `alphaz1`,
+		shop = 'air',
 	},
 	nimbus = {
 		name = 'Nimbus',
@@ -3935,6 +4423,7 @@ return {
 		price = 45000,
 		category = 'planes',
 		hash = `nimbus`,
+		shop = 'air',
 	},
 	brioso3 = {          --DLC +set sv_enforceGameBuild 2699 (and below)
         name = 'Brioso 300 Widebody',
@@ -3943,6 +4432,7 @@ return {
         price = 125000,
         category = 'compacts',
         hash = `brioso3`,
+        shop = 'pdm',
     },
     conada = {
         name = 'Conada',
@@ -3951,6 +4441,7 @@ return {
         price = 115000,
         category = 'helicopters',
         hash = `conada`,
+        shop = 'air',
     },
     corsita = {
         name = 'Corsita',
@@ -3959,6 +4450,7 @@ return {
         price = 90000,
         category = 'sports',
         hash = `corsita`,
+        shop = 'luxury',
     },
     draugur = {
         name = 'Draugur',
@@ -3967,6 +4459,7 @@ return {
         price = 99000,
         category = 'offroad',
         hash = `draugur`,
+        shop = 'pdm',
     },
     greenwood = {
         name = 'Greenwood',
@@ -3975,6 +4468,7 @@ return {
         price = 105000,
         category = 'muscle',
         hash = `greenwood`,
+        shop = 'pdm',
     },
     kanjosj = {
         name = 'Kanjo SJ',
@@ -3983,6 +4477,7 @@ return {
         price = 143000,
         category = 'coupes',
         hash = `kanjosj`,
+        shop = 'pdm',
     },
     lm87 = {
         name = 'LM87',
@@ -3991,6 +4486,7 @@ return {
         price = 155000,
         category = 'super',
         hash = `lm87`,
+        shop = 'luxury',
     },
     omnisegt = {
         name = 'Omnis e-GT',
@@ -3999,6 +4495,7 @@ return {
         price = 185000,
         category = 'sports',
         hash = `omnisegt`,
+        shop = 'luxury',
     },
     postlude = {
         name = 'Postlude',
@@ -4007,6 +4504,7 @@ return {
         price = 90000,
         category = 'coupes',
         hash = `postlude`,
+        shop = 'pdm',
     },
     rhinehart = {
         name = 'Rhinehart',
@@ -4015,6 +4513,7 @@ return {
         price = 105000,
         category = 'sedans',
         hash = `rhinehart`,
+        shop = 'pdm',
     },
     ruiner4 = {
         name = 'Ruiner ZZ-8',
@@ -4023,6 +4522,7 @@ return {
         price = 85000,
         category = 'muscle',
         hash = `ruiner4`,
+        shop = 'pdm',
     },
     sentinel4 = {
         name = 'Sentinel Classic Widebody',
@@ -4031,6 +4531,7 @@ return {
         price = 140000,
         category = 'sports',
         hash = `sentinel4`,
+        shop = 'luxury',
     },
     sm722 = {
         name = 'SM722',
@@ -4039,6 +4540,7 @@ return {
         price = 125000,
         category = 'sports',
         hash = `sm722`,
+        shop = 'luxury',
     },
 	tenf = {
         name = '10F',
@@ -4047,6 +4549,7 @@ return {
         price = 185000,
         category = 'sports',
         hash = `tenf`,
+        shop = 'luxury',
     },
     tenf2 = {
         name = '10F Widebody',
@@ -4055,6 +4558,7 @@ return {
         price = 215000,
         category = 'sports',
         hash = `tenf2`,
+        shop = 'luxury',
     },
     torero2 = {
         name = 'Torero XO',
@@ -4063,6 +4567,7 @@ return {
         price = 245000,
         category = 'super',
         hash = `torero2`,
+        shop = 'luxury',
     },
     vigero2 = {
         name = 'Vigero ZX',
@@ -4071,6 +4576,7 @@ return {
         price = 105000,
         category = 'muscle',
         hash = `vigero2`,
+        shop = 'pdm',
     },
     weevil2 = {
         name = 'Weevil Custom',
@@ -4079,5 +4585,6 @@ return {
         price = 95000,
         category = 'muscle',
         hash = `weevil2`,
+        shop = 'pdm',
     },
 }
