@@ -48,7 +48,7 @@ lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenI
 
     SetPlayerRoutingBucket(source, 0)
     logger.log({
-        source = GetInvokingResource(),
+        source = 'qbx_core',
         webhook = config.logging.webhook['joinleave'],
         event = 'Loaded',
         color = 'green',
