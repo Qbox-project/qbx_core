@@ -42,8 +42,13 @@ local allowedErr = {
     [304] = true
 }
 
+---@class DiscordLog
+---@field webhook string url of the webhook this log should send to
+---@field tags? string[] tags in discord. Example: {'<@%roleid>', '@everyone'}
+---@field embed table formatted embed table for discord webhook
+
 ---Log Queue
----@param payload Log Queue
+---@param payload DiscordLog Queue
 local function logPayload(payload)
     local tags
     local username = 'QBX Logs'
@@ -97,16 +102,8 @@ local function processLogQueue()
     end
 end
 
----@class DiscordLog
----@field source string source of the log. Usually a playerId or name of a resource.
----@field event string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
----@field message string the message attached to the log
----@field webhook string url of the webhook this log should send to
----@field color? string what color the message should be
----@field tags? string[] tags in discord. Example: ['@admin', '@everyone']
-
 ---Creates a discord log
----@param log DiscordLog
+---@param log Log
 local function discordLog(log)
     local embedData = {
         {
@@ -140,17 +137,16 @@ end
 ---@field message string the message attached to the log
 ---@field webhook? string Discord logs only. url of the webhook this log should send to
 ---@field color? string Discord logs only. what color the message should be
----@field tags? string[] Discord logs only. tags in discord. Example: ['@admin', '@everyone']
+---@field tags? string[] Discord logs only. tags in discord. Example: {'<@%roleid>', '@everyone'}
 
----Creates a log using either ox_lib logger, discord webhooks depending on convar
+---Logs using ox_lib if ox_lib logging is configured. Additionally logs to discord if a web hook is passed.
 ---@param log Log
 local function createLog(log)
     if log.webhook then
         ---@diagnostic disable-next-line: param-type-mismatch
         discordLog(log)
-    else
-        lib.logger(log.source, log.event, log.message)
     end
+    lib.logger(log.source, log.event, log.message) -- oxlib fails silently if logging isn't setup correctly.
 end
 
 return {
