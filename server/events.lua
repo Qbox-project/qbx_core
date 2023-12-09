@@ -36,7 +36,7 @@ AddEventHandler('playerDropped', function(reason)
     GlobalState.PlayerCount -= 1
     local player = QBX.Players[src]
     logger.log({
-        source = GetInvokingResource(),
+        source = 'qbx_core',
         webhook = loggingConfig.webhook['joinleave'],
         event = 'Dropped',
         color = 'red',
