@@ -22,8 +22,9 @@ jobs:
             - name: Bundle files
               run: |
                 rm -rf ./.github ./.vscode ./.git
+                shopt -s extglob
                 mkdir ./${{ github.event.repository.name }}
-                find . -mindepth 1 -type d -exec cp * {} \;
+                cp -r !(${{ github.event.repository.name }}) ${{ github.event.repository.name }}
                 zip -r ./${{ github.event.repository.name }}.zip ./${{ github.event.repository.name }}
 
             - name: Get App Token
