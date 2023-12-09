@@ -59,8 +59,7 @@ end)
 ---@param deferrals Deferrals
 local function onPlayerConnecting(name, _, deferrals)
     local src = source --[[@as string]]
-    local license
-    local identifiers = GetPlayerIdentifiers(src)
+    local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
     deferrals.defer()
 
     -- Mandatory wait
@@ -69,13 +68,6 @@ local function onPlayerConnecting(name, _, deferrals)
     if serverConfig.closed then
         if not IsPlayerAceAllowed(src, 'qbadmin.join') then
             deferrals.done(serverConfig.closedReason)
-        end
-    end
-
-    for _, v in pairs(identifiers) do
-        if string.find(v, 'license2') or string.find(v, 'license') then
-            license = v
-            break
         end
     end
 
