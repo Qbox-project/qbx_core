@@ -423,7 +423,7 @@ function CreatePlayer(playerData, Offline)
         if not self.Offline then
             self.Functions.UpdatePlayerData()
             logger.log({
-                source = GetInvokingResource(),
+                source = 'qbx_core',
                 webhook = config.logging.webhook['playermoney'],
                 event = 'SetMoney',
                 color = 'green',
@@ -539,7 +539,7 @@ function DeleteCharacter(source, citizenid)
             local success = DeletePlayerEntity(citizenid)
             if success then
                 logger.log({
-                    source = GetInvokingResource(),
+                    source = 'qbx_core',
                     webhook = config.logging.webhook['joinleave'],
                     event = 'Character Deleted',
                     color = 'red',
@@ -550,7 +550,7 @@ function DeleteCharacter(source, citizenid)
     else
         DropPlayer(tostring(source), Lang:t("info.exploit_dropped"))
         logger.log({
-            source = GetInvokingResource(),
+            source = 'qbx_core',
             webhook = config.logging.webhook['anticheat'],
             event = 'Anti-Cheat',
             color = 'white',
@@ -573,7 +573,7 @@ function ForceDeleteCharacter(citizenid)
             local success = DeletePlayerEntity(citizenid)
             if success then
                 logger.log({
-                    source = GetInvokingResource(),
+                    source = 'qbx_core',
                     webhook = config.logging.webhook['joinleave'],
                     event = 'Character Force Deleted',
                     color = 'red',
