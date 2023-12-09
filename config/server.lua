@@ -114,6 +114,18 @@ return {
         },
     },
 
+    -- this configuration is for core events only. putting other webhooks here will have no effect
+    logging = {
+        webhook = {
+            ['default'] = nil, -- default
+            ['joinleave'] = nil, -- default
+            ['ooc'] = nil, -- default
+            ['anticheat'] = nil, -- default
+            ['playermoney'] = nil, -- default
+        },
+        role = {} -- Role to tag for high priority logs. Roles use <@%roleid> and users/channels are <@userid/channelid>
+    },
+
     giveVehicleKeys = function(src, plate)
         return exports.qbx_vehiclekeys:GiveKeys(src, plate)
     end,

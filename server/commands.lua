@@ -1,4 +1,5 @@
 local config = require 'config.server'
+local logger = require 'modules.logger'
 
 GlobalState.PVPEnabled = config.server.pvp
 
@@ -290,7 +291,14 @@ lib.addCommand('ooc', {
                     multiline = true,
                     args = {('Proximity OOC | %s'):format(GetPlayerName(source)), message}
                 })
-                TriggerEvent('qb-log:server:CreateLog', 'ooc', 'OOC', 'white', '**' .. GetPlayerName(source) .. '** (CitizenID: ' .. player.PlayerData.citizenid .. ' | ID: ' .. source .. ') **Message:** ' .. message, false)
+                logger.log({
+                    source = 'qbx_core',
+                    webhook  = 'ooc',
+                    event = 'OOC',
+                    color = 'white',
+                    tags = config.logging.role,
+                    message = '**' .. GetPlayerName(source) .. '** (CitizenID: ' .. player.PlayerData.citizenid .. ' | ID: ' .. source .. ') **Message:** ' .. message
+                })
             end
         end
     end

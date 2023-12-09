@@ -1,4 +1,6 @@
 local serverConfig = require 'config.server'.server
+local loggingConfig = require 'config.server'.logging
+local logger = require 'modules.logger'
 
 -- Event Handler
 
@@ -33,7 +35,13 @@ AddEventHandler('playerDropped', function(reason)
     if not QBX.Players[src] then return end
     GlobalState.PlayerCount -= 1
     local player = QBX.Players[src]
-    TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason)
+    logger.log({
+        source = 'qbx_core',
+        webhook = loggingConfig.webhook['joinleave'],
+        event = 'Dropped',
+        color = 'red',
+        message = '**' .. GetPlayerName(src) .. '** (' .. player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason,
+    })
     player.Functions.Save()
     QBX.Player_Buckets[player.PlayerData.license] = nil
     QBX.Players[src] = nil

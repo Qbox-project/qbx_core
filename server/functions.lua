@@ -1,5 +1,7 @@
 local serverConfig = require 'config.server'.server
 local positionConfig = require 'config.shared'.notifyPosition
+local logger = require 'modules.logger'
+local loggingConfig = require 'config.server'.logging
 
 -- Getters
 -- Get your player first and then trigger a function on them
@@ -399,7 +401,14 @@ local function ExploitBan(playerId, origin)
         })
     end)
     DropPlayer(playerId --[[@as string]], Lang:t('info.exploit_banned', {discord = serverConfig.discord}))
-    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
+    logger.log({
+        source = 'qbx_core',
+        webhook = loggingConfig.webhook['anticheat'],
+        event = 'Anti-Cheat',
+        color = 'red',
+        tags = loggingConfig.role,
+        message = name .. " has been banned for exploiting " .. origin
+    })
 end
 
 exports('ExploitBan', ExploitBan)
