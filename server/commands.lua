@@ -292,7 +292,7 @@ lib.addCommand('ooc', {
                     args = {('Proximity OOC | %s'):format(GetPlayerName(source)), message}
                 })
                 logger.log({
-                    source = GetInvokingResource(),
+                    source = 'qbx_core',
                     webhook  = 'ooc',
                     event = 'OOC',
                     color = 'white',
