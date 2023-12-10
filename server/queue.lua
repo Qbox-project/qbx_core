@@ -22,7 +22,7 @@ end
 
 -- Queue code
 
-local config = require 'config.server'.queue
+local config = require 'config.queue'
 local maxPlayers = GlobalState.MaxPlayers
 
 ---@class SubQueue
