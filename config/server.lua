@@ -157,7 +157,7 @@ return {
         ---If a player doesn't pass any predicates and a queue without a predicate does not exist they will not be let into the server unless player slots are available.
         ---@type QueueType[]
         queueTypes = {
-            { name = 'Priority Queue', color = 'good', predicate = function(source) return source % 2 == 0 --[[HasPermission(source, 'admin')]] end },
+            { name = 'Priority Queue', color = 'good', predicate = function(source) return HasPermission(source, 'admin') end },
             { name = 'Regular Queue' },
         },
 
