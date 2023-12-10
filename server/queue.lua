@@ -100,7 +100,7 @@ local joiningPlayersAmount = 0
 ---@param source Source
 ---@param license string
 local function updatePlayerJoining(source, license)
-    if joiningPlayers[license] == nil then
+    if not joiningPlayers[license] then
         joiningPlayersAmount += 1
     end
     joiningPlayers[license] = { source = source, timestamp = os.time() }
@@ -109,7 +109,7 @@ end
 ---Registers that the player with the given license has succesfully joined.
 ---@param license string
 local function registerPlayerJoined(license)
-    if joiningPlayers[license] ~= nil then
+    if joiningPlayers[license] then
         joiningPlayersAmount -= 1
     end
     joiningPlayers[license] = nil
