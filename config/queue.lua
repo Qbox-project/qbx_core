@@ -21,14 +21,23 @@ return {
         { name = 'Regular Queue' },
     },
 
+    ---@class CardParams
+    ---@field queueType QueueType  the queue type the player is in
+    ---@field currentPos integer  the current position of the player in the queue
+    ---@field queueSize integer  the size of the queue
+    ---@field waitingTime integer  in seconds
+    ---@field clockEmoji string
+
     ---Generator function for the queue adaptive card.
-    ---@param queueType QueueType  the queue type the player is in
-    ---@param currentPos integer  the current position of the player in the queue
-    ---@param queueSize integer  the size of the queue
-    ---@param waitingTime integer  in seconds
-    ---@param clockEmoji string
+    ---@param params CardParams
     ---@return table card  queue adaptive card
-    generateCard = function(queueType, currentPos, queueSize, waitingTime, clockEmoji)
+    generateCard = function(params)
+        local queueType = params.queueType
+        local currentPos = params.currentPos
+        local queueSize = params.queueSize
+        local waitingTime = params.waitingTime
+        local clockEmoji = params.clockEmoji
+
         local serverName = GetConvar('sv_projectName', GetConvar('sv_hostname', 'Server'))
         local minutes = math.floor(waitingTime / 60)
         local seconds = waitingTime % 60

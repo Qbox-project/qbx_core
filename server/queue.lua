@@ -180,7 +180,13 @@ local function enqueue(source, license, deferrals)
         -- wait until the player disconnected or until there are available slots and the player is first in the queue
         while DoesPlayerExist(source --[[@as string]]) and ((GetNumPlayerIndices() + joiningPlayersAmount) >= maxPlayers or pos > 1) do
             pos = calculateQueuePos(license, queueNum)
-            deferrals.presentCard(config.generateCard(queueType, pos, totalSize, waitingTime, config.clockEmojis[clockIndex]))
+            deferrals.presentCard(config.generateCard({
+                queueType = queueType,
+                currentPos = pos,
+                queueSize = totalSize,
+                waitingTime = waitingTime,
+                clockEmoji = config.clockEmojis[clockIndex],
+            }))
 
             waitingTime += 1
             clockIndex += 1
