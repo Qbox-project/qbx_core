@@ -980,4 +980,41 @@ else
         local tbl = model == `mp_m_freemode_01` and MaleNoGloves or FemaleNoGloves
         return not tbl[armIndex]
     end
+
+    ---Loads an audiobank. Please remember to use ReleaseScriptAudioBank() because you can only load 10 banks max
+    ---@param audioBank string
+    ---@param timeout number? Number of ticks to wait for the audio bank to load. Defaults to 500.
+    ---@return boolean
+    function LoadAudioBank(audioBank, timeout) -- luacheck: ignore
+        local count = 0
+        timeout = timeout or 500
+        while not RequestScriptAudioBank(audioBank, false) do count += 1 if count > timeout then return false end Wait(0) end
+        return true
+    end
+
+    ---Plays a sound with the provided audioName and audioRef
+    ---@param audioName string
+    ---@param audioRef string
+    ---@param returnSoundId boolean? If the soundId should be returned. Please make use of ReleaseSoundId() after you are done with the soundId. Defaults to false
+    ---@param entity number? If an entity is provided, will make use of PlaySoundFromEntity
+    ---@param coords vector3? If a vec3 is provided, will make use of PlaySoundFromCoord
+    ---@param range number? Only used if coords are passed. Defaults to 5.0
+    ---@return number? soundId Only returns if returnSoundId is set to true.
+    function PlayAudio(audioName, audioRef, returnSoundId, entity, coords, range) -- luacheck: ignore
+        local soundId = GetSoundId()
+        if coords then
+            range = range or 5.0
+            PlaySoundFromCoord(soundId, audioName, coords.x, coords.y, coords.z, audioRef, false, range, false)
+        elseif entity then
+            PlaySoundFromEntity(soundId, audioName, entity, audioRef, false, false)
+        else
+            PlaySoundFrontend(soundId, audioName, audioRef, true)
+        end
+        returnSoundId = returnSoundId or false
+        if returnSoundId then
+            return soundId
+        else
+            ReleaseSoundId(soundId)
+        end
+    end
 end
