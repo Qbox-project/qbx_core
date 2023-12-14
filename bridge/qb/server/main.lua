@@ -53,7 +53,6 @@ end)
 --- @deprecated
 RegisterNetEvent('QBCore:CallCommand', function(command, args)
     local src = source --[[@as Source]]
-    if not qbCoreCompat.Commands.List[command] then return end
     local player = GetPlayer(src)
     if not player then return end
     if IsPlayerAceAllowed(src, string.format('command.%s', command)) then
