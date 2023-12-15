@@ -24,6 +24,27 @@ local maxPlayers = GlobalState.MaxPlayers
 local playerPositions = {}
 local queueSize = 0
 
+---@param license string
+local function enqueue(license)
+    queueSize += 1
+    playerPositions[license] = queueSize
+end
+
+---@param license string
+local function dequeue(license)
+    local pos = playerPositions[license]
+
+    queueSize -= 1
+    playerPositions[license] = nil
+
+    -- decrease the positions of players who are after the current player in queue
+    for k, v in pairs(playerPositions) do
+        if v > pos then
+            playerPositions[k] -= 1
+        end
+    end
+end
+
 ---Map of player licenses that passed the queue and are downloading server content.
 ---Needs to be saved because these players won't be part of regular player counts such as `GetNumPlayerIndices`.
 ---@type table<string, true>
@@ -44,27 +65,6 @@ local function removePlayerJoining(license)
         joiningPlayerCount -= 1
     end
     joiningPlayers[license] = nil
-end
-
----@param license string
-local function enqueue(license)
-    queueSize += 1
-    playerPositions[license] = queueSize
-end
-
----@param license string
-local function dequeue(license)
-    local pos = playerPositions[license]
-
-    queueSize -= 1
-    playerPositions[license] = nil
-
-    -- decrease the positions of players who are after the current player in queue
-    for k, v in pairs(playerPositions) do
-        if v > pos then
-            playerPositions[k] -= 1
-        end
-    end
 end
 
 ---@param source Source
