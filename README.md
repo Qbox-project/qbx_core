@@ -1,4 +1,4 @@
-![image](https://github.com/alberttheprince/qbx-core/assets/85725579/f2c1a8ee-c315-46a1-8c9e-07530a896ba8)
+![image](https://github.com/Qbox-project/qbx_core/assets/22198949/7fa569a0-0ad8-4e88-ae14-fe4eeae2de04)
 
 
 _<p align="center">"And then there was Qbox"</p>_
