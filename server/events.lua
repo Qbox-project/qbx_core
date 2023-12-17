@@ -1,6 +1,7 @@
 local serverConfig = require 'config.server'.server
 local loggingConfig = require 'config.server'.logging
 local logger = require 'modules.logger'
+local queue = require 'server.queue'
 
 -- Event Handler
 
@@ -108,7 +109,11 @@ local function onPlayerConnecting(name, _, deferrals)
     -- wait for database to finish
     databasePromise:next(function()
         deferrals.update(string.format(Lang:t('info.join_server'), name))
-        deferrals.done()
+        if queue then
+            queue.awaitPlayerQueue(src --[[@as Source]], license, deferrals)
+        else
+            deferrals.done()
+        end
     end, function(err)
         deferrals.done(Lang:t('error.connecting_error'))
         lib.print.error(err)
