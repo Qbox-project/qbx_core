@@ -1,28 +1,146 @@
 local Translations = {
     error = {
-        not_online = 'Speler is niet online',
-        wrong_format = 'Onjuiste opmaak',
-        missing_args = 'Niet elk argument is ingevuld (x, y, z)',
-        missing_args2 = 'Alle argumenten moeten worden ingevuld!',
-        no_access = 'Geen toegang tot dit commando',
-        company_too_poor = 'Je werkgever is arm',
-        item_not_exist = 'Item bestaat niet',
-        too_heavy = 'Inventaris is te vol',
-        duplicate_license = 'Dubbele Rockstar-licentie gevonden',
-        no_valid_license  = 'Geen geldige Rockstar-licentie gevonden',
-        not_whitelisted = 'Je staat niet op de whitelist voor deze server'
+        not_online = 'Speler is op dit moment niet online',
+        wrong_format = 'Incorrect format',
+        missing_args = 'Not every argument has been entered (x, y, z)',
+        missing_args2 = 'All arguments must be filled out!',
+        no_access = 'Je hebt geen toegang tot dit command',
+        company_too_poor = 'Je werkgever is falliet',
+        item_not_exist = 'Het opgegeven item bestaat niet, juist gespeld?',
+        too_heavy = 'Inventaris zit te vol',
+        location_not_exist = 'Deze locatie bestaat niet',
+        duplicate_license = 'Duplicate Rockstar License Found',
+        no_valid_license  = 'No Valid Rockstar License Found',
+        not_whitelisted = 'Je hebt geen whitelist voor de server',
+        server_already_open = 'De server is reeds open',
+        server_already_closed = 'De server is reeds gesloten',
+        no_permission = 'Je hebt niet de juiste rechten hiervoor..',
+        no_waypoint = 'GPS is niet ingesteld.',
+        tp_error = 'Error tijdens het teleporteren.',
+        connecting_database_timeout = 'Connection to database timed out. (Is the SQL server on?)',
+        connecting_error = 'Er is een fout opgetreden tijdens het verbinden met de server. (Check de server console)',
+        no_match_character_registration = 'Alles anders dan letters is niet toegestaan, spaties aan het einde zijn ook niet toegestaan ​​en woorden moeten in invoervelden met een hoofdletter beginnen. Je kunt echter woorden toevoegen met spaties ertussen.'
     },
-    success = {},
+    success = {
+        server_opened = 'De server is geopend!',
+        server_closed = 'De server is gesloten!',
+        teleported_waypoint = 'Geteleporteerd naar marker.',
+        character_deleted = 'Karakter verwijderd!',
+        character_deleted_citizenid = 'Je hebt je karakter succesvol verwijderd met BSN %{citizenid}.'
+    },
     info = {
-        received_paycheck = 'Je hebt je salaris van $%{value} ontvangen',
-        job_info = 'Baan: %{value} | Rang: %{value2} | In dienst: %{value3}',
-        gang_info = 'Gang: %{value} | Rang: %{value2}',
+        received_paycheck = 'Je hebt je loon ontvangen €%{value}',
+        job_info = 'Baan: %{value} | Grade: %{value2} | Dienst: %{value3}',
+        gang_info = 'Gang: %{value} | Grade: %{value2}',
         on_duty = 'Je bent nu in dienst!',
         off_duty = 'Je bent nu uit dienst!',
-        checking_ban = 'Hallo %s. We controleren of je verbannen bent.',
-        join_server = 'Welkom %s bij {Server Name}.',
-        checking_whitelisted = 'Hallo %s. We controleren of je op de whitelist staat.'
-    }
+        checking_ban = 'Hallo %s. We kijken even of je gebanned bent.',
+        join_server = 'Welkom %s op {Server Name}.',
+        checking_whitelisted = 'Hallo %s. We zijn je even aan het controleren.',
+        exploit_banned = 'Je bent gebanned voor cheating. Kijk op onze discord voor meer informatie: %{discord}',
+        exploit_dropped = 'Je bent gekickt voor exploiting',
+        multichar_title = 'Infinity Multicharacter',
+        multichar_new_character = 'Nieuw karakter #%{number}',
+        char_male = 'Man',
+        char_female = 'Vrouw',
+        play = 'Spelen',
+        play_description = 'Speel als %{playerName}',
+        delete_character = 'Karakter verwijderen',
+        delete_character_description = 'Verwijder %{playerName}',
+        logout_command_help = 'Logt je uit van je huidige karakter',
+        check_id = 'Bekijk je huidige server ID',
+        deletechar_command_help = 'Verwijder een karakter van een speler',
+        deletechar_command_arg_player_id = 'ID',
+        character_registration_title = 'Karakter registeren',
+        first_name = 'Voornaam',
+        last_name = 'Achternaam',
+        nationality = 'Nationaliteit',
+        gender = 'Geslacht',
+        birth_date = 'Geboortedatum',
+        select_gender = 'Selecteer je geslacht...',
+        confirm_delete = 'Weet je zeker dat je dit karakter wilt verwijderen? Er is hierna geen weg meer terug en je karakater zal voor altijd verdwijnen!'
+    },
+    command = {
+        tp = {
+            help = 'TP naar speler of coordinaten (Admin Only)',
+            params = {
+                x = { name = 'id/x', help = 'Speler ID of X positie'},
+                y = { name = 'y', help = 'Y positie'},
+                z = { name = 'z', help = 'Z positie'},
+            },
+        },
+        tpm = { help = 'TP naar GPS marker (Admin Only)' },
+        togglepvp = { help = 'Toggle PVP on the server (Admin Only)' },
+        addpermission = {
+            help = 'Geef speler permissies (God Only)',
+            params = {
+                id = { name = 'id', help = 'Speler ID' },
+                permission = { name = 'permission', help = 'Permission level' },
+            },
+        },
+        removepermission = {
+            help = 'Permissies verwijderen iemand (God Only)',
+            params = {
+                id = { name = 'id', help = 'Speler ID' },
+                permission = { name = 'permission', help = 'Permission level' },
+            },
+        },
+        openserver = { help = 'Open de server voor iedereen (Admin Only)' },
+        closeserver = {
+            help = 'Sluit de server voor mensen zonder permissies (Admin Only)',
+            params = {
+                reason = { name = 'reason', help = 'Reden voor sluiten (optioneel)' },
+            },
+        },
+        car = {
+            help = 'Spawn voertuig (Admin Only)',
+            params = {
+                model = { name = 'model', help = 'Model van het voertuig' },
+            },
+        },
+        dv = { help = 'Voertuig verwijderen (Admin Only)' },
+        givemoney = {
+            help = 'Geef geld aan een speler (Admin Only)',
+            params = {
+                id = { name = 'id', help = 'Speler ID' },
+                moneytype = { name = 'moneytype', help = 'Type geld (contant, bank, crypto)' },
+                amount = { name = 'amount', help = 'Hoeveelheid' },
+            },
+        },
+        setmoney = {
+            help = 'Forceer geld bij een speler (Admin Only)',
+            params = {
+                id = { name = 'id', help = 'Speler ID' },
+                moneytype = { name = 'moneytype', help = 'Type geld (contant, bank, crypto)' },
+                amount = { name = 'amount', help = 'Hoeveelheid' },
+            },
+        },
+        job = { help = 'Bekijk je huidige baan' },
+        setjob = {
+            help = 'Geef een speler een baan (Admin Only)',
+            params = {
+                id = { name = 'id', help = 'Speler ID' },
+                job = { name = 'job', help = 'Naam van de job' },
+                grade = { name = 'grade', help = 'Niveau' },
+            },
+        },
+        gang = { help = 'Bekijk je gang' },
+        setgang = {
+            help = 'Zet een speler in een bepaalde gang (Admin Only)',
+            params = {
+                id = { name = 'id', help = 'Speler ID' },
+                gang = { name = 'gang', help = 'Gang naam' },
+                grade = { name = 'grade', help = 'Gang niveau' },
+            },
+        },
+        ooc = { help = 'OOC chat bericht' },
+        me = {
+            help = 'Laat lokaal een bericht zien, aan spelers in de buurt',
+            params = {
+                message = { name = 'message', help = 'Bericht om te versturen' }
+            },
+        },
+    },
 }
 
 if GetConvar('qb_locale', 'en') == 'nl' then
