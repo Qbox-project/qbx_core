@@ -16,10 +16,13 @@ AddEventHandler('chatMessage', function(_, _, message)
 end)
 
 AddEventHandler('playerJoining', function()
-    if not serverConfig.checkDuplicateLicense then return end
     local src = source --[[@as string]]
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
     if not license then return end
+    if queue then
+        queue.removePlayerJoining(license)
+    end
+    if not serverConfig.checkDuplicateLicense then return end
     if usedLicenses[license] then
         Wait(0) -- mandatory wait for the drop reason to show up
         DropPlayer(src, Lang:t('error.duplicate_license'))
