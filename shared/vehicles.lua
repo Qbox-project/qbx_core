@@ -22,7 +22,7 @@ return {
         model = 'airbus',
         price = 42321,
         category = 'service',
-        hash = `airbus`,  
+        hash = `airbus`,
     },
     airtug = {
         name = 'Airtug',
