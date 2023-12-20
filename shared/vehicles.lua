@@ -46,7 +46,7 @@ return {
         model = 'akuma',
         price = 25356,
         category = 'motorcycles',
-        hash = `akuma`,  
+        hash = `akuma`,
     },
     aleutian = {
         name = 'Aleutian',
@@ -62,7 +62,7 @@ return {
         model = 'alkonost',
         price = 1933450,
         category = 'planes',
-        hash = `alkonost`,  
+        hash = `alkonost`,
     },
     alpha = {
         name = 'Alpha',
@@ -70,7 +70,7 @@ return {
         model = 'alpha',
         price = 82526,
         category = 'sports',
-        hash = `alpha`, 
+        hash = `alpha`,
     },
     alphaz1 = {
         name = 'Alpha-Z1',
