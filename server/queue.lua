@@ -52,6 +52,31 @@ end
 local joiningPlayers = {}
 local joiningPlayerCount = 0
 
+---@param license string
+local function awaitPlayerJoinsOrDisconnects(license)
+    local joiningData
+    while true do
+        joiningData = joiningPlayers[license]
+
+        -- wait until the player finally joins or disconnects while installing server content
+        -- this may result in waiting ~2 additional minutes if the player disconnects as FXServer will think that the player exists
+        while DoesPlayerExist(joiningData.source --[[@as string]]) do
+            Wait(1000)
+        end
+
+        -- wait until either the player reconnects or was disconnected for too long
+        while joiningPlayers[license] and joiningPlayers[license].source == joiningData.source and (os.time() - joiningData.timestamp) < config.joiningTimeoutSeconds do
+            Wait(1000)
+        end
+
+        -- if the player disconnected for too long stop waiting for them
+        if joiningPlayers[license] and joiningPlayers[license].source == joiningData.source then
+            removePlayerJoining(license)
+            break
+        end
+    end
+end
+
 ---@param source Source
 ---@param license string
 local function updatePlayerJoining(source, license)
@@ -140,27 +165,7 @@ local function awaitPlayerQueue(source, license, deferrals)
     dequeue(license)
     deferrals.done()
 
-    local joiningData
-    while true do
-        joiningData = joiningPlayers[license]
-
-        -- wait until the player finally joins or disconnects while installing server content
-        -- this may result in waiting ~2 additional minutes if the player disconnects as FXServer will think that the player exists
-        while DoesPlayerExist(joiningData.source --[[@as string]]) do
-            Wait(1000)
-        end
-
-        -- wait until either the player reconnects or was disconnected for too long
-        while joiningPlayers[license] and joiningPlayers[license].source == joiningData.source and (os.time() - joiningData.timestamp) < config.joiningTimeoutSeconds do
-            Wait(1000)
-        end
-
-        -- if the player disconnected for too long stop waiting for them
-        if joiningPlayers[license] and joiningPlayers[license].source == joiningData.source then
-            removePlayerJoining(license)
-            break
-        end
-    end
+    awaitPlayerJoinsOrDisconnects(license)
 end
 
 return {
