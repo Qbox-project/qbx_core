@@ -146,7 +146,7 @@ local function awaitPlayerQueue(source, license, deferrals)
 
         -- wait until the player finally joins or disconnects while installing server content
         -- this may result in waiting ~2 additional minutes if the player disconnects as FXServer will think that the player exists
-        while DoesPlayerExist(source --[[@as string]]) do
+        while DoesPlayerExist(joiningData.source --[[@as string]]) do
             Wait(1000)
         end
 
