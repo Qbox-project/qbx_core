@@ -4,6 +4,7 @@
 if not lib.checkDependency('ox_lib', '3.8.0', true) then error() return end
 
 local eventHooks = {}
+-- luacheck: ignore
 local microtime = os.microtime
 
 local function triggerEventHooks(event, payload)

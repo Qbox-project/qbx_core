@@ -53,6 +53,14 @@ local joiningPlayers = {}
 local joiningPlayerCount = 0
 
 ---@param license string
+local function removePlayerJoining(license)
+    if joiningPlayers[license] then
+        joiningPlayerCount -= 1
+    end
+    joiningPlayers[license] = nil
+end
+
+---@param license string
 local function awaitPlayerJoinsOrDisconnects(license)
     local joiningData
     while true do
@@ -84,14 +92,6 @@ local function updatePlayerJoining(source, license)
         joiningPlayerCount += 1
     end
     joiningPlayers[license] = { source = source, timestamp = os.time() }
-end
-
----@param license string
-local function removePlayerJoining(license)
-    if joiningPlayers[license] then
-        joiningPlayerCount -= 1
-    end
-    joiningPlayers[license] = nil
 end
 
 ---@type table<string, true>
