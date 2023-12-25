@@ -12,7 +12,7 @@ return {
 
     ---Sub-queues from most to least prioritized.
     ---The first sub-queue without a predicate function will be considered the default.
-    ---If a player doesn't pass any predicated and a sub-queuee with no predicate does not exist they will not be let into the server unless player slots are available.
+    ---If a player doesn't pass any predicate and a sub-queuee with no predicate does not exist they will not be let into the server unless a player slot is available.
     ---@type SubQueueConfig[]
     subQueues = {
         { name = 'Admin Queue', predicate = function(source) return HasPermission(source, 'admin') end },
