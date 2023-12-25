@@ -20,28 +20,82 @@ end
 local config = require 'config.queue'
 local maxPlayers = GlobalState.MaxPlayers
 
----Player license to queue position map.
----@type table<string, integer>
-local playerPositions = {}
-local queueSize = 0
+---@class SubQueue : SubQueueConfig
+---@field positions table<string, number> Player license to sub-queue position map.
+---@field size number
+
+---@type SubQueue[]
+local subQueues = {}
+for i = 1, #config.subQueues do
+    subQueues[i] = {
+        name = config.subQueues[i].name,
+        predicate = config.subQueues[i].predicate,
+        positions = {},
+        size = 0,
+    }
+end
+
+---@class PlayerQueueData
+---@field subQueueIndex number
+---@field globalPos number
+
+---Player license to queue data map.
+---@type table<string, PlayerQueueData>
+local playerDatas = {}
+local totalQueueSize = 0
 
 ---@param license string
-local function enqueue(license)
-    queueSize += 1
-    playerPositions[license] = queueSize
+---@param subQueueIndex number
+local function enqueue(license, subQueueIndex)
+    local subQueue = subQueues[subQueueIndex]
+
+    subQueue.size += 1
+    subQueue.positions[license] = subQueue.size
+
+    local globalPos = subQueue.size
+    -- increase set the global position of the current player by the sizes of sub-queues the player comes after
+    for i = 1, subQueueIndex - 1 do
+        globalPos += subQueues[i].size
+    end
+
+    totalQueueSize += 1
+    playerDatas[license] = {
+        subQueueIndex = subQueueIndex,
+        globalPos = globalPos,
+    }
+
+    -- inrease the global positions of players who are in sub-queues that come after the current player
+    for i = subQueueIndex + 1, #subQueues do
+        for k in pairs(subQueues[i].positions) do
+            playerDatas[k].globalPos += 1
+        end
+    end
 end
 
 ---@param license string
 local function dequeue(license)
-    local pos = playerPositions[license]
+    local subQueueIndex = playerDatas[license].subQueueIndex
+    local subQueue = subQueues[subQueueIndex]
+    local subQueuePos = subQueue.positions[license]
 
-    queueSize -= 1
-    playerPositions[license] = nil
+    subQueue.size -= 1
+    subQueue.positions[license] = nil
 
-    -- decrease the positions of players who are after the current player in queue
-    for k, v in pairs(playerPositions) do
-        if v > pos then
-            playerPositions[k] -= 1
+    totalQueueSize -= 1
+    playerDatas[license] = nil
+
+    -- decrease the positions of players who are after the current player in the same sub-queue
+    for k, v in pairs(subQueue.positions) do
+        if v > subQueuePos then
+            subQueue.positions[k] -= 1
+            playerDatas[k].globalPos -= 1
+        end
+    end
+
+    -- decrease the global positions of players who are in sub-queues that come after the current player
+    for i = subQueueIndex + 1, #subQueues do
+        for k in pairs(subQueues[i].positions) do
+            playerDatas[k].globalPos -= 1
         end
     end
 end
@@ -133,21 +187,40 @@ local function awaitPlayerQueue(source, license, deferrals)
     end
 
     local playerTimingOut = isPlayerTimingOut(license)
+    local data = playerDatas[license]
 
-    if playerPositions[license] and not playerTimingOut then
+    if data and not playerTimingOut then
         deferrals.done(Lang:t('error.already_in_queue'))
         return
     end
 
     if not playerTimingOut then
-        enqueue(license)
+        local subQueueIndex
+        for i = 1, #subQueues do
+            local predicate = subQueues[i].predicate
+            if not predicate or predicate(source) then
+                subQueueIndex = i
+                break
+            end
+        end
+
+        if not subQueueIndex then
+            deferrals.done(Lang:t('error.no_subqueue'))
+            return
+        end
+
+        enqueue(license, subQueueIndex)
+        data = playerDatas[license]
     end
 
+    local subQueue = subQueues[data.subQueueIndex]
+
     -- wait until the player disconnected or until there are available slots and the player is first in queue
-    while DoesPlayerExist(source --[[@as string]]) and ((GetNumPlayerIndices() + joiningPlayerCount) >= maxPlayers or playerPositions[license] > 1) do
+    while DoesPlayerExist(source --[[@as string]]) and ((GetNumPlayerIndices() + joiningPlayerCount) >= maxPlayers or data.globalPos > 1) do
         deferrals.update(Lang:t('info.in_queue', {
-            queuePos = playerPositions[license],
-            queueSize = queueSize,
+            queuePos = data.globalPos,
+            queueSize = totalQueueSize,
+            subQueue = subQueue.name,
         }))
 
         Wait(1000)

@@ -21,6 +21,7 @@ local Translations = {
         connecting_error = 'An error occurred while connecting to the server. (Check your server console)',
         no_match_character_registration = 'Anything other than letters aren\'t allowed, trailing whitespaces aren\'t allowed either and words must start with a capital letter in input fields. You can however add words with spaces inbetween.',
         already_in_queue = 'You are already in queue.',
+        no_subqueue = 'You were not let in any sub-queue.',
     },
     success = {
         server_opened = 'The server has been opened',
@@ -60,7 +61,7 @@ local Translations = {
         birth_date = 'Birth Date',
         select_gender = 'Select your gender...',
         confirm_delete = 'Are you sure you wish to delete this character?',
-        in_queue = '🐌 You are %{queuePos}/%{queueSize} in queue.',
+        in_queue = '🐌 You are %{queuePos}/%{queueSize} in queue. (%{subQueue})',
     },
     command = {
         tp = {
