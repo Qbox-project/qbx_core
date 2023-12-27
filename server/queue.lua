@@ -20,6 +20,12 @@ end
 local config = require 'config.queue'
 local maxPlayers = GlobalState.MaxPlayers
 
+-- destructure frequently used config options
+local waitingEmojis = config.waitingEmojis
+local waitingEmojiCount = #waitingEmojis
+local useAdaptiveCard = config.useAdaptiveCard
+local generateCard = config.generateCard
+
 ---@class SubQueue : SubQueueConfig
 ---@field positions table<string, number> Player license to sub-queue position map.
 ---@field size number
@@ -30,12 +36,14 @@ for i = 1, #config.subQueues do
     subQueues[i] = {
         name = config.subQueues[i].name,
         predicate = config.subQueues[i].predicate,
+        cardOptions = config.subQueues[i].cardOptions,
         positions = {},
         size = 0,
     }
 end
 
 ---@class PlayerQueueData
+---@field waitingSeconds number
 ---@field subQueueIndex number
 ---@field globalPos number
 
@@ -60,6 +68,7 @@ local function enqueue(license, subQueueIndex)
 
     totalQueueSize += 1
     playerDatas[license] = {
+        waitingSeconds = 0,
         subQueueIndex = subQueueIndex,
         globalPos = globalPos,
     }
@@ -175,6 +184,14 @@ local function isPlayerTimingOut(license)
     return playerTimingOut
 end
 
+---@param waitingSeconds number
+---@param waitingEmojiIndex number
+local function createDisplayTime(waitingSeconds, waitingEmojiIndex)
+    local minutes = math.floor(waitingSeconds / 60)
+    local seconds = waitingSeconds % 60
+    return ('%02d:%02d %s'):format(minutes, seconds, waitingEmojis[waitingEmojiIndex])
+end
+
 ---@param source Source
 ---@param license string
 ---@param deferrals Deferrals
@@ -213,15 +230,35 @@ local function awaitPlayerQueue(source, license, deferrals)
         data = playerDatas[license]
     end
 
+    local waitingEmojiIndex = 1 -- for updating the waiting emoji
     local subQueue = subQueues[data.subQueueIndex]
 
     -- wait until the player disconnected or until there are available slots and the player is first in queue
     while DoesPlayerExist(source --[[@as string]]) and ((GetNumPlayerIndices() + joiningPlayerCount) >= maxPlayers or data.globalPos > 1) do
-        deferrals.update(Lang:t('info.in_queue', {
-            queuePos = data.globalPos,
-            queueSize = totalQueueSize,
-            subQueue = subQueue.name,
-        }))
+        local displayTime = createDisplayTime(data.waitingSeconds, waitingEmojiIndex)
+
+        if useAdaptiveCard then
+            deferrals.presentCard(generateCard({
+                subQueue = subQueue,
+                globalPos = data.globalPos,
+                totalQueueSize = totalQueueSize,
+                displayTime = displayTime,
+            }))
+        else
+            deferrals.update(Lang:t('info.in_queue', {
+                queuePos = data.globalPos,
+                queueSize = totalQueueSize,
+                subQueue = subQueue.name,
+                displayTime = displayTime,
+            }))
+        end
+
+        data.waitingSeconds += 1
+        waitingEmojiIndex += 1
+
+        if waitingEmojiIndex > waitingEmojiCount then
+            waitingEmojiIndex = 1
+        end
 
         Wait(1000)
     end
