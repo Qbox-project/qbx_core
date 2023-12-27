@@ -1,7 +1,9 @@
 local maxPlayers = GlobalState.MaxPlayers
 local discord = require 'config.client'.discord
 
-AddStateBagChangeHandler('PlayerCount', nil, function(bagName, _, value)
+if not discord.enabled then return end
+
+AddStateBagChangeHandler('PlayerCount', '', function(bagName, _, value)
     if bagName == 'global' and value then
         local players = 'Players %s/' .. maxPlayers
         SetRichPresence((players):format(value))
