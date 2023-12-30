@@ -61,7 +61,7 @@ local Translations = {
         birth_date = 'Birth Date',
         select_gender = 'Select your gender...',
         confirm_delete = 'Are you sure you wish to delete this character?',
-        in_queue = '🐌 You are %{queuePos}/%{queueSize} in queue. (%{subQueue})',
+        in_queue = '🐌 You are %{queuePos}/%{queueSize} in queue. (%{subQueue}) %{displayTime}',
     },
     command = {
         tp = {
