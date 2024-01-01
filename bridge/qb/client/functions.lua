@@ -20,10 +20,14 @@ functions.HasItem = HasItem
 -- Utility
 
 ---@deprecated use DrawText2D from imports/utils.lua
-functions.DrawText = DrawText2D
+functions.DrawText = function(x, y, width, height, scale, r, g, b, a, text)
+    DrawText2D(text, vec2(x, y), width, height, scale, 4, r, g, b, a)
+end
 
 ---@deprecated use DrawText3D from imports/utils.lua
-functions.DrawText3D = DrawText3D
+functions.DrawText3D = function(x, y, z, text)
+    DrawText3D(text, vec3(x, y, z), 0.35, 4, 255, 255, 255, 215)
+end
 
 ---@deprecated use lib.requestAnimDict from ox_lib
 functions.RequestAnimDict = lib.requestAnimDict
