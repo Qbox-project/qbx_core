@@ -62,3 +62,19 @@ CREATE TABLE IF NOT EXISTS `job_grades` (
     CONSTRAINT `job_name_grade` PRIMARY KEY (`job_name`, `grade`),
     FOREIGN KEY (`job_name`) REFERENCES jobs(`name`)
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `gangs` (
+    `name` varchar(50) NOT NULL,
+    `label` varchar(50) NOT NULL,
+    PRIMARY KEY (`name`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `gang_grades` (
+    `gang_name` varchar(50) NOT NULL,
+    `grade` int(11) NOT NULL,
+    `name` varchar(50) NOT NULL,
+    `isboss` boolean DEFAULT FALSE,
+    `bankAuth` boolean DEFAULT FALSE,
+    CONSTRAINT `gang_name_grade` PRIMARY KEY (`gang_name`, `grade`),
+    FOREIGN KEY (`gang_name`) REFERENCES gangs(`name`)
+) ENGINE=InnoDB;
