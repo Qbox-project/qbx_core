@@ -111,8 +111,10 @@ functions.GetClosestPlayer = GetClosestPlayer
 ---@deprecated use GetPlayersFromCoords from imports/utils.lua
 functions.GetPlayersFromCoords = GetPlayersFromCoords
 
----@deprecated use GetClosestVehicle from imports/utils.lua
-functions.GetClosestVehicle = GetClosestVehicle
+---@deprecated use lib.getClosestVehicle from @ox_lib/imports/getClosestVehicle/shared.lua
+functions.GetClosestVehicle = function(coords, ignoreList)
+    return GetClosestEntity(GetVehicles(ignoreList), coords)
+end
 
 ---@deprecated use GetClosestObject from imports/utils.lua
 functions.GetClosestObject = GetClosestObject

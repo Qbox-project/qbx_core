@@ -533,15 +533,6 @@ else
         return GetClosestEntity(GetPeds(ignoreList), coords)
     end
 
-    ---Returns the closest vehicle
-    ---@param coords? vector3 uses player position if not set
-    ---@param ignoreList? integer[]
-    ---@return integer? vehicle
-    ---@return number? closestDistance
-    function GetClosestVehicle(coords, ignoreList) -- luacheck: ignore
-        return GetClosestEntity(GetVehicles(ignoreList), coords)
-    end
-
     ---Returns the closest object
     ---@return number?
     ---@return integer|nil
