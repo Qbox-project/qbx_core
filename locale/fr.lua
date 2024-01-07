@@ -20,7 +20,8 @@ local Translations = {
         connecting_database_timeout = 'La connexion à la base de données a expiré. (Le serveur SQL est-il allumé?)',
         connecting_error = 'Une erreur s\'est produite lors de la connexion au serveur. (Vérifiez la console de votre serveur)',
         no_match_character_registration = 'Les caractères autres que les lettres ne sont pas autorisés, les espaces en fin de ligne ne sont pas autorisés et les mots doivent commencer par une lettre majuscule dans les champs de saisie. Cependant, vous pouvez ajouter des mots avec des espaces entre eux.',
-        already_in_queue = 'Vous êtes déjà dans la queue.'
+        already_in_queue = 'Vous êtes déjà dans la queue.',
+        no_subqueue = 'Vous n\'êtes pas autorisé à rejoindre la queue.',
     },
     success = {
         server_opened = 'Le serveur a été ouvert',
@@ -60,7 +61,7 @@ local Translations = {
         select_gender = 'Sélectionnez votre genre',
         check_id = 'Vérifier votre ID Serveur',
         confirm_delete = 'Êtes-vous sûr de vouloir supprimer ce personnage?',
-        in_queue = '🐌 Vous êtes %{queuePos}/%{queueSize} dans la queue.',
+        in_queue = '🐌 Vous êtes %{queuePos}/%{queueSize} dans la queue. (%{subQueue}) %{displayTime}',
     },
     command = {
         tp = {
