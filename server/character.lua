@@ -9,10 +9,10 @@ end
 
 ---@param source Source
 local function giveStarterItems(source)
+    if GetResourceState('ox_inventory') == 'missing' then return end
     while not exports.ox_inventory:GetInventory(source) do
         Wait(100)
     end
-
     for i = 1, #config.starterItems do
         local item = config.starterItems[i]
         if item.metadata and type(item.metadata) == 'function' then
