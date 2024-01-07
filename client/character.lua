@@ -256,6 +256,7 @@ end
 
 local function chooseCharacter()
     randomLocation = config.characters.locations[math.random(1, #config.characters.locations)]
+    SetFollowPedCamViewMode(2)
 
     DoScreenFadeOut(500)
 
