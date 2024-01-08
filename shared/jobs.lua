@@ -171,6 +171,7 @@ return {
 		label = 'Taxi',
 		defaultDuty = true,
 		offDutyPay = false,
+        jobByUser = true,
 		grades = {
             [0] = {
                 name = 'Recruit',
@@ -200,6 +201,7 @@ return {
 		label = 'Bus',
 		defaultDuty = true,
 		offDutyPay = false,
+        jobByUser = true,
 		grades = {
             [0] = {
                 name = 'Driver',
@@ -292,6 +294,7 @@ return {
 		label = 'Reporter',
 		defaultDuty = true,
 		offDutyPay = false,
+        jobByUser = true,
 		grades = {
             [0] = {
                 name = 'Journalist',
@@ -303,6 +306,7 @@ return {
 		label = 'Trucker',
 		defaultDuty = true,
 		offDutyPay = false,
+        jobByUser = true,
 		grades = {
             [0] = {
                 name = 'Driver',
@@ -314,6 +318,7 @@ return {
 		label = 'Towing',
 		defaultDuty = true,
 		offDutyPay = false,
+        jobByUser = true,
 		grades = {
             [0] = {
                 name = 'Driver',
@@ -325,6 +330,7 @@ return {
 		label = 'Garbage',
 		defaultDuty = true,
 		offDutyPay = false,
+        jobByUser = true,
 		grades = {
             [0] = {
                 name = 'Collector',
@@ -336,6 +342,7 @@ return {
 		label = 'Vineyard',
 		defaultDuty = true,
 		offDutyPay = false,
+        jobByUser = true,
 		grades = {
             [0] = {
                 name = 'Picker',
@@ -347,6 +354,7 @@ return {
 		label = 'Hotdog',
 		defaultDuty = true,
 		offDutyPay = false,
+        jobByUser = true,
 		grades = {
             [0] = {
                 name = 'Sales',
