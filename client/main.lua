@@ -63,3 +63,11 @@ end)
 local mapText = require 'config.client'.pauseMapText
 if mapText == '' or type(mapText) ~= 'string' then mapText = 'FiveM' end
 AddTextEntry('FE_THDR_GTAO', mapText)
+
+CreateThread(function()
+    for _, v in pairs(GetVehiclesByName()) do
+        if v.hash and v.name then
+			AddTextEntryByHash(GetHashKey(GetDisplayNameFromVehicleModel(v.model)), v.name)
+		end
+	end
+end)
