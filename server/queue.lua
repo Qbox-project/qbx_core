@@ -263,9 +263,6 @@ local function awaitPlayerQueue(source, license, deferrals)
         Wait(1000)
     end
 
-    -- Mandatory wait
-    Wait(0)
-
     -- if the player disconnected while waiting in queue
     if not DoesPlayerExist(source --[[@as string]]) then
         if awaitPlayerTimeout(license) then
