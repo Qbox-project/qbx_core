@@ -90,6 +90,7 @@ local function onPlayerConnecting(name, _, deferrals)
         local success, err = pcall(function()
             local isBanned, Reason = IsPlayerBanned(src --[[@as Source]])
             if isBanned then
+                Wait(0) -- Mandatory wait
                 deferrals.done(Reason)
             end
         end)
@@ -98,6 +99,7 @@ local function onPlayerConnecting(name, _, deferrals)
             deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
             success, err = pcall(function()
                 if not IsWhitelisted(src --[[@as Source]]) then
+                    Wait(0) -- Mandatory wait
                     deferrals.done(Lang:t('error.not_whitelisted'))
                 end
             end)
@@ -112,6 +114,10 @@ local function onPlayerConnecting(name, _, deferrals)
     -- wait for database to finish
     databasePromise:next(function()
         deferrals.update(string.format(Lang:t('info.join_server'), name))
+
+        -- Mandatory wait
+        Wait(0)
+
         if queue then
             queue.awaitPlayerQueue(src --[[@as Source]], license, deferrals)
         else
