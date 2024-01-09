@@ -89,6 +89,7 @@ function CheckPlayerData(source, playerData)
     playerData.charinfo.gender = playerData.charinfo.gender or 0
     playerData.charinfo.backstory = playerData.charinfo.backstory or 'placeholder backstory'
     playerData.charinfo.nationality = playerData.charinfo.nationality or 'USA'
+    PlayerData.charinfo.email = PlayerData.charinfo.email or (PlayerData.charinfo.firstname .. "." .. PlayerData.charinfo.lastname .. "@qbox.com")
     playerData.charinfo.phone = playerData.charinfo.phone or GenerateUniqueIdentifier('PhoneNumber')
     playerData.charinfo.account = playerData.charinfo.account or GenerateUniqueIdentifier('AccountNumber')
     playerData.charinfo.cid = playerData.charinfo.cid or playerData.cid
@@ -97,6 +98,7 @@ function CheckPlayerData(source, playerData)
     playerData.metadata.health = playerData.metadata.health or 200
     playerData.metadata.hunger = playerData.metadata.hunger or 100
     playerData.metadata.thirst = playerData.metadata.thirst or 100
+    playerData.metadata.alcohol = playerData.metadata.alcohol or 0
     playerData.metadata.stress = playerData.metadata.stress or 0
     playerData.metadata.isdead = playerData.metadata.isdead or false
     playerData.metadata.inlaststand = playerData.metadata.inlaststand or false
@@ -105,6 +107,7 @@ function CheckPlayerData(source, playerData)
     playerData.metadata.tracker = playerData.metadata.tracker or false
     playerData.metadata.injail = playerData.metadata.injail or 0
     playerData.metadata.jailitems = playerData.metadata.jailitems or {}
+    playerData.metadata.jailclothes = playerData.metadata.jailclothes or {}
     playerData.metadata.status = playerData.metadata.status or {}
     playerData.metadata.phone = playerData.metadata.phone or {}
     playerData.metadata.bloodtype = playerData.metadata.bloodtype or config.player.bloodTypes[math.random(1, #config.player.bloodTypes)]
@@ -147,6 +150,7 @@ function CheckPlayerData(source, playerData)
     playerData.job.label = playerData.job.label or 'Civilian'
     playerData.job.payment = playerData.job.payment or 10
     playerData.job.type = playerData.job.type or 'none'
+    playerData.job.department = playerData.job.department or 'LSPD'
     if QBX.Shared.ForceJobDefaultDutyAtLogin or playerData.job.onduty == nil then
         playerData.job.onduty = QBX.Shared.Jobs[playerData.job.name].defaultDuty
     end
