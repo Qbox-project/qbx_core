@@ -14,11 +14,3 @@ CreateThread(function()
         end
     end
 end)
-
-CreateThread(function()
-    for _, v in pairs(GetVehiclesByName()) do
-        if v.hash and v.name then
-			AddTextEntryByHash(GetHashKey(GetDisplayNameFromVehicleModel(v.model)), v.name)
-		end
-	end
-end)
