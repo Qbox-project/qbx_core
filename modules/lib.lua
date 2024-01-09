@@ -132,11 +132,6 @@ if isServer then
     ---@param params LibSpawnVehicleParams
     ---@return integer netId
     function qbx.spawnVehicle(params)
-        if not CreateVehicleServerSetter then
-            lib.print.error('CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this')
-            return 0
-        end
-
         local model = params.model
         local coords = params.coords
         local ped = params.pedToWarp
