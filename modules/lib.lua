@@ -112,8 +112,8 @@ end
 if isServer then
     ---@class LibSpawnVehicleParams
     ---@field model integer
-    ---@field coords vector4
-    ---@field pedToWarp? integer
+    ---@field spawnSource integer | vector3 | vector4 ped id or coords
+    ---@field warp? boolean | integer a ped id to warp inside the vehicle, or additionally a boolean if `spawnSource` is a ped
     ---@field props? table https://overextended.dev/ox_lib/Modules/VehicleProperties/Client#vehicle-properties
 
     ---Creates a vehicle on the server-side and returns its `netId`.
@@ -133,9 +133,22 @@ if isServer then
     ---@return integer netId
     function qbx.spawnVehicle(params)
         local model = params.model
-        local coords = params.coords
-        local ped = params.pedToWarp
+        local source = params.spawnSource
+        local sourceType = type(source)
+        local warp = params.warp
+        local ped = type(warp) == 'number' and warp or (sourceType == 'number' and warp and source or nil)
         local props = params.props
+
+        ---@type vector4
+        local coords
+        if sourceType == 'vector3' then
+            coords = vec4(source.x, source.y, source.z, 0)
+        elseif sourceType == 'vector4' then
+            coords = source
+        else
+            local pedCoords = GetEntityCoords(source)
+            coords = vec4(pedCoords.x, pedCoords.y, pedCoords.z, GetEntityHeading(source))
+        end
 
         local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
         while not DoesEntityExist(tempVehicle) do Wait(0) end
