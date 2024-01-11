@@ -131,10 +131,10 @@ return {
     end,
 
     getSocietyAccount = function(accountName)
-        return exports.qbx_management:GetAccount(accountName)
+        return exports['Renewed-Banking']:getAccountMoney(accountName)
     end,
-    
+
     removeSocietyMoney = function(accountName, payment)
-        return exports.qbx_management:RemoveMoney(accountName, payment)
+        return exports['Renewed-Banking']:removeAccountMoney(accountName, payment)
     end
 }
