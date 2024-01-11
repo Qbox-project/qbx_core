@@ -66,8 +66,11 @@ AddTextEntry('FE_THDR_GTAO', mapText)
 
 CreateThread(function()
     for _, v in pairs(GetVehiclesByName()) do
-        if v.hash and v.name then
-			AddTextEntryByHash(v.hash, v.name)
+        if v.model and v.name then
+            local gameName = GetDisplayNameFromVehicleModel(v.model)
+            if gameName or gameName ~= "CARNOTFOUND" then
+                AddTextEntryByHash(joaat(gameName), v.name)
+            end
 		end
 	end
 end)
