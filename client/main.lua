@@ -68,7 +68,7 @@ CreateThread(function()
     for _, v in pairs(GetVehiclesByName()) do
         if v.model and v.name then
             local gameName = GetDisplayNameFromVehicleModel(v.model)
-            if gameName or gameName ~= "CARNOTFOUND" then
+            if gameName and gameName ~= "CARNOTFOUND" then
                 AddTextEntryByHash(joaat(gameName), v.name)
             end
 		end
