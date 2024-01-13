@@ -129,8 +129,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
 end)
 
 -- Vehicle Commands
-
-RegisterNetEvent('qbx_core:client:vehicleSpawned', function(netId, props)
+lib.callback.register('qbx_core:client:vehicleSpawned', function(netId, props)
     local veh = NetworkGetEntityFromNetworkId(netId)
 
     for i = -1, 0 do

@@ -223,7 +223,7 @@ if isServer then
         end, 5000)
 
         local netId = NetworkGetNetworkIdFromEntity(veh)
-        TriggerClientEvent('qbx_core:client:vehicleSpawned', owner, netId, props)
+        lib.callback.await('qbx_core:client:vehicleSpawned', owner, netId, props)
         return netId
     end
 
