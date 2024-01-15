@@ -1,5 +1,15 @@
+lib.print.warn('This resource is still using the deprecated qbx_core utils!')
+lib.print.warn('If you are the author, please update to use the new lib module. If you are not, please tell them to update!')
+
 local isServer = IsDuplicityVersion()
 
+-- import lib without exposing it globally
+local oldqbx = qbx
+require 'modules.lib'
+local qbx = qbx
+_ENV.qbx = oldqbx
+
+---@deprecated use the GetEntityCoords and GetEntityHeading natives directly
 ---Get the coords including the heading from an entity
 ---@param entity number
 ---@return vector4
@@ -8,43 +18,35 @@ function GetCoordsFromEntity(entity) -- luacheck: ignore
     return vec4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
 end
 
+---@deprecated use qbx.getVehiclePlate from modules/lib.lua
 ---Returns the number plate of the specified vehicle
 ---@param vehicle integer
 ---@return string?
 function GetPlate(vehicle) -- luacheck: ignore
     if not vehicle or vehicle == 0 then return end
-    return GetVehicleNumberPlateText(vehicle):trim()
+    return qbx.getVehiclePlate(vehicle)
 end
 
+---@deprecated use lib.math.groupdigits from ox_lib
 ---Converts a number to a string version with commas
 ---@param num number
 ---@return string
 function CommaValue(num) -- luacheck: ignore
-    local formatted = tostring(num)
-    local numChanged
-    repeat
-        formatted, numChanged = string.gsub(formatted, '^(-?%d+)(%d%d%d)', '%1,%2')
-    until numChanged == 0
-    return formatted
+    return lib.math.groupdigits(num)
 end
 
+---@deprecated use string.strsplit with CfxLua 5.4
 ---Split a string by a character
 ---@param str string
 ---@param delimiter string character
 ---@return string[]
 function string.split(str, delimiter) -- luacheck: ignore
-    local result = {}
-    local from = 1
-    local delim_from, delim_to = string.find(str, delimiter, from)
-    while delim_from do
-        result[#result + 1] = string.sub(str, from, delim_from - 1)
-        from = delim_to + 1
-        delim_from, delim_to = string.find(str, delimiter, from)
-    end
-    result[#result + 1] = string.sub(str, from)
+    local result = table.pack(string.strsplit(delimiter, str))
+    result.n = nil
     return result
 end
 
+---@deprecated use qbx.string.trim from modules/lib.lua
 ---Trim unwanted characters off the string
 ---@param str string
 ---@return string?
@@ -54,6 +56,7 @@ function string.trim(str) -- luacheck: ignore
     return string.gsub(str, '^%s*(.-)%s*$', '%1')
 end
 
+---@deprecated use qbx.string.capitalize from modules/lib.lua
 ---Returns a string with the first character uppercase'd
 ---@param str string
 ---@return string?
@@ -63,107 +66,62 @@ function string.firstToUpper(str) -- luacheck: ignore
     return str:gsub("^%l", string.upper)
 end
 
+---@deprecated use qbx.math.round from modules/lib.lua
 ---Returns a rounded number
 ---@param value number
----@param numDecimalPlaces integer
----@return integer
+---@param numDecimalPlaces integer?
+---@return number
 function math.round(value, numDecimalPlaces) -- luacheck: ignore
-    if not numDecimalPlaces then return math.floor(value + 0.5) end
-    local power = 10 ^ numDecimalPlaces
-    return math.floor((value * power) + 0.5) / power
+    return qbx.math.round(value, numDecimalPlaces)
 end
 
-local stringCharset = {}
-local numberCharset = {}
-local globalCharset = {}
-
-for i = 48, 57 do numberCharset[#numberCharset + 1] = string.char(i) end
-for i = 65, 90 do stringCharset[#stringCharset + 1] = string.char(i) end
-for i = 97, 122 do stringCharset[#stringCharset + 1] = string.char(i) end
-
-for i = 1, #numberCharset do globalCharset[#globalCharset + 1] = numberCharset[i] end
-for i = 1, #stringCharset do globalCharset[#globalCharset + 1] = stringCharset[i] end
-
+---@deprecated use lib.string.random from ox_lib
 ---Returns a random letter
 ---@param length integer
 ---@return string
 function RandomLetter(length) -- luacheck: ignore
     if length <= 0 then return '' end
-    return RandomLetter(length - 1) .. stringCharset[math.random(1, #stringCharset)]
+    local pattern = math.random(2) == 1 and 'a' or 'A'
+    return RandomLetter(length - 1) .. lib.string.random(pattern)
 end
 
+---@deprecated use lib.string.random from ox_lib
 ---Returns a random number
 ---@param length integer
 ---@return string
 function RandomNumber(length) -- luacheck: ignore
     if length <= 0 then return '' end
-    return RandomNumber(length - 1) .. numberCharset[math.random(1, #numberCharset)]
+    return RandomNumber(length - 1) .. lib.string.random('1')
 end
 
+---@deprecated use lib.string.random from ox_lib
 ---Returns a random number or letter
 ---@param length integer
 ---@return string
 function RandomNumberOrLetter(length) -- luacheck: ignore
     if length <= 0 then return '' end
-    return RandomNumberOrLetter(length - 1) .. globalCharset[math.random(1, #globalCharset)]
+    local func = math.random(2) == 1 and RandomLetter or RandomNumber
+    return RandomNumberOrLetter(length - 1) .. func(1)
 end
 
+---@deprecated use qbx.generateRandomPlate from modules/lib.lua
 ---Generates a random number plate according to a pattern, [pattern format](https://docs.fivem.net/natives/?_0x79780FD2), [plate generation source](https://github.com/citizenfx/fivem/blob/cb97fbc54050e2309930128d6deed515d004a1bd/code/components/extra-natives-five/src/VehicleNumberPlateNatives.cpp#L25-L112)
 ---@return string
 function GenerateRandomPlate(pattern) -- luacheck: ignore
-    local newPattern = ''
-    local skipNext = false
-    for i = 1, #pattern do
-        if not skipNext then
-            local last = i == #pattern
-            local c = pattern:sub(i, i)
-            local nextC = last and '\0' or pattern:sub(i + 1, i + 1)
-            local curC
-
-            if c == '1' then
-                curC = RandomNumber(1)
-            elseif c == 'A' then
-                curC = RandomLetter(1)
-            elseif c == '.' then
-                curC = RandomNumberOrLetter(1)
-            elseif c == '^' and (nextC == '1' or nextC == 'A' or nextC == '.') then
-                curC = nextC
-                skipNext = true
-            else
-                curC = c
-            end
-
-            newPattern = newPattern .. curC
-        else
-            skipNext = false
-        end
-    end
-
-    return newPattern:upper()
+    return qbx.generateRandomPlate(pattern:upper())
 end
 
+---@deprecated use qbx.table.mapBySubfield from modules/lib.lua
 --- maps a table by the given subfield
 --- @param subfield string
 --- @param table table
 --- @return table<any, table[]>
 function MapTableBySubfield(subfield, table)
-	local mappedTable = {}
-	for _, tableData in pairs(table) do
-        local tableSubfield = tableData[subfield]
-		if not tableSubfield then
-			goto continue
-		end
-		if not mappedTable[tableSubfield] then
-			mappedTable[tableSubfield] = {}
-		end
-
-		mappedTable[tableSubfield][#mappedTable[tableSubfield]+1] = tableData
-		::continue::
-	end
-	return mappedTable
+    return qbx.table.mapBySubfield(table, subfield)
 end
 
 if isServer then
+    ---@deprecated use qbx.spawnVehicle from modules/lib.lua
     -- Server side vehicle creation
     -- The CreateVehicleServerSetter native uses only the server to create a vehicle instead of using the client as well
     -- use the netid on the client with the NetworkGetEntityFromNetworkId native
@@ -186,49 +144,20 @@ if isServer then
     ---@param props? table vehicle properties to set https://github.com/overextended/ox_lib/blob/master/resource/vehicleProperties/client.lua#L3
     ---@return integer? netId
     function SpawnVehicle(source, model, coords, warp, props) -- luacheck: ignore
-        model = type(model) == 'string' and joaat(model) or model
-
-        if not CreateVehicleServerSetter then
-            error('^1CreateVehicleServerSetter is not available on your artifact, please use artifact 5904 or above to be able to use this^0')
-            return
-        end
-
-        local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
-        while not DoesEntityExist(tempVehicle) do
-            Wait(0)
-        end
-        local vehicleType = GetVehicleType(tempVehicle)
-        DeleteEntity(tempVehicle)
-
+        model = type(model) == 'string' and joaat(model) or (model --[[@as integer]])
         local ped = GetPlayerPed(source)
-        if not coords then
-            coords = GetCoordsFromEntity(ped)
-        end
 
-        local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
-
-        while not DoesEntityExist(veh) do
-            Wait(0)
-        end
-
-        while GetVehicleNumberPlateText(veh) == "" do
-            Wait(0)
-        end
-
-        if warp then SetPedIntoVehicle(ped, veh, -1) end
-
-        local owner = lib.waitFor(function()
-            local owner = NetworkGetEntityOwner(veh)
-            if owner ~= -1 then return owner end
-        end, 5000)
-
-        local netId = NetworkGetNetworkIdFromEntity(veh)
-        lib.callback.await('qbx_core:client:vehicleSpawned', owner, netId, props)
-        return netId
+        return qbx.spawnVehicle({
+            model = model,
+            spawnSource = coords or ped,
+            warp = warp and ped or nil,
+            props = props,
+        })
     end
 
 
     local discordLink = GetConvar('qbx:discordlink', 'discord.gg/qbox')
+    ---@deprecated use setKickReason or deferrals for connecting players, and the DropPlayer native directly otherwise
     --Kick Player
     ---@param source Source
     ---@param reason string
@@ -264,6 +193,7 @@ if isServer then
         end)
     end
 
+    ---@deprecated check for license usage directly yourself
     ---Check for duplicate license
     ---@param license string
     ---@return boolean
@@ -300,6 +230,7 @@ if isServer then
         return count >= amount
     end
 else
+    ---@deprecated use qbx.drawText2d from modules/lib.lua
     ---Draws Text onto the screen in 2D
     ---@param text string
     ---@param coords vector2
@@ -312,26 +243,18 @@ else
     ---@param b? integer blue 0-255
     ---@param a? integer alpha 0-255
     function DrawText2D(text, coords, width, height, scale, font, r, g, b, a) -- luacheck: ignore
-        r = r or 255
-        g = g or 255
-        b = b or 255
-        a = a or 215
-        width = width or 1.0
-        height = height or 1.0
-        scale = scale or 0.35
-        font = font or 4
-
-        SetTextFont(font)
-        SetTextScale(scale, scale)
-        SetTextColour(r, g, b, a)
-        SetTextDropShadow()
-        SetTextOutline()
-        SetTextCentre(true)
-        BeginTextCommandDisplayText('STRING')
-        AddTextComponentSubstringPlayerName(text)
-        EndTextCommandDisplayText(coords.x - width / 2, coords.y - height / 2 + 0.005)
+        qbx.drawText2d({
+            text = text,
+            coords = coords,
+            width = width,
+            height = height,
+            scale = scale,
+            font = font,
+            color = vec4(r or 255, g or 255, b or 255, a or 215),
+        })
     end
 
+    ---@deprecated use qbx.drawText3d from modules/lib.lua
     ---Draws Text onto the screen in 3D
     ---@param coords vector3
     ---@param text string
@@ -342,61 +265,31 @@ else
     ---@param b? integer blue 0-255
     ---@param a? integer alpha 0-255
     function DrawText3D(text, coords, scale, font, r, g, b, a) -- luacheck: ignore
-        r = r or 255
-        g = g or 255
-        b = b or 255
-        a = a or 215
-        scale = scale or 0.35
-        font = font or 4
-
-        SetTextScale(scale, scale)
-        SetTextFont(font)
-        SetTextColour(r, g, b, a)
-        BeginTextCommandDisplayText('STRING')
-        SetTextCentre(true)
-        AddTextComponentSubstringPlayerName(text)
-        SetDrawOrigin(coords.x, coords.y, coords.z, 0)
-        EndTextCommandDisplayText(0.0, 0.0)
-        local factor = #text / 370
-        DrawRect(0.0, 0.0125, 0.017 + factor, 0.03, 0, 0, 0, 75)
-        ClearDrawOrigin()
+        qbx.drawText3d({
+            text = text,
+            coords = coords,
+            scale = scale,
+            font = font,
+            color = vec4(r or 255, g or 255, b or 255, a or 215),
+        })
     end
 
+    ---@deprecated use qbx.getEntityAndNetIdFromBagName from modules/lib.lua
     ---Wrapper for getting an entity handle and network id from a state bag name, [source](https://github.com/overextended/ox_core/blob/main/client/utils.lua)
     ---@async
     ---@param bagName string
     ---@return integer, integer
     function GetEntityAndNetIdFromBagName(bagName) -- luacheck: ignore
-        local netId = tonumber(bagName:gsub('entity:', ''), 10)
-
-        local idExist = lib.waitFor(function()
-            local netIdExist = NetworkDoesEntityExistWithNetworkId(netId)
-
-            if netIdExist then return netIdExist end
-        end, ('statebag timed out while awaiting entity creation! (%s)'):format(bagName), 10000)
-
-        local entity = idExist and NetworkGetEntityFromNetworkId(netId) or 0
-
-        if entity == 0 then
-            lib.print.error(('statebag received invalid entity! (%s)'):format(bagName))
-            return 0, 0
-        end
-
-        return entity, netId
+        return qbx.getEntityAndNetIdFromBagName(bagName)
     end
 
+    ---@deprecated use qbx.entityStateHandler from modules/lib.lua
     ---Wrapper for a state bag handler made for entities, [source](https://github.com/overextended/ox_core/blob/main/client/utils.lua)
     ---@param keyFilter string
     ---@param cb fun(entity: number, netId: number, value: any, bagName: string)
     ---@return number
     function EntityStateHandler(keyFilter, cb) -- luacheck: ignore
-        return AddStateBagChangeHandler(keyFilter, '', function(bagName, _, value)
-            local entity, netId = GetEntityAndNetIdFromBagName(bagName)
-
-            if entity then
-                cb(entity, netId, value, bagName)
-            end
-        end)
+        return qbx.entityStateHandler(keyFilter, cb)
     end
 
     ---@deprecated use https://overextended.dev/ox_inventory/Functions/Client#search
@@ -417,6 +310,7 @@ else
         return count >= amount
     end
 
+    ---@deprecated use lib.requestAnimDict from ox_lib, and the TaskPlayAnim and RemoveAnimDict natives directly
     ---Play an animation
     ---@async
     ---@param animDict string
@@ -431,6 +325,7 @@ else
         RemoveAnimDict(animDict)
     end
 
+    ---@deprecated use the GetGamePool native directly
     ---Returns the entities from the specified pool in the current scope
     ---@param pool string
     ---@param ignoreList? integer[]
@@ -453,6 +348,7 @@ else
         return entities
     end
 
+    ---@deprecated use the GetGamePool('CVehicle') native directly
     ---Returns all vehicles in the current scope
     ---@param ignoreList? integer[] ignore specific vehicle handles
     ---@return integer[]
@@ -460,6 +356,7 @@ else
         return GetEntities('CVehicle', ignoreList)
     end
 
+    ---@deprecated use the GetGamePool('CObject') native directly
     ---Returns all objects in the current scope
     ---@param ignoreList? integer[] ignore specific object handles
     ---@return integer[]
@@ -467,6 +364,7 @@ else
         return GetEntities('CObject', ignoreList)
     end
 
+    ---@deprecated use the GetGamePool('CPed') native directly
     ---Returns all peds in the current scope
     ---@param ignoreList? integer[] ignore specific ped handles
     ---@return integer[]
@@ -474,6 +372,7 @@ else
         return GetEntities('CPed', ignoreList)
     end
 
+    ---@deprecated use the GetGamePool('CPickups') native directly
     ---Returns all pickups in the current scope
     ---@param ignoreList? integer[] ignore specific pickup handles
     ---@return integer[]
@@ -481,6 +380,7 @@ else
         return GetEntities('CPickups', ignoreList)
     end
 
+    ---@deprecated use the GetPlayersInScope native directly
     ---Returns all players in the current scope
     ---@param ignoreList? integer[] ignore specific player ids
     ---@return integer[]
@@ -502,6 +402,7 @@ else
         return players
     end
 
+    ---@deprecated use the lib.getClosest... functions from ox_lib
     ---Returns the closest entity from the list and the specified coords (if set)
     ---@param entities integer[]
     ---@param coords vector3? if unset uses player coords
@@ -523,6 +424,7 @@ else
         return closestEntity, closestDistance
     end
 
+    ---@deprecated use lib.getClosestPed from ox_lib
     ---Returns the closest ped
     ---Use QBCore.Functions.GetClosestPlayer if wanting to ignore non-player peds
     ---@param coords? vector3 uses player position if not set
@@ -533,6 +435,7 @@ else
         return GetClosestEntity(GetPeds(ignoreList), coords)
     end
 
+    ---@deprecated use lib.getClosestVehicle from ox_lib
     ---Returns the closest vehicle
     ---@param coords? vector3 uses player position if not set
     ---@param ignoreList? integer[]
@@ -542,6 +445,7 @@ else
         return GetClosestEntity(GetVehicles(ignoreList), coords)
     end
 
+    ---@deprecated use lib.getClosestObject from ox_lib
     ---Returns the closest object
     ---@return number?
     ---@return integer|nil
@@ -551,6 +455,7 @@ else
 
     local _deleteVehicle = DeleteVehicle
 
+    ---@deprecated use qbx.deleteVehicle from modules/lib.lua
     ---Deletes the specified vehicle
     ---@param vehicle integer
     ---@return boolean
@@ -560,6 +465,7 @@ else
         return DoesEntityExist(vehicle)
     end
 
+    ---@deprecated use lib.getClosestPlayer from ox_lib
     ---Returns the closest player
     ---@param coords? vector3 uses player position if not set
     ---@param maxDistance? number
@@ -572,6 +478,7 @@ else
         return playerId, closestDistance
     end
 
+    ---@deprecated use lib.getNearbyPlayers from ox_lib
     ---Returns the players close to the coords
     ---@param coords? vector3 uses player position if not set
     ---@param distance? number
@@ -588,6 +495,7 @@ else
         return players
     end
 
+    ---@deprecated use the GetWorldPositionOfEntityBone native and calculate distance directly
     ---Returns the closest bone to the local ped of the specified entity
     ---@param entity integer
     ---@param list integer[] | {id: integer}[] bones
@@ -616,6 +524,7 @@ else
         return bone, coords, distance
     end
 
+    ---@deprecated use the GetWorldPositionOfEntityBone native and calculate distance directly
     ---Returns the distance from the player to the bone
     ---@param entity integer
     ---@param boneType integer
@@ -628,6 +537,7 @@ else
         return #(playerCoords - boneCoords)
     end
 
+    ---@deprecated use the AttachEntityToEntity native directly
     ---@param ped integer
     ---@param model string | integer
     ---@param boneId integer
@@ -649,20 +559,23 @@ else
         return prop
     end
 
+    ---@deprecated use qbx.getVehicleDisplayName from modules/lib.lua
     ---Returns the model name of the vehicle
     ---@param vehicle integer
     ---@return string
     function GetVehicleDisplayName(vehicle) -- luacheck: ignore
-        return GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
+        return qbx.getVehicleDisplayName(vehicle)
     end
 
+    ---@deprecated use qbx.getVehicleMakeName from modules/lib.lua
     ---Returns the brand name of the vehicle
     ---@param vehicle integer
     ---@return string
     function GetVehicleMakeName(vehicle) -- luacheck: ignore
-        return GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
+        return qbx.getVehicleMakeName(vehicle)
     end
 
+    ---@deprecated use lib.getNearbyVehicles from ox_lib
     ---Check if there is no vehicle obstructing the coords
     ---@param coords vector3? defaults to player position
     ---@param radius? number
@@ -682,6 +595,7 @@ else
         return #closeVeh == 0
     end
 
+    ---@deprecated use ParticleFx natives directly
     ---Spawns a particle at the coords
     ---@param dict string
     ---@param ptName string
@@ -720,6 +634,7 @@ else
         return particleHandle
     end
 
+    ---@deprecated use ParticleFx natives directly
     ---Spawns a particle on the specified entity
     ---@param dict string
     ---@param ptName string
@@ -775,21 +690,23 @@ else
         return particleHandle
     end
 
+    ---@deprecated use qbx.getStreetName from modules/lib.lua
     ---Returns the street name and cross section from the coords
     ---@param coords vector3
     ---@return {main: string, cross: string}
     function GetStreetNameAtCoords(coords) -- luacheck: ignore
-        local street1, street2 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
-        return { main = GetStreetNameFromHashKey(street1), cross = GetStreetNameFromHashKey(street2) }
+        return qbx.getStreetName(coords)
     end
 
+    ---@deprecated use qbx.getZoneName from modules/lib.lua
     ---Returns the name of the zone at the specified coords
     ---@param coords vector3
     ---@return string
     function GetZoneAtCoords(coords) -- luacheck: ignore
-        return GetLabelText(GetNameOfZone(coords.x, coords.y, coords.z))
+        return qbx.getZoneName(coords)
     end
 
+    ---@deprecated use qbx.getCardinalDirection from modules/lib.lua
     ---Returns the direction the specified entity or local ped is standing towards
     ---@param entity? number defaults to player ped
     ---@return 'North' | 'South' | 'East' | 'West' | string direction or error message
@@ -799,19 +716,7 @@ else
             return 'Entity does not exist'
         end
 
-        local heading = GetEntityHeading(entity)
-        heading = heading > 360 and heading * (360 / heading) --[[ Making sure the heading is within 360 degrees ]] or heading
-        if (heading >= 0 and heading < 45) or (heading >= 315 and heading < 360) then
-            return 'North'
-        elseif heading >= 45 and heading < 135 then
-            return 'West'
-        elseif heading >= 135 and heading < 225 then
-            return 'South'
-        elseif heading >= 225 and heading < 315 then
-            return 'East'
-        end
-
-        return 'Couldn\'t find direction'
+        return qbx.getCardinalDirection(entity)
     end
 
     ---@class CurrentTime
@@ -821,6 +726,7 @@ else
     ---@field min number
     ---@field hour number
 
+    ---@deprecated use the GetClockMinutes and GetClockHours natives and format the output directly
     ---Returns the current time in-game
     ---@return CurrentTime
     function GetCurrentTime() -- luacheck: ignore
@@ -842,6 +748,7 @@ else
         return obj
     end
 
+    ---@deprecated use the GetGroundZFor_3dCoord native directly
     ---Returns the z coord at the first ground the game can find
     ---@param coords vector3
     ---@return vector3?
@@ -857,40 +764,24 @@ else
         return coords
     end
 
-        ---Clear all vehicle extras
-    ---@param vehicle integer
-    local function ClearAllVehicleExtras(vehicle) -- luacheck: ignore
-        for i = 1, 20 do
-            if DoesExtraExist(vehicle, i) then
-                SetVehicleExtra(vehicle, i, false)
-            end
-        end
-    end
-
+    ---@deprecated use qbx.setVehicleExtra from modules/lib.lua
     ---Set the status of an extra on the vehicle
     ---@param vehicle integer
     ---@param extra integer
     ---@param enable boolean
     function ChangeVehicleExtra(vehicle, extra, enable) -- luacheck: ignore
-        if not DoesExtraExist(vehicle, extra) then return end
-        local isExtraOn = IsVehicleExtraTurnedOn(vehicle, extra)
-
-        if enable ~= isExtraOn then
-            SetVehicleExtra(vehicle, extra, not enable)
-        end
+        qbx.setVehicleExtra(vehicle, extra, enable)
     end
 
+    ---@deprecated use qbx.setVehicleExtras from modules/lib.lua
     ---Set the vehicle extras of a vehicle according to a table
     ---@param vehicle integer
     ---@param extras table<integer, boolean>
     function SetVehicleExtras(vehicle, extras) -- luacheck: ignore
-        ClearAllVehicleExtras(vehicle)
-
-        for id, enabled in pairs(extras) do
-            ChangeVehicleExtra(vehicle, tonumber(id) --[[@as integer]], enabled)
-        end
+        qbx.setVehicleExtras(vehicle, extras)
     end
 
+    ---@deprecated use qbx.armsWithoutGloves.male from modules/lib.lua
     MaleNoGloves = {
         [0] = true,
         [1] = true,
@@ -929,6 +820,7 @@ else
         [132] = true
     }
 
+    ---@deprecated use qbx.armsWithoutGloves.female from modules/lib.lua
     FemaleNoGloves = {
         [0] = true,
         [1] = true,
@@ -972,6 +864,7 @@ else
         [165] = true
     }
 
+    ---@deprecated use qbx.isWearingGloves from modules/lib.lua
     ---Returns if the local ped is wearing gloves
     ---@return boolean
     function IsWearingGloves() -- luacheck: ignore
@@ -981,17 +874,16 @@ else
         return not tbl[armIndex]
     end
 
+    ---@deprecated use qbx.loadAudioBank from modules/lib.lua
     ---Loads an audiobank. Please remember to use ReleaseScriptAudioBank() because you can only load 10 banks max
     ---@param audioBank string
     ---@param timeout number? Number of ticks to wait for the audio bank to load. Defaults to 500.
     ---@return boolean
     function LoadAudioBank(audioBank, timeout) -- luacheck: ignore
-        local count = 0
-        timeout = timeout or 500
-        while not RequestScriptAudioBank(audioBank, false) do count += 1 if count > timeout then return false end Wait(0) end
-        return true
+        return qbx.loadAudioBank(audioBank, timeout)
     end
 
+    ---@deprecated use qbx.playAudio from modules/lib.lua
     ---Plays a sound with the provided audioName and audioRef
     ---@param audioName string
     ---@param audioRef string
@@ -1001,20 +893,12 @@ else
     ---@param range number? Only used if coords are passed. Defaults to 5.0
     ---@return number? soundId Only returns if returnSoundId is set to true.
     function PlayAudio(audioName, audioRef, returnSoundId, entity, coords, range) -- luacheck: ignore
-        local soundId = GetSoundId()
-        if coords then
-            range = range or 5.0
-            PlaySoundFromCoord(soundId, audioName, coords.x, coords.y, coords.z, audioRef, false, range, false)
-        elseif entity then
-            PlaySoundFromEntity(soundId, audioName, entity, audioRef, false, false)
-        else
-            PlaySoundFrontend(soundId, audioName, audioRef, true)
-        end
-        returnSoundId = returnSoundId or false
-        if returnSoundId then
-            return soundId
-        else
-            ReleaseSoundId(soundId)
-        end
+        return qbx.playAudio({
+            audioName = audioName,
+            audioRef = audioRef,
+            returnSoundId = returnSoundId,
+            audioSource = coords or entity,
+            range = range,
+        })
     end
 end
