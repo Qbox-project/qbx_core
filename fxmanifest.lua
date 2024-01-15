@@ -7,14 +7,14 @@ version '1.4.0'
 
 shared_scripts {
     '@ox_lib/init.lua',
-    'modules/utils.lua',
+    'modules/lib.lua',
     'shared/locale.lua',
     'locale/en.lua',
     'locale/*.lua',
 }
 
 client_scripts {
-    'modules/utils.lua',
+    'modules/lib.lua',
     'client/main.lua',
     'client/functions.lua',
     'client/loops.lua',

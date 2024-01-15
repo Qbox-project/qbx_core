@@ -33,7 +33,7 @@ exports('GetVehiclesByHash', GetVehiclesByHash)
 
 ---@return table<string, Vehicle[]>
 function GetVehiclesByCategory()
-	return MapTableBySubfield('category', QBX.Shared.Vehicles)
+    return qbx.table.mapBySubfield(QBX.Shared.Vehicles, 'category')
 end
 
 exports('GetVehiclesByCategory', GetVehiclesByCategory)

@@ -11,29 +11,64 @@ function functions.GetPlayerData(cb)
     cb(QBX.PlayerData)
 end
 
----@deprecated use GetCoordsFromEntity from imports/utils.lua
-functions.GetCoords = GetCoordsFromEntity
+---@deprecated use the GetEntityCoords and GetEntityHeading natives directly
+functions.GetCoords = function(entity) -- luacheck: ignore
+    local coords = GetEntityCoords(entity)
+    return vec4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
+end
 
 ---@deprecated use https://overextended.dev/ox_inventory/Functions/Client#search
-functions.HasItem = HasItem
+functions.HasItem = function(items, amount)
+    amount = amount or 1
+    local count = exports.ox_inventory:Search('count', items)
+    if type(items) == 'table' and type(count) == 'table' then
+        for _, v in pairs(count) do
+            if v < amount then
+                return false
+            end
+        end
+        return true
+    end
+    return count >= amount
+end
 
 -- Utility
 
----@deprecated use DrawText2D from imports/utils.lua
+---@deprecated use qbx.drawText2d from modules/lib.lua
 functions.DrawText = function(x, y, width, height, scale, r, g, b, a, text)
-    DrawText2D(text, vec2(x, y), width, height, scale, 4, r, g, b, a)
+    qbx.drawText2d({
+        text = text,
+        coords = vec2(x, y),
+        scale = scale,
+        font = 4,
+        color = vec4(r, g, b, a),
+        width = width,
+        height = height,
+    })
 end
 
----@deprecated use DrawText3D from imports/utils.lua
+---@deprecated use qbx.drawText3d from modules/lib.lua
 functions.DrawText3D = function(x, y, z, text)
-    DrawText3D(text, vec3(x, y, z), 0.35, 4, 255, 255, 255, 215)
+    qbx.drawText3d({
+        text = text,
+        coords = vec3(x, y, z),
+        scale = 0.35,
+        font = 4,
+        color = vec4(255, 255, 255, 215)
+    })
 end
 
 ---@deprecated use lib.requestAnimDict from ox_lib
 functions.RequestAnimDict = lib.requestAnimDict
 
----@deprecated use PlayAnim from imports/utils.lua
-functions.PlayAnim = PlayAnim
+---@deprecated use lib.requestAnimDict from ox_lib, and the TaskPlayAnim and RemoveAnimDict natives directly
+functions.PlayAnim = function(animDict, animName, upperbodyOnly, duration)
+    local flags = upperbodyOnly and 16 or 0
+    local runTime = duration or -1
+    lib.requestAnimDict(animDict)
+    TaskPlayAnim(cache.ped, animDict, animName, 8.0, 3.0, runTime, flags, 0.0, false, false, true)
+    RemoveAnimDict(animDict)
+end
 
 ---@deprecated use lib.requestModel from ox_lib
 functions.LoadModel = lib.requestModel
@@ -86,56 +121,97 @@ end
 
 -- Getters
 
----@deprecated use GetVehicles from imports/utils.lua
-functions.GetVehicles = GetVehicles
+---@deprecated use the GetGamePool('CVehicle') native directly
+functions.GetVehicles = function()
+    GetGamePool('CVehicle')
+end
 
----@deprecated use GetObjects from imports/utils.lua
-functions.GetObjects = GetObjects
+---@deprecated use the GetGamePool('CObject') native directly
+functions.GetObjects = function()
+    GetGamePool('CObject')
+end
 
----@deprecated use GetPlayersInScope from imports/utils.lua
+---@deprecated use the GetPlayersInScope native directly
 functions.GetPlayers = GetPlayersInScope
 
----@deprecated use GetPeds from imports/utils.lua
-functions.GetPeds = GetPeds
+---@deprecated use the GetGamePool('CPed') native directly
+functions.GetPeds = function()
+    GetGamePool('CPed')
+end
 
----@deprecated use GetClosestPed from imports/utils.lua
+---@deprecated use lib.getClosestPed from ox_lib
 ---Use GetClosestPlayer if wanting to ignore non-player peds
-functions.GetClosestPed = GetClosestPed
+functions.GetClosestPed = lib.getClosestPed
 
----@deprecated use IsWearingGloves from imports/utils.lua
-functions.IsWearingGloves = IsWearingGloves
+---@deprecated use qbx.isWearingGloves from modules/lib.lua
+functions.IsWearingGloves = qbx.isWearingGloves
 
----@deprecated use GetClosestPlayer from imports/utils.lua
-functions.GetClosestPlayer = GetClosestPlayer
+---@deprecated use lib.getClosestPlayer from ox_lib
+functions.GetClosestPlayer = lib.getClosestPlayer
 
----@deprecated use GetPlayersFromCoords from imports/utils.lua
-functions.GetPlayersFromCoords = GetPlayersFromCoords
+---@deprecated use lib.getNearbyPlayers from ox_lib
+functions.GetPlayersFromCoords = lib.getNearbyPlayers
 
----@deprecated use GetClosestVehicle from imports/utils.lua
-functions.GetClosestVehicle = GetClosestVehicle
+---@deprecated use lib.getClosestVehicle from ox_lib
+functions.GetClosestVehicle = lib.getClosestVehicle
 
----@deprecated use GetClosestObject from imports/utils.lua
-functions.GetClosestObject = GetClosestObject
+---@deprecated use lib.getClosestObject from ox_lib
+functions.GetClosestObject = lib.getClosestObject
 
----@deprecated use GetClosestBone from imports/utils.lua
-functions.GetClosestBone = GetClosestBone
+---@deprecated use the GetWorldPositionOfEntityBone native and calculate distance directly
+functions.GetClosestBone = function(entity, list)
+    local playerCoords = GetEntityCoords(cache.ped)
 
----@deprecated use GetBoneDistance from imports/utils.lua
-functions.GetBoneDistance = GetBoneDistance
+    ---@type integer | {id: integer} | {id: integer, type: string, name: string}, vector3, number
+    local bone, coords, distance
+    for _, element in pairs(list) do
+        local boneCoords = GetWorldPositionOfEntityBone(entity, element.id or element)
+        local boneDistance = #(playerCoords - boneCoords)
+        if not coords or distance > boneDistance then
+            bone = element
+            coords = boneCoords
+            distance = boneDistance
+        end
+    end
+    if not bone then
+        bone = {id = GetEntityBoneIndexByName(entity, 'bodyshell'), type = 'remains', name = 'bodyshell'}
+        coords = GetWorldPositionOfEntityBone(entity, bone.id)
+        distance = #(coords - playerCoords)
+    end
+    return bone, coords, distance
+end
 
----@deprecated use AttachProp from imports/utils.lua
-functions.AttachProp = AttachProp
+---@deprecated use the GetWorldPositionOfEntityBone native and calculate distance directly
+functions.GetBoneDistance = function(entity, boneType, bone)
+    local boneIndex = boneType == 1 and GetPedBoneIndex(entity, bone --[[@as integer]]) or GetEntityBoneIndexByName(entity, bone --[[@as string]])
+    local boneCoords = GetWorldPositionOfEntityBone(entity, boneIndex)
+    local playerCoords = GetEntityCoords(cache.ped)
+    return #(playerCoords - boneCoords)
+end
+
+---@deprecated use the AttachEntityToEntity native directly
+functions.AttachProp = function(ped, model, boneId, x, y, z, xR, yR, zR, vertex)
+    local modelHash = type(model) == 'string' and joaat(model) or model
+    local bone = GetPedBoneIndex(ped, boneId)
+    lib.requestModel(modelHash)
+    local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, true, true, false)
+    AttachEntityToEntity(prop, ped, bone, x, y, z, xR, yR, zR, true, true, false, true, not vertex and 2 or 0, true)
+    SetModelAsNoLongerNeeded(modelHash)
+    return prop
+end
 
 -- Vehicle
 
----@deprecated call server function CreateVehicle instead from imports/utils.lua.
+---@deprecated use qbx.spawnVehicle from modules/lib.lua
 ---@param model string|number
 ---@param cb? fun(vehicle: number)
 ---@param coords? vector4 player position if not specified
 ---@param isnetworked? boolean defaults to true
 ---@param teleportInto boolean teleport player to driver seat if true
 function functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
-    coords = type(coords) == 'table' and vec4(coords.x, coords.y, coords.z, coords.w or GetEntityHeading(cache.ped)) or coords or GetCoordsFromEntity(cache.ped)
+    local playerCoords = GetEntityCoords(cache.ped)
+    local combinedCoords = vec4(playerCoords.x, playerCoords.y, playerCoords.z, GetEntityHeading(cache.ped))
+    coords = type(coords) == 'table' and vec4(coords.x, coords.y, coords.z, coords.w or GetEntityHeading(cache.ped)) or coords or combinedCoords
     model = type(model) == 'string' and joaat(model) or model
     if not IsModelInCdimage(model) then return end
 
@@ -153,17 +229,17 @@ function functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
     if cb then cb(veh) end
 end
 
----@deprecated use DeleteVehicle from imports/utils.lua
-functions.DeleteVehicle = DeleteVehicle
+---@deprecated use qbx.deleteVehicle from modules/lib.lua
+functions.DeleteVehicle = qbx.deleteVehicle
 
----@deprecated use GetPlate from imports/utils.lua
-functions.GetPlate = GetPlate
+---@deprecated use qbx.getVehiclePlate from modules/lib.lua
+functions.GetPlate = qbx.getVehiclePlate
 
----@deprecated use GetVehicleDisplayName from imports/utils.lua
-functions.GetVehicleLabel = GetVehicleDisplayName
+---@deprecated use qbx.getVehicleDisplayName from modules/lib.lua
+functions.GetVehicleLabel = qbx.getVehicleDisplayName
 
----@deprecated use IsVehicleSpawnClear from imports/utils.lua
-functions.SpawnClear = IsVehicleSpawnClear
+---@deprecated use lib.getNearbyVehicles from ox_lib
+functions.SpawnClear = lib.getNearbyVehicles
 
 ---@deprecated use lib.getVehicleProperties from ox_lib
 function functions.GetVehicleProperties(vehicle)
@@ -261,7 +337,6 @@ function functions.SetVehicleProperties(vehicle, props)
     props.modLightbar = props.modLightbar or props.modKit49
     props.modRoofLivery = props.modRoofLivery or props.liveryRoof
 
-   
     --- lib.setVehicleProperties copied and pasted from Overextended below so that we can remove the error so that setting properties is best effort
     if not DoesEntityExist(vehicle) then
         error(("Unable to set vehicle properties for '%s' (entity does not exist)"):
@@ -621,26 +696,117 @@ end
 ---@deprecated use lib.requestNamedPtfxAsset from ox_lib
 functions.LoadParticleDictionary = lib.requestNamedPtfxAsset
 
----@deprecated use StartParticleAtCoord from imports/utils.lua
-functions.StartParticleAtCoord = StartParticleAtCoord
+---@deprecated use ParticleFx natives directly
+functions.StartParticleAtCoord = function(dict, ptName, looped, coords, rot, scale, alpha, color, duration) -- luacheck: ignore
+    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
 
----@deprecated use StartParticleOnEntity from imports/utils.lua
-functions.StartParticleOnEntity = StartParticleOnEntity
+    lib.requestNamedPtfxAsset(dict)
+    UseParticleFxAssetNextCall(dict)
+    SetPtfxAssetNextCall(dict)
+    local particleHandle
+    if looped then
+        particleHandle = StartParticleFxLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false, false)
+        if color then
+            SetParticleFxLoopedColour(particleHandle, color.r, color.g, color.b, false)
+        end
+        SetParticleFxLoopedAlpha(particleHandle, alpha or 10.0)
+        if duration then
+            Wait(duration)
+            StopParticleFxLooped(particleHandle, false)
+        end
+    else
+        SetParticleFxNonLoopedAlpha(alpha or 1.0)
+        if color then
+            SetParticleFxNonLoopedColour(color.r, color.g, color.b)
+        end
+        StartParticleFxNonLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false)
+    end
+    return particleHandle
+end
 
----@deprecated use GetStreetNameAtCoords from imports/utils.lua
-functions.GetStreetNametAtCoords = GetStreetNameAtCoords
+---@deprecated use ParticleFx natives directly
+functions.StartParticleOnEntity = function(dict, ptName, looped, entity, bone, offset, rot, scale, alpha, color, evolution, duration) -- luacheck: ignore
+    lib.requestNamedPtfxAsset(dict)
+    UseParticleFxAssetNextCall(dict)
+    local particleHandle = nil
+    ---@cast bone number
+    local pedBoneIndex = bone and GetPedBoneIndex(entity, bone) or 0
+    ---@cast bone string
+    local nameBoneIndex = bone and GetEntityBoneIndexByName(entity, bone) or 0
+    local entityType = GetEntityType(entity)
+    local boneID = entityType == 1 and (pedBoneIndex ~= 0 and pedBoneIndex) or (looped and nameBoneIndex ~= 0 and nameBoneIndex)
+    if looped then
+        if boneID then
+            particleHandle = StartParticleFxLoopedOnEntityBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale or 1.0, false, false, false)
+        else
+            particleHandle = StartParticleFxLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false)
+        end
+        if evolution then
+            SetParticleFxLoopedEvolution(particleHandle, evolution.name, evolution.amount, false)
+        end
+        if color then
+            SetParticleFxLoopedColour(particleHandle, color.r, color.g, color.b, false)
+        end
+        SetParticleFxLoopedAlpha(particleHandle, alpha or 1.0)
+        if duration then
+            Wait(duration)
+            StopParticleFxLooped(particleHandle, false)
+        end
+    else
+        SetParticleFxNonLoopedAlpha(alpha or 1.0)
+        if color then
+            SetParticleFxNonLoopedColour(color.r, color.g, color.b)
+        end
+        if boneID then
+            StartParticleFxNonLoopedOnPedBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale or 1.0, false, false, false)
+        else
+            StartParticleFxNonLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false)
+        end
+    end
+    return particleHandle
+end
 
----@deprecated use GetZoneAtCoords from imports/utils.lua
-functions.GetZoneAtCoords = GetZoneAtCoords
+---@deprecated use qbx.getStreetName from modules/lib.lua
+functions.GetStreetNametAtCoords = qbx.getStreetName
 
----@deprecated use GetCardinalDirection from imports/utils.lua
-functions.GetCardinalDirection = GetCardinalDirection
+---@deprecated  use qbx.getZoneName from modules/lib.lua
+functions.GetZoneAtCoords = qbx.getZoneName
 
----@deprecated use GetCurrentTime from imports/utils.lua
-functions.GetCurrentTime = GetCurrentTime
+---@deprecated use qbx.getCardinalDirection from modules/lib.lua
+functions.GetCardinalDirection = qbx.getCardinalDirection
 
----@deprecated use GetGroundZCoord from imports/utils.lua
-functions.GetGroundZCoord = GetGroundZCoord
+---@deprecated use the GetClockMinutes and GetClockHours natives and format the output directly
+functions.GetCurrentTime = function()
+    local obj = {}
+    obj.min = GetClockMinutes()
+    obj.hour = GetClockHours()
+
+    if obj.hour <= 12 then
+        obj.ampm = 'AM'
+    elseif obj.hour >= 13 then
+        obj.ampm = 'PM'
+        obj.formattedHour = obj.hour - 12
+    end
+
+    if obj.min <= 9 then
+        obj.formattedMin = ('0%s'):format(obj.min)
+    end
+
+    return obj
+end
+
+---@deprecated use the GetGroundZFor_3dCoord native directly
+functions.GetGroundZCoord = function(coords)
+    if not coords then return end
+
+    local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, false)
+    if retval then
+        return vec3(coords.x, coords.y, groundZ)
+    end
+
+    lib.print.verbose('Couldn\'t find Ground Z Coordinates given 3D Coordinates:', coords)
+    return coords
+end
 
 ---Text box popup for player which dissappears after a set time.
 ---@param text table|string text of the notification

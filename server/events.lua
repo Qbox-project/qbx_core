@@ -77,7 +77,7 @@ local function onPlayerConnecting(name, _, deferrals)
 
     if not license then
         deferrals.done(Lang:t('error.no_valid_license'))
-    elseif serverConfig.checkDuplicateLicense and IsLicenseInUse(license) then
+    elseif serverConfig.checkDuplicateLicense and usedLicenses[license] then
         deferrals.done(Lang:t('error.duplicate_license'))
     end
 
@@ -166,11 +166,11 @@ RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
         serverConfig.closedReason = reason
         for k in pairs(QBX.Players) do
             if not HasPermission(k, serverConfig.whitelistPermission) then
-                KickWithReason(k, reason, nil, nil)
+                DropPlayer(k, reason)
             end
         end
     else
-        KickWithReason(src, Lang:t("error.no_permission"), nil, nil)
+        DropPlayer(src, Lang:t("error.no_permission"))
     end
 end)
 
@@ -179,7 +179,7 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     if HasPermission(src, 'admin') then
         serverConfig.closed = false
     else
-        KickWithReason(src, Lang:t("error.no_permission"), nil, nil)
+        DropPlayer(src, Lang:t("error.no_permission"))
     end
 end)
 

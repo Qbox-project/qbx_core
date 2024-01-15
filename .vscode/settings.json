@@ -2,6 +2,8 @@
     "Lua.runtime.nonstandardSymbol": ["/**/", "`", "+=", "-=", "*=", "/="],
     "Lua.runtime.version": "Lua 5.4",
     "Lua.diagnostics.globals": [
-        "lib"
+        "lib",
+        "MySQL",
+        "cache"
     ]
 }

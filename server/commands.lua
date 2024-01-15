@@ -102,7 +102,7 @@ lib.addCommand('openserver', {
         config.server.closed = false
         Notify(source, Lang:t('success.server_opened'), 'success')
     else
-        KickWithReason(source, Lang:t("error.no_permission"), nil, nil)
+        DropPlayer(source, Lang:t("error.no_permission"))
     end
 end)
 
@@ -123,12 +123,12 @@ lib.addCommand('closeserver', {
         config.server.closedReason = reason
         for k in pairs(QBX.Players) do
             if not HasPermission(k, config.server.whitelistPermission) then
-                KickWithReason(k, reason, nil, nil)
+                DropPlayer(k, reason)
             end
         end
         Notify(source, Lang:t('success.server_closed'), 'success')
     else
-        KickWithReason(source, Lang:t("error.no_permission"), nil, nil)
+        DropPlayer(source, Lang:t("error.no_permission"))
     end
 end)
 
@@ -142,8 +142,8 @@ lib.addCommand('car', {
     restricted = "group.admin"
 }, function(source, args)
     if not args then return end
-    local netId = SpawnVehicle(source, args[Lang:t("command.car.params.model.name")], nil, true)
-    local plate = GetPlate(NetworkGetEntityFromNetworkId(netId))
+    local netId = qbx.spawnVehicle({spawnSource = source, model = args[Lang:t("command.car.params.model.name")], warp = true})
+    local plate = qbx.getVehiclePlate(NetworkGetEntityFromNetworkId(netId))
     config.giveVehicleKeys(source, plate)
 end)
 
@@ -326,7 +326,7 @@ end)
 -- ID command
 
 lib.addCommand('id', {help = Lang:t('info.check_id')}, function(source)
-    exports.qbx_core:Notify(source, 'ID: ' .. source)
+    Notify(source, 'ID: ' .. source)
 end)
 
 -- Character commands
