@@ -87,13 +87,29 @@ end
 
 ---@deprecated call server function qbx.spawnVehicle from modules/lib.lua
 qbCoreCompat.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
-    local netId = qbx.spawnVehicle({spawnSource = source, model = model, coords = coords, warp = warp})
+    model = type(model) == 'string' and joaat(model) or (model --[[@as integer]])
+    local ped = GetPlayerPed(source)
+
+    local netId = qbx.spawnVehicle({
+        model = model,
+        spawnSource = coords or ped,
+        warp = warp and ped or nil,
+    })
+
     if netId then cb(netId) end
 end)
 
 ---@deprecated call server function qbx.spawnVehicle from modules/lib.lua
 qbCoreCompat.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
-    local netId = qbx.spawnVehicle({spawnSource = source, model = model, coords = coords, warp = warp})
+    model = type(model) == 'string' and joaat(model) or (model --[[@as integer]])
+    local ped = GetPlayerPed(source)
+
+    local netId = qbx.spawnVehicle({
+        model = model,
+        spawnSource = coords or ped,
+        warp = warp and ped or nil,
+    })
+
     if netId then cb(netId) end
 end)
 

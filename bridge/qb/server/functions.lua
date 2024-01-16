@@ -45,7 +45,15 @@ end
 
 ---@deprecated use qbx.spawnVehicle from modules/lib.lua
 function functions.CreateVehicle(source, model, _, coords, warp)
-    local netId = qbx.spawnVehicle({spawnSource = source, model = model, coords = coords, warp = warp})
+    model = type(model) == 'string' and joaat(model) or (model --[[@as integer]])
+    local ped = GetPlayerPed(source)
+
+    local netId = qbx.spawnVehicle({
+        model = model,
+        spawnSource = coords or ped,
+        warp = warp and ped or nil,
+    })
+
     return NetworkGetEntityFromNetworkId(netId)
 end
 
