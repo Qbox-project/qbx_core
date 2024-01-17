@@ -40,7 +40,7 @@ return {
             },
             FingerId = {
                 valueFunction = function()
-                    return tostring(lib.string.random('1', 2) .. lib.string.random('1', 3) .. lib.string.random('1', 1) .. lib.string.random('1', 2) .. lib.string.random('1', 3) .. lib.string.random('1', 4))
+                    return lib.string.random('...............')
                 end,
             },
             WalletId = {
