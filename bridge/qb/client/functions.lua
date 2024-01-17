@@ -769,7 +769,7 @@ end
 ---@deprecated use qbx.getStreetName from modules/lib.lua
 functions.GetStreetNametAtCoords = qbx.getStreetName
 
----@deprecated  use qbx.getZoneName from modules/lib.lua
+---@deprecated use qbx.getZoneName from modules/lib.lua
 functions.GetZoneAtCoords = qbx.getZoneName
 
 ---@deprecated use qbx.getCardinalDirection from modules/lib.lua
