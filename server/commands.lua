@@ -142,12 +142,10 @@ lib.addCommand('car', {
     restricted = "group.admin"
 }, function(source, args)
     if not args then return end
-    local ped = GetPlayerPed(source)
-
     local netId = qbx.spawnVehicle({
         model = args[Lang:t("command.car.params.model.name")],
-        spawnSource = ped,
-        warp = ped,
+        spawnSource = GetPlayerPed(source),
+        warp = true,
     })
 
     local plate = qbx.getVehiclePlate(NetworkGetEntityFromNetworkId(netId))
