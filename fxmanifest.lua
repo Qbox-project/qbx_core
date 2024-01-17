@@ -14,7 +14,6 @@ shared_scripts {
 }
 
 client_scripts {
-    'modules/lib.lua',
     'client/main.lua',
     'client/functions.lua',
     'client/loops.lua',

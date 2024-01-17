@@ -135,8 +135,22 @@ end
 functions.GetPlayers = GetPlayersInScope
 
 ---@deprecated use the GetGamePool('CPed') native directly
-functions.GetPeds = function()
-    GetGamePool('CPed')
+functions.GetPeds = function(ignoreList)
+    ignoreList = ignoreList or {}
+    local pedPool = GetGamePool('CPed')
+    local peds = {}
+    local ignoreMap = {}
+    for i = 1, #ignoreList do
+        ignoreMap[ignoreList[i]] = true
+    end
+
+    for i = 1, #pedPool do
+        local entity = pedPool[i]
+        if not ignoreMap[entity] then
+            peds[#peds + 1] = entity
+        end
+    end
+    return peds
 end
 
 ---@deprecated use lib.getClosestPed from ox_lib
