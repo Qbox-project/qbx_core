@@ -25,7 +25,7 @@ return {
         identifierTypes = {
             citizenid = {
                 valueFunction = function()
-                    return tostring(lib.string.random('A', 3) .. lib.string.random(1, 2))
+                    return tostring(lib.string.random('A', 3) .. lib.string.random('1', 5))
                 end,
             },
             AccountNumber = {
@@ -40,7 +40,7 @@ return {
             },
             FingerId = {
                 valueFunction = function()
-                    return tostring(lib.string.random(1, 2) .. lib.string.random(1, 3) .. lib.string.random(1, 1) .. lib.string.random(1, 2) .. lib.string.random(1, 3) .. lib.string.random(1, 4))
+                    return tostring(lib.string.random('1', 2) .. lib.string.random('1', 3) .. lib.string.random('1', 1) .. lib.string.random('1', 2) .. lib.string.random('1', 3) .. lib.string.random('1', 4))
                 end,
             },
             WalletId = {
