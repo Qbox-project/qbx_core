@@ -247,10 +247,16 @@ end
 functions.DeleteVehicle = qbx.deleteVehicle
 
 ---@deprecated use qbx.getVehiclePlate from modules/lib.lua
-functions.GetPlate = qbx.getVehiclePlate
+functions.GetPlate = function(vehicle)
+    if vehicle == 0 then return end
+    return qbx.getVehiclePlate(vehicle)
+end
 
 ---@deprecated use qbx.getVehicleDisplayName from modules/lib.lua
-functions.GetVehicleLabel = qbx.getVehicleDisplayName
+functions.GetVehicleLabel = function(vehicle)
+    if vehicle == nil or vehicle == 0 then return end
+    return qbx.getVehicleDisplayName(vehicle)
+end
 
 ---@deprecated use lib.getNearbyVehicles from ox_lib
 functions.SpawnClear = lib.getNearbyVehicles
