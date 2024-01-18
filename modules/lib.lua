@@ -173,6 +173,10 @@ end
 ---@param entity integer
 ---@return 'North' | 'South' | 'East' | 'West'
 function qbx.getCardinalDirection(entity)
+    if not DoesEntityExist(entity) then
+        return lib.print.error('Cardinal Direction Error')
+    end
+
     -- heading is between 0 - 360 (excluding 360)
     local heading = GetEntityHeading(entity) % 360
 

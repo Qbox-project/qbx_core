@@ -20,10 +20,16 @@ end
 qbShared.SplitStr = string.strsplit
 
 ---@deprecated use qbx.string.trim from modules/lib.lua
-qbShared.Trim = qbx.string.trim
+qbShared.Trim = function(str)
+    if not str then return nil end
+    return qbx.string.trim(str)
+end
 
 ---@deprecated use qbx.string.capitalize from modules/lib.lua
-qbShared.FirstToUpper = qbx.string.capitalize
+qbShared.FirstToUpper = function(str)
+    if not str then return nil end
+    return qbx.string.capitalize(str)
+end
 
 ---@deprecated use qbx.math.round from modules/lib.lua
 qbShared.Round = qbx.math.round
