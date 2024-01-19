@@ -161,16 +161,28 @@ functions.GetClosestPed = lib.getClosestPed
 functions.IsWearingGloves = qbx.isWearingGloves
 
 ---@deprecated use lib.getClosestPlayer from ox_lib
-functions.GetClosestPlayer = lib.getClosestPlayer
+functions.GetClosestPlayer = function(coords)
+    local playerId, _, playerCoords = lib.getClosestVehicle(coords)
+    local playerDistance = #(coords - playerCoords)
+    return playerId, playerDistance
+end
 
 ---@deprecated use lib.getNearbyPlayers from ox_lib
 functions.GetPlayersFromCoords = lib.getNearbyPlayers
 
 ---@deprecated use lib.getClosestVehicle from ox_lib
-functions.GetClosestVehicle = lib.getClosestVehicle
+functions.GetClosestVehicle = function(coords)
+    local closestVehicle, vehicleCoords = lib.getClosestVehicle(coords)
+    local vehicleDistance = #(coords - vehicleCoords)
+    return closestVehicle, vehicleDistance
+end
 
 ---@deprecated use lib.getClosestObject from ox_lib
-functions.GetClosestObject = lib.getClosestObject
+functions.GetClosestObject = function(coords)
+    local closestObject, objectCoords = lib.getClosestObject(coords)
+    local objectDistance = #(coords - objectCoords)
+    return closestObject, objectDistance
+end
 
 ---@deprecated use the GetWorldPositionOfEntityBone native and calculate distance directly
 functions.GetClosestBone = function(entity, list)
