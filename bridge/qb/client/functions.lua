@@ -131,8 +131,8 @@ functions.GetObjects = function()
     GetGamePool('CObject')
 end
 
----@deprecated use the GetPlayersInScope native directly
-functions.GetPlayers = GetPlayersInScope
+---@deprecated use the GetActivePlayers native directly
+functions.GetPlayers = GetActivePlayers
 
 ---@deprecated use the GetGamePool('CPed') native directly
 functions.GetPeds = function(ignoreList)
