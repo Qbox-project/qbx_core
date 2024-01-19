@@ -259,7 +259,11 @@ functions.GetVehicleLabel = function(vehicle)
 end
 
 ---@deprecated use lib.getNearbyVehicles from ox_lib
-functions.SpawnClear = lib.getNearbyVehicles
+functions.SpawnClear = function(coords, radius)
+    local vehicles = lib.getNearbyVehicles(coords, radius)
+    if #vehicles > 0 then return false end
+    return true
+end
 
 ---@deprecated use lib.getVehicleProperties from ox_lib
 function functions.GetVehicleProperties(vehicle)
