@@ -17,7 +17,11 @@ qbShared.RandomInt = function(length)
 end
 
 ---@deprecated use string.strsplit with CfxLua 5.4
-qbShared.SplitStr = string.strsplit
+qbShared.SplitStr = function(str, delimiter)
+    local result = table.pack(string.strsplit(delimiter, str))
+    result.n = nil
+    return result
+end
 
 ---@deprecated use qbx.string.trim from modules/lib.lua
 qbShared.Trim = function(str)
