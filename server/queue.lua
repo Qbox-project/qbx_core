@@ -207,7 +207,7 @@ local function awaitPlayerQueue(source, license, deferrals)
     local data = playerDatas[license]
 
     if data and not playerTimingOut then
-        deferrals.done(Lang:t('error.already_in_queue'))
+        deferrals.done(locale('error.already_in_queue'))
         return
     end
 
@@ -222,7 +222,7 @@ local function awaitPlayerQueue(source, license, deferrals)
         end
 
         if not subQueueIndex then
-            deferrals.done(Lang:t('error.no_subqueue'))
+            deferrals.done(locale('error.no_subqueue'))
             return
         end
 
@@ -245,12 +245,7 @@ local function awaitPlayerQueue(source, license, deferrals)
                 displayTime = displayTime,
             }))
         else
-            deferrals.update(Lang:t('info.in_queue', {
-                queuePos = data.globalPos,
-                queueSize = totalQueueSize,
-                subQueue = subQueue.name,
-                displayTime = displayTime,
-            }))
+            deferrals.update(locale('info.in_queue', data.globalPos, totalQueueSize, subQueue.name, displayTime))
         end
 
         data.waitingSeconds += 1

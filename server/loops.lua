@@ -27,7 +27,7 @@ end)
 
 local function sendPaycheck(player, payment)
     player.Functions.AddMoney('bank', payment)
-    Notify(player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
+    Notify(player.PlayerData.source, locale('info.received_paycheck', payment))
 end
 
 local function pay(player)
@@ -45,7 +45,7 @@ local function pay(player)
         return
     end
     if account < payment then -- Checks if company has enough money to pay society
-        Notify(player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
+        Notify(player.PlayerData.source, locale('error.company_too_poor'), 'error')
         return
     end
     config.removeSocietyMoney(job.name, payment)
