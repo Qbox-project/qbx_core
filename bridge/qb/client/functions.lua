@@ -168,7 +168,14 @@ functions.GetClosestPlayer = function(coords)
 end
 
 ---@deprecated use lib.getNearbyPlayers from ox_lib
-functions.GetPlayersFromCoords = lib.getNearbyPlayers
+functions.GetPlayersFromCoords = function(coords, radius)
+    local playerIds = {}
+    local players = lib.getNearbyPlayers(coords, radius)
+    for _, player in ipairs(players) do
+        playerIds[#playerIds + 1] = player.id
+    end
+    return playerIds
+end
 
 ---@deprecated use lib.getClosestVehicle from ox_lib
 functions.GetClosestVehicle = function(coords)
