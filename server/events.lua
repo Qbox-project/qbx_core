@@ -1,5 +1,6 @@
 local serverConfig = require 'config.server'.server
 local loggingConfig = require 'config.server'.logging
+local serverName = require 'config.shared'.serverName
 local logger = require 'modules.logger'
 local queue = require 'server.queue'
 
@@ -118,7 +119,6 @@ local function onPlayerConnecting(name, _, deferrals)
 
     -- wait for database to finish
     databasePromise:next(function()
-        local serverName = GetConvar('sv_projectName', GetConvar('sv_hostname', 'Server'))
         deferrals.update(locale('info.join_server', name, serverName))
 
         -- Mandatory wait
