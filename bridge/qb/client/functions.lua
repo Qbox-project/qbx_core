@@ -155,7 +155,11 @@ end
 
 ---@deprecated use lib.getClosestPed from ox_lib
 ---Use GetClosestPlayer if wanting to ignore non-player peds
-functions.GetClosestPed = lib.getClosestPed
+functions.GetClosestPed = function(_, coords) -- Don't use ignoreList here because, who even uses that
+    local closestPed, closestCoords = lib.getClosestPed(coords, 999) -- qb doesn't have a max distance so we just set this very high for compatibility
+    local closestDistance = closestCoords and #(closestCoords - coords) or -1
+    return closestPed or -1, closestDistance
+end
 
 ---@deprecated use qbx.isWearingGloves from modules/lib.lua
 functions.IsWearingGloves = qbx.isWearingGloves
