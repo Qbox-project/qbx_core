@@ -128,6 +128,7 @@ local function awaitPlayerJoinsOrDisconnects(license)
     local joiningData
     while true do
         joiningData = joiningPlayers[license]
+        if not joiningData then return end
 
         -- wait until the player finally joins or disconnects while installing server content
         -- this may result in waiting ~2 additional minutes if the player disconnects as FXServer will think that the player exists
