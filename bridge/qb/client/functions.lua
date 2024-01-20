@@ -818,7 +818,13 @@ functions.GetStreetNametAtCoords = qbx.getStreetName
 functions.GetZoneAtCoords = qbx.getZoneName
 
 ---@deprecated use qbx.getCardinalDirection from modules/lib.lua
-functions.GetCardinalDirection = qbx.getCardinalDirection
+functions.GetCardinalDirection = function(entity)
+    if not entity or not DoesEntityExist(entity) then
+        return 'Cardinal Direction Error'
+    end
+
+    return qbx.getCardinalDirection(entity)
+end
 
 ---@deprecated use the GetClockMinutes and GetClockHours natives and format the output directly
 functions.GetCurrentTime = function()
