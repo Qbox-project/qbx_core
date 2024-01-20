@@ -78,5 +78,5 @@ end)
 RegisterNetEvent('qbx_core:server:deleteCharacter', function(citizenId)
     local src = source
     DeleteCharacter(src, citizenId)
-    Notify(src, Lang:t('success.character_deleted'), 'success')
+    Notify(src, locale('success.character_deleted'), 'success')
 end)

@@ -3,6 +3,8 @@ QBX.PlayerData = {}
 QBX.Shared = require 'shared.main'
 QBX.IsLoggedIn = false
 
+lib.locale()
+
 ---@return table<string, Job>
 function GetJobs()
     return QBX.Shared.Jobs

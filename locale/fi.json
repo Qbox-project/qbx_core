@@ -1,0 +1,20 @@
+{
+    "error": {
+        "not_online": "Pelaaja ei ole paikalla",
+        "wrong_format": "Virheellinen muoto",
+        "missing_args": "Kaikkia argumentteja ei ole syötetty (x, y, z)",
+        "missing_args2": "Kaikkia argumentteja ei ole syötetty!",
+        "no_access": "Sinulla ei ole oikeuksia kyseiseen komentoon",
+        "company_too_poor": "Sinun firmasi on liian köyhä",
+        "item_not_exist": "Tätä itemiä ei ole olemassa",
+        "too_heavy": "Reppusi on liian täynnä"
+    },
+    "success": {},
+    "info": {
+        "received_paycheck": "Sinä sait palkan $%s",
+        "job_info": "Työ: %s | Arvo: %s | Vuorossa: %s",
+        "gang_info": "Jengi: %s | Arvo: %s",
+        "on_duty": "Sinä olet nyt vuorossa!",
+        "off_duty": "Sinä poistuit vuorosta!"
+    }
+}
