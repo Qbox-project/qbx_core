@@ -35,7 +35,7 @@
         "on_duty": "Nyní jste v práci!",
         "off_duty": "Nyní jste mimo službu!",
         "checking_ban": "Ahoj %s. Kontrolujeme, zda jste zakázaný.",
-        "join_server": "Vítejte %s na {Název Serveru}.",
+        "join_server": "Vítejte %s na %s.",
         "checking_whitelisted": "Ahoj %s. Kontrolujeme vaši povolenost.",
         "exploit_banned": "Byli jste zakázáni za podvádění. Podívejte se na náš Discord pro více informací: %s",
         "exploit_dropped": "Byli jste vyhoštěni za zneužívání",

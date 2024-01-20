@@ -20,7 +20,7 @@
         "on_duty": "Du är nu i tjänst!",
         "off_duty": "Du har gått ur tjänst!",
         "checking_ban": "Hej %s. Vi kollar ifall du är bannad.",
-        "join_server": "Välkommen %s till Bygden RP.",
+        "join_server": "Välkommen %s till %s.",
         "checking_whitelisted": "Hej %s. Vi kollar efter giltighet i ditt medlemskap."
     }
 }

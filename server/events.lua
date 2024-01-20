@@ -58,7 +58,7 @@ end)
 ---@field done fun(failureReason?: string) finalizes deferrals. If failureReason is present, user will be refused connection and shown reason. Need to wait 1 tick after calling other deferral methods before calling done.
 
 -- Player Connecting
----@param name any
+---@param name string
 ---@param _ any
 ---@param deferrals Deferrals
 local function onPlayerConnecting(name, _, deferrals)
@@ -96,7 +96,7 @@ local function onPlayerConnecting(name, _, deferrals)
         end)
 
         if serverConfig.whitelist and success then
-            deferrals.update(string.format(locale('info.checking_whitelisted'), name))
+            deferrals.update(locale('info.checking_whitelisted', name))
             success, err = pcall(function()
                 if not IsWhitelisted(src --[[@as Source]]) then
                     Wait(0) -- Mandatory wait
@@ -111,9 +111,15 @@ local function onPlayerConnecting(name, _, deferrals)
         databasePromise:resolve()
     end)
 
+    local onError = function(err)
+        deferrals.done(locale('error.connecting_error'))
+        lib.print.error(err)
+    end
+
     -- wait for database to finish
     databasePromise:next(function()
-        deferrals.update(locale('info.join_server', name))
+        local serverName = GetConvar('sv_projectName', GetConvar('sv_hostname', 'Server'))
+        deferrals.update(locale('info.join_server', name, serverName))
 
         -- Mandatory wait
         Wait(0)
@@ -123,10 +129,7 @@ local function onPlayerConnecting(name, _, deferrals)
         else
             deferrals.done()
         end
-    end, function(err)
-        deferrals.done(locale('error.connecting_error'))
-        lib.print.error(err)
-    end)
+    end, onError):next(function() end, onError)
 
     -- if conducting db checks for too long then raise error
     while databasePromise.state == 0 do
