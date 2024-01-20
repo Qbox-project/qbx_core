@@ -283,9 +283,7 @@ end
 
 ---@deprecated use lib.getNearbyVehicles from ox_lib
 functions.SpawnClear = function(coords, radius)
-    local vehicles = lib.getNearbyVehicles(coords, radius)
-    if #vehicles > 0 then return false end
-    return true
+    return #lib.getNearbyVehicles(coords, radius) == 0
 end
 
 ---@deprecated use lib.getVehicleProperties from ox_lib
