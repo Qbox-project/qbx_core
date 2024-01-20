@@ -50,7 +50,7 @@ files {
     'bridge/qb/shared/export-function.lua',
     'config/client.lua',
     'config/shared.lua',
-    'locales/*.json'
+    'locale/*.json'
 }
 
 dependencies {
