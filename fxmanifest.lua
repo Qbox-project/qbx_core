@@ -9,8 +9,6 @@ shared_scripts {
     '@ox_lib/init.lua',
     'modules/lib.lua',
     'shared/locale.lua',
-    'locale/en.lua',
-    'locale/*.lua',
 }
 
 client_scripts {
@@ -51,7 +49,8 @@ files {
     'bridge/qb/shared/main.lua',
     'bridge/qb/shared/export-function.lua',
     'config/client.lua',
-    'config/shared.lua'
+    'config/shared.lua',
+    'locales/*.json'
 }
 
 dependencies {

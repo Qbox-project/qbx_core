@@ -32,7 +32,7 @@ function LoginV2(source, citizenid, newData)
         if playerData and (license2 == playerData.license or license == playerData.license) then
             return CheckPlayerData(source, playerData)
         else
-            DropPlayer(tostring(source), Lang:t("info.exploit_dropped"))
+            DropPlayer(tostring(source), locale("info.exploit_dropped"))
             logger.log({
                 source = 'qbx_core',
                 webhook = config.logging.webhook['anticheat'],
@@ -548,7 +548,7 @@ function DeleteCharacter(source, citizenid)
             end
         end)
     else
-        DropPlayer(tostring(source), Lang:t("info.exploit_dropped"))
+        DropPlayer(tostring(source), locale("info.exploit_dropped"))
         logger.log({
             source = 'qbx_core',
             webhook = config.logging.webhook['anticheat'],

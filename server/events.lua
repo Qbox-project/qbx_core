@@ -1,5 +1,6 @@
 local serverConfig = require 'config.server'.server
 local loggingConfig = require 'config.server'.logging
+local serverName = require 'config.shared'.serverName
 local logger = require 'modules.logger'
 local queue = require 'server.queue'
 
@@ -25,7 +26,7 @@ AddEventHandler('playerJoining', function()
     if not serverConfig.checkDuplicateLicense then return end
     if usedLicenses[license] then
         Wait(0) -- mandatory wait for the drop reason to show up
-        DropPlayer(src, Lang:t('error.duplicate_license'))
+        DropPlayer(src, locale('error.duplicate_license'))
     else
         usedLicenses[license] = true
     end
@@ -58,7 +59,7 @@ end)
 ---@field done fun(failureReason?: string) finalizes deferrals. If failureReason is present, user will be refused connection and shown reason. Need to wait 1 tick after calling other deferral methods before calling done.
 
 -- Player Connecting
----@param name any
+---@param name string
 ---@param _ any
 ---@param deferrals Deferrals
 local function onPlayerConnecting(name, _, deferrals)
@@ -76,9 +77,9 @@ local function onPlayerConnecting(name, _, deferrals)
     end
 
     if not license then
-        deferrals.done(Lang:t('error.no_valid_license'))
-    elseif serverConfig.checkDuplicateLicense and usedLicenses[license] then
-        deferrals.done(Lang:t('error.duplicate_license'))
+        deferrals.done(locale('error.no_valid_license'))
+    elseif serverConfig.checkDuplicateLicense and IsLicenseInUse(license) then
+        deferrals.done(locale('error.duplicate_license'))
     end
 
     local databaseTime = os.clock()
@@ -86,7 +87,7 @@ local function onPlayerConnecting(name, _, deferrals)
 
     -- conduct database-dependant checks
     CreateThread(function()
-        deferrals.update(string.format(Lang:t('info.checking_ban'), name))
+        deferrals.update(locale('info.checking_ban', name))
         local success, err = pcall(function()
             local isBanned, Reason = IsPlayerBanned(src --[[@as Source]])
             if isBanned then
@@ -96,11 +97,11 @@ local function onPlayerConnecting(name, _, deferrals)
         end)
 
         if serverConfig.whitelist and success then
-            deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
+            deferrals.update(locale('info.checking_whitelisted', name))
             success, err = pcall(function()
                 if not IsWhitelisted(src --[[@as Source]]) then
                     Wait(0) -- Mandatory wait
-                    deferrals.done(Lang:t('error.not_whitelisted'))
+                    deferrals.done(locale('error.not_whitelisted'))
                 end
             end)
         end
@@ -111,9 +112,14 @@ local function onPlayerConnecting(name, _, deferrals)
         databasePromise:resolve()
     end)
 
+    local onError = function(err)
+        deferrals.done(locale('error.connecting_error'))
+        lib.print.error(err)
+    end
+
     -- wait for database to finish
     databasePromise:next(function()
-        deferrals.update(string.format(Lang:t('info.join_server'), name))
+        deferrals.update(locale('info.join_server', name, serverName))
 
         -- Mandatory wait
         Wait(0)
@@ -123,16 +129,13 @@ local function onPlayerConnecting(name, _, deferrals)
         else
             deferrals.done()
         end
-    end, function(err)
-        deferrals.done(Lang:t('error.connecting_error'))
-        lib.print.error(err)
-    end)
+    end, onError):next(function() end, onError)
 
     -- if conducting db checks for too long then raise error
     while databasePromise.state == 0 do
         if os.clock() - databaseTime > 30 then
-            deferrals.done(Lang:t('error.connecting_database_timeout'))
-            error(Lang:t('error.connecting_database_timeout'))
+            deferrals.done(locale('error.connecting_database_timeout'))
+            error(locale('error.connecting_database_timeout'))
             break
         end
         Wait(1000)
@@ -170,7 +173,7 @@ RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
             end
         end
     else
-        DropPlayer(src, Lang:t("error.no_permission"))
+        DropPlayer(src, locale("error.no_permission"))
     end
 end)
 
@@ -179,7 +182,7 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     if HasPermission(src, 'admin') then
         serverConfig.closed = false
     else
-        DropPlayer(src, Lang:t("error.no_permission"))
+        DropPlayer(src, locale("error.no_permission"))
     end
 end)
 
@@ -191,10 +194,10 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     if not player then return end
     if player.PlayerData.job.onduty then
         player.Functions.SetJobDuty(false)
-        Notify(src, Lang:t('info.off_duty'))
+        Notify(src, locale('info.off_duty'))
     else
         player.Functions.SetJobDuty(true)
-        Notify(src, Lang:t('info.on_duty'))
+        Notify(src, locale('info.on_duty'))
     end
     TriggerClientEvent('QBCore:Client:SetDuty', src, player.PlayerData.job.onduty)
 end)

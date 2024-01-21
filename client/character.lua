@@ -80,40 +80,40 @@ end
 
 ---@return string[]?
 local function characterDialog()
-    return lib.inputDialog(Lang:t('info.character_registration_title'), {
+    return lib.inputDialog(locale('info.character_registration_title'), {
         {
             type = 'input',
             required = true,
             icon = 'user-pen',
-            label = Lang:t('info.first_name'),
+            label = locale('info.first_name'),
             placeholder = 'Hank'
         },
         {
             type = 'input',
             required = true,
             icon = 'user-pen',
-            label = Lang:t('info.last_name'),
+            label = locale('info.last_name'),
             placeholder = 'Jordan'
         },
         {
             type = 'input',
             required = true,
             icon = 'user-shield',
-            label = Lang:t('info.nationality'),
+            label = locale('info.nationality'),
             placeholder = 'Duck'
         },
         {
             type = 'select',
             required = true,
             icon = 'circle-user',
-            label = Lang:t('info.gender'),
-            placeholder = Lang:t('info.select_gender'),
+            label = locale('info.gender'),
+            placeholder = locale('info.select_gender'),
             options = {
                 {
-                    value = Lang:t('info.char_male')
+                    value = locale('info.char_male')
                 },
                 {
-                    value = Lang:t('info.char_female')
+                    value = locale('info.char_female')
                 }
             }
         },
@@ -121,7 +121,7 @@ local function characterDialog()
             type = 'date',
             required = true,
             icon = 'calendar-days',
-            label = Lang:t('info.birth_date'),
+            label = locale('info.birth_date'),
             format = 'YYYY-MM-DD',
             returnString = true,
             min = '1900-01-01', -- Has to be in the same in the same format as the format argument
@@ -223,7 +223,7 @@ local function createCharacter(cid)
 
     for input = 1, 3 do -- Run through first 3 inputs, aka first name, last name and nationality
         if not checkStrings(dialog, input) then
-            Notify(Lang:t('error.no_match_character_registration'), 'error', 10000)
+            Notify(locale('error.no_match_character_registration'), 'error', 10000)
             goto noMatch
             break
         end
@@ -234,7 +234,7 @@ local function createCharacter(cid)
         firstname = capString(dialog[1]),
         lastname = capString(dialog[2]),
         nationality = capString(dialog[3]),
-        gender = dialog[4] == Lang:t('info.char_male') and 0 or 1,
+        gender = dialog[4] == locale('info.char_male') and 0 or 1,
         birthdate = dialog[5],
         cid = cid
     })
@@ -280,10 +280,10 @@ local function chooseCharacter()
         local character = characters[i]
         local name = character and character.charinfo.firstname .. ' ' .. character.charinfo.lastname
         options[i] = {
-            title = character and string.format('%s %s - %s', character.charinfo.firstname, character.charinfo.lastname, character.citizenid) or Lang:t('info.multichar_new_character', { number = i }),
+            title = character and string.format('%s %s - %s', character.charinfo.firstname, character.charinfo.lastname, character.citizenid) or locale('info.multichar_new_character', i),
             metadata = character and {
                 Name = name,
-                Gender = character.charinfo.gender == 0 and Lang:t('info.char_male') or Lang:t('info.char_female'),
+                Gender = character.charinfo.gender == 0 and locale('info.char_male') or locale('info.char_female'),
                 Birthdate = character.charinfo.birthdate,
                 Nationality = character.charinfo.nationality,
                 ['Account Number'] = character.charinfo.account,
@@ -317,16 +317,16 @@ local function chooseCharacter()
                 menu = 'qbx_core_multichar_characters',
                 options = {
                     {
-                        title = Lang:t('info.play'),
-                        description = Lang:t('info.play_description', { playerName = name }),
+                        title = locale('info.play'),
+                        description = locale('info.play_description', name),
                         icon = 'play',
                         onSelect = function()
                             DoScreenFadeOut(10)
                             lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
                             if GetResourceState('qbx_apartments'):find('start') then
-                                TriggerEvent('apartments:client:setupSpawnUI', { citizenid = character.citizenid })
+                                TriggerEvent('apartments:client:setupSpawnUI', character.citizenid)
                             elseif GetResourceState('qbx_spawn'):find('start') then
-                                TriggerEvent('qb-spawn:client:setupSpawns', { citizenid = character.citizenid })
+                                TriggerEvent('qb-spawn:client:setupSpawns', character.citizenid)
                                 TriggerEvent('qb-spawn:client:openUI', true)
                             else
                                 spawnLastLocation()
@@ -335,13 +335,13 @@ local function chooseCharacter()
                         end
                     },
                     config.characters.enableDeleteButton and {
-                        title = Lang:t('info.delete_character'),
-                        description = Lang:t('info.delete_character_description', { playerName = name }),
+                        title = locale('info.delete_character'),
+                        description = locale('info.delete_character_description', name),
                         icon = 'trash',
                         onSelect = function()
                             local alert = lib.alertDialog({
-                                header = Lang:t('info.delete_character'),
-                                content = Lang:t('info.confirm_delete'),
+                                header = locale('info.delete_character'),
+                                content = locale('info.confirm_delete'),
                                 centered = true,
                                 cancel = true
                             })
@@ -361,7 +361,7 @@ local function chooseCharacter()
 
     lib.registerContext({
         id = 'qbx_core_multichar_characters',
-        title = Lang:t('info.multichar_title'),
+        title = locale('info.multichar_title'),
         canClose = false,
         options = options
     })
