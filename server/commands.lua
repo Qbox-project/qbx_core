@@ -208,7 +208,7 @@ lib.addCommand('job', {
     help = locale("command.job.help")
 }, function(source)
     local PlayerJob = GetPlayer(source).PlayerData.job
-    Notify(source, locale('info.job_info', {value = PlayerJob?.label, value2 = PlayerJob?.grade.name, value3 = PlayerJob?.onduty}))
+    Notify(source, locale('info.job_info', PlayerJob?.label, PlayerJob?.grade.name, PlayerJob?.onduty))
 end)
 
 lib.addCommand('setjob', {
@@ -238,7 +238,7 @@ lib.addCommand('gang', {
     help = locale("command.gang.help")
 }, function(source)
     local PlayerGang = GetPlayer(source).PlayerData.gang
-    Notify(source, locale('info.gang_info', {value = PlayerGang?.label, value2 = PlayerGang?.grade.name}))
+    Notify(source, locale('info.gang_info', PlayerGang?.label, PlayerGang?.grade.name))
 end)
 
 lib.addCommand('setgang', {
