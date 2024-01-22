@@ -337,6 +337,21 @@ lib.addCommand('me', {
     playerState:set('me', nil, true)
 end)
 
+-- Metadata command
+
+lib.addCommand('setmetadata', {help = 'Set Player Metadata (God Only)', restricted = 'god'}, function(source, args)
+    local Player = exports.qbx_core:GetPlayer(source)
+    if args[1] then
+        if args[1] == "trucker" then
+            if args[2] then
+                local newrep = Player.PlayerData.metadata["jobrep"]
+                newrep.trucker = tonumber(args[2])
+                Player.Functions.SetMetaData("jobrep", newrep)
+            end
+        end
+    end
+end)
+
 -- ID command
 
 lib.addCommand('id', {help = locale('info.check_id')}, function(source)
