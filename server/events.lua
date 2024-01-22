@@ -78,7 +78,7 @@ local function onPlayerConnecting(name, _, deferrals)
 
     if not license then
         deferrals.done(locale('error.no_valid_license'))
-    elseif serverConfig.checkDuplicateLicense and IsLicenseInUse(license) then
+    elseif serverConfig.checkDuplicateLicense and usedLicenses[license] then
         deferrals.done(locale('error.duplicate_license'))
     end
 
