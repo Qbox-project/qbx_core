@@ -137,11 +137,19 @@ end)
 lib.addCommand('car', {
     help = locale("command.car.help"),
     params = {
-        { name = locale("command.car.params.model.name"), help = locale("command.car.params.model.help") }
+        { name = locale("command.car.params.model.name"), help = locale("command.car.params.model.help") },
+        { name = locale("command.car.params.keepCurrentVehicle.name"), help = locale("command.car.params.keepCurrentVehicle.help"), optional = true },
     },
     restricted = "group.admin"
 }, function(source, args)
     if not args then return end
+
+    local keepCurrentVehicle = args[locale("command.car.params.keepCurrentVehicle.name")]
+    local currentVehicle = GetVehiclePedIsIn(GetPlayerPed(source), false)
+    if not keepCurrentVehicle then
+        DeleteVehicle(currentVehicle)
+    end
+
     local netId = qbx.spawnVehicle({
         model = args[locale("command.car.params.model.name")],
         spawnSource = GetPlayerPed(source),
@@ -153,22 +161,29 @@ lib.addCommand('car', {
 end)
 
 lib.addCommand('dv', {
-    help = locale("command.dv.help"),
+    help = locale('command.dv.help'),
+    params = {
+        { name = locale('command.dv.params.radius.name'), type = 'number', help = locale('command.dv.params.radius.help'), optional = true }
+    },
     restricted = 'group.admin'
-}, function(source)
+}, function(source, args)
     local ped = GetPlayerPed(source)
-    local pedCar = GetVehiclePedIsIn(ped, false)
+    local pedCars = {GetVehiclePedIsIn(ped, false)}
+    local radius = args[locale('command.dv.params.radius.name')]
 
-    if not pedCar then
-        local vehicle = lib.callback.await('qbx_core:client:getNearestVehicle', source)
-
-        if vehicle then
-            pedCar = NetworkGetEntityFromNetworkId(vehicle)
-        end
+    if pedCars[1] == 0 or radius then -- Only execute when player is not in a vehicle or radius is explicitly defined
+        pedCars = lib.callback.await('qbx_core:client:getVehiclesInRadius', source, radius)
+    else
+        pedCars[1] = NetworkGetNetworkIdFromEntity(pedCars[1])
     end
 
-    if pedCar and DoesEntityExist(pedCar) then
-        DeleteEntity(pedCar)
+    if #pedCars ~= 0 then
+        for i = 1, #pedCars do
+            local pedCar = NetworkGetEntityFromNetworkId(pedCars[i])
+            if pedCar and DoesEntityExist(pedCar) then
+                DeleteEntity(pedCar)
+            end
+        end
     end
 end)
 
@@ -213,7 +228,7 @@ lib.addCommand('job', {
     help = locale("command.job.help")
 }, function(source)
     local PlayerJob = GetPlayer(source).PlayerData.job
-    Notify(source, locale('info.job_info', {value = PlayerJob?.label, value2 = PlayerJob?.grade.name, value3 = PlayerJob?.onduty}))
+    Notify(source, locale('info.job_info', PlayerJob?.label, PlayerJob?.grade.name, PlayerJob?.onduty))
 end)
 
 lib.addCommand('setjob', {
@@ -243,7 +258,7 @@ lib.addCommand('gang', {
     help = locale("command.gang.help")
 }, function(source)
     local PlayerGang = GetPlayer(source).PlayerData.gang
-    Notify(source, locale('info.gang_info', {value = PlayerGang?.label, value2 = PlayerGang?.grade.name}))
+    Notify(source, locale('info.gang_info', PlayerGang?.label, PlayerGang?.grade.name))
 end)
 
 lib.addCommand('setgang', {

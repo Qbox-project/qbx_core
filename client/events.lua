@@ -144,10 +144,14 @@ lib.callback.register('qbx_core:client:vehicleSpawned', function(netId, props)
     end
 end)
 
-lib.callback.register('qbx_core:client:getNearestVehicle', function()
-    local vehicle = lib.getClosestVehicle(GetEntityCoords(cache.ped), 5)
+lib.callback.register('qbx_core:client:getVehiclesInRadius', function(radius)
+    local vehicles = lib.getNearbyVehicles(GetEntityCoords(cache.ped), radius or 5, true)
 
-    return vehicle and VehToNet(vehicle)
+    for i = 1, #vehicles do
+        vehicles[i] = VehToNet(vehicles[i].vehicle)
+    end
+
+    return vehicles
 end)
 
 -- Other stuff
