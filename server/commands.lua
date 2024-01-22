@@ -144,15 +144,16 @@ lib.addCommand('car', {
 }, function(source, args)
     if not args then return end
 
+    local ped = GetPlayerPed(source)
     local keepCurrentVehicle = args[locale("command.car.params.keepCurrentVehicle.name")]
-    local currentVehicle = GetVehiclePedIsIn(GetPlayerPed(source), false)
-    if not keepCurrentVehicle then
+    local currentVehicle = not keepCurrentVehicle and GetVehiclePedIsIn(ped, false)
+    if currentVehicle and currentVehicle ~= 0 then
         DeleteVehicle(currentVehicle)
     end
 
     local netId = qbx.spawnVehicle({
         model = args[locale("command.car.params.model.name")],
-        spawnSource = GetPlayerPed(source),
+        spawnSource = ped,
         warp = true,
     })
 
