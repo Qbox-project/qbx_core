@@ -95,14 +95,14 @@
         "car": {
             "help": "Spawn voertuig (Admin Only)",
             "params": {
-                "model": { "name": "model", "help": "Model van het voertuig" }
+                "model": { "name": "model", "help": "Model van het voertuig" },
+                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Hou het huidige voertuig waar je in zit (laat leeg om huidige voertuig te laten verwijderen)" }
             }
         },
         "dv": {
             "help":"Voertuig verwijderen (Admin Only)",
             "params": {
-                "radius": { "name": "radius", "help": "Radius om voertuigen in te verwijderen (meters)" },
-                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Hou het huidige voertuig waar je in zit (laat leeg om huidige voertuig te laten verwijderen)" }
+                "radius": { "name": "radius", "help": "Radius om voertuigen in te verwijderen (meters)" }
             }
         },
         "givemoney": {
