@@ -138,9 +138,11 @@ end
 
 ---Returns the number plate of the given vehicle.
 ---@param vehicle integer
----@return string
+---@return string?
 function qbx.getVehiclePlate(vehicle)
-    return qbx.string.trim(GetVehicleNumberPlateText(vehicle))
+    local plate = GetVehicleNumberPlateText(vehicle)
+    if not plate then return end
+    return qbx.string.trim(plate)
 end
 
 ---Generates and returns a random number plate with the given pattern.
