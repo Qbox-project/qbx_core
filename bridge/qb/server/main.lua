@@ -85,15 +85,17 @@ function qbCoreCompat.Functions.TriggerCallback(name, source, cb, ...)
     qbCoreCompat.ServerCallbacks[name](source, cb, ...)
 end
 
----@deprecated call server function SpawnVehicle instead from imports/utils.lua.
+---@deprecated call server function qbx.spawnVehicle from modules/lib.lua
 qbCoreCompat.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
-    local netId = SpawnVehicle(source, model, coords, warp)
+    local netId = qbCoreCompat.Functions.SpawnVehicle(source, model, coords, warp)
+
     if netId then cb(netId) end
 end)
 
----@deprecated call server function SpawnVehicle instead from imports/utils.lua.
+---@deprecated call server function qbx.spawnVehicle from modules/lib.lua
 qbCoreCompat.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
-    local netId = SpawnVehicle(source, model, coords, warp)
+    local netId = qbCoreCompat.Functions.CreateVehicle(source, model, nil, coords, warp)
+
     if netId then cb(netId) end
 end)
 

@@ -8,7 +8,7 @@ end)
 
 RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
     local vehicle = NetworkGetEntityFromNetworkId(info.netId)
-    local plate = GetPlate(vehicle)
+    local plate = qbx.getVehiclePlate(vehicle)
     local hasKeys = config.hasKeys()
 
     local data = {

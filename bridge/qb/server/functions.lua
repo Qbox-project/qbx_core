@@ -4,8 +4,11 @@ local functions = {}
 
 local createQbExport = require 'bridge.qb.shared.export-function'
 
----@deprecated
-functions.GetCoords = GetCoordsFromEntity
+---@deprecated use the GetEntityCoords and GetEntityHeading natives directly
+functions.GetCoords = function(entity)
+    local coords = GetEntityCoords(entity)
+    return vec4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
+end
 
 ---@deprecated use the native GetPlayerIdentifierByType?
 functions.GetIdentifier = GetPlayerIdentifierByType
@@ -21,7 +24,7 @@ function functions.GetPlayers()
     return sources
 end
 
----@deprecated use SpawnVehicle from imports/utils.lua
+---@deprecated use qbx.spawnVehicle from modules/lib.lua
 ---@return number?
 function functions.SpawnVehicle(source, model, coords, warp)
     local ped = GetPlayerPed(source)
@@ -40,9 +43,17 @@ function functions.SpawnVehicle(source, model, coords, warp)
     return veh
 end
 
----@deprecated use SpawnVehicle from imports/utils.lua
+---@deprecated use qbx.spawnVehicle from modules/lib.lua
 function functions.CreateVehicle(source, model, _, coords, warp)
-    local netId = SpawnVehicle(source, model, coords, warp)
+    model = type(model) == 'string' and joaat(model) or (model --[[@as integer]])
+    local ped = GetPlayerPed(source)
+
+    local netId = qbx.spawnVehicle({
+        model = model,
+        spawnSource = coords or ped,
+        warp = warp and ped or nil,
+    })
+
     return NetworkGetEntityFromNetworkId(netId)
 end
 
@@ -54,19 +65,72 @@ function functions.UseItem(source, item)
     exports['qb-inventory']:UseItem(source, item)
 end
 
----@deprecated use KickWithReason from imports/utils.lua
-functions.Kick = KickWithReason
+local discordLink = GetConvar('qbx:discordlink', 'discord.gg/qbox')
+---@deprecated use setKickReason or deferrals for connecting players, and the DropPlayer native directly otherwise
+functions.Kick = function(source, reason, setKickReason, deferrals)
+    reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. discordLink
+    if setKickReason then
+        setKickReason(reason)
+    end
+    CreateThread(function()
+        if deferrals then
+            deferrals.update(reason)
+            Wait(2500)
+        end
+        if source then
+            DropPlayer(source --[[@as string]], reason)
+        end
+        for _ = 0, 4 do
+            while true do
+                if source then
+                    if GetPlayerPing(source --[[@as string]]) >= 0 then
+                        break
+                    end
+                    Wait(100)
+                    CreateThread(function()
+                        DropPlayer(source --[[@as string]], reason)
+                    end)
+                end
+            end
+            Wait(5000)
+        end
+    end)
+end
 
----@deprecated use IsLicenseInUse from imports/utils.lua
-functions.IsLicenseInUse = IsLicenseInUse
+---@deprecated check for license usage directly yourself
+functions.IsLicenseInUse = function(license)
+    local players = GetPlayers()
+
+    for _, player in pairs(players) do
+        local plyLicense2 = GetPlayerIdentifierByType(player --[[@as string]], 'license2')
+        local plyLicense = GetPlayerIdentifierByType(player --[[@as string]], 'license')
+        if plyLicense2 == license or plyLicense == license then
+            return true
+        end
+    end
+
+    return false
+end
 
 -- Utility functions
 
 ---@deprecated use https://overextended.dev/ox_inventory/Functions/Server#search
-functions.HasItem = HasItem
+functions.HasItem = function(source, items, amount) -- luacheck: ignore
+    amount = amount or 1
+    local count = exports.ox_inventory:Search(source, 'count', items)
+    if type(items) == 'table' and type(count) == 'table' then
+        for _, v in pairs(count) do
+            if v < amount then
+                return false
+            end
+        end
+        return true
+    end
+    return count >= amount
+end
 
----@deprecated use GetPlate from imports/utils.lua
-functions.GetPlate = GetPlate
+---@deprecated use qbx.getVehiclePlate from modules/lib.lua
+functions.GetPlate = qbx.getVehiclePlate
 
 -- Single add item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.

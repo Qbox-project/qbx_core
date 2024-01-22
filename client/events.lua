@@ -185,7 +185,7 @@ AddStateBagChangeHandler('me', nil, function(bagName, _, value)
         local displayTime = 5000 + GetGameTimer()
         while displayTime > GetGameTimer() do
             playerPed = isLocalPlayer and cache.ped or GetPlayerPed(playerId)
-            DrawText3D(value, GetEntityCoords(playerPed))
+            qbx.drawText3d({text = value, coords = GetEntityCoords(playerPed)})
             Wait(0)
         end
     end)

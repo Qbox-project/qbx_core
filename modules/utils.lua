@@ -116,7 +116,7 @@ end
 --- @param subfield string
 --- @param table table
 --- @return table<any, table[]>
-function MapTableBySubfield(subfield, table)
+function MapTableBySubfield(subfield, table) -- luacheck: ignore
     return qbx.table.mapBySubfield(table, subfield)
 end
 

@@ -1,36 +1,53 @@
 local qbShared = require 'shared.main'
 
----@deprecated use CommaValue from imports/utils.lua
-qbShared.CommaValue = CommaValue
+---@deprecated use lib.math.groupdigits from ox_lib
+qbShared.CommaValue = lib.math.groupdigits
 
----@deprecated use RandomLetter from imports/utils.lua
-qbShared.RandomStr = RandomLetter
+---@deprecated use lib.string.random from ox_lib
+qbShared.RandomStr = function(length)
+    if length <= 0 then return '' end
+    local pattern = math.random(2) == 1 and 'a' or 'A'
+    return qbShared.RandomStr(length - 1) .. lib.string.random(pattern)
+end
 
----@deprecated use RandomNumber from imports/utils.lua
-qbShared.RandomInt = RandomNumber
+---@deprecated use lib.string.random from ox_lib
+qbShared.RandomInt = function(length)
+    if length <= 0 then return '' end
+    return qbShared.RandomInt(length - 1) .. lib.string.random('1')
+end
 
----@deprecated use string.split from imports/utils.lua
-qbShared.SplitStr = string.split
+---@deprecated use string.strsplit with CfxLua 5.4
+qbShared.SplitStr = function(str, delimiter)
+    local result = table.pack(string.strsplit(delimiter, str))
+    result.n = nil
+    return result
+end
 
----@deprecated use string.trim from imports/utils.lua
-qbShared.Trim = string.trim
+---@deprecated use qbx.string.trim from modules/lib.lua
+qbShared.Trim = function(str)
+    if not str then return nil end
+    return qbx.string.trim(str)
+end
 
----@deprecated use string.firstToUpper from imports/utils.lua
-qbShared.FirstToUpper = string.firstToUpper
+---@deprecated use qbx.string.capitalize from modules/lib.lua
+qbShared.FirstToUpper = function(str)
+    if not str then return nil end
+    return qbx.string.capitalize(str)
+end
 
----@deprecated use math.round from imports/utils.lua
-qbShared.Round = math.round
+---@deprecated use qbx.math.round from modules/lib.lua
+qbShared.Round = qbx.math.round
 
----@deprecated use ChangeVehicleExtra from imports/utils.lua
-qbShared.ChangeVehicleExtra = ChangeVehicleExtra
+---@deprecated use qbx.setVehicleExtra from modules/lib.lua
+qbShared.ChangeVehicleExtra = qbx.setVehicleExtras
 
----@deprecated use SetVehicleExtras from imports/utils.lua
-qbShared.SetDefaultVehicleExtras = SetVehicleExtras
+---@deprecated use qbx.setVehicleExtra from modules/lib.lua
+qbShared.SetDefaultVehicleExtras = qbx.setVehicleExtras
 
----@deprecated use MaleNoGloves from imports/utils.lua
-qbShared.MaleNoGloves = MaleNoGloves
+---@deprecated use qbx.armsWithoutGloves.male from modules/lib.lua
+qbShared.MaleNoGloves = qbx.armsWithoutGloves.male
 
----@deprecated use FemaleNoGloves from imports/utils.lua
-qbShared.FemaleNoGloves = FemaleNoGloves
+---@deprecated use qbx.armsWithoutGloves.female from modules/lib.lua
+qbShared.FemaleNoGloves = qbx.armsWithoutGloves.female
 
 return qbShared
