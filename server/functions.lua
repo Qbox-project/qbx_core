@@ -129,6 +129,7 @@ exports('GetBucketObjects', GetBucketObjects)
 function SetPlayerBucket(source, bucket)
     if not (source or bucket) then return false end
 
+    Player(source).state:set('instance', bucket, true)
     SetPlayerRoutingBucket(source --[[@as string]], bucket)
     QBX.Player_Buckets[source] = bucket
     return true
