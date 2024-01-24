@@ -56,6 +56,8 @@ return {
         local size = params.totalQueueSize
         local displayTime = params.displayTime
 
+        local cardOptions = subQueue.cardOptions or {}
+
         local progressAmount = 7 -- amount of progress shown between the queue & server
         local playerColumn = pos == 1 and progressAmount or (progressAmount - math.ceil(pos / (size / progressAmount)) + 1)
 
@@ -139,11 +141,11 @@ return {
                                 {
                                     type = 'TextBlock',
                                     text = subQueue.name,
-                                    style = subQueue.cardOptions.style,
-                                    fontType = subQueue.cardOptions.fontType,
-                                    size = subQueue.cardOptions.size or 'medium',
-                                    color = subQueue.cardOptions.color,
-                                    isSubtle = subQueue.cardOptions.isSubtle,
+                                    style = cardOptions.style,
+                                    fontType = cardOptions.fontType,
+                                    size = cardOptions.size or 'medium',
+                                    color = cardOptions.color,
+                                    isSubtle = cardOptions.isSubtle,
                                 }
                             },
                         },
