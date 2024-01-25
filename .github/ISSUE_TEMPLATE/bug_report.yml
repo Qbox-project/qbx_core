@@ -48,9 +48,9 @@ body:
   - type: input
     id: updated
     attributes:
-      label: Last Updated
-      description: When have you last updated?
-      placeholder: e.g. last week, today
+      label: Current Version
+      description: What version of the resource are you currently using?
+      placeholder: e.g. v1.3.0, v1.4.0
     validations:
       required: true
   - type: input
@@ -59,12 +59,5 @@ body:
       label: Custom Resources
       description: Are you using custom resources? Which ones?
       placeholder: e.g. zdiscord, qb-target
-    validations:
-      required: true
-  - type: input
-    id: renamed
-    attributes:
-      label: Resource Rename
-      description: Have you renamed this resource from `qb-` to something custom?
     validations:
       required: true
