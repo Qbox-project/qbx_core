@@ -191,11 +191,7 @@ end
 
 ---@deprecated use lib.getClosestObject from ox_lib
 functions.GetClosestObject = function(coords)
-    if coords then
-        coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
-    else
-        coords = GetEntityCoords(cache.ped)
-    end
+    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
     local closestObject, objectCoords = lib.getClosestObject(coords)
     local objectDistance = #(coords - objectCoords)
     return closestObject, objectDistance
