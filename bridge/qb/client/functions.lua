@@ -183,11 +183,7 @@ end
 
 ---@deprecated use lib.getClosestVehicle from ox_lib
 functions.GetClosestVehicle = function(coords)
-    if coords then
-        coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
-    else
-        coords = GetEntityCoords(cache.ped)
-    end
+    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
     local closestVehicle, vehicleCoords = lib.getClosestVehicle(coords)
     local vehicleDistance = #(coords - vehicleCoords)
     return closestVehicle, vehicleDistance
