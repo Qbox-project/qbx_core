@@ -166,7 +166,7 @@ functions.IsWearingGloves = qbx.isWearingGloves
 
 ---@deprecated use lib.getClosestPlayer from ox_lib
 functions.GetClosestPlayer = function(coords)
-    local playerId, _, playerCoords = lib.getClosestVehicle(coords)
+    local playerId, _, playerCoords = lib.getClosestPlayer(coords)
     local playerDistance = #(coords - playerCoords)
     return playerId, playerDistance
 end
