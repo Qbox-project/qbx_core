@@ -5,6 +5,8 @@ description 'QBX_Core'
 repository 'https://github.com/Qbox-project/qbx_core'
 version '1.4.0'
 
+ox_lib 'locale'
+
 shared_scripts {
     '@ox_lib/init.lua',
     'modules/lib.lua',
