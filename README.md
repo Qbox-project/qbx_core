@@ -18,7 +18,7 @@ Want to know more? View our [documentation](https://qbox-project.github.io/)
 - Export-based
 - Rewritten code base
 
-# Depedencies
+# Dependencies
 
 - [oxmysql](https://github.com/overextended/oxmysql)
 - [ox_lib](https://github.com/overextended/ox_lib)
