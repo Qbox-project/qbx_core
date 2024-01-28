@@ -215,7 +215,7 @@ end
 ---@deprecated use lib.getNearbyPlayers from ox_lib
 functions.GetPlayersFromCoords = function(coords, radius)
     coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
-    local players = lib.getNearbyPlayers(coords, distance or 5, true)
+    local players = lib.getNearbyPlayers(coords, radius or 5, true)
 
     -- This is for backwards compatability as beforehand it only returned the PlayerId, where Lib returns PlayerPed, PlayerId and PlayerCoords
     for i = 1, #players do
