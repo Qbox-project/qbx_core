@@ -153,9 +153,7 @@ functions.GetObjects = function()
 end
 
 ---@deprecated use the GetActivePlayers native directly
-functions.GetPlayers = function()
-    return GetActivePlayers()
-end
+functions.GetPlayers = GetActivePlayers
 
 ---@deprecated use the GetGamePool('CPed') native directly
 functions.GetPeds = function(ignoreList)
