@@ -205,6 +205,7 @@ end
 ---@deprecated use qbx.isWearingGloves from modules/lib.lua
 functions.IsWearingGloves = qbx.isWearingGloves
 
+---@deprecated use lib.getClosestPlayer from ox_lib
 functions.GetClosestPlayer = function(coords, maxDistance) -- luacheck: ignore
     coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
     local playerId, _, playerCoords = lib.getClosestPlayer(coords, maxDistance or 50, false)
