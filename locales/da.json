@@ -17,12 +17,18 @@
         "no_permission": "Du har ikke adgang til at gøre dette",
         "no_waypoint": "Ingen waypoint sat.",
         "tp_error": "Fejl opstod mens du teleporterede.",
-        "connecting_database_timeout": "Forbindelsen til databasen gik tabt. (Er SQL serveren tændt?)"
+        "connecting_database_timeout": "Forbindelsen til databasen gik tabt. (Er SQL serveren tændt?)",
+        "connecting_error": "Der opstod en fejl og forbindelsen stoppede (Tjek server konsol [F8])",
+        "no_match_character_registration": "Der er ikke tilladt andet end bogstaver, efterfølgende mellemrum er heller ikke tilladt, og ord skal starte med et stort bogstav i inputfelter. Du kan dog tilføje ord med mellemrum imellem.",
+        "already_in_queue": "Du er allerede i køen.",
+        "no_subqueue": "Du blev ikke inkluderet i nogen underkø."    
     },
     "success": {
-        "server_opened": "Denne server er blevet åbnet",
-        "server_closed": "Denne server er blevet lukket",
-        "teleported_waypoint": "Teleporteret til Waypoint."
+        "server_opened": "Serveren er åben",
+        "server_closed": "Serrveren er lukket",
+        "teleported_waypoint": "Teleporteret til Waypoint.",
+        "character_deleted": "karakter slettet!",
+        "character_deleted_citizenid": "Du fik slettet din karakter med CID: %s."
     },
     "info": {
         "received_paycheck": "Du modtog din løn på $%s",
@@ -34,7 +40,28 @@
         "join_server": "Velkommen %s til %s.",
         "checking_whitelisted": "Hej %s. Vi tjekker din tilladelse.",
         "exploit_banned": "Du er blevet udelukket for at snyde. Tjek vores Discord for mere information: %s",
-        "exploit_dropped": "Du er blevet smidt ud for udnyttelse"
+        "exploit_dropped": "Du er blevet smidt ud for udnyttelse",
+        "multichar_title": "Qbox Multikarakter",
+        "multichar_new_character": "Ny karakter #%s",
+        "char_male": "Mand",
+        "char_female": "Kvinde",
+        "play": "Spil",
+        "play_description": "Spil som %s",
+        "delete_character": "Slet karakter",
+        "delete_character_description": "Slet %s",
+        "logout_command_help": "lukker dig ud fra nuværende karakter",
+        "check_id": "Tje server ID",
+        "deletechar_command_help": "Slet spillerens karakter",
+        "deletechar_command_arg_player_id": "Spiller ID",
+        "character_registration_title": "Karakter oprettelse",
+        "first_name": "Fornavn",
+        "last_name": "Efternavn",
+        "nationality": "Nationalitet",
+        "gender": "Køn",
+        "birth_date": "Fødselsdato",
+        "select_gender": "Vælg dit køn...",
+        "confirm_delete": "Er du sikker på du ønsker at slette din karakter?",
+        "in_queue": "🐌 Du er nr. %s/%s i køen. (%s) %s"
     },
     "command": {
         "tp": {
@@ -71,16 +98,22 @@
         "car": {
             "help": "Spawn Køretøj (Kun Admins)",
             "params": {
-                "model": { "name": "model", "help": "Modelnavn på køretøjet" }
+                "model": { "name": "model", "help": "Modelnavn på køretøjet" },
+                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Behold nuværende køretøj(Forlad den tom for at droppe den)" }
             }
         },
-        "dv": { "help": "Fjern Køretøj (Kun Admins)" },
+        "dv": { 
+        "help": "Fjern Køretøj (Kun Admins)" },
+        "params": {
+            "radius": { "name": "radius", "help": "Radius slet køretøjer i (meters)" }
+        }
+    },
         "givemoney": {
             "help": "Giv en spiller penge (Kun Admins)",
             "params": {
                 "id": { "name": "id", "help": "Spiller ID" },
-                "moneytype": { "name": "moneytype", "help": "Type af penge (cash, bank, crypto)" },
-                "amount": { "name": "amount", "help": "Mængde penge" }
+                "moneytype": { "name": "moneytype", "help": "pengetype (cash, bank, crypto)" },
+                "amount": { "name": "amount", "help": "pengemængde" }
             }
         },
         "setmoney": {
