@@ -317,7 +317,7 @@ function CreatePlayer(playerData, Offline)
             val = val > 100 and 100 or val
         end
         TriggerClientEvent('qbx_core:client:onSetMetaData', self.PlayerData.source, meta, self.PlayerData.metadata[meta], val)
-        TriggerClientEvent('qbx_core:server:onSetMetaData', meta, self.PlayerData.metadata[meta], val)
+        TriggerEvent('qbx_core:server:onSetMetaData', meta, self.PlayerData.metadata[meta], val)
         self.PlayerData.metadata[meta] = val
         self.Functions.UpdatePlayerData()
         if meta == 'inlaststand' or meta == 'isdead' then
