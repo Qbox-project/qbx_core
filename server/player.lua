@@ -316,11 +316,15 @@ function CreatePlayer(playerData, Offline)
         if meta == 'hunger' or meta == 'thirst' then
             val = val > 100 and 100 or val
         end
+
+        local oldVal = self.PlayerData.metadata[meta]
         self.PlayerData.metadata[meta] = val
         self.Functions.UpdatePlayerData()
         if meta == 'inlaststand' or meta == 'isdead' then
             self.Functions.Save()
         end
+        TriggerClientEvent('qbx_core:client:onSetMetaData', self.PlayerData.source, meta, oldVal, val)
+        TriggerEvent('qbx_core:server:onSetMetaData', meta,  oldVal, val)
     end
 
     ---@param meta string
