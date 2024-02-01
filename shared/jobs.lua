@@ -140,6 +140,7 @@ return {
 	},
 	['realestate'] = {
 		label = 'Real Estate',
+        type = 'realestate',
 		defaultDuty = true,
 		offDutyPay = false,
 		grades = {
