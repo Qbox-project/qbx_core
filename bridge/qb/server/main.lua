@@ -87,16 +87,16 @@ end
 
 ---@deprecated call server function qbx.spawnVehicle from modules/lib.lua
 qbCoreCompat.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
-    local netId = qbCoreCompat.Functions.SpawnVehicle(source, model, coords, warp)
+    local vehId = qbCoreCompat.Functions.SpawnVehicle(source, model, coords, warp)
 
-    if netId then cb(netId) end
+    if vehId then cb(NetworkGetNetworkIdFromEntity(vehId)) end
 end)
 
 ---@deprecated call server function qbx.spawnVehicle from modules/lib.lua
 qbCoreCompat.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
-    local netId = qbCoreCompat.Functions.CreateVehicle(source, model, nil, coords, warp)
+    local vehId = qbCoreCompat.Functions.CreateVehicle(source, model, nil, coords, warp)
 
-    if netId then cb(netId) end
+    if vehId then cb(NetworkGetNetworkIdFromEntity(vehId)) end
 end)
 
 local createQbExport = require 'bridge.qb.shared.export-function'
