@@ -294,7 +294,7 @@ else
 
     ---@class LibDrawText3DParams : LibDrawTextParams
     ---@field coords vector3
-    ---@field disableDrawRect? boolean default: `true`
+    ---@field disableDrawRect? boolean
 
     ---Draws text onto the screen in 3D space for a single frame.
     ---@param params LibDrawText3DParams
