@@ -294,7 +294,7 @@ else
 
     ---@class LibDrawText3DParams : LibDrawTextParams
     ---@field coords vector3
-    ---@field drawRect? boolean default: `true`
+    ---@field disableDrawRect? boolean default: `true`
 
     ---Draws text onto the screen in 3D space for a single frame.
     ---@param params LibDrawText3DParams
@@ -314,7 +314,7 @@ else
         SetDrawOrigin(coords.x, coords.y, coords.z, 0)
         EndTextCommandDisplayText(0.0, 0.0)
 
-        if params.drawRect ~= false then
+        if not params.disableDrawRect then
             local factor = #text / 370
             DrawRect(0.0, 0.0125, 0.017 + factor, 0.03, 0, 0, 0, 75)
         end
