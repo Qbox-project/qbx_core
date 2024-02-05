@@ -4,6 +4,7 @@ local qbx = {}
 qbx.string = {}
 qbx.math = {}
 qbx.table = {}
+controlsLoop = nil
 
 qbx.armsWithoutGloves = lib.table.freeze({
     male = lib.table.freeze({
@@ -479,6 +480,38 @@ else
 
         ReleaseSoundId(soundId)
     end
+end
+
+--- Disables game controls except for specified commands.
+--- @param controls table: A table containing boolean values to enable or disable commands.
+function qbx.disableControls(controls)
+    if not controls then
+        controlsLoop = false
+        return
+    end
+
+    local controlActions = {
+        enablePause = {199, 200, 322},
+        enableMouse = {1, 2, 106},
+        enableMovement = {30, 31, 36, 21},
+        enableCarMovement = {63, 64, 71, 72, 75},
+        enableCombat = {24, 25, 37, 47, 58, 140, 141, 142, 143, 263, 264, 257}
+    }
+
+    CreateThread(function()
+        controlsLoop = true
+
+        while controlsLoop do
+            Wait(0)
+            for action, keys in pairs(controlActions) do
+                if not controls[action] then
+                    for _, key in ipairs(keys) do
+                        DisableControlAction(0, key, true)
+                    end
+                end
+            end
+        end
+    end)
 end
 
 _ENV.qbx = qbx
