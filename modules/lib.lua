@@ -495,7 +495,8 @@ function qbx.disableControls(controls)
         enableMouse = {1, 2, 106},
         enableMovement = {30, 31, 36, 21},
         enableCarMovement = {63, 64, 71, 72, 75},
-        enableCombat = {24, 25, 37, 47, 58, 140, 141, 142, 143, 263, 264, 257}
+        enableCombat = {24, 25, 37, 47, 58, 140, 141, 142, 143, 263, 264, 257},
+        enableJump = {32}
     }
 
     CreateThread(function()
