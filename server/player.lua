@@ -324,7 +324,7 @@ function CreatePlayer(playerData, Offline)
             self.Functions.Save()
         end
         TriggerClientEvent('qbx_core:client:onSetMetaData', self.PlayerData.source, meta, oldVal, val)
-        TriggerEvent('qbx_core:server:onSetMetaData', self.PlayerData.source, meta,  oldVal, val)
+        TriggerEvent('qbx_core:server:onSetMetaData', meta,  oldVal, val, self.PlayerData.source)
     end
 
     ---@param meta string
