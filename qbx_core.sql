@@ -43,16 +43,18 @@ CREATE TABLE IF NOT EXISTS `player_contacts` (
   KEY `citizenid` (`citizenid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
-CREATE TABLE IF NOT EXISTS `jobs` (
+CREATE TABLE IF NOT EXISTS `groups` (
 	`name` VARCHAR(50) NOT NULL,
+  `type` ENUM('job','gang') NOT NULL,
 	`data` LONGTEXT NOT NULL,
-	PRIMARY KEY (`name`)
+	PRIMARY KEY (`name`, `type`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `job_grades` (
-	`job` VARCHAR(50) NOT NULL
+CREATE TABLE IF NOT EXISTS `group_grades` (
+	`group` VARCHAR(50) NOT NULL
+  `type` ENUM('job', 'gang') NOT NULL,
 	`grade` TINYINT(3) UNSIGNED NOT NULL,
 	`data` LONGTEXT NOT NULL,
-	PRIMARY KEY (`job`, `grade`),
-	CONSTRAINT `jobs` FOREIGN KEY (`job`) REFERENCES `jobs` (`name`) ON UPDATE CASCADE ON DELETE CASCADE
+	PRIMARY KEY (`group`, `grade`, `type`),
+	CONSTRAINT `groups` FOREIGN KEY (`group`) REFERENCES `groups` (`name`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB;
