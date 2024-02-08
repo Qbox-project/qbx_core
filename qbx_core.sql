@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `group_grades` (
-	`group` VARCHAR(50) NOT NULL
+	`group` VARCHAR(50) NOT NULL,
   `type` ENUM('job', 'gang') NOT NULL,
 	`grade` TINYINT(3) UNSIGNED NOT NULL,
 	`data` LONGTEXT NOT NULL,
