@@ -42,3 +42,17 @@ CREATE TABLE IF NOT EXISTS `player_contacts` (
   PRIMARY KEY (`id`),
   KEY `citizenid` (`citizenid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `jobs` (
+	`name` VARCHAR(50) NOT NULL,
+	`data` LONGTEXT NOT NULL,
+	PRIMARY KEY (`name`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `job_grades` (
+	`job` VARCHAR(50) NOT NULL
+	`grade` TINYINT(3) UNSIGNED NOT NULL,
+	`data` LONGTEXT NOT NULL,
+	PRIMARY KEY (`job`, `grade`),
+	CONSTRAINT `jobs` FOREIGN KEY (`job`) REFERENCES `jobs` (`name`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB;
