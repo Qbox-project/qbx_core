@@ -1,7 +1,3 @@
----@class Gang
----@field label string
----@field grades table<integer, GangGradeData>
-
 ---@type table<string, Gang>
 return {
 	['none'] = {

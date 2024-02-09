@@ -1,6 +1,3 @@
----@class Job : JobData
----@field grades table<integer, JobGradeData>
-
 ---@type table<string, Job>
 return {
 	['unemployed'] = {

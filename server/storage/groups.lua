@@ -6,7 +6,7 @@
 ---@field defaultDuty boolean
 ---@field offDutyPay boolean
 
----@alias GangData GroupData
+---@class GangData : GroupData
 
 ---@class GradeData
 ---@field name string
@@ -16,7 +16,13 @@
 ---@class JobGradeData : GradeData
 ---@field payment number
 
----@alias GangGradeData GradeData
+---@class GangGradeData : GradeData
+
+---@class Job : JobData
+---@field grades table<integer, JobGradeData>
+
+---@class Gang : GangData
+---@field grades table<integer, GangGradeData>
 
 ---@enum GroupType
 local GroupType = {
