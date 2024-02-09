@@ -72,6 +72,7 @@ end
 
 ---@class CharacterRegistration
 ---@field firstname string
+---@field middlename string
 ---@field lastname string
 ---@field nationality string
 ---@field gender number
@@ -87,6 +88,13 @@ local function characterDialog()
             icon = 'user-pen',
             label = locale('info.first_name'),
             placeholder = 'Hank'
+        },
+        {
+            type = 'input',
+            required = true,
+            icon = 'user-pen',
+            label = locale('info.middle_name'),
+            placeholder = 'Middle'
         },
         {
             type = 'input',
@@ -221,7 +229,7 @@ local function createCharacter(cid)
 
     if not dialog then return false end
 
-    for input = 1, 3 do -- Run through first 3 inputs, aka first name, last name and nationality
+    for input = 1, 4 do -- Run through first 4 inputs, aka first name, middle name, last name, and nationality
         if not checkStrings(dialog, input) then
             Notify(locale('error.no_match_character_registration'), 'error', 10000)
             goto noMatch
@@ -232,10 +240,11 @@ local function createCharacter(cid)
     DoScreenFadeOut(150)
     local newData = lib.callback.await('qbx_core:server:createCharacter', false, {
         firstname = capString(dialog[1]),
-        lastname = capString(dialog[2]),
-        nationality = capString(dialog[3]),
-        gender = dialog[4] == locale('info.char_male') and 0 or 1,
-        birthdate = dialog[5],
+        middlename = capString(dialog[2]),
+        lastname = capString(dialog[3]),
+        nationality = capString(dialog[4]),
+        gender = dialog[5] == locale('info.char_male') and 0 or 1,
+        birthdate = dialog[6],
         cid = cid
     })
 
@@ -278,9 +287,9 @@ local function chooseCharacter()
     local options = {}
     for i = 1, amount do
         local character = characters[i]
-        local name = character and character.charinfo.firstname .. ' ' .. character.charinfo.lastname
+        local name = character and character.charinfo.firstname .. ' ' .. character.charinfo.middlename .. ' ' .. character.charinfo.lastname
         options[i] = {
-            title = character and string.format('%s %s - %s', character.charinfo.firstname, character.charinfo.lastname, character.citizenid) or locale('info.multichar_new_character', i),
+            title = character and string.format('%s %s %s - %s', character.charinfo.firstname, character.charinfo.middlename, character.charinfo.lastname, character.citizenid) or locale('info.multichar_new_character', i),
             metadata = character and {
                 Name = name,
                 Gender = character.charinfo.gender == 0 and locale('info.char_male') or locale('info.char_female'),
@@ -312,7 +321,7 @@ local function chooseCharacter()
         if character then
             lib.registerContext({
                 id = 'qbx_core_multichar_character_'..i,
-                title = string.format('%s %s - %s', character.charinfo.firstname, character.charinfo.lastname, character.citizenid),
+                title = string.format('%s %s %s - %s', character.charinfo.firstname, character.charinfo.middlename, character.charinfo.lastname, character.citizenid),
                 canClose = false,
                 menu = 'qbx_core_multichar_characters',
                 options = {
