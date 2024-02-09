@@ -31,7 +31,8 @@ server_scripts {
     'server/events.lua',
     'server/commands.lua',
     'server/loops.lua',
-    'server/storage.lua',
+    'server/storage/players.lua',
+    'server/storage/groups.lua',
     'server/character.lua',
     'bridge/qb/server/main.lua',
 }

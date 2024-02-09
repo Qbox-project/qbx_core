@@ -1,6 +1,6 @@
 ---@class Gang
 ---@field label string
----@field grades table<integer, {name: string, isboss: boolean, bankAuth: boolean}>
+---@field grades table<integer, GangGradeData>
 
 ---@type table<string, Gang>
 return {
