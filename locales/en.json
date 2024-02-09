@@ -55,6 +55,7 @@
         "deletechar_command_arg_player_id": "Player ID",
         "character_registration_title": "Character Registration",
         "first_name": "First Name",
+        "middle_name": "Middle Name",
         "last_name": "Last Name",
         "nationality": "Nationality",
         "gender": "Sex",
