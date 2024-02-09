@@ -19,7 +19,7 @@
 ---@alias GangGradeData GradeData
 
 ---@enum GroupType
-GroupType = {
+local GroupType = {
     JOB = 'job',
     GANG = 'gang'
 }
