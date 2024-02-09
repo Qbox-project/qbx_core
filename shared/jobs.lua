@@ -1,10 +1,3 @@
----@class Job
----@field label string
----@field type? string
----@field defaultDuty boolean
----@field offDutyPay boolean
----@field grades table<integer, {name: string, payment: number, isboss: boolean, bankAuth: boolean}>
-
 ---@type table<string, Job>
 return {
 	['unemployed'] = {
