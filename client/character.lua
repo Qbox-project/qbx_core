@@ -91,7 +91,7 @@ local function characterDialog()
         },
         {
             type = 'input',
-            required = true,
+            required = false,
             icon = 'user-pen',
             label = locale('info.middle_name'),
             placeholder = 'Middle'
