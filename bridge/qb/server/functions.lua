@@ -261,7 +261,7 @@ createQbExport('AddJob', AddJob)
 ---@return boolean success
 ---@return string message
 ---@return Job? errorJob job causing the error message. Only present if success is false.
-local function AddJobs(jobs)
+local function addJobs(jobs)
 
     for key, value in pairs(jobs) do
         if type(key) ~= "string" then
@@ -280,8 +280,10 @@ local function AddJobs(jobs)
     return true, 'success'
 end
 
-functions.AddJobs = AddJobs
-createQbExport('AddJobs', AddJobs)
+functions.AddJobs = function(jobs)
+    return exports['qb-core']:AddJobs(jobs)
+end
+createQbExport('AddJobs', addJobs)
 
 -- Single Update Job
 ---@deprecated call CreateJobs
@@ -289,7 +291,7 @@ createQbExport('AddJobs', AddJobs)
 ---@param job Job
 ---@return boolean success
 ---@return string message
-local function UpdateJob(jobName, job)
+local function updateJob(jobName, job)
     if type(jobName) ~= "string" then
         return false, "invalid_job_name"
     end
@@ -305,8 +307,10 @@ local function UpdateJob(jobName, job)
     return true, "success"
 end
 
-functions.UpdateJob = UpdateJob
-createQbExport('UpdateJob', UpdateJob)
+functions.UpdateJob = function(jobName, job)
+    return exports['qb-core']:UpdateJob(jobName, job)
+end
+createQbExport('UpdateJob', updateJob)
 
 -- Single Add Gang
 ---@deprecated call export CreateGangs
@@ -314,7 +318,7 @@ createQbExport('UpdateJob', UpdateJob)
 ---@param gang Gang
 ---@return boolean success
 ---@return string message
-local function AddGang(gangName, gang)
+local function addGang(gangName, gang)
     if type(gangName) ~= "string" then
         return false, "invalid_gang_name"
     end
@@ -330,8 +334,10 @@ local function AddGang(gangName, gang)
     return true, "success"
 end
 
-functions.AddGang = AddGang
-createQbExport('AddGang', AddGang)
+functions.AddGang = function(gangName, gang)
+    return exports['qb-core']:AddGang(gangName, gang)
+end
+createQbExport('AddGang', addGang)
 
 -- Single Update Gang
 ---@deprecated call export CreateGangs
@@ -339,7 +345,7 @@ createQbExport('AddGang', AddGang)
 ---@param gang Gang
 ---@return boolean success
 ---@return string message
-local function UpdateGang(gangName, gang)
+local function updateGang(gangName, gang)
     if type(gangName) ~= "string" then
         return false, "invalid_gang_name"
     end
@@ -355,8 +361,10 @@ local function UpdateGang(gangName, gang)
     return true, "success"
 end
 
-functions.UpdateGang = UpdateGang
-createQbExport('UpdateGang', UpdateGang)
+functions.UpdateGang = function(gangName, gang)
+    return exports['qb-core']:UpdateGang(gangName, gang)
+end
+createQbExport('UpdateGang', updateGang)
 
 -- Multiple Add Gangs
 ---@deprecated call export CreateGangs
@@ -364,7 +372,7 @@ createQbExport('UpdateGang', UpdateGang)
 ---@return boolean success
 ---@return string message
 ---@return Gang? errorGang present if success is false. Gang that caused the error message.
-local function AddGangs(gangs)
+local function addGangs(gangs)
     for key, value in pairs(gangs) do
         if type(key) ~= "string" then
             return false, 'invalid_gang_name', gangs[key]
@@ -382,13 +390,19 @@ local function AddGangs(gangs)
     return true, 'success'
 end
 
-functions.AddGangs = AddGangs
-createQbExport('AddGangs', AddGangs)
+functions.AddGangs = function(gangs)
+    return exports['qb-core']:AddGangs(gangs)
+end
+createQbExport('AddGangs', addGangs)
 
-functions.RemoveJob = RemoveJob
+functions.RemoveJob = function(jobName)
+    return exports.qbx_core:RemoveJob(jobName)
+end
 createQbExport('RemoveJob', RemoveJob)
 
-functions.RemoveGang = RemoveGang
+functions.RemoveGang = function(gangName)
+    return exports.qbx_core:RemoveGang(gangName)
+end
 createQbExport('RemoveGang', RemoveGang)
 
 ---Add a new function to the Functions table of the player class
