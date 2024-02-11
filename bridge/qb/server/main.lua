@@ -99,6 +99,14 @@ qbCoreCompat.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(so
     if vehId then cb(NetworkGetNetworkIdFromEntity(vehId)) end
 end)
 
+AddEventHandler('qbx_core:server:onJobUpdate', function(jobName, job)
+    qbCoreCompat.Shared.Jobs[jobName] = job
+end)
+
+AddEventHandler('qbx_core:server:onGangUpdate', function(gangName, gang)
+    qbCoreCompat.Shared.Gangs[gangName] = gang
+end)
+
 local createQbExport = require 'bridge.qb.shared.export-function'
 
 createQbExport('GetCoreObject', function()

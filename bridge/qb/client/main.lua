@@ -66,3 +66,11 @@ local createQbExport = require 'bridge.qb.shared.export-function'
 createQbExport('GetCoreObject', function()
     return qbCoreCompat
 end)
+
+RegisterNetEvent('qbx_core:client:onJobUpdate', function(jobName, job)
+    qbCoreCompat.Shared.Jobs[jobName] = job
+end)
+
+RegisterNetEvent('qbx_core:client:onGangUpdate', function(gangName, gang)
+    qbCoreCompat.Shared.Gangs[gangName] = gang
+end)

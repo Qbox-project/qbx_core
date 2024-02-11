@@ -1,15 +1,14 @@
-local jobs = {}
-local gangs = {}
+local jobs = require 'shared.jobs'
+local gangs = require 'shared.gangs'
 
 ---Adds or overwrites jobs in shared/jobs.lua
 ---@param jobs table<string, Job>
 local function createJobs(jobs)
     for jobName, job in pairs(jobs) do
         jobs[jobName] = job
+        TriggerEvent('qbx_core:server:onJobUpdate', jobName, job)
+        TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
     end
-
-    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Jobs', jobs)
-    TriggerEvent('QBCore:Server:UpdateObject')
 end
 
 exports('CreateJobs', createJobs)
@@ -28,9 +27,8 @@ function RemoveJob(jobName)
     end
 
     jobs[jobName] = nil
-
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, nil)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerEvent('qbx_core:server:onJobUpdate', jobName, nil)
+    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, nil)
     return true, "success"
 end
 
@@ -41,10 +39,9 @@ exports('RemoveJob', RemoveJob)
 local function createGangs(gangs)
     for gangName, gang in pairs(gangs) do
         gangs[gangName] = gang
+        TriggerEvent('qbx_core:server:onGangUpdate', gangName, gang)
+        TriggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, gang)
     end
-
-    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Gangs', gangs)
-    TriggerEvent('QBCore:Server:UpdateObject')
 end
 
 exports('CreateGangs', createGangs)
@@ -64,8 +61,8 @@ function RemoveGang(gangName)
 
     gangs[gangName] = nil
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, nil)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerEvent('qbx_core:server:onGangUpdate', gangName, nil)
+    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, nil)
     return true, "success"
 end
 
@@ -96,3 +93,11 @@ end
 function GetGang(name)
     return gangs[name]
 end
+
+lib.callback.register('qbx_core:server:getJobs', function()
+    return jobs
+end)
+
+lib.callback.register('qbx_core:server:getGangs', function()
+    return gangs
+end)

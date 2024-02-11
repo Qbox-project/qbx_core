@@ -155,7 +155,7 @@ function CheckPlayerData(source, playerData)
     playerData.job.grade.name = playerData.job.grade.name or 'Freelancer'
     playerData.job.grade.level = playerData.job.grade.level or 0
     -- Gang
-    if playerData.gang and playerData.gang.name and not QBX.Shared.Gangs[playerData.gang.name] then playerData.gang = nil end
+    if playerData.gang and playerData.gang.name and not GetGang(playerData.gang.name) then playerData.gang = nil end
     playerData.gang = playerData.gang or {}
     playerData.gang.name = playerData.gang.name or 'none'
     playerData.gang.label = playerData.gang.label or 'No Gang Affiliation'
@@ -268,11 +268,11 @@ function CreatePlayer(playerData, Offline)
     function self.Functions.SetGang(gang, grade)
         gang = gang or ''
         grade = tonumber(grade) or 0
-        if not QBX.Shared.Gangs[gang] then return false end
+        if not GetGang(gang) then return false end
         self.PlayerData.gang.name = gang
-        self.PlayerData.gang.label = QBX.Shared.Gangs[gang].label
-        if QBX.Shared.Gangs[gang].grades[grade] then
-            local ganggrade = QBX.Shared.Gangs[gang].grades[grade]
+        self.PlayerData.gang.label = GetGang(gang).label
+        if GetGang(gang).grades[grade] then
+            local ganggrade = GetGang(gang).grades[grade]
             self.PlayerData.gang.grade = {}
             self.PlayerData.gang.grade.name = ganggrade.name
             self.PlayerData.gang.grade.level = grade
