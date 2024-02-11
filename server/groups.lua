@@ -1,8 +1,11 @@
+local jobs = {}
+local gangs = {}
+
 ---Adds or overwrites jobs in shared/jobs.lua
 ---@param jobs table<string, Job>
 local function createJobs(jobs)
     for jobName, job in pairs(jobs) do
-        QBX.Shared.Jobs[jobName] = job
+        jobs[jobName] = job
     end
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Jobs', jobs)
@@ -20,11 +23,11 @@ function RemoveJob(jobName)
         return false, "invalid_job_name"
     end
 
-    if not QBX.Shared.Jobs[jobName] then
+    if not jobs[jobName] then
         return false, "job_not_exists"
     end
 
-    QBX.Shared.Jobs[jobName] = nil
+    jobs[jobName] = nil
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, nil)
     TriggerEvent('QBCore:Server:UpdateObject')
@@ -37,7 +40,7 @@ exports('RemoveJob', RemoveJob)
 ---@param gangs table<string, Gang>
 local function createGangs(gangs)
     for gangName, gang in pairs(gangs) do
-        QBX.Shared.Gangs[gangName] = gang
+        gangs[gangName] = gang
     end
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Gangs', gangs)
@@ -55,11 +58,11 @@ function RemoveGang(gangName)
         return false, "invalid_gang_name"
     end
 
-    if not QBX.Shared.Gangs[gangName] then
+    if not gangs[gangName] then
         return false, "gang_not_exists"
     end
 
-    QBX.Shared.Gangs[gangName] = nil
+    gangs[gangName] = nil
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, nil)
     TriggerEvent('QBCore:Server:UpdateObject')
@@ -70,14 +73,26 @@ exports('RemoveGang', RemoveGang)
 
 ---@return table<string, Job>
 function GetJobs()
-    return QBX.Shared.Jobs
+    return jobs
 end
 
 exports('GetJobs', GetJobs)
 
 ---@return table<string, Gang>
 function GetGangs()
-    return QBX.Shared.Gangs
+    return gangs
 end
 
 exports('GetGangs', GetGangs)
+
+---@param name string
+---@return Job?
+function GetJob(name)
+    return jobs[name]
+end
+
+---@param name string
+---@return Gang?
+function GetGang(name)
+    return gangs[name]
+end
