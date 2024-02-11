@@ -2,16 +2,16 @@ local jobs = require 'shared.jobs'
 local gangs = require 'shared.gangs'
 
 ---Adds or overwrites jobs in shared/jobs.lua
----@param jobs table<string, Job>
-local function createJobs(jobs)
-    for jobName, job in pairs(jobs) do
+---@param newJobs table<string, Job>
+function CreateJobs(newJobs)
+    for jobName, job in pairs(newJobs) do
         jobs[jobName] = job
         TriggerEvent('qbx_core:server:onJobUpdate', jobName, job)
         TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
     end
 end
 
-exports('CreateJobs', createJobs)
+exports('CreateJobs', CreateJobs)
 
 -- Single Remove Job
 ---@param jobName string
@@ -35,16 +35,16 @@ end
 exports('RemoveJob', RemoveJob)
 
 ---Adds or overwrites gangs in shared/gangs.lua
----@param gangs table<string, Gang>
-local function createGangs(gangs)
-    for gangName, gang in pairs(gangs) do
+---@param newGangs table<string, Gang>
+function CreateGangs(newGangs)
+    for gangName, gang in pairs(newGangs) do
         gangs[gangName] = gang
         TriggerEvent('qbx_core:server:onGangUpdate', gangName, gang)
         TriggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, gang)
     end
 end
 
-exports('CreateGangs', createGangs)
+exports('CreateGangs', CreateGangs)
 
 -- Single Remove Gang
 ---@param gangName string

@@ -241,11 +241,11 @@ local function addJob(jobName, job)
         return false, "invalid_job_name"
     end
 
-    if QBX.Shared.Jobs[jobName] then
+    if GetJob(jobName) then
         return false, "job_exists"
     end
 
-    exports.qbx_core:CreateJobs({[jobName] = job})
+    CreateJobs({[jobName] = job})
     return true, "success"
 end
 
@@ -266,12 +266,12 @@ local function addJobs(jobs)
             return false, 'invalid_job_name', jobs[key]
         end
 
-        if QBX.Shared.Jobs[key] then
+        if GetJob(key) then
             return false, 'job_exists', jobs[key]
         end
     end
 
-    exports.qbx_core:CreateJobs(jobs)
+    CreateJobs(jobs)
     return true, 'success'
 end
 
@@ -291,11 +291,11 @@ local function updateJob(jobName, job)
         return false, "invalid_job_name"
     end
 
-    if not QBX.Shared.Jobs[jobName] then
+    if not GetJob(jobName) then
         return false, "job_not_exists"
     end
 
-    exports.qbx_core:CreateJobs({[jobName] = job})
+    CreateJobs({[jobName] = job})
     return true, "success"
 end
 
@@ -315,11 +315,11 @@ local function addGang(gangName, gang)
         return false, "invalid_gang_name"
     end
 
-    if QBX.Shared.Gangs[gangName] then
+    if GetGang(gangName) then
         return false, "gang_exists"
     end
 
-    exports.qbx_core:CreateGangs({[gangName] = gang})
+    CreateGangs({[gangName] = gang})
     return true, "success"
 end
 
@@ -339,11 +339,11 @@ local function updateGang(gangName, gang)
         return false, "invalid_gang_name"
     end
 
-    if not QBX.Shared.Gangs[gangName] then
+    if not GetGang(gangName) then
         return false, "gang_not_exists"
     end
 
-    exports.qbx_core:CreateGangs({[gangName] = gang})
+    CreateGangs({[gangName] = gang})
     return true, "success"
 end
 
@@ -364,12 +364,12 @@ local function addGangs(gangs)
             return false, 'invalid_gang_name', gangs[key]
         end
 
-        if QBX.Shared.Gangs[key] then
+        if GetGang(key) then
             return false, 'gang_exists', gangs[key]
         end
     end
 
-    exports.qbx_core:CreateGangs(gangs)
+    CreateGangs(gangs)
     return true, 'success'
 end
 
