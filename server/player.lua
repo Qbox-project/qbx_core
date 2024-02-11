@@ -141,14 +141,14 @@ function CheckPlayerData(source, playerData)
         InstalledApps = {},
     }
     -- Job
-    if playerData.job and playerData.job.name and not QBX.Shared.Jobs[playerData.job.name] then playerData.job = nil end
+    if playerData.job and playerData.job.name and not GetJob(playerData.job.name) then playerData.job = nil end
     playerData.job = playerData.job or {}
     playerData.job.name = playerData.job.name or 'unemployed'
     playerData.job.label = playerData.job.label or 'Civilian'
     playerData.job.payment = playerData.job.payment or 10
     playerData.job.type = playerData.job.type or 'none'
     if QBX.Shared.ForceJobDefaultDutyAtLogin or playerData.job.onduty == nil then
-        playerData.job.onduty = QBX.Shared.Jobs[playerData.job.name].defaultDuty
+        playerData.job.onduty = GetJob(playerData.job.name).defaultDuty
     end
     playerData.job.isboss = playerData.job.isboss or false
     playerData.job.grade = playerData.job.grade or {}
@@ -233,13 +233,13 @@ function CreatePlayer(playerData, Offline)
     function self.Functions.SetJob(job, grade)
         job = job or ''
         grade = tonumber(grade) or 0
-        if not QBX.Shared.Jobs[job] then return false end
+        if not GetJob(job) then return false end
         self.PlayerData.job.name = job
-        self.PlayerData.job.label = QBX.Shared.Jobs[job].label
-        self.PlayerData.job.onduty = QBX.Shared.Jobs[job].defaultDuty
-        self.PlayerData.job.type = QBX.Shared.Jobs[job].type or 'none'
-        if QBX.Shared.Jobs[job].grades[grade] then
-            local jobgrade = QBX.Shared.Jobs[job].grades[grade]
+        self.PlayerData.job.label = GetJob(job).label
+        self.PlayerData.job.onduty = GetJob(job).defaultDuty
+        self.PlayerData.job.type = GetJob(job).type or 'none'
+        if GetJob(job).grades[grade] then
+            local jobgrade = GetJob(job).grades[grade]
             self.PlayerData.job.grade = {}
             self.PlayerData.job.grade.name = jobgrade.name
             self.PlayerData.job.grade.level = grade
