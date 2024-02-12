@@ -1,4 +1,5 @@
 local positionConfig = require 'config.shared'.notifyPosition
+local moneyTax = require 'config.shared'.moneyTax
 
 ---Text box popup for player which dissappears after a set time.
 ---@param text table|string text of the notification
@@ -36,6 +37,18 @@ function Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyl
 end
 
 exports('Notify', Notify)
+
+--- Calculate the price after applying tax.
+--- @param price number The original price before tax.
+--- @param type string The type of item to calculate tax for.
+--- @return number The final price after applying tax.
+
+function getTaxPrice(price, type)
+	if moneyTax[type] == nil then return price end
+	return math.floor(price + ((price / 100) * moneyTax[type])) 
+end
+
+exports('getTaxPrice', getTaxPrice)
 
 ---@return PlayerData? playerData
 function GetPlayerData()
