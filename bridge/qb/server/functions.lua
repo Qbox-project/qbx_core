@@ -236,24 +236,23 @@ createQbExport('RemoveItem', RemoveItem)
 ---@param job Job
 ---@return boolean success
 ---@return string message
-local function AddJob(jobName, job)
+local function addJob(jobName, job)
     if type(jobName) ~= "string" then
         return false, "invalid_job_name"
     end
 
-    if QBX.Shared.Jobs[jobName] then
+    if GetJob(jobName) then
         return false, "job_exists"
     end
 
-    QBX.Shared.Jobs[jobName] = job
-
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    CreateJobs({[jobName] = job})
     return true, "success"
 end
 
-functions.AddJob = AddJob
-createQbExport('AddJob', AddJob)
+functions.AddJob = function(jobName, job)
+    return exports['qb-core']:AddJob(jobName, job)
+end
+createQbExport('AddJob', addJob)
 
 -- Multiple Add Jobs
 ---@deprecated call export CreateJobs
@@ -262,21 +261,17 @@ createQbExport('AddJob', AddJob)
 ---@return string message
 ---@return Job? errorJob job causing the error message. Only present if success is false.
 local function addJobs(jobs)
-
-    for key, value in pairs(jobs) do
+    for key in pairs(jobs) do
         if type(key) ~= "string" then
             return false, 'invalid_job_name', jobs[key]
         end
 
-        if QBX.Shared.Jobs[key] then
+        if GetJob(key) then
             return false, 'job_exists', jobs[key]
         end
-
-        QBX.Shared.Jobs[key] = value
     end
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Jobs', jobs)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    CreateJobs(jobs)
     return true, 'success'
 end
 
@@ -296,14 +291,11 @@ local function updateJob(jobName, job)
         return false, "invalid_job_name"
     end
 
-    if not QBX.Shared.Jobs[jobName] then
+    if not GetJob(jobName) then
         return false, "job_not_exists"
     end
 
-    QBX.Shared.Jobs[jobName] = job
-
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    CreateJobs({[jobName] = job})
     return true, "success"
 end
 
@@ -323,14 +315,11 @@ local function addGang(gangName, gang)
         return false, "invalid_gang_name"
     end
 
-    if QBX.Shared.Gangs[gangName] then
+    if GetGang(gangName) then
         return false, "gang_exists"
     end
 
-    QBX.Shared.Gangs[gangName] = gang
-
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    CreateGangs({[gangName] = gang})
     return true, "success"
 end
 
@@ -350,14 +339,11 @@ local function updateGang(gangName, gang)
         return false, "invalid_gang_name"
     end
 
-    if not QBX.Shared.Gangs[gangName] then
+    if not GetGang(gangName) then
         return false, "gang_not_exists"
     end
 
-    QBX.Shared.Gangs[gangName] = gang
-
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    CreateGangs({[gangName] = gang})
     return true, "success"
 end
 
@@ -373,20 +359,17 @@ createQbExport('UpdateGang', updateGang)
 ---@return string message
 ---@return Gang? errorGang present if success is false. Gang that caused the error message.
 local function addGangs(gangs)
-    for key, value in pairs(gangs) do
+    for key in pairs(gangs) do
         if type(key) ~= "string" then
             return false, 'invalid_gang_name', gangs[key]
         end
 
-        if QBX.Shared.Gangs[key] then
+        if GetGang(key) then
             return false, 'gang_exists', gangs[key]
         end
-
-        QBX.Shared.Gangs[key] = value
     end
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Gangs', gangs)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    CreateGangs(gangs)
     return true, 'success'
 end
 

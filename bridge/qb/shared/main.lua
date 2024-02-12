@@ -50,4 +50,7 @@ qbShared.MaleNoGloves = qbx.armsWithoutGloves.male
 ---@deprecated use qbx.armsWithoutGloves.female from modules/lib.lua
 qbShared.FemaleNoGloves = qbx.armsWithoutGloves.female
 
+qbShared.Jobs = IsDuplicityVersion() and GetJobs() or lib.callback.await('qbx_core:server:getJobs')
+qbShared.Gangs = IsDuplicityVersion() and GetGangs() or lib.callback.await('qbx_core:server:getGangs')
+
 return qbShared

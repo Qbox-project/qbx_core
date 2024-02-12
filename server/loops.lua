@@ -32,9 +32,9 @@ end
 
 local function pay(player)
     local job = player.PlayerData.job
-    local payment = QBX.Shared.Jobs[job.name].grades[job.grade.level].payment or job.payment
+    local payment = GetJob(job.name).grades[job.grade.level].payment or job.payment
     if payment <= 0 then return end
-    if not QBX.Shared.Jobs[job.name].offDutyPay and not job.onduty then return end
+    if not GetJob(job.name).offDutyPay and not job.onduty then return end
     if not config.money.paycheckSociety then
         sendPaycheck(player, payment)
         return
