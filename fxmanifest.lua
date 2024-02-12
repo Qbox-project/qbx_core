@@ -26,6 +26,8 @@ client_scripts {
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
+    'server/storage/players.lua',
+    'server/storage/groups.lua',
     'server/main.lua',
     'server/groups.lua',
     'server/functions.lua',
@@ -33,8 +35,6 @@ server_scripts {
     'server/events.lua',
     'server/commands.lua',
     'server/loops.lua',
-    'server/storage/players.lua',
-    'server/storage/groups.lua',
     'server/character.lua',
     'bridge/qb/server/main.lua',
 }

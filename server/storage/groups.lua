@@ -167,6 +167,42 @@ function DeleteJobGradeEntity(name, grade)
     deleteGradeEntity(name, GroupType.JOB, grade)
 end
 
+---@param name string
+---@param job Job
+function UpsertJob(name, job)
+    local jobEntityData = {
+        defaultDuty = job.defaultDuty,
+        label = job.label,
+        offDutyPay = job.offDutyPay,
+        type = job.type
+    }
+
+    local queries = {
+        {
+            query = 'INSERT INTO groups (name, type, data) VALUES (@name, @type, @data) ON DUPLICATE KEY UPDATE data = @data',
+            values = {
+                name = name,
+                type = GroupType.JOB,
+                data = json.encode(jobEntityData)
+            }
+        },
+    }
+
+    for grade, gradeData in pairs(job.grades) do
+        queries[#queries+1] = {
+            query = 'INSERT INTO group_grades (group, type, grade, data) VALUES (@name, @type, @grade, @data) ON DUPLICATE KEY UPDATE group = @name, type = @type, grade = @grade, data = @data',
+            values = {
+                name = name,
+                type = GroupType.JOB,
+                grade = grade,
+                data = json.encode(gradeData)
+            }
+        }
+    end
+
+    MySQL.transaction.await(queries)
+end
+
 -- ===============
 -- GANGS
 -- ===============
@@ -206,4 +242,37 @@ end
 ---@param grade integer
 function DeleteGangGradeEntity(name, grade)
     deleteGradeEntity(name, GroupType.GANG, grade)
+end
+
+---@param name string
+---@param gang Gang
+function UpsertGang(name, gang)
+    local gangEntityData = {
+        label = gang.label
+    }
+
+    local queries = {
+        {
+            query = 'INSERT INTO groups (name, type, data) VALUES (@name, @type, @data) ON DUPLICATE KEY UPDATE data = @data',
+            values = {
+                name = name,
+                type = GroupType.GANG,
+                data = json.encode(gangEntityData)
+            }
+        },
+    }
+
+    for grade, gradeData in pairs(gang.grades) do
+        queries[#queries+1] = {
+            query = 'INSERT INTO group_grades (group, type, grade, data) VALUES (@name, @type, @grade, @data) ON DUPLICATE KEY UPDATE group = @name, type = @type, grade = @grade, data = @data',
+            values = {
+                name = name,
+                type = GroupType.GANG,
+                grade = grade,
+                data = json.encode(gradeData)
+            }
+        }
+    end
+
+    MySQL.transaction.await(queries)
 end
