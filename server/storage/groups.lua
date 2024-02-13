@@ -46,7 +46,7 @@ end
 ---@param grade integer
 ---@param data GradeData
 local function upsertGradeEntity(group, groupType, grade, data)
-    MySQL.insert.await('INSERT INTO group_grades (group, type, grade, data) VALUES (:group, :type, :grade, :data) ON DUPLICATE KEY UPDATE group = :group, type = :type, grade = :grade, data = :data', {
+    MySQL.insert.await('INSERT INTO group_grades (`group`, type, grade, data) VALUES (:group, :type, :grade, :data) ON DUPLICATE KEY UPDATE `group` = :group, type = :type, grade = :grade, data = :data', {
         group = group,
         type = groupType,
         grade = grade,
@@ -87,7 +87,7 @@ function FetchGroups()
         end
     end
 
-    local grades = MySQL.query.await('SELECT group, type, grade, data FROM group_grades')
+    local grades = MySQL.query.await('SELECT `group`, type, grade, data FROM group_grades')
     if grades then
         for i = 1, #grades do
             local grade = grades[i]
@@ -153,7 +153,7 @@ function UpsertJob(name, job)
 
     for grade, gradeData in pairs(job.grades) do
         queries[#queries+1] = {
-            query = 'INSERT INTO group_grades (group, type, grade, data) VALUES (@name, @type, @grade, @data) ON DUPLICATE KEY UPDATE group = @name, type = @type, grade = @grade, data = @data',
+            query = 'INSERT INTO group_grades (`group`, type, grade, data) VALUES (@name, @type, @grade, @data) ON DUPLICATE KEY UPDATE `group` = @name, type = @type, grade = @grade, data = @data',
             values = {
                 name = name,
                 type = GroupType.JOB,
@@ -214,7 +214,7 @@ function UpsertGang(name, gang)
 
     for grade, gradeData in pairs(gang.grades) do
         queries[#queries+1] = {
-            query = 'INSERT INTO group_grades (group, type, grade, data) VALUES (@name, @type, @grade, @data) ON DUPLICATE KEY UPDATE group = @name, type = @type, grade = @grade, data = @data',
+            query = 'INSERT INTO group_grades (`group`, type, grade, data) VALUES (@name, @type, @grade, @data) ON DUPLICATE KEY UPDATE `group` = @name, type = @type, grade = @grade, data = @data',
             values = {
                 name = name,
                 type = GroupType.GANG,
