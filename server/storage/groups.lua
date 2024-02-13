@@ -41,36 +41,12 @@ local function upsertGroupEntity(name, groupType, data)
     })
 end
 
----@param name string
----@param groupType GroupType
----@param data GroupData
-local function insertIgnoreGroupEntity(name, groupType, data)
-    MySQL.insert.await('INSERT IGNORE INTO groups (name, type, data) VALUES (:name, :type, :data)', {
-        name = name,
-        type = groupType,
-        data = json.encode(data)
-    })
-end
-
 ---@param group string
 ---@param groupType GroupType
 ---@param grade integer
 ---@param data GradeData
 local function upsertGradeEntity(group, groupType, grade, data)
     MySQL.insert.await('INSERT INTO group_grades (group, type, grade, data) VALUES (:group, :type, :grade, :data) ON DUPLICATE KEY UPDATE group = :group, type = :type, grade = :grade, data = :data', {
-        group = group,
-        type = groupType,
-        grade = grade,
-        data = json.encode(data)
-    })
-end
-
----@param group string
----@param groupType GroupType
----@param grade integer
----@param data GradeData
-local function insertIgnoreGradeEntity(group, groupType, grade, data)
-    MySQL.insert.await('INSERT IGNORE INTO group_grades (group, type, grade, data) VALUES (:group, :type, :grade, :data)', {
         group = group,
         type = groupType,
         grade = grade,
@@ -136,24 +112,11 @@ function UpsertJobEntity(name, data)
     upsertGroupEntity(name, GroupType.JOB, data)
 end
 
----@param name string
----@param data JobData
-function InsertIgnoreJobEntity(name, data)
-    insertIgnoreGroupEntity(name, GroupType.JOB, data)
-end
-
 ---@param job string
 ---@param grade integer
 ---@param data JobGradeData
 function UpsertJobGradeEntity(job, grade, data)
     upsertGradeEntity(job, GroupType.JOB, grade, data)
-end
-
----@param job string
----@param grade integer
----@param data JobGradeData
-function InsertIgnoreJobGradeEntity(job, grade, data)
-    insertIgnoreGradeEntity(job, GroupType.JOB, grade, data)
 end
 
 ---@param name string
@@ -213,24 +176,11 @@ function UpsertGangEntity(name, data)
     upsertGroupEntity(name, GroupType.GANG, data)
 end
 
----@param name string
----@param data GangData
-function InsertIgnoreGangEntity(name, data)
-    insertIgnoreGroupEntity(name, GroupType.GANG, data)
-end
-
 ---@param gang string
 ---@param grade integer
 ---@param data GangGradeData
 function UpsertGangGradeEntity(gang, grade, data)
     upsertGradeEntity(gang, GroupType.GANG, grade, data)
-end
-
----@param gang string
----@param grade integer
----@param data GangGradeData
-function InsertIgnoreGangGradeEntity(gang, grade, data)
-    insertIgnoreGradeEntity(gang, GroupType.GANG, grade, data)
 end
 
 ---@param name string

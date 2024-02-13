@@ -113,11 +113,15 @@ function GetJob(name)
     return jobs[name]
 end
 
+exports('GetJob', GetJob)
+
 ---@param name string
 ---@return Gang?
 function GetGang(name)
     return gangs[name]
 end
+
+exports('GetGang', GetGang)
 
 lib.callback.register('qbx_core:server:getJobs', function()
     return jobs
@@ -126,3 +130,107 @@ end)
 lib.callback.register('qbx_core:server:getGangs', function()
     return gangs
 end)
+
+---@param name string
+---@param data JobData
+local function upsertJobData(name, data)
+    UpsertJobEntity(name, data)
+    if jobs[name] then
+        jobs[name].defaultDuty = data.defaultDuty
+        jobs[name].label = data.label
+        jobs[name].offDutyPay = data.offDutyPay
+        jobs[name].type = data.type
+    else
+        jobs[name] = {
+            defaultDuty = data.defaultDuty,
+            label = data.label,
+            offDutyPay = data.offDutyPay,
+            type = data.type,
+            grades = {},
+        }
+    end
+    TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
+    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
+end
+
+exports('UpsertJobData', upsertJobData)
+
+---@param name string
+---@param data GangData
+local function upsertGangData(name, data)
+    UpsertGangEntity(name, data)
+    if gangs[name] then
+        gangs[name].label = data.label
+    else
+        gangs[name] = {
+            label = data.label,
+            grades = {},
+        }
+    end
+    TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
+    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
+end
+
+exports('UpsertGangData', upsertGangData)
+
+---@param name string
+---@param grade integer
+---@param data JobGradeData
+local function upsertJobGrade(name, grade, data)
+    if not jobs[name] then
+        lib.print.error("Job must exist to edit grades. Not found:", name)
+        return
+    end
+    UpsertJobGradeEntity(name, grade, data)
+    jobs[name].grades[grade] = data
+    TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
+    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
+end
+
+exports('UpsertJobGrade', upsertJobGrade)
+
+---@param name string
+---@param grade integer
+---@param data GangGradeData
+local function upsertGangGrade(name, grade, data)
+    if not gangs[name] then
+        lib.print.error("Gang must exist to edit grades. Not found:", name)
+        return
+    end
+    UpsertGangGradeEntity(name, grade, data)
+    gangs[name].grades[grade] = data
+    TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
+    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
+end
+
+exports('UpsetGangGrade', upsertGangGrade)
+
+---@param name string
+---@param grade integer
+local function removeJobGrade(name, grade)
+    if not jobs[name] then
+        lib.print.error("Job must exist to edit grades. Not found:", name)
+        return
+    end
+    DeleteJobGradeEntity(name, grade)
+    jobs[name].grades[grade] = nil
+    TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
+    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
+end
+
+exports('RemoveJobGrade', removeJobGrade)
+
+---@param name string
+---@param grade integer
+local function removeGangGrade(name, grade)
+    if not gangs[name] then
+        lib.print.error("Gang must exist to edit grades. Not found:", name)
+        return
+    end
+    DeleteGangGradeEntity(name, grade)
+    gangs[name].grades[grade] = nil
+    TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
+    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
+end
+
+exports('RemoveGangGrade', removeGangGrade)
