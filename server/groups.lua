@@ -206,13 +206,13 @@ end
 exports('UpsetGangGrade', upsertGangGrade)
 
 ---@param name string
----@param grade JobGradeData
+---@param grade integer
 local function removeJobGrade(name, grade)
     if not jobs[name] then
         lib.print.error("Job must exist to edit grades. Not found:", name)
         return
     end
-
+    DeleteJobGradeEntity(name, grade)
     jobs[name].grades[grade] = nil
     TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
     TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
@@ -221,12 +221,13 @@ end
 exports('RemoveJobGrade', removeJobGrade)
 
 ---@param name string
----@param grade GangGradeData
+---@param grade integer
 local function removeGangGrade(name, grade)
     if not gangs[name] then
         lib.print.error("Gang must exist to edit grades. Not found:", name)
         return
     end
+    DeleteGangGradeEntity(name, grade)
     gangs[name].grades[grade] = nil
     TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
     TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
