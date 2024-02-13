@@ -149,8 +149,8 @@ local function upsertJobData(name, data)
             grades = {},
         }
     end
-    TriggerEvent('qbx_core:server:onJobUpdate', jobName, jobs[name])
-    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, jobs[name])
+    TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
+    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
 end
 
 exports('UpsertJobData', upsertJobData)
