@@ -1,26 +1,7 @@
-local function loadGroups()
-    local fetchedJobs, fetchedGangs = FetchGroups()
-    local configJobs = require 'shared.jobs'
-    local configGangs = require 'shared.gangs'
-
-    for name, job in pairs(configJobs) do
-        if not fetchedJobs[name] then
-            fetchedJobs[name] = job
-            UpsertJob(name, job)
-        end
-    end
-
-    for name, gang in pairs(configGangs) do
-        if not fetchedGangs[name] then
-            fetchedGangs[name] = gang
-            UpsertGang(name, gang)
-        end
-    end
-
-    return fetchedJobs, fetchedGangs
-end
-
-local jobs, gangs = loadGroups()
+---@type table<string, Job>
+local jobs = {}
+---@type table<string, Gang>
+local gangs = {}
 
 ---Adds or overwrites jobs in shared/jobs.lua
 ---@param newJobs table<string, Job>
@@ -234,3 +215,37 @@ local function removeGangGrade(name, grade)
 end
 
 exports('RemoveGangGrade', removeGangGrade)
+
+local function loadGroups()
+    local fetchedJobs, fetchedGangs = FetchGroups()
+    local configJobs = require 'shared.jobs'
+    local configGangs = require 'shared.gangs'
+
+    for name, job in pairs(configJobs) do
+        if not fetchedJobs[name] then
+            jobs[name] = job
+            UpsertJob(name, job)
+        end
+    end
+
+    for name, gang in pairs(configGangs) do
+        if not fetchedGangs[name] then
+            gangs[name] = gang
+            UpsertGang(name, gang)
+        end
+    end
+
+    for name, job in pairs(fetchedJobs) do
+        jobs[name] = job
+        TriggerEvent('qbx_core:server:onJobUpdate', name, job)
+        TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, job)
+    end
+
+    for name, gang in pairs(fetchedGangs) do
+        gangs[name] = gang
+        TriggerEvent('qbx_core:server:onGangUpdate', name, gang)
+        TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gang)
+    end
+end
+
+loadGroups()
