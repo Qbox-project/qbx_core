@@ -80,9 +80,9 @@ function FetchGroups()
             local data = json.decode(group.data)
             data.grades = {}
             if group.type == GroupType.JOB then
-                jobs[group.name] = group.data
+                jobs[group.name] = data
             else
-                gangs[group.name] = group.data
+                gangs[group.name] = data
             end
         end
     end
