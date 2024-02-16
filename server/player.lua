@@ -468,6 +468,67 @@ function CreatePlayer(playerData, Offline)
         Logout(self.PlayerData.source)
     end
 
+    AddEventHandler('qbx_core:server:onJobUpdate', function(jobName, job)
+        if self.PlayerData.job.name ~= jobName then return end
+        if not job then
+            self.Functions.setJob('unemployed', 0)
+            return
+        end
+        self.PlayerData.job.label = job.label
+        self.PlayerData.job.type = job.type or 'none'
+        local jobGrade = job.grades[self.PlayerData.job.grade.level]
+        if jobGrade then
+            self.PlayerData.job.grade.name = jobGrade.name
+            self.PlayerData.job.payment = jobGrade.payment or 30
+            self.PlayerData.job.isboss = jobGrade.isboss or false
+        else
+            self.PlayerData.job.grade = {
+                name = 'No Grades',
+                level = 0,
+                payment = 30,
+                isboss = false,
+            }
+        end
+
+        if not self.Offline then
+            self.Functions.UpdatePlayerData()
+            TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
+            TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
+        end
+    end)
+
+    AddEventHandler('qbx_core:server:onGangUpdate', function(gangName, gang)
+        if self.PlayerData.gang.name ~= gangName then return end
+        if not gang then
+            self.PlayerData.gang = {
+                name = 'none',
+                label = 'No Gang Affiliation',
+                isboss = false,
+                grade = {
+                    name = 'none',
+                    level = 0
+                }
+            }
+        else
+            self.PlayerData.gang.label = gang.label
+            local gangGrade = gang.grades[self.PlayerData.gang.grade.level]
+            if gangGrade then
+                self.PlayerData.gang.isboss = gangGrade.isboss or false
+            else
+                self.PlayerData.gang.grade = {
+                    name = 'No Grades',
+                    level = 0,
+                }
+                self.PlayerData.gang.isboss = false
+            end
+        end
+        if not self.Offline then
+            self.Functions.UpdatePlayerData()
+            TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
+            TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
+        end
+    end)
+
     if not self.Offline then
         QBX.Players[self.PlayerData.source] = self
         local ped = GetPlayerPed(self.PlayerData.source)
