@@ -25,7 +25,7 @@
 ---@field grades table<integer, GangGradeData>
 
 ---@enum GroupType
-local GroupType = {
+GroupType = {
     JOB = 'job',
     GANG = 'gang'
 }
