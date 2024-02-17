@@ -392,7 +392,7 @@ exports('GetCoreVersion', GetCoreVersion)
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
     CreateThread(function()
-        storage.insertBanEntity({
+        storage.insertBan({
             name = name,
             license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
             discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),

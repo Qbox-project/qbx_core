@@ -29,4 +29,5 @@ local groups = require 'server.storage.groups'
 ---@field removePlayerFromGang fun(citizenid: string, group: string)
 
 ---@type StorageFunctions
-return lib.table.merge(players, groups)
+local storage = lib.table.merge(players, groups)
+return storage
