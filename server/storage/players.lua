@@ -11,7 +11,7 @@ local characterDataTables = require 'config.server'.characterDataTables
 ---@field expiration integer epoch second that the ban will expire
 
 ---@param request InsertBanRequest
-local function insertBanEntity(request)
+local function insertBan(request)
     if not request.discordId and not request.ip and not request.license then
         error("no identifier provided")
     end
@@ -326,7 +326,7 @@ local function removePlayerFromGang(citizenid, group)
 end
 
 return {
-    insertBan = insertBanEntity,
+    insertBan = insertBan,
     fetchBan = fetchBan,
     deleteBan = deleteBan,
     upsertPlayerEntity = upsertPlayerEntity,
