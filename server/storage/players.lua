@@ -226,7 +226,7 @@ end
 ---deletes character data using the characterDataTables object in the config file
 ---@param citizenId string
 ---@return boolean success if operation is successful.
-local function deletePlayerEntity(citizenId)
+local function deletePlayer(citizenId)
     local query = "DELETE FROM %s WHERE %s = ?"
     local queries = {}
 
@@ -333,7 +333,7 @@ return {
     fetchPlayerSkin = fetchPlayerSkin,
     fetchPlayerEntity = fetchPlayerEntity,
     fetchAllPlayerEntities = fetchAllPlayerEntities,
-    deletePlayer = deletePlayerEntity,
+    deletePlayer = deletePlayer,
     fetchIsUnique = fetchIsUnique,
     addPlayerToJob = addPlayerToJob,
     addPlayerToGang = addPlayerToGang,

@@ -602,7 +602,7 @@ function DeleteCharacter(source, citizenid)
     local result = storage.fetchPlayerEntity(citizenid).license
     if license == result or license2 == result then
         CreateThread(function()
-            local success = deletePlayerEntity(citizenid)
+            local success = storage.deletePlayer(citizenid)
             if success then
                 logger.log({
                     source = 'qbx_core',
@@ -636,7 +636,7 @@ function ForceDeleteCharacter(citizenid)
         end
 
         CreateThread(function()
-            local success = deletePlayerEntity(citizenid)
+            local success = storage.deletePlayer(citizenid)
             if success then
                 logger.log({
                     source = 'qbx_core',
