@@ -1,3 +1,5 @@
+local storage = require 'server.storage.main'
+
 ---@type table<string, Job>
 local jobs = {}
 ---@type table<string, Gang>
@@ -7,7 +9,7 @@ local gangs = {}
 ---@param newJobs table<string, Job>
 function CreateJobs(newJobs)
     for jobName, job in pairs(newJobs) do
-        UpsertJob(jobName, job)
+        storage.upsertJob(jobName, job)
         jobs[jobName] = job
         TriggerEvent('qbx_core:server:onJobUpdate', jobName, job)
         TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
@@ -29,7 +31,7 @@ function RemoveJob(jobName)
         return false, "job_not_exists"
     end
 
-    DeleteJobEntity(jobName)
+    storage.deleteJobEntity(jobName)
     jobs[jobName] = nil
     TriggerEvent('qbx_core:server:onJobUpdate', jobName, nil)
     TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, nil)
@@ -42,7 +44,7 @@ exports('RemoveJob', RemoveJob)
 ---@param newGangs table<string, Gang>
 function CreateGangs(newGangs)
     for gangName, gang in pairs(newGangs) do
-        UpsertGang(gangName, gang)
+        storage.upsertGang(gangName, gang)
         gangs[gangName] = gang
         TriggerEvent('qbx_core:server:onGangUpdate', gangName, gang)
         TriggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, gang)
@@ -64,7 +66,7 @@ function RemoveGang(gangName)
         return false, "gang_not_exists"
     end
 
-    DeleteGangEntity(gangName)
+    storage.deleteGangEntity(gangName)
     gangs[gangName] = nil
 
     TriggerEvent('qbx_core:server:onGangUpdate', gangName, nil)
@@ -115,7 +117,7 @@ end)
 ---@param name string
 ---@param data JobData
 local function upsertJobData(name, data)
-    UpsertJobEntity(name, data)
+    storage.upsertJobEntity(name, data)
     if jobs[name] then
         jobs[name].defaultDuty = data.defaultDuty
         jobs[name].label = data.label
@@ -139,7 +141,7 @@ exports('UpsertJobData', upsertJobData)
 ---@param name string
 ---@param data GangData
 local function upsertGangData(name, data)
-    UpsertGangEntity(name, data)
+    storage.upsertGangEntity(name, data)
     if gangs[name] then
         gangs[name].label = data.label
     else
@@ -162,7 +164,7 @@ local function upsertJobGrade(name, grade, data)
         lib.print.error("Job must exist to edit grades. Not found:", name)
         return
     end
-    UpsertJobGradeEntity(name, grade, data)
+    storage.upsertJobGradeEntity(name, grade, data)
     jobs[name].grades[grade] = data
     TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
     TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
@@ -178,7 +180,7 @@ local function upsertGangGrade(name, grade, data)
         lib.print.error("Gang must exist to edit grades. Not found:", name)
         return
     end
-    UpsertGangGradeEntity(name, grade, data)
+    storage.upsertGangGradeEntity(name, grade, data)
     gangs[name].grades[grade] = data
     TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
     TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
@@ -193,7 +195,7 @@ local function removeJobGrade(name, grade)
         lib.print.error("Job must exist to edit grades. Not found:", name)
         return
     end
-    DeleteJobGradeEntity(name, grade)
+    storage.deleteJobGradeEntity(name, grade)
     jobs[name].grades[grade] = nil
     TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
     TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
@@ -208,7 +210,7 @@ local function removeGangGrade(name, grade)
         lib.print.error("Gang must exist to edit grades. Not found:", name)
         return
     end
-    DeleteGangGradeEntity(name, grade)
+    storage.deleteGangGradeEntity(name, grade)
     gangs[name].grades[grade] = nil
     TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
     TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
@@ -217,21 +219,21 @@ end
 exports('RemoveGangGrade', removeGangGrade)
 
 local function loadGroups()
-    local fetchedJobs, fetchedGangs = FetchGroups()
+    local fetchedJobs, fetchedGangs = storage.fetchGroups()
     local configJobs = require 'shared.jobs'
     local configGangs = require 'shared.gangs'
 
     for name, job in pairs(configJobs) do
         if not fetchedJobs[name] then
             jobs[name] = job
-            UpsertJob(name, job)
+            storage.upsertJob(name, job)
         end
     end
 
     for name, gang in pairs(configGangs) do
         if not fetchedGangs[name] then
             gangs[name] = gang
-            UpsertGang(name, gang)
+            storage.upsertGang(name, gang)
         end
     end
 

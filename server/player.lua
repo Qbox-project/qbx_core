@@ -1,6 +1,7 @@
 local config = require 'config.server'
 local defaultSpawn = require 'config.shared'.defaultSpawn
 local logger = require 'modules.logger'
+local storage = require 'server.storage.main'
 
 ---@class PlayerData : PlayerEntity
 ---@field source? Source present if player is online
@@ -28,7 +29,7 @@ exports('Login', Login)
 function LoginV2(source, citizenid, newData)
     if citizenid then
         local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-        local playerData = FetchPlayerEntity(citizenid)
+        local playerData = storage.fetchPlayerEntity(citizenid)
         if playerData and (license2 == playerData.license or license == playerData.license) then
             return CheckPlayerData(source, playerData)
         else
@@ -53,7 +54,7 @@ end
 ---@return Player? player if found in storage
 function GetOfflinePlayer(citizenid)
     if not citizenid then return end
-    local playerData = FetchPlayerEntity(citizenid)
+    local playerData = storage.fetchPlayerEntity(citizenid)
     if not playerData then return end
     return CheckPlayerData(nil, playerData)
 end
@@ -564,7 +565,7 @@ function Save(source)
     playerData.metadata.armor = GetPedArmour(ped)
 
     CreateThread(function()
-        UpsertPlayerEntity({
+        storage.upsertPlayerEntity({
             playerEntity = playerData,
             position = pcoords,
         })
@@ -583,7 +584,7 @@ function SaveOffline(playerData)
     end
 
     CreateThread(function()
-        UpsertPlayerEntity({
+        storage.upsertPlayerEntity({
             playerEntity = playerData,
             position = playerData.position.xyz
         })
@@ -598,10 +599,10 @@ exports('SaveOffline', SaveOffline)
 ---@param citizenid string
 function DeleteCharacter(source, citizenid)
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local result = FetchPlayerEntity(citizenid).license
+    local result = storage.fetchPlayerEntity(citizenid).license
     if license == result or license2 == result then
         CreateThread(function()
-            local success = DeletePlayerEntity(citizenid)
+            local success = deletePlayerEntity(citizenid)
             if success then
                 logger.log({
                     source = 'qbx_core',
@@ -627,7 +628,7 @@ end
 
 ---@param citizenid string
 function ForceDeleteCharacter(citizenid)
-    local result = FetchPlayerEntity(citizenid).license
+    local result = storage.fetchPlayerEntity(citizenid).license
     if result then
         local player = GetPlayerByCitizenId(citizenid)
         if player then
@@ -635,7 +636,7 @@ function ForceDeleteCharacter(citizenid)
         end
 
         CreateThread(function()
-            local success = DeletePlayerEntity(citizenid)
+            local success = deletePlayerEntity(citizenid)
             if success then
                 logger.log({
                     source = 'qbx_core',
@@ -659,7 +660,7 @@ function GenerateUniqueIdentifier(type)
     local table = config.player.identifierTypes[type]
     repeat
         uniqueId = table.valueFunction()
-        isUnique = FetchIsUnique(type, uniqueId)
+        isUnique = storage.fetchIsUnique(type, uniqueId)
     until isUnique
     return uniqueId
 end

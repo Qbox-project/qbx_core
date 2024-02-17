@@ -69,7 +69,7 @@ end
 
 ---@return table<string, Job>
 ---@return table<string, Gang>
-function FetchGroups()
+local function fetchGroups()
     local jobs = {}
     local gangs = {}
 
@@ -108,31 +108,31 @@ end
 
 ---@param name string
 ---@param data JobData
-function UpsertJobEntity(name, data)
+local function upsertJobEntity(name, data)
     upsertGroupEntity(name, GroupType.JOB, data)
 end
 
 ---@param job string
 ---@param grade integer
 ---@param data JobGradeData
-function UpsertJobGradeEntity(job, grade, data)
+local function upsertJobGradeEntity(job, grade, data)
     upsertGradeEntity(job, GroupType.JOB, grade, data)
 end
 
 ---@param name string
-function DeleteJobEntity(name)
+local function deleteJobEntity(name)
     deleteGroupEntity(name, GroupType.JOB)
 end
 
 ---@param name string
 ---@param grade integer
-function DeleteJobGradeEntity(name, grade)
+local function deleteJobGradeEntity(name, grade)
     deleteGradeEntity(name, GroupType.JOB, grade)
 end
 
 ---@param name string
 ---@param job Job
-function UpsertJob(name, job)
+local function upsertJob(name, job)
     local jobEntityData = {
         defaultDuty = job.defaultDuty,
         label = job.label,
@@ -172,31 +172,31 @@ end
 
 ---@param name string
 ---@param data GangData
-function UpsertGangEntity(name, data)
+local function upsertGangEntity(name, data)
     upsertGroupEntity(name, GroupType.GANG, data)
 end
 
 ---@param gang string
 ---@param grade integer
 ---@param data GangGradeData
-function UpsertGangGradeEntity(gang, grade, data)
+local function upsertGangGradeEntity(gang, grade, data)
     upsertGradeEntity(gang, GroupType.GANG, grade, data)
 end
 
 ---@param name string
-function DeleteGangEntity(name)
+local function deleteGangEntity(name)
     deleteGroupEntity(name, GroupType.GANG)
 end
 
 ---@param name string
 ---@param grade integer
-function DeleteGangGradeEntity(name, grade)
+local function deleteGangGradeEntity(name, grade)
     deleteGradeEntity(name, GroupType.GANG, grade)
 end
 
 ---@param name string
 ---@param gang Gang
-function UpsertGang(name, gang)
+local function upsertGang(name, gang)
     local gangEntityData = {
         label = gang.label
     }
@@ -226,3 +226,17 @@ function UpsertGang(name, gang)
 
     MySQL.transaction.await(queries)
 end
+
+return {
+    fetchGroups = fetchGroups,
+    upsertJobEntity = upsertJobEntity,
+    upsertJobGradeEntity = upsertJobGradeEntity,
+    deleteJobEntity = deleteJobEntity,
+    deleteJobGradeEntity = deleteJobGradeEntity,
+    upsertJob = upsertJob,
+    upsertGangEntity = upsertGangEntity,
+    upsertGangGradeEntity = upsertGangGradeEntity,
+    deleteGangEntity = deleteGangEntity,
+    deleteGangGradeEntity = deleteGangGradeEntity,
+    upsertGang = upsertGang,
+}
