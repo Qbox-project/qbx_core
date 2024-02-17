@@ -1,3 +1,5 @@
+--- This config is only used for initially populating the database. Once a gang is in the database, modifying or removing the gang will have no effect. Instead, either use core exports or modify the data in the database directly (only when the server is offline!)
+
 ---@type table<string, Gang>
 return {
 	['none'] = {

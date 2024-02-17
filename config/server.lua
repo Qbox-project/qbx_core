@@ -136,5 +136,8 @@ return {
 
     removeSocietyMoney = function(accountName, payment)
         return exports['Renewed-Banking']:removeAccountMoney(accountName, payment)
-    end
+    end,
+
+    maxJobsPerPlayer = 1,
+    maxGangsPerPlayer = 1,
 }

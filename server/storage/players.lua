@@ -153,7 +153,7 @@ end
 ---@field name string
 ---@field label string
 ---@field payment number
----@field type string
+---@field type? string
 ---@field onduty boolean
 ---@field isboss boolean
 ---@field grade {name: string, level: number}
