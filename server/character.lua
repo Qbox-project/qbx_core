@@ -1,5 +1,6 @@
 local config = require 'config.server'
 local logger = require 'modules.logger'
+local storage = require 'server.storage.main'
 
 ---@param license2 string
 ---@param license? string
@@ -25,7 +26,7 @@ end
 
 lib.callback.register('qbx_core:server:getCharacters', function(source)
     local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
-    local chars = FetchAllPlayerEntities(license2, license)
+    local chars = storage.fetchAllPlayerEntities(license2, license)
     local allowedAmount = getAllowedAmountOfCharacters(license2, license)
     local sortedChars = {}
     for i = 1, #chars do
@@ -36,7 +37,7 @@ lib.callback.register('qbx_core:server:getCharacters', function(source)
 end)
 
 lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId)
-    local ped = FetchPlayerSkin(citizenId)
+    local ped = storage.fetchPlayerSkin(citizenId)
     if not ped then return end
 
     return ped.skin, ped.model and joaat(ped.model)

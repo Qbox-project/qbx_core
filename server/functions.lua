@@ -2,6 +2,7 @@ local serverConfig = require 'config.server'.server
 local positionConfig = require 'config.shared'.notifyPosition
 local logger = require 'modules.logger'
 local loggingConfig = require 'config.server'.logging
+local storage = require 'server.storage.main'
 
 -- Getters
 -- Get your player first and then trigger a function on them
@@ -325,7 +326,7 @@ exports('ToggleOptin', ToggleOptin)
 ---@return string? playerMessage
 function IsPlayerBanned(source)
     local plicense = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    local result = FetchBanEntity({
+    local result = storage.fetchBan({
         license = plicense
     })
     if not result then return false end
@@ -334,7 +335,7 @@ function IsPlayerBanned(source)
         return true, 'You have been banned from the server:\n' .. result.reason .. '\nYour ban expires ' .. timeTable.day .. '/' .. timeTable.month .. '/' .. timeTable.year .. ' ' .. timeTable.hour .. ':' .. timeTable.min .. '\n'
     else
         CreateThread(function()
-            DeleteBanEntity({
+            storage.deleteBan({
                 license = plicense
             })
         end)
@@ -391,7 +392,7 @@ exports('GetCoreVersion', GetCoreVersion)
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
     CreateThread(function()
-        InsertBanEntity({
+        storage.insertBan({
             name = name,
             license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
             discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
