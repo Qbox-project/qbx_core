@@ -1,4 +1,4 @@
-if GetConvar('qbx:enablequeue', 'true') == 'false' then return end
+if GetConvar('qbx:enablequeue', 'true') == 'false' then return false end
 
 -- Disable hardcap because it kicks the player when the server is full
 
