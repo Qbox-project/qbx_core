@@ -2,6 +2,8 @@ local config = require 'config.server'
 local defaultSpawn = require 'config.shared'.defaultSpawn
 local logger = require 'modules.logger'
 local storage = require 'server.storage.main'
+local maxJobsPerPlayer = GetConvarInt('qbx:maxjobsperplayer', 1)
+local maxGangsPerPlayer = GetConvarInt('qbx:maxgangsperplayer', 1)
 
 ---@class PlayerData : PlayerEntity
 ---@field jobs table<string, integer>
@@ -131,7 +133,7 @@ local function addPlayerToJob(citizenid, jobName, grade)
     if player.PlayerData.jobs[jobName] == grade then return end
 
 
-    if #player.PlayerData.jobs >= config.maxJobsPerPlayer and not player.PlayerData.jobs[jobName] then
+    if #player.PlayerData.jobs >= maxJobsPerPlayer and not player.PlayerData.jobs[jobName] then
         error("player already has maximum amount of jobs allowed")
     end
 
@@ -252,7 +254,7 @@ local function addPlayerToGang(citizenid, gangName, grade)
 
     if player.PlayerData.gangs[gangName] == grade then return end
 
-    if #player.PlayerData.gangs >= config.maxGangsPerPlayer and not player.PlayerData.gangs[gangName] then
+    if #player.PlayerData.gangs >= maxGangsPerPlayer and not player.PlayerData.gangs[gangName] then
         error("player already has maximum amount of gangs allowed")
     end
 
