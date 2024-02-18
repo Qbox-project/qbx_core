@@ -7,6 +7,8 @@ local qbCoreCompat = {}
 
 qbCoreCompat.Config = lib.table.merge(require 'config.server', require 'config.shared')
 qbCoreCompat.Shared = require 'bridge.qb.shared.main'
+qbCoreCompat.Shared.Jobs = GetJobs()
+qbCoreCompat.Shared.Gangs = GetGangs()
 qbCoreCompat.Players = QBX.Players
 qbCoreCompat.Player = require 'bridge.qb.server.player'
 qbCoreCompat.Player_Buckets = QBX.Player_Buckets
