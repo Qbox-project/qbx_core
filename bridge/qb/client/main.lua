@@ -6,7 +6,11 @@ require 'bridge.qb.client.events'
 local qbCoreCompat = {}
 qbCoreCompat.PlayerData = QBX.PlayerData
 qbCoreCompat.Config = lib.table.merge(require 'config.client', require 'config.shared')
+
 qbCoreCompat.Shared = require 'bridge.qb.shared.main'
+qbCoreCompat.Shared.Jobs = {}
+qbCoreCompat.Shared.Gangs = {}
+
 qbCoreCompat.Functions = require 'bridge.qb.client.functions'
 
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
@@ -73,4 +77,15 @@ end)
 
 RegisterNetEvent('qbx_core:client:onGangUpdate', function(gangName, gang)
     qbCoreCompat.Shared.Gangs[gangName] = gang
+end)
+
+lib.callback('qbx_core:server:getJobs', false, function(jobs)
+    for jobName, job in pairs(jobs) do
+        TriggerEvent('qbx_core:client:onJobUpdate', jobName, job)
+    end
+end)
+lib.callback('qbx_core:server:getGangs', false, function(gangs)
+    for gangName, gang in pairs(gangs) do
+        TriggerEvent('qbx_core:client:onGangUpdate', gangName, gang)
+    end
 end)
