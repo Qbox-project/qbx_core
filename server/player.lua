@@ -158,9 +158,7 @@ local function removePlayerFromJob(citizenid, jobName)
         error(("player not found with citizenid %s"):format(citizenid))
     end
 
-    if not player.PlayerData.jobs[jobName] then
-        error(("player %s does not have job %s"):format(citizenid, jobName))
-    end
+    if not player.PlayerData.jobs[jobName] then return end
 
     storage.removePlayerFromJob(citizenid, jobName)
     player.PlayerData.jobs[jobName] = nil
@@ -480,74 +478,42 @@ function CreatePlayer(playerData, Offline)
     end
 
     ---Overwrites current primary job with a new job. Removing the player from their current primary job
-    ---@param job string name
+    ---@param jobName string name
     ---@param grade integer
     ---@return boolean success if job was set
-    function self.Functions.SetJob(job, grade)
-        job = job or ''
-        grade = tonumber(grade) or 0
-        if not GetJob(job) then return false end
-        self.PlayerData.job.name = job
-        self.PlayerData.job.label = GetJob(job).label
-        self.PlayerData.job.onduty = GetJob(job).defaultDuty
-        self.PlayerData.job.type = GetJob(job).type or 'none'
-        if GetJob(job).grades[grade] then
-            removePlayerFromJob(self.PlayerData.citizenid, job)
-            addPlayerToJob(self.PlayerData.citizenid, job, grade)
-            local jobgrade = GetJob(job).grades[grade]
-            self.PlayerData.job.grade = {}
-            self.PlayerData.job.grade.name = jobgrade.name
-            self.PlayerData.job.grade.level = grade
-            self.PlayerData.job.payment = jobgrade.payment or 30
-            self.PlayerData.job.isboss = jobgrade.isboss or false
-        else
-            self.PlayerData.job.grade = {}
-            self.PlayerData.job.grade.name = 'No Grades'
-            self.PlayerData.job.grade.level = 0
-            self.PlayerData.job.payment = 30
-            self.PlayerData.job.isboss = false
+    function self.Functions.SetJob(jobName, grade)
+        local job = GetJob(jobName)
+        if not job then
+            lib.print.error(("cannot set job. Job %s does not exist"):format(jobName))
+            return false
         end
-
-        if not self.Offline then
-            self.Functions.UpdatePlayerData()
-            TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
-            TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
+        if not job.grades[grade] then
+            lib.print.error(("cannot set job. Job %s does not have grade %s"):format(jobName, grade))
+            return false
         end
-
+        removePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
+        addPlayerToJob(self.PlayerData.citizenid, jobName, grade)
+        setPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
         return true
     end
 
     ---Removes the player from their current primary gang and adds the player to the new gang
-    ---@param gang string name
+    ---@param gangName string name
     ---@param grade integer
     ---@return boolean success if gang was set
-    function self.Functions.SetGang(gang, grade)
-        gang = gang or ''
-        grade = tonumber(grade) or 0
-        if not GetGang(gang) then return false end
-        self.PlayerData.gang.name = gang
-        self.PlayerData.gang.label = GetGang(gang).label
-        if GetGang(gang).grades[grade] then
-            removePlayerFromGang(self.PlayerData.citizenid, gang)
-            addPlayerToGang(self.PlayerData.citizenid, gang, grade)
-            local ganggrade = GetGang(gang).grades[grade]
-            self.PlayerData.gang.grade = {}
-            self.PlayerData.gang.grade.name = ganggrade.name
-            self.PlayerData.gang.grade.level = grade
-            self.PlayerData.gang.isboss = ganggrade.isboss or false
-        else
-            self.PlayerData.gang.grade = {}
-            self.PlayerData.gang.grade.name = 'No Grades'
-            self.PlayerData.gang.grade.level = 0
-            self.PlayerData.gang.isboss = false
+    function self.Functions.SetGang(gangName, grade)
+        local gang = GetGang(gangName)
+        if not gang then
+            lib.print.error(("cannot set gang. Gang %s does not exist"):format(gangName))
+            return false
         end
-
-        if not self.Offline then
-            self.Functions.UpdatePlayerData()
-            TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
-            TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
+        if not gang.grades[grade] then
+            lib.print.error(("cannot set gang. Gang %s does not have grade %s"):format(gangName, grade))
+            return false
         end
-
+        removePlayerFromGang(self.PlayerData.citizenid, self.PlayerData.gang.name)
+        addPlayerToGang(self.PlayerData.citizenid, gangName, grade)
+        setPlayerPrimaryGang(self.PlayerData.citizenid, gangName)
         return true
     end
 
