@@ -277,9 +277,7 @@ local function removePlayerFromGang(citizenid, gangName)
         error(("player not found with citizenid %s"):format(citizenid))
     end
 
-    if not player.PlayerData.gangs[gangName] then
-        error(("player %s does not have gang %s"):format(citizenid, gangName))
-    end
+    if not player.PlayerData.gangs[gangName] then return end
 
     storage.removePlayerFromGang(citizenid, gangName)
     player.PlayerData.gangs[gangName] = nil
