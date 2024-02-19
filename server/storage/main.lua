@@ -24,7 +24,7 @@ local groups = require 'server.storage.groups'
 ---@field fetchIsUnique fun(type: UniqueIdType, value: string|number): boolean
 ---@field addPlayerToJob fun(citizenid: string, group: string, grade: integer)
 ---@field addPlayerToGang fun(citizenid: string, group: string, grade: integer)
----@field fetchPlayerGroups fun(citizenid: string): table<string, Job>, table<string, Gang>
+---@field fetchPlayerGroups fun(citizenid: string): table<string, integer>, table<string, integer> jobs, gangs
 ---@field removePlayerFromJob fun(citizenid: string, group: string)
 ---@field removePlayerFromGang fun(citizenid: string, group: string)
 
