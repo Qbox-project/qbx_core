@@ -115,6 +115,8 @@ exports('SetPlayerPrimaryJob', setPlayerPrimaryJob)
 ---@param jobName string
 ---@param grade integer
 local function addPlayerToJob(citizenid, jobName, grade)
+    -- unemployed job is the default, so players cannot be added to it
+    if jobName == 'unemployed' then return end
     local job = GetJob(jobName)
 
     if not job then
@@ -153,6 +155,8 @@ exports('AddPlayerToJob', addPlayerToJob)
 ---@param citizenid string
 ---@param jobName string
 local function removePlayerFromJob(citizenid, jobName)
+    -- Unemployed is the default job, so players cannot be removed from it.
+    if jobName == 'unemployed' then return end
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
     if not player then
         error(("player not found with citizenid %s"):format(citizenid))
@@ -235,6 +239,8 @@ exports('SetPlayerPrimaryGang', setPlayerPrimaryGang)
 ---@param gangName string
 ---@param grade integer
 local function addPlayerToGang(citizenid, gangName, grade)
+    -- None is the default gang, so players cannot be added to it.
+    if gangName == 'none' then return end
     local gang = GetGang(gangName)
 
     if not gang then
@@ -272,6 +278,8 @@ exports('AddPlayerToGang', addPlayerToGang)
 ---@param citizenid string
 ---@param gangName string
 local function removePlayerFromGang(citizenid, gangName)
+    -- None is the default gang. So players cannot be removed from it.
+    if gangName == 'none' then return end
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
     if not player then
         error(("player not found with citizenid %s"):format(citizenid))
