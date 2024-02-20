@@ -2,8 +2,8 @@ local config = require 'config.server'
 local defaultSpawn = require 'config.shared'.defaultSpawn
 local logger = require 'modules.logger'
 local storage = require 'server.storage.main'
-local maxJobsPerPlayer = GetConvarInt('qbx:maxjobsperplayer', 1)
-local maxGangsPerPlayer = GetConvarInt('qbx:maxgangsperplayer', 1)
+local maxJobsPerPlayer = GetConvarInt('qbx:max_jobs_per_player', 1)
+local maxGangsPerPlayer = GetConvarInt('qbx:max_gangs_per_player', 1)
 
 ---@class PlayerData : PlayerEntity
 ---@field jobs table<string, integer>
