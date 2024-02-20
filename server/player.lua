@@ -391,11 +391,11 @@ function CheckPlayerData(source, playerData)
     end
     local jobGrade = GetJob(playerData.job?.name) and playerData.job.grade.level or 0
     playerData.job = {
-        name = playerData.job.name or 'unemployed',
+        name = playerData.job?.name or 'unemployed',
         label = job.label,
         payment = job.grades[jobGrade].payment or 0,
         type = job.type,
-        onduty = QBX.Shared.ForceJobDefaultDutyAtLogin and job.defaultDuty or playerData.job.onduty,
+        onduty = QBX.Shared.ForceJobDefaultDutyAtLogin and job.defaultDuty or playerData.job?.onduty or false,
         isboss = job.grades[jobGrade].isboss or false,
         grade = {
             name = job.grades[jobGrade].name,
@@ -409,7 +409,7 @@ function CheckPlayerData(source, playerData)
     end
     local gangGrade = GetGang(playerData.gang?.name) and playerData.gang.grade.level or 0
     playerData.gang = {
-        name = playerData.gang.name or 'none',
+        name = playerData.gang?.name or 'none',
         label = gang.label,
         isboss = gang.grades[gangGrade].isboss or false,
         grade = {
