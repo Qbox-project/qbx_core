@@ -65,6 +65,25 @@ end
 
 exports('GetOfflinePlayer', GetOfflinePlayer)
 
+---@param jobName string
+---@param job Job
+---@param grade integer
+---@return PlayerJob
+local function toPlayerJob(jobName, job, grade)
+    return {
+        name = jobName,
+        label = job.label,
+        isboss = job.grades[grade].isboss or false,
+        onduty = job.defaultDuty or false,
+        payment = job.grades[grade].payment or 0,
+        type = job.type,
+        grade = {
+            name = job.grades[grade].name,
+            level = grade
+        }
+    }
+end
+
 ---Sets a player's job to be primary only if they already have it.
 ---@param citizenid string
 ---@param jobName string
@@ -86,21 +105,8 @@ local function setPlayerPrimaryJob(citizenid, jobName)
         error(("job %s does not have grade %s"):format(jobName, grade))
     end
 
-    player.PlayerData.job = {
-        name = jobName,
-        label = job.label,
-        isboss = job.grades[grade].isboss,
-        onduty = job.defaultDuty,
-        payment = job.grades[grade].payment,
-        type = job.type,
-        grade = {
-            name = job.grades[grade].name,
-            level = grade
-        }
-    }
-
+    player.PlayerData.job = toPlayerJob(jobName, job, grade)
     player.Functions.Save()
-
     if not player.Offline then
         player.Functions.UpdatePlayerData()
         TriggerEvent('QBCore:Server:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
@@ -118,23 +124,17 @@ local function addPlayerToJob(citizenid, jobName, grade)
     -- unemployed job is the default, so players cannot be added to it
     if jobName == 'unemployed' then return end
     local job = GetJob(jobName)
-
     if not job then
         error("job not found: " .. jobName)
     end
-
     if not job.grades[grade] then
         error(("job %s does not have grade %s"):format(jobName, grade))
     end
-
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
     if not player then
         error(("player not found with citizenid %s"):format(citizenid))
     end
-
     if player.PlayerData.jobs[jobName] == grade then return end
-
-
     if #player.PlayerData.jobs >= maxJobsPerPlayer and not player.PlayerData.jobs[jobName] then
         error("player already has maximum amount of jobs allowed")
     end
@@ -171,17 +171,7 @@ local function removePlayerFromJob(citizenid, jobName)
         if not job then
             error("cannot find unemployed job. Check database/config")
         end
-        player.PlayerData.job = {
-            name = jobName,
-            label = job.label,
-            isboss = false,
-            onduty = job.defaultDuty,
-            payment = job.grades[0].payment,
-            grade = {
-                name = job.grades[0].name,
-                level = 0
-            }
-        }
+        toPlayerJob('unemployed', job, 0)
         player.Functions.Save()
     end
 
