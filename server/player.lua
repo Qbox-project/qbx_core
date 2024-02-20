@@ -384,32 +384,40 @@ function CheckPlayerData(source, playerData)
         InstalledApps = {},
     }
     local jobs, gangs = storage.fetchPlayerGroups(playerData.citizenid)
-    -- Job
-    if playerData.job and playerData.job.name and not GetJob(playerData.job.name) then playerData.job = nil end
-    playerData.job = playerData.job or {}
-    playerData.job.name = playerData.job.name or 'unemployed'
-    playerData.job.label = playerData.job.label or 'Civilian'
-    playerData.job.payment = playerData.job.payment or 10
-    playerData.job.type = playerData.job.type or 'none'
-    if QBX.Shared.ForceJobDefaultDutyAtLogin or playerData.job.onduty == nil then
-        playerData.job.onduty = GetJob(playerData.job.name).defaultDuty
+
+    local job = GetJob(playerData.job?.name) or GetJob('unemployed')
+    if not job then
+        error("unemployed job not found. Is it in your config and/or database?")
     end
-    playerData.job.isboss = playerData.job.isboss or false
-    playerData.job.grade = playerData.job.grade or {}
-    playerData.job.grade.name = playerData.job.grade.name or 'Freelancer'
-    playerData.job.grade.level = playerData.job.grade.level or 0
+    local jobGrade = GetJob(playerData.job?.name) and playerData.job.grade.level or 0
+    playerData.job = {
+        name = playerData.job.name or 'unemployed',
+        label = job.label,
+        payment = job.grades[jobGrade].payment or 0,
+        type = job.type,
+        onduty = QBX.Shared.ForceJobDefaultDutyAtLogin and job.defaultDuty or playerData.job.onduty,
+        isboss = job.grades[jobGrade].isboss or false,
+        grade = {
+            name = job.grades[jobGrade].name,
+            level = jobGrade,
+        }
+    }
     playerData.jobs = jobs or {}
-    -- Gang
-    if playerData.gang and playerData.gang.name and not GetGang(playerData.gang.name) then playerData.gang = nil end
-    playerData.gang = playerData.gang or {}
-    playerData.gang.name = playerData.gang.name or 'none'
-    playerData.gang.label = playerData.gang.label or 'No Gang Affiliation'
-    playerData.gang.isboss = playerData.gang.isboss or false
-    playerData.gang.grade = playerData.gang.grade or {}
-    playerData.gang.grade.name = playerData.gang.grade.name or 'none'
-    playerData.gang.grade.level = playerData.gang.grade.level or 0
+    local gang = GetGang(playerData.gang?.name) or GetGang('none')
+    if not gang then
+        error("none gang not found. Is it in your config and/or database?")
+    end
+    local gangGrade = GetGang(playerData.gang?.name) and playerData.gang.grade.level or 0
+    playerData.gang = {
+        name = playerData.gang.name or 'none',
+        label = gang.label,
+        isboss = gang.grades[gangGrade].isboss or false,
+        grade = {
+            name = gang.grades[gangGrade].name,
+            level = gangGrade
+        }
+    }
     playerData.gangs = gangs or {}
-    -- Other
     playerData.position = playerData.position or defaultSpawn
     playerData.items = GetResourceState('qb-inventory') ~= 'missing' and exports['qb-inventory']:LoadInventory(playerData.source, playerData.citizenid) or {}
     return CreatePlayer(playerData --[[@as PlayerData]], Offline)
