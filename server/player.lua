@@ -17,42 +17,36 @@ local maxGangsPerPlayer = GetConvarInt('qbx:max_gangs_per_player', 1)
 ---@return boolean success
 function Login(source, citizenid, newData)
     if not source or source == '' then
-        lib.print.error('QBX.PLAYER.LOGIN - NO SOURCE GIVEN!')
+        lib.print.error('No source given at login stage')
         return false
     end
-    return LoginV2(source, citizenid, newData) and true or false
-end
 
-exports('Login', Login)
-
----On player login get their data or set defaults
----@param source Source
----@param citizenid? string
----@param newData? PlayerEntity
----@return Player? player if logged in successfully
-function LoginV2(source, citizenid, newData)
     if citizenid then
         local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
         local playerData = storage.fetchPlayerEntity(citizenid)
         if playerData and (license2 == playerData.license or license == playerData.license) then
-            return CheckPlayerData(source, playerData)
+            return not not CheckPlayerData(source, playerData)
         else
-            DropPlayer(tostring(source), locale("info.exploit_dropped"))
+            DropPlayer(tostring(source), locale('info.exploit_dropped'))
             logger.log({
                 source = 'qbx_core',
-                webhook = config.logging.webhook['anticheat'],
+                webhook = config.logging.webhook.anticheat,
                 event = 'Anti-Cheat',
                 color = 'white',
                 tags = config.logging.role,
-                message = ('%s Has Been Dropped For Character Joining Exploit'):format(GetPlayerName(source))
+                message = ('%s has been dropped for character joining exploit'):format(GetPlayerName(source))
             })
         end
     else
         local player = CheckPlayerData(source, newData)
         player.Functions.Save()
-        return player
+        return true
     end
+
+    return false
 end
+
+exports('Login', Login)
 
 ---@param citizenid string
 ---@return Player? player if found in storage

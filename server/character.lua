@@ -44,8 +44,8 @@ lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId
 end)
 
 lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenId)
-    local player = LoginV2(source, citizenId)
-    if not player then return end
+    local success = Login(source, citizenId)
+    if not success then return end
 
     SetPlayerRoutingBucket(source, 0)
     logger.log({
@@ -53,9 +53,9 @@ lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenI
         webhook = config.logging.webhook['joinleave'],
         event = 'Loaded',
         color = 'green',
-        message = '**'.. GetPlayerName(source) .. '** ('..(GetPlayerIdentifierByType(source, 'discord') or 'undefined') ..' |  ||'  ..(GetPlayerIdentifierByType(source, 'ip') or 'undefined') ..  '|| | ' ..(GetPlayerIdentifierByType(source, 'license2') or GetPlayerIdentifierByType(source, 'license') or 'undefined') ..' | ' ..citizenId..' | '..source..') loaded..'
+        message = '**' .. GetPlayerName(source) .. '** (' .. (GetPlayerIdentifierByType(source, 'discord') or 'undefined') .. ' |  ||' .. (GetPlayerIdentifierByType(source, 'ip') or 'undefined') .. '|| | ' ..(GetPlayerIdentifierByType(source, 'license2') or GetPlayerIdentifierByType(source, 'license') or 'undefined') .. ' | ' .. citizenId .. ' | ' .. source .. ') loaded'
     })
-    lib.print.info(GetPlayerName(source)..' (Citizen ID: '..citizenId..') has succesfully loaded!')
+    lib.print.info(GetPlayerName(source) .. ' (Citizen ID: ' .. citizenId .. ') has succesfully loaded!')
 end)
 
 ---@param data unknown
@@ -64,20 +64,20 @@ lib.callback.register('qbx_core:server:createCharacter', function(source, data)
     local newData = {}
     newData.charinfo = data
 
-    local player = LoginV2(source, nil, newData)
-    if not player then return end
+    local success = Login(source, nil, newData)
+    if not success then return end
 
     giveStarterItems(source)
     if GetResourceState('qbx_spawn') == 'missing' then
         SetPlayerRoutingBucket(source, 0)
     end
 
-    lib.print.info(GetPlayerName(source)..' has created a character')
+    lib.print.info(GetPlayerName(source) .. ' has created a character')
     return newData
 end)
 
 RegisterNetEvent('qbx_core:server:deleteCharacter', function(citizenId)
     local src = source
-    DeleteCharacter(src, citizenId)
+    DeleteCharacter(src --[[@as number]], citizenId)
     Notify(src, locale('success.character_deleted'), 'success')
 end)
