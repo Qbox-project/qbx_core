@@ -7,7 +7,7 @@ local maxGangsPerPlayer = GetConvarInt('qbx:max_gangs_per_player', 1)
 
 ---@class PlayerData : PlayerEntity
 ---@field jobs table<string, integer>
----@field groups table<string, integer>
+---@field gangs table<string, integer>
 ---@field source? Source present if player is online
 ---@field optin? boolean present if player is online
 
@@ -576,7 +576,7 @@ function CreatePlayer(playerData, Offline)
     ---@return boolean success if money was added
     function self.Functions.AddMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
-        amount = qbx.math.round(tonumber(amount)) --[[@as number]]
+        amount = qbx.math.round(tonumber(amount) --[[@as number]])
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
@@ -606,7 +606,7 @@ function CreatePlayer(playerData, Offline)
     ---@return boolean success if money was removed
     function self.Functions.RemoveMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
-        amount = qbx.math.round(tonumber(amount)) --[[@as number]]
+        amount = qbx.math.round(tonumber(amount) --[[@as number]])
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         for _, mtype in pairs(config.money.dontAllowMinus) do
@@ -646,7 +646,7 @@ function CreatePlayer(playerData, Offline)
     ---@return boolean success if money was set
     function self.Functions.SetMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
-        amount = qbx.math.round(tonumber(amount)) --[[@as number]]
+        amount = qbx.math.round(tonumber(amount) --[[@as number]])
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         local difference = amount - self.PlayerData.money[moneytype]
