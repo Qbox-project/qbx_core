@@ -92,7 +92,7 @@ local function setPlayerPrimaryJob(citizenid, jobName)
     if not player then
         error(("player not found with citizenid %s"):format(citizenid))
     end
-    local grade = player.PlayerData.jobs[jobName]
+    local grade = jobName == 'unemployed' and 0 or player.PlayerData.jobs[jobName]
     if not grade then
         error(("player %s does not have job %s"):format(citizenid, jobName))
     end
@@ -190,7 +190,7 @@ local function setPlayerPrimaryGang(citizenid, gangName)
     if not player then
         error(("player not found with citizenid %s"):format(citizenid))
     end
-    local grade = player.PlayerData.gangs[gangName]
+    local grade = gangName == 'none' and 0 or player.PlayerData.gangs[gangName]
     if not grade then
         error(("player %s does not have gang %s"):format(citizenid, gangName))
     end
