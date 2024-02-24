@@ -387,7 +387,7 @@ function CheckPlayerData(source, playerData)
 
     local job = GetJob(playerData.job?.name) or GetJob('unemployed')
     if not job then
-        error("unemployed job not found. Is it in your config and/or database?")
+        error("unemployed job not found. Is it in your config?")
     end
     local jobGrade = GetJob(playerData.job?.name) and playerData.job.grade.level or 0
     playerData.job = {
@@ -405,7 +405,7 @@ function CheckPlayerData(source, playerData)
     playerData.jobs = jobs or {}
     local gang = GetGang(playerData.gang?.name) or GetGang('none')
     if not gang then
-        error("none gang not found. Is it in your config and/or database?")
+        error("none gang not found. Is it in your config?")
     end
     local gangGrade = GetGang(playerData.gang?.name) and playerData.gang.grade.level or 0
     playerData.gang = {
