@@ -1,5 +1,5 @@
-local jobs = {}
-local gangs = {}
+local jobs = require 'shared.jobs'
+local gangs = require 'shared.gangs'
 
 ---@return table<string, Job>
 function GetJobs()

@@ -1,15 +1,45 @@
-local storage = require 'server.storage.main'
+---@class GroupData
+---@field label string
+
+---@class JobData : GroupData
+---@field type? string
+---@field defaultDuty boolean
+---@field offDutyPay boolean
+
+---@class GangData : GroupData
+
+---@class GradeData
+---@field name string
+---@field isboss? boolean
+---@field bankAuth? boolean
+
+---@class JobGradeData : GradeData
+---@field payment number
+
+---@class GangGradeData : GradeData
+
+---@class Job : JobData
+---@field grades table<integer, JobGradeData>
+
+---@class Gang : GangData
+---@field grades table<integer, GangGradeData>
+
+---@enum GroupType
+GroupType = {
+    JOB = 'job',
+    GANG = 'gang'
+}
 
 ---@type table<string, Job>
-local jobs = {}
+local jobs = require 'shared.jobs'
+
 ---@type table<string, Gang>
-local gangs = {}
+local gangs = require 'shared.gangs'
 
 ---Adds or overwrites jobs in shared/jobs.lua
 ---@param newJobs table<string, Job>
 function CreateJobs(newJobs)
     for jobName, job in pairs(newJobs) do
-        storage.upsertJob(jobName, job)
         jobs[jobName] = job
         TriggerEvent('qbx_core:server:onJobUpdate', jobName, job)
         TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
@@ -31,7 +61,6 @@ function RemoveJob(jobName)
         return false, "job_not_exists"
     end
 
-    storage.deleteJobEntity(jobName)
     jobs[jobName] = nil
     TriggerEvent('qbx_core:server:onJobUpdate', jobName, nil)
     TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, nil)
@@ -44,7 +73,6 @@ exports('RemoveJob', RemoveJob)
 ---@param newGangs table<string, Gang>
 function CreateGangs(newGangs)
     for gangName, gang in pairs(newGangs) do
-        storage.upsertGang(gangName, gang)
         gangs[gangName] = gang
         TriggerEvent('qbx_core:server:onGangUpdate', gangName, gang)
         TriggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, gang)
@@ -66,7 +94,6 @@ function RemoveGang(gangName)
         return false, "gang_not_exists"
     end
 
-    storage.deleteGangEntity(gangName)
     gangs[gangName] = nil
 
     TriggerEvent('qbx_core:server:onGangUpdate', gangName, nil)
@@ -106,18 +133,9 @@ end
 
 exports('GetGang', GetGang)
 
-lib.callback.register('qbx_core:server:getJobs', function()
-    return jobs
-end)
-
-lib.callback.register('qbx_core:server:getGangs', function()
-    return gangs
-end)
-
 ---@param name string
 ---@param data JobData
 local function upsertJobData(name, data)
-    storage.upsertJobEntity(name, data)
     if jobs[name] then
         jobs[name].defaultDuty = data.defaultDuty
         jobs[name].label = data.label
@@ -141,7 +159,6 @@ exports('UpsertJobData', upsertJobData)
 ---@param name string
 ---@param data GangData
 local function upsertGangData(name, data)
-    storage.upsertGangEntity(name, data)
     if gangs[name] then
         gangs[name].label = data.label
     else
@@ -164,7 +181,6 @@ local function upsertJobGrade(name, grade, data)
         lib.print.error("Job must exist to edit grades. Not found:", name)
         return
     end
-    storage.upsertJobGradeEntity(name, grade, data)
     jobs[name].grades[grade] = data
     TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
     TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
@@ -180,7 +196,6 @@ local function upsertGangGrade(name, grade, data)
         lib.print.error("Gang must exist to edit grades. Not found:", name)
         return
     end
-    storage.upsertGangGradeEntity(name, grade, data)
     gangs[name].grades[grade] = data
     TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
     TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
@@ -195,7 +210,6 @@ local function removeJobGrade(name, grade)
         lib.print.error("Job must exist to edit grades. Not found:", name)
         return
     end
-    storage.deleteJobGradeEntity(name, grade)
     jobs[name].grades[grade] = nil
     TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
     TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
@@ -210,44 +224,9 @@ local function removeGangGrade(name, grade)
         lib.print.error("Gang must exist to edit grades. Not found:", name)
         return
     end
-    storage.deleteGangGradeEntity(name, grade)
     gangs[name].grades[grade] = nil
     TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
     TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
 end
 
 exports('RemoveGangGrade', removeGangGrade)
-
-local function loadGroups()
-    local fetchedJobs, fetchedGangs = storage.fetchGroups()
-    local configJobs = require 'shared.jobs'
-    local configGangs = require 'shared.gangs'
-
-    for name, job in pairs(configJobs) do
-        if not fetchedJobs[name] then
-            jobs[name] = job
-            storage.upsertJob(name, job)
-        end
-    end
-
-    for name, gang in pairs(configGangs) do
-        if not fetchedGangs[name] then
-            gangs[name] = gang
-            storage.upsertGang(name, gang)
-        end
-    end
-
-    for name, job in pairs(fetchedJobs) do
-        jobs[name] = job
-        TriggerEvent('qbx_core:server:onJobUpdate', name, job)
-        TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, job)
-    end
-
-    for name, gang in pairs(fetchedGangs) do
-        gangs[name] = gang
-        TriggerEvent('qbx_core:server:onGangUpdate', name, gang)
-        TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gang)
-    end
-end
-
-loadGroups()
