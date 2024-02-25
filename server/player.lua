@@ -483,9 +483,11 @@ function CreatePlayer(playerData, Offline)
 
     ---Overwrites current primary job with a new job. Removing the player from their current primary job
     ---@param jobName string name
-    ---@param grade integer
+    ---@param grade? integer defaults to 0
     ---@return boolean success if job was set
     function self.Functions.SetJob(jobName, grade)
+        jobName = jobName:lower()
+        grade = grade or 0
         local job = GetJob(jobName)
         if not job then
             lib.print.error(("cannot set job. Job %s does not exist"):format(jobName))
@@ -503,9 +505,11 @@ function CreatePlayer(playerData, Offline)
 
     ---Removes the player from their current primary gang and adds the player to the new gang
     ---@param gangName string name
-    ---@param grade integer
+    ---@param grade? integer defaults to 0
     ---@return boolean success if gang was set
     function self.Functions.SetGang(gangName, grade)
+        gangName = gangName:lower()
+        grade = grade or 0
         local gang = GetGang(gangName)
         if not gang then
             lib.print.error(("cannot set gang. Gang %s does not exist"):format(gangName))
