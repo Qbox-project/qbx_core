@@ -51,4 +51,4 @@ CREATE TABLE IF NOT EXISTS `player_groups` (
 	`grade` TINYINT(3) UNSIGNED NOT NULL,
 	PRIMARY KEY (`citizenid`, `type`, `group`),
 	CONSTRAINT `fk_citizenid` FOREIGN KEY (`citizenid`) REFERENCES `players` (`citizenid`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
