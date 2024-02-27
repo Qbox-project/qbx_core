@@ -335,7 +335,7 @@ RegisterCommand('convertjobs', function(source)
         AddPlayerToJob(player.citizenid, player.jobName, player.jobGrade)
         AddPlayerToGang(player.citizenid, player.gangName, player.gangGrade)
     end
-    TriggerServerEvent('qbx_core:server:jobsconverted')
+    TriggerEvent('qbx_core:server:jobsconverted')
 end, true)
 
 return {
