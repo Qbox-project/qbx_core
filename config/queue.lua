@@ -26,7 +26,7 @@ return {
     ---If a player doesn't pass any predicate and a sub-queue with no predicate does not exist they will not be let into the server unless a player slot is available.
     ---@type SubQueueConfig[]
     subQueues = {
-        { name = 'Admin Queue', predicate = function(source) return HasPermission(source, 'admin') end, cardOptions = { color = 'good' } },
+        { name = 'Admin Queue', predicate = function(source) return IsPlayerAceAllowed(source --[[@as string]], 'admin') end, cardOptions = { color = 'good' } },
         { name = 'Regular Queue' },
     },
 

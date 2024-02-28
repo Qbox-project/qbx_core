@@ -214,15 +214,15 @@ exports('CanUseItem', CanUseItem)
 ---@return boolean
 function IsWhitelisted(source)
     if not serverConfig.whitelist then return true end
-    if HasPermission(source, serverConfig.whitelistPermission) then return true end
+    if IsPlayerAceAllowed(source --[[@as string]], serverConfig.whitelistPermission) then return true end
     return false
 end
 
 exports('IsWhitelisted', IsWhitelisted)
 
 -- Setting & Removing Permissions
--- TODO: Should these be moved to the utility module?
 
+---@deprecated use cfg ACEs instead
 ---@param source Source
 ---@param permission string
 function AddPermission(source, permission)
@@ -234,8 +234,10 @@ function AddPermission(source, permission)
     end
 end
 
+---@deprecated use cfg ACEs instead
 exports('AddPermission', AddPermission)
 
+---@deprecated use cfg ACEs instead
 ---@param source Source
 ---@param permission string
 function RemovePermission(source, permission)
@@ -262,9 +264,11 @@ function RemovePermission(source, permission)
     end
 end
 
+---@deprecated use cfg ACEs instead
 exports('RemovePermission', RemovePermission)
 
 -- Checking for Permission Level
+---@deprecated use IsPlayerAceAllowed
 ---@param source Source
 ---@param permission string|string[]
 ---@return boolean
@@ -280,8 +284,10 @@ function HasPermission(source, permission)
     return false
 end
 
+---@deprecated use IsPlayerAceAllowed
 exports('HasPermission', HasPermission)
 
+---@deprecated use cfg ACEs instead
 ---@param source Source
 ---@return table<string, boolean>
 function GetPermission(source)
@@ -294,6 +300,7 @@ function GetPermission(source)
     return perms
 end
 
+---@deprecated use cfg ACEs instead
 exports('GetPermission', GetPermission)
 
 -- Opt in or out of admin reports
@@ -301,7 +308,7 @@ exports('GetPermission', GetPermission)
 ---@return boolean
 function IsOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    if not license or not HasPermission(source, 'admin') then return false end
+    if not license or not IsPlayerAceAllowed(source --[[@as string]], 'admin') then return false end
     local player = GetPlayer(source)
     return player.PlayerData.optin
 end
@@ -312,7 +319,7 @@ exports('IsOptin', IsOptin)
 ---@param source Source
 function ToggleOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    if not license or not HasPermission(source, 'admin') then return end
+    if not license or not IsPlayerAceAllowed(source --[[@as string]], 'admin') then return end
     local player = GetPlayer(source)
     player.PlayerData.optin = not player.PlayerData.optin
     player.Functions.SetPlayerData('optin', player.PlayerData.optin)
