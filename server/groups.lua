@@ -201,7 +201,7 @@ local function upsertGangGrade(name, grade, data)
     TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
 end
 
-exports('UpsetGangGrade', upsertGangGrade)
+exports('UpsertGangGrade', upsertGangGrade)
 
 ---@param name string
 ---@param grade integer
