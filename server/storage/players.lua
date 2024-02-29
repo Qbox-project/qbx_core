@@ -207,7 +207,7 @@ end
 ---@return PlayerEntity?
 local function fetchPlayerEntity(citizenId)
     ---@type PlayerEntityDatabase
-    local player = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenId })
+    local player = MySQL.single.await('SELECT * FROM players where citizenid = ?', { citizenId })
     local charinfo = json.decode(player.charinfo)
     return player and {
         citizenid = player.citizenid,
@@ -257,7 +257,7 @@ local function fetchIsUnique(type, value)
         SerialNumber = "JSON_VALUE(metadata, '$.phonedata.SerialNumber')",
     }
 
-    local count = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE ' .. typeToColumn[type] .. ' = ?', { value })
+    local count = MySQL.single.await('SELECT COUNT(*) as count FROM players WHERE ' .. typeToColumn[type] .. ' = ?', { value })
     return count == 0
 end
 
