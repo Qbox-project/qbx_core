@@ -165,7 +165,7 @@ local function removePlayerFromJob(citizenid, jobName)
         if not job then
             error("cannot find unemployed job. Check database/config")
         end
-        toPlayerJob('unemployed', job, 0)
+        player.PlayerData.job = toPlayerJob('unemployed', job, 0)
         player.Functions.Save()
     end
 
