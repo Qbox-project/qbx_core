@@ -325,6 +325,21 @@ local function removePlayerFromGang(citizenid, group)
     removeFromGroup(citizenid, GroupType.GANG, group)
 end
 
+---Copies player's primary job/gang to the player_groups table. Works for online/offline players.
+---Idempotent
+RegisterCommand('convertjobs', function(source)
+	if source ~= 0 then return warn('This command can only be executed using the server console.') end
+    local players = MySQL.query.await("SELECT citizenid, JSON_VALUE(job, '$.name') AS jobName, JSON_VALUE(job, '$.grade.level') AS jobGrade, JSON_VALUE(gang, '$.name') AS gangName, JSON_VALUE(gang, '$.grade.level') AS gangGrade FROM players")
+    for i = 1, #players do
+        local player = players[i]
+        local success, err = pcall(function() AddPlayerToJob(player.citizenid, player.jobName, tonumber(player.jobGrade)) end)
+        if not success then lib.print.error(err) end
+        success, err = pcall(function() AddPlayerToGang(player.citizenid, player.gangName, tonumber(player.gangGrade)) end)
+        if not success then lib.print.error(err) end
+    end
+    TriggerEvent('qbx_core:server:jobsconverted')
+end, true)
+
 return {
     insertBan = insertBan,
     fetchBan = fetchBan,
