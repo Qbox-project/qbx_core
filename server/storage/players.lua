@@ -257,8 +257,8 @@ local function fetchIsUnique(type, value)
         SerialNumber = "JSON_VALUE(metadata, '$.phonedata.SerialNumber')",
     }
 
-    local count = MySQL.single.await('SELECT COUNT(*) as count FROM players WHERE ' .. typeToColumn[type] .. ' = ?', { value })
-    return count == 0
+    local result = MySQL.single.await('SELECT COUNT(*) as count FROM players WHERE ' .. typeToColumn[type] .. ' = ?', { value })
+    return result.count == 0
 end
 
 ---@param citizenid string
