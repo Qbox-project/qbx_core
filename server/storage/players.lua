@@ -100,6 +100,7 @@ end
 ---@field position vector4
 ---@field metadata PlayerMetadata
 ---@field cid integer
+---@field lastLoggedOut integer
 ---@field items table deprecated
 
 ---@class PlayerEntityDatabase : PlayerEntity
@@ -109,6 +110,7 @@ end
 ---@field gang? string
 ---@field position string
 ---@field metadata string
+---@field last_updated integer
 
 ---@class PlayerCharInfo
 ---@field firstname string
@@ -199,7 +201,7 @@ local function fetchAllPlayerEntities(license2, license)
         chars[i].gang = result[i].gang and json.decode(result[i].gang)
         chars[i].position = convertPosition(result[i].position)
         chars[i].metadata = json.decode(result[i].metadata)
-        chars[i].lastLoggedOut = result[i].lastLoggedOut and result[i].lastLoggedOut/1000
+        chars[i].lastLoggedOut = result[i].lastLoggedOut and result[i].lastLoggedOut
     end
 
     return chars
