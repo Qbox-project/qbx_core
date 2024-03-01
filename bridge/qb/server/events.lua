@@ -39,3 +39,12 @@ RegisterServerEvent('baseevents:leftVehicle', function(veh, seat, modelName, net
     }
     TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
 end)
+
+-- Player
+RegisterServerEvent('qbx_core:server:onSetMetaData', function (meta, _, val, source)
+    if meta == 'thirst' or meta == 'hunger' then return end
+    local playerState = Player(source).state
+    if val == playerState[meta] then return end
+    if not playerState.isLoggedIn then return end
+    playerState:set(meta, val, true)
+end)
