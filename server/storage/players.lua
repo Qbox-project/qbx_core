@@ -199,6 +199,7 @@ local function fetchAllPlayerEntities(license2, license)
         chars[i].gang = result[i].gang and json.decode(result[i].gang)
         chars[i].position = convertPosition(result[i].position)
         chars[i].metadata = json.decode(result[i].metadata)
+        chars[i].lastLoggedOut = result[i].lastLoggedOut and result[i].lastLoggedOut
     end
 
     return chars
@@ -220,7 +221,8 @@ local function fetchPlayerEntity(citizenId)
         job = player.job and json.decode(player.job),
         gang = player.gang and json.decode(player.gang),
         position = convertPosition(player.position),
-        metadata = json.decode(player.metadata)
+        metadata = json.decode(player.metadata),
+        lastLoggedOut = player.lastLoggedOut
     } or nil
 end
 
