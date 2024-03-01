@@ -422,6 +422,7 @@ end
 function Logout(source)
     local player = GetPlayer(source)
     if not player then return end
+    local playerState = Player(source)?.state
     player.playerData.metadata.hunger = playerState.hunger or 0
     player.playerData.metadata.thirst = playerState.thirst or 0
     player.playerData.metadata.stress = playerState.stress or 0
