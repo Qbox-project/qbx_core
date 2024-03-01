@@ -85,7 +85,7 @@ local function upsertPlayerEntity(request)
         gang = json.encode(request.playerEntity.gang),
         position = json.encode(request.position),
         metadata = json.encode(request.playerEntity.metadata),
-        lastLoggedOut = request.playerEntity.lastLoggedOut
+        lastLoggedOut = os.date('%Y-%m-%d %H:%M:%S', request.playerEntity.lastLoggedOut)
     })
 end
 
@@ -222,7 +222,7 @@ local function fetchPlayerEntity(citizenId)
         gang = player.gang and json.decode(player.gang),
         position = convertPosition(player.position),
         metadata = json.decode(player.metadata),
-        lastLoggedOut = player.lastLoggedOut
+        lastLoggedOut = os.date('%Y-%m-%d %H:%M:%S', player.lastLoggedOut)
     } or nil
 end
 
