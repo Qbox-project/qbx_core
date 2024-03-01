@@ -40,7 +40,7 @@ AddEventHandler('playerDropped', function(reason)
     if not QBX.Players[src] then return end
     GlobalState.PlayerCount -= 1
     local player = QBX.Players[src]
-    player.PlayerData.lastLoggedOut = os.time()
+    player.PlayerData.lastLoggedOut = os.time() * 1000
     logger.log({
         source = 'qbx_core',
         webhook = loggingConfig.webhook['joinleave'],
