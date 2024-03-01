@@ -85,7 +85,7 @@ local function upsertPlayerEntity(request)
         gang = json.encode(request.playerEntity.gang),
         position = json.encode(request.position),
         metadata = json.encode(request.playerEntity.metadata),
-        lastLoggedOut = os.date('%Y-%m-%d %H:%M:%S', request.playerEntity.lastLoggedOut/1000)
+        lastLoggedOut = os.date('%Y-%m-%d %H:%M:%S', request.playerEntity.lastLoggedOut)
     })
 end
 
@@ -199,7 +199,7 @@ local function fetchAllPlayerEntities(license2, license)
         chars[i].gang = result[i].gang and json.decode(result[i].gang)
         chars[i].position = convertPosition(result[i].position)
         chars[i].metadata = json.decode(result[i].metadata)
-        chars[i].lastLoggedOut = result[i].lastLoggedOut and result[i].lastLoggedOut
+        chars[i].lastLoggedOut = result[i].lastLoggedOut and result[i].lastLoggedOut/1000
     end
 
     return chars
@@ -222,7 +222,7 @@ local function fetchPlayerEntity(citizenId)
         gang = player.gang and json.decode(player.gang),
         position = convertPosition(player.position),
         metadata = json.decode(player.metadata),
-        lastLoggedOut = os.date('%Y-%m-%d %H:%M:%S', player.lastLoggedOut/1000)
+        lastLoggedOut = player.lastLoggedOut/1000
     } or nil
 end
 
