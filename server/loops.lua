@@ -1,16 +1,18 @@
 local config = require 'config.server'
 
 local function removeHungerAndThirst(src, player)
-    local newHunger = player.PlayerData.metadata.hunger - config.player.hungerRate
-    local newThirst = player.PlayerData.metadata.thirst - config.player.thirstRate
+    local playerState = Player(src).state
+    if not playerState.isLoggedIn then return end
+    local newHunger = playerState.hunger - config.player.hungerRate
+    local newThirst = playerState.thirst - config.player.thirstRate
     if newHunger <= 0 then
         newHunger = 0
     end
     if newThirst <= 0 then
         newThirst = 0
     end
-    player.Functions.SetMetaData('thirst', newThirst)
-    player.Functions.SetMetaData('hunger', newHunger)
+    playerState:set('hunger', newHunger, true)
+    playerState:set('thirst', newThirst, true)
     TriggerClientEvent('hud:client:UpdateNeeds', src, newHunger, newThirst)
     player.Functions.Save()
 end

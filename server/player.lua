@@ -420,11 +420,15 @@ end
 ---On player logout
 ---@param source Source
 function Logout(source)
+    local player = GetPlayer(source)
+    if not player then return end
+    player.playerData.metadata.hunger = playerState.hunger or 0
+    player.playerData.metadata.thirst = playerState.thirst or 0
+    player.playerData.metadata.stress = playerState.stress or 0
+
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
 
-    local player = GetPlayer(source)
-    if not player then return end
     player.Functions.Save()
 
     Wait(200)
@@ -776,8 +780,9 @@ exports('CreatePlayer', CreatePlayer)
 function Save(source)
     local ped = GetPlayerPed(source)
     local playerData = QBX.Players[source].PlayerData
+    local playerState = Player(source)?.state
     local pcoords = playerData.position
-    if not Player(source)?.state.inApartment and not Player(source)?.state.inProperty then
+    if not playerState.inApartment and not playerState.inProperty then
         local coords = GetEntityCoords(ped)
         pcoords = vec4(coords.x, coords.y, coords.z, GetEntityHeading(ped))
     end
@@ -788,6 +793,12 @@ function Save(source)
 
     playerData.metadata.health = GetEntityHealth(ped)
     playerData.metadata.armor = GetPedArmour(ped)
+
+    if playerState.isLoggedIn then
+        playerData.metadata.hunger = playerState.hunger or 0
+        playerData.metadata.thirst = playerState.thirst or 0
+        playerData.metadata.stress = playerState.stress or 0
+    end
 
     CreateThread(function()
         storage.upsertPlayerEntity({
