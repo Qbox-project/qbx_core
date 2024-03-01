@@ -425,7 +425,7 @@ function Logout(source)
 
     local player = GetPlayer(source)
     if not player then return end
-    player.PlayerData.lastLoggedOut = os.date()
+    player.PlayerData.lastLoggedOut = os.date() * 1000
     player.Functions.Save()
 
     Wait(200)
