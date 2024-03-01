@@ -74,7 +74,7 @@ end
 
 ---@param request UpsertPlayerRequest
 local function upsertPlayerEntity(request)
-    MySQL.insert.await('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+    MySQL.insert.await('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata, lastLoggedOut) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata, :lastLoggedOut) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata, lastLoggedOut = :lastLoggedOut', {
         citizenid = request.playerEntity.citizenid,
         cid = request.playerEntity.charinfo.cid,
         license = request.playerEntity.license,
@@ -84,7 +84,8 @@ local function upsertPlayerEntity(request)
         job = json.encode(request.playerEntity.job),
         gang = json.encode(request.playerEntity.gang),
         position = json.encode(request.position),
-        metadata = json.encode(request.playerEntity.metadata)
+        metadata = json.encode(request.playerEntity.metadata),
+        lastLoggedOut = request.playerEntity.lastLoggedOut
     })
 end
 

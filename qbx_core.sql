@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `metadata` text NOT NULL,
   `inventory` longtext DEFAULT NULL,
   `phone_number` VARCHAR(20) DEFAULT NULL,
+  `lastLoggedOut` timestamp NOT NULL DEFAULT current_timestamp(),
   `last_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`citizenid`),
   KEY `id` (`id`),
