@@ -201,7 +201,7 @@ local function fetchAllPlayerEntities(license2, license)
         chars[i].gang = result[i].gang and json.decode(result[i].gang)
         chars[i].position = convertPosition(result[i].position)
         chars[i].metadata = json.decode(result[i].metadata)
-        chars[i].lastLoggedOut = result[i].lastLoggedOut
+        chars[i].lastLoggedOut = result[i].lastLoggedOut/1000
     end
 
     return chars
