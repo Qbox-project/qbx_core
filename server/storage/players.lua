@@ -100,7 +100,7 @@ end
 ---@field position vector4
 ---@field metadata PlayerMetadata
 ---@field cid integer
----@field LastLoggedOut integer
+---@field lastLoggedOutUnix integer
 ---@field items table deprecated
 
 ---@class PlayerEntityDatabase : PlayerEntity
@@ -192,7 +192,7 @@ local function fetchAllPlayerEntities(license2, license)
     ---@type PlayerEntity[]
     local chars = {}
     ---@type PlayerEntityDatabase[]
-    local result = MySQL.query.await('SELECT *, UNIX_TIMESTAMP(lastLoggedOut) AS LastLoggedOut FROM players WHERE license = ? OR license = ?', {license, license2})
+    local result = MySQL.query.await('SELECT *, UNIX_TIMESTAMP(lastLoggedOut) AS lastLoggedOutUnix FROM players WHERE license = ? OR license = ?', {license, license2})
     for i = 1, #result do
         chars[i] = result[i]
         chars[i].charinfo = json.decode(result[i].charinfo)
@@ -201,7 +201,7 @@ local function fetchAllPlayerEntities(license2, license)
         chars[i].gang = result[i].gang and json.decode(result[i].gang)
         chars[i].position = convertPosition(result[i].position)
         chars[i].metadata = json.decode(result[i].metadata)
-        chars[i].lastLoggedOut = result[i].LastLoggedOut
+        chars[i].lastLoggedOut = result[i].lastLoggedOutUnix
     end
 
     return chars
@@ -211,7 +211,7 @@ end
 ---@return PlayerEntity?
 local function fetchPlayerEntity(citizenId)
     ---@type PlayerEntityDatabase
-    local player = MySQL.single.await('SELECT *, UNIX_TIMESTAMP(lastLoggedOut) AS LastLoggedOut FROM players where citizenid = ?', { citizenId })
+    local player = MySQL.single.await('SELECT *, UNIX_TIMESTAMP(lastLoggedOut) AS lastLoggedOutUnix FROM players where citizenid = ?', { citizenId })
     local charinfo = json.decode(player.charinfo)
     return player and {
         citizenid = player.citizenid,
@@ -224,7 +224,7 @@ local function fetchPlayerEntity(citizenId)
         gang = player.gang and json.decode(player.gang),
         position = convertPosition(player.position),
         metadata = json.decode(player.metadata),
-        lastLoggedOut = player.LastLoggedOut
+        lastLoggedOut = player.lastLoggedOutUnix
     } or nil
 end
 
