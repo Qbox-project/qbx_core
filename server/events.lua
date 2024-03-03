@@ -201,3 +201,11 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     end
     TriggerClientEvent('QBCore:Client:SetDuty', src, player.PlayerData.job.onduty)
 end)
+
+RegisterServerEvent('qbx_core:server:onSetMetaData', function (meta, _, val, source)
+    if meta == 'thirst' or meta == 'hunger' then return end
+    local playerState = Player(source).state
+    if val == playerState[meta] then return end
+    if not playerState.isLoggedIn then return end
+    playerState:set(meta, val, true)
+end)
