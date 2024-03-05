@@ -98,7 +98,7 @@ lib.addCommand('openserver', {
         Notify(source, locale('error.server_already_open'), 'error')
         return
     end
-    if HasPermission(source, 'admin') then
+    if IsPlayerAceAllowed(source, 'admin') then
         config.server.closed = false
         Notify(source, locale('success.server_opened'), 'success')
     else
@@ -117,12 +117,12 @@ lib.addCommand('closeserver', {
         Notify(source, locale('error.server_already_closed'), 'error')
         return
     end
-    if HasPermission(source, 'admin') then
+    if IsPlayerAceAllowed(source, 'admin') then
         local reason = args[locale("command.closeserver.params.reason.name")] or 'No reason specified'
         config.server.closed = true
         config.server.closedReason = reason
         for k in pairs(QBX.Players) do
-            if not HasPermission(k, config.server.whitelistPermission) then
+            if not IsPlayerAceAllowed(k --[[@as string]], config.server.whitelistPermission) then
                 DropPlayer(k, reason)
             end
         end
@@ -305,7 +305,7 @@ lib.addCommand('ooc', {
                 multiline = true,
                 args = {('OOC | %s'):format(GetPlayerName(source)), message}
             })
-        elseif HasPermission(v --[[@as Source]], 'admin') then
+        elseif IsPlayerAceAllowed(v --[[@as string]], 'admin') then
             if IsOptin(v --[[@as Source]]) then
                 TriggerClientEvent('chat:addMessage', v --[[@as Source]], {
                     color = { 0, 0, 255},
