@@ -74,7 +74,7 @@ end
 
 ---@param request UpsertPlayerRequest
 local function upsertPlayerEntity(request)
-    MySQL.insert.await('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata, lastLoggedOut) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata, :lastLoggedOut) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata, lastLoggedOut = :lastLoggedOut', {
+    MySQL.insert.await('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata, last_logged_out) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata, :last_logged_out) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata, last_logged_out = :last_logged_out', {
         citizenid = request.playerEntity.citizenid,
         cid = request.playerEntity.charinfo.cid,
         license = request.playerEntity.license,
@@ -85,7 +85,7 @@ local function upsertPlayerEntity(request)
         gang = json.encode(request.playerEntity.gang),
         position = json.encode(request.position),
         metadata = json.encode(request.playerEntity.metadata),
-        lastLoggedOut = os.date('%Y-%m-%d %H:%M:%S', request.playerEntity.lastLoggedOut)
+        last_logged_out = os.date('%Y-%m-%d %H:%M:%S', request.playerEntity.lastLoggedOut)
     })
 end
 
@@ -192,7 +192,7 @@ local function fetchAllPlayerEntities(license2, license)
     ---@type PlayerEntity[]
     local chars = {}
     ---@type PlayerEntityDatabase[]
-    local result = MySQL.query.await('SELECT *, UNIX_TIMESTAMP(lastLoggedOut) AS lastLoggedOutUnix FROM players WHERE license = ? OR license = ?', {license, license2})
+    local result = MySQL.query.await('SELECT *, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players WHERE license = ? OR license = ?', {license, license2})
     for i = 1, #result do
         chars[i] = result[i]
         chars[i].charinfo = json.decode(result[i].charinfo)
@@ -211,7 +211,7 @@ end
 ---@return PlayerEntity?
 local function fetchPlayerEntity(citizenId)
     ---@type PlayerEntityDatabase
-    local player = MySQL.single.await('SELECT *, UNIX_TIMESTAMP(lastLoggedOut) AS lastLoggedOutUnix FROM players where citizenid = ?', { citizenId })
+    local player = MySQL.single.await('SELECT *, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players where citizenid = ?', { citizenId })
     local charinfo = json.decode(player.charinfo)
     return player and {
         citizenid = player.citizenid,
