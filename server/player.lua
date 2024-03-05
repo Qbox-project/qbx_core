@@ -430,6 +430,7 @@ function Logout(source)
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
 
+    player.PlayerData.lastLoggedOut = os.time()
     player.Functions.Save()
 
     Wait(200)

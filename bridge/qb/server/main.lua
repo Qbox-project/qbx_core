@@ -57,7 +57,7 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     local src = source --[[@as Source]]
     local player = GetPlayer(src)
     if not player then return end
-    if IsPlayerAceAllowed(src, string.format('command.%s', command)) then
+    if IsPlayerAceAllowed(src --[[@as string]], string.format('command.%s', command)) then
         local commandString = command
         for _, value in pairs(args) do
             commandString = string.format('%s %s', commandString, value)
