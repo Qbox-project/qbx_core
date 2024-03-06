@@ -100,7 +100,7 @@ end
 ---@field position vector4
 ---@field metadata PlayerMetadata
 ---@field cid integer
----@field lastLoggedOutUnix integer
+---@field lastLoggedOut integer
 ---@field items table deprecated
 
 ---@class PlayerEntityDatabase : PlayerEntity
@@ -110,7 +110,7 @@ end
 ---@field gang? string
 ---@field position string
 ---@field metadata string
----@field last_updated integer
+---@field lastLoggedOutUnix integer
 
 ---@class PlayerCharInfo
 ---@field firstname string
