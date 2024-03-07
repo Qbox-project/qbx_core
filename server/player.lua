@@ -847,7 +847,7 @@ function DeleteCharacter(source, citizenid)
             event = 'Anti-Cheat',
             color = 'white',
             tags = config.logging.role,
-            message('%s has been dropped for character deleting exploit'):format(GetPlayerName(source)),
+            message = ('%s has been dropped for character deleting exploit'):format(GetPlayerName(source)),
         })
     end
 end
