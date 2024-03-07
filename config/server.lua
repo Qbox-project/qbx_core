@@ -8,7 +8,7 @@ return {
         moneyTypes = { cash = 500, bank = 5000, crypto = 0 }, -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
         dontAllowMinus = { 'cash', 'crypto' }, -- Money that is not allowed going in minus
         paycheckTimeout = 10, -- The time in minutes that it will give the paycheck
-        paycheckSociety = false -- If true paycheck will come from the society account that the player is employed at
+        paycheckSociety = false -- If true paycheck will come from the society account that the player is employed at, requires qb-management
     },
 
     player = {
@@ -45,7 +45,7 @@ return {
             },
             WalletId = {
                 valueFunction = function()
-                    return 'QBX-' .. math.random(1111111, 9999999)
+                    return 'QB-' .. math.random(11111111, 99999999)
                 end,
             },
             SerialNumber = {
