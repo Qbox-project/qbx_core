@@ -339,7 +339,7 @@ function IsPlayerBanned(source)
     if not result then return false end
     if os.time() < result.expire then
         local timeTable = os.date('*t', tonumber(result.expire))
-        return true, 'You have been banned from the server:\n' .. result.reason .. '\nYour ban expires ' .. timeTable.day .. '/' .. timeTable.month .. '/' .. timeTable.year .. ' ' .. timeTable.hour .. ':' .. timeTable.min .. '\n'
+        return true, ('You have been banned from the server:\n%s\nYour ban expires in %s/%s/%s %s:%s\n'):format(result.reason, timeTable.day, timeTable.month, timeTable.year, timeTable.hour, timeTable.min)
     else
         CreateThread(function()
             storage.deleteBan({
@@ -416,7 +416,7 @@ local function ExploitBan(playerId, origin)
         event = 'Anti-Cheat',
         color = 'red',
         tags = loggingConfig.role,
-        message = name .. " has been banned for exploiting " .. origin
+        message = ('%s has been banned for exploiting %s'):format(name, origin)
     })
 end
 

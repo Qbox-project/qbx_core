@@ -164,7 +164,7 @@ if isServer then
     ---@param setKickReason? fun(reason: string)
     ---@param deferrals? Deferrals
     function KickWithReason(source, reason, setKickReason, deferrals) -- luacheck: ignore
-        reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. discordLink
+        reason = ('\n %s \n 🔸 Check our Discord for further information: %s'):format(reason, discordLink)
         if setKickReason then
             setKickReason(reason)
         end

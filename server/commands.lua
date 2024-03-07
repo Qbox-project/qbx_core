@@ -318,7 +318,7 @@ lib.addCommand('ooc', {
                     event = 'OOC',
                     color = 'white',
                     tags = config.logging.role,
-                    message = '**' .. GetPlayerName(source) .. '** (CitizenID: ' .. player.PlayerData.citizenid .. ' | ID: ' .. source .. ') **Message:** ' .. message
+                    message = ('**%s** (CitizenID: %s | ID: %s) **Message:** %s'):format(GetPlayerName(source), player.PlayerData.citizenid, source, message)
                 })
             end
         end

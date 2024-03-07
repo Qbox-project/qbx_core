@@ -589,7 +589,7 @@ function CreatePlayer(playerData, Offline)
                 event = 'AddMoney',
                 color = 'lightgreen',
                 tags = tags,
-                message = '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason,
+                message = ('**%s (citizenid: %s | id: %s)** $%s (%s) added, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
             })
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "add", reason)
@@ -626,7 +626,7 @@ function CreatePlayer(playerData, Offline)
                 event = 'RemoveMoney',
                 color = 'red',
                 tags = tags,
-                message = '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason,
+                message = ('** %s (citizenid: %s | id: %s)** $%s (%s) removed, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
             })
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
             if moneytype == 'bank' then
@@ -658,7 +658,7 @@ function CreatePlayer(playerData, Offline)
                 webhook = config.logging.webhook['playermoney'],
                 event = 'SetMoney',
                 color = 'green',
-                message = '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason,
+                message = ('**%s (citizenid: %s | id: %s)** $%s (%s) set, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
             })
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, math.abs(difference), difference < 0)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "set", reason)
@@ -835,7 +835,7 @@ function DeleteCharacter(source, citizenid)
                     webhook = config.logging.webhook['joinleave'],
                     event = 'Character Deleted',
                     color = 'red',
-                    message = '**' .. GetPlayerName(source) .. '** ' .. license2 .. ' deleted **' .. citizenid .. '**..'
+                    message = ('**%s** deleted **%s**...'):format(GetPlayerName(source), citizenid, source),
                 })
             end
         end)
@@ -847,7 +847,7 @@ function DeleteCharacter(source, citizenid)
             event = 'Anti-Cheat',
             color = 'white',
             tags = config.logging.role,
-            message = GetPlayerName(source) .. ' Has Been Dropped For Character Deletion Exploit',
+            message('%s has been dropped for character deleting exploit'):format(GetPlayerName(source)),
         })
     end
 end
@@ -869,7 +869,7 @@ function ForceDeleteCharacter(citizenid)
                     webhook = config.logging.webhook['joinleave'],
                     event = 'Character Force Deleted',
                     color = 'red',
-                    message = 'Character **' .. citizenid .. '** got deleted'
+                    message = ('Character **%s** got deleted'):format(citizenid),
                 })
             end
         end)
