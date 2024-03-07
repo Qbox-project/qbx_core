@@ -68,7 +68,7 @@ end
 local discordLink = GetConvar('qbx:discordlink', 'discord.gg/qbox')
 ---@deprecated use setKickReason or deferrals for connecting players, and the DropPlayer native directly otherwise
 functions.Kick = function(source, reason, setKickReason, deferrals)
-    reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. discordLink
+    reason = ('\n %s \n 🔸 Check our Discord for further information: %s'):format(reason, discordLink)
     if setKickReason then
         setKickReason(reason)
     end
@@ -135,7 +135,7 @@ functions.GetPlate = qbx.getVehiclePlate
 -- Single add item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
 local function AddItem(itemName, item)
-    lib.print.warn(string.format("%s invoked Deprecated function AddItem. This is incompatible with ox_inventory", GetInvokingResource() or 'unknown resource'))
+    lib.print.warn(('%s invoked deprecated function AddItem. This is incompatible with ox_inventory'):format(GetInvokingResource() or 'unknown resource'))
     if type(itemName) ~= "string" then
         return false, "invalid_item_name"
     end
@@ -157,7 +157,7 @@ createQbExport('AddItem', AddItem)
 -- Single update item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
 local function UpdateItem(itemName, item)
-    lib.print.warn(string.format("%s invoked deprecated function UpdateItem. This is incompatible with ox_inventory", GetInvokingResource() or 'unknown resource'))
+    lib.print.warn(('%s invoked deprecated function UpdateItem. This is incompatible with ox_inventory'):format(GetInvokingResource() or 'unknown resource'))
     if type(itemName) ~= "string" then
         return false, "invalid_item_name"
     end
@@ -176,7 +176,7 @@ createQbExport('UpdateItem', UpdateItem)
 -- Multiple Add Items
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
 local function AddItems(items)
-    lib.print.warn(string.format("%s invoked deprecated function AddItems. This is incompatible with ox_inventory", GetInvokingResource() or 'unknown resource'))
+    lib.print.warn(('%s invoked deprecated function AddItems. This is incompatible with ox_inventory'):format(GetInvokingResource() or 'unknown resource'))
     local shouldContinue = true
     local message = "success"
     local errorItem = nil
@@ -211,7 +211,7 @@ createQbExport('AddItems', AddItems)
 -- Single Remove Item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
 local function RemoveItem(itemName)
-    lib.print.warn(string.format("%s invoked deprecated function RemoveItem. This is incompatible with ox_inventory", GetInvokingResource() or 'unknown resource'))
+    lib.print.warn(('%s invoked deprecated function RemoveItem. This is incompatible with ox_inventory'):format(GetInvokingResource() or 'unknown resource'))
     if type(itemName) ~= "string" then
         return false, "invalid_item_name"
     end

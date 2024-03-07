@@ -46,7 +46,7 @@ AddEventHandler('playerDropped', function(reason)
         webhook = loggingConfig.webhook['joinleave'],
         event = 'Dropped',
         color = 'red',
-        message = '**' .. GetPlayerName(src) .. '** (' .. player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason,
+        message = ('**%s** (%s) left...\n **Reason:** %s'):format(GetPlayerName(src), player.PlayerData.license, reason),
     })
     player.Functions.Save()
     QBX.Player_Buckets[player.PlayerData.license] = nil
