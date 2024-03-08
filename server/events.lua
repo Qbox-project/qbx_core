@@ -204,7 +204,7 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
 end)
 
 RegisterServerEvent('qbx_core:server:onSetMetaData', function (meta, _, val, source)
-    if meta ~= 'thirst' or meta ~= 'hunger' then return end
+    if meta ~= 'thirst' and meta ~= 'hunger' then return end
     local playerState = Player(source).state
     if val == playerState[meta] then return end
     if not playerState.isLoggedIn then return end
