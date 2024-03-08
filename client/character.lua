@@ -278,9 +278,9 @@ local function chooseCharacter()
     local options = {}
     for i = 1, amount do
         local character = characters[i]
-        local name = character and character.charinfo.firstname .. ' ' .. character.charinfo.lastname
+        local name = character and ('%s %s'):format(character.charinfo.firstname, character.charinfo.lastname)
         options[i] = {
-            title = character and string.format('%s %s - %s', character.charinfo.firstname, character.charinfo.lastname, character.citizenid) or locale('info.multichar_new_character', i),
+            title = character and ('%s %s - %s'):format(character.charinfo.firstname, character.charinfo.lastname, character.citizenid) or locale('info.multichar_new_character', i),
             metadata = character and {
                 Name = name,
                 Gender = character.charinfo.gender == 0 and locale('info.char_male') or locale('info.char_female'),
@@ -312,7 +312,7 @@ local function chooseCharacter()
         if character then
             lib.registerContext({
                 id = 'qbx_core_multichar_character_'..i,
-                title = string.format('%s %s - %s', character.charinfo.firstname, character.charinfo.lastname, character.citizenid),
+                title = ('%s %s - %s'):format(character.charinfo.firstname, character.charinfo.lastname, character.citizenid),
                 canClose = false,
                 menu = 'qbx_core_multichar_characters',
                 options = {
