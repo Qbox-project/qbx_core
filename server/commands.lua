@@ -253,6 +253,63 @@ lib.addCommand('setjob', {
     end
 end)
 
+
+--- ADMIN COMMAND
+
+
+lib.addCommand('addjob', {
+    help = 'Add Job to Player',
+    params = {
+        {
+            name = 'target',
+            type = 'playerId',
+            help = 'Target player\'s server id',
+        },
+        {
+            name = 'jobname',
+            type = 'string',
+            help = 'Job Code',
+        },
+        {
+            name = 'grade',
+            type = 'number',
+            help = 'Job Grade',
+        },
+    },
+    restricted = 'group.admin'
+}, function(source, args)
+    local TargetPlayer = exports.qbx_core:GetPlayer(args.target)
+    local citizenid = TargetPlayer.PlayerData.citizenid
+    exports.qbx_core:AddPlayerToJob(citizenid, args.jobname, args.grade)
+end)
+
+
+lib.addCommand('removejob', {
+    help = 'Remove Job from Player',
+    params = {
+        {
+            name = 'target',
+            type = 'playerId',
+            help = 'Target player\'s server id',
+        },
+        {
+            name = 'jobname',
+            type = 'string',
+            help = 'Job Code',
+        },
+        {
+            name = 'grade',
+            type = 'number',
+            help = 'Job Grade',
+        },
+    },
+    restricted = 'group.admin'
+}, function(source, args)
+    local TargetPlayer = exports.qbx_core:GetPlayer(args.target)
+    local citizenid = TargetPlayer.PlayerData.citizenid
+    exports.qbx_core:RemovePlayerFromJob(citizenid, args.jobname)
+end)
+
 -- Gang
 
 lib.addCommand('gang', {
