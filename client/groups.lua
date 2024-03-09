@@ -15,6 +15,22 @@ end
 
 exports('GetGangs', GetGangs)
 
+---@param name string
+---@return Job?
+function GetJob(name)
+    return jobs[name]
+end
+
+exports('GetJob', GetJob)
+
+---@param name string
+---@return Gang?
+function GetGang(name)
+    return gangs[name]
+end
+
+exports('GetGang', GetGang)
+
 RegisterNetEvent('qbx_core:client:onJobUpdate', function(jobName, job)
     jobs[jobName] = job
 end)
