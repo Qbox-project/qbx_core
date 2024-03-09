@@ -297,11 +297,6 @@ lib.addCommand('removejob', {
             type = 'string',
             help = 'Job Code',
         },
-        {
-            name = 'grade',
-            type = 'number',
-            help = 'Job Grade',
-        },
     },
     restricted = 'group.admin'
 }, function(source, args)
