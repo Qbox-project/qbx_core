@@ -120,7 +120,7 @@ end
 function qbx.table.size(tbl)
     local size = 0
     for _ in pairs(tbl) do
-        size +=1
+        size += 1
     end
     return size
 end
