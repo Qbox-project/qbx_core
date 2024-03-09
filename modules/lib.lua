@@ -114,6 +114,17 @@ function qbx.math.round(num, decimalPlaces)
     return math.floor((num * power) + 0.5) / power
 end
 
+---Returns the number of items in a table. Useful for non-array tables.
+---@param tbl table
+---@return integer
+function qbx.table.size(tbl)
+    local size = 0
+    for _ in pairs(tbl) do
+        size +=1
+    end
+    return size
+end
+
 ---Maps and returns the values of the given table by the given subfield.
 ---@param tble table
 ---@param subfield any
