@@ -129,7 +129,7 @@ function AddPlayerToJob(citizenid, jobName, grade)
         error(("player not found with citizenid %s"):format(citizenid))
     end
     if player.PlayerData.jobs[jobName] == grade then return end
-    if #player.PlayerData.jobs >= maxJobsPerPlayer and not player.PlayerData.jobs[jobName] then
+    if qbx.table.size(player.PlayerData.jobs) >= maxJobsPerPlayer and not player.PlayerData.jobs[jobName] then
         error("player already has maximum amount of jobs allowed")
     end
 
@@ -242,7 +242,7 @@ function AddPlayerToGang(citizenid, gangName, grade)
 
     if player.PlayerData.gangs[gangName] == grade then return end
 
-    if #player.PlayerData.gangs >= maxGangsPerPlayer and not player.PlayerData.gangs[gangName] then
+    if qbx.table.size(player.PlayerData.gangs) >= maxGangsPerPlayer and not player.PlayerData.gangs[gangName] then
         error("player already has maximum amount of gangs allowed")
     end
 
