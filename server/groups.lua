@@ -53,18 +53,18 @@ exports('CreateJobs', CreateJobs)
 ---@return boolean success
 ---@return string message
 function RemoveJob(jobName)
-    if type(jobName) ~= "string" then
-        return false, "invalid_job_name"
+    if type(jobName) ~= 'string' then
+        return false, 'invalid_job_name'
     end
 
     if not jobs[jobName] then
-        return false, "job_not_exists"
+        return false, 'job_not_exists'
     end
 
     jobs[jobName] = nil
     TriggerEvent('qbx_core:server:onJobUpdate', jobName, nil)
     TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, nil)
-    return true, "success"
+    return true, 'success'
 end
 
 exports('RemoveJob', RemoveJob)
@@ -86,19 +86,19 @@ exports('CreateGangs', CreateGangs)
 ---@return boolean success
 ---@return string message
 function RemoveGang(gangName)
-    if type(gangName) ~= "string" then
-        return false, "invalid_gang_name"
+    if type(gangName) ~= 'string' then
+        return false, 'invalid_gang_name'
     end
 
     if not gangs[gangName] then
-        return false, "gang_not_exists"
+        return false, 'gang_not_exists'
     end
 
     gangs[gangName] = nil
 
     TriggerEvent('qbx_core:server:onGangUpdate', gangName, nil)
     TriggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, nil)
-    return true, "success"
+    return true, 'success'
 end
 
 exports('RemoveGang', RemoveGang)
@@ -178,7 +178,7 @@ exports('UpsertGangData', upsertGangData)
 ---@param data JobGradeData
 local function upsertJobGrade(name, grade, data)
     if not jobs[name] then
-        lib.print.error("Job must exist to edit grades. Not found:", name)
+        lib.print.error('Job must exist to edit grades. Not found:', name)
         return
     end
     jobs[name].grades[grade] = data
@@ -193,7 +193,7 @@ exports('UpsertJobGrade', upsertJobGrade)
 ---@param data GangGradeData
 local function upsertGangGrade(name, grade, data)
     if not gangs[name] then
-        lib.print.error("Gang must exist to edit grades. Not found:", name)
+        lib.print.error('Gang must exist to edit grades. Not found:', name)
         return
     end
     gangs[name].grades[grade] = data
@@ -207,7 +207,7 @@ exports('UpsertGangGrade', upsertGangGrade)
 ---@param grade integer
 local function removeJobGrade(name, grade)
     if not jobs[name] then
-        lib.print.error("Job must exist to edit grades. Not found:", name)
+        lib.print.error('Job must exist to edit grades. Not found:', name)
         return
     end
     jobs[name].grades[grade] = nil
@@ -221,7 +221,7 @@ exports('RemoveJobGrade', removeJobGrade)
 ---@param grade integer
 local function removeGangGrade(name, grade)
     if not gangs[name] then
-        lib.print.error("Gang must exist to edit grades. Not found:", name)
+        lib.print.error('Gang must exist to edit grades. Not found:', name)
         return
     end
     gangs[name].grades[grade] = nil

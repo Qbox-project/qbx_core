@@ -4,7 +4,7 @@ local commands = {}
 function commands.Add(name, help, arguments, argsrequired, callback, permission)
     local properties = {
         help = help,
-        restricted = permission and permission ~= "user" and 'group.'..permission or false,
+        restricted = permission and permission ~= 'user' and 'group.'..permission or false,
         params = {}
     }
     for i = 1, #arguments do

@@ -17,7 +17,7 @@ return {
 
         ---@enum BloodType
         bloodTypes = {
-            "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-",
+            'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-',
         },
 
         ---@alias UniqueIdType 'citizenid' | 'AccountNumber' | 'PhoneNumber' | 'FingerId' | 'WalletId' | 'SerialNumber'
