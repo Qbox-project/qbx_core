@@ -5,14 +5,9 @@ local function removeHungerAndThirst(src, player)
     if not playerState.isLoggedIn then return end
     local newHunger = playerState.hunger - config.player.hungerRate
     local newThirst = playerState.thirst - config.player.thirstRate
-    if newHunger <= 0 then
-        newHunger = 0
-    end
-    if newThirst <= 0 then
-        newThirst = 0
-    end
-    playerState:set('hunger', newHunger, true)
-    playerState:set('thirst', newThirst, true)
+
+    playerState:set('hunger', math.max(0, newHunger), true)
+    playerState:set('thirst', math.max(0, newThirst), true)
     TriggerClientEvent('hud:client:UpdateNeeds', src, newHunger, newThirst)
     player.Functions.Save()
 end

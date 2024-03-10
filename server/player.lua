@@ -336,9 +336,9 @@ function CheckPlayerData(source, playerData)
     playerData.metadata.hunger = playerData.metadata.hunger or 100
     playerData.metadata.thirst = playerData.metadata.thirst or 100
     playerData.metadata.stress = playerData.metadata.stress or 0
-    playerState:set("hunger", playerData.metadata.hunger, true)
-    playerState:set("thirst", playerData.metadata.thirst, true)
-    playerState:set("stress", playerData.metadata.stress, true)
+    playerState:set('hunger', playerData.metadata.hunger, true)
+    playerState:set('thirst', playerData.metadata.thirst, true)
+    playerState:set('stress', playerData.metadata.stress, true)
     
     playerData.metadata.isdead = playerData.metadata.isdead or false
     playerData.metadata.inlaststand = playerData.metadata.inlaststand or false
@@ -442,9 +442,9 @@ function Logout(source)
     QBX.Players[source] = nil
     GlobalState.PlayerCount -= 1
     TriggerClientEvent('qbx_core:client:playerLoggedOut', source)
-    playerState:set("stress", 100, true)
-    playerState:set("thirst", 100, true)
-    playerState:set("hunger", 100, true)
+    playerState:set('stress', 100, true)
+    playerState:set('thirst', 100, true)
+    playerState:set('hunger', 100, true)
 end
 
 exports('Logout', Logout)
@@ -555,6 +555,7 @@ function CreatePlayer(playerData, Offline)
         if not meta or type(meta) ~= 'string' then return end
         if meta == 'hunger' or meta == 'thirst' then
             val = val > 100 and 100 or val
+            Player(self.PlayerData.source).state:set(meta, val, true)
         end
 
         local oldVal = self.PlayerData.metadata[meta]
