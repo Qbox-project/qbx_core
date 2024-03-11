@@ -258,7 +258,7 @@ end)
 
 
 lib.addCommand('addjob', {
-    help = 'Add Job to Player',
+    help = locale("command.addjob.help"),
     params = {
         { name = locale("command.addjob.params.id.name"), help = locale("command.addjob.params.id.help"), type = 'playerId' },
         { name = locale("command.addjob.params.job.name"), help = locale("command.addjob.params.job.help"), type = 'string' },
@@ -278,9 +278,8 @@ lib.addCommand('addjob', {
     end
 end)
 
-
 lib.addCommand('removejob', {
-    help = 'Remove Job from Player',
+    help = locale("command.removejob.help"),
     params = {
         { name = locale("command.removejob.params.id.name"), help = locale("command.removejob.params.id.help"), type = 'playerId' },
         { name = locale("command.removejob.params.job.name"), help = locale("command.removejob.params.job.help"), type = 'string' }
