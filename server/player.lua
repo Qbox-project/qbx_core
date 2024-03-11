@@ -81,7 +81,7 @@ end
 ---Sets a player's job to be primary only if they already have it.
 ---@param citizenid string
 ---@param jobName string
-local function setPlayerPrimaryJob(citizenid, jobName)
+function SetPlayerPrimaryJob(citizenid, jobName)
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
     if not player then
         error(("player not found with citizenid %s"):format(citizenid))
@@ -108,7 +108,7 @@ local function setPlayerPrimaryJob(citizenid, jobName)
     end
 end
 
-exports('SetPlayerPrimaryJob', setPlayerPrimaryJob)
+exports('SetPlayerPrimaryJob', SetPlayerPrimaryJob)
 
 ---Adds a player to the job or overwrites their grade for a job already held
 ---@param citizenid string
@@ -139,7 +139,7 @@ function AddPlayerToJob(citizenid, jobName, grade)
         player.Functions.SetPlayerData('jobs', player.PlayerData.jobs)
     end
     if player.PlayerData.job.name == jobName then
-        setPlayerPrimaryJob(citizenid, jobName)
+        SetPlayerPrimaryJob(citizenid, jobName)
     end
 end
 
@@ -492,9 +492,9 @@ function CreatePlayer(playerData, Offline)
             lib.print.error(("cannot set job. Job %s does not have grade %s"):format(jobName, grade))
             return false
         end
-        removePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
+        RemovePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
         AddPlayerToJob(self.PlayerData.citizenid, jobName, grade)
-        setPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
+        SetPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
         return true
     end
 

@@ -257,6 +257,23 @@ end)
 --- ADMIN COMMAND
 
 
+lib.addCommand('changejob', {
+    help = locale("command.changejob.help"),
+    params = {
+        { name = locale("command.changejob.params.id.name"), help = locale("command.changejob.params.id.help"), type = 'playerId' },
+        { name = locale("command.changejob.params.job.name"), help = locale("command.changejob.params.job.help"), type = 'string' },
+    },
+    restricted = 'group.admin'
+}, function(source, args)
+    local player = GetPlayer(tonumber(args[locale("command.changejob.params.id.name")]) --[[@as number]])
+    if not player then
+        Notify(source, locale('error.not_online'), 'error')
+        return
+    end
+
+    SetPlayerPrimaryJob(player.PlayerData.citizenid, tostring(args[locale("command.changejob.params.job.name")]))
+end)
+
 lib.addCommand('addjob', {
     help = locale("command.addjob.help"),
     params = {
