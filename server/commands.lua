@@ -266,9 +266,16 @@ lib.addCommand('addjob', {
     },
     restricted = 'group.admin'
 }, function(source, args)
-    local TargetPlayer = exports.qbx_core:GetPlayer(args.target)
-    local citizenid = TargetPlayer.PlayerData.citizenid
-    exports.qbx_core:AddPlayerToJob(citizenid, args.jobname, args.grade)
+    local player = GetPlayer(tonumber(args[locale("command.addjob.params.id.name")]) --[[@as number]])
+    if not player then
+        Notify(source, locale('error.not_online'), 'error')
+        return
+    end
+    if args[locale("command.addjob.params.grade.name")] then
+        AddPlayerToJob(player.PlayerData.citizenid, tostring(args[locale("command.addjob.params.job.name")]), tonumber(args[locale("command.addjob.params.grade.name")]) --[[@as number]])
+    else
+        AddPlayerToJob(player.PlayerData.citizenid, tostring(args[locale("command.addjob.params.job.name")]), 0)
+    end
 end)
 
 
