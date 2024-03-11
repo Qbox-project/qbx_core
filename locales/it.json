@@ -16,12 +16,19 @@
         "server_already_closed": "Il server è già chiuso",
         "no_permission": "Non hai i permessi necessari..",
         "no_waypoint": "Nessun marker impostato.",
-        "tp_error": "Errore durante il TP."
+        "tp_error": "Errore durante il TP.",
+        "connecting_database_timeout": "Connection to database timed out. (Is the SQL server on?)",
+        "connecting_error": "An error occurred while connecting to the server. (Check your server console)",
+        "no_match_character_registration": "Anything other than letters aren't allowed, trailing whitespaces aren't allowed either and words must start with a capital letter in input fields. You can however add words with spaces inbetween.",
+        "already_in_queue": "You are already in queue.",
+        "no_subqueue": "You were not let in any sub-queue."
     },
     "success": {
         "server_opened": "Il server ora è aperto",
         "server_closed": "Il server ora è chiuso",
-        "teleported_waypoint": "TP al marker."
+        "teleported_waypoint": "TP al marker.",
+        "character_deleted": "Character deleted!",
+        "character_deleted_citizenid": "You successfully deleted the character with Citizen ID %s."
     },
     "info": {
         "received_paycheck": "Hai ricevuto la paga di $%s",
@@ -33,7 +40,28 @@
         "join_server": "Benvenuto %s su %s.",
         "checking_whitelisted": "Ciao %s. Sto controllando la allowlist.",
         "exploit_banned": "Sei stato bannato per Cheating o Exploit. Apri un ticket per maggiori informazioni: %s",
-        "exploit_dropped": "Sei stato espulso per Exploit"
+        "exploit_dropped": "Sei stato espulso per Exploit",
+        "multichar_title": "Qbox Multichar",
+        "multichar_new_character": "New Character #%s",
+        "char_male": "Male",
+        "char_female": "Female",
+        "play": "Play",
+        "play_description": "Play as %s",
+        "delete_character": "Delete Character",
+        "delete_character_description": "Delete %s",
+        "logout_command_help": "Logs you out of your current character",
+        "check_id": "Check your Server ID",
+        "deletechar_command_help": "Delete a players character",
+        "deletechar_command_arg_player_id": "Player ID",
+        "character_registration_title": "Character Registration",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "nationality": "Nationality",
+        "gender": "Sex",
+        "birth_date": "Birth Date",
+        "select_gender": "Select your gender...",
+        "confirm_delete": "Are you sure you wish to delete this character?",
+        "in_queue": "🐌 You are %s/%s in queue. (%s) %s"
     },
     "command": {
         "tp": {
@@ -104,6 +132,28 @@
                 "id": { "name": "id", "help": "ID Giocatore"},
                 "job": { "name": "lavoro", "help": "Nome Lavoro"},
                 "grade": { "name": "grado", "help": "Grado"}
+            }
+        },
+        "changejob": {
+            "help": "Change Active Job of Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" }
+            }
+        },
+        "addjob": {
+            "help": "Add Job to Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" },
+                "grade": { "name": "grade", "help": "Job grade" }
+            }
+        },
+        "removejob": {
+            "help": "Remove Job from Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" }
             }
         },
         "gang": { "help": "Controlla la tua Fazione"},
