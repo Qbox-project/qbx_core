@@ -495,7 +495,7 @@ function CreatePlayer(playerData, Offline)
             return false
         end
         if setJobReplaces then
-            TemovePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
+            RemovePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
         end
         AddPlayerToJob(self.PlayerData.citizenid, jobName, grade)
         SetPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
