@@ -246,11 +246,11 @@ lib.addCommand('setjob', {
         Notify(source, locale('error.not_online'), 'error')
         return
     end
+    local jobGrade = 0
     if args[locale("command.setjob.params.grade.name")] then
-        player.Functions.SetJob(tostring(args[locale("command.setjob.params.job.name")]), tonumber(args[locale("command.setjob.params.grade.name")]) --[[@as number]])
-    else
-        player.Functions.SetJob(tostring(args[locale("command.setjob.params.job.name")]), 0)
+        jobGrade = tonumber(args[locale("command.setjob.params.grade.name")]) --[[@as number]]
     end
+    player.Functions.SetJob(tostring(args[locale("command.setjob.params.job.name")]), jobGrade)
 end)
 
 
@@ -288,11 +288,11 @@ lib.addCommand('addjob', {
         Notify(source, locale('error.not_online'), 'error')
         return
     end
+    local jobGrade = 0
     if args[locale("command.addjob.params.grade.name")] then
-        AddPlayerToJob(player.PlayerData.citizenid, tostring(args[locale("command.addjob.params.job.name")]), tonumber(args[locale("command.addjob.params.grade.name")]) --[[@as number]])
-    else
-        AddPlayerToJob(player.PlayerData.citizenid, tostring(args[locale("command.addjob.params.job.name")]), 0)
+        jobGrade = tonumber(args[locale("command.addjob.params.grade.name")]) --[[@as number]]
     end
+    AddPlayerToJob(player.PlayerData.citizenid, tostring(args[locale("command.addjob.params.job.name")]), jobGrade)
 end)
 
 lib.addCommand('removejob', {
