@@ -282,16 +282,8 @@ end)
 lib.addCommand('removejob', {
     help = 'Remove Job from Player',
     params = {
-        {
-            name = 'target',
-            type = 'playerId',
-            help = 'Target player\'s server id',
-        },
-        {
-            name = 'jobname',
-            type = 'string',
-            help = 'Job Code',
-        },
+        { name = locale("command.removejob.params.id.name"), help = locale("command.removejob.params.id.help"), type = 'playerId' },
+        { name = locale("command.removejob.params.job.name"), help = locale("command.removejob.params.job.help"), type = 'string' }
     },
     restricted = 'group.admin'
 }, function(source, args)
