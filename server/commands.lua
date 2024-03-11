@@ -262,7 +262,7 @@ lib.addCommand('addjob', {
     params = {
         { name = locale("command.addjob.params.id.name"), help = locale("command.addjob.params.id.help"), type = 'playerId' },
         { name = locale("command.addjob.params.job.name"), help = locale("command.addjob.params.job.help"), type = 'string' },
-        { name = locale("command.addjob.params.grade.name"), help = locale("command.addjob.params.grade.help"), type = 'number' }
+        { name = locale("command.addjob.params.grade.name"), help = locale("command.addjob.params.grade.help"), type = 'number', optional = true}
     },
     restricted = 'group.admin'
 }, function(source, args)
