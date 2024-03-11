@@ -83,7 +83,7 @@ end
 ---Sets a player's job to be primary only if they already have it.
 ---@param citizenid string
 ---@param jobName string
-local function setPlayerPrimaryJob(citizenid, jobName)
+function SetPlayerPrimaryJob(citizenid, jobName)
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
     if not player then
         error(("player not found with citizenid %s"):format(citizenid))
@@ -110,7 +110,7 @@ local function setPlayerPrimaryJob(citizenid, jobName)
     end
 end
 
-exports('SetPlayerPrimaryJob', setPlayerPrimaryJob)
+exports('SetPlayerPrimaryJob', SetPlayerPrimaryJob)
 
 ---Adds a player to the job or overwrites their grade for a job already held
 ---@param citizenid string
@@ -141,7 +141,7 @@ function AddPlayerToJob(citizenid, jobName, grade)
         player.Functions.SetPlayerData('jobs', player.PlayerData.jobs)
     end
     if player.PlayerData.job.name == jobName then
-        setPlayerPrimaryJob(citizenid, jobName)
+        SetPlayerPrimaryJob(citizenid, jobName)
     end
 end
 
@@ -150,7 +150,7 @@ exports('AddPlayerToJob', AddPlayerToJob)
 ---If the job removed from is primary, sets the primary job to unemployed.
 ---@param citizenid string
 ---@param jobName string
-local function removePlayerFromJob(citizenid, jobName)
+function RemovePlayerFromJob(citizenid, jobName)
     -- Unemployed is the default job, so players cannot be removed from it.
     if jobName == 'unemployed' then return end
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
@@ -176,7 +176,7 @@ local function removePlayerFromJob(citizenid, jobName)
     end
 end
 
-exports('RemovePlayerFromJob', removePlayerFromJob)
+exports('RemovePlayerFromJob', RemovePlayerFromJob)
 
 ---Sets a player's gang to be primary only if they already have it.
 ---@param citizenid string
@@ -495,10 +495,10 @@ function CreatePlayer(playerData, Offline)
             return false
         end
         if setJobReplaces then
-            removePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
+            TemovePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
         end
         AddPlayerToJob(self.PlayerData.citizenid, jobName, grade)
-        setPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
+        SetPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
         return true
     end
 

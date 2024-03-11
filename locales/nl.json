@@ -19,7 +19,9 @@
         "tp_error": "Error tijdens het teleporteren.",
         "connecting_database_timeout": "Connection to database timed out. (Is the SQL server on?)",
         "connecting_error": "Er is een fout opgetreden tijdens het verbinden met de server. (Check de server console)",
-        "no_match_character_registration": "Alles anders dan letters is niet toegestaan, spaties aan het einde zijn ook niet toegestaan ​​en woorden moeten in invoervelden met een hoofdletter beginnen. Je kunt echter woorden toevoegen met spaties ertussen."
+        "no_match_character_registration": "Alles anders dan letters is niet toegestaan, spaties aan het einde zijn ook niet toegestaan ​​en woorden moeten in invoervelden met een hoofdletter beginnen. Je kunt echter woorden toevoegen met spaties ertussen.",
+        "already_in_queue": "You are already in queue.",
+        "no_subqueue": "You were not let in any sub-queue."
     },
     "success": {
         "server_opened": "De server is geopend!",
@@ -58,7 +60,8 @@
         "gender": "Geslacht",
         "birth_date": "Geboortedatum",
         "select_gender": "Selecteer je geslacht...",
-        "confirm_delete": "Weet je zeker dat je dit karakter wilt verwijderen? Er is hierna geen weg meer terug en je karakater zal voor altijd verdwijnen!"
+        "confirm_delete": "Weet je zeker dat je dit karakter wilt verwijderen? Er is hierna geen weg meer terug en je karakater zal voor altijd verdwijnen!",
+        "in_queue": "🐌 You are %s/%s in queue. (%s) %s"
     },
     "command": {
         "tp": {
@@ -128,6 +131,28 @@
                 "id": { "name": "id", "help": "Speler ID" },
                 "job": { "name": "job", "help": "Naam van de job" },
                 "grade": { "name": "grade", "help": "Niveau" }
+            }
+        },
+        "changejob": {
+            "help": "Change Active Job of Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" }
+            }
+        },
+        "addjob": {
+            "help": "Add Job to Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" },
+                "grade": { "name": "grade", "help": "Job grade" }
+            }
+        },
+        "removejob": {
+            "help": "Remove Job from Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" }
             }
         },
         "gang": { "help": "Bekijk je gang" },
