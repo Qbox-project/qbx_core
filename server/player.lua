@@ -4,6 +4,8 @@ local logger = require 'modules.logger'
 local storage = require 'server.storage.main'
 local maxJobsPerPlayer = GetConvarInt('qbx:max_jobs_per_player', 1)
 local maxGangsPerPlayer = GetConvarInt('qbx:max_gangs_per_player', 1)
+local setJobReplaces = GetConvar('qbx:setjob_replaces', 'true') == 'true'
+local setGangReplaces = GetConvar('qbx:setgang_replaces', 'true') == 'true'
 
 ---@class PlayerData : PlayerEntity
 ---@field jobs table<string, integer>
@@ -492,7 +494,9 @@ function CreatePlayer(playerData, Offline)
             lib.print.error(("cannot set job. Job %s does not have grade %s"):format(jobName, grade))
             return false
         end
-        RemovePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
+        if setJobReplaces then
+            RemovePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
+        end
         AddPlayerToJob(self.PlayerData.citizenid, jobName, grade)
         SetPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
         return true
@@ -514,7 +518,9 @@ function CreatePlayer(playerData, Offline)
             lib.print.error(("cannot set gang. Gang %s does not have grade %s"):format(gangName, grade))
             return false
         end
-        removePlayerFromGang(self.PlayerData.citizenid, self.PlayerData.gang.name)
+        if setGangReplaces then
+            removePlayerFromGang(self.PlayerData.citizenid, self.PlayerData.gang.name)
+        end
         AddPlayerToGang(self.PlayerData.citizenid, gangName, grade)
         setPlayerPrimaryGang(self.PlayerData.citizenid, gangName)
         return true
