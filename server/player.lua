@@ -148,7 +148,7 @@ exports('AddPlayerToJob', AddPlayerToJob)
 ---If the job removed from is primary, sets the primary job to unemployed.
 ---@param citizenid string
 ---@param jobName string
-local function removePlayerFromJob(citizenid, jobName)
+function RemovePlayerFromJob(citizenid, jobName)
     -- Unemployed is the default job, so players cannot be removed from it.
     if jobName == 'unemployed' then return end
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
@@ -174,7 +174,7 @@ local function removePlayerFromJob(citizenid, jobName)
     end
 end
 
-exports('RemovePlayerFromJob', removePlayerFromJob)
+exports('RemovePlayerFromJob', RemovePlayerFromJob)
 
 ---Sets a player's gang to be primary only if they already have it.
 ---@param citizenid string
