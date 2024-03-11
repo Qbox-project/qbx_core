@@ -260,21 +260,9 @@ end)
 lib.addCommand('addjob', {
     help = 'Add Job to Player',
     params = {
-        {
-            name = 'target',
-            type = 'playerId',
-            help = 'Target player\'s server id',
-        },
-        {
-            name = 'jobname',
-            type = 'string',
-            help = 'Job Code',
-        },
-        {
-            name = 'grade',
-            type = 'number',
-            help = 'Job Grade',
-        },
+        { name = locale("command.addjob.params.id.name"), help = locale("command.addjob.params.id.help"), type = 'playerId' },
+        { name = locale("command.addjob.params.job.name"), help = locale("command.addjob.params.job.help"), type = 'string' },
+        { name = locale("command.addjob.params.grade.name"), help = locale("command.addjob.params.grade.help"), type = 'number' }
     },
     restricted = 'group.admin'
 }, function(source, args)
