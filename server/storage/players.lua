@@ -271,7 +271,7 @@ end
 ---@param group string
 ---@param grade integer
 local function addToGroup(citizenid, type, group, grade)
-    MySQL.insert('INSERT INTO player_groups (citizenid, type, `group`, grade) VALUES (:citizenid, :type, :group, :grade) ON DUPLICATE KEY UPDATE grade = :grade', {
+    MySQL.insert('INSERT INTO qbx_player_groups (citizenid, type, `group`, grade) VALUES (:citizenid, :type, :group, :grade) ON DUPLICATE KEY UPDATE grade = :grade', {
         citizenid = citizenid,
         type = type,
         group = group,
@@ -297,7 +297,7 @@ end
 ---@return table<string, integer> jobs
 ---@return table<string, integer> gangs
 local function fetchPlayerGroups(citizenid)
-    local groups = MySQL.query.await('SELECT `group`, type, grade FROM player_groups WHERE citizenid = ?', {citizenid})
+    local groups = MySQL.query.await('SELECT `group`, type, grade FROM qbx_player_groups WHERE citizenid = ?', {citizenid})
     local jobs = {}
     local gangs = {}
     for i = 1, #groups do
@@ -315,7 +315,7 @@ end
 ---@param type GroupType
 ---@param group string
 local function removeFromGroup(citizenid, type, group)
-    MySQL.query.await('DELETE FROM player_groups WHERE citizenid = ? AND type = ? AND `group` = ?', {citizenid, type, group})
+    MySQL.query.await('DELETE FROM qbx_player_groups WHERE citizenid = ? AND type = ? AND `group` = ?', {citizenid, type, group})
 end
 
 ---@param citizenid string
@@ -330,7 +330,7 @@ local function removePlayerFromGang(citizenid, group)
     removeFromGroup(citizenid, GroupType.GANG, group)
 end
 
----Copies player's primary job/gang to the player_groups table. Works for online/offline players.
+---Copies player's primary job/gang to the qbx_player_groups table. Works for online/offline players.
 ---Idempotent
 RegisterCommand('convertjobs', function(source)
 	if source ~= 0 then return warn('This command can only be executed using the server console.') end
@@ -344,6 +344,7 @@ RegisterCommand('convertjobs', function(source)
         if not success then lib.print.error(err) end
     end
 
+    lib.print.info("job conversion successful")
     TriggerEvent('qbx_core:server:jobsconverted')
 end, true)
 
