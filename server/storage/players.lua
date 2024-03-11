@@ -344,6 +344,7 @@ RegisterCommand('convertjobs', function(source)
         if not success then lib.print.error(err) end
     end
 
+    lib.print.info("Converted jobs and gangs successfully")
     TriggerEvent('qbx_core:server:jobsconverted')
 end, true)
 
