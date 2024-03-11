@@ -287,9 +287,12 @@ lib.addCommand('removejob', {
     },
     restricted = 'group.admin'
 }, function(source, args)
-    local TargetPlayer = exports.qbx_core:GetPlayer(args.target)
-    local citizenid = TargetPlayer.PlayerData.citizenid
-    exports.qbx_core:RemovePlayerFromJob(citizenid, args.jobname)
+    local player = GetPlayer(tonumber(args[locale("command.removejob.params.id.name")]) --[[@as number]])
+    if not player then
+        Notify(source, locale('error.not_online'), 'error')
+        return
+    end
+    RemovePlayerFromJob(player.PlayerData.citizenid, tostring(args[locale("command.removejob.params.job.name")]))
 end)
 
 -- Gang
