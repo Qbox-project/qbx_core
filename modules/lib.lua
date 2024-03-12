@@ -265,8 +265,9 @@ if isServer then
             if owner ~= -1 then return owner end
         end, 5000)
 
+        Entity(veh).state:set('setVehicleProperties', props, true)
         local netId = NetworkGetNetworkIdFromEntity(veh)
-        lib.callback.await('qbx_core:client:vehicleSpawned', owner, netId, props)
+
         return netId
     end
 else

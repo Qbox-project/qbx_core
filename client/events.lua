@@ -129,20 +129,6 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
 end)
 
 -- Vehicle Commands
-lib.callback.register('qbx_core:client:vehicleSpawned', function(netId, props)
-    local veh = NetworkGetEntityFromNetworkId(netId)
-
-    for i = -1, 0 do
-        local ped = GetPedInVehicleSeat(veh, i)
-        if ped ~= cache.ped and ped > 0 and NetworkGetEntityOwner(ped) == cache.playerId then
-            DeleteEntity(ped)
-        end
-    end
-
-    if props then
-        lib.setVehicleProperties(veh, props)
-    end
-end)
 
 lib.callback.register('qbx_core:client:getVehiclesInRadius', function(radius)
     local vehicles = lib.getNearbyVehicles(GetEntityCoords(cache.ped), radius or 5, true)
@@ -207,4 +193,25 @@ RegisterNetEvent('QBCore:Client:OnSharedUpdateMultiple', function(tableName, val
         QBX.Shared[tableName][key] = value
     end
     TriggerEvent('QBCore:Client:UpdateObject')
+end)
+
+-- Set vehicle props
+---@param entity number
+---@param props table<any, any>
+qbx.entityStateHandler('setVehicleProperties', function(entity, _, props)
+    if not props then return end
+
+    SetTimeout(0, function()
+        local state = Entity(entity).state
+
+        while state.setVehicleProperties do
+            if NetworkGetEntityOwner(entity) == cache.playerId then
+                if lib.setVehicleProperties(entity, props) then
+                    state:set('setVehicleProperties', nil, true)
+                end
+            end
+
+            Wait(0)
+        end
+    end)
 end)
