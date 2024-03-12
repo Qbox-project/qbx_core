@@ -260,6 +260,7 @@ if isServer then
             SetPedIntoVehicle(ped, veh, -1)
         end
 
+        ---@diagnostic disable-next-line: unused-local
         local owner = lib.waitFor(function()
             local owner = NetworkGetEntityOwner(veh)
             if owner ~= -1 then return owner end
