@@ -196,17 +196,23 @@ RegisterNetEvent('QBCore:Client:OnSharedUpdateMultiple', function(tableName, val
 end)
 
 -- Set vehicle props
----@param entity number
+---@param vehicle number
 ---@param props table<any, any>
-qbx.entityStateHandler('setVehicleProperties', function(entity, _, props)
+qbx.entityStateHandler('setVehicleProperties', function(vehicle, _, props)
     if not props then return end
 
     SetTimeout(0, function()
-        local state = Entity(entity).state
+        local state = Entity(vehicle).state
 
         while state.setVehicleProperties do
-            if NetworkGetEntityOwner(entity) == cache.playerId then
-                if lib.setVehicleProperties(entity, props) then
+            if NetworkGetEntityOwner(vehicle) == cache.playerId then
+                for i = -1, 0 do
+                    local ped = GetPedInVehicleSeat(vehicle, i)
+                    if ped ~= cache.ped and ped > 0 then
+                        DeleteEntity(ped)
+                    end
+                end
+                if lib.setVehicleProperties(vehicle, props) then
                     state:set('setVehicleProperties', nil, true)
                 end
             end
