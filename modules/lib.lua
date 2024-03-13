@@ -261,8 +261,8 @@ if isServer then
             SetPedIntoVehicle(ped, veh, -1)
         end
 
-        Entity(veh).state:set('setVehicleProperties', props, true)
         Entity(veh).state:set('initVehicle', true, true)
+        Entity(veh).state:set('setVehicleProperties', props, true)
         local netId = NetworkGetNetworkIdFromEntity(veh)
 
         return netId, veh
