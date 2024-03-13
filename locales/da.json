@@ -21,7 +21,7 @@
         "connecting_error": "Der opstod en fejl og forbindelsen stoppede (Tjek server konsol [F8])",
         "no_match_character_registration": "Der er ikke tilladt andet end bogstaver, efterfølgende mellemrum er heller ikke tilladt, og ord skal starte med et stort bogstav i inputfelter. Du kan dog tilføje ord med mellemrum imellem.",
         "already_in_queue": "Du er allerede i køen.",
-        "no_subqueue": "Du blev ikke inkluderet i nogen underkø."    
+        "no_subqueue": "Du blev ikke inkluderet i nogen underkø."
     },
     "success": {
         "server_opened": "Serveren er åben",
@@ -102,12 +102,11 @@
                 "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Behold nuværende køretøj(Forlad den tom for at droppe den)" }
             }
         },
-        "dv": { 
+        "dv": {
         "help": "Fjern Køretøj (Kun Admins)" },
         "params": {
             "radius": { "name": "radius", "help": "Radius slet køretøjer i (meters)" }
-        }
-    },
+        },
         "givemoney": {
             "help": "Giv en spiller penge (Kun Admins)",
             "params": {
@@ -131,6 +130,28 @@
                 "id": { "name": "id", "help": "Spiller ID" },
                 "job": { "name": "job", "help": "Job Navn" },
                 "grade": { "name": "grade", "help": "Job Rang" }
+            }
+        },
+        "changejob": {
+            "help": "Change Active Job of Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" }
+            }
+        },
+        "addjob": {
+            "help": "Add Job to Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" },
+                "grade": { "name": "grade", "help": "Job grade" }
+            }
+        },
+        "removejob": {
+            "help": "Remove Job from Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" }
             }
         },
         "gang": { "help": "Tjek din bande" },

@@ -127,6 +127,28 @@
                 "grade": { "name": "grade", "help": "Grade"}
             }
         },
+        "changejob": {
+            "help": "Changer le travail actif d'un joueur (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "ID du joueur" },
+                "job": { "name": "job", "help": "Nom du Travail" }
+            }
+        },
+        "addjob": {
+            "help": "Ajouter un travail à un joueur (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "ID du joueur" },
+                "job": { "name": "job", "help": "Nom du Travail" },
+                "grade": { "name": "grade", "help": "Grade" }
+            }
+        },
+        "removejob": {
+            "help": "Retirer un travail à un joueur (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "ID du joueur" },
+                "job": { "name": "job", "help": "Nom du Travail" }
+            }
+        },
         "gang": { "help": "Voir son gang"},
         "setgang": {
             "help": "Définir le gang d'un joueur (Admin Only)",

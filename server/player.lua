@@ -4,6 +4,8 @@ local logger = require 'modules.logger'
 local storage = require 'server.storage.main'
 local maxJobsPerPlayer = GetConvarInt('qbx:max_jobs_per_player', 1)
 local maxGangsPerPlayer = GetConvarInt('qbx:max_gangs_per_player', 1)
+local setJobReplaces = GetConvar('qbx:setjob_replaces', 'true') == 'true'
+local setGangReplaces = GetConvar('qbx:setgang_replaces', 'true') == 'true'
 
 ---@class PlayerData : PlayerEntity
 ---@field jobs table<string, integer>
@@ -81,7 +83,7 @@ end
 ---Sets a player's job to be primary only if they already have it.
 ---@param citizenid string
 ---@param jobName string
-local function setPlayerPrimaryJob(citizenid, jobName)
+function SetPlayerPrimaryJob(citizenid, jobName)
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
     if not player then
         error(('player not found with citizenid %s'):format(citizenid))
@@ -108,7 +110,7 @@ local function setPlayerPrimaryJob(citizenid, jobName)
     end
 end
 
-exports('SetPlayerPrimaryJob', setPlayerPrimaryJob)
+exports('SetPlayerPrimaryJob', SetPlayerPrimaryJob)
 
 ---Adds a player to the job or overwrites their grade for a job already held
 ---@param citizenid string
@@ -139,7 +141,7 @@ function AddPlayerToJob(citizenid, jobName, grade)
         player.Functions.SetPlayerData('jobs', player.PlayerData.jobs)
     end
     if player.PlayerData.job.name == jobName then
-        setPlayerPrimaryJob(citizenid, jobName)
+        SetPlayerPrimaryJob(citizenid, jobName)
     end
 end
 
@@ -148,7 +150,7 @@ exports('AddPlayerToJob', AddPlayerToJob)
 ---If the job removed from is primary, sets the primary job to unemployed.
 ---@param citizenid string
 ---@param jobName string
-local function removePlayerFromJob(citizenid, jobName)
+function RemovePlayerFromJob(citizenid, jobName)
     -- Unemployed is the default job, so players cannot be removed from it.
     if jobName == 'unemployed' then return end
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
@@ -174,7 +176,7 @@ local function removePlayerFromJob(citizenid, jobName)
     end
 end
 
-exports('RemovePlayerFromJob', removePlayerFromJob)
+exports('RemovePlayerFromJob', RemovePlayerFromJob)
 
 ---Sets a player's gang to be primary only if they already have it.
 ---@param citizenid string
@@ -492,9 +494,11 @@ function CreatePlayer(playerData, Offline)
             lib.print.error(('cannot set job. Job %s does not have grade %s'):format(jobName, grade))
             return false
         end
-        removePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
+        if setJobReplaces then
+            RemovePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
+        end
         AddPlayerToJob(self.PlayerData.citizenid, jobName, grade)
-        setPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
+        SetPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
         return true
     end
 
@@ -514,7 +518,9 @@ function CreatePlayer(playerData, Offline)
             lib.print.error(('cannot set gang. Gang %s does not have grade %s'):format(gangName, grade))
             return false
         end
-        removePlayerFromGang(self.PlayerData.citizenid, self.PlayerData.gang.name)
+        if setGangReplaces then
+            removePlayerFromGang(self.PlayerData.citizenid, self.PlayerData.gang.name)
+        end
         AddPlayerToGang(self.PlayerData.citizenid, gangName, grade)
         setPlayerPrimaryGang(self.PlayerData.citizenid, gangName)
         return true

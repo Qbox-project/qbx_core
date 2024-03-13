@@ -19,7 +19,9 @@
         "tp_error": "Fehler beim Teleportieren.",
         "connecting_database_timeout": "Die Verbindung zur Datenbank nicht möglich. (Ist der SQL-Server eingeschaltet?)",
         "connecting_error": "Beim Herstellen der Verbindung zum Server ist ein Fehler aufgetreten. (Überprüfe die Serverkonsole)",
-        "no_match_character_registration": "In den Eingabefeldern sind nur Buchstaben zulässig. Leerzeichen am Ende sind nicht zulässig und Wörter müssen mit einem Großbuchstaben beginnen. Du kannst jedoch Wörter mit Leerzeichen dazwischen hinzufügen."
+        "no_match_character_registration": "In den Eingabefeldern sind nur Buchstaben zulässig. Leerzeichen am Ende sind nicht zulässig und Wörter müssen mit einem Großbuchstaben beginnen. Du kannst jedoch Wörter mit Leerzeichen dazwischen hinzufügen.",
+        "already_in_queue": "You are already in queue.",
+        "no_subqueue": "You were not let in any sub-queue."
     },
     "success": {
         "server_opened": "Der Server wurde geöffnet",
@@ -27,7 +29,6 @@
         "teleported_waypoint": "Zum Wegpunkt teleportiert.",
         "character_deleted": "Charakter gelöscht!",
         "character_deleted_citizenid": "Du hast den Charakter mit der Spieler-ID %s erfolgreich gelöscht."
-   
     },
     "info": {
         "received_paycheck": "Du hast dein Gehalt in Höhe von $%s erhalten",
@@ -57,7 +58,9 @@
         "nationality": "Nationalität",
         "gender": "Geschlecht",
         "birth_date": "Geburtsdatum",
-        "select_gender": "Wähle dein Geschlecht"
+        "select_gender": "Wähle dein Geschlecht",
+        "confirm_delete": "Are you sure you wish to delete this character?",
+        "in_queue": "🐌 You are %s/%s in queue. (%s) %s"
     },
     "command": {
         "tp": {
@@ -121,6 +124,28 @@
                 "id": { "name": "id", "help": "Spieler ID" },
                 "job": { "name": "job", "help": "Job Name" },
                 "grade": { "name": "grade", "help": "Dienstgrad" }
+            }
+        },
+        "changejob": {
+            "help": "Change Active Job of Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" }
+            }
+        },
+        "addjob": {
+            "help": "Add Job to Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" },
+                "grade": { "name": "grade", "help": "Job grade" }
+            }
+        },
+        "removejob": {
+            "help": "Remove Job from Player (Admin Only)",
+            "params": {
+                "id": { "name": "id", "help": "Player ID" },
+                "job": { "name": "job", "help": "Job name" }
             }
         },
         "gang": { "help": "Check deine Gang" },
