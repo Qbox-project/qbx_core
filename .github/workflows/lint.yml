@@ -5,7 +5,7 @@ jobs:
     name: Lint Resource
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Lint
@@ -16,7 +16,7 @@ jobs:
           extra_libs: ox_lib+mysql+qblocales+qbox+qbox_playerdata+qbox_lib
       - name: Generate Lint Report
         if: always()
-        uses: mikepenz/action-junit-report@v3
+        uses: mikepenz/action-junit-report@v4
         with:
           report_paths: "**/junit.xml"
           check_name: Linting Report
