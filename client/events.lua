@@ -204,20 +204,47 @@ qbx.entityStateHandler('setVehicleProperties', function(vehicle, _, props)
     SetTimeout(0, function()
         local state = Entity(vehicle).state
 
+        local timeOut = GetGameTimer() + 10000
+
         while state.setVehicleProperties do
             if NetworkGetEntityOwner(vehicle) == cache.playerId then
-                for i = -1, 0 do
-                    local ped = GetPedInVehicleSeat(vehicle, i)
-                    if ped ~= cache.ped and ped > 0 then
-                        DeleteEntity(ped)
-                    end
-                end
                 if lib.setVehicleProperties(vehicle, props) then
                     state:set('setVehicleProperties', nil, true)
                 end
             end
+            if GetGameTimer() > timeOut then
+                break
+            end
 
-            Wait(0)
+            Wait(50)
         end
+    end)
+end)
+
+-- Clear vehicle peds
+---@param vehicle number
+---@param init boolean
+qbx.entityStateHandler('initVehicle', function(vehicle, _, init)
+    if not init then return end
+
+    for i = -1, 0 do
+        local ped = GetPedInVehicleSeat(vehicle, i)
+        if ped ~= cache.ped and ped > 0 and NetworkGetEntityOwner(ped) == cache.playerId then
+            DeleteEntity(ped)
+        end
+    end
+
+    lib.waitFor(function()
+        return not IsEntityWaitingForWorldCollision(vehicle)
+    end)
+
+    if NetworkGetEntityOwner(vehicle) ~= cache.playerId then return end
+
+    local state = Entity(vehicle).state
+
+    SetVehicleOnGroundProperly(vehicle);
+
+    SetTimeout(0, function()
+        state:set('initVehicle', nil, true)
     end)
 end)

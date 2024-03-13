@@ -227,6 +227,7 @@ if isServer then
     ]]
     ---@param params LibSpawnVehicleParams
     ---@return integer netId
+    ---@return number veh
     function qbx.spawnVehicle(params)
         local model = params.model
         local source = params.spawnSource
@@ -260,16 +261,11 @@ if isServer then
             SetPedIntoVehicle(ped, veh, -1)
         end
 
-        ---@diagnostic disable-next-line: unused-local
-        local owner = lib.waitFor(function()
-            local owner = NetworkGetEntityOwner(veh)
-            if owner ~= -1 then return owner end
-        end, 5000)
-
         Entity(veh).state:set('setVehicleProperties', props, true)
+        Entity(veh).state:set('initVehicle', true, true)
         local netId = NetworkGetNetworkIdFromEntity(veh)
 
-        return netId
+        return netId, veh
     end
 else
     ---@class LibDrawTextParams
