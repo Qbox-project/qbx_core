@@ -175,8 +175,8 @@ function RemovePlayerFromJob(citizenid, jobName)
 
     if not player.Offline then
         player.Functions.SetPlayerData('jobs', player.PlayerData.jobs)
-        TriggerEvent('QBCore:Server:OnJobsUpdate', player.PlayerData.source, jobName, nil)
-        TriggerClientEvent('QBCore:Client:OnJobsUpdate', player.PlayerData.source, jobName, nil)
+        TriggerEvent('QBCore:Server:OnGroupUpdate', player.PlayerData.source, jobName)
+        TriggerClientEvent('QBCore:Client:OnGroupUpdate', player.PlayerData.source, jobName)
     end
 end
 
