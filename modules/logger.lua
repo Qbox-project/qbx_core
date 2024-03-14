@@ -67,8 +67,8 @@ local function logPayload(payload)
             return
         end
 
-        local remainingRequests = tonumber(headers["X-RateLimit-Remaining"])
-        local resetTime = tonumber(headers["X-RateLimit-Reset"])
+        local remainingRequests = tonumber(headers['X-RateLimit-Remaining'])
+        local resetTime = tonumber(headers['X-RateLimit-Reset'])
 
         if remainingRequests and resetTime and remainingRequests == 0 then
             local currentTime = os.time()

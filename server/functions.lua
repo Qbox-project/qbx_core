@@ -273,9 +273,9 @@ exports('RemovePermission', RemovePermission)
 ---@param permission string|string[]
 ---@return boolean
 function HasPermission(source, permission)
-    if type(permission) == "string" then
+    if type(permission) == 'string' then
         if IsPlayerAceAllowed(source --[[@as string]], permission) then return true end
-    elseif type(permission) == "table" then
+    elseif type(permission) == 'table' then
         for _, permLevel in pairs(permission) do
             if IsPlayerAceAllowed(source --[[@as string]], permLevel) then return true end
         end
@@ -355,7 +355,7 @@ exports('IsPlayerBanned', IsPlayerBanned)
 ---@see client/lua:Notify
 function Notify(source, text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
     local title, description
-    if type(text) == "table" then
+    if type(text) == 'table' then
         title = text.text or 'Placeholder'
         description = text.caption or nil
     elseif subTitle then
@@ -387,7 +387,7 @@ local function GetCoreVersion(InvokingResource)
     ---@diagnostic disable-next-line: missing-parameter
     local resourceVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
     if InvokingResource and InvokingResource ~= '' then
-        lib.print.debug(("%s called qbcore version check: %s"):format(InvokingResource or 'Unknown Resource', resourceVersion))
+        lib.print.debug(('%s called qbcore version check: %s'):format(InvokingResource or 'Unknown Resource', resourceVersion))
     end
     return resourceVersion
 end
