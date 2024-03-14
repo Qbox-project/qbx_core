@@ -139,8 +139,8 @@ function AddPlayerToJob(citizenid, jobName, grade)
     if not player.Offline then
         player.PlayerData.jobs[jobName] = grade
         player.Functions.SetPlayerData('jobs', player.PlayerData.jobs)
-        TriggerEvent('QBCore:Server:OnJobsUpdate', player.PlayerData.source, jobName, grade)
-        TriggerClientEvent('QBCore:Client:OnJobsUpdate', player.PlayerData.source, jobName, grade)
+        TriggerEvent('QBCore:Server:OnGroupUpdate', player.PlayerData.source, jobName, grade)
+        TriggerClientEvent('QBCore:Client:OnGroupUpdate', player.PlayerData.source, jobName, grade)
     end
     if player.PlayerData.job.name == jobName then
         SetPlayerPrimaryJob(citizenid, jobName)
