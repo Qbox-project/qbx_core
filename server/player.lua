@@ -139,8 +139,8 @@ function AddPlayerToJob(citizenid, jobName, grade)
     if not player.Offline then
         player.PlayerData.jobs[jobName] = grade
         player.Functions.SetPlayerData('jobs', player.PlayerData.jobs)
-        TriggerEvent('QBCore:Server:OnJobsUpdate', player.PlayerData.source, player.PlayerData.jobs)
-        TriggerClientEvent('QBCore:Client:OnJobsUpdate', player.PlayerData.source, player.PlayerData.jobs)
+        TriggerEvent('QBCore:Server:OnJobsUpdate', player.PlayerData.source, jobName, grade)
+        TriggerClientEvent('QBCore:Client:OnJobsUpdate', player.PlayerData.source, jobName, grade)
     end
     if player.PlayerData.job.name == jobName then
         SetPlayerPrimaryJob(citizenid, jobName)
@@ -175,8 +175,8 @@ function RemovePlayerFromJob(citizenid, jobName)
 
     if not player.Offline then
         player.Functions.SetPlayerData('jobs', player.PlayerData.jobs)
-        TriggerEvent('QBCore:Server:OnJobsUpdate', player.PlayerData.source, player.PlayerData.jobs)
-        TriggerClientEvent('QBCore:Client:OnJobsUpdate', player.PlayerData.source, player.PlayerData.jobs)
+        TriggerEvent('QBCore:Server:OnJobsUpdate', player.PlayerData.source, jobName, nil)
+        TriggerClientEvent('QBCore:Client:OnJobsUpdate', player.PlayerData.source, jobName, nil)
     end
 end
 
@@ -256,8 +256,8 @@ function AddPlayerToGang(citizenid, gangName, grade)
     if not player.Offline then
         player.PlayerData.gangs[gangName] = grade
         player.Functions.SetPlayerData('gangs', player.PlayerData.gangs)
-        TriggerEvent('QBCore:Server:OnGangsUpdate', player.PlayerData.source, player.PlayerData.gangs)
-        TriggerClientEvent('QBCore:Client:OnGangsUpdate', player.PlayerData.source, player.PlayerData.gangs)
+        TriggerEvent('QBCore:Server:OnGangsUpdate', player.PlayerData.source, gangName, grade)
+        TriggerClientEvent('QBCore:Client:OnGangsUpdate', player.PlayerData.source, gangName, grade)
     end
     if player.PlayerData.gang.name == gangName then
         setPlayerPrimaryGang(citizenid, gangName)
@@ -300,8 +300,8 @@ local function removePlayerFromGang(citizenid, gangName)
 
     if not player.Offline then
         player.Functions.SetPlayerData('gangs', player.PlayerData.gangs)
-        TriggerEvent('QBCore:Server:OnGangsUpdate', player.PlayerData.source, player.PlayerData.gangs)
-        TriggerClientEvent('QBCore:Client:OnGangsUpdate', player.PlayerData.source, player.PlayerData.gangs)
+        TriggerEvent('QBCore:Server:OnGangsUpdate', player.PlayerData.source, gangName, nil)
+        TriggerClientEvent('QBCore:Client:OnGangsUpdate', player.PlayerData.source, gangName, nil)
     end
 end
 
