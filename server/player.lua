@@ -256,8 +256,8 @@ function AddPlayerToGang(citizenid, gangName, grade)
     if not player.Offline then
         player.PlayerData.gangs[gangName] = grade
         player.Functions.SetPlayerData('gangs', player.PlayerData.gangs)
-        TriggerEvent('QBCore:Server:OnGangsUpdate', player.PlayerData.source, gangName, grade)
-        TriggerClientEvent('QBCore:Client:OnGangsUpdate', player.PlayerData.source, gangName, grade)
+        TriggerEvent('QBCore:Server:OnGroupUpdate', player.PlayerData.source, gangName, grade)
+        TriggerClientEvent('QBCore:Client:OnGroupUpdate', player.PlayerData.source, gangName, grade)
     end
     if player.PlayerData.gang.name == gangName then
         setPlayerPrimaryGang(citizenid, gangName)
