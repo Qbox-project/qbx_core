@@ -139,6 +139,8 @@ function AddPlayerToJob(citizenid, jobName, grade)
     if not player.Offline then
         player.PlayerData.jobs[jobName] = grade
         player.Functions.SetPlayerData('jobs', player.PlayerData.jobs)
+        TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, jobName, grade)
+        TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, jobName, grade)
     end
     if player.PlayerData.job.name == jobName then
         SetPlayerPrimaryJob(citizenid, jobName)
@@ -173,6 +175,8 @@ function RemovePlayerFromJob(citizenid, jobName)
 
     if not player.Offline then
         player.Functions.SetPlayerData('jobs', player.PlayerData.jobs)
+        TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, jobName)
+        TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, jobName)
     end
 end
 
@@ -252,6 +256,8 @@ function AddPlayerToGang(citizenid, gangName, grade)
     if not player.Offline then
         player.PlayerData.gangs[gangName] = grade
         player.Functions.SetPlayerData('gangs', player.PlayerData.gangs)
+        TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, gangName, grade)
+        TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, gangName, grade)
     end
     if player.PlayerData.gang.name == gangName then
         setPlayerPrimaryGang(citizenid, gangName)
@@ -294,6 +300,8 @@ local function removePlayerFromGang(citizenid, gangName)
 
     if not player.Offline then
         player.Functions.SetPlayerData('gangs', player.PlayerData.gangs)
+        TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, gangName)
+        TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, gangName)
     end
 end
 
