@@ -11,7 +11,7 @@ local positionConfig = require 'config.shared'.notifyPosition
 ---@param notifyIconColor? string Custom color for the icon chosen before
 function Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
     local title, description
-    if type(text) == "table" then
+    if type(text) == 'table' then
         title = text.text or 'Placeholder'
         description = text.caption or nil
     elseif subTitle then

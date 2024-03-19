@@ -63,7 +63,7 @@ end
 ---@return number? count
 function string.firstToUpper(str) -- luacheck: ignore
     if not str or str == '' then return end
-    return str:gsub("^%l", string.upper)
+    return str:gsub('^%l', string.upper)
 end
 
 ---@deprecated use qbx.math.round from modules/lib.lua
@@ -517,7 +517,7 @@ else
             end
         end
         if not bone then
-            bone = {id = GetEntityBoneIndexByName(entity, "bodyshell"), type = "remains", name = "bodyshell"}
+            bone = {id = GetEntityBoneIndexByName(entity, 'bodyshell'), type = 'remains', name = 'bodyshell'}
             coords = GetWorldPositionOfEntityBone(entity, bone.id)
             distance = #(coords - playerCoords)
         end

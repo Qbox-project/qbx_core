@@ -420,7 +420,7 @@ function functions.SetVehicleProperties(vehicle, props)
 
     --- lib.setVehicleProperties copied and pasted from Overextended below so that we can remove the error so that setting properties is best effort
     if not DoesEntityExist(vehicle) then
-        error(("Unable to set vehicle properties for '%s' (entity does not exist)"):
+        error(('Unable to set vehicle properties for "%s" (entity does not exist)'):
         format(vehicle))
     end
 

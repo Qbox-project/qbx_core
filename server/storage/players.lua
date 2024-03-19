@@ -13,7 +13,7 @@ local characterDataTables = require 'config.server'.characterDataTables
 ---@param request InsertBanRequest
 local function insertBan(request)
     if not request.discordId and not request.ip and not request.license then
-        error("no identifier provided")
+        error('no identifier provided')
     end
 
     MySQL.insert.await('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
@@ -32,13 +32,13 @@ end
 ---@return string value of the id
 local function getBanId(request)
     if request.license then
-        return "license", request.license
+        return 'license', request.license
     elseif request.discordId then
-        return "discord", request.discordId
+        return 'discord', request.discordId
     elseif request.ip then
-        return "ip", request.ip
+        return 'ip', request.ip
     else
-        error("no identifier provided", 2)
+        error('no identifier provided', 2)
     end
 end
 
@@ -232,7 +232,7 @@ end
 ---@param citizenId string
 ---@return boolean success if operation is successful.
 local function deletePlayer(citizenId)
-    local query = "DELETE FROM %s WHERE %s = ?"
+    local query = 'DELETE FROM %s WHERE %s = ?'
     local queries = {}
 
     for tableName, columnName in pairs(characterDataTables) do
@@ -254,7 +254,7 @@ end
 ---@return boolean isUnique if the value does not already exist in storage for the given type
 local function fetchIsUnique(type, value)
     local typeToColumn = {
-        citizenid = "citizenid",
+        citizenid = 'citizenid',
         AccountNumber = "JSON_VALUE(charinfo, '$.account')",
         PhoneNumber = "JSON_VALUE(charinfo, '$.phone')",
         FingerId = "JSON_VALUE(metadata, '$.fingerprint')",

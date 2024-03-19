@@ -54,7 +54,7 @@ CreateThread(function()
     for _, v in pairs(GetVehiclesByName()) do
         if v.model and v.name then
             local gameName = GetDisplayNameFromVehicleModel(v.model)
-            if gameName and gameName ~= "CARNOTFOUND" then
+            if gameName and gameName ~= 'CARNOTFOUND' then
                 AddTextEntryByHash(joaat(gameName), v.name)
             else
                 lib.print.warn('Could not find gameName value in vehicles.meta for vehicle model %s', v.model)
