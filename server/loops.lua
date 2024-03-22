@@ -6,8 +6,8 @@ local function removeHungerAndThirst(src, player)
     local newHunger = playerState.hunger - config.player.hungerRate
     local newThirst = playerState.thirst - config.player.thirstRate
 
-    player.Functions.SetMetaData('thirst', math.max(0, newHunger))
-    player.Functions.SetMetaData('hunger', math.max(0, newThirst))
+    player.Functions.SetMetaData('thirst', math.max(0, newThirst))
+    player.Functions.SetMetaData('hunger', math.max(0, newHunger))
 
     TriggerClientEvent('hud:client:UpdateNeeds', src, newHunger, newThirst)
     player.Functions.Save()
