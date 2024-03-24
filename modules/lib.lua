@@ -257,11 +257,11 @@ if isServer then
         while not DoesEntityExist(veh) do Wait(0) end
         while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
 
-        Entity(veh).state:set('initVehicle', true, true)
-        Entity(veh).state:set('setVehicleProperties', props, true)
+        local state = Entity(veh).state
+        state:set('initVehicle', true, true)
+        state:set('setVehicleProperties', props, true)
 
         lib.waitFor(function()
-            local state = Entity(veh).state
             if state.setVehicleProperties then return false end
             return true
         end, 'Failed to set vehicle properties', 5000)
