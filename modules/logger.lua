@@ -137,7 +137,8 @@ end
 ---@field message string the message attached to the log
 ---@field webhook? string Discord logs only. url of the webhook this log should send to
 ---@field color? string Discord logs only. what color the message should be
----@field tags? string[] Discord logs or ox_lib logs. tags in discord. Example: {'<@%roleid>', '@everyone'}. ox_lib logs: tags for datadog and grafana loki
+---@field tags? string[] Discord logs only. tags in discord. Example: {'<@%roleid>', '@everyone'}
+---@field oxLibTags? string[] -- Tags for ox_lib logger
 
 ---Logs using ox_lib if ox_lib logging is configured. Additionally logs to discord if a web hook is passed.
 ---@param log Log
@@ -146,7 +147,7 @@ local function createLog(log)
         ---@diagnostic disable-next-line: param-type-mismatch
         discordLog(log)
     end
-    lib.logger(log.source, log.event, log.message, log.tags) -- support for ox_lib datadog and grafana loki logging
+    lib.logger(log.source, log.event, log.message, log.oxLibTags) -- support for ox_lib datadog and grafana loki logging
 end
 
 return {
