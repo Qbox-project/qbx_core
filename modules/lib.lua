@@ -292,7 +292,7 @@ else
 
         SetTextScale(scale, scale)
         SetTextFont(font)
-        SetTextColour(color.r, color.g, color.b, color.a)
+        SetTextColour(math.floor(color.r), math.floor(color.g), math.floor(color.b), math.floor(color.a))
         SetTextDropShadow()
         SetTextOutline()
         SetTextCentre(true)
@@ -316,7 +316,7 @@ else
 
         SetTextScale(scale, scale)
         SetTextFont(font)
-        SetTextColour(color.r, color.g, color.b, color.a)
+        SetTextColour(math.floor(color.r), math.floor(color.g), math.floor(color.b), math.floor(color.a))
         SetTextCentre(true)
         BeginTextCommandDisplayText('STRING')
         AddTextComponentSubstringPlayerName(text)
