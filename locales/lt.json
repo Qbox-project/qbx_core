@@ -9,48 +9,48 @@
         "item_not_exist": "Daiktas neegzistuoja",
         "too_heavy": "Inventorius perpildytas",
         "location_not_exist": "Vieta neegzistuoja",
-        "duplicate_license": "Rasta dublikuota Rockstar licenzija",
-        "no_valid_license":  "Nerasta galiojančios Rockstar licenzijos",
+        "duplicate_license": "Rasta duplikuota Rockstar licencija",
+        "no_valid_license":  "Nerasta galiojanti Rockstar licencija",
         "not_whitelisted": "Jūs nesate įtrauktas į šio serverio baltąjį sąrašą",
-        "server_already_open": "Serveris jau yra atviras",
+        "server_already_open": "Serveris jau yra atidarytas",
         "server_already_closed": "Serveris jau yra uždarytas",
         "no_permission": "Neturite leidimo tai atlikti..",
-        "no_waypoint": "Nenustatytas joks maršrutas.",
-        "tp_error": "Klaida perkeldant",
-        "connecting_database_timeout": "Prisijungimas prie duomenų bazės pasibaigė dėl laiko išsekimo. (Ar įjungtas SQL serveris?)",
-        "connecting_error": "Prisijungimo prie serverio klaida. (Patikrinkite serverio konsolę)",
-        "no_match_character_registration": "Bet koks simbolis, išskyrus raides yra neleidžiami, pabaigoje negali būti su tarpais ir žodžiai turi prasidėti didžiąja raide. Tačiau žodžius galima įvesti su tarpu tarp jų.",
+        "no_waypoint": "Niekas nepažymėta.",
+        "tp_error": "Klaida teleportuojant",
+        "connecting_database_timeout": "Nepavyko prisijungti prie databazės serverio. (Ar įjungtas SQL serveris?)",
+        "connecting_error": "Klaida prisijungiant į serverį. (Patikrinkite serverio konsolę)",
+        "no_match_character_registration": "Bet kokie simboliai, išskyrus raides yra neleidžiami, pabaigoje negali būti tarpų ir žodžiai turi prasidėti didžiąja raide. Tačiau žodžius galima įvesti su tarpu tarp jų.",
         "already_in_queue": "Jūs jau esate eilėje.",
-        "no_subqueue": "Jūs nebuvote priskirtas jokiai šaliniai eilei."
+        "no_subqueue": "Jūs nebuvote priskirtas jokiai papildomai eilei."
     },
     "success": {
         "server_opened": "Serveris buvo atidarytas",
         "server_closed": "Serveris buvo uždarytas",
-        "teleported_waypoint": "Teleportuotas į žymeklį.",
+        "teleported_waypoint": "Nuteleportuota į pažymėtą vietą.",
         "character_deleted": "Veikėjas ištrintas!",
         "character_deleted_citizenid": "Sėkmingai ištrynėte veikėją su Citizen ID %s."
     },
     "info": {
         "received_paycheck": "Jūs gavote atlyginimą: $%s",
-        "job_info": "Profesija: %s | Laipsnis: %s | Darbe: %s",
-        "gang_info": "Gauja: %s | Laipsnis: %s",
-        "on_duty": "Jūs pradėjote darbą!",
-        "off_duty": "Jūs užbaigėte darbą!",
-        "checking_ban": "Sveiki %s. Patikrinsime ar jūs nesate užblokuotas.",
+        "job_info": "Darbas: %s | Rangas: %s | Pamainoje: %s",
+        "gang_info": "Gauja: %s | Rangas: %s",
+        "on_duty": "Jūs pradėjote pamainą!",
+        "off_duty": "Jūs užbaigėte pamainą!",
+        "checking_ban": "Sveiki %s. Tikriname ar Jūs esate užblokuotas.",
         "join_server": "Sveiki atvykę %s, į %s.",
         "checking_whitelisted": "Sveiki %s. Tikriname jūsų leidimą.",
-        "exploit_banned": "Jūs esate užblokuotas dėl klaidų išnaudojimo. Daugiau informacijos rasite mūsų Discord'e: %s",
+        "exploit_banned": "Jūs esate užblokuotas dėl klaidų išnaudojimo. Daugiau informacijos rasite mūsų Discord serveryje: %s",
         "exploit_dropped": "Jūs buvote išmestas už klaidų išnaudojimą",
         "multichar_title": "Qbox Multichar",
         "multichar_new_character": "Naujas veikėjas #%s",
         "char_male": "Vyras",
         "char_female": "Moteris",
         "play": "Žaisti",
-        "play_description": "Žaiskite kaip %s",
+        "play_description": "Žaisti kaip %s",
         "delete_character": "Ištrinti Veikėją",
         "delete_character_description": "Ištrinti %s",
-        "logout_command_help": "Atsijungia nuo jūsų dabartinio veikėjo",
-        "check_id": "Patikrinkite savo serverio ID",
+        "logout_command_help": "Atjungia nuo Jūsų dabartinio veikėjo",
+        "check_id": "Patikrinti savo serverio ID",
         "deletechar_command_help": "Ištrinti žaidėjo veikėją",
         "deletechar_command_arg_player_id": "Žaidėjo ID",
         "character_registration_title": "Veikėjo Registracija",
@@ -72,7 +72,7 @@
                 "z": { "name": "z", "help": "Z koordinatė" }
             }
         },
-        "tpm": { "help": "Teleportuotis į žymeklį (Tik administratoriams)" },
+        "tpm": { "help": "Teleportuotis į pažymėtą tašką (Tik administratoriams)" },
         "togglepvp": { "help": "Įjungti arba išjungti PVP serveryje (Tik administratoriams)" },
         "addpermission": {
             "help": "Suteikti žaidėjui leidimus (Tik Pagr.Administracijai)",
@@ -82,7 +82,7 @@
             }
         },
         "removepermission": {
-            "help": "Panaikinti žaidėjo leidimus (Tik Pagr.Administracijai)",
+            "help": "Panaikinti žaidėjo leidimus (Tik administratoriams)",
             "params": {
                 "id": { "name": "id", "help": "Žaidėjo ID" },
                 "permission": { "name": "permission", "help": "Leidimo lygis" }
@@ -96,9 +96,9 @@
             }
         },
         "car": {
-            "help": "Sukurti transporto priemonę (Tik administratoriams)",
+            "help": "Sukurti tr. priemonę (Tik administratoriams)",
             "params": {
-                "model": { "name": "model", "help": "Transporto priemonės modelio pavadinimas" },
+                "model": { "name": "model", "help": "Tr. priemonės modelio pavadinimas" },
                 "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Palikti esamą transporto priemonę (palikti tuščią, norint ištrinti dabartinę transporto priemonę)" }
             }
         },
@@ -112,7 +112,7 @@
             "help": "Duoti žaidėjui pinigų (Tik administratoriams)",
             "params": {
                 "id": { "name": "id", "help": "Žaidėjo ID" },
-                "moneytype": { "name": "moneytype", "help": "Pinigų tipas (cash, bank, crypto)" },
+                "moneytype": { "name": "moneytype", "help": "Pinigų tipas (cash, bank)" },
                 "amount": { "name": "amount", "help": "Pinigų suma" }
             }
         },
@@ -120,7 +120,7 @@
             "help": "Nustatyti žaidėjo pinigų sumą (Tik administratoriams)",
             "params": {
                 "id": { "name": "id", "help": "Žaidėjo ID" },
-                "moneytype": { "name": "moneytype", "help": "Pinigų tipas (cash, bank, crypto)" },
+                "moneytype": { "name": "moneytype", "help": "Pinigų tipas (cash, bank)" },
                 "amount": { "name": "amount", "help": "Pinigų suma" }
             }
         },
@@ -130,7 +130,7 @@
             "params": {
                 "id": { "name": "id", "help": "Žaidėjo ID" },
                 "job": { "name": "job", "help": "Darbas" },
-                "grade": { "name": "grade", "help": "Laipsnis" }
+                "grade": { "name": "grade", "help": "Rangas" }
             }
         },
         "changejob": {
@@ -145,7 +145,7 @@
             "params": {
                 "id": { "name": "id", "help": "Žaidėjo ID" },
                 "job": { "name": "job", "help": "Darbas" },
-                "grade": { "name": "grade", "help": "Laipsnis" }
+                "grade": { "name": "grade", "help": "Rangas" }
             }
         },
         "removejob": {
@@ -161,7 +161,7 @@
             "params": {
                 "id": { "name": "id", "help": "Žaidėjo ID" },
                 "gang": { "name": "gang", "help": "Gauja" },
-                "grade": { "name": "grade", "help": "Laipsnis" }
+                "grade": { "name": "grade", "help": "Rangas" }
             }
         },
         "ooc": { "help": "OOC žinutė" },
