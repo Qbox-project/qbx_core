@@ -568,7 +568,7 @@ function CreatePlayer(playerData, Offline)
     function self.Functions.SetMetaData(meta, val)
         if not meta or type(meta) ~= 'string' then return end
         if meta == 'hunger' or meta == 'thirst' or meta == 'stress' then
-            Player(self.PlayerData.source).state:set(meta, math.clamp(val, 0, 100), true)
+            Player(self.PlayerData.source).state:set(meta, lib.math.clamp(val, 0, 100), true)
         end
 
         local oldVal = self.PlayerData.metadata[meta]
