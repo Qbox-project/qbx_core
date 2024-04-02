@@ -1,4 +1,5 @@
 local statusInterval = require 'config.client'.statusIntervalSeconds
+local playerState = LocalPlayer.state
 
 CreateThread(function()
     local timeout = 1000 * statusInterval
@@ -6,7 +7,7 @@ CreateThread(function()
         Wait(timeout)
 
         if QBX.IsLoggedIn then
-            if (QBX.PlayerData.metadata.hunger <= 0 or QBX.PlayerData.metadata.thirst <= 0) and not QBX.PlayerData.metadata.isdead then
+            if (playerState.hunger <= 0 or playerState.thirst <= 0) and not playerState.isDead then
                 local currentHealth = GetEntityHealth(cache.ped)
                 local decreaseThreshold = math.random(5, 10)
                 SetEntityHealth(cache.ped, currentHealth - decreaseThreshold)
