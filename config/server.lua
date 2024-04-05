@@ -25,7 +25,7 @@ return {
         identifierTypes = {
             citizenid = {
                 valueFunction = function()
-                    return lib.string.random('........')
+                    return lib.string.random('A.......')
                 end,
             },
             AccountNumber = {
