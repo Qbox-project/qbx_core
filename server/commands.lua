@@ -151,14 +151,14 @@ lib.addCommand('car', {
         DeleteEntity(currentVehicle)
     end
 
-    local netId = qbx.spawnVehicle({
+    local _, vehicle = qbx.spawnVehicle({
         model = args[locale('command.car.params.model.name')],
         spawnSource = ped,
         warp = true,
     })
 
-    local plate = qbx.getVehiclePlate(NetworkGetEntityFromNetworkId(netId))
-    config.giveVehicleKeys(source, plate)
+    local plate = qbx.getVehiclePlate(vehicle)
+    config.giveVehicleKeys(source, plate, vehicle)
 end)
 
 lib.addCommand('dv', {
