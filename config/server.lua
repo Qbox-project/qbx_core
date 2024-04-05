@@ -127,7 +127,7 @@ return {
         role = {} -- Role to tag for high priority logs. Roles use <@%roleid> and users/channels are <@userid/channelid>
     },
 
-    giveVehicleKeys = function(src, plate)
+    giveVehicleKeys = function(src, plate, vehicle)
         return exports.qbx_vehiclekeys:GiveKeys(src, plate)
     end,
 
