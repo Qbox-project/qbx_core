@@ -16,19 +16,19 @@
         "server_already_closed": "El servidor ya está cerrado",
         "no_permission": "No tienes permisos para esto..",
         "no_waypoint": "No hay waypoint establecido.",
-        "tp_error": "Error mientras se teletransporta.",
-        "connecting_database_timeout": "Connection to database timed out. (Is the SQL server on?)",
-        "connecting_error": "An error occurred while connecting to the server. (Check your server console)",
-        "no_match_character_registration": "Anything other than letters aren't allowed, trailing whitespaces aren't allowed either and words must start with a capital letter in input fields. You can however add words with spaces inbetween.",
-        "already_in_queue": "You are already in queue.",
-        "no_subqueue": "You were not let in any sub-queue."
+        "tp_error": "Error mientras se teletransportaba.",
+        "connecting_database_timeout": "Se agotó el tiempo de conexión a la base de datos. (¿Esta la SQL encendida?)",
+        "connecting_error": "Se produjo un error al conectarse al servidor. (Compruebe la consola de su servidor)",
+        "no_match_character_registration": "No se permite nada más que letras, tampoco se permiten espacios en blanco al final y las palabras deben comenzar con una letra mayúscula. Sin embargo, puedes agregar palabras con espacios entre ellas.",
+        "already_in_queue": "Ya estas en Cola.",
+        "no_subqueue": "No se te permitió entrar en ninguna subcola.."
     },
     "success": {
         "server_opened": "El servidor ha sido abierto",
         "server_closed": "El servidor ha sido cerrado",
         "teleported_waypoint": "Teletransportado a punto de encuentro.",
-        "character_deleted": "Character deleted!",
-        "character_deleted_citizenid": "You successfully deleted the character with Citizen ID %s."
+        "character_deleted": "Personaje eliminado!",
+        "character_deleted_citizenid": "Eliminaste exitosamente el personaje con el CitizenID %s."
     },
     "info": {
         "received_paycheck": "Has recibido tu salario de $%s",
@@ -41,27 +41,27 @@
         "checking_whitelisted": "Hola %s. Estamos revisando si tienes acceso a nuestro servidor.",
         "exploit_banned": "Has sido expulsado por hacer trampas. Consulta nuestro Discord para más información: %s",
         "exploit_dropped": "Has sido expulsado por hacer trampas",
-        "multichar_title": "Qbox Multichar",
-        "multichar_new_character": "New Character #%s",
-        "char_male": "Male",
-        "char_female": "Female",
-        "play": "Play",
-        "play_description": "Play as %s",
-        "delete_character": "Delete Character",
-        "delete_character_description": "Delete %s",
-        "logout_command_help": "Logs you out of your current character",
-        "check_id": "Check your Server ID",
-        "deletechar_command_help": "Delete a players character",
-        "deletechar_command_arg_player_id": "Player ID",
-        "character_registration_title": "Character Registration",
-        "first_name": "First Name",
-        "last_name": "Last Name",
-        "nationality": "Nationality",
-        "gender": "Sex",
-        "birth_date": "Birth Date",
-        "select_gender": "Select your gender...",
-        "confirm_delete": "Are you sure you wish to delete this character?",
-        "in_queue": "🐌 You are %s/%s in queue. (%s) %s"
+        "multichar_title": "Qbox Multicharacter",
+        "multichar_new_character": "Nuevo Personaje #%s",
+        "char_male": "Hombre",
+        "char_female": "Mujer",
+        "play": "Jugar",
+        "play_description": "Jugar Como %s",
+        "delete_character": "Borrar Personaje",
+        "delete_character_description": "Borrar %s",
+        "logout_command_help": "Te desconecta de tu personaje actual",
+        "check_id": "Chequea tu ID del servidor",
+        "deletechar_command_help": "Borra un personaje del Jugador",
+        "deletechar_command_arg_player_id": "ID del Jugador",
+        "character_registration_title": "Registro de Personaje",
+        "first_name": "Nombre",
+        "last_name": "Apellido",
+        "nationality": "Nacionalidad",
+        "gender": "Sexo",
+        "birth_date": "Fecha de Nacimiento",
+        "select_gender": "Selecciona tu gènero...",
+        "confirm_delete": "¿Estás seguro de que deseas eliminar este personaje?",
+        "in_queue": "🐌 Estas %s/%s en Cola. (%s) %s"
     },
     "command": {
         "tp": {
@@ -128,25 +128,25 @@
             }
         },
         "changejob": {
-            "help": "Change Active Job of Player (Admin Only)",
+            "help": "Cambiar trabajo activo del jugador (Admin Only)",
             "params": {
                 "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "job": { "name": "job", "help": "Nombre del Trabajo" }
             }
         },
         "addjob": {
-            "help": "Add Job to Player (Admin Only)",
+            "help": "Añadir trabajo al jugador (Admin Only)",
             "params": {
                 "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" },
-                "grade": { "name": "grade", "help": "Job grade" }
+                "job": { "name": "job", "help": "Nombre del Trabajo" },
+                "grade": { "name": "grade", "help": "Grado" }
             }
         },
         "removejob": {
-            "help": "Remove Job from Player (Admin Only)",
+            "help": "Remover el trabajo del Jugador (Admin Only)",
             "params": {
                 "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "job": { "name": "job", "help": "Nombre del Trabajo" }
             }
         },
         "gang": { "help": "Comprueba tu banda" },
