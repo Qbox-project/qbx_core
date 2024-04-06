@@ -19,6 +19,7 @@ client_scripts {
     'client/functions.lua',
     'client/loops.lua',
     'client/events.lua',
+    'client/mri-qbox.lua',
     'client/character.lua',
     'client/discord.lua',
     'bridge/qb/client/main.lua',
