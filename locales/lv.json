@@ -1,34 +1,34 @@
 {
     "error": {
-        "not_online": "Spēlētājs nav online",
+        "not_online": "Spēlētājs nav tiešsaistē",
         "wrong_format": "Nepareizs formāts",
-        "missing_args": "Ne visi argumenti tika ievadīti (x, y, z)",
+        "missing_args": "Visi argumenti netika ievadīti (x, y, z)",
         "missing_args2": "Visiem argumentiem ir jābut aizpildītiem!",
-        "no_access": "Nav piekļuve šai commandai",
-        "company_too_poor": "Jūsu darba vedējs ir nabadzīgs",
+        "no_access": "Nav piekļuve šai komandai",
+        "company_too_poor": "Jūsu darba devējs nevar atļauties",
         "item_not_exist": "Šī lieta nēeksistē",
         "too_heavy": "Inventārs ir pārāk pilns",
-        "location_not_exist": "Location does not exist",
-        "duplicate_license": "Duplicate Rockstar License Found",
-        "no_valid_license":  "No Valid Rockstar License Found",
-        "not_whitelisted": "You're not whitelisted for this server",
-        "server_already_open": "The server is already open",
-        "server_already_closed": "The server is already closed",
-        "no_permission": "You don't have permissions for this..",
-        "no_waypoint": "No Waypoint Set.",
-        "tp_error": "Error While Teleporting.",
-        "connecting_database_timeout": "Connection to database timed out. (Is the SQL server on?)",
-        "connecting_error": "An error occurred while connecting to the server. (Check your server console)",
-        "no_match_character_registration": "Anything other than letters aren't allowed, trailing whitespaces aren't allowed either and words must start with a capital letter in input fields. You can however add words with spaces inbetween.",
-        "already_in_queue": "You are already in queue.",
-        "no_subqueue": "You were not let in any sub-queue."
+        "location_not_exist": "Lokācija neeksistē",
+        "duplicate_license": "Ir atrasts duplikāts no Rockstar Licenzes",
+        "no_valid_license":  "Nav atrasta ejoša Rockstar Licenze",
+        "not_whitelisted": "Jums nav whitelist priekš ši spēles servera",
+        "server_already_open": "Serveris ir jau atverts",
+        "server_already_closed": "Serveris ir jau aizvērts",
+        "no_permission": "Jums nav pieejas priekš šī..",
+        "no_waypoint": "Galamērķis nav uzstādīts.",
+        "tp_error": "Errors mēģinot teleportēties.",
+        "connecting_database_timeout": "Savienojums ar datubāzi pārtrūka. (Vai SQL serveris ir ieslēgts?)",
+        "connecting_error": "Errors uzrādijās savienojoties ar spēles serveri. (Parbaudiet servera konsoli)",
+        "no_match_character_registration": "Nav atļauts nekas cits, izņemot burtus, nav atļautas arī beigu atstarpes un ievades laukos vārdiem jāsākas ar lielo burtu. Tomēr varat pievienot vārdus ar atstarpēm starp tām.",
+        "already_in_queue": "Jūs jau esat rindā.",
+        "no_subqueue": "Jūs neielaida apakšrindā."
     },
     "success": {
-        "server_opened": "The server has been opened",
-        "server_closed": "The server has been closed",
-        "teleported_waypoint": "Teleported To Waypoint.",
-        "character_deleted": "Character deleted!",
-        "character_deleted_citizenid": "You successfully deleted the character with Citizen ID %s."
+        "server_opened": "Serveris tika atvērts",
+        "server_closed": "Serveris tika aizvērts",
+        "teleported_waypoint": "Teleportēts uz galamērķa.",
+        "character_deleted": "Tēls dzēsts!",
+        "character_deleted_citizenid": "Jūs izdzēsāt tēlu ar iedzīvotāju ID %s."
     },
     "info": {
         "received_paycheck": "Jūs esat saņēmuši savu algu par $%s",
@@ -36,139 +36,139 @@
         "gang_info": "Banda: %s | Pakāpe: %s",
         "on_duty": "Jūs tagad esat dienestā!",
         "off_duty": "Jūs tagad esat atbrīvots no dienesta!",
-        "checking_ban": "Hello %s. We are checking if you are banned.",
-        "join_server": "Welcome %s to %s.",
-        "checking_whitelisted": "Hello %s. We are checking your allowance.",
-        "exploit_banned": "You have been banned for cheating. Check our Discord for more information: %s",
-        "exploit_dropped": "You Have Been Kicked For Exploitation",
-        "multichar_title": "Qbox Multichar",
-        "multichar_new_character": "New Character #%s",
-        "char_male": "Male",
-        "char_female": "Female",
-        "play": "Play",
-        "play_description": "Play as %s",
-        "delete_character": "Delete Character",
-        "delete_character_description": "Delete %s",
-        "logout_command_help": "Logs you out of your current character",
-        "check_id": "Check your Server ID",
-        "deletechar_command_help": "Delete a players character",
-        "deletechar_command_arg_player_id": "Player ID",
-        "character_registration_title": "Character Registration",
-        "first_name": "First Name",
-        "last_name": "Last Name",
-        "nationality": "Nationality",
-        "gender": "Sex",
-        "birth_date": "Birth Date",
-        "select_gender": "Select your gender...",
-        "confirm_delete": "Are you sure you wish to delete this character?",
-        "in_queue": "🐌 You are %s/%s in queue. (%s) %s"
+        "checking_ban": "Sveicināts %s. Mēs pārbaudam vai esi banots.",
+        "join_server": "Sveicināts %s iekšs %s.",
+        "checking_whitelisted": "Sveiks %s. Mēs pārbaudam jūsu pabalstu.",
+        "exploit_banned": "Jūs esat banots par cheatošanu, vairāk informācijas discord serverī: %s",
+        "exploit_dropped": "Jūs tikāt izkikots par eksplotāciju",
+        "multichar_title": "Qbox vairāki tēli",
+        "multichar_new_character": "Jauns tēls #%s",
+        "char_male": "Vīrietis",
+        "char_female": "Sieviete",
+        "play": "Spēlēt",
+        "play_description": "Spēlēt kā %s",
+        "delete_character": "Dzēst tēlu",
+        "delete_character_description": "Dzēst %s",
+        "logout_command_help": "Izraksta tevi no sava tagadējā tēla",
+        "check_id": "Pārbaudiet sava servera ID",
+        "deletechar_command_help": "Dzēst spēlētāja tēlu",
+        "deletechar_command_arg_player_id": "Spēlētāja ID",
+        "character_registration_title": "Tēla reģistrācija",
+        "first_name": "Vārds",
+        "last_name": "Uzvārds",
+        "nationality": "Pilsonība",
+        "gender": "Dzimums",
+        "birth_date": "Piedzimšanas datums",
+        "select_gender": "Izvēlies savu dzimumu...",
+        "confirm_delete": "Vai esi pārliecināts ka vēlies dzēst šo tēlu?",
+        "in_queue": "🐌 Tu esi %s/%s rindā. (%s) %s"
     },
     "command": {
         "tp": {
-            "help": "TP To Player or Coords (Admin Only)",
+            "help": "Teleportēties pie spēlētaja/kordinātēm (Tikai Administrātors)",
             "params": {
-                "x": { "name": "id/x", "help": "ID of player or X position"},
-                "y": { "name": "y", "help": "Y position"},
-                "z": { "name": "z", "help": "Z position"}
+                "x": { "name": "id/x", "help": "ID no spēlētāja vai X pozīcija"},
+                "y": { "name": "y", "help": "Y pozīcija"},
+                "z": { "name": "z", "help": "Z pozīcija"}
             }
         },
-        "tpm": { "help": "TP To Marker (Admin Only)" },
-        "togglepvp": { "help": "Toggle PVP on the server (Admin Only)" },
+        "tpm": { "help": "Teleportēties pie marķiera (Tikai Administrātors)" },
+        "togglepvp": { "help": "Ieslēgt PVP spēles serverī (Tikai Administrātors)" },
         "addpermission": {
-            "help": "Give Player Permissions (God Only)",
+            "help": "Iedot spēlētājam pieejas (Tikai augstākstāvošais)",
             "params": {
-                "id": { "name": "id", "help": "ID of player" },
-                "permission": { "name": "permission", "help": "Permission level" }
+                "id": { "name": "id", "help": "ID no spēlētāja" },
+                "permission": { "name": "permission", "help": "Pieejas līmenis" }
             }
         },
         "removepermission": {
-            "help": "Remove Player Permissions (God Only)",
+            "help": "Noņemt spēlētājam pieejas (Tikai augstākstāvošais)",
             "params": {
-                "id": { "name": "id", "help": "ID of player" },
-                "permission": { "name": "permission", "help": "Permission level" }
+                "id": { "name": "id", "help": "ID no spēlētāja" },
+                "permission": { "name": "permission", "help": "Pieejas līmenis" }
             }
         },
-        "openserver": { "help": "Open the server for everyone (Admin Only)" },
+        "openserver": { "help": "Atvert spēles serveri visiem (Tikai Administrātors)" },
         "closeserver": {
-            "help": "Close the server for people without permissions (Admin Only)",
+            "help": "Aizvert spēles serveri tikai cilvēkiem bez pieejas (Tikai Administrātors)",
             "params": {
-                "reason": { "name": "reason", "help": "Reason for closing (optional)" }
+                "reason": { "name": "reason", "help": "Iemesls aiztaisīšanai (Pēc izvēles)" }
             }
         },
         "car": {
-            "help": "Spawn Vehicle (Admin Only)",
+            "help": "Izveidot transportlīdzekli (Tikai Administrātors)",
             "params": {
-                "model": { "name": "model", "help": "Model name of the vehicle" },
-                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Keep the vehicle you're in right now (leave empty to delete current vehicle)" }
+                "model": { "name": "model", "help": "Modelis no automašinas" },
+                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Atstāt mašīnu kurā šobrīd esi (Atstāt tukšu ja dzēst mašīnu kurā esi)" }
             }
         },
         "dv": {
-            "help": "Delete Vehicle (Admin Only)",
+            "help": "Dzēst transpotlīdzekli (Tikai Administrātors)",
             "params": {
-                "radius": { "name": "radius", "help": "Radius to delete vehicles in (meters)" }
+                "radius": { "name": "radius", "help": "Radiuss metros kādā dzēst automašinas" }
             }
         },
         "givemoney": {
-            "help": "Give A Player Money (Admin Only)",
+            "help": "Iedot spēlētājam naudu (Tikai Administrātors)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "moneytype": { "name": "moneytype", "help": "Type of money (cash, bank, crypto)" },
-                "amount": { "name": "amount", "help": "Amount of money" }
+                "id": { "name": "id", "help": "Spēlētāja ID" },
+                "moneytype": { "name": "moneytype", "help": "Naudas tips (cash, bank, crypto)" },
+                "amount": { "name": "amount", "help": "Naudas daudzums" }
             }
         },
         "setmoney": {
-            "help": "Set Players Money Amount (Admin Only)",
+            "help": "Uzstādīt spēlētāja naudu (Tikai Administrātors)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "moneytype": { "name": "moneytype", "help": "Type of money (cash, bank, crypto)" },
-                "amount": { "name": "amount", "help": "Amount of money" }
+                "id": { "name": "id", "help": "Spēlētāja ID" },
+                "moneytype": { "name": "moneytype", "help": "Naudas tips (cash, bank, crypto)" },
+                "amount": { "name": "amount", "help": "Naudas daudzums" }
             }
         },
-        "job": { "help": "Check Your Job" },
+        "job": { "help": "Pārbaudīt darbu" },
         "setjob": {
-            "help": "Set A Players Job (Admin Only)",
+            "help": "Uzstādīt darbu spēlētajam (Tikai Administrātors)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" },
-                "grade": { "name": "grade", "help": "Job grade" }
+                "id": { "name": "id", "help": "Spēlētāja ID" },
+                "job": { "name": "job", "help": "Darba nosaukums" },
+                "grade": { "name": "grade", "help": "Darba pakāpe" }
             }
         },
         "changejob": {
-            "help": "Change Active Job of Player (Admin Only)",
+            "help": "Mainīt darbu spēlētājam (Tikai Administrātors)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "id": { "name": "id", "help": "Spēlētāja ID" },
+                "job": { "name": "job", "help": "Darba nosaukums" }
             }
         },
         "addjob": {
-            "help": "Add Job to Player (Admin Only)",
+            "help": "Iedot darbu spēlētājam (Tikai Administrātors)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" },
-                "grade": { "name": "grade", "help": "Job grade" }
+                "id": { "name": "id", "help": "Spēlētāja ID" },
+                "job": { "name": "job", "help": "Darba nosaukums" },
+                "grade": { "name": "grade", "help": "Darba pakāpe" }
             }
         },
         "removejob": {
-            "help": "Remove Job from Player (Admin Only)",
+            "help": "Atņemt darbu spēlētājam (Tikai Administrātors)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "id": { "name": "id", "help": "Spēlētāja ID" },
+                "job": { "name": "job", "help": "Darba nosaukums" }
             }
         },
-        "gang": { "help": "Check Your Gang" },
+        "gang": { "help": "Pārbaudīt bandu" },
         "setgang": {
-            "help": "Set A Players Gang (Admin Only)",
+            "help": "Uzlikt spēlētājam bandu (Tikai Administrātors)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "gang": { "name": "gang", "help": "Gang name" },
-                "grade": { "name": "grade", "help": "Gang grade" }
+                "id": { "name": "id", "help": "Spēlētāja ID" },
+                "gang": { "name": "gang", "help": "Bandas nosaukums" },
+                "grade": { "name": "grade", "help": "Bandas pakāpe" }
             }
         },
-        "ooc": { "help": "OOC Chat Message" },
+        "ooc": { "help": "OOC Čata izziņa" },
         "me": {
-            "help": "Show local message",
+            "help": "Rādīt lokālo izziņu",
             "params": {
-                "message": { "name": "message", "help": "Message to send" }
+                "message": { "name": "message", "help": "Izziņa ko sūtīt" }
             }
         }
     }
