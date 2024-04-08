@@ -3,7 +3,7 @@ game 'gta5'
 
 description 'QBX_Core'
 repository 'https://github.com/Qbox-project/qbx_core'
-version '1.10.0'
+version '1.10.1'
 
 ox_lib 'locale'
 
