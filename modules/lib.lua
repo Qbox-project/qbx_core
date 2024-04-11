@@ -247,7 +247,7 @@ if isServer then
             coords = vec4(pedCoords.x, pedCoords.y, pedCoords.z, GetEntityHeading(source))
         end
 
-        local tempVehicle = CreateVehicle(model, 0, 0, 0, 0, true, true)
+        local tempVehicle = CreateVehicle(model, 0, 0, -200, 0, true, true)
         while not DoesEntityExist(tempVehicle) do Wait(0) end
 
         local vehicleType = GetVehicleType(tempVehicle)
