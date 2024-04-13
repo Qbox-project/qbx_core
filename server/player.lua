@@ -349,7 +349,7 @@ function CheckPlayerData(source, playerData)
     playerState:set('hunger', playerData.metadata.hunger, true)
     playerState:set('thirst', playerData.metadata.thirst, true)
     playerState:set('stress', playerData.metadata.stress, true)
-    
+
     playerData.metadata.isdead = playerData.metadata.isdead or false
     playerData.metadata.inlaststand = playerData.metadata.inlaststand or false
     playerData.metadata.armor = playerData.metadata.armor or 0
@@ -438,9 +438,9 @@ function Logout(source)
     local player = GetPlayer(source)
     if not player then return end
     local playerState = Player(source)?.state
-    player.PlayerData.metadata.hunger = playerState.hunger or 0
-    player.PlayerData.metadata.thirst = playerState.thirst or 0
-    player.PlayerData.metadata.stress = playerState.stress or 0
+    player.PlayerData.metadata.hunger = playerState?.hunger or player.PlayerData.metadata.hunger
+    player.PlayerData.metadata.thirst = playerState?.thirst or player.PlayerData.metadata.thirst
+    player.PlayerData.metadata.stress = playerState?.stress or player.PlayerData.metadata.stress
 
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
@@ -452,9 +452,6 @@ function Logout(source)
     QBX.Players[source] = nil
     GlobalState.PlayerCount -= 1
     TriggerClientEvent('qbx_core:client:playerLoggedOut', source)
-    playerState:set('stress', 100, true)
-    playerState:set('thirst', 100, true)
-    playerState:set('hunger', 100, true)
 end
 
 exports('Logout', Logout)
