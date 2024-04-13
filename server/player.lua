@@ -372,6 +372,7 @@ function CheckPlayerData(source, playerData)
     playerData.metadata.callsign = playerData.metadata.callsign or 'NO CALLSIGN'
     playerData.metadata.fingerprint = playerData.metadata.fingerprint or GenerateUniqueIdentifier('FingerId')
     playerData.metadata.walletid = playerData.metadata.walletid or GenerateUniqueIdentifier('WalletId')
+    playerData.metadata.optin = playerData.metadata.optin or 0
     playerData.metadata.criminalrecord = playerData.metadata.criminalrecord or {
         hasRecord = false,
         date = nil
