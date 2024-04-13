@@ -346,9 +346,11 @@ function CheckPlayerData(source, playerData)
     playerData.metadata.hunger = playerData.metadata.hunger or 100
     playerData.metadata.thirst = playerData.metadata.thirst or 100
     playerData.metadata.stress = playerData.metadata.stress or 0
-    playerState:set('hunger', playerData.metadata.hunger, true)
-    playerState:set('thirst', playerData.metadata.thirst, true)
-    playerState:set('stress', playerData.metadata.stress, true)
+    if playerState then
+        playerState:set('hunger', playerData.metadata.hunger, true)
+        playerState:set('thirst', playerData.metadata.thirst, true)
+        playerState:set('stress', playerData.metadata.stress, true)
+    end
 
     playerData.metadata.isdead = playerData.metadata.isdead or false
     playerData.metadata.inlaststand = playerData.metadata.inlaststand or false
