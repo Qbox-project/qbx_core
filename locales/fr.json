@@ -165,5 +165,11 @@
                 "message": { "name": "message", "help": "Message"}
             }
         }
+    },
+    "module": {
+        "north": "Nord",
+        "south": "Sud",
+        "east": "Est",
+        "west": "Ouest"
     }
 }

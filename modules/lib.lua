@@ -190,19 +190,19 @@ function qbx.getCardinalDirection(entity)
     local heading = GetEntityHeading(entity) % 360
 
     if heading < 45 or heading >= 315 then
-        return 'North'
+        return locale('module.north')
     end
 
     if heading >= 45 and heading < 135 then
-        return 'West'
+        return locale('module.west')
     end
 
     if heading >= 135 and heading < 225 then
-        return 'South'
+        return locale('module.south')
     end
 
     -- heading >= 225 and heading < 315
-    return 'East'
+    return locale('module.east')
 end
 
 if isServer then
