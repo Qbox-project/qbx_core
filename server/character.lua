@@ -76,9 +76,9 @@ lib.callback.register('qbx_core:server:createCharacter', function(source, data)
     return newData
 end)
 
-lib.callback.register('qbx_core:server:characterBucket', function (source)
+lib.callback.register('qbx_core:server:setCharBucket', function(source)
     SetPlayerBucket(source, source)
-    return GetPlayerRoutingBucket(source) == source
+    assert(GetPlayerRoutingBucket(source) == source, 'Multicharacter bucket not set.')
 end)
 
 RegisterNetEvent('qbx_core:server:deleteCharacter', function(citizenId)
