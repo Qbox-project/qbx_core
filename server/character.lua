@@ -47,7 +47,7 @@ lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenI
     local success = Login(source, citizenId)
     if not success then return end
 
-    SetPlayerRoutingBucket(source, 0)
+    SetPlayerBucket(source, 0)
     logger.log({
         source = 'qbx_core',
         webhook = config.logging.webhook['joinleave'],
