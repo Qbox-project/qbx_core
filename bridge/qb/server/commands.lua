@@ -18,8 +18,12 @@ function commands.Add(name, help, arguments, argsrequired, callback, permission)
     end
     lib.addCommand(name, properties, function(source, args, raw)
         local _args = {}
-        for i = 1, #arguments do
-            _args[i] = args[arguments[i].name]
+        if #args > 0 then
+            _args = args
+        else
+            for i = 1, #arguments do
+                _args[i] = args[arguments[i].name]
+            end
         end
         callback(source, _args, raw)
     end)
