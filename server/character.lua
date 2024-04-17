@@ -76,6 +76,11 @@ lib.callback.register('qbx_core:server:createCharacter', function(source, data)
     return newData
 end)
 
+lib.callback.register('qbx_core:server:characterBucket', function (source)
+    SetPlayerBucket(source, source)
+    return GetPlayerRoutingBucket(source) == source
+end)
+
 RegisterNetEvent('qbx_core:server:deleteCharacter', function(citizenId)
     local src = source
     DeleteCharacter(src --[[@as number]], citizenId)
