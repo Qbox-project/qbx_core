@@ -69,7 +69,7 @@ lib.callback.register('qbx_core:server:createCharacter', function(source, data)
 
     giveStarterItems(source)
     if GetResourceState('qbx_spawn') == 'missing' then
-        SetPlayerRoutingBucket(source, 0)
+        SetPlayerBucket(source, 0)
     end
 
     lib.print.info(('%s has created a character'):format(GetPlayerName(source)))
