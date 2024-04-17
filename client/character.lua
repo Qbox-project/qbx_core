@@ -268,6 +268,7 @@ local function chooseCharacter()
     Wait(1000)
     SetEntityCoords(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false, false)
     SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
+    if not lib.callback.await('qbx_core:server:characterBucket', false) then return chooseCharacter() end
     Wait(1500)
     ShutdownLoadingScreen()
     ShutdownLoadingScreenNui()
