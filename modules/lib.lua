@@ -274,7 +274,7 @@ if isServer then
         end
 
         if bucket and bucket > 0 then
-            SetEntityRoutingBucket(veh, bucket)
+            SetEntityBucket(veh, bucket)
         end
         local netId = NetworkGetNetworkIdFromEntity(veh)
 
