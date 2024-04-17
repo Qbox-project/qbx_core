@@ -268,6 +268,8 @@ local function chooseCharacter()
     Wait(1000)
     SetEntityCoords(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false, false)
     SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
+    ---@diagnostic disable-next-line: missing-parameter
+    lib.callback('qbx_core:server:setCharBucket', false)
     Wait(1500)
     ShutdownLoadingScreen()
     ShutdownLoadingScreenNui()
@@ -402,6 +404,7 @@ CreateThread(function()
             Wait(250)
             lib.requestModel(model, config.loadingModelsTimeout)
             SetPlayerModel(cache.playerId, model)
+            SetModelAsNoLongerNeeded(model)
             chooseCharacter()
             break
         end
