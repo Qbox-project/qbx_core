@@ -273,7 +273,7 @@ if isServer then
             bucket = GetEntityRoutingBucket(ped) or nil
         end
 
-        if bucket then
+        if bucket and bucket > 0 then
             SetEntityRoutingBucket(veh, bucket)
         end
         local netId = NetworkGetNetworkIdFromEntity(veh)
