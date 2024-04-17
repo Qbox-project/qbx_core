@@ -402,6 +402,7 @@ CreateThread(function()
             Wait(250)
             lib.requestModel(model, config.loadingModelsTimeout)
             SetPlayerModel(cache.playerId, model)
+            SetModelAsNoLongerNeeded(model)
             chooseCharacter()
             break
         end
