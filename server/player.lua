@@ -85,21 +85,14 @@ end
 ---@param jobName string
 function SetPlayerPrimaryJob(citizenid, jobName)
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
-    if not player then
-        error(('player not found with citizenid %s'):format(citizenid))
-    end
-    local grade = jobName == 'unemployed' and 0 or player.PlayerData.jobs[jobName]
-    if not grade then
-        error(('player %s does not have job %s'):format(citizenid, jobName))
-    end
-    local job = GetJob(jobName)
-    if not job then
-        error('job not found: ' .. jobName)
-    end
+    assert(player ~= nil, string.format('player not found with citizenid %s', citizenid))
 
-    if not job.grades[grade] then
-        error(('job %s does not have grade %s'):format(jobName, grade))
-    end
+    local grade = jobName == 'unemployed' and 0 or player.PlayerData.jobs[jobName]
+    assert(grade ~= nil, string.format('player %s does not have job %s', citizenid, jobName))
+
+    local job = GetJob(jobName)
+    assert(job ~= nil, 'job not found: ' .. jobName)
+    assert(job.grades[grade] ~= nil, string.format('job %s does not have grade %s', jobName, grade))
 
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
     player.Functions.Save()
@@ -120,20 +113,13 @@ function AddPlayerToJob(citizenid, jobName, grade)
     -- unemployed job is the default, so players cannot be added to it
     if jobName == 'unemployed' then return end
     local job = GetJob(jobName)
-    if not job then
-        error('job not found: ' .. jobName)
-    end
-    if not job.grades[grade] then
-        error(('job %s does not have grade %s'):format(jobName, grade))
-    end
+    assert(job ~= nil, 'job not found: ' .. jobName)
+    assert(job.grades[grade] ~= nil, string.format('job %s does not have grade %s', jobName, grade))
+
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
-    if not player then
-        error(('player not found with citizenid %s'):format(citizenid))
-    end
+    assert(player ~= nil, string.format('player not found with citizenid %s', citizenid))
     if player.PlayerData.jobs[jobName] == grade then return end
-    if qbx.table.size(player.PlayerData.jobs) >= maxJobsPerPlayer and not player.PlayerData.jobs[jobName] then
-        error('player already has maximum amount of jobs allowed')
-    end
+    assert(qbx.table.size(player.PlayerData.jobs) < maxJobsPerPlayer or player.PlayerData.jobs[jobName], 'player already has maximum amount of jobs allowed')
 
     storage.addPlayerToJob(citizenid, jobName, grade)
     if not player.Offline then
@@ -156,9 +142,7 @@ function RemovePlayerFromJob(citizenid, jobName)
     -- Unemployed is the default job, so players cannot be removed from it.
     if jobName == 'unemployed' then return end
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
-    if not player then
-        error(('player not found with citizenid %s'):format(citizenid))
-    end
+    assert(player ~= nil, string.format('player not found with citizenid %s', citizenid))
 
     if not player.PlayerData.jobs[jobName] then return end
 
@@ -166,9 +150,7 @@ function RemovePlayerFromJob(citizenid, jobName)
     player.PlayerData.jobs[jobName] = nil
     if player.PlayerData.job.name == jobName then
         local job = GetJob('unemployed')
-        if not job then
-            error('cannot find unemployed job. Check database/config')
-        end
+        assert(job ~= nil, 'cannot find unemployed job. Does it exist in shared/jobs.lua?')
         player.PlayerData.job = toPlayerJob('unemployed', job, 0)
         player.Functions.Save()
     end
@@ -187,21 +169,14 @@ exports('RemovePlayerFromJob', RemovePlayerFromJob)
 ---@param gangName string
 local function setPlayerPrimaryGang(citizenid, gangName)
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
-    if not player then
-        error(('player not found with citizenid %s'):format(citizenid))
-    end
-    local grade = gangName == 'none' and 0 or player.PlayerData.gangs[gangName]
-    if not grade then
-        error(('player %s does not have gang %s'):format(citizenid, gangName))
-    end
-    local gang = GetGang(gangName)
-    if not gang then
-        error('gang not found: ' .. gangName)
-    end
+    assert(player ~= nil, string.format('player not found with citizenid %s', citizenid))
 
-    if not gang.grades[grade] then
-        error(('gang %s does not have grade %s'):format(gangName, grade))
-    end
+    local grade = gangName == 'none' and 0 or player.PlayerData.gangs[gangName]
+    assert(grade ~= nil, string.format('player %s does not have gang %s', citizenid, gangName))
+
+    local gang = GetGang(gangName)
+    assert(gang ~= nil, 'gang not found: ' .. gangName)
+    assert(gang.grades[grade] ~= nil, string.format('gang %s does not have grade %s', gangName, grade))
 
     player.PlayerData.gang = {
         name = gangName,
@@ -231,26 +206,17 @@ exports('SetPlayerPrimaryGang', setPlayerPrimaryGang)
 function AddPlayerToGang(citizenid, gangName, grade)
     -- None is the default gang, so players cannot be added to it.
     if gangName == 'none' then return end
+
     local gang = GetGang(gangName)
-
-    if not gang then
-        error('gang not found: ' .. gangName)
-    end
-
-    if not gang.grades[grade] then
-        error(('gang %s does not have grade %s'):format(gangName, grade))
-    end
+    assert(gang ~= nil, 'gang not found: ' .. gangName)
+    assert(gang.grades[grade] ~= nil, string.format('gang %s does not have grade %s', gangName, grade))
 
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
-    if not player then
-        error(('player not found with citizenid %s'):format(citizenid))
-    end
+    assert(player ~= nil, string.format('player not found with citizenid %s', citizenid))
 
     if player.PlayerData.gangs[gangName] == grade then return end
 
-    if qbx.table.size(player.PlayerData.gangs) >= maxGangsPerPlayer and not player.PlayerData.gangs[gangName] then
-        error('player already has maximum amount of gangs allowed')
-    end
+    assert(qbx.table.size(player.PlayerData.gangs) < maxGangsPerPlayer or player.PlayerData.gangs[gangName], 'player already has maximum amount of gangs allowed')
 
     storage.addPlayerToGang(citizenid, gangName, grade)
     if not player.Offline then
@@ -272,20 +238,16 @@ exports('AddPlayerToGang', AddPlayerToGang)
 local function removePlayerFromGang(citizenid, gangName)
     -- None is the default gang. So players cannot be removed from it.
     if gangName == 'none' then return end
-    local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
-    if not player then
-        error(('player not found with citizenid %s'):format(citizenid))
-    end
 
+    local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
+    assert(player ~= nil, string.format('player not found with citizenid %s', citizenid))
     if not player.PlayerData.gangs[gangName] then return end
 
     storage.removePlayerFromGang(citizenid, gangName)
     player.PlayerData.gangs[gangName] = nil
     if player.PlayerData.gang.name == gangName then
         local gang = GetGang('none')
-        if not gang then
-            error('cannot find none gang. Check database/config')
-        end
+        assert(gang ~= nil, 'cannot find none gang. Does it exist in shared/gangs.lua?')
         player.PlayerData.gang = {
             name = gangName,
             label = gang.label,
@@ -397,9 +359,7 @@ function CheckPlayerData(source, playerData)
     local jobs, gangs = storage.fetchPlayerGroups(playerData.citizenid)
 
     local job = GetJob(playerData.job?.name) or GetJob('unemployed')
-    if not job then
-        error('unemployed job not found. Is it in your config?')
-    end
+    assert(job ~= nil, 'Unemployed job not found. Does it exist in shared/jobs.lua?')
     local jobGrade = GetJob(playerData.job?.name) and playerData.job.grade.level or 0
     playerData.job = {
         name = playerData.job?.name or 'unemployed',
@@ -415,9 +375,7 @@ function CheckPlayerData(source, playerData)
     }
     playerData.jobs = jobs or {}
     local gang = GetGang(playerData.gang?.name) or GetGang('none')
-    if not gang then
-        error('none gang not found. Is it in your config?')
-    end
+    assert(gang ~= nil, 'none gang not found. Does it exist in shared/gangs.lua?')
     local gangGrade = GetGang(playerData.gang?.name) and playerData.gang.grade.level or 0
     playerData.gang = {
         name = playerData.gang?.name or 'none',

@@ -12,9 +12,7 @@ local characterDataTables = require 'config.server'.characterDataTables
 
 ---@param request InsertBanRequest
 local function insertBan(request)
-    if not request.discordId and not request.ip and not request.license then
-        error('no identifier provided')
-    end
+    assert(request.discordId or request.ip or request.license, 'no identifier provided')
 
     MySQL.insert.await('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
         request.name,
