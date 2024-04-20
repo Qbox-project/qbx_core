@@ -361,9 +361,7 @@ function CheckPlayerData(source, playerData)
     local job = GetJob(playerData.job?.name) or GetJob('unemployed')
     assert(job ~= nil, 'Unemployed job not found. Does it exist in shared/jobs.lua?')
     local jobGrade = GetJob(playerData.job?.name) and playerData.job.grade.level or 0
-    if QBX.Shared.ForceJobDefaultDutyAtLogin and (job.defaultDuty ~= nil) then
-        playerData.job.onduty = job.defaultDuty
-    end
+
     playerData.job = {
         name = playerData.job?.name or 'unemployed',
         label = job.label,
@@ -376,6 +374,10 @@ function CheckPlayerData(source, playerData)
             level = jobGrade,
         }
     }
+    if QBX.Shared.ForceJobDefaultDutyAtLogin and (job.defaultDuty ~= nil) then
+        playerData.job.onduty = job.defaultDuty
+    end
+
     playerData.jobs = jobs or {}
     local gang = GetGang(playerData.gang?.name) or GetGang('none')
     assert(gang ~= nil, 'none gang not found. Does it exist in shared/gangs.lua?')
