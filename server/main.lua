@@ -1,5 +1,5 @@
 lib.versionCheck('Qbox-project/qbx_core')
-assert(lib.checkDependency('ox_lib', '3.16.3', true))
+assert(lib.checkDependency('ox_lib', '3.20.0', true))
 
 ---@type 'strict'|'relaxed'|'inactive'
 local bucketLockDownMode = GetConvar('qbx:bucketlockdownmode', 'inactive')
