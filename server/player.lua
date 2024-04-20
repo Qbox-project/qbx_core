@@ -361,12 +361,15 @@ function CheckPlayerData(source, playerData)
     local job = GetJob(playerData.job?.name) or GetJob('unemployed')
     assert(job ~= nil, 'Unemployed job not found. Does it exist in shared/jobs.lua?')
     local jobGrade = GetJob(playerData.job?.name) and playerData.job.grade.level or 0
+    if QBX.Shared.ForceJobDefaultDutyAtLogin and (job.defaultDuty ~= nil) then
+        playerData.job.onduty = job.defaultDuty
+    end
     playerData.job = {
         name = playerData.job?.name or 'unemployed',
         label = job.label,
         payment = job.grades[jobGrade].payment or 0,
         type = job.type,
-        onduty = QBX.Shared.ForceJobDefaultDutyAtLogin and job.defaultDuty or playerData.job?.onduty or false,
+        onduty = playerData.job?.onduty or false,
         isboss = job.grades[jobGrade].isboss or false,
         grade = {
             name = job.grades[jobGrade].name,
