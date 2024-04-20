@@ -320,9 +320,7 @@ else
     function PlayAnim(animDict, animName, upperbodyOnly, duration) -- luacheck: ignore
         local flags = upperbodyOnly and 16 or 0
         local runTime = duration or -1
-        lib.requestAnimDict(animDict)
-        TaskPlayAnim(cache.ped, animDict, animName, 8.0, 3.0, runTime, flags, 0.0, false, false, true)
-        RemoveAnimDict(animDict)
+        lib.playAnim(cache.ped, animDict, animName, 8.0, 3.0, runTime, flags, 0.0, false, false, true)
     end
 
     ---@deprecated use the GetGamePool native directly

@@ -65,9 +65,7 @@ functions.RequestAnimDict = lib.requestAnimDict
 functions.PlayAnim = function(animDict, animName, upperbodyOnly, duration)
     local flags = upperbodyOnly and 16 or 0
     local runTime = duration or -1
-    lib.requestAnimDict(animDict)
-    TaskPlayAnim(cache.ped, animDict, animName, 8.0, 3.0, runTime, flags, 0.0, false, false, true)
-    RemoveAnimDict(animDict)
+    lib.playAnim(cache.ped, animDict, animName, 8.0, 3.0, runTime, flags, 0.0, false, false, true)
 end
 
 ---@deprecated use lib.requestModel from ox_lib
