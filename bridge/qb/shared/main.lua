@@ -89,9 +89,9 @@ if useOldItems then
     }
 
     for hash, data in pairs(qbShared.WeaponHashes) do
-        local weaponType = weaponTypes[GetWeapontypeGroup(hash)]
+        local weaponType = lib.context == 'client' and weaponTypes[GetWeapontypeGroup(hash)]
 
-        data.weapontype = weaponType and weaponType[1] or 'Miscellaneous'
+        data.weapontype = weaponType and weaponType[1] or 'Weapon'
         data.ammotype = ammoTypes[hash] or (weaponType and weaponType[2])
         data.damagereason = damageReasons[hash]
 
