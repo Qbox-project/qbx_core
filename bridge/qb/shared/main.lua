@@ -88,6 +88,19 @@ if useOldItems then
         ['weapon_fertilizercan'] = 'AMMO_FERTILIZERCAN'
     }
 
+    for name, data in pairs(qbShared.Items) do
+        qbShared.Items[name].name = name
+        qbShared.Items[name].type = 'item'
+        qbShared.Items[name].image = name .. ".png"
+        qbShared.Items[name].unique = not data.stack
+        qbShared.Items[name].useable = false
+        qbShared.Items[name].shouldClose = data.close
+
+        if not data.description then
+            qbShared.Items[name].description = ''
+        end
+    end
+
     for hash, data in pairs(qbShared.WeaponHashes) do
         local weaponType = lib.context == 'client' and weaponTypes[GetWeapontypeGroup(hash)]
 
@@ -96,6 +109,15 @@ if useOldItems then
         data.damagereason = damageReasons[hash]
 
         qbShared.Weapons[hash] = data
+        qbShared.Items[data.name:lower()] = { name = data.name:lower(), label = data.label, weight = data.weight, type = 'weapon', image = data.name:lower() .. '.png', unique = not data.stack, useable = false, description = '' }
+    end
+
+    for name, data in pairs(qbShared.Components) do
+        qbShared.Items[name] = { name = name, label = data.label, weight = data.weight, type = 'item', image = name .. ".png", unique = false, useable = true, shouldClose = true, combinable = nil, description = '' }
+    end
+
+    for name, data in pairs(qbShared.AmmoTypes) do
+        qbShared.Items[name] = { name = name, label = data.label, weight = data.weight, type = 'item', image = name .. ".png", unique = false, useable = true, shouldClose = true, combinable = nil, description = '' }
     end
 end
 

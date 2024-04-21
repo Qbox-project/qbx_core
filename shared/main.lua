@@ -13,6 +13,7 @@ end
 
 local weaponConfig = require '@ox_inventory.data.weapons'
 qbShared.Weapons = weaponConfig.Weapons
+qbShared.Components = weaponConfig.Components
 qbShared.AmmoTypes = weaponConfig.Ammo
 
 ---@type table<number, Weapon>
