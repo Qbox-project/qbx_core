@@ -6,18 +6,111 @@ if config.characters.useExternalCharacters then return end
 local previewCam = nil
 local randomLocation = config.characters.locations[math.random(1, #config.characters.locations)]
 
-local randomPedModels = {
-    `a_m_o_soucent_02`,
-    `mp_g_m_pros_01`,
-    `a_m_m_prolhost_01`,
-    `a_f_m_prolhost_01`,
-    `a_f_y_smartcaspat_01`,
-    `a_f_y_runner_01`,
-    `a_f_y_vinewood_04`,
-    `a_f_o_soucent_02`,
-    `a_m_y_cyclist_01`,
-    `a_m_m_hillbilly_02`,
+local randomPeds = {
+    {
+        model = `mp_m_freemode_01`,
+        headOverlays = {
+            beard = {color = 0, style = 0, secondColor = 0, opacity = 1},
+            complexion = {color = 0, style = 0, secondColor = 0, opacity = 0},
+            bodyBlemishes = {color = 0, style = 0, secondColor = 0, opacity = 0},
+            blush = {color = 0, style = 0, secondColor = 0, opacity = 0},
+            lipstick = {color = 0, style = 0, secondColor = 0, opacity = 0},
+            blemishes = {color = 0, style = 0, secondColor = 0, opacity = 0},
+            eyebrows = {color = 0, style = 0, secondColor = 0, opacity = 1},
+            makeUp = {color = 0, style = 0, secondColor = 0, opacity = 0},
+            sunDamage = {color = 0, style = 0, secondColor = 0, opacity = 0},
+            moleAndFreckles = {color = 0, style = 0, secondColor = 0, opacity = 0},
+            chestHair = {color = 0, style = 0, secondColor = 0, opacity = 1},
+            ageing = {color = 0, style = 0, secondColor = 0, opacity = 1},
+        },
+        components = {
+            {texture = 0, drawable = 0, component_id = 0},
+            {texture = 0, drawable = 0, component_id = 1},
+            {texture = 0, drawable = 0, component_id = 2},
+            {texture = 0, drawable = 0, component_id = 5},
+            {texture = 0, drawable = 0, component_id = 7},
+            {texture = 0, drawable = 0, component_id = 9},
+            {texture = 0, drawable = 0, component_id = 10},
+            {texture = 0, drawable = 15, component_id = 11},
+            {texture = 0, drawable = 15, component_id = 8},
+            {texture = 0, drawable = 15, component_id = 3},
+            {texture = 0, drawable = 34, component_id = 6},
+            {texture = 0, drawable = 61, component_id = 4},
+        },
+        props = {
+            {prop_id = 0, drawable = -1, texture = -1},
+            {prop_id = 1, drawable = -1, texture = -1},
+            {prop_id = 2, drawable = -1, texture = -1},
+            {prop_id = 6, drawable = -1, texture = -1},
+            {prop_id = 7, drawable = -1, texture = -1},
+        }
+    },
+    {
+        model = `mp_f_freemode_01`,
+        headBlend = {
+            shapeMix = 0.3,
+            skinFirst = 0,
+            shapeFirst = 31,
+            skinSecond = 0,
+            shapeSecond = 0,
+            skinMix = 0,
+            thirdMix = 0,
+            shapeThird = 0,
+            skinThird = 0,
+        },
+        hair = {
+            color = 0,
+            style = 15,
+            texture = 0,
+            highlight = 0
+        },
+        headOverlays = {
+            chestHair = {secondColor = 0, opacity = 0, color = 0, style = 0},
+            bodyBlemishes = {secondColor = 0, opacity = 0, color = 0, style = 0},
+            beard = {secondColor = 0, opacity = 0, color = 0, style = 0},
+            lipstick = {secondColor = 0, opacity = 0, color = 0, style = 0},
+            complexion = {secondColor = 0, opacity = 0, color = 0, style = 0},
+            blemishes = {secondColor = 0, opacity = 0, color = 0, style = 0},
+            moleAndFreckles = {secondColor = 0, opacity = 0, color = 0, style = 0},
+            makeUp = {secondColor = 0, opacity = 0, color = 0, style = 0},
+            ageing = {secondColor = 0, opacity = 1, color = 0, style = 0},
+            eyebrows = {secondColor = 0, opacity = 1, color = 0, style = 0},
+            blush = {secondColor = 0, opacity = 0, color = 0, style = 0},
+            sunDamage = {secondColor = 0, opacity = 0, color = 0, style = 0},
+        },
+        components = {
+            {drawable = 0, component_id = 0, texture = 0},
+            {drawable = 0, component_id = 1, texture = 0},
+            {drawable = 0, component_id = 2, texture = 0},
+            {drawable = 0, component_id = 5, texture = 0},
+            {drawable = 0, component_id = 7, texture = 0},
+            {drawable = 0, component_id = 9, texture = 0},
+            {drawable = 0, component_id = 10, texture = 0},
+            {drawable = 15, component_id = 3, texture = 0},
+            {drawable = 15, component_id = 11, texture = 3},
+            {drawable = 14, component_id = 8, texture = 0},
+            {drawable = 15, component_id = 4, texture = 3},
+            {drawable = 35, component_id = 6, texture = 0},
+        },
+        props = {
+            {prop_id = 0, drawable = -1, texture = -1},
+            {prop_id = 1, drawable = -1, texture = -1},
+            {prop_id = 2, drawable = -1, texture = -1},
+            {prop_id = 6, drawable = -1, texture = -1},
+            {prop_id = 7, drawable = -1, texture = -1},
+        }
+    }
 }
+
+local nationalities = {}
+
+if config.characters.limitNationalities then
+    CreateThread(function()
+        for i = 1, #config.characters.nationalities do
+            nationalities[#nationalities + 1] = {value = config.characters.nationalities[i]}
+        end
+    end)
+end
 
 local function setupPreviewCam()
     DoScreenFadeIn(1000)
@@ -49,24 +142,26 @@ local function destroyPreviewCam()
     FreezeEntityPosition(cache.ped, false)
 end
 
+local function randomPed()
+    local ped = randomPeds[math.random(1, #randomPeds)]
+    lib.requestModel(ped.model, config.loadingModelsTimeout)
+    SetPlayerModel(cache.playerId, ped.model)
+    pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), ped) end)
+    SetModelAsNoLongerNeeded(ped.model)
+end
+
 ---@param citizenId? string
 local function previewPed(citizenId)
-    if not citizenId then
-        local model = randomPedModels[math.random(1, #randomPedModels)]
-        lib.requestModel(model, config.loadingModelsTimeout)
-        SetPlayerModel(cache.playerId, model)
-        return
-    end
+    if not citizenId then randomPed() return end
 
     local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
     if model and clothing then
         lib.requestModel(model, config.loadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
         pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), json.decode(clothing)) end)
+        SetModelAsNoLongerNeeded(model)
     else
-        model = randomPedModels[math.random(1, #randomPedModels)]
-        lib.requestModel(model, config.loadingModelsTimeout)
-        SetPlayerModel(cache.playerId, model)
+        randomPed()
     end
 end
 
@@ -80,6 +175,22 @@ end
 
 ---@return string[]?
 local function characterDialog()
+    local nationalityOption = config.characters.limitNationalities and {
+        type = 'select',
+        required = true,
+        icon = 'user-shield',
+        label = locale('info.nationality'),
+        default = 'American',
+        searchable = true,
+        options = nationalities
+    } or {
+        type = 'input',
+        required = true,
+        icon = 'user-shield',
+        label = locale('info.nationality'),
+        placeholder = 'Duck'
+    }
+
     return lib.inputDialog(locale('info.character_registration_title'), {
         {
             type = 'input',
@@ -95,13 +206,7 @@ local function characterDialog()
             label = locale('info.last_name'),
             placeholder = 'Jordan'
         },
-        {
-            type = 'input',
-            required = true,
-            icon = 'user-shield',
-            label = locale('info.nationality'),
-            placeholder = 'Duck'
-        },
+        nationalityOption,
         {
             type = 'select',
             required = true,
@@ -122,11 +227,11 @@ local function characterDialog()
             required = true,
             icon = 'calendar-days',
             label = locale('info.birth_date'),
-            format = 'YYYY-MM-DD',
+            format = config.characters.dateFormat,
             returnString = true,
-            min = '1900-01-01', -- Has to be in the same in the same format as the format argument
-            max = '2006-12-31', -- Has to be in the same in the same format as the format argument
-            default = '2006-12-31'
+            min = config.characters.dateMin,
+            max = config.characters.dateMax,
+            default = config.characters.dateMax
         }
     })
 end
@@ -396,15 +501,12 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
 end)
 
 CreateThread(function()
-    local model = randomPedModels[math.random(1, #randomPedModels)]
     while true do
         Wait(0)
         if NetworkIsSessionStarted() then
             pcall(function() exports.spawnmanager:setAutoSpawn(false) end)
             Wait(250)
-            lib.requestModel(model, config.loadingModelsTimeout)
-            SetPlayerModel(cache.playerId, model)
-            SetModelAsNoLongerNeeded(model)
+            randomPed()
             chooseCharacter()
             break
         end

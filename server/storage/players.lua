@@ -12,9 +12,7 @@ local characterDataTables = require 'config.server'.characterDataTables
 
 ---@param request InsertBanRequest
 local function insertBan(request)
-    if not request.discordId and not request.ip and not request.license then
-        error('no identifier provided')
-    end
+    assert(request.discordId or request.ip or request.license, 'no identifier provided')
 
     MySQL.insert.await('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
         request.name,
@@ -228,6 +226,14 @@ local function fetchPlayerEntity(citizenId)
     } or nil
 end
 
+---Checks if a table exists in the database
+---@param tableName string
+---@return boolean
+local function doesTableExist(tableName)
+    local tbl = MySQL.single.await(('SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_NAME = \'%s\' AND TABLE_SCHEMA in (SELECT DATABASE())'):format(tableName))
+    return tbl['COUNT(*)'] > 0
+end
+
 ---deletes character data using the characterDataTables object in the config file
 ---@param citizenId string
 ---@return boolean success if operation is successful.
@@ -236,12 +242,16 @@ local function deletePlayer(citizenId)
     local queries = {}
 
     for tableName, columnName in pairs(characterDataTables) do
-        queries[#queries + 1] = {
-            query = query:format(tableName, columnName),
-            values = {
-                citizenId,
+        if doesTableExist(tableName) then
+            queries[#queries + 1] = {
+                query = query:format(tableName, columnName),
+                values = {
+                    citizenId,
+                }
             }
-        }
+        else
+            warn(('Table %s does not exist in database, please remove it from qbx_core/config/server.lua or create the table'):format(tableName))
+        end
     end
 
     local success = MySQL.transaction.await(queries)
@@ -347,6 +357,14 @@ RegisterCommand('convertjobs', function(source)
     lib.print.info('Converted jobs and gangs successfully')
     TriggerEvent('qbx_core:server:jobsconverted')
 end, true)
+
+CreateThread(function()
+    for tableName in pairs(characterDataTables) do
+        if not doesTableExist(tableName) then
+            warn(('Table \'%s\' does not exist in database, please remove it from qbx_core/config/server.lua or create the table'):format(tableName))
+        end
+    end
+end)
 
 return {
     insertBan = insertBan,
