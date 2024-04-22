@@ -236,7 +236,7 @@ if isServer then
         local warp = params.warp
         local ped = type(warp) == 'number' and warp or (sourceType == 'number' and warp and source or nil)
         local props = params.props
-        local bucket = params.bucket or nil
+        local bucket = params.bucket
 
         ---@type vector4
         local coords
