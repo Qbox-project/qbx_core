@@ -1,5 +1,5 @@
 return {
-    updateInterval = 5, -- how often to update player data in minutes
+    updateInterval = 5, -- how often to update player thirst and hunger in minutes
 
     money = {
         ---@alias MoneyType 'cash' | 'bank' | 'crypto'

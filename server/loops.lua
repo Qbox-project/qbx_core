@@ -10,7 +10,6 @@ local function removeHungerAndThirst(src, player)
     player.Functions.SetMetaData('hunger', math.max(0, newHunger))
 
     TriggerClientEvent('hud:client:UpdateNeeds', src, newHunger, newThirst)
-    player.Functions.Save()
 end
 
 CreateThread(function()

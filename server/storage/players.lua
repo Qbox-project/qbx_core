@@ -230,8 +230,8 @@ end
 ---@param tableName string
 ---@return boolean
 local function doesTableExist(tableName)
-    local tbl = MySQL.single.await(('SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_NAME = \'%s\' AND TABLE_SCHEMA in (SELECT DATABASE())'):format(tableName))
-    return tbl['COUNT(*)'] > 0
+    local result = MySQL.single.await(('SELECT COUNT(*) as count FROM information_schema.TABLES WHERE TABLE_NAME = \'%s\' AND TABLE_SCHEMA in (SELECT DATABASE())'):format(tableName))
+    return result.count > 0
 end
 
 ---deletes character data using the characterDataTables object in the config file
@@ -340,6 +340,46 @@ local function removePlayerFromGang(citizenid, group)
     removeFromGroup(citizenid, GroupType.GANG, group)
 end
 
+---@param citizenid string
+---@param job PlayerJob
+---@return boolean success if operation is successful.
+local function setPlayerPrimaryJob(citizenid, job)
+    local affectedRows = MySQL.update.await('UPDATE players SET job = ? WHERE citizenid = ?', {json.encode(job), citizenid})
+    return affectedRows > 0
+end
+
+---@param citizenid string
+---@param gang PlayerGang
+---@return boolean success if operation is successful.
+local function setPlayerPrimaryGang(citizenid, gang)
+    local affectedRows = MySQL.update.await('UPDATE players SET gang = ? WHERE citizenid = ?', {json.encode(gang), citizenid})
+    return affectedRows > 0
+end
+
+---@param citizenid string
+---@param metadata PlayerMetadata
+---@return boolean success if operation is successful.
+local function setPlayerMetadata(citizenid, metadata)
+    local affectedRows = MySQL.update.await('UPDATE players SET metadata = ? WHERE citizenid = ?', {json.encode(metadata), citizenid})
+    return affectedRows > 0
+end
+
+---@param citizenid string
+---@param money Money
+---@return boolean success if operation is successful.
+local function setPlayerMoney(citizenid, money)
+    local affectedRows = MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', {json.encode(money), citizenid})
+    return affectedRows > 0
+end
+
+---@param citizenid string
+---@param charinfo PlayerCharInfo
+---@return boolean success if operation is successful.
+local function setPlayerCharInfo(citizenid, charinfo)
+    local affectedRows = MySQL.update.await('UPDATE players SET charinfo = ? WHERE citizenid = ?', {json.encode(charinfo), citizenid})
+    return affectedRows > 0
+end
+
 ---Copies player's primary job/gang to the player_groups table. Works for online/offline players.
 ---Idempotent
 RegisterCommand('convertjobs', function(source)
@@ -381,4 +421,9 @@ return {
     fetchPlayerGroups = fetchPlayerGroups,
     removePlayerFromJob = removePlayerFromJob,
     removePlayerFromGang = removePlayerFromGang,
+    setPlayerMetadata = setPlayerMetadata,
+    setPlayerPrimaryJob = setPlayerPrimaryJob,
+    setPlayerPrimaryGang = setPlayerPrimaryGang,
+    setPlayerMoney = setPlayerMoney,
+    setPlayerCharInfo = setPlayerCharInfo
 }
