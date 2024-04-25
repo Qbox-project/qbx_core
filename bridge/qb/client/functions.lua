@@ -3,7 +3,7 @@ local functions = {}
 
 -- Player
 
----@deprecated import PlayerData using module 'qbx_core:playerdata' https://qbox-docs.vercel.app/resources/core/import
+---@deprecated import PlayerData using module 'qbx_core:playerdata' https://docs.qbox.re/resources/qbx_core/modules/playerdata
 ---@param cb? fun(playerData: PlayerData)
 ---@return PlayerData? playerData
 function functions.GetPlayerData(cb)
