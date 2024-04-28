@@ -395,6 +395,23 @@ else
         return GetLabelText(GetMakeNameFromVehicleModel(GetEntityModel(vehicle)))
     end
 
+    ---Returns the mod type name of the given vehicle.
+    ---@param vehicle integer
+    ---@param modType integer
+    ---@param modIndex integer
+    ---@return string
+    function qbx.getVehicleModName(vehicle, modType, modIndex)
+        return GetLabelText(GetModTextLabel(vehicle, modType, modIndex))
+    end
+
+    ---Returns the livery name of the given vehicle.
+    ---@param vehicle integer
+    ---@param liveryIndex integer
+    ---@return string
+    function qbx.getVehicleLiveryName(vehicle, liveryIndex)
+        return GetLabelText(GetLiveryName(vehicle, liveryIndex))
+    end
+
     ---Returns the street name and cross section name at the given coords.
     ---@param coords vector3
     ---@return { main: string, cross: string }
