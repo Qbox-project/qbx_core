@@ -7,7 +7,7 @@ GlobalState.PVPEnabled = config.server.pvp
 lib.addCommand('tp', {
     help = locale('command.tp.help'),
     params = {
-        { name = locale('command.tp.params.x.name'), help = locale('command.tp.params.x.help'), optional = false},
+        { name = locale('command.tp.params.x.name'), help = locale('command.tp.params.x.help'), optional = false },
         { name = locale('command.tp.params.y.name'), help = locale('command.tp.params.y.help'), optional = true },
         { name = locale('command.tp.params.z.name'), help = locale('command.tp.params.z.help'), optional = true }
     },
@@ -57,34 +57,36 @@ end)
 lib.addCommand('addpermission', {
     help = locale('command.addpermission.help'),
     params = {
-        {name = locale('command.addpermission.params.id.name'), help = locale('command.addpermission.params.id.help')},
-        {name = locale('command.addpermission.params.permission.name'), help = locale('command.addpermission.params.permission.help')}
+        { name = locale('command.addpermission.params.id.name'), help = locale('command.addpermission.params.id.help'), type = 'playerId' },
+        { name = locale('command.addpermission.params.permission.name'), help = locale('command.addpermission.params.permission.help'), type = 'string' }
     },
     restricted = 'group.admin'
 }, function(source, args)
-    local player = GetPlayer(tonumber(args[locale('command.addpermission.params.id.name')]) --[[@as number]])
-    local permission = tostring(args[locale('command.addpermission.params.permission.name')])
+    local player = GetPlayer(args[locale('command.addpermission.params.id.name')])
+    local permission = args[locale('command.addpermission.params.permission.name')]
     if not player then
         Notify(source, locale('error.not_online'), 'error')
         return
     end
+
     AddPermission(player.PlayerData.source, permission)
 end)
 
 lib.addCommand('removepermission', {
     help = locale('command.removepermission.help'),
     params = {
-        { name = locale('command.removepermission.params.id.name'), help = locale('command.removepermission.params.id.help') },
-        { name = locale('command.removepermission.params.permission.name'), help = locale('command.removepermission.params.permission.help') }
+        { name = locale('command.removepermission.params.id.name'), help = locale('command.removepermission.params.id.help'), type = 'playerId' },
+        { name = locale('command.removepermission.params.permission.name'), help = locale('command.removepermission.params.permission.help'), type = 'string' }
     },
     restricted = 'group.admin'
 }, function(source, args)
-    local player = GetPlayer(tonumber(args[locale('command.removepermission.params.id.name')]) --[[@as number]])
-    local permission = tostring(args[locale('command.removepermission.params.permission.name')])
+    local player = GetPlayer(args[locale('command.removepermission.params.id.name')])
+    local permission = args[locale('command.removepermission.params.permission.name')]
     if not player then
         Notify(source, locale('error.not_online'), 'error')
         return
     end
+
     RemovePermission(player.PlayerData.source, permission)
 end)
 
@@ -98,6 +100,7 @@ lib.addCommand('openserver', {
         Notify(source, locale('error.server_already_open'), 'error')
         return
     end
+
     if IsPlayerAceAllowed(source, 'admin') then
         config.server.closed = false
         Notify(source, locale('success.server_opened'), 'success')
@@ -109,7 +112,7 @@ end)
 lib.addCommand('closeserver', {
     help = locale('command.openserver.help'),
     params = {
-        { name = locale('command.closeserver.params.reason.name'), help = locale('command.closeserver.params.reason.help')}
+        { name = locale('command.closeserver.params.reason.name'), help = locale('command.closeserver.params.reason.help'), type = 'string' }
     },
     restricted = 'group.admin'
 }, function(source, args)
@@ -117,6 +120,7 @@ lib.addCommand('closeserver', {
         Notify(source, locale('error.server_already_closed'), 'error')
         return
     end
+
     if IsPlayerAceAllowed(source, 'admin') then
         local reason = args[locale('command.closeserver.params.reason.name')] or 'No reason specified'
         config.server.closed = true
@@ -126,6 +130,7 @@ lib.addCommand('closeserver', {
                 DropPlayer(k, reason)
             end
         end
+
         Notify(source, locale('success.server_closed'), 'success')
     else
         DropPlayer(source, locale('error.no_permission'))
@@ -164,7 +169,7 @@ end)
 lib.addCommand('dv', {
     help = locale('command.dv.help'),
     params = {
-        { name = locale('command.dv.params.radius.name'), type = 'number', help = locale('command.dv.params.radius.help'), optional = true }
+        { name = locale('command.dv.params.radius.name'), help = locale('command.dv.params.radius.help'), type = 'number', optional = true }
     },
     restricted = 'group.admin'
 }, function(source, args)
@@ -193,35 +198,37 @@ end)
 lib.addCommand('givemoney', {
     help = locale('command.givemoney.help'),
     params = {
-        { name = locale('command.givemoney.params.id.name'), help = locale('command.givemoney.params.id.help') },
-        { name = locale('command.givemoney.params.moneytype.name'), help = locale('command.givemoney.params.moneytype.help') },
-        { name = locale('command.givemoney.params.amount.name'), help = locale('command.givemoney.params.amount.help') }
+        { name = locale('command.givemoney.params.id.name'), help = locale('command.givemoney.params.id.help'), type = 'playerId' },
+        { name = locale('command.givemoney.params.moneytype.name'), help = locale('command.givemoney.params.moneytype.help'), type = 'string' },
+        { name = locale('command.givemoney.params.amount.name'), help = locale('command.givemoney.params.amount.help'), type = 'number' }
     },
     restricted = 'group.admin'
 }, function(source, args)
-    local player = GetPlayer(tonumber(args[locale('command.givemoney.params.id.name')]) --[[@as number]])
+    local player = GetPlayer(args[locale('command.givemoney.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
         return
     end
-    player.Functions.AddMoney(tostring(args[locale('command.givemoney.params.moneytype.name')]), tonumber(args[locale('command.givemoney.params.amount.name')]) --[[@as number]])
+
+    player.Functions.AddMoney(args[locale('command.givemoney.params.moneytype.name')], args[locale('command.givemoney.params.amount.name')])
 end)
 
 lib.addCommand('setmoney', {
     help = locale('command.setmoney.help'),
     params = {
-        { name = locale('command.setmoney.params.id.name'), help = locale('command.setmoney.params.id.help') },
-        { name = locale('command.setmoney.params.moneytype.name'), help = locale('command.setmoney.params.moneytype.help') },
-        { name = locale('command.setmoney.params.amount.name'), help = locale('command.setmoney.params.amount.help') }
+        { name = locale('command.setmoney.params.id.name'), help = locale('command.setmoney.params.id.help'), type = 'playerId' },
+        { name = locale('command.setmoney.params.moneytype.name'), help = locale('command.setmoney.params.moneytype.help'), type = 'string' },
+        { name = locale('command.setmoney.params.amount.name'), help = locale('command.setmoney.params.amount.help'), type = 'number' }
     },
     restricted = 'group.admin'
 }, function(source, args)
-    local player = GetPlayer(tonumber(args[locale('command.setmoney.params.id.name')]) --[[@as number]])
+    local player = GetPlayer(args[locale('command.setmoney.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
         return
     end
-    player.Functions.SetMoney(tostring(args[locale('command.setmoney.params.moneytype.name')]), tonumber(args[locale('command.setmoney.params.amount.name')]) --[[@as number]])
+
+    player.Functions.SetMoney(args[locale('command.setmoney.params.moneytype.name')], args[locale('command.setmoney.params.amount.name')])
 end)
 
 -- Job
@@ -235,27 +242,22 @@ end)
 lib.addCommand('setjob', {
     help = locale('command.setjob.help'),
     params = {
-        { name = locale('command.setjob.params.id.name'), help = locale('command.setjob.params.id.help') },
-        { name = locale('command.setjob.params.job.name'), help = locale('command.setjob.params.job.help') },
-        { name = locale('command.setjob.params.grade.name'), help = locale('command.setjob.params.grade.help'), optional = true }
+        { name = locale('command.setjob.params.id.name'), help = locale('command.setjob.params.id.help'), type = 'playerId' },
+        { name = locale('command.setjob.params.job.name'), help = locale('command.setjob.params.job.help'), type = 'string' },
+        { name = locale('command.setjob.params.grade.name'), help = locale('command.setjob.params.grade.help'), type = 'number', optional = true }
     },
     restricted = 'group.admin'
 }, function(source, args)
-    local player = GetPlayer(tonumber(args[locale('command.setjob.params.id.name')]) --[[@as number]])
+    local player = GetPlayer(args[locale('command.setjob.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
         return
     end
-    local jobGrade = 0
-    if args[locale('command.setjob.params.grade.name')] then
-        jobGrade = tonumber(args[locale('command.setjob.params.grade.name')]) --[[@as number]]
-    end
-    player.Functions.SetJob(tostring(args[locale('command.setjob.params.job.name')]), jobGrade)
+
+    player.Functions.SetJob(args[locale('command.setjob.params.job.name')], args[locale('command.setjob.params.grade.name')] or 0)
 end)
 
-
 --- ADMIN COMMAND
-
 
 lib.addCommand('changejob', {
     help = locale('command.changejob.help'),
@@ -265,13 +267,13 @@ lib.addCommand('changejob', {
     },
     restricted = 'group.admin'
 }, function(source, args)
-    local player = GetPlayer(tonumber(args[locale('command.changejob.params.id.name')]) --[[@as number]])
+    local player = GetPlayer(args[locale('command.changejob.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
         return
     end
 
-    SetPlayerPrimaryJob(player.PlayerData.citizenid, tostring(args[locale('command.changejob.params.job.name')]))
+    SetPlayerPrimaryJob(player.PlayerData.citizenid, args[locale('command.changejob.params.job.name')])
 end)
 
 lib.addCommand('addjob', {
@@ -283,16 +285,13 @@ lib.addCommand('addjob', {
     },
     restricted = 'group.admin'
 }, function(source, args)
-    local player = GetPlayer(tonumber(args[locale('command.addjob.params.id.name')]) --[[@as number]])
+    local player = GetPlayer(args[locale('command.addjob.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
         return
     end
-    local jobGrade = 0
-    if args[locale('command.addjob.params.grade.name')] then
-        jobGrade = tonumber(args[locale('command.addjob.params.grade.name')]) --[[@as number]]
-    end
-    AddPlayerToJob(player.PlayerData.citizenid, tostring(args[locale('command.addjob.params.job.name')]), jobGrade)
+
+    AddPlayerToJob(player.PlayerData.citizenid, args[locale('command.addjob.params.job.name')], args[locale('command.addjob.params.grade.name')] or 0)
 end)
 
 lib.addCommand('removejob', {
@@ -303,12 +302,13 @@ lib.addCommand('removejob', {
     },
     restricted = 'group.admin'
 }, function(source, args)
-    local player = GetPlayer(tonumber(args[locale('command.removejob.params.id.name')]) --[[@as number]])
+    local player = GetPlayer(args[locale('command.removejob.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
         return
     end
-    RemovePlayerFromJob(player.PlayerData.citizenid, tostring(args[locale('command.removejob.params.job.name')]))
+
+    RemovePlayerFromJob(player.PlayerData.citizenid, args[locale('command.removejob.params.job.name')])
 end)
 
 -- Gang
@@ -323,22 +323,19 @@ end)
 lib.addCommand('setgang', {
     help = locale('command.setgang.help'),
     params = {
-        { name = locale('command.setgang.params.id.name'), help = locale('command.setgang.params.id.help') },
-        { name = locale('command.setgang.params.gang.name'), help = locale('command.setgang.params.gang.help') },
-        { name = locale('command.setgang.params.grade.name'), help = locale('command.setgang.params.grade.help'), optional = true }
+        { name = locale('command.setgang.params.id.name'), help = locale('command.setgang.params.id.help'), type = 'playerId' },
+        { name = locale('command.setgang.params.gang.name'), help = locale('command.setgang.params.gang.help'), type = 'string' },
+        { name = locale('command.setgang.params.grade.name'), help = locale('command.setgang.params.grade.help'), type = 'number', optional = true }
     },
     restricted = 'group.admin'
 }, function(source, args)
-    local player = GetPlayer(tonumber(args[locale('command.setgang.params.id.name')]) --[[@as number]])
+    local player = GetPlayer(args[locale('command.setgang.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
         return
     end
-    if args[locale('command.setgang.params.grade.name')] then
-        player.Functions.SetGang(tostring(args[locale('command.setgang.params.gang.name')]), tonumber(args[locale('command.setgang.params.grade.name')]) --[[@as number]])
-    else
-        player.Functions.SetGang(tostring(args[locale('command.setgang.params.gang.name')]), 0)
-    end
+
+    player.Functions.SetGang(args[locale('command.setgang.params.gang.name')], args[locale('command.setgang.params.grade.name')] or 0)
 end)
 
 -- Out of Character Chat
@@ -349,6 +346,8 @@ lib.addCommand('ooc', {
     local message = table.concat(args, ' ')
     local players = GetPlayers()
     local player = GetPlayer(source)
+    if not player then return end
+
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     for _, v in pairs(players) do
         if v == source then
@@ -388,7 +387,7 @@ end)
 lib.addCommand('me', {
     help = locale('command.me.help'),
     params = {
-        { name = locale('command.me.params.message.name'), help = locale('command.me.params.message.help') }
+        { name = locale('command.me.params.message.name'), help = locale('command.me.params.message.help'), type = 'string' }
     }
 }, function(source, args)
     args[1] = args[locale('command.me.params.message.name')]
@@ -427,5 +426,5 @@ lib.addCommand('deletechar', {
 
     local citizenId = player.PlayerData.citizenid
     ForceDeleteCharacter(citizenId)
-    Notify(source, locale('success.character_deleted_citizenid', {citizenid = citizenId}))
+    Notify(source, locale('success.character_deleted_citizenid', citizenId))
 end)
