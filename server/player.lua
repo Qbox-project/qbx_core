@@ -249,7 +249,7 @@ local function removePlayerFromGang(citizenid, gangName)
         local gang = GetGang('none')
         assert(gang ~= nil, 'cannot find none gang. Does it exist in shared/gangs.lua?')
         player.PlayerData.gang = {
-            name = gangName,
+            name = 'none',
             label = gang.label,
             isboss = false,
             grade = {
