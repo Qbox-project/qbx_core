@@ -73,6 +73,14 @@ return {
         player_mails = 'citizenid',
         player_outfits = 'citizenid',
         player_vehicles = 'citizenid',
+        properties = 'owner',
+        npwd_calls = 'identifier',
+        npwd_darkchat_channel_members = 'user_identifier',
+        npwd_marketplace_listings = 'identifier',
+        npwd_messages_participants = 'participant',
+        npwd_notes = 'identifier',
+        npwd_phone_contacts = 'identifier',
+        npwd_phone_gallery = 'identifier',
     }, -- Rows to be deleted when the character is deleted
 
 
