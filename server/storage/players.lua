@@ -241,10 +241,7 @@ local function deletePlayer(citizenId)
     local query = 'DELETE FROM %s WHERE %s = ?'
     local queries = {}
 
-    for i = 1, #characterDataTables do
-        local data = characterDataTables[i]
-        local tableName = data[1]
-        local columnName = data[2]
+    for tableName, columnName in pairs(characterDataTables) do
         if doesTableExist(tableName) then
             queries[#queries + 1] = {
                 query = query:format(tableName, columnName),
@@ -362,8 +359,7 @@ RegisterCommand('convertjobs', function(source)
 end, true)
 
 CreateThread(function()
-    for _, data in pairs(characterDataTables) do
-        local tableName = data[1]
+    for tableName in pairs(characterDataTables) do
         if not doesTableExist(tableName) then
             warn(('Table \'%s\' does not exist in database, please remove it from qbx_core/config/server.lua or create the table'):format(tableName))
         end
