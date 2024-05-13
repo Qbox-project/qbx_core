@@ -399,7 +399,7 @@ exports('GetCoreVersion', GetCoreVersion)
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
     CreateThread(function()
-        storage.insertBan({
+        local success, errorResult = storage.insertBan({
             name = name,
             license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
             discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
@@ -408,6 +408,7 @@ local function ExploitBan(playerId, origin)
             expiration = 2147483647,
             bannedBy = 'Anti Cheat'
         })
+        assert(success, errorResult)
     end)
     DropPlayer(playerId --[[@as string]], locale('info.exploit_banned', serverConfig.discord))
     logger.log({
