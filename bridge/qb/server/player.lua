@@ -125,4 +125,11 @@ function playerObj.GenerateUniqueIdentifier(type)
     return exports.qbx_core:GenerateUniqueIdentifier(type)
 end
 
+
+---@deprecated player.GenerateUniqueIdentifier('citizenid') instead
+---@return string citizenid unique citizenid generated
+function playerObj.CreateCitizenId()
+    return exports.qbx_core:GenerateUniqueIdentifier('citizenid')
+end
+
 return playerObj
