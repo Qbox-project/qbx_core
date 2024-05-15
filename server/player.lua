@@ -114,6 +114,7 @@ function SetPlayerPrimaryJob(citizenid, jobName)
 
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
     player.Functions.Save()
+
     if not player.Offline then
         player.Functions.UpdatePlayerData()
         TriggerEvent('QBCore:Server:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
@@ -139,6 +140,7 @@ function AddPlayerToJob(citizenid, jobName, grade)
             message = 'players cannot be added to the unemployed job'
         }
     end
+
     local job = GetJob(jobName)
     if not job then
         return false, {
@@ -146,6 +148,7 @@ function AddPlayerToJob(citizenid, jobName, grade)
             message = jobName .. ' does not exist in core memory'
         }
     end
+
     if not job.grades[grade] then
         return false, {
             code = 'job_missing_grade',
@@ -160,9 +163,11 @@ function AddPlayerToJob(citizenid, jobName, grade)
             message = string.format('player not found with citizenid %s', citizenid)
         }
     end
+
     if player.PlayerData.jobs[jobName] == grade then
         return true
     end
+
     if qbx.table.size(player.PlayerData.jobs) >= maxJobsPerPlayer and not player.PlayerData.jobs[jobName] then
         return false, {
             code = 'max_jobs',
@@ -171,12 +176,14 @@ function AddPlayerToJob(citizenid, jobName, grade)
     end
 
     storage.addPlayerToJob(citizenid, jobName, grade)
+
     if not player.Offline then
         player.PlayerData.jobs[jobName] = grade
         player.Functions.SetPlayerData('jobs', player.PlayerData.jobs)
         TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, jobName, grade)
         TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, jobName, grade)
     end
+
     if player.PlayerData.job.name == jobName then
         SetPlayerPrimaryJob(citizenid, jobName)
     end
@@ -198,6 +205,7 @@ function RemovePlayerFromJob(citizenid, jobName)
             message = 'players cannot be removed from the unemployed job'
         }
     end
+
     local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
     if not player then
         return false, {
@@ -212,6 +220,7 @@ function RemovePlayerFromJob(citizenid, jobName)
 
     storage.removePlayerFromJob(citizenid, jobName)
     player.PlayerData.jobs[jobName] = nil
+
     if player.PlayerData.job.name == jobName then
         local job = GetJob('unemployed')
         assert(job ~= nil, 'cannot find unemployed job. Does it exist in shared/jobs.lua?')
@@ -259,6 +268,7 @@ local function setPlayerPrimaryGang(citizenid, gangName)
             message = gangName .. ' does not exist in core memory'
         }
     end
+
     assert(gang.grades[grade] ~= nil, string.format('gang %s does not have grade %s', gangName, grade))
 
     player.PlayerData.gang = {
@@ -305,6 +315,7 @@ function AddPlayerToGang(citizenid, gangName, grade)
             message = gangName .. ' does not exist in core memory'
         }
     end
+
     if not gang.grades[grade] then
         return false, {
             code = 'gang_missing_grade',
@@ -332,12 +343,14 @@ function AddPlayerToGang(citizenid, gangName, grade)
     end
 
     storage.addPlayerToGang(citizenid, gangName, grade)
+
     if not player.Offline then
         player.PlayerData.gangs[gangName] = grade
         player.Functions.SetPlayerData('gangs', player.PlayerData.gangs)
         TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, gangName, grade)
         TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, gangName, grade)
     end
+
     if player.PlayerData.gang.name == gangName then
         setPlayerPrimaryGang(citizenid, gangName)
     end
@@ -367,12 +380,14 @@ local function removePlayerFromGang(citizenid, gangName)
             message = string.format('player not found with citizenid %s', citizenid)
         }
     end
+
     if not player.PlayerData.gangs[gangName] then
         return true
     end
 
     storage.removePlayerFromGang(citizenid, gangName)
     player.PlayerData.gangs[gangName] = nil
+
     if player.PlayerData.gang.name == gangName then
         local gang = GetGang('none')
         assert(gang ~= nil, 'cannot find none gang. Does it exist in shared/gangs.lua?')
