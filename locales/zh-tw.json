@@ -1,0 +1,175 @@
+{
+    "error": {
+        "not_online": "玩家不在線",
+        "wrong_format": "格式不正確",
+        "missing_args": "未輸入所有參數 (x, y, z)",
+        "missing_args2": "所有參數必須填寫！",
+        "no_access": "無權使用此命令",
+        "company_too_poor": "你的僱主破產了",
+        "item_not_exist": "物品不存在",
+        "too_heavy": "物品過多，背包太滿",
+        "location_not_exist": "地點不存在",
+        "duplicate_license": "發現重複的 Rockstar 許可證",
+        "no_valid_license": "未發現有效的 Rockstar 許可證",
+        "not_whitelisted": "你未被列入此伺服器的白名單",
+        "server_already_open": "伺服器已經開啟",
+        "server_already_closed": "伺服器已經關閉",
+        "no_permission": "你沒有權限這樣做..",
+        "no_waypoint": "未設置導航點。",
+        "tp_error": "傳送時出錯。",
+        "connecting_database_timeout": "連接資料庫超時。（SQL 伺服器開啟了嗎？）",
+        "connecting_error": "連接伺服器時出錯。（檢查伺服器控制台）",
+        "no_match_character_registration": "僅允許使用字母，不允許空格，且每個單詞必須以大寫字母開頭。您可以在單詞之間使用空格。",
+        "already_in_queue": "你已經在隊列中。",
+        "no_subqueue": "你未被加入任何子隊列。"
+    },
+    "success": {
+        "server_opened": "伺服器已開啟",
+        "server_closed": "伺服器已關閉",
+        "teleported_waypoint": "傳送至導航點。",
+        "character_deleted": "角色已刪除！",
+        "character_deleted_citizenid": "你已成功刪除 Citizen ID 為 %s 的角色。"
+    },
+    "info": {
+        "received_paycheck": "你收到了一筆工資：$%s",
+        "job_info": "職業: %s | 等級: %s | 值班狀態: %s",
+        "gang_info": "幫派: %s | 等級: %s",
+        "on_duty": "你現在值班！",
+        "off_duty": "你現在下班！",
+        "checking_ban": "你好 %s。我們正在檢查你是否被禁。",
+        "join_server": "歡迎 %s 加入 %s。",
+        "checking_whitelisted": "你好 %s。我們正在檢查你的許可。",
+        "exploit_banned": "你因作弊被禁。查看我們的 Discord 以獲取更多信息：%s",
+        "exploit_dropped": "你因為利用漏洞被踢出",
+        "multichar_title": "Qbox 多角色",
+        "multichar_new_character": "新角色 #%s",
+        "char_male": "男性",
+        "char_female": "女性",
+        "play": "遊戲",
+        "play_description": "扮演 %s",
+        "delete_character": "刪除角色",
+        "delete_character_description": "刪除 %s",
+        "logout_command_help": "登出當前角色",
+        "check_id": "檢查你的伺服器 ID",
+        "deletechar_command_help": "刪除玩家角色",
+        "deletechar_command_arg_player_id": "玩家 ID",
+        "character_registration_title": "角色註冊",
+        "first_name": "名字",
+        "last_name": "姓氏",
+        "nationality": "國籍",
+        "gender": "性別",
+        "birth_date": "出生日期",
+        "select_gender": "選擇你的性別...",
+        "confirm_delete": "你確定要刪除此角色嗎？",
+        "in_queue": "🐌 你在隊列中的位置 %s/%s. (%s) %s"
+    },
+    "command": {
+        "tp": {
+            "help": "傳送到玩家或座標（僅管理員）",
+            "params": {
+                "x": { "name": "id/x", "help": "玩家 ID 或 X 座標"},
+                "y": { "name": "y", "help": "Y 座標"},
+                "z": { "name": "z", "help": "Z 座標"}
+            }
+        },
+        "tpm": { "help": "傳送到標記點（僅管理員）" },
+        "togglepvp": { "help": "切換伺服器 PVP 狀態（僅管理員）" },
+        "addpermission": {
+            "help": "給予玩家權限（僅上帝模式）",
+            "params": {
+                "id": { "name": "id", "help": "玩家 ID" },
+                "permission": { "name": "permission", "help": "權限級別" }
+            }
+        },
+        "removepermission": {
+            "help": "移除玩家權限（僅上帝模式）",
+            "params": {
+                "id": { "name": "id", "help": "玩家 ID" },
+                "permission": { "name": "permission", "help": "權限級別" }
+            }
+        },
+        "openserver": { "help": "開放伺服器給所有人（僅管理員）" },
+        "closeserver": {
+            "help": "關閉伺服器給無權限的玩家（僅管理員）",
+            "params": {
+                "reason": { "name": "reason", "help": "關閉原因（可選）" }
+            }
+        },
+        "car": {
+            "help": "生成載具（僅管理員）",
+            "params": {
+                "model": { "name": "model", "help": "載具型號名稱" },
+                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "保留當前載具（留空則刪除當前載具）" }
+            }
+        },
+        "dv": {
+            "help": "刪除載具（僅管理員）",
+            "params": {
+                "radius": { "name": "radius", "help": "刪除載具的半徑（米）" }
+            }
+        },
+        "givemoney": {
+            "help": "給予玩家金錢（僅管理員）",
+            "params": {
+                "id": { "name": "id", "help": "玩家 ID" },
+                "moneytype": { "name": "moneytype", "help": "金錢類型（現金、銀行、加密貨幣）" },
+                "amount": { "name": "amount", "help": "金額" }
+            }
+        },
+        "setmoney": {
+            "help": "設置玩家金錢數量（僅管理員）",
+            "params": {
+                "id": { "name": "id", "help": "玩家 ID" },
+                "moneytype": { "name": "moneytype", "help": "金錢類型（現金、銀行、加密貨幣）" },
+                "amount": { "name": "amount", "help": "金額" }
+            }
+        },
+        "job": { "help": "檢查你的工作" },
+        "setjob": {
+            "help": "設置玩家的工作（僅管理員）",
+            "params": {
+                "id": { "name": "id", "help": "玩家 ID" },
+                "job": { "name": "job", "help": "工作名稱" },
+                "grade": { "name": "grade", "help": "工作等級" }
+            }
+        },
+        "changejob": {
+            "help": "更改玩家的當前工作（僅管理員）",
+            "params": {
+                "id": { "name": "id", "help": "玩家 ID" },
+                "job": { "name": "job", "help": "工作名稱" }
+            }
+        },
+        "addjob": {
+            "help": "給玩家添加工作（僅管理員）",
+            "params": {
+                "id": { "name": "id", "help": "玩家 ID" },
+                "job": { "name": "job", "help": "工作名稱" },
+                "grade": { "name": "grade", "help": "工作等級" }
+            }
+        },
+        "removejob": {
+            "help": "移除玩家的工作（僅管理員）",
+            "params": {
+                "id": { "name": "id", "help": "玩家 ID" },
+                "job": { "name": "job", "help": "工作名稱" }
+            }
+        },
+        "gang": { "help": "檢查你的幫派" },
+        "setgang": {
+            "help": "設置玩家的幫派（僅管理員）",
+            "params": {
+                "id": { "name": "id", "help": "玩家 ID" },
+                "gang": { "name": "gang", "help": "幫派名稱" },
+                "grade": { "name": "grade", "help": "幫派等級" }
+            }
+        },
+        "ooc": { "help": "OOC 聊天信息" },
+        "me": {
+            "help": "顯示本地消息",
+            "params": {
+                "message": { "name": "message", "help": "要發送的消息" }
+            }
+        }
+    }
+}
