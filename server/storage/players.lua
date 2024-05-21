@@ -11,8 +11,15 @@ local characterDataTables = require 'config.server'.characterDataTables
 ---@field expiration integer epoch second that the ban will expire
 
 ---@param request InsertBanRequest
+---@return boolean success
+---@return ErrorResult? errorResult
 local function insertBan(request)
-    assert(request.discordId or request.ip or request.license, 'no identifier provided')
+    if not request.discordId and not request.ip and not request.license then
+        return false, {
+            code = 'no_identifier',
+            message = 'discordId, ip, or license required in the ban request'
+        }
+    end
 
     MySQL.insert.await('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
         request.name,
@@ -23,6 +30,7 @@ local function insertBan(request)
         request.expiration,
         request.bannedBy,
     })
+    return true
 end
 
 ---@param request GetBanRequest
