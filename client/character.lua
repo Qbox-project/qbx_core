@@ -269,6 +269,8 @@ local function spawnDefault() -- We use a callback to make the server wait on th
         Wait(0)
     end
 
+    NetworkEndTutorialSession()
+
     destroyPreviewCam()
 
     pcall(function() exports.spawnmanager:spawnPlayer({
@@ -295,6 +297,8 @@ local function spawnLastLocation()
     while not IsScreenFadedOut() do
         Wait(0)
     end
+
+    NetworkEndTutorialSession()
 
     destroyPreviewCam()
 
@@ -373,8 +377,7 @@ local function chooseCharacter()
     Wait(1000)
     SetEntityCoords(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false, false)
     SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
-    ---@diagnostic disable-next-line: missing-parameter
-    lib.callback('qbx_core:server:setCharBucket', false)
+    NetworkStartSoloTutorialSession()
     Wait(1500)
     ShutdownLoadingScreen()
     ShutdownLoadingScreenNui()
@@ -485,6 +488,7 @@ RegisterNetEvent('qbx_core:client:spawnNoApartments', function() -- This event i
     Wait(500)
     destroyPreviewCam()
     SetEntityVisible(cache.ped, true, false)
+    NetworkEndTutorialSession()
     Wait(500)
     DoScreenFadeIn(250)
     TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
