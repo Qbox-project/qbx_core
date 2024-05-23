@@ -211,6 +211,7 @@ if isServer then
     ---@field spawnSource integer | vector3 | vector4 ped id or coords
     ---@field warp? boolean | integer a ped id to warp inside the vehicle, or additionally a boolean if `spawnSource` is a ped
     ---@field props? table https://overextended.dev/ox_lib/Modules/VehicleProperties/Client#vehicle-properties
+    ---@field bucket? integer routing bucket to move spawned entity to.
 
     ---Creates a vehicle on the server-side and returns its `netId`.
     ---
@@ -235,6 +236,7 @@ if isServer then
         local warp = params.warp
         local ped = type(warp) == 'number' and warp or (sourceType == 'number' and warp and source or nil)
         local props = params.props
+        local bucket = params.bucket
 
         ---@type vector4
         local coords
@@ -268,6 +270,11 @@ if isServer then
 
         if ped then
             SetPedIntoVehicle(ped, veh, -1)
+            bucket = GetEntityRoutingBucket(ped) or nil
+        end
+
+        if bucket and bucket > 0 then
+            SetEntityBucket(veh, bucket)
         end
         local netId = NetworkGetNetworkIdFromEntity(veh)
 
