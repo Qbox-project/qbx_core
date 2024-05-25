@@ -18,6 +18,21 @@ QBX.Player_Buckets = {}
 QBX.Entity_Buckets = {}
 QBX.UsableItems = {}
 
+---@param name string?
+---@return table?
+function GetVehicles(name)
+    if not name then return QBX.Shared.Vehicles end
+
+    if type(name) ~= 'string' then return end
+
+    name = name:lower()
+
+    return QBX.Shared.Vehicles[name]
+end
+
+exports('GetVehicles', GetVehicles)
+
+---@deprecated use the GetVehicles function instead
 ---@return table<string, Vehicle>
 function GetVehiclesByName()
     return QBX.Shared.Vehicles
@@ -39,16 +54,30 @@ end
 
 exports('GetVehiclesByCategory', GetVehiclesByCategory)
 
----@return table<number, Weapon>
-function GetWeapons()
-    return QBX.Shared.Weapons
+---@param name string?
+---@return table?
+function GetWeapons(name)
+    if not name then return QBX.Shared.Weapons end
+
+    if type(name) ~= 'string' then return end
+
+    name = name:lower()
+
+    return QBX.Shared.Weapons[name]
 end
 
 exports('GetWeapons', GetWeapons)
 
----@return table<string, vector4>
-function GetLocations()
-    return QBX.Shared.Locations
+---@param name string?
+---@return table?
+function GetLocations(name)
+    if not name then return QBX.Shared.Locations end
+
+    if type(name) ~= 'string' then return end
+
+    name = name:lower()
+
+    return QBX.Shared.Locations[name]
 end
 
 exports('GetLocations', GetLocations)
