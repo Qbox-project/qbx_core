@@ -20,6 +20,8 @@ exports('GetVehicles', GetVehicles)
 ---@deprecated use the GetVehicles function instead
 ---@return table<string, Vehicle>
 function GetVehiclesByName()
+    lib.print.verbose('deprecated function GetVehiclesByName invoked. use GetVehicles instead')
+
     return QBX.Shared.Vehicles
 end
 

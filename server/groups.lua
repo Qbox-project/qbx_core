@@ -135,6 +135,8 @@ exports('GetGangs', GetGangs)
 ---@param name string
 ---@return Job?
 function GetJob(name)
+    lib.print.verbose('deprecated function GetJob invoked. use GetJobs instead')
+
     return jobs[name]
 end
 
@@ -144,6 +146,8 @@ exports('GetJob', GetJob)
 ---@param name string
 ---@return Gang?
 function GetGang(name)
+    lib.print.verbose('deprecated function GetGang invoked. use GetGangs instead')
+
     return gangs[name]
 end
 
