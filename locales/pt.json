@@ -1,174 +1,174 @@
 {
     "error": {
-        "not_online": "O jogador não está online",
-        "wrong_format": "Formato inválido",
-        "missing_args": "Não introduziste todos os argumentos (x, y, z)",
+        "not_online": "O jogador não está online.",
+        "wrong_format": "Formato inválido.",
+        "missing_args": "Não introduziste todos os argumentos. (x, y, z)",
         "missing_args2": "Todos os argumentos têm de ser preenchidos!",
-        "no_access": "Não tens acesso a este comando",
-        "company_too_poor": "A tua empresa está falida",
-        "item_not_exist": "O item não existe",
-        "too_heavy": "Inventário cheio",
-        "location_not_exist": "Location does not exist",
-        "duplicate_license": "Duplicate Rockstar License Found",
-        "no_valid_license":  "No Valid Rockstar License Found",
-        "not_whitelisted": "You're not whitelisted for this server",
-        "server_already_open": "The server is already open",
-        "server_already_closed": "The server is already closed",
-        "no_permission": "You don't have permissions for this..",
-        "no_waypoint": "No Waypoint Set.",
-        "tp_error": "Error While Teleporting.",
-        "connecting_database_timeout": "Connection to database timed out. (Is the SQL server on?)",
-        "connecting_error": "An error occurred while connecting to the server. (Check your server console)",
-        "no_match_character_registration": "Anything other than letters aren't allowed, trailing whitespaces aren't allowed either and words must start with a capital letter in input fields. You can however add words with spaces inbetween.",
-        "already_in_queue": "You are already in queue.",
-        "no_subqueue": "You were not let in any sub-queue."
+        "no_access": "Não tens acesso a este comando.",
+        "company_too_poor": "A tua empresa está falida.",
+        "item_not_exist": "O item não existe.",
+        "too_heavy": "Inventário cheio.",
+        "location_not_exist": "Localização não existe.",
+        "duplicate_license": "Licença Rockstar duplicada encontrada.",
+        "no_valid_license": "Sem licença Rockstar válida.",
+        "not_whitelisted": "Não estás na whitelist.",
+        "server_already_open": "O servidor já se encontra aberto.",
+        "server_already_closed": "O servidor já se encontra fechado.",
+        "no_permission": "Não tens permissão para isso.",
+        "no_waypoint": "Sem marcador marcado.",
+        "tp_error": "Erro ao teleportar.",
+        "connecting_database_timeout": "Conexão com a base de dados esgotou o tempo limite. (O servidor SQL está ligado?)",
+        "connecting_error": "Ocorreu um erro ao conectar ao servidor. (Verifique a consola do seu servidor)",
+        "no_match_character_registration": "Nada além de letras é permitido, espaços em branco à direita também não são permitidos, e as palavras devem começar com uma letra maiúscula nos campos de entrada. No entanto, pode adicionar palavras com espaços entre elas.",
+        "already_in_queue": "Já estás na fila.",
+        "no_subqueue": "Não foste colocado em nenhuma sub-fila."
     },
     "success": {
-        "server_opened": "The server has been opened",
-        "server_closed": "The server has been closed",
-        "teleported_waypoint": "Teleported To Waypoint.",
-        "character_deleted": "Character deleted!",
-        "character_deleted_citizenid": "You successfully deleted the character with Citizen ID %s."
+        "server_opened": "O servidor foi aberto.",
+        "server_closed": "O servidor foi fechado.",
+        "teleported_waypoint": "Teleportado para o marcador.",
+        "character_deleted": "Personagem apagado!",
+        "character_deleted_citizenid": "Personagem com o Citizen ID %s apagado com sucesso."
     },
     "info": {
         "received_paycheck": "Recebeste o pagamento de %s€",
         "job_info": "Emprego: %s | Grau: %s | Serviço: %s",
-        "gang_info": "Gang: %s | Grau: %s",
+        "gang_info": "Gangue: %s | Grau: %s",
         "on_duty": "Agora estás de serviço!",
         "off_duty": "Agora estás fora de serviço!",
-        "checking_ban": "Hello %s. We are checking if you are banned.",
-        "join_server": "Welcome %s to %s.",
-        "checking_whitelisted": "Hello %s. We are checking your allowance.",
-        "exploit_banned": "You have been banned for cheating. Check our Discord for more information: %s",
-        "exploit_dropped": "You Have Been Kicked For Exploitation",
-        "multichar_title": "Qbox Multichar",
-        "multichar_new_character": "New Character #%s",
-        "char_male": "Male",
-        "char_female": "Female",
-        "play": "Play",
-        "play_description": "Play as %s",
-        "delete_character": "Delete Character",
-        "delete_character_description": "Delete %s",
-        "logout_command_help": "Logs you out of your current character",
-        "check_id": "Check your Server ID",
-        "deletechar_command_help": "Delete a players character",
-        "deletechar_command_arg_player_id": "Player ID",
-        "character_registration_title": "Character Registration",
-        "first_name": "First Name",
-        "last_name": "Last Name",
-        "nationality": "Nationality",
-        "gender": "Sex",
-        "birth_date": "Birth Date",
-        "select_gender": "Select your gender...",
-        "confirm_delete": "Are you sure you wish to delete this character?",
-        "in_queue": "🐌 You are %s/%s in queue. (%s) %s"
+        "checking_ban": "Olá, %s. Estamos a verificar se estás banido.",
+        "join_server": "Bem-vindo %s a %s.",
+        "checking_whitelisted": "Olá %s. Estamos a verificar a whitelist.",
+        "exploit_banned": "Foste banido por uso de cheats. Discord: %s",
+        "exploit_dropped": "Foste expulso por uso de exploits.",
+        "multichar_title": "Personagens",
+        "multichar_new_character": "Novo Personagem #%s",
+        "char_male": "Masculino",
+        "char_female": "Feminino",
+        "play": "Jogar",
+        "play_description": "Jogar como %s",
+        "delete_character": "Apagar personagem",
+        "delete_character_description": "Apagar %s",
+        "logout_command_help": "Sair do personagem",
+        "check_id": "Verificar ID",
+        "deletechar_command_help": "Apagar o personagem de um jogador",
+        "deletechar_command_arg_player_id": "ID do jogador",
+        "character_registration_title": "Registo de Personagem",
+        "first_name": "Nome",
+        "last_name": "Apelido",
+        "nationality": "Nacionalidade",
+        "gender": "Género",
+        "birth_date": "Data de nascimento",
+        "select_gender": "Selecione o seu género...",
+        "confirm_delete": "Tem a certeza de que quer apagar este personagem?",
+        "in_queue": "🐌 Estás na posição %s/%s na fila. (%s) %s"
     },
     "command": {
         "tp": {
-            "help": "TP To Player or Coords (Admin Only)",
+            "help": "TP para jogador ou coordenadas (Admin)",
             "params": {
-                "x": { "name": "id/x", "help": "ID of player or X position"},
-                "y": { "name": "y", "help": "Y position"},
-                "z": { "name": "z", "help": "Z position"}
+                "x": { "name": "id/x", "help": "ID ou Posição X" },
+                "y": { "name": "y", "help": "Posição Y" },
+                "z": { "name": "z", "help": "Posição Z" }
             }
         },
-        "tpm": { "help": "TP To Marker (Admin Only)" },
-        "togglepvp": { "help": "Toggle PVP on the server (Admin Only)" },
+        "tpm": { "help": "TP para marcador (Admin)" },
+        "togglepvp": { "help": "Ativar/Desativar PVP no servidor (Apenas Admin)" },
         "addpermission": {
-            "help": "Give Player Permissions (God Only)",
+            "help": "Dar permissão (God)",
             "params": {
-                "id": { "name": "id", "help": "ID of player" },
-                "permission": { "name": "permission", "help": "Permission level" }
+                "id": { "name": "id", "help": "ID" },
+                "permission": { "name": "permission", "help": "Permissão" }
             }
         },
         "removepermission": {
-            "help": "Remove Player Permissions (God Only)",
+            "help": "Remover permissão (God)",
             "params": {
-                "id": { "name": "id", "help": "ID of player" },
-                "permission": { "name": "permission", "help": "Permission level" }
+                "id": { "name": "id", "help": "ID" },
+                "permission": { "name": "permission", "help": "Permissão" }
             }
         },
-        "openserver": { "help": "Open the server for everyone (Admin Only)" },
+        "openserver": { "help": "Abrir servidor (Admin)" },
         "closeserver": {
-            "help": "Close the server for people without permissions (Admin Only)",
+            "help": "Fechar servidor (Admin)",
             "params": {
-                "reason": { "name": "reason", "help": "Reason for closing (optional)" }
+                "reason": { "name": "reason", "help": "Motivo" }
             }
         },
         "car": {
-            "help": "Spawn Vehicle (Admin Only)",
+            "help": "Gerar veículo (Admin)",
             "params": {
-                "model": { "name": "model", "help": "Model name of the vehicle" },
-                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Keep the vehicle you're in right now (leave empty to delete current vehicle)" }
+                "model": { "name": "model", "help": "Modelo do veículo" },
+                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Manter o veículo atual? (deixar em branco para apagar)" }
             }
         },
         "dv": {
-            "help": "Delete Vehicle (Admin Only)",
+            "help": "Apagar veículo (Admin)",
             "params": {
-                "radius": { "name": "radius", "help": "Radius to delete vehicles in (meters)" }
+                "radius": { "name": "radius", "help": "Apagar num raio (metros)" }
             }
         },
         "givemoney": {
-            "help": "Give A Player Money (Admin Only)",
+            "help": "Dar dinheiro (Admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "moneytype": { "name": "moneytype", "help": "Type of money (cash, bank, crypto)" },
-                "amount": { "name": "amount", "help": "Amount of money" }
+                "id": { "name": "id", "help": "ID" },
+                "moneytype": { "name": "moneytype", "help": "cash, bank, crypto" },
+                "amount": { "name": "amount", "help": "Quantidade" }
             }
         },
         "setmoney": {
-            "help": "Set Players Money Amount (Admin Only)",
+            "help": "Definir dinheiro (Admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "moneytype": { "name": "moneytype", "help": "Type of money (cash, bank, crypto)" },
-                "amount": { "name": "amount", "help": "Amount of money" }
+                "id": { "name": "id", "help": "ID" },
+                "moneytype": { "name": "moneytype", "help": "cash, bank, crypto" },
+                "amount": { "name": "amount", "help": "Quantidade" }
             }
         },
-        "job": { "help": "Check Your Job" },
+        "job": { "help": "Verificar emprego" },
         "setjob": {
-            "help": "Set A Players Job (Admin Only)",
+            "help": "Definir emprego (Admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" },
-                "grade": { "name": "grade", "help": "Job grade" }
+                "id": { "name": "id", "help": "ID" },
+                "job": { "name": "job", "help": "Emprego" },
+                "grade": { "name": "grade", "help": "Grau" }
             }
         },
         "changejob": {
-            "help": "Change Active Job of Player (Admin Only)",
+            "help": "Alterar emprego ativo (Admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "id": { "name": "id", "help": "Jogador" },
+                "job": { "name": "job", "help": "Emprego" }
             }
         },
         "addjob": {
-            "help": "Add Job to Player (Admin Only)",
+            "help": "Adicionar emprego (Apenas Admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" },
-                "grade": { "name": "grade", "help": "Job grade" }
+                "id": { "name": "id", "help": "ID" },
+                "job": { "name": "job", "help": "Emprego" },
+                "grade": { "name": "grade", "help": "Grau" }
             }
         },
         "removejob": {
-            "help": "Remove Job from Player (Admin Only)",
+            "help": "Remover emprego (Admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "id": { "name": "id", "help": "ID" },
+                "job": { "name": "job", "help": "Emprego" }
             }
         },
-        "gang": { "help": "Check Your Gang" },
+        "gang": { "help": "Verificar a tua gangue" },
         "setgang": {
-            "help": "Set A Players Gang (Admin Only)",
+            "help": "Definir gangue (Admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "gang": { "name": "gang", "help": "Gang name" },
-                "grade": { "name": "grade", "help": "Gang grade" }
+                "id": { "name": "id", "help": "ID" },
+                "gang": { "name": "gang", "help": "Nome da gangue" },
+                "grade": { "name": "grade", "help": "Grau" }
             }
         },
-        "ooc": { "help": "OOC Chat Message" },
+        "ooc": { "help": "Mensagem OOC" },
         "me": {
-            "help": "Show local message",
+            "help": "Simular uma ação",
             "params": {
-                "message": { "name": "message", "help": "Message to send" }
+                "message": { "name": "message", "help": "Ação a simular" }
             }
         }
     }
