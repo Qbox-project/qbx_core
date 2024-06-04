@@ -1,173 +1,174 @@
 {
     "error": {
-        "not_online": "Oyuncu çevrimiçi değil.",
-        "wrong_format": "Yanlış format.",
-        "missing_args": "Hiçbir argüman girilmedi. (x, y, z)",
-        "missing_args2": "Tüm argümanlar doldurulmalıdır.",
-        "no_access": "Bu komuta erişimin yok.",
-        "company_too_poor": "Şirketin hiç parası yok.",
-        "item_not_exist": "Eşya mevcut değil.",
+        "not_online": "Oyuncu çevrimiçi değil",
+        "wrong_format": "Yanlış format",
+        "missing_args": "Tüm argümanlar girilmedi (x, y, z)",
+        "missing_args2": "Tüm argümanlar doldurulmalı!",
+        "no_access": "Bu komuta erişim yok",
+        "company_too_poor": "İşvereniniz iflas etmiş",
+        "item_not_exist": "Eşya mevcut değil",
         "too_heavy": "Envanter çok dolu",
-        "duplicate_license": "Aynı rockstar lisansı zaten şu an sunucuda!",
-        "no_valid_license":  "Geçerli bir rockstar lisans bulunamadı.",
-        "not_whitelisted": "Bu sunucuda whitelistin yok.",
-        "server_already_open": "The server is already open",
-        "server_already_closed": "The server is already closed",
-        "no_permission": "You don't have permissions for this..",
-        "no_waypoint": "No Waypoint Set.",
-        "tp_error": "Error While Teleporting.",
-        "connecting_database_timeout": "Connection to database timed out. (Is the SQL server on?)",
-        "connecting_error": "An error occurred while connecting to the server. (Check your server console)",
-        "no_match_character_registration": "Anything other than letters aren't allowed, trailing whitespaces aren't allowed either and words must start with a capital letter in input fields. You can however add words with spaces inbetween.",
-        "already_in_queue": "You are already in queue.",
-        "no_subqueue": "You were not let in any sub-queue."
+        "location_not_exist": "Konum mevcut değil",
+        "duplicate_license": "Aynı Rockstar Lisansı Bulundu",
+        "no_valid_license": "Geçerli Rockstar Lisansı Bulunamadı",
+        "not_whitelisted": "Bu sunucu için beyaz listeye alınmadınız",
+        "server_already_open": "Sunucu zaten açık",
+        "server_already_closed": "Sunucu zaten kapalı",
+        "no_permission": "Bu işlem için yetkiniz yok",
+        "no_waypoint": "Yol noktası ayarlanmadı.",
+        "tp_error": "Işınlanırken hata oluştu.",
+        "connecting_database_timeout": "Veritabanına bağlanma zaman aşımına uğradı. (SQL sunucusu açık mı?)",
+        "connecting_error": "Sunucuya bağlanırken hata oluştu. (Sunucu konsolunuzu kontrol edin)",
+        "no_match_character_registration": "Kayıt alanlarında harfler dışındaki karakterler kabul edilmez, boşluklar kabul edilmez ve kelimeler büyük harfle başlamalıdır. Ancak kelimeler arasında boşluk bırakabilirsiniz.",
+        "already_in_queue": "Zaten sıradasınız.",
+        "no_subqueue": "Herhangi bir alt sıraya alınmadınız."
     },
     "success": {
-        "server_opened": "The server has been opened",
-        "server_closed": "The server has been closed",
-        "teleported_waypoint": "Teleported To Waypoint.",
-        "character_deleted": "Character deleted!",
-        "character_deleted_citizenid": "You successfully deleted the character with Citizen ID %s."
+        "server_opened": "Sunucu açıldı",
+        "server_closed": "Sunucu kapatıldı",
+        "teleported_waypoint": "Yol noktasına ışınlandınız.",
+        "character_deleted": "Karakter silindi!",
+        "character_deleted_citizenid": "Citizen ID %s olan karakter başarıyla silindi."
     },
     "info": {
-        "received_paycheck": "$%s tutarında bir maaş çeki aldın.",
-        "job_info": "İş: %s | Seviye: %s | Görev: %s",
+        "received_paycheck": "$%s maaşınızı aldınız",
+        "job_info": "İş: %s | Seviye: %s | Görevde: %s",
         "gang_info": "Çete: %s | Seviye: %s",
-        "on_duty": "Mesaiye girdin.",
-        "off_duty": "Mesaiden çıktın.",
-        "checking_ban": "Merhaba %s. Banlı mısın diye kontrol ediyoruz.",
-        "join_server": "Merhaba %s. %s adlı sunucumuza hoş geldin.",
-        "checking_whitelisted": "Merhaba %s. Whitelist'in var mı diye kontrol ediyoruz.",
-        "exploit_banned": "You have been banned for cheating. Check our Discord for more information: %s",
-        "exploit_dropped": "You Have Been Kicked For Exploitation",
-        "multichar_title": "Qbox Multichar",
-        "multichar_new_character": "New Character #%s",
-        "char_male": "Male",
-        "char_female": "Female",
-        "play": "Play",
-        "play_description": "Play as %s",
-        "delete_character": "Delete Character",
-        "delete_character_description": "Delete %s",
-        "logout_command_help": "Logs you out of your current character",
-        "check_id": "Check your Server ID",
-        "deletechar_command_help": "Delete a players character",
-        "deletechar_command_arg_player_id": "Player ID",
-        "character_registration_title": "Character Registration",
-        "first_name": "First Name",
-        "last_name": "Last Name",
-        "nationality": "Nationality",
-        "gender": "Sex",
-        "birth_date": "Birth Date",
-        "select_gender": "Select your gender...",
-        "confirm_delete": "Are you sure you wish to delete this character?",
-        "in_queue": "🐌 You are %s/%s in queue. (%s) %s"
+        "on_duty": "Görevdeyseniz!",
+        "off_duty": "Görev dışındasınız!",
+        "checking_ban": "Merhaba %s. Yasaklı olup olmadığınızı kontrol ediyoruz.",
+        "join_server": "%s, %s sunucusuna hoş geldiniz.",
+        "checking_whitelisted": "Merhaba %s. İzninizi kontrol ediyoruz.",
+        "exploit_banned": "Hile yaptığınız için yasaklandınız. Daha fazla bilgi için Discord'umuza bakın: %s",
+        "exploit_dropped": "Hile yaptığınız için atıldınız",
+        "multichar_title": "Qbox Çoklu Karakter",
+        "multichar_new_character": "Yeni Karakter #%s",
+        "char_male": "Erkek",
+        "char_female": "Kadın",
+        "play": "Oyna",
+        "play_description": "%s olarak oyna",
+        "delete_character": "Karakteri Sil",
+        "delete_character_description": "%s karakterini sil",
+        "logout_command_help": "Mevcut karakterinizden çıkış yapar",
+        "check_id": "Sunucu Kimliğinizi Kontrol Edin",
+        "deletechar_command_help": "Bir oyuncunun karakterini siler",
+        "deletechar_command_arg_player_id": "Oyuncu ID",
+        "character_registration_title": "Karakter Kaydı",
+        "first_name": "Ad",
+        "last_name": "Soyad",
+        "nationality": "Milliyet",
+        "gender": "Cinsiyet",
+        "birth_date": "Doğum Tarihi",
+        "select_gender": "Cinsiyetinizi seçin...",
+        "confirm_delete": "Bu karakteri silmek istediğinizden emin misiniz?",
+        "in_queue": "🐌 Sıradasınız %s/%s. (%s) %s"
     },
     "command": {
         "tp": {
-            "help": "TP To Player or Coords (Admin Only)",
+            "help": "Oyuncuya veya Koordinatlara Işınlan (Yönetici Sadece)",
             "params": {
-                "x": { "name": "id/x", "help": "ID of player or X position"},
-                "y": { "name": "y", "help": "Y position"},
-                "z": { "name": "z", "help": "Z position"}
+                "x": { "name": "id/x", "help": "Oyuncu ID'si veya X pozisyonu"},
+                "y": { "name": "y", "help": "Y pozisyonu"},
+                "z": { "name": "z", "help": "Z pozisyonu"}
             }
         },
-        "tpm": { "help": "TP To Marker (Admin Only)" },
-        "togglepvp": { "help": "Toggle PVP on the server (Admin Only)" },
+        "tpm": { "help": "İşaretleyiciye Işınlan (Yönetici Sadece)" },
+        "togglepvp": { "help": "Sunucuda PvP'yi Aç/Kapat (Yönetici Sadece)" },
         "addpermission": {
-            "help": "Give Player Permissions (God Only)",
+            "help": "Oyuncuya Yetki Ver (Yönetici Sadece)",
             "params": {
-                "id": { "name": "id", "help": "ID of player" },
-                "permission": { "name": "permission", "help": "Permission level" }
+                "id": { "name": "id", "help": "Oyuncu ID'si" },
+                "permission": { "name": "permission", "help": "Yetki seviyesi" }
             }
         },
         "removepermission": {
-            "help": "Remove Player Permissions (God Only)",
+            "help": "Oyuncunun Yetkisini Kaldır (Yönetici Sadece)",
             "params": {
-                "id": { "name": "id", "help": "ID of player" },
-                "permission": { "name": "permission", "help": "Permission level" }
+                "id": { "name": "id", "help": "Oyuncu ID'si" },
+                "permission": { "name": "permission", "help": "Yetki seviyesi" }
             }
         },
-        "openserver": { "help": "Open the server for everyone (Admin Only)" },
+        "openserver": { "help": "Sunucuyu Herkese Aç (Yönetici Sadece)" },
         "closeserver": {
-            "help": "Close the server for people without permissions (Admin Only)",
+            "help": "Yetkisi Olmayanlar İçin Sunucuyu Kapat (Yönetici Sadece)",
             "params": {
-                "reason": { "name": "reason", "help": "Reason for closing (optional)" }
+                "reason": { "name": "reason", "help": "Kapatma nedeni (isteğe bağlı)" }
             }
         },
         "car": {
-            "help": "Spawn Vehicle (Admin Only)",
+            "help": "Araç Spawn Et (Yönetici Sadece)",
             "params": {
-                "model": { "name": "model", "help": "Model name of the vehicle" },
-                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Keep the vehicle you're in right now (leave empty to delete current vehicle)" }
+                "model": { "name": "model", "help": "Araç model adı" },
+                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Şu anda bulunduğunuz aracı koruyun (mevcut aracı silmek için boş bırakın)" }
             }
         },
         "dv": {
-            "help": "Delete Vehicle (Admin Only)",
+            "help": "Araç Sil (Yönetici Sadece)",
             "params": {
-                "radius": { "name": "radius", "help": "Radius to delete vehicles in (meters)" }
+                "radius": { "name": "radius", "help": "Araçların silineceği yarıçap (metre)" }
             }
         },
         "givemoney": {
-            "help": "Give A Player Money (Admin Only)",
+            "help": "Bir Oyuncuya Para Ver (Yönetici Sadece)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "moneytype": { "name": "moneytype", "help": "Type of money (cash, bank, crypto)" },
-                "amount": { "name": "amount", "help": "Amount of money" }
+                "id": { "name": "id", "help": "Oyuncu ID'si" },
+                "moneytype": { "name": "moneytype", "help": "Para türü (nakit, banka, kripto)" },
+                "amount": { "name": "amount", "help": "Para miktarı" }
             }
         },
         "setmoney": {
-            "help": "Set Players Money Amount (Admin Only)",
+            "help": "Bir Oyuncunun Para Miktarını Ayarla (Yönetici Sadece)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "moneytype": { "name": "moneytype", "help": "Type of money (cash, bank, crypto)" },
-                "amount": { "name": "amount", "help": "Amount of money" }
+                "id": { "name": "id", "help": "Oyuncu ID'si" },
+                "moneytype": { "name": "moneytype", "help": "Para türü (nakit, banka, kripto)" },
+                "amount": { "name": "amount", "help": "Para miktarı" }
             }
         },
-        "job": { "help": "Check Your Job" },
+        "job": { "help": "İşinizi Kontrol Edin" },
         "setjob": {
-            "help": "Set A Players Job (Admin Only)",
+            "help": "Bir Oyuncunun İşini Ayarla (Yönetici Sadece)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" },
-                "grade": { "name": "grade", "help": "Job grade" }
+                "id": { "name": "id", "help": "Oyuncu ID'si" },
+                "job": { "name": "job", "help": "İş adı" },
+                "grade": { "name": "grade", "help": "İş seviyesi" }
             }
         },
         "changejob": {
-            "help": "Change Active Job of Player (Admin Only)",
+            "help": "Bir Oyuncunun Aktif İşini Değiştir (Yönetici Sadece)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "id": { "name": "id", "help": "Oyuncu ID'si" },
+                "job": { "name": "job", "help": "İş adı" }
             }
         },
         "addjob": {
-            "help": "Add Job to Player (Admin Only)",
+            "help": "Bir Oyuncuya İş Ekle (Yönetici Sadece)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" },
-                "grade": { "name": "grade", "help": "Job grade" }
+                "id": { "name": "id", "help": "Oyuncu ID'si" },
+                "job": { "name": "job", "help": "İş adı" },
+                "grade": { "name": "grade", "help": "İş seviyesi" }
             }
         },
         "removejob": {
-            "help": "Remove Job from Player (Admin Only)",
+            "help": "Bir Oyuncudan İşi Kaldır (Yönetici Sadece)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "id": { "name": "id", "help": "Oyuncu ID'si" },
+                "job": { "name": "job", "help": "İş adı" }
             }
         },
-        "gang": { "help": "Check Your Gang" },
+        "gang": { "help": "Çetenizi Kontrol Edin" },
         "setgang": {
-            "help": "Set A Players Gang (Admin Only)",
+            "help": "Bir Oyuncunun Çetesini Ayarla (Yönetici Sadece)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "gang": { "name": "gang", "help": "Gang name" },
-                "grade": { "name": "grade", "help": "Gang grade" }
+                "id": { "name": "id", "help": "Oyuncu ID'si" },
+                "gang": { "name": "gang", "help": "Çete adı" },
+                "grade": { "name": "grade", "help": "Çete seviyesi" }
             }
         },
-        "ooc": { "help": "OOC Chat Message" },
+        "ooc": { "help": "OOC Sohbet Mesajı" },
         "me": {
-            "help": "Show local message",
+            "help": "Yerel mesaj göster",
             "params": {
-                "message": { "name": "message", "help": "Message to send" }
+                "message": { "name": "message", "help": "Gönderilecek mesaj" }
             }
         }
     }
