@@ -538,7 +538,7 @@ function CheckPlayerData(source, playerData)
     }
     playerData.gangs = gangs or {}
     playerData.position = playerData.position or defaultSpawn
-    playerData.items = GetResourceState('qb-inventory') ~= 'missing' and exports['qb-inventory']:LoadInventory(playerData.source, playerData.citizenid) or {}
+    playerData.items = {}
     return CreatePlayer(playerData --[[@as PlayerData]], Offline)
 end
 
@@ -938,7 +938,7 @@ function Save(source)
             position = pcoords,
         })
     end)
-    if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(source) end
+    assert(GetResourceState('qb-inventory') ~= 'started', 'qb-inventory is not compatible with qbx_core. use ox_inventory instead')
     lib.print.verbose(('%s PLAYER SAVED!'):format(playerData.name))
 end
 
@@ -957,7 +957,7 @@ function SaveOffline(playerData)
             position = playerData.position.xyz
         })
     end)
-    if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(playerData, true) end
+    assert(GetResourceState('qb-inventory') ~= 'started', 'qb-inventory is not compatible with qbx_core. use ox_inventory instead')
     lib.print.verbose(('%s OFFLINE PLAYER SAVED!'):format(playerData.name))
 end
 
