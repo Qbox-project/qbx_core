@@ -60,9 +60,8 @@ end
 ---@deprecated No replacement. See https://overextended.dev/ox_inventory/Functions/Client#useitem
 ---@param source Source
 ---@param item string name
-function functions.UseItem(source, item)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    exports['qb-inventory']:UseItem(source, item)
+function functions.UseItem(source, item) -- luacheck: ignore
+    assert(GetResourceState('qb-inventory') ~= 'started', 'qb-inventory is not compatible with qbx_core. use ox_inventory instead')
 end
 
 local discordLink = GetConvar('qbx:discordlink', 'discord.gg/qbox')
