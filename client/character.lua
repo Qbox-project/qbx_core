@@ -374,7 +374,7 @@ local function chooseCharacter()
     SetEntityCoords(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false, false)
     SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
     ---@diagnostic disable-next-line: missing-parameter
-    lib.callback('qbx_core:server:setCharBucket', false)
+    lib.callback.await('qbx_core:server:setCharBucket')
     Wait(1500)
     ShutdownLoadingScreen()
     ShutdownLoadingScreenNui()
