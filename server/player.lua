@@ -538,8 +538,6 @@ function CheckPlayerData(source, playerData)
     }
     playerData.gangs = gangs or {}
     playerData.position = playerData.position or defaultSpawn
-
-    assert(GetResourceState('qb-inventory') ~= 'started', 'qb-inventory is not compatible with qbx_core. use ox_inventory instead')
     playerData.items = {}
     return CreatePlayer(playerData --[[@as PlayerData]], Offline)
 end
