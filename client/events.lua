@@ -1,7 +1,6 @@
 -- Player load and unload handling
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
-    LocalPlayer.state:set('isLoggedIn', true, false)
     QBX.IsLoggedIn = true
 
     if GlobalState.PVPEnabled then
