@@ -368,13 +368,13 @@ else
     ---Returns a state bag handler made for entities
     ---([source](https://github.com/overextended/ox_core/blob/main/client/utils.lua)).
     ---@param keyFilter string
-    ---@param cb fun(entity: number, netId: number, value: any, bagName: string)
+    ---@param cb fun(entity: number, netId: number, value: any, bagName: string, oldValue: any)
     ---@return number
     function qbx.entityStateHandler(keyFilter, cb)
         return AddStateBagChangeHandler(keyFilter, '', function(bagName, _, value)
             local entity, netId = qbx.getEntityAndNetIdFromBagName(bagName)
             if entity then
-                cb(entity, netId, value, bagName)
+                cb(entity, netId, value, bagName, Entity(entity).state[bagName])
             end
         end)
     end
