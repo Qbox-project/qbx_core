@@ -788,13 +788,13 @@ function CreatePlayer(playerData, Offline)
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         local difference = amount - self.PlayerData.money[moneytype]
-        local dirChange = difference < 0 and 'added' or 'removed'
-        local absDifference = math.abs(difference)
-        local tags = absDifference > 50000 and config.logging.role or {}
         self.PlayerData.money[moneytype] = amount
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
+            local dirChange = difference < 0 and 'added' or 'removed'
+            local absDifference = math.abs(difference)
+            local tags = absDifference > 50000 and config.logging.role or {}
             local resource = GetInvokingResource() or cache.resource
             logger.log({
                 source = resource,
