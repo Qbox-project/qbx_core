@@ -53,7 +53,7 @@ local function logPayload(payload)
     local tags
     local username = 'QBX Logs'
     local avatarUrl = 'https://qbox-project.github.io/qbox-duck.png'
-    
+
     if payload.tags then
         for i = 1, #payload.tags do
             if not tags then tags = '' end
@@ -138,7 +138,7 @@ end
 ---@field webhook? string Discord logs only. url of the webhook this log should send to
 ---@field color? string Discord logs only. what color the message should be
 ---@field tags? string[] Discord logs only. tags in discord. Example: {'<@%roleid>', '@everyone'}
----@field oxLibTags? string[] -- Tags for ox_lib logger
+---@field oxLibTags? string -- Tags for ox_lib logger
 
 ---Logs using ox_lib if ox_lib logging is configured. Additionally logs to discord if a web hook is passed.
 ---@param log Log
