@@ -1,4 +1,16 @@
+local starterItems = require 'config.server'.starterItems
 local qbShared = require 'shared.main'
+
+---@deprecated use starterItems in config/server.lua
+qbShared.StarterItems = {}
+
+for i = 1, #starterItems do
+    local item = starterItems[i]
+    qbShared.StarterItems[item.name] = {
+        amount = item.amount,
+        item = item.name,
+    }
+end
 
 ---@deprecated use lib.math.groupdigits from ox_lib
 qbShared.CommaValue = lib.math.groupdigits
