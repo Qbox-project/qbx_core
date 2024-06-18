@@ -147,7 +147,7 @@ local function createLog(log)
         ---@diagnostic disable-next-line: param-type-mismatch
         discordLog(log)
     end
-    lib.logger(log.source, log.event, log.message, log.oxLibTags) -- support for ox_lib: datadog, grafana, loki logging, fivemanage
+    lib.logger(log.source, log.event, log.message, log.oxLibTags) -- support for ox_lib: datadog, grafana loki logging, fivemanage
 end
 
 return {
