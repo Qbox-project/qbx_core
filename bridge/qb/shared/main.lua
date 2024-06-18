@@ -1,6 +1,6 @@
 local qbShared = require 'shared.main'
 
-if lib.context == 'server' then
+if IsDuplicityVersion() then
     local starterItems = require 'config.server'.starterItems
     ---@deprecated use starterItems in config/server.lua
     qbShared.StarterItems = {}
