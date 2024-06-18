@@ -1,17 +1,16 @@
 local qbShared = require 'shared.main'
 
-if IsDuplicityVersion() then
-    local starterItems = require 'config.server'.starterItems
-    ---@deprecated use starterItems in config/server.lua
-    qbShared.StarterItems = {}
+local starterItems = require 'config.shared'.starterItems or {}
+---@deprecated use starterItems in config/server.lua
+qbShared.StarterItems = {}
 
-    for i = 1, #starterItems do
-        local item = starterItems[i]
-        qbShared.StarterItems[item.name] = {
-            amount = item.amount,
-            item = item.name,
-        }
-    end
+assert(next(starterItems), 'starterItems is missing or incorrect in shared/config.lua')
+for i = 1, #starterItems do
+    local item = starterItems[i]
+    qbShared.StarterItems[item.name] = {
+        amount = item.amount,
+        item = item.name,
+    }
 end
 
 ---@deprecated use lib.math.groupdigits from ox_lib

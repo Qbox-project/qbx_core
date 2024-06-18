@@ -98,21 +98,6 @@ return {
         defaultNumberOfCharacters = 3, -- Define maximum amount of default characters (maximum 3 characters defined by default)
     },
 
-    ---@type { name: string, amount: integer, metadata: fun(source: number): table }[]
-    starterItems = { -- Character starting items
-        { name = 'phone', amount = 1 },
-        { name = 'id_card', amount = 1, metadata = function(source)
-                assert(GetResourceState('qbx_idcard') == 'started', 'qbx_idcard resource not found. Required to give an id_card as a starting item')
-                return exports.qbx_idcard:GetMetaLicense(source, {'id_card'})
-            end
-        },
-        { name = 'driver_license', amount = 1, metadata = function(source)
-                assert(GetResourceState('qbx_idcard') == 'started', 'qbx_idcard resource not found. Required to give an id_card as a starting item')
-                return exports.qbx_idcard:GetMetaLicense(source, {'driver_license'})
-            end
-        },
-    },
-
     -- this configuration is for core events only. putting other webhooks here will have no effect
     logging = {
         webhook = {
