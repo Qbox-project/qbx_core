@@ -1,6 +1,7 @@
 local config = require 'config.server'
 local logger = require 'modules.logger'
 local storage = require 'server.storage.main'
+local starterItems = require 'config.shared'.starterItems
 
 ---@param license2 string
 ---@param license? string
@@ -14,8 +15,8 @@ local function giveStarterItems(source)
     while not exports.ox_inventory:GetInventory(source) do
         Wait(100)
     end
-    for i = 1, #config.starterItems do
-        local item = config.starterItems[i]
+    for i = 1, #starterItems do
+        local item = starterItems[i]
         if item.metadata and type(item.metadata) == 'function' then
             exports.ox_inventory:AddItem(source, item.name, item.amount, item.metadata(source))
         else

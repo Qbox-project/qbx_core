@@ -1,15 +1,17 @@
-local starterItems = require 'config.server'.starterItems
 local qbShared = require 'shared.main'
 
----@deprecated use starterItems in config/server.lua
+local starterItems = require 'config.shared'.starterItems
+---@deprecated use starterItems in config/shared.lua
 qbShared.StarterItems = {}
 
-for i = 1, #starterItems do
-    local item = starterItems[i]
-    qbShared.StarterItems[item.name] = {
-        amount = item.amount,
-        item = item.name,
-    }
+if type(starterItems) == 'table' then
+    for i = 1, #starterItems do
+        local item = starterItems[i]
+        qbShared.StarterItems[item.name] = {
+            amount = item.amount,
+            item = item.name,
+        }
+    end
 end
 
 ---@deprecated use lib.math.groupdigits from ox_lib
