@@ -8,27 +8,27 @@
         "company_too_poor": "Sinun firmasi on liian köyhä",
         "item_not_exist": "Tätä itemiä ei ole olemassa",
         "too_heavy": "Reppusi on liian täynnä",
-        "location_not_exist": "Location does not exist",
-        "duplicate_license": "Duplicate Rockstar License Found",
-        "no_valid_license":  "No Valid Rockstar License Found",
-        "not_whitelisted": "You're not whitelisted for this server",
-        "server_already_open": "The server is already open",
-        "server_already_closed": "The server is already closed",
-        "no_permission": "You don't have permissions for this..",
-        "no_waypoint": "No Waypoint Set.",
-        "tp_error": "Error While Teleporting.",
-        "connecting_database_timeout": "Connection to database timed out. (Is the SQL server on?)",
-        "connecting_error": "An error occurred while connecting to the server. (Check your server console)",
-        "no_match_character_registration": "Anything other than letters aren't allowed, trailing whitespaces aren't allowed either and words must start with a capital letter in input fields. You can however add words with spaces inbetween.",
-        "already_in_queue": "You are already in queue.",
-        "no_subqueue": "You were not let in any sub-queue."
+        "location_not_exist": "Sijaintia ei ole olemassa",
+        "duplicate_license": "Tupla Rockstar-lisenssi löydetty",
+        "no_valid_license": "Ei voimassa olevaa Rockstar-lisenssiä löydetty",
+        "not_whitelisted": "Et ole valkolistattu tälle palvelimelle",
+        "server_already_open": "Palvelin on jo avattu",
+        "server_already_closed": "Palvelin on jo suljettu",
+        "no_permission": "Sinulla ei ole oikeuksia tähän..",
+        "no_waypoint": "Ei merkittyä päämäärää.",
+        "tp_error": "Virhe siirryttäessä.",
+        "connecting_database_timeout": "Yhteys tietokantaan aikakatkaistiin. (Onko SQL-palvelin päällä?)",
+        "connecting_error": "Virhe yhdistettäessä palvelimeen. (Tarkista palvelimen konsoli)",
+        "no_match_character_registration": "Muuta kuin kirjaimia ei sallita, loppuviivaa ei sallita ja sanat on aloitettava isolla kirjaimella. Välilyönnit sanojen välissä ovat sallittuja.",
+        "already_in_queue": "Olet jo jonossa.",
+        "no_subqueue": "Sinua ei lisätty mihinkään alajonoon."
     },
     "success": {
-        "server_opened": "The server has been opened",
-        "server_closed": "The server has been closed",
-        "teleported_waypoint": "Teleported To Waypoint.",
-        "character_deleted": "Character deleted!",
-        "character_deleted_citizenid": "You successfully deleted the character with Citizen ID %s."
+        "server_opened": "Palvelin on avattu",
+        "server_closed": "Palvelin on suljettu",
+        "teleported_waypoint": "Siirretty merkittyyn päämäärään.",
+        "character_deleted": "Hahmo poistettu!",
+        "character_deleted_citizenid": "Poistit onnistuneesti hahmon kansalaisnumerolla %s."
     },
     "info": {
         "received_paycheck": "Sinä sait palkan $%s",
@@ -36,139 +36,139 @@
         "gang_info": "Jengi: %s | Arvo: %s",
         "on_duty": "Sinä olet nyt vuorossa!",
         "off_duty": "Sinä poistuit vuorosta!",
-        "checking_ban": "Hello %s. We are checking if you are banned.",
-        "join_server": "Welcome %s to %s.",
-        "checking_whitelisted": "Hello %s. We are checking your allowance.",
-        "exploit_banned": "You have been banned for cheating. Check our Discord for more information: %s",
-        "exploit_dropped": "You Have Been Kicked For Exploitation",
-        "multichar_title": "Qbox Multichar",
-        "multichar_new_character": "New Character #%s",
-        "char_male": "Male",
-        "char_female": "Female",
-        "play": "Play",
-        "play_description": "Play as %s",
-        "delete_character": "Delete Character",
-        "delete_character_description": "Delete %s",
-        "logout_command_help": "Logs you out of your current character",
-        "check_id": "Check your Server ID",
-        "deletechar_command_help": "Delete a players character",
-        "deletechar_command_arg_player_id": "Player ID",
-        "character_registration_title": "Character Registration",
-        "first_name": "First Name",
-        "last_name": "Last Name",
-        "nationality": "Nationality",
-        "gender": "Sex",
-        "birth_date": "Birth Date",
-        "select_gender": "Select your gender...",
-        "confirm_delete": "Are you sure you wish to delete this character?",
-        "in_queue": "🐌 You are %s/%s in queue. (%s) %s"
+        "checking_ban": "Hei %s. Tarkistamme, oletko bannattu.",
+        "join_server": "Tervetuloa %s: %s.",
+        "checking_whitelisted": "Hei %s. Tarkistamme sallituksia.",
+        "exploit_banned": "Olet bannattu huijaamisesta. Tarkista Discordista lisätietoja: %s",
+        "exploit_dropped": "Sinut potkaistiin ulos hyväksikäytöstä johtuen",
+        "multichar_title": "Hahmon Valinta",
+        "multichar_new_character": "Uusi hahmo #%s",
+        "char_male": "Mies",
+        "char_female": "Nainen",
+        "play": "Pelaa",
+        "play_description": "Pelaa hahmolla %s",
+        "delete_character": "Poista hahmo",
+        "delete_character_description": "Poista hahmo %s",
+        "logout_command_help": "Kirjaa ulos nykyisestä hahmostasi",
+        "check_id": "Tarkista palvelin-ID",
+        "deletechar_command_help": "Poista pelaajan hahmo",
+        "deletechar_command_arg_player_id": "Pelaajan ID",
+        "character_registration_title": "Hahmon rekisteröinti",
+        "first_name": "Etunimi",
+        "last_name": "Sukunimi",
+        "nationality": "Kansallisuus",
+        "gender": "Sukupuoli",
+        "birth_date": "Syntymäpäivä",
+        "select_gender": "Valitse sukupuolesi...",
+        "confirm_delete": "Oletko varma, että haluat poistaa tämän hahmon?",
+        "in_queue": "🐌 Olet %s/%s jonossa. (%s) %s"
     },
     "command": {
         "tp": {
-            "help": "TP To Player or Coords (Admin Only)",
+            "help": "TP pelaajalle tai koordinaateille (vain admin)",
             "params": {
-                "x": { "name": "id/x", "help": "ID of player or X position"},
-                "y": { "name": "y", "help": "Y position"},
-                "z": { "name": "z", "help": "Z position"}
+                "x": { "name": "id/x", "help": "Pelaajan ID tai X-koordinaatti"},
+                "y": { "name": "y", "help": "Y-koordinaatti"},
+                "z": { "name": "z", "help": "Z-koordinaatti"}
             }
         },
-        "tpm": { "help": "TP To Marker (Admin Only)" },
-        "togglepvp": { "help": "Toggle PVP on the server (Admin Only)" },
+        "tpm": { "help": "TP merkille (vain admin)" },
+        "togglepvp": { "help": "Vaihda PVP-peli tilaan palvelimella (vain admin)" },
         "addpermission": {
-            "help": "Give Player Permissions (God Only)",
+            "help": "Anna pelaajalle oikeuksia (vain jumala)",
             "params": {
-                "id": { "name": "id", "help": "ID of player" },
-                "permission": { "name": "permission", "help": "Permission level" }
+                "id": { "name": "id", "help": "Pelaajan ID" },
+                "permission": { "name": "permission", "help": "Oikeustaso" }
             }
         },
         "removepermission": {
-            "help": "Remove Player Permissions (God Only)",
+            "help": "Poista pelaajan oikeuksia (vain jumala)",
             "params": {
-                "id": { "name": "id", "help": "ID of player" },
-                "permission": { "name": "permission", "help": "Permission level" }
+                "id": { "name": "id", "help": "Pelaajan ID" },
+                "permission": { "name": "permission", "help": "Oikeustaso" }
             }
         },
-        "openserver": { "help": "Open the server for everyone (Admin Only)" },
+        "openserver": { "help": "Avaa palvelin kaikille (vain admin)" },
         "closeserver": {
-            "help": "Close the server for people without permissions (Admin Only)",
+            "help": "Sulje palvelin niiltä, joilla ei ole oikeuksia (vain admin)",
             "params": {
-                "reason": { "name": "reason", "help": "Reason for closing (optional)" }
+                "reason": { "name": "syy", "help": "Syy sulkemiselle (valinnainen)" }
             }
         },
         "car": {
-            "help": "Spawn Vehicle (Admin Only)",
+            "help": "Luo ajoneuvo (vain admin)",
             "params": {
-                "model": { "name": "model", "help": "Model name of the vehicle" },
-                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "Keep the vehicle you're in right now (leave empty to delete current vehicle)" }
+                "model": { "name": "malli", "help": "Ajoneuvon mallinimi" },
+                "keepCurrentVehicle": { "name": "pidäNykyinenAjoneuvo", "help": "Pidä nykyinen ajoneuvo (jätä tyhjäksi poistaaksesi nykyisen ajoneuvon)" }
             }
         },
         "dv": {
-            "help": "Delete Vehicle (Admin Only)",
+            "help": "Poista ajoneuvo (vain admin)",
             "params": {
-                "radius": { "name": "radius", "help": "Radius to delete vehicles in (meters)" }
+                "radius": { "name": "säde", "help": "Säde, jolla poistetaan ajoneuvoja (metreinä)" }
             }
         },
         "givemoney": {
-            "help": "Give A Player Money (Admin Only)",
+            "help": "Anna pelaajalle rahaa (vain admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "moneytype": { "name": "moneytype", "help": "Type of money (cash, bank, crypto)" },
-                "amount": { "name": "amount", "help": "Amount of money" }
+                "id": { "name": "id", "help": "Pelaajan ID" },
+                "moneytype": { "name": "rahatyyppi", "help": "Rahan tyyppi (käteinen, pankki, krypto)" },
+                "amount": { "name": "määrä", "help": "Rahamäärä" }
             }
         },
         "setmoney": {
-            "help": "Set Players Money Amount (Admin Only)",
+            "help": "Aseta pelaajan rahamäärä (vain admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "moneytype": { "name": "moneytype", "help": "Type of money (cash, bank, crypto)" },
-                "amount": { "name": "amount", "help": "Amount of money" }
+                "id": { "name": "id", "help": "Pelaajan ID" },
+                "moneytype": { "name": "rahatyyppi", "help": "Rahan tyyppi (käteinen, pankki, krypto)" },
+                "amount": { "name": "määrä", "help": "Rahamäärä" }
             }
         },
-        "job": { "help": "Check Your Job" },
+        "job": { "help": "Tarkista oma työsi" },
         "setjob": {
-            "help": "Set A Players Job (Admin Only)",
+            "help": "Aseta pelaajalle työ (vain admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" },
-                "grade": { "name": "grade", "help": "Job grade" }
+                "id": { "name": "id", "help": "Pelaajan ID" },
+                "job": { "name": "työ", "help": "Työn nimi" },
+                "grade": { "name": "arvo", "help": "Työn arvo" }
             }
         },
         "changejob": {
-            "help": "Change Active Job of Player (Admin Only)",
+            "help": "Vaihda pelaajan aktiivinen työ (vain admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "id": { "name": "id", "help": "Pelaajan ID" },
+                "job": { "name": "työ", "help": "Työn nimi" }
             }
         },
         "addjob": {
-            "help": "Add Job to Player (Admin Only)",
+            "help": "Lisää pelaajalle työ (vain admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" },
-                "grade": { "name": "grade", "help": "Job grade" }
+                "id": { "name": "id", "help": "Pelaajan ID" },
+                "job": { "name": "työ", "help": "Työn nimi" },
+                "grade": { "name": "arvo", "help": "Työn arvo" }
             }
         },
         "removejob": {
-            "help": "Remove Job from Player (Admin Only)",
+            "help": "Poista pelaajan työ (vain admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "id": { "name": "id", "help": "Pelaajan ID" },
+                "job": { "name": "työ", "help": "Työn nimi" }
             }
         },
-        "gang": { "help": "Check Your Gang" },
+        "gang": { "help": "Tarkista oma jengi" },
         "setgang": {
-            "help": "Set A Players Gang (Admin Only)",
+            "help": "Aseta pelaajan jengi (vain admin)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "gang": { "name": "gang", "help": "Gang name" },
-                "grade": { "name": "grade", "help": "Gang grade" }
+                "id": { "name": "id", "help": "Pelaajan ID" },
+                "gang": { "name": "jengi", "help": "Jengin nimi" },
+                "grade": { "name": "arvo", "help": "Jengin arvo" }
             }
         },
-        "ooc": { "help": "OOC Chat Message" },
+        "ooc": { "help": "OOC-keskusteluviesti" },
         "me": {
-            "help": "Show local message",
+            "help": "Näytä paikallinen viesti",
             "params": {
-                "message": { "name": "message", "help": "Message to send" }
+                "message": { "name": "viesti", "help": "Lähetettävä viesti" }
             }
         }
     }
