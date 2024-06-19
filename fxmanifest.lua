@@ -45,7 +45,6 @@ files {
     'shared/locations.lua',
     'shared/main.lua',
     'shared/vehicles.lua',
-    'shared/weapons.lua',
     'bridge/qb/client/functions.lua',
     'bridge/qb/client/drawtext.lua',
     'bridge/qb/client/events.lua',
