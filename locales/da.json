@@ -60,7 +60,7 @@
         "gender": "Køn",
         "birth_date": "Fødselsdato",
         "select_gender": "Vælg dit køn...",
-        "confirm_delete": "Er du sikker på du ønsker at slette din karakter?",
+        "confirm_delete": "Er du sikker på, du ønsker at slette din karakter?",
         "in_queue": "🐌 Du er nr. %s/%s i køen. (%s) %s"
     },
     "command": {
@@ -103,9 +103,10 @@
             }
         },
         "dv": {
-        "help": "Fjern Køretøj (Kun Admins)" },
-        "params": {
-            "radius": { "name": "radius", "help": "Radius slet køretøjer i (meters)" }
+            "help": "Fjern Køretøj (Kun Admins)",
+            "params": {
+                "radius": { "name": "radius", "help": "Radius slet køretøjer i (meters)" }
+            }
         },
         "givemoney": {
             "help": "Giv en spiller penge (Kun Admins)",
