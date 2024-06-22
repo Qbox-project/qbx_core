@@ -60,7 +60,7 @@
         "gender": "Køn",
         "birth_date": "Fødselsdato",
         "select_gender": "Vælg dit køn...",
-        "confirm_delete": "Er du sikker på du ønsker at slette din karakter?",
+        "confirm_delete": "Er du sikker på, du ønsker at slette din karakter?",
         "in_queue": "🐌 Du er nr. %s/%s i køen. (%s) %s"
     },
     "command": {
@@ -103,9 +103,10 @@
             }
         },
         "dv": {
-        "help": "Fjern Køretøj (Kun Admins)" },
-        "params": {
-            "radius": { "name": "radius", "help": "Radius slet køretøjer i (meters)" }
+            "help": "Fjern Køretøj (Kun Admins)",
+            "params": {
+                "radius": { "name": "radius", "help": "Radius slet køretøjer i (meter)" }
+            }
         },
         "givemoney": {
             "help": "Giv en spiller penge (Kun Admins)",
@@ -133,25 +134,25 @@
             }
         },
         "changejob": {
-            "help": "Change Active Job of Player (Admin Only)",
+            "help": "Skift en Spiller's Job (Kun Admins)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "id": { "name": "id", "help": "Spiller ID" },
+                "job": { "name": "job", "help": "Job Navn" }
             }
         },
         "addjob": {
-            "help": "Add Job to Player (Admin Only)",
+            "help": "Tilføj et Job til en Spiller (Kun Admins)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" },
-                "grade": { "name": "grade", "help": "Job grade" }
+                "id": { "name": "id", "help": "Spiller ID" },
+                "job": { "name": "job", "help": "Job Navn" },
+                "grade": { "name": "grade", "help": "Job Rang" }
             }
         },
         "removejob": {
-            "help": "Remove Job from Player (Admin Only)",
+            "help": "Fjern et Job fra en Spiller (Kun Admins)",
             "params": {
-                "id": { "name": "id", "help": "Player ID" },
-                "job": { "name": "job", "help": "Job name" }
+                "id": { "name": "id", "help": "Spiller ID" },
+                "job": { "name": "job", "help": "Job Navn" }
             }
         },
         "gang": { "help": "Tjek din bande" },
