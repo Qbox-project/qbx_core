@@ -43,3 +43,11 @@ function GetPlayerData()
 end
 
 exports('GetPlayerData', GetPlayerData)
+
+---@param filter string | string[] | table<string, number>
+---@return boolean
+function HasPrimaryGroup(filter)
+    return HasPlayerGotGroup(filter, QBX.PlayerData)
+end
+
+exports('HasPrimaryGroup', HasPrimaryGroup)
