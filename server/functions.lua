@@ -422,3 +422,13 @@ local function ExploitBan(playerId, origin)
 end
 
 exports('ExploitBan', ExploitBan)
+
+---@param source Source
+---@param filter string | string[] | table<string, number>
+---@return boolean
+function HasPrimaryGroup(source, filter)
+    local playerData = QBX.Players[source].PlayerData
+    return HasPlayerGotGroup(filter, playerData)
+end
+
+exports('HasPrimaryGroup', HasPrimaryGroup)
