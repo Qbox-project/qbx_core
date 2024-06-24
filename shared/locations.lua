@@ -1,3 +1,5 @@
+---@deprecated This file is deprecated and will be removed in the future.
+---@return table<string, vector4>
 return {
     -- Unknown/Random/Vanilla
     ['burgershot'] = vector4(-1199.0568, -882.4495, 13.3500, 209.1105),
