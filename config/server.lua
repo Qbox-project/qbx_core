@@ -101,7 +101,7 @@ return {
     },
 
     giveVehicleKeys = function(src, plate, vehicle)
-        exports['Renewed-Vehiclekeys']:addKey(src, plate)
+        return exports['Renewed-Vehiclekeys']:addKey(src, plate)
     end,
 
     getSocietyAccount = function(accountName)
