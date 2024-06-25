@@ -101,7 +101,7 @@ return {
     },
 
     giveVehicleKeys = function(src, plate, vehicle)
-        return exports.qbx_vehiclekeys:GiveKeys(src, plate)
+        exports['Renewed-Vehiclekeys']:addKey(src, plate)
     end,
 
     getSocietyAccount = function(accountName)
