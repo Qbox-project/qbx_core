@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS `qboxproject`;
+
+USE `qboxproject`;
+
 CREATE TABLE IF NOT EXISTS `players` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `citizenid` varchar(50) NOT NULL COLLATE utf8mb4_unicode_ci,
