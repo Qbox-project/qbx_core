@@ -76,6 +76,8 @@ return {
         {'npwd_notes', 'identifier'},
         {'npwd_phone_contacts', 'identifier'},
         {'npwd_phone_gallery', 'identifier'},
+        {'npwd_twitter_profiles', 'identifier'},
+        {'npwd_match_profiles', 'identifier'},
     }, -- Rows to be deleted when the character is deleted
 
     server = {
