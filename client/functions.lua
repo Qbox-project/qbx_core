@@ -31,6 +31,7 @@ function Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyl
         position = position,
         style = {
             backgroundColor = '#282c34',
+            color = '#909296',
         },
         icon = notifyIcon,
         iconColor = notifyIconColor
