@@ -562,6 +562,7 @@ function Logout(source)
     QBX.Players[source] = nil
     GlobalState.PlayerCount -= 1
     TriggerClientEvent('qbx_core:client:playerLoggedOut', source)
+    TriggerEvent('qbx_core:server:playerLoggedOut', source)
 end
 
 exports('Logout', Logout)
