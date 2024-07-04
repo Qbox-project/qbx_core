@@ -610,6 +610,7 @@ function CreatePlayer(playerData, Offline)
     ---@param jobName string name
     ---@param grade? integer defaults to 0
     ---@return boolean success if job was set
+    ---@return ErrorResult? errorResult
     function self.Functions.SetJob(jobName, grade)
         jobName = jobName:lower()
         grade = grade or 0
@@ -625,8 +626,10 @@ function CreatePlayer(playerData, Offline)
         if setJobReplaces then
             RemovePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
         end
-        AddPlayerToJob(self.PlayerData.citizenid, jobName, grade)
-        SetPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
+        local success, errorResult = AddPlayerToJob(self.PlayerData.citizenid, jobName, grade)
+        if not success then return false, errorResult end
+        success, errorResult = SetPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
+        if not success then return false, errorResult end
         return true
     end
 
@@ -634,6 +637,7 @@ function CreatePlayer(playerData, Offline)
     ---@param gangName string name
     ---@param grade? integer defaults to 0
     ---@return boolean success if gang was set
+    ---@return ErrorResult? errorResult
     function self.Functions.SetGang(gangName, grade)
         gangName = gangName:lower()
         grade = grade or 0
@@ -647,10 +651,13 @@ function CreatePlayer(playerData, Offline)
             return false
         end
         if setGangReplaces then
-            removePlayerFromGang(self.PlayerData.citizenid, self.PlayerData.gang.name)
+            local success, errorResult = removePlayerFromGang(self.PlayerData.citizenid, self.PlayerData.gang.name)
+            if not success then return false, errorResult end
         end
-        AddPlayerToGang(self.PlayerData.citizenid, gangName, grade)
-        setPlayerPrimaryGang(self.PlayerData.citizenid, gangName)
+        local success, errorResult = AddPlayerToGang(self.PlayerData.citizenid, gangName, grade)
+        if not success then return false, errorResult end
+        success, errorResult = setPlayerPrimaryGang(self.PlayerData.citizenid, gangName)
+        if not success then return false, errorResult end
         return true
     end
 
