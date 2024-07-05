@@ -267,7 +267,7 @@ if isServer then
             SetPedIntoVehicle(ped, veh, -1)
         end
 
-        lib.waitFor(function()
+        local foundOwner = lib.waitFor(function()
             local owner = NetworkGetEntityOwner(veh)
             if ped then
                 --- the owner should be transferred to the driver
@@ -276,6 +276,11 @@ if isServer then
                 if owner ~= -1 then return true end
             end
         end, 'client never set as owner', 5000)
+
+        if not foundOwner then
+            DeleteEntity(veh)
+            error('Deleting vehicle which timed out finding an owner')
+        end
 
         local state = Entity(veh).state
         state:set('initVehicle', true, true)
