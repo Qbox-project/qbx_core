@@ -68,6 +68,7 @@ return {
         {'player_mails', 'citizenid'},
         {'player_outfits', 'citizenid'},
         {'player_vehicles', 'citizenid'},
+        {'player_groups', 'citizenid'},
         {'players', 'citizenid'},
         {'npwd_calls', 'identifier'},
         {'npwd_darkchat_channel_members', 'user_identifier'},
