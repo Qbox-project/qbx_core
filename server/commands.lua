@@ -254,7 +254,8 @@ lib.addCommand('setjob', {
         return
     end
 
-    player.Functions.SetJob(args[locale('command.setjob.params.job.name')], args[locale('command.setjob.params.grade.name')] or 0)
+    local success, errorResult = player.Functions.SetJob(args[locale('command.setjob.params.job.name')], args[locale('command.setjob.params.grade.name')] or 0)
+    assert(success, errorResult)
 end)
 
 --- ADMIN COMMAND
@@ -273,7 +274,8 @@ lib.addCommand('changejob', {
         return
     end
 
-    SetPlayerPrimaryJob(player.PlayerData.citizenid, args[locale('command.changejob.params.job.name')])
+    local success, errorResult = SetPlayerPrimaryJob(player.PlayerData.citizenid, args[locale('command.changejob.params.job.name')])
+    assert(success, errorResult)
 end)
 
 lib.addCommand('addjob', {
@@ -291,7 +293,8 @@ lib.addCommand('addjob', {
         return
     end
 
-    AddPlayerToJob(player.PlayerData.citizenid, args[locale('command.addjob.params.job.name')], args[locale('command.addjob.params.grade.name')] or 0)
+    local success, errorResult = AddPlayerToJob(player.PlayerData.citizenid, args[locale('command.addjob.params.job.name')], args[locale('command.addjob.params.grade.name')] or 0)
+    assert(success, errorResult)
 end)
 
 lib.addCommand('removejob', {
@@ -308,7 +311,8 @@ lib.addCommand('removejob', {
         return
     end
 
-    RemovePlayerFromJob(player.PlayerData.citizenid, args[locale('command.removejob.params.job.name')])
+    local success, errorResult = RemovePlayerFromJob(player.PlayerData.citizenid, args[locale('command.removejob.params.job.name')])
+    assert(success, errorResult)
 end)
 
 -- Gang
@@ -335,7 +339,8 @@ lib.addCommand('setgang', {
         return
     end
 
-    player.Functions.SetGang(args[locale('command.setgang.params.gang.name')], args[locale('command.setgang.params.grade.name')] or 0)
+    local success, errorResult = player.Functions.SetGang(args[locale('command.setgang.params.gang.name')], args[locale('command.setgang.params.grade.name')] or 0)
+    assert(success, errorResult)
 end)
 
 -- Out of Character Chat
