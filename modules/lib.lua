@@ -267,16 +267,22 @@ if isServer then
             SetPedIntoVehicle(ped, veh, -1)
         end
 
-        local foundOwner = lib.waitFor(function()
+        local foundOwner = false
+        local timeout = 5000
+        while not foundOwner and timeout > 0 do
             local owner = NetworkGetEntityOwner(veh)
             if ped then
-                --- the owner should be transferred to the driver
-                if owner == NetworkGetEntityOwner(ped) then return true end
+                if owner == NetworkGetEntityOwner(ped) then
+                    foundOwner = true
+                end
             else
-                if owner ~= -1 then return true end
+                if owner ~= -1 then
+                    foundOwner = true
+                end
             end
-        end, 'client never set as owner', 5000)
-
+            timeout -= 10
+            Wait(10)
+        end
         if not foundOwner then
             DeleteEntity(veh)
             error('Deleting vehicle which timed out finding an owner')
@@ -287,11 +293,15 @@ if isServer then
 
         if props and type(props) == 'table' and props.plate then
             state:set('setVehicleProperties', props, true)
-            local success = lib.waitFor(function()
+            timeout = 5000
+            local success = false
+            while not success and timeout > 0 do
                 if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
-                    return true
+                    success = true
                 end
-            end, 'Failed to set vehicle properties within 5 seconds', 5000)
+                timeout -= 10
+                Wait(10)
+            end
             if not success then
                 DeleteEntity(veh)
                 error('Deleting vehicle which timed out setting vehicle properties')
