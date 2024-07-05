@@ -267,17 +267,17 @@ if isServer then
             SetPedIntoVehicle(ped, veh, -1)
         end
 
-        local foundOwner = lib.waitFor(function()
-            local owner = NetworkGetEntityOwner(veh)
-            if ped then
-                --- the owner should be transferred to the driver
-                if owner == NetworkGetEntityOwner(ped) then return true end
-            else
-                if owner ~= -1 then return true end
-            end
-        end, 'client never set as owner', 5000)
-
-        if not foundOwner then
+        if not pcall(function()
+            lib.waitFor(function()
+                local owner = NetworkGetEntityOwner(veh)
+                if ped then
+                    --- the owner should be transferred to the driver
+                    if owner == NetworkGetEntityOwner(ped) then return true end
+                else
+                    if owner ~= -1 then return true end
+                end
+            end, 'client never set as owner', 5000)
+        end) then
             DeleteEntity(veh)
             error('Deleting vehicle which timed out finding an owner')
         end
@@ -287,12 +287,13 @@ if isServer then
 
         if props and type(props) == 'table' and props.plate then
             state:set('setVehicleProperties', props, true)
-            local success = lib.waitFor(function()
-                if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
-                    return true
-                end
-            end, 'Failed to set vehicle properties within 5 seconds', 5000)
-            if not success then
+            if not pcall(function()
+                lib.waitFor(function()
+                    if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
+                        return true
+                    end
+                end, 'Failed to set vehicle properties within 5 seconds', 5000)
+            end) then
                 DeleteEntity(veh)
                 error('Deleting vehicle which timed out setting vehicle properties')
             end
