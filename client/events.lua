@@ -247,15 +247,3 @@ qbx.entityStateHandler('initVehicle', function(vehicle, _, init)
         state:set('initVehicle', nil, true)
     end)
 end)
-
-AddStateBagChangeHandler('hunger', ('player:%s'):format(cache.serverId), function(_, _, value)
-    TriggerEvent('hud:client:UpdateNeeds', value, LocalPlayer.state.thirst)
-end)
-
-AddStateBagChangeHandler('thirst', ('player:%s'):format(cache.serverId), function(_, _, value)
-    TriggerEvent('hud:client:UpdateNeeds', LocalPlayer.state.hunger, value)
-end)
-
-AddStateBagChangeHandler('stress', ('player:%s'):format(cache.serverId), function(_, _, value)
-    TriggerEvent('hud:client:UpdateStress', value)
-end)
