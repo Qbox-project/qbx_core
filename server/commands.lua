@@ -255,7 +255,7 @@ lib.addCommand('setjob', {
     end
 
     local success, errorResult = player.Functions.SetJob(args[locale('command.setjob.params.job.name')], args[locale('command.setjob.params.grade.name')] or 0)
-    assert(success, errorResult)
+    assert(success, json.encode(errorResult))
 end)
 
 --- ADMIN COMMAND
@@ -275,7 +275,7 @@ lib.addCommand('changejob', {
     end
 
     local success, errorResult = SetPlayerPrimaryJob(player.PlayerData.citizenid, args[locale('command.changejob.params.job.name')])
-    assert(success, errorResult)
+    assert(success, json.encode(errorResult))
 end)
 
 lib.addCommand('addjob', {
@@ -294,7 +294,7 @@ lib.addCommand('addjob', {
     end
 
     local success, errorResult = AddPlayerToJob(player.PlayerData.citizenid, args[locale('command.addjob.params.job.name')], args[locale('command.addjob.params.grade.name')] or 0)
-    assert(success, errorResult)
+    assert(success, json.encode(errorResult))
 end)
 
 lib.addCommand('removejob', {
@@ -312,7 +312,7 @@ lib.addCommand('removejob', {
     end
 
     local success, errorResult = RemovePlayerFromJob(player.PlayerData.citizenid, args[locale('command.removejob.params.job.name')])
-    assert(success, errorResult)
+    assert(success, json.encode(errorResult))
 end)
 
 -- Gang
@@ -340,7 +340,7 @@ lib.addCommand('setgang', {
     end
 
     local success, errorResult = player.Functions.SetGang(args[locale('command.setgang.params.gang.name')], args[locale('command.setgang.params.grade.name')] or 0)
-    assert(success, errorResult)
+    assert(success, json.encode(errorResult))
 end)
 
 -- Out of Character Chat

@@ -408,7 +408,7 @@ local function ExploitBan(playerId, origin)
             expiration = 2147483647,
             bannedBy = 'Anti Cheat'
         })
-        assert(success, errorResult)
+        assert(success, json.encode(errorResult))
     end)
     DropPlayer(playerId --[[@as string]], locale('info.exploit_banned', serverConfig.discord))
     logger.log({
