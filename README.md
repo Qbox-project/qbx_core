@@ -1,4 +1,4 @@
-![image](https://github.com/Qbox-project/qbx_core/assets/22198949/7fa569a0-0ad8-4e88-ae14-fe4eeae2de04)
+![image](.github/images/banner.jpg)
 
 
 _<p align="center">"And then there was Qbox"</p>_
