@@ -32,7 +32,7 @@ lib.callback.register('qbx_core:server:getCharacters', function(source)
     local sortedChars = {}
     for i = 1, #chars do
         local char = chars[i]
-        sortedChars[char.charinfo.cid] = char
+        sortedChars[tonumber(char.charinfo.cid)] = char
     end
     return sortedChars, allowedAmount
 end)
