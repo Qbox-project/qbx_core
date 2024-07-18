@@ -562,6 +562,7 @@ function Logout(source)
     QBX.Players[source] = nil
     GlobalState.PlayerCount -= 1
     TriggerClientEvent('qbx_core:client:playerLoggedOut', source)
+    TriggerEvent('qbx_core:server:playerLoggedOut', source)
 end
 
 exports('Logout', Logout)
@@ -610,6 +611,7 @@ function CreatePlayer(playerData, Offline)
     ---@param jobName string name
     ---@param grade? integer defaults to 0
     ---@return boolean success if job was set
+    ---@return ErrorResult? errorResult
     function self.Functions.SetJob(jobName, grade)
         jobName = jobName:lower()
         grade = grade or 0
@@ -622,11 +624,16 @@ function CreatePlayer(playerData, Offline)
             lib.print.error(('cannot set job. Job %s does not have grade %s'):format(jobName, grade))
             return false
         end
-        if setJobReplaces then
-            RemovePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
+        if setJobReplaces and self.PlayerData.job.name ~= 'unemployed' then
+            local success, errorResult = RemovePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
+            if not success then return false, errorResult end
         end
-        AddPlayerToJob(self.PlayerData.citizenid, jobName, grade)
-        SetPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
+        if jobName ~= 'unemployed' then
+            local success, errorResult = AddPlayerToJob(self.PlayerData.citizenid, jobName, grade)
+            if not success then return false, errorResult end
+        end
+        local success, errorResult = SetPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
+        if not success then return false, errorResult end
         return true
     end
 
@@ -634,6 +641,7 @@ function CreatePlayer(playerData, Offline)
     ---@param gangName string name
     ---@param grade? integer defaults to 0
     ---@return boolean success if gang was set
+    ---@return ErrorResult? errorResult
     function self.Functions.SetGang(gangName, grade)
         gangName = gangName:lower()
         grade = grade or 0
@@ -646,11 +654,16 @@ function CreatePlayer(playerData, Offline)
             lib.print.error(('cannot set gang. Gang %s does not have grade %s'):format(gangName, grade))
             return false
         end
-        if setGangReplaces then
-            removePlayerFromGang(self.PlayerData.citizenid, self.PlayerData.gang.name)
+        if setGangReplaces and self.PlayerData.gang.name ~= 'none' then
+            local success, errorResult = removePlayerFromGang(self.PlayerData.citizenid, self.PlayerData.gang.name)
+            if not success then return false, errorResult end
         end
-        AddPlayerToGang(self.PlayerData.citizenid, gangName, grade)
-        setPlayerPrimaryGang(self.PlayerData.citizenid, gangName)
+        if gangName ~= 'none' then
+            local success, errorResult = AddPlayerToGang(self.PlayerData.citizenid, gangName, grade)
+            if not success then return false, errorResult end
+        end
+        local success, errorResult = setPlayerPrimaryGang(self.PlayerData.citizenid, gangName)
+        if not success then return false, errorResult end
         return true
     end
 

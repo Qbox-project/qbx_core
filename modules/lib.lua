@@ -236,7 +236,7 @@ if isServer then
         local warp = params.warp
         local ped = type(warp) == 'number' and warp or (sourceType == 'number' and warp and source or nil)
         local props = params.props
-        local bucket = params.bucket
+        local bucket = params.bucket or ped and GetEntityRoutingBucket(ped) or nil
 
         ---@type vector4
         local coords
@@ -259,23 +259,46 @@ if isServer then
         while not DoesEntityExist(veh) do Wait(0) end
         while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
 
-        local state = Entity(veh).state
-        state:set('initVehicle', true, true)
-        state:set('setVehicleProperties', props, true)
-
-        lib.waitFor(function()
-            if state.setVehicleProperties then return false end
-            return true
-        end, 'Failed to set vehicle properties', 5000)
-
-        if ped then
-            SetPedIntoVehicle(ped, veh, -1)
-            bucket = GetEntityRoutingBucket(ped) or nil
-        end
-
         if bucket and bucket > 0 then
             SetEntityBucket(veh, bucket)
         end
+
+        if ped then
+            SetPedIntoVehicle(ped, veh, -1)
+        end
+
+        if not pcall(function()
+            lib.waitFor(function()
+                local owner = NetworkGetEntityOwner(veh)
+                if ped then
+                    --- the owner should be transferred to the driver
+                    if owner == NetworkGetEntityOwner(ped) then return true end
+                else
+                    if owner ~= -1 then return true end
+                end
+            end, 'client never set as owner', 5000)
+        end) then
+            DeleteEntity(veh)
+            error('Deleting vehicle which timed out finding an owner')
+        end
+
+        local state = Entity(veh).state
+        state:set('initVehicle', true, true)
+
+        if props and type(props) == 'table' and props.plate then
+            state:set('setVehicleProperties', props, true)
+            if not pcall(function()
+                lib.waitFor(function()
+                    if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
+                        return true
+                    end
+                end, 'Failed to set vehicle properties within 5 seconds', 5000)
+            end) then
+                DeleteEntity(veh)
+                error('Deleting vehicle which timed out setting vehicle properties')
+            end
+        end
+
         local netId = NetworkGetNetworkIdFromEntity(veh)
 
         return netId, veh

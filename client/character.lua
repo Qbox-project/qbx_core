@@ -346,7 +346,6 @@ local function createCharacter(cid)
 
     if GetResourceState('qbx_spawn') == 'missing' then
         spawnDefault()
-        TriggerEvent('qb-clothes:client:CreateFirstCharacter')
     else
         if config.characters.startingApartment then
             TriggerEvent('apartments:client:setupSpawnUI', newData)
