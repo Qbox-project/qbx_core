@@ -406,8 +406,8 @@ exports('GetCoreVersion', GetCoreVersion)
 ---@param origin string reason
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
-    CreateThread(function()
-        local success, errorResult = storage.insertBan({
+    local success, errorResult = pcall(
+        storage.insertBan({
             name = name,
             license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
             discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
@@ -415,9 +415,8 @@ local function ExploitBan(playerId, origin)
             reason = origin,
             expiration = 2147483647,
             bannedBy = 'Anti Cheat'
-        })
-        assert(success, json.encode(errorResult))
-    end)
+        }))
+    if not success then lib.print.error(errorResult) end
     DropPlayer(playerId --[[@as string]], locale('info.exploit_banned', serverConfig.discord))
     logger.log({
         source = 'qbx_core',
