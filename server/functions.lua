@@ -332,10 +332,18 @@ exports('ToggleOptin', ToggleOptin)
 ---@return boolean
 ---@return string? playerMessage
 function IsPlayerBanned(source)
-    local plicense = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
+    local plicense = GetPlayerIdentifierByType(source --[[@as string]], 'license2')
     local result = storage.fetchBan({
         license = plicense
     })
+
+    if not result then
+        plicense = GetPlayerIdentifierByType(source --[[@as string]], 'license')
+        result = storage.fetchBan({
+            license = plicense
+        })
+    end
+
     if not result then return false end
     if os.time() < result.expire then
         local timeTable = os.date('*t', tonumber(result.expire))
