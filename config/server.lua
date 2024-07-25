@@ -124,4 +124,9 @@ return {
     removeSocietyMoney = function(accountName, payment)
         return exports['Renewed-Banking']:removeAccountMoney(accountName, payment)
     end,
+
+    sendPaycheck = function (player, payment)
+        player.Functions.AddMoney('bank', payment)
+        Notify(player.PlayerData.source, locale('info.received_paycheck', payment))
+    end,
 }

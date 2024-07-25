@@ -22,23 +22,18 @@ CreateThread(function()
     end
 end)
 
-local function sendPaycheck(player, payment)
-    player.Functions.AddMoney('bank', payment)
-    Notify(player.PlayerData.source, locale('info.received_paycheck', payment))
-end
-
 local function pay(player)
     local job = player.PlayerData.job
     local payment = GetJob(job.name).grades[job.grade.level].payment or job.payment
     if payment <= 0 then return end
     if not GetJob(job.name).offDutyPay and not job.onduty then return end
     if not config.money.paycheckSociety then
-        sendPaycheck(player, payment)
+        config.sendPaycheck(player, payment)
         return
     end
     local account = config.getSocietyAccount(job.name)
     if not account or account == 0 then -- Checks if player is employed by a society
-        sendPaycheck(player, payment)
+        config.sendPaycheck(player, payment)
         return
     end
     if account < payment then -- Checks if company has enough money to pay society
@@ -46,7 +41,7 @@ local function pay(player)
         return
     end
     config.removeSocietyMoney(job.name, payment)
-    sendPaycheck(player, payment)
+    config.sendPaycheck(player, payment)
 end
 
 CreateThread(function()
