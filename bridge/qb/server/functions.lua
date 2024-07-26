@@ -145,7 +145,7 @@ local function AddItem(itemName, item)
 
     QBX.Shared.Items[itemName] = item
 
-    lib.triggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, 'success'
 end
@@ -164,7 +164,7 @@ local function UpdateItem(itemName, item)
         return false, 'item_not_exists'
     end
     QBX.Shared.Items[itemName] = item
-    lib.triggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, 'success'
 end
@@ -199,7 +199,7 @@ local function AddItems(items)
     end
 
     if not shouldContinue then return false, message, errorItem end
-    lib.triggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Items', items)
+    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Items', items)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, message, nil
 end
@@ -221,7 +221,7 @@ local function RemoveItem(itemName)
 
     QBX.Shared.Items[itemName] = nil
 
-    lib.triggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, nil)
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, nil)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, 'success'
 end

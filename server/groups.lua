@@ -42,7 +42,7 @@ function CreateJobs(newJobs)
     for jobName, job in pairs(newJobs) do
         jobs[jobName] = job
         TriggerEvent('qbx_core:server:onJobUpdate', jobName, job)
-        lib.triggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
+        TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
     end
 end
 
@@ -63,7 +63,7 @@ function RemoveJob(jobName)
 
     jobs[jobName] = nil
     TriggerEvent('qbx_core:server:onJobUpdate', jobName, nil)
-    lib.triggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, nil)
+    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, nil)
     return true, 'success'
 end
 
@@ -75,7 +75,7 @@ function CreateGangs(newGangs)
     for gangName, gang in pairs(newGangs) do
         gangs[gangName] = gang
         TriggerEvent('qbx_core:server:onGangUpdate', gangName, gang)
-        lib.triggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, gang)
+        TriggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, gang)
     end
 end
 
@@ -97,7 +97,7 @@ function RemoveGang(gangName)
     gangs[gangName] = nil
 
     TriggerEvent('qbx_core:server:onGangUpdate', gangName, nil)
-    lib.triggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, nil)
+    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, nil)
     return true, 'success'
 end
 
@@ -151,7 +151,7 @@ local function upsertJobData(name, data)
         }
     end
     TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
-    lib.triggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
+    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
 end
 
 exports('UpsertJobData', upsertJobData)
@@ -168,7 +168,7 @@ local function upsertGangData(name, data)
         }
     end
     TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
-    lib.triggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
+    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
 end
 
 exports('UpsertGangData', upsertGangData)
@@ -183,7 +183,7 @@ local function upsertJobGrade(name, grade, data)
     end
     jobs[name].grades[grade] = data
     TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
-    lib.triggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
+    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
 end
 
 exports('UpsertJobGrade', upsertJobGrade)
@@ -198,7 +198,7 @@ local function upsertGangGrade(name, grade, data)
     end
     gangs[name].grades[grade] = data
     TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
-    lib.triggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
+    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
 end
 
 exports('UpsertGangGrade', upsertGangGrade)
@@ -212,7 +212,7 @@ local function removeJobGrade(name, grade)
     end
     jobs[name].grades[grade] = nil
     TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
-    lib.triggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
+    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
 end
 
 exports('RemoveJobGrade', removeJobGrade)
@@ -226,7 +226,7 @@ local function removeGangGrade(name, grade)
     end
     gangs[name].grades[grade] = nil
     TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
-    lib.triggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
+    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
 end
 
 exports('RemoveGangGrade', removeGangGrade)
