@@ -805,7 +805,7 @@ function CreatePlayer(playerData, Offline)
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
-            local dirChange = difference < 0 and 'added' or 'removed'
+            local dirChange = difference > 0 and 'added' or 'removed'
             local absDifference = math.abs(difference)
             local tags = absDifference > 50000 and config.logging.role or {}
             local resource = GetInvokingResource() or cache.resource
