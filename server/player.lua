@@ -805,7 +805,7 @@ function CreatePlayer(playerData, Offline)
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
-            local dirChange = difference < 0 and 'added' or 'removed'
+            local dirChange = difference < 0 and 'removed' or 'added'
             local absDifference = math.abs(difference)
             local tags = absDifference > 50000 and config.logging.role or {}
             local resource = GetInvokingResource() or cache.resource
@@ -813,7 +813,7 @@ function CreatePlayer(playerData, Offline)
                 source = resource,
                 webhook = config.logging.webhook['playermoney'],
                 event = 'SetMoney',
-                color = difference < 0 and 'green' or 'red',
+                color = difference < 0 and 'red' or 'green',
                 tags = tags,
                 message = ('**%s (citizenid: %s | id: %s)** $%s (%s) %s, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, absDifference, moneytype, dirChange, moneytype, self.PlayerData.money[moneytype], reason),
                 --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s,direction:%s'):format(resource, GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, absDifference, moneytype, self.PlayerData.money[moneytype], reason, dirChange)
