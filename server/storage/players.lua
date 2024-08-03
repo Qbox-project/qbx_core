@@ -323,7 +323,10 @@ local function fetchPlayerGroups(citizenid)
     local gangs = {}
     for i = 1, #groups do
         local group = groups[i]
-        if group.type == GroupType.JOB then
+        local validGroup = group.type == GroupType.JOB and GetJob(group.group) or GetGang(group.group)
+        if not validGroup then
+            lib.print.warn(('Invalid group %s found in player_groups table, Does it exist in shared/%ss.lua?'):format(group.group, group.type))
+        elseif group.type == GroupType.JOB then
             jobs[group.group] = group.grade
         elseif group.type == GroupType.GANG then
             gangs[group.group] = group.grade
