@@ -325,7 +325,7 @@ local function fetchPlayerGroups(citizenid)
         local group = groups[i]
         if group.type == GroupType.JOB then
             jobs[group.group] = group.grade
-        else
+        elseif group.type == GroupType.GANG then
             gangs[group.group] = group.grade
         end
     end
