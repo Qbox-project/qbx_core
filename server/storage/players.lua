@@ -372,6 +372,7 @@ RegisterCommand('convertjobs', function(source)
     TriggerEvent('qbx_core:server:jobsconverted')
 end, true)
 
+---Removes invalid groups from the player_groups table.
 RegisterCommand('cleanplayergroups', function(source)
 	if source ~= 0 then return warn('This command can only be executed using the server console.') end
 
