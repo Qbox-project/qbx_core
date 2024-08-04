@@ -404,6 +404,9 @@ CreateThread(function()
             warn(('Table \'%s\' does not exist in database, please remove it from qbx_core/config/server.lua or create the table'):format(tableName))
         end
     end
+    if GetConvar('qbx:cleanPlayerGroups', 'false') == 'true' then
+        cleanPlayerGroups()
+    end
 end)
 
 return {
