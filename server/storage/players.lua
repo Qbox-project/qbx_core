@@ -387,7 +387,6 @@ RegisterCommand('cleanplayergroups', function(source)
     end
 
     lib.print.info('Removed invalid groups from player_groups table')
-    TriggerEvent('qbx_core:server:playergroupscleaned')
 end, true)
 
 CreateThread(function()
