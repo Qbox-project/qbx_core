@@ -375,6 +375,7 @@ RegisterCommand('convertjobs', function(source)
 end, true)
 
 ---Removes invalid groups from the player_groups table.
+local function cleanPlayerGroups()
     local groups = MySQL.query.await('SELECT DISTINCT `group`, type, grade FROM player_groups')
     for i = 1, #groups do
         local group = groups[i]
@@ -389,6 +390,11 @@ end, true)
     end
 
     lib.print.info('Removed invalid groups from player_groups table')
+end
+
+RegisterCommand('cleanplayergroups', function(source)
+	if source ~= 0 then return warn('This command can only be executed using the server console.') end
+    cleanPlayerGroups()
 end, true)
 
 CreateThread(function()
