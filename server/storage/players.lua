@@ -326,6 +326,8 @@ local function fetchPlayerGroups(citizenid)
         local validGroup = group.type == GroupType.JOB and GetJob(group.group) or GetGang(group.group)
         if not validGroup then
             lib.print.warn(('Invalid group %s found in player_groups table, Does it exist in shared/%ss.lua?'):format(group.group, group.type))
+        elseif not validGroup[group.grade] then
+            lib.print.warn(('Invalid grade %s found in player_groups table for %s %s, Does it exist in shared/%ss.lua?'):format(group.grade, group.type, group.group, group.type))
         elseif group.type == GroupType.JOB then
             jobs[group.group] = group.grade
         elseif group.type == GroupType.GANG then
@@ -373,16 +375,16 @@ RegisterCommand('convertjobs', function(source)
 end, true)
 
 ---Removes invalid groups from the player_groups table.
-RegisterCommand('cleanplayergroups', function(source)
-	if source ~= 0 then return warn('This command can only be executed using the server console.') end
-
-    local groups = MySQL.query.await('SELECT DISTINCT `group`, type FROM player_groups')
+    local groups = MySQL.query.await('SELECT DISTINCT `group`, type, grade FROM player_groups')
     for i = 1, #groups do
         local group = groups[i]
         local validGroup = group.type == GroupType.JOB and GetJob(group.group) or GetGang(group.group)
         if not validGroup then
             MySQL.query.await('DELETE FROM player_groups WHERE `group` = ? AND type = ?', {group.group, group.type})
             lib.print.info(('Remove invalid %s %s from player_groups table'):format(group.type, group.group))
+        elseif not validGroup[group.grade] then
+            MySQL.query.await('DELETE FROM player_groups WHERE `group` = ? AND type = ? AND grade = ?', {group.group, group.type, group.grade})
+            lib.print.info(('Remove invalid %s %s grade %s from player_groups table'):format(group.type, group.group, group.grade))
         end
     end
 
