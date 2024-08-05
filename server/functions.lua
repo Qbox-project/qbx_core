@@ -424,7 +424,7 @@ local function ExploitBan(playerId, origin)
         event = 'Anti-Cheat',
         color = 'red',
         tags = loggingConfig.role,
-        message = ('%s has been banned for exploiting %s'):format(name, origin)
+        message = success and ('%s has been kicked and banned for exploiting %s'):format(name, origin) or ('%s has been kicked for exploiting %s, ban insert failed'):format(name, origin)
     })
 end
 
