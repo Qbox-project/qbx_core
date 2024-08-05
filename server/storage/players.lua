@@ -323,9 +323,14 @@ local function fetchPlayerGroups(citizenid)
     local gangs = {}
     for i = 1, #groups do
         local group = groups[i]
-        if group.type == GroupType.JOB then
+        local validGroup = group.type == GroupType.JOB and GetJob(group.group) or GetGang(group.group)
+        if not validGroup then
+            lib.print.warn(('Invalid group %s found in player_groups table, Does it exist in shared/%ss.lua?'):format(group.group, group.type))
+        elseif not validGroup[group.grade] then
+            lib.print.warn(('Invalid grade %s found in player_groups table for %s %s, Does it exist in shared/%ss.lua?'):format(group.grade, group.type, group.group, group.type))
+        elseif group.type == GroupType.JOB then
             jobs[group.group] = group.grade
-        else
+        elseif group.type == GroupType.GANG then
             gangs[group.group] = group.grade
         end
     end
@@ -369,12 +374,38 @@ RegisterCommand('convertjobs', function(source)
     TriggerEvent('qbx_core:server:jobsconverted')
 end, true)
 
+---Removes invalid groups from the player_groups table.
+local function cleanPlayerGroups()
+    local groups = MySQL.query.await('SELECT DISTINCT `group`, type, grade FROM player_groups')
+    for i = 1, #groups do
+        local group = groups[i]
+        local validGroup = group.type == GroupType.JOB and GetJob(group.group) or GetGang(group.group)
+        if not validGroup then
+            MySQL.query.await('DELETE FROM player_groups WHERE `group` = ? AND type = ?', {group.group, group.type})
+            lib.print.info(('Remove invalid %s %s from player_groups table'):format(group.type, group.group))
+        elseif not validGroup[group.grade] then
+            MySQL.query.await('DELETE FROM player_groups WHERE `group` = ? AND type = ? AND grade = ?', {group.group, group.type, group.grade})
+            lib.print.info(('Remove invalid %s %s grade %s from player_groups table'):format(group.type, group.group, group.grade))
+        end
+    end
+
+    lib.print.info('Removed invalid groups from player_groups table')
+end
+
+RegisterCommand('cleanplayergroups', function(source)
+	if source ~= 0 then return warn('This command can only be executed using the server console.') end
+    cleanPlayerGroups()
+end, true)
+
 CreateThread(function()
     for _, data in pairs(characterDataTables) do
         local tableName = data[1]
         if not doesTableExist(tableName) then
             warn(('Table \'%s\' does not exist in database, please remove it from qbx_core/config/server.lua or create the table'):format(tableName))
         end
+    end
+    if GetConvar('qbx:cleanPlayerGroups', 'false') == 'true' then
+        cleanPlayerGroups()
     end
 end)
 
