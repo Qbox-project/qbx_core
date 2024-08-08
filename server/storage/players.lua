@@ -383,7 +383,7 @@ local function cleanPlayerGroups()
         if not validGroup then
             MySQL.query.await('DELETE FROM player_groups WHERE `group` = ? AND type = ?', {group.group, group.type})
             lib.print.info(('Remove invalid %s %s from player_groups table'):format(group.type, group.group))
-        elseif not validGroup.grades[group.grade] then
+        elseif not validGroup.grades?[group.grade] then
             MySQL.query.await('DELETE FROM player_groups WHERE `group` = ? AND type = ? AND grade = ?', {group.group, group.type, group.grade})
             lib.print.info(('Remove invalid %s %s grade %s from player_groups table'):format(group.type, group.group, group.grade))
         end
