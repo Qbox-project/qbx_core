@@ -691,6 +691,9 @@ function CreatePlayer(playerData, Offline)
             val = lib.math.clamp(val, 0, 100)
             Player(self.PlayerData.source).state:set(meta, val, true)
         end
+        if (meta == 'dead' or meta == 'inlaststand') and self.PlayerData.source then
+            Player(self.PlayerData.source).state:set('canUseWeapons', val, true)
+        end
 
         local oldVal = self.PlayerData.metadata[meta]
         self.PlayerData.metadata[meta] = val
@@ -744,6 +747,7 @@ function CreatePlayer(playerData, Offline)
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'add', reason)
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'add', reason)
+            TriggerEvent('qbx_core:server:setMoney', self.PlayerData.source, moneytype, self.PlayerData.money[moneytype])
         end
 
         return true
@@ -786,6 +790,7 @@ function CreatePlayer(playerData, Offline)
             end
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'remove', reason)
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'remove', reason)
+            TriggerEvent('qbx_core:server:setMoney', self.PlayerData.source, moneytype, self.PlayerData.money[moneytype])
         end
 
         return true
@@ -821,6 +826,7 @@ function CreatePlayer(playerData, Offline)
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, absDifference, difference < 0)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'set', reason)
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'set', reason)
+            TriggerEvent('qbx_core:server:setMoney', self.PlayerData.source, moneytype, self.PlayerData.money[moneytype])
         end
 
         return true
@@ -831,6 +837,65 @@ function CreatePlayer(playerData, Offline)
     function self.Functions.GetMoney(moneytype)
         if not moneytype then return false end
         return self.PlayerData.money[moneytype]
+    end
+
+    local function qbItemCompat(item)
+        if not item then return end
+
+        item.info = item.metadata
+        item.amount = item.count
+
+        return item
+    end
+
+    ---@deprecated use ox_inventory exports directly
+    ---@param item string
+    ---@param amount number
+    ---@param slot? number
+    ---@param metadata? table
+    ---@return boolean success
+    function self.Functions.AddItem(item, amount, slot, metadata)
+        return exports.ox_inventory:AddItem(self.PlayerData.source, item, amount, slot, metadata)
+    end
+
+    ---@deprecated use ox_inventory exports directly
+    ---@param item string
+    ---@param amount number
+    ---@param slot? number
+    ---@return boolean success
+    function self.Functions.RemoveItem(item, amount, slot)
+        return exports.ox_inventory:RemoveItem(self.PlayerData.source, item, amount, nil, slot)
+    end
+
+    ---@deprecated use ox_inventory exports directly
+    ---@param slot number
+    ---@return any table
+    function self.Functions.GetItemBySlot(slot)
+        return qbItemCompat(exports.ox_inventory:GetSlot(self.PlayerData.source, slot))
+    end
+
+    ---@deprecated use ox_inventory exports directly
+    ---@param itemName string
+    ---@return any table
+    function self.Functions.GetItemByName(itemName)
+        return qbItemCompat(exports.ox_inventory:GetSlotWithItem(self.PlayerData.source, itemName))
+    end
+
+    ---@deprecated use ox_inventory exports directly
+    ---@param itemName string
+    ---@return any table
+    function self.Functions.GetItemsByName(itemName)
+        return qbItemCompat(exports.ox_inventory:GetSlotsWithItem(self.PlayerData.source, itemName))
+    end
+
+    ---@deprecated use ox_inventory exports directly
+    function self.Functions.ClearInventory()
+        return exports.ox_inventory:ClearInventory(self.PlayerData.source)
+    end
+
+    ---@deprecated use ox_inventory exports directly
+    function self.Functions.SetInventory()
+        error('Player.Functions.SetInventory is unsupported for ox_inventory. Try ClearInventory, then add the desired items.')
     end
 
     ---@param cardNumber number

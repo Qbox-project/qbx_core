@@ -139,11 +139,13 @@ local function AddItem(itemName, item)
         return false, 'invalid_item_name'
     end
 
-    if QBX.Shared.Items[itemName] then
+    if qbCoreCompat.Shared.Items[itemName] then
         return false, 'item_exists'
     end
 
-    QBX.Shared.Items[itemName] = item
+    lib.print.warn(('New item %s added but not found in ox_inventory. Printing item data'):format(itemName))
+    lib.print.warn(item)
+    qbCoreCompat.Shared.Items[itemName] = item
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
@@ -160,10 +162,10 @@ local function UpdateItem(itemName, item)
     if type(itemName) ~= 'string' then
         return false, 'invalid_item_name'
     end
-    if not QBX.Shared.Items[itemName] then
+    if not qbCoreCompat.Shared.Items[itemName] then
         return false, 'item_not_exists'
     end
-    QBX.Shared.Items[itemName] = item
+    qbCoreCompat.Shared.Items[itemName] = item
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, 'success'
@@ -188,14 +190,16 @@ local function AddItems(items)
             break
         end
 
-        if QBX.Shared.Items[key] then
+        if qbCoreCompat.Shared.Items[key] then
             message = 'item_exists'
             shouldContinue = false
             errorItem = items[key]
             break
         end
+        lib.print.warn(('New item %s added but not found in ox_inventory. Printing item data'):format(key))
+        lib.print.warn(value)
 
-        QBX.Shared.Items[key] = value
+        qbCoreCompat.Shared.Items[key] = value
     end
 
     if not shouldContinue then return false, message, errorItem end
@@ -215,11 +219,11 @@ local function RemoveItem(itemName)
         return false, 'invalid_item_name'
     end
 
-    if not QBX.Shared.Items[itemName] then
+    if not qbCoreCompat.Shared.Items[itemName] then
         return false, 'item_not_exists'
     end
 
-    QBX.Shared.Items[itemName] = nil
+    qbCoreCompat.Shared.Items[itemName] = nil
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, nil)
     TriggerEvent('QBCore:Server:UpdateObject')

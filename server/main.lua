@@ -46,6 +46,7 @@ end
 
 exports('GetWeapons', GetWeapons)
 
+---@deprecated
 ---@return table<string, vector4>
 function GetLocations()
     return QBX.Shared.Locations
