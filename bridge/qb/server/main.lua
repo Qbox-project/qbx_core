@@ -4,7 +4,7 @@ require 'bridge.qb.server.debug'
 require 'bridge.qb.server.events'
 
 CreateThread(function()
-    local convertItems = require 'modules.compat'.convertItems
+    local convertItems = require 'bridge.qb.shared.compat'.convertItems
     convertItems(require '@ox_inventory.data.items', require 'shared.items')
 end)
 
