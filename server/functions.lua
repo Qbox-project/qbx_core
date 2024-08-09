@@ -459,20 +459,21 @@ end
 
 exports('GetGroups', GetGroups)
 
----@param playerData PlayerData
-function BuildInventorySetup(playerData)
-    playerData.identifier = playerData.citizenid
-    playerData.name = ('%s %s'):format(playerData.charinfo.firstname, playerData.charinfo.lastname)
-    return playerData
-end
-
----@return any[]
-local function getInventorySetup()
+---@return PlayerData[]
+local function getPlayersData()
     local playersData = {}
     for _, player in pairs(QBX.Players) do
-        playersData[#playersData + 1] = BuildInventorySetup(player.PlayerData)
+        playersData[#playersData + 1] = player.PlayerData
     end
     return playersData
 end
 
-exports('GetInventorySetup', getInventorySetup)
+exports('GetPlayersData', getPlayersData)
+
+local function isGradeBoss(group, grade)
+    local groupData = GetJob(group) or GetGang(group)
+    if not groupData then return end
+    return groupData[grade].IsBoss
+end
+
+exports('IsGradeBoss', isGradeBoss)
