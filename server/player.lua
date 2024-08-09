@@ -691,6 +691,9 @@ function CreatePlayer(playerData, Offline)
             val = lib.math.clamp(val, 0, 100)
             Player(self.PlayerData.source).state:set(meta, val, true)
         end
+        if (meta == 'dead' or meta == 'inlaststand') and self.PlayerData.source then
+            Player(self.PlayerData.source).state:set('canUseWeapons', val, true)
+        end
 
         local oldVal = self.PlayerData.metadata[meta]
         self.PlayerData.metadata[meta] = val
