@@ -436,6 +436,10 @@ function CheckPlayerData(source, playerData)
         playerData.money[moneytype] = playerData.money[moneytype] or startamount
     end
 
+    -- compat to change cash to money
+    ---@diagnostic disable-next-line: undefined-field
+    if playerData.money.cash then playerData.money.money = playerData.money.cash end
+
     -- Charinfo
     playerData.charinfo = playerData.charinfo or {}
     playerData.charinfo.firstname = playerData.charinfo.firstname or 'Firstname'
@@ -727,6 +731,7 @@ function CreatePlayer(playerData, Offline)
     function self.Functions.AddMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
         amount = qbx.math.round(tonumber(amount) --[[@as number]])
+        moneytype = moneytype == 'cash' and 'money' or moneytype
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
@@ -759,6 +764,7 @@ function CreatePlayer(playerData, Offline)
     function self.Functions.RemoveMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
         amount = qbx.math.round(tonumber(amount) --[[@as number]])
+        moneytype = moneytype == 'cash' and 'money' or moneytype
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         for _, mtype in pairs(config.money.dontAllowMinus) do
@@ -801,6 +807,7 @@ function CreatePlayer(playerData, Offline)
     function self.Functions.SetMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
         amount = qbx.math.round(tonumber(amount) --[[@as number]])
+        moneytype = moneytype == 'cash' and 'money' or moneytype
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         local difference = amount - self.PlayerData.money[moneytype]
@@ -833,6 +840,7 @@ function CreatePlayer(playerData, Offline)
     ---@return boolean | number amount or false if moneytype does not exist
     function self.Functions.GetMoney(moneytype)
         if not moneytype then return false end
+        moneytype = moneytype == 'cash' and 'money' or moneytype
         return self.PlayerData.money[moneytype]
     end
 
