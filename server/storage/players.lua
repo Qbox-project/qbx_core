@@ -317,10 +317,12 @@ end
 ---@param citizenid string
 ---@return table<string, integer> jobs
 ---@return table<string, integer> gangs
+---@return table<string, integer> playerGroups
 local function fetchPlayerGroups(citizenid)
     local groups = MySQL.query.await('SELECT `group`, type, grade FROM player_groups WHERE citizenid = ?', {citizenid})
     local jobs = {}
     local gangs = {}
+    local playerGroups = {}
     for i = 1, #groups do
         local group = groups[i]
         local validGroup = group.type == GroupType.JOB and GetJob(group.group) or GetGang(group.group)
@@ -333,8 +335,13 @@ local function fetchPlayerGroups(citizenid)
         elseif group.type == GroupType.GANG then
             gangs[group.group] = group.grade
         end
+        if playerGroups[group.group] then
+            lib.print.warn(('Duplicate group name %s found in player_groups table, check job and gang shared lua.'):format(group.group))
+        else
+            playerGroups[group.group] = group.grade
+        end
     end
-    return jobs, gangs
+    return jobs, gangs, playerGroups
 end
 
 ---@param citizenid string
