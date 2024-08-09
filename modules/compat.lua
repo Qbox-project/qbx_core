@@ -1,6 +1,8 @@
+-- Item conversion borrowed from ox_inventory: https://github.com/overextended/ox_inventory/blob/52d99285eef1dc7df31c084679db3fdf6b1c0150/modules/items/server.lua#L115-L217
+-- Copyright (c) 2023 Overextended
+
 return {
     convertItems = function(ItemList, items)
-        local resourceName = GetConvar('qbx:inventory', 'ox_inventory')
         local dump = {}
         local count = 0
         local ignoreList = {
@@ -45,27 +47,27 @@ return {
         end
 
         if table.type(dump) ~= 'empty' then
-            local file = {string.strtrim(LoadResourceFile(resourceName, 'data/items.lua'))}
+            local file = {string.strtrim(LoadResourceFile('ox_inventory', 'data/items.lua'))}
             file[1] = file[1]:gsub('}$', '')
 
             local itemFormat = [[
 
-            [%q] = {
-            label = %q,
-            weight = %s,
-            stack = %s,
-            close = %s,
-            description = %q,
-            client = {
-                status = {
-                    hunger = %s,
-                    thirst = %s,
-                    stress = %s
-                },
-                image = %q,
-            }
-        },
-    ]]
+        [%q] = {
+        label = %q,
+        weight = %s,
+        stack = %s,
+        close = %s,
+        description = %q,
+        client = {
+            status = {
+                hunger = %s,
+                thirst = %s,
+                stress = %s
+            },
+            image = %q,
+        }
+    },
+]]
 
             local fileSize = #file
 
@@ -88,8 +90,8 @@ return {
 
             file[fileSize+1] = '}'
 
-            SaveResourceFile(resourceName, 'data/items.lua', table.concat(file), -1)
-            print('^2[warning]^7 '..count..' items have been added to '..resourceName)
+            SaveResourceFile('ox_inventory', 'data/items.lua', table.concat(file), -1)
+            print('^2[warning]^7 '..count..' items have been added to ox_inventory')
             print('^2[warning]^7 You MUST restart the resource to load the new items.')
         end
     end
