@@ -7,6 +7,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
         SetCanAttackFriendly(cache.ped, true, false)
         NetworkSetFriendlyFireOption(true)
     end
+    if NetworkIsInTutorialSession() then NetworkEndTutorialSession() end
 end)
 
 ---@param val PlayerData
