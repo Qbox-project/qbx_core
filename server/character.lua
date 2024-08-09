@@ -27,14 +27,7 @@ end
 
 lib.callback.register('qbx_core:server:getCharacters', function(source)
     local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
-    local chars = storage.fetchAllPlayerEntities(license2, license)
-    local allowedAmount = getAllowedAmountOfCharacters(license2, license)
-    local sortedChars = {}
-    for i = 1, #chars do
-        local char = chars[i]
-        sortedChars[tonumber(char.charinfo.cid)] = char
-    end
-    return sortedChars, allowedAmount
+    return storage.fetchAllPlayerEntities(license2, license), getAllowedAmountOfCharacters(license2, license)
 end)
 
 lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId)
