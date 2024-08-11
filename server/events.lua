@@ -53,12 +53,6 @@ AddEventHandler('playerDropped', function(reason)
     QBX.Players[src] = nil
 end)
 
----@class Deferrals https://docs.fivem.net/docs/scripting-reference/events/list/playerConnecting/#deferring-connections
----@field defer fun() initialize deferrals for the current resource. Required to wait at least 1 tick before calling other deferrals methods.
----@field update fun(message: string) sends a progress message to the connecting client
----@field presentCard fun(card: unknown|string, cb?: fun(data: unknown, rawData: string)) send an adaptive card to the client https://learn.microsoft.com/en-us/adaptive-cards/authoring-cards/getting-started and capture user input via callback.
----@field done fun(failureReason?: string) finalizes deferrals. If failureReason is present, user will be refused connection and shown reason. Need to wait 1 tick after calling other deferral methods before calling done.
-
 -- Player Connecting
 ---@param name string
 ---@param _ any

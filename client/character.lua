@@ -165,15 +165,7 @@ local function previewPed(citizenId)
     end
 end
 
----@class CharacterRegistration
----@field firstname string
----@field lastname string
----@field nationality string
----@field gender number
----@field birthdate string
----@field cid integer
-
----@return string[]?
+---@return CharacterRegistration?
 local function characterDialog()
     local nationalityOption = config.characters.limitNationalities and {
         type = 'select',

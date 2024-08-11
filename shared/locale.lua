@@ -1,16 +1,3 @@
----@class Locale
----@field fallback? Locale
----@field warnOnMissing boolean
----@field phrases table
----@field currentLocale string
----@field new fun(_: Locale, opts: table<string, any>): Locale
----@field extend fun(self: Locale, phrases: table<string, string>, prefix: string?)
----@field clear fun(self: Locale)
----@field replace fun(self: Locale, phrases: table<string, any>)
----@field locale fun(self: Locale, newLocale: string): string
----@field t fun(self: Locale, key: string, subs: table<string, any>?): string
----@field has fun(self: Locale, key: string): boolean
----@field delete fun(self: Locale, phraseTarget: string | table, prefix: string)
 Locale = {}
 Locale.__index = Locale
 
