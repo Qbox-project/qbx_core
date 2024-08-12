@@ -8,7 +8,7 @@ CreateThread(function()
     convertItems(require '@ox_inventory.data.items', require 'shared.items')
 end)
 
-local qbCoreCompat = {}
+qbCoreCompat = {}
 
 qbCoreCompat.Config = lib.table.merge(require 'config.server', require 'config.shared')
 qbCoreCompat.Shared = require 'bridge.qb.shared.main'
