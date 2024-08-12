@@ -752,6 +752,7 @@ function CreatePlayer(playerData, Offline)
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'add', reason)
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'add', reason)
+            TriggerEvent('qbx_core:server:setMoney', self.PlayerData.source, moneytype, self.PlayerData.money[moneytype])
         end
 
         return true
@@ -795,6 +796,7 @@ function CreatePlayer(playerData, Offline)
             end
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'remove', reason)
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'remove', reason)
+            TriggerEvent('qbx_core:server:setMoney', self.PlayerData.source, moneytype, self.PlayerData.money[moneytype])
         end
 
         return true
@@ -831,6 +833,7 @@ function CreatePlayer(playerData, Offline)
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, absDifference, difference < 0)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'set', reason)
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'set', reason)
+            TriggerEvent('qbx_core:server:setMoney', self.PlayerData.source, moneytype, self.PlayerData.money[moneytype])
         end
 
         return true
