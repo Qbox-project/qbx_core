@@ -73,7 +73,7 @@ end
 
 ---@param playerData PlayerData
 ---@return table<string, integer> playerGroups
-function GetGroups(playerData)
+function GetPlayerGroups(playerData)
     local groups = {}
     for job, data in pairs(playerData.jobs) do
         if not groups[job] then

@@ -454,7 +454,7 @@ exports('HasGroup', HasGroup)
 ---@return table<string, integer>
 function GetGroups(source)
     local playerData = QBX.Players[source].PlayerData
-    return GetGroups(playerData)
+    return GetPlayerGroups(playerData)
 end
 
 exports('GetGroups', GetGroups)

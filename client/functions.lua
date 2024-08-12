@@ -63,7 +63,7 @@ exports('HasGroup', HasGroup)
 ---@return table<string, integer>
 function GetGroups()
     local playerData = QBX.PlayerData
-    return GetGroups(playerData)
+    return GetPlayerGroups(playerData)
 end
 
 exports('GetGroups', GetGroups)
