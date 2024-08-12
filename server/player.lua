@@ -505,7 +505,7 @@ function CheckPlayerData(source, playerData)
         SerialNumber = GenerateUniqueIdentifier('SerialNumber'),
         InstalledApps = {},
     }
-    local jobs, gangs = storage.fetchPlayerGroups(playerData.citizenid)
+    local jobs, gangs, groups = storage.fetchPlayerGroups(playerData.citizenid)
 
     local job = GetJob(playerData.job?.name) or GetJob('unemployed')
     assert(job ~= nil, 'Unemployed job not found. Does it exist in shared/jobs.lua?')
@@ -541,6 +541,7 @@ function CheckPlayerData(source, playerData)
         }
     }
     playerData.gangs = gangs or {}
+    playerData.groups = groups or {}
     playerData.position = playerData.position or defaultSpawn
     playerData.items = {}
     return CreatePlayer(playerData --[[@as PlayerData]], Offline)
