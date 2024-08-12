@@ -450,6 +450,15 @@ end
 
 exports('HasGroup', HasGroup)
 
+---@param source Source
+---@return table<string, integer>
+function GetGroups(source)
+    local playerData = QBX.Players[source].PlayerData
+    return GetGroups(playerData)
+end
+
+exports('GetGroups', GetGroups)
+
 ---@param playerData PlayerData
 function BuildInventorySetup(playerData)
     playerData.identifier = playerData.citizenid
