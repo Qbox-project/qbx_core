@@ -52,7 +52,7 @@ return {
 
             local itemFormat = [[
 
-        [%q] = {
+    [%q] = {
         label = %q,
         weight = %s,
         stack = %s,
