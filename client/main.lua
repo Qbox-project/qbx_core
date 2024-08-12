@@ -24,7 +24,6 @@ end
 
 exports('GetVehiclesByCategory', GetVehiclesByCategory)
 
----@deprecated use ox_inventory exports directly.
 ---@return table<number, Weapon>
 function GetWeapons()
     return QBX.Shared.Weapons
