@@ -44,7 +44,7 @@ local function getBanId(request)
     elseif request.ip then
         return 'ip', request.ip
     else
-        error('no identifier provided', 2)
+        return nil, nil
     end
 end
 
@@ -61,6 +61,10 @@ end
 ---@return BanEntity?
 local function fetchBan(request)
     local column, value = getBanId(request)
+    if not column or not value then
+        return nil
+    end
+
     local result = MySQL.single.await('SELECT expire, reason FROM bans WHERE ' ..column.. ' = ?', { value })
     return result and {
         expire = result.expire,
