@@ -317,7 +317,6 @@ end
 ---@param citizenid string
 ---@return table<string, integer> jobs
 ---@return table<string, integer> gangs
----@return table<string, integer> playerGroups
 local function fetchPlayerGroups(citizenid)
     local groups = MySQL.query.await('SELECT `group`, type, grade FROM player_groups WHERE citizenid = ?', {citizenid})
     local jobs = {}
