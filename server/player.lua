@@ -901,7 +901,7 @@ function CreatePlayer(playerData, Offline)
 
     ---@deprecated use ox_inventory exports directly
     function self.Functions.SetInventory()
-        lib.print.error('Player.Functions.SetInventory is unsupported for ox_inventory. Try ClearInventory, then add the desired items.')
+        error('Player.Functions.SetInventory is unsupported for ox_inventory. Try ClearInventory, then add the desired items.')
     end
 
     ---@param cardNumber number
