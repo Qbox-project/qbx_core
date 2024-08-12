@@ -435,7 +435,17 @@ exports('ExploitBan', ExploitBan)
 ---@return boolean
 function HasPrimaryGroup(source, filter)
     local playerData = QBX.Players[source].PlayerData
-    return HasPlayerGotGroup(filter, playerData)
+    return HasPlayerGotGroup(filter, playerData, true)
 end
 
 exports('HasPrimaryGroup', HasPrimaryGroup)
+
+---@param source Source
+---@param filter string | string[] | table<string, number>
+---@return boolean
+function HasGroup(source, filter)
+    local playerData = QBX.Players[source].PlayerData
+    return HasPlayerGotGroup(filter, playerData)
+end
+
+exports('HasGroup', HasGroup)

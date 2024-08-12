@@ -24,17 +24,19 @@
 
 ---@param filter string | string[] | table<string, number>
 ---@param playerData table
+---@param primary boolean Check only for primary job/gang
 ---@return boolean
-function HasPlayerGotGroup(filter, playerData)
+function HasPlayerGotGroup(filter, playerData, primary)
     if not filter then return false end
     local _type = type(filter)
 
     if _type == 'string' then
         local job = playerData.job.name == filter
         local gang = playerData.gang.name == filter
+        local group = not primary and playerData.groups[filter]
         local citizenId = playerData.citizenid == filter
 
-        if job or gang or citizenId then
+        if job or gang or group or citizenId then
             return true
         end
     elseif _type == 'table' then
@@ -44,9 +46,10 @@ function HasPlayerGotGroup(filter, playerData)
             for name, grade in pairs(filter) do
                 local job = playerData.job.name == name
                 local gang = playerData.gang.name == name
+                local group = not primary and playerData.groups[name]
                 local citizenId = playerData.citizenid == name
 
-                if job and grade <= playerData.job.grade.level or gang and grade <= playerData.gang.grade.level or citizenId then
+                if job and grade <= playerData.job.grade.level or gang and grade <= playerData.gang.grade.level or group and grade <= group or citizenId then
                     return true
                 end
             end
@@ -55,9 +58,10 @@ function HasPlayerGotGroup(filter, playerData)
                 local name = filter[i]
                 local job = playerData.job.name == name
                 local gang = playerData.gang.name == name
+                local group = not primary and playerData.groups[name]
                 local citizenId = playerData.citizenid == name
 
-                if job or gang or citizenId then
+                if job or gang or group or citizenId then
                     return true
                 end
             end
