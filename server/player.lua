@@ -987,6 +987,7 @@ function CreatePlayer(playerData, Offline)
         -- At this point we are safe to emit new instance to third party resource for load handling
         GlobalState.PlayerCount += 1
         self.Functions.UpdatePlayerData()
+        Player(self.PlayerData.source).state:set('loadInventory', true, true)
         TriggerEvent('QBCore:Server:PlayerLoaded', self)
     end
 
