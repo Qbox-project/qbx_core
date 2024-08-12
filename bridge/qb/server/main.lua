@@ -3,6 +3,11 @@ if GetConvar('qbx:enablebridge', 'true') == 'false' then return end
 require 'bridge.qb.server.debug'
 require 'bridge.qb.server.events'
 
+CreateThread(function()
+    local convertItems = require 'modules.compat'.convertItems
+    convertItems(require '@ox_inventory.data.items', require 'shared.items')
+end)
+
 local qbCoreCompat = {}
 
 qbCoreCompat.Config = lib.table.merge(require 'config.server', require 'config.shared')
