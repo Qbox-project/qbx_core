@@ -449,3 +449,21 @@ function HasGroup(source, filter)
 end
 
 exports('HasGroup', HasGroup)
+
+---@param playerData PlayerData
+function BuildInventorySetup(playerData)
+    playerData.identifier = playerData.citizenid
+    playerData.name = ('%s %s'):format(playerData.charinfo.firstname, playerData.charinfo.lastname)
+    return playerData
+end
+
+---@return any[]
+local function getInventorySetup()
+    local playersData = {}
+    for _, player in pairs(QBX.Players) do
+        playersData[#playersData + 1] = BuildInventorySetup(player.PlayerData)
+    end
+    return playersData
+end
+
+exports('GetInventorySetup', getInventorySetup)
