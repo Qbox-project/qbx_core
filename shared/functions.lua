@@ -27,7 +27,7 @@
 ---@param primary boolean Check only for primary job/gang
 ---@return boolean
 function HasPlayerGotGroup(filter, playerData, primary)
-    local groups = not primary and GetGroups(playerData)
+    local groups = not primary and GetPlayerGroups(playerData)
     if not filter then return false end
     local _type = type(filter)
 
