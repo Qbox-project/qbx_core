@@ -348,7 +348,7 @@ function IsPlayerBanned(source)
         return true, ('You have been banned from the server:\n%s\nYour ban expires in %s/%s/%s %s:%s\n'):format(result.reason, timeTable.day, timeTable.month, timeTable.year, timeTable.hour, timeTable.min)
     else
         CreateThread(function()
-            storage.deleteBan({ license = license2 })
+            if license2 then storage.deleteBan({ license = license2 }) end
             storage.deleteBan({ license = license })
         end)
     end
