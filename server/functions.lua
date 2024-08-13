@@ -478,3 +478,9 @@ local function isGradeBoss(group, grade)
 end
 
 exports('IsGradeBoss', isGradeBoss)
+
+local function getGroupMembers(group, type)
+    return storage.fetchGroupMembers(group, type)
+end
+
+exports('GetGroupMembers', getGroupMembers)

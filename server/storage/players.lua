@@ -231,6 +231,13 @@ local function fetchPlayerGroups(citizenid)
     return jobs, gangs
 end
 
+---@param group string
+---@param type GroupType
+---@return table<string, integer> players
+local function fetchGroupMembers(group, type)
+    return MySQL.query.await("SELECT citizenid, grade FROM player_groups WHERE `group` = ? AND `type` = ?", {group, type})
+end
+
 ---@param citizenid string
 ---@param type GroupType
 ---@param group string
@@ -316,6 +323,7 @@ return {
     addPlayerToJob = addPlayerToJob,
     addPlayerToGang = addPlayerToGang,
     fetchPlayerGroups = fetchPlayerGroups,
+    fetchGroupMembers = fetchGroupMembers,
     removePlayerFromJob = removePlayerFromJob,
     removePlayerFromGang = removePlayerFromGang,
 }
