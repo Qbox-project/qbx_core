@@ -6,6 +6,12 @@ local maxJobsPerPlayer = GetConvarInt('qbx:max_jobs_per_player', 1)
 local maxGangsPerPlayer = GetConvarInt('qbx:max_gangs_per_player', 1)
 local setJobReplaces = GetConvar('qbx:setjob_replaces', 'true') == 'true'
 local setGangReplaces = GetConvar('qbx:setgang_replaces', 'true') == 'true'
+local accounts = json.decode(GetConvar('inventory:accounts', '["money"]'))
+local accountsAsItems = table.create(0, #accounts)
+
+for i = 1, #accounts do
+    accountsAsItems[accounts[i]] = 0
+end
 
 ---@class PlayerData : PlayerEntity
 ---@field jobs table<string, integer>
@@ -722,6 +728,24 @@ function CreatePlayer(playerData, Offline)
 
     ---@param moneytype MoneyType
     ---@param amount number
+    ---@param actionType 'add'|'remove'|'set'
+    ---@param direction boolean
+    ---@param reason? string
+    local function emitMoneyEvents(moneytype, amount, actionType, direction, reason)
+        TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, actionType == 'set' and math.abs(amount) or amount, direction)
+        TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, actionType, reason)
+        TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, actionType, reason)
+        if moneytype == 'bank' and actionType == 'remove' then
+            TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
+        end
+        local oxmoneytype = moneytype == 'cash' and 'money' or moneytype
+        if accountsAsItems[oxmoneytype] then
+            exports.ox_inventory:SetItem(self.PlayerData.source, moneytype, self.PlayerData.money[moneytype])
+        end
+    end
+
+    ---@param moneytype MoneyType
+    ---@param amount number
     ---@param reason? string
     ---@return boolean success if money was added
     function self.Functions.AddMoney(moneytype, amount, reason)
@@ -744,10 +768,7 @@ function CreatePlayer(playerData, Offline)
                 message = ('**%s (citizenid: %s | id: %s)** $%s (%s) added, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
                 --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s'):format(resource, GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, self.PlayerData.money[moneytype], reason)
             })
-            TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
-            TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'add', reason)
-            TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'add', reason)
-            TriggerEvent('qbx_core:server:setMoney', self.PlayerData.source, moneytype, self.PlayerData.money[moneytype])
+            emitMoneyEvents(moneytype, amount, 'add', false, reason)
         end
 
         return true
@@ -784,13 +805,7 @@ function CreatePlayer(playerData, Offline)
                 message = ('** %s (citizenid: %s | id: %s)** $%s (%s) removed, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
                 --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s'):format(resource, GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, self.PlayerData.money[moneytype], reason)
             })
-            TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
-            if moneytype == 'bank' then
-                TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
-            end
-            TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'remove', reason)
-            TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'remove', reason)
-            TriggerEvent('qbx_core:server:setMoney', self.PlayerData.source, moneytype, self.PlayerData.money[moneytype])
+            emitMoneyEvents(moneytype, amount, 'remove', true, reason)
         end
 
         return true
@@ -823,10 +838,7 @@ function CreatePlayer(playerData, Offline)
                 message = ('**%s (citizenid: %s | id: %s)** $%s (%s) %s, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, absDifference, moneytype, dirChange, moneytype, self.PlayerData.money[moneytype], reason),
                 --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s,direction:%s'):format(resource, GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, absDifference, moneytype, self.PlayerData.money[moneytype], reason, dirChange)
             })
-            TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, absDifference, difference < 0)
-            TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'set', reason)
-            TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'set', reason)
-            TriggerEvent('qbx_core:server:setMoney', self.PlayerData.source, moneytype, self.PlayerData.money[moneytype])
+            emitMoneyEvents(moneytype, amount, 'set', difference < 0, reason)
         end
 
         return true
