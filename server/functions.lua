@@ -436,7 +436,45 @@ exports('ExploitBan', ExploitBan)
 ---@return boolean
 function HasPrimaryGroup(source, filter)
     local playerData = QBX.Players[source].PlayerData
-    return HasPlayerGotGroup(filter, playerData)
+    return HasPlayerGotGroup(filter, playerData, true)
 end
 
 exports('HasPrimaryGroup', HasPrimaryGroup)
+
+---@param source Source
+---@param filter string | string[] | table<string, number>
+---@return boolean
+function HasGroup(source, filter)
+    local playerData = QBX.Players[source].PlayerData
+    return HasPlayerGotGroup(filter, playerData)
+end
+
+exports('HasGroup', HasGroup)
+
+---@param source Source
+---@return table<string, integer>
+function GetGroups(source)
+    local playerData = QBX.Players[source].PlayerData
+    return GetPlayerGroups(playerData)
+end
+
+exports('GetGroups', GetGroups)
+
+---@return PlayerData[]
+local function getPlayersData()
+    local playersData = {}
+    for _, player in pairs(QBX.Players) do
+        playersData[#playersData + 1] = player.PlayerData
+    end
+    return playersData
+end
+
+exports('GetPlayersData', getPlayersData)
+
+local function isGradeBoss(group, grade)
+    local groupData = GetJob(group) or GetGang(group)
+    if not groupData then return end
+    return groupData[grade].IsBoss
+end
+
+exports('IsGradeBoss', isGradeBoss)

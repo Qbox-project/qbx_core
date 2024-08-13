@@ -1,15 +1,6 @@
 local defaultSpawn = require 'config.shared'.defaultSpawn
 local characterDataTables = require 'config.server'.characterDataTables
 
----@class InsertBanRequest
----@field name string
----@field license? string
----@field discordId? string
----@field ip? string
----@field reason string
----@field bannedBy string
----@field expiration integer epoch second that the ban will expire
-
 ---@param request InsertBanRequest
 ---@return boolean success
 ---@return ErrorResult? errorResult
@@ -48,15 +39,6 @@ local function getBanId(request)
     end
 end
 
----@class GetBanRequest
----@field license? string
----@field discordId? string
----@field ip? string
-
----@class BanEntity
----@field expire integer epoch second that the ban will expire
----@field reason string
-
 ---@param request GetBanRequest
 ---@return BanEntity?
 local function fetchBan(request)
@@ -74,10 +56,6 @@ local function deleteBan(request)
     MySQL.query.await('DELETE FROM bans WHERE ' ..column.. ' = ?', { value })
 end
 
----@class UpsertPlayerRequest
----@field playerEntity PlayerEntity
----@field position vector3
-
 ---@param request UpsertPlayerRequest
 local function upsertPlayerEntity(request)
     MySQL.insert.await('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata, last_logged_out) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata, :last_logged_out) ON DUPLICATE KEY UPDATE name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata, last_logged_out = :last_logged_out', {
@@ -94,90 +72,6 @@ local function upsertPlayerEntity(request)
         last_logged_out = os.date('%Y-%m-%d %H:%M:%S', request.playerEntity.lastLoggedOut)
     })
 end
-
----@class PlayerEntity
----@field citizenid string
----@field license string
----@field name string
----@field money Money
----@field charinfo PlayerCharInfo
----@field job? PlayerJob
----@field gang? PlayerGang
----@field position vector4
----@field metadata PlayerMetadata
----@field cid integer
----@field lastLoggedOut integer
----@field items table deprecated
-
----@class PlayerEntityDatabase : PlayerEntity
----@field charinfo string
----@field money string
----@field job? string
----@field gang? string
----@field position string
----@field metadata string
----@field lastLoggedOutUnix integer
-
----@class PlayerCharInfo
----@field firstname string
----@field lastname string
----@field birthdate string
----@field nationality string
----@field cid integer
----@field gender integer
----@field backstory string
----@field phone string
----@field account string
----@field card number
-
----@class PlayerMetadata
----@field health number
----@field armor number
----@field hunger number
----@field thirst number
----@field stress number
----@field isdead boolean
----@field inlaststand boolean
----@field ishandcuffed boolean
----@field tracker boolean
----@field injail number time in minutes
----@field jailitems table TODO: expand
----@field status table TODO: expand
----@field phone {background: any, profilepicture: any} TODO: figure out more specific types
----@field bloodtype BloodType
----@field dealerrep number
----@field craftingrep number
----@field attachmentcraftingrep number
----@field currentapartment? integer apartmentId
----@field jobrep {tow: number, trucker: number, taxi: number, hotdog: number}
----@field callsign string
----@field fingerprint string
----@field walletid string
----@field criminalrecord {hasRecord: boolean, date?: table} TODO: date is os.date(), create better type than table
----@field licences {id: boolean, driver: boolean, weapon: boolean}
----@field inside {house?: any, apartment: {apartmentType?: any, apartmentId?: integer}} TODO: expand
----@field phonedata {SerialNumber: string, InstalledApps: table} TODO: expand
-
----@class PlayerJob
----@field name string
----@field label string
----@field payment number
----@field type? string
----@field onduty boolean
----@field isboss boolean
----@field grade {name: string, level: number}
-
----@class PlayerGang
----@field name string
----@field label string
----@field isboss boolean
----@field grade {name: string, level: number}
-
----@class PlayerSkin
----@field citizenid string
----@field model string
----@field skin string
----@field active integer
 
 ---@param citizenId string
 ---@return PlayerSkin?
