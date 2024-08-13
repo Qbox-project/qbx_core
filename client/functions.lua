@@ -47,7 +47,23 @@ exports('GetPlayerData', GetPlayerData)
 ---@param filter string | string[] | table<string, number>
 ---@return boolean
 function HasPrimaryGroup(filter)
-    return HasPlayerGotGroup(filter, QBX.PlayerData)
+    return HasPlayerGotGroup(filter, QBX.PlayerData, true)
 end
 
 exports('HasPrimaryGroup', HasPrimaryGroup)
+
+---@param filter string | string[] | table<string, number>
+---@return boolean
+function HasGroup(filter)
+    return HasPlayerGotGroup(filter, QBX.PlayerData)
+end
+
+exports('HasGroup', HasGroup)
+
+---@return table<string, integer>
+function GetGroups()
+    local playerData = QBX.PlayerData
+    return GetPlayerGroups(playerData)
+end
+
+exports('GetGroups', GetGroups)
