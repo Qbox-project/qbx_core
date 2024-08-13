@@ -1,29 +1,3 @@
----@class GroupData
----@field label string
-
----@class JobData : GroupData
----@field type? string
----@field defaultDuty boolean
----@field offDutyPay boolean
-
----@class GangData : GroupData
-
----@class GradeData
----@field name string
----@field isboss? boolean
----@field bankAuth? boolean
-
----@class JobGradeData : GradeData
----@field payment number
-
----@class GangGradeData : GradeData
-
----@class Job : JobData
----@field grades table<integer, JobGradeData>
-
----@class Gang : GangData
----@field grades table<integer, GangGradeData>
-
 ---@enum GroupType
 GroupType = {
     JOB = 'job',
