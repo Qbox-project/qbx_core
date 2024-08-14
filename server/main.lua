@@ -1,8 +1,13 @@
 lib.versionCheck('Qbox-project/qbx_core')
-local startupErrors, errorMessage = lib.checkDependency('ox_lib', '3.20.0', true), 'ox_lib version 3.20.0 or higher is required' -- luacheck: ignore
-startupErrors, errorMessage = not startupErrors and lib.checkDependency('ox_inventory', '2.42.0', true), 'ox_inventory version 2.42.0 or higher is required' -- luacheck: ignore
-startupErrors, errorMessage = not startupErrors and GetConvar('inventory:framework', '') == 'qbx' and true, 'inventory:framework must be set to "qbx" in order to use qbx_core'
-if not startupErrors then
+local startupErrors, errorMessage
+if not lib.checkDependency('ox_lib', '3.20.0', true) then
+    startupErrors, errorMessage = true, 'ox_lib version 3.20.0 or higher is required'
+elseif not lib.checkDependency('ox_inventory', '2.42.0', true) then
+    startupErrors, errorMessage = true, 'ox_inventory version 2.42.0 or higher is required'
+elseif GetConvar('inventory:framework', '') ~= 'qbx' then
+    startupErrors, errorMessage = true, 'inventory:framework must be set to "qbx" in order to use qbx_core'
+end
+if startupErrors then
     lib.print.error('Startup errors detected, shutting down server...')
     ExecuteCommand('quit immediately')
     for _ = 1, 100 do
