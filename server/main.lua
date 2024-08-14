@@ -1,5 +1,15 @@
 lib.versionCheck('Qbox-project/qbx_core')
-assert(lib.checkDependency('ox_lib', '3.20.0', true))
+local startupErrors, errorMessage = lib.checkDependency('ox_lib', '3.20.0', true), 'ox_lib version 3.20.0 or higher is required'
+startupErrors, errorMessage = not startupErrors and lib.checkDependency('ox_inventory', '2.42.0', true), 'ox_inventory version 2.42.0 or higher is required'
+startupErrors, errorMessage = not startupErrors and GetConvar('inventory:framework', '') == 'qbx' and true, 'inventory:framework must be set to "qbx" in order to use qbx_core'
+if not startupErrors then
+    lib.print.error('Startup errors detected, shutting down server...')
+    ExecuteCommand('quit immediately')
+    for _ = 1, 100 do
+        lib.print.error(errorMessage)
+    end
+    error(errorMessage)
+end
 
 ---@type 'strict'|'relaxed'|'inactive'
 local bucketLockDownMode = GetConvar('qbx:bucketlockdownmode', 'inactive')
