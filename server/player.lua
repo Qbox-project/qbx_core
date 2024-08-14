@@ -670,7 +670,7 @@ function CreatePlayer(playerData, Offline)
             Player(self.PlayerData.source).state:set(meta, val, true)
         end
         if (meta == 'dead' or meta == 'inlaststand') and self.PlayerData.source then
-            Player(self.PlayerData.source).state:set('canUseWeapons', val, true)
+            Player(self.PlayerData.source).state:set('canUseWeapons', not val, true)
         end
 
         local oldVal = self.PlayerData.metadata[meta]
