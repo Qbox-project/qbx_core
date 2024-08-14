@@ -4,7 +4,6 @@ local defaultSpawn = require 'config.shared'.defaultSpawn
 if config.characters.useExternalCharacters then return end
 
 local previewCam
-local charsOpen = false
 local randomLocation = config.characters.locations[math.random(1, #config.characters.locations)]
 
 local randomPeds = {
@@ -356,8 +355,6 @@ end
 local function chooseCharacter()
     randomLocation = config.characters.locations[math.random(1, #config.characters.locations)]
     SetFollowPedCamViewMode(2)
-
-    charsOpen = true
     DisplayRadar(false)
 
     DoScreenFadeOut(500)
