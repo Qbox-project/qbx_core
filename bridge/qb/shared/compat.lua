@@ -91,8 +91,11 @@ return {
             file[fileSize+1] = '}'
 
             SaveResourceFile('ox_inventory', 'data/items.lua', table.concat(file), -1)
-            print('^2[warning]^7 '..count..' items have been added to ox_inventory')
-            print('^2[warning]^7 You MUST restart the resource to load the new items.')
+            CreateThread(function()
+                Wait(1000)
+                print('^2[warning]^7 '..count..' items have been added to ox_inventory')
+                print('^2[warning]^7 You MUST restart the resource to load the new items.')
+            end)
         end
     end
 }
