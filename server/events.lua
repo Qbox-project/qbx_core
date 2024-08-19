@@ -204,10 +204,12 @@ local function playerStateBagCheck(bagName, meta, value)
     if not value then return end
     local plySrc = GetPlayerFromStateBagName(bagName)
     if not plySrc then return end
-    local player = QBX.Players[plySrc]
-    if not player then return end
-    if player.PlayerData.metadata[meta] == value or Player(plySrc).state[meta] == value then return end
-    player.Functions.SetMetaData(meta, value)
+    CreateThread(function()
+        local player = QBX.Players[plySrc]
+        if not player then return end
+        if player.PlayerData.metadata[meta] == value and Player(plySrc).state[meta] == value then return end
+        player.Functions.SetMetaData(meta, value)
+    end)
 end
 
 AddStateBagChangeHandler('hunger', nil, function(bagName, _, value)
