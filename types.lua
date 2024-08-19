@@ -172,14 +172,14 @@
 ---@field dealerrep number
 ---@field craftingrep number
 ---@field attachmentcraftingrep number
----@field currentapartment? integer apartmentId
 ---@field jobrep {tow: number, trucker: number, taxi: number, hotdog: number}
 ---@field callsign string
 ---@field fingerprint string
 ---@field walletid string
 ---@field criminalrecord {hasRecord: boolean, date?: table} TODO: date is os.date(), create better type than table
 ---@field licences {id: boolean, driver: boolean, weapon: boolean}
----@field inside {house?: any, apartment: {apartmentType?: any, apartmentId?: integer}} TODO: expand
+---@field inside {house?: any, apartment: {apartmentType?: any, apartmentId?: integer}} deprecated, use currentPropertyId with qbx_properties
+---@field currentPropertyId number?
 ---@field phonedata {SerialNumber: string, InstalledApps: table} TODO: expand
 
 ---@class PlayerJob
