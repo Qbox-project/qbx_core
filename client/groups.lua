@@ -1,5 +1,5 @@
-local jobs = require 'data.jobs'
-local gangs = require 'data.gangs'
+local jobs = require 'config.shared.jobs'
+local gangs = require 'config.shared.gangs'
 
 ---@return table<string, Job>
 function GetJobs()

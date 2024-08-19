@@ -5,10 +5,10 @@ GroupType = {
 }
 
 ---@type table<string, Job>
-local jobs = require 'data.jobs'
+local jobs = require 'config.shared.jobs'
 
 ---@type table<string, Gang>
-local gangs = require 'data.gangs'
+local gangs = require 'config.shared.gangs'
 
 ---Adds or overwrites jobs in shared/jobs.lua
 ---@param newJobs table<string, Job>
