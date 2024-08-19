@@ -592,7 +592,7 @@ function CreatePlayer(playerData, Offline)
     ---@return ErrorResult? errorResult
     function self.Functions.SetJob(jobName, grade)
         jobName = jobName:lower()
-        grade = tonumber(grade or 0)
+        grade = tonumber(grade) or 0
         local job = GetJob(jobName)
         if not job then
             lib.print.error(('cannot set job. Job %s does not exist'):format(jobName))
@@ -622,7 +622,7 @@ function CreatePlayer(playerData, Offline)
     ---@return ErrorResult? errorResult
     function self.Functions.SetGang(gangName, grade)
         gangName = gangName:lower()
-        grade = tonumber(grade or 0)
+        grade = tonumber(grade) or 0
         local gang = GetGang(gangName)
         if not gang then
             lib.print.error(('cannot set gang. Gang %s does not exist'):format(gangName))
