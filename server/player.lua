@@ -472,7 +472,6 @@ function CheckPlayerData(source, playerData)
     playerData.metadata.dealerrep = playerData.metadata.dealerrep or 0
     playerData.metadata.craftingrep = playerData.metadata.craftingrep or 0
     playerData.metadata.attachmentcraftingrep = playerData.metadata.attachmentcraftingrep or 0
-    playerData.metadata.currentapartment = playerData.metadata.currentapartment or nil
     playerData.metadata.jobrep = playerData.metadata.jobrep or {}
     playerData.metadata.jobrep.tow = playerData.metadata.jobrep.tow or 0
     playerData.metadata.jobrep.trucker = playerData.metadata.jobrep.trucker or 0
@@ -490,6 +489,7 @@ function CheckPlayerData(source, playerData)
         driver = true,
         weapon = false,
     }
+    ---@deprecated
     playerData.metadata.inside = playerData.metadata.inside or {
         house = nil,
         apartment = {
@@ -497,6 +497,7 @@ function CheckPlayerData(source, playerData)
             apartmentId = nil,
         }
     }
+    playerData.metadata.currentPropertyId = playerData.metadata.currentPropertyId or nil
     playerData.metadata.phonedata = playerData.metadata.phonedata or {
         SerialNumber = GenerateUniqueIdentifier('SerialNumber'),
         InstalledApps = {},
