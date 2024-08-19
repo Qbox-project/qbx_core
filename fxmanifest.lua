@@ -41,13 +41,8 @@ server_scripts {
 
 files {
     'modules/*.lua',
-    'shared/gangs.lua',
-    'shared/items.lua',
-    'shared/jobs.lua',
-    'shared/locations.lua',
+    'data/*.lua',
     'shared/main.lua',
-    'shared/vehicles.lua',
-    'shared/weapons.lua',
     'bridge/qb/client/functions.lua',
     'bridge/qb/client/drawtext.lua',
     'bridge/qb/client/events.lua',
