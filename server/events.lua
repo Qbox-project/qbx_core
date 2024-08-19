@@ -206,7 +206,7 @@ local function playerStateBagCheck(bagName, meta, value)
     if not plySrc then return end
     local player = QBX.Players[plySrc]
     if not player then return end
-    if player.PlayerData.metadata[meta] == value then return end
+    if player.PlayerData.metadata[meta] == value or Player(plySrc).state[meta] == value then return end
     player.Functions.SetMetaData(meta, value)
 end
 
