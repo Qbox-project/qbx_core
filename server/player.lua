@@ -845,11 +845,10 @@ function CreatePlayer(playerData, Offline)
     ---@deprecated use ox_inventory exports directly
     ---@param item string
     ---@param amount number
-    ---@param metadata? table
     ---@param slot? number
     ---@return boolean success
     function self.Functions.RemoveItem(item, amount, metadata, slot)
-        return exports.ox_inventory:RemoveItem(self.PlayerData.source, item, amount, metadata, slot)
+        return exports.ox_inventory:RemoveItem(self.PlayerData.source, item, amount, nil, slot)
     end
 
     ---@deprecated use ox_inventory exports directly
