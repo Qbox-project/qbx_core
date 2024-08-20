@@ -838,7 +838,7 @@ function CreatePlayer(playerData, Offline)
     ---@param metadata? table
     ---@param slot? number
     ---@return boolean success
-    function self.Functions.AddItem(item, amount, metadata, slot)
+    function self.Functions.AddItem(item, amount, slot, metadata)
         return exports.ox_inventory:AddItem(self.PlayerData.source, item, amount, metadata, slot)
     end
 
