@@ -181,6 +181,7 @@
 ---@field licences {id: boolean, driver: boolean, weapon: boolean}
 ---@field inside {house?: any, apartment: {apartmentType?: any, apartmentId?: integer}} TODO: expand
 ---@field phonedata {SerialNumber: string, InstalledApps: table} TODO: expand
+---@field [string] any
 
 ---@class PlayerJob
 ---@field name string
