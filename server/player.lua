@@ -847,7 +847,7 @@ function CreatePlayer(playerData, Offline)
     ---@param amount number
     ---@param slot? number
     ---@return boolean success
-    function self.Functions.RemoveItem(item, amount, metadata, slot)
+    function self.Functions.RemoveItem(item, amount, slot)
         return exports.ox_inventory:RemoveItem(self.PlayerData.source, item, amount, nil, slot)
     end
 
