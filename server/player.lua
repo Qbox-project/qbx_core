@@ -704,7 +704,7 @@ function CreatePlayer(playerData, Offline)
     ---@param direction boolean
     ---@param reason? string
     local function emitMoneyEvents(moneytype, amount, actionType, direction, reason)
-        TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, actionType == 'set' and math.abs(amount) or amount, direction)
+        TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, direction)
         TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, actionType, reason)
         TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, actionType, reason)
         if moneytype == 'bank' and actionType == 'remove' then
@@ -810,7 +810,7 @@ function CreatePlayer(playerData, Offline)
                 message = ('**%s (citizenid: %s | id: %s)** $%s (%s) %s, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, absDifference, moneytype, dirChange, moneytype, self.PlayerData.money[moneytype], reason),
                 --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s,direction:%s'):format(resource, GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, absDifference, moneytype, self.PlayerData.money[moneytype], reason, dirChange)
             })
-            emitMoneyEvents(moneytype, amount, 'set', difference < 0, reason)
+            emitMoneyEvents(moneytype, absDifference, 'set', difference < 0, reason)
         end
 
         return true
@@ -835,11 +835,11 @@ function CreatePlayer(playerData, Offline)
     ---@deprecated use ox_inventory exports directly
     ---@param item string
     ---@param amount number
-    ---@param slot? number
     ---@param metadata? table
+    ---@param slot? number
     ---@return boolean success
     function self.Functions.AddItem(item, amount, slot, metadata)
-        return exports.ox_inventory:AddItem(self.PlayerData.source, item, amount, slot, metadata)
+        return exports.ox_inventory:AddItem(self.PlayerData.source, item, amount, metadata, slot)
     end
 
     ---@deprecated use ox_inventory exports directly
