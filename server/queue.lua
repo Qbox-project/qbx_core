@@ -18,7 +18,7 @@ end
 -- Queue code
 
 local config = require 'config.queue'
-local maxPlayers = GlobalState.MaxPlayers
+local maxPlayers = GetConvarInt('sv_maxclients', 48)
 
 -- destructure frequently used config options
 local waitingEmojis = config.waitingEmojis
