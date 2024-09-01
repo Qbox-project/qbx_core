@@ -397,7 +397,7 @@ createQbExport('RemoveGang', RemoveGang)
 local function checkExistingMethod(method, methodName)
     local methodType = type(method)
     if methodType == 'function' then
-        local warnMessage = allowMethodOverrides and 'Method %s already exists in player class. Overriding it. Disable this warning by setting convar qbx:disableoverridewarning to true' or 'Method %s already exists in player class. This can cause unexpected behavior. Disable this warning by setting convar qbx:disableoverridewarning to true'
+        local warnMessage = allowMethodOverrides and 'A resource is overriding method %s in player class. This can cause unexpected behavior. Disable this warning by setting convar qbx:disableoverridewarning to true' or 'A resource attempted to override method %s in player object and was blocked. Disable this warning by setting convar qbx:disableoverridewarning to true'
         if not disableMethodOverrideWarning then
             lib.print.warn(warnMessage:format(methodName))
         end
