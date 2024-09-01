@@ -2,8 +2,8 @@ require 'server.functions'
 require 'bridge.qb.server.player'
 local functions = {}
 
-local allowMethodOverrides = GetConvarInt('qbx:allowMethodOverrides', 1) == 1
-local disableMethodOverrideWarning = GetConvarInt('qbx:disableMethodOverrideWarning', 0) == 1
+local allowMethodOverrides = GetConvarInt('qbx:allowmethodoverrides', 1) == 1
+local disableMethodOverrideWarning = GetConvarInt('qbx:disableoverridewarning', 0) == 1
 
 local createQbExport = require 'bridge.qb.shared.export-function'
 
