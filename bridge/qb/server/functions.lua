@@ -2,6 +2,9 @@ require 'server.functions'
 require 'bridge.qb.server.player'
 local functions = {}
 
+local allowMethodOverrides = GetConvar('qbx:allowmethodoverrides', 'true') == 'true'
+local disableMethodOverrideWarning = GetConvar('qbx:disableoverridewarning', 'false') == 'true'
+
 local createQbExport = require 'bridge.qb.shared.export-function'
 
 ---@deprecated use the GetEntityCoords and GetEntityHeading natives directly
@@ -391,6 +394,18 @@ functions.RemoveGang = function(gangName)
 end
 createQbExport('RemoveGang', RemoveGang)
 
+local function checkExistingMethod(method, methodName)
+    local methodType = type(method)
+    if methodType == 'function' then
+        local warnMessage = allowMethodOverrides and 'A resource is overriding method %s in player class. This can cause unexpected behavior. Disable this warning by setting convar qbx:disableoverridewarning to true' or 'A resource attempted to override method %s in player object and was blocked. Disable this warning by setting convar qbx:disableoverridewarning to true'
+        if not disableMethodOverrideWarning then
+            lib.print.warn(warnMessage:format(methodName))
+        end
+        return allowMethodOverrides
+    end
+    return true
+end
+
 ---Add a new function to the Functions table of the player class
 ---Use-case:
 -- [[
@@ -409,12 +424,15 @@ function functions.AddPlayerMethod(ids, methodName, handler)
     if idType == 'number' then
         if ids == -1 then
             for _, v in pairs(QBX.Players) do
-                v.Functions[methodName] = handler
+                if checkExistingMethod(v.Functions[methodName], methodName) then
+                    v.Functions[methodName] = handler
+                end
             end
         else
             if not QBX.Players[ids] then return end
-
-            QBX.Players[ids].Functions[methodName] = handler
+            if checkExistingMethod(QBX.Players[ids].Functions[methodName], methodName) then
+                QBX.Players[ids].Functions[methodName] = handler
+            end
         end
     elseif idType == 'table' and table.type(ids) == 'array' then
         for i = 1, #ids do
