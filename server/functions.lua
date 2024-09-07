@@ -455,8 +455,6 @@ exports('HasPrimaryGroup', HasPrimaryGroup)
 ---@return boolean
 function HasGroup(source, filter)
     local playerData = QBX.Players[source].PlayerData
-
-    ---@diagnostic disable-next-line: missing-parameter
     return HasPlayerGotGroup(filter, playerData)
 end
 
