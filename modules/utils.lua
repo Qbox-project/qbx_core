@@ -149,13 +149,14 @@ if isServer then
         model = type(model) == 'string' and joaat(model) or (model --[[@as integer]])
         local ped = GetPlayerPed(source)
 
-        ---@diagnostic disable-next-line: redundant-return-value
-        return qbx.spawnVehicle({
+        local netId, _ = qbx.spawnVehicle({
             model = model,
             spawnSource = coords or ped,
             warp = warp and ped or nil,
             props = props,
         })
+
+        return netId
     end
 
 
