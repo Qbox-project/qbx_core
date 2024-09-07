@@ -37,8 +37,7 @@ function functions.SpawnVehicle(source, model, coords, warp)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then
-        ---@diagnostic disable-next-line: missing-parameter
-        while GetVehiclePedIsIn(ped) ~= veh do
+        while GetVehiclePedIsIn(ped, false) ~= veh do
             Wait(0)
             TaskWarpPedIntoVehicle(ped, veh, -1)
         end
