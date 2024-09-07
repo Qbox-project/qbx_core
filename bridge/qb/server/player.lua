@@ -86,9 +86,8 @@ end
 ---Will cause major issues!
 ---@param playerData PlayerData
 ---@param Offline boolean
----@return Player player
+---@return Player?
 function playerObj.CreatePlayer(playerData, Offline)
-    ---@diagnostic disable-next-line: return-type-mismatch
     return AddDeprecatedFunctions(exports.qbx_core:CreatePlayer(playerData, Offline))
 end
 
