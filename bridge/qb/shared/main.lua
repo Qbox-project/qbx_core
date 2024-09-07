@@ -88,16 +88,14 @@ qbShared.RandomStr = function(length)
     if length <= 0 then return '' end
     local pattern = math.random(2) == 1 and 'a' or 'A'
 
-    ---@diagnostic disable-next-line: deprecated
-    return qbShared.RandomStr(length - 1) .. lib.string.random(pattern)
+    return lib.string.random(pattern, length)
 end
 
 ---@deprecated use lib.string.random from ox_lib
 qbShared.RandomInt = function(length)
     if length <= 0 then return '' end
 
-    ---@diagnostic disable-next-line: deprecated
-    return qbShared.RandomInt(length - 1) .. lib.string.random('1')
+    return lib.string.random('.', length)
 end
 
 ---@deprecated use string.strsplit with CfxLua 5.4
