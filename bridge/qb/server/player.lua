@@ -88,7 +88,8 @@ end
 ---@param Offline boolean
 ---@return Player player
 function playerObj.CreatePlayer(playerData, Offline)
-    AddDeprecatedFunctions(exports.qbx_core:CreatePlayer(playerData, Offline))
+    ---@diagnostic disable-next-line: return-type-mismatch
+    return AddDeprecatedFunctions(exports.qbx_core:CreatePlayer(playerData, Offline))
 end
 
 ---Save player info to database (make sure citizenid is the primary key in your database)

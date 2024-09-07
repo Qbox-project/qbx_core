@@ -235,6 +235,7 @@ function AddPermission(source, permission)
 end
 
 ---@deprecated use cfg ACEs instead
+---@diagnostic disable-next-line: deprecated
 exports('AddPermission', AddPermission)
 
 ---@deprecated use cfg ACEs instead
@@ -250,6 +251,8 @@ function RemovePermission(source, permission)
         end
     else
         local hasUpdated = false
+
+        ---@diagnostic disable-next-line: deprecated
         for _, v in pairs(serverConfig.permissions) do
             if IsPlayerAceAllowed(source --[[@as string]], v) then
                 lib.removePrincipal('player.' .. source, 'group.' .. v)
@@ -265,6 +268,7 @@ function RemovePermission(source, permission)
 end
 
 ---@deprecated use cfg ACEs instead
+---@diagnostic disable-next-line: deprecated
 exports('RemovePermission', RemovePermission)
 
 -- Checking for Permission Level
@@ -285,6 +289,7 @@ function HasPermission(source, permission)
 end
 
 ---@deprecated use IsPlayerAceAllowed
+---@diagnostic disable-next-line: deprecated
 exports('HasPermission', HasPermission)
 
 ---@deprecated use cfg ACEs instead
@@ -292,6 +297,8 @@ exports('HasPermission', HasPermission)
 ---@return table<string, boolean>
 function GetPermission(source)
     local perms = {}
+
+    ---@diagnostic disable-next-line: deprecated
     for _, v in pairs (serverConfig.permissions) do
         if IsPlayerAceAllowed(source --[[@as string]], v) then
             perms[v] = true
@@ -301,6 +308,7 @@ function GetPermission(source)
 end
 
 ---@deprecated use cfg ACEs instead
+---@diagnostic disable-next-line: deprecated
 exports('GetPermission', GetPermission)
 
 -- Opt in or out of admin reports
@@ -408,6 +416,7 @@ exports('GetCoreVersion', GetCoreVersion)
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
     local success, errorResult = pcall(
+        ---@diagnostic disable-next-line: param-type-mismatch
         storage.insertBan({
             name = name,
             license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
@@ -446,6 +455,8 @@ exports('HasPrimaryGroup', HasPrimaryGroup)
 ---@return boolean
 function HasGroup(source, filter)
     local playerData = QBX.Players[source].PlayerData
+
+    ---@diagnostic disable-next-line: missing-parameter
     return HasPlayerGotGroup(filter, playerData)
 end
 

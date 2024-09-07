@@ -55,6 +55,7 @@ exports('HasPrimaryGroup', HasPrimaryGroup)
 ---@param filter string | string[] | table<string, number>
 ---@return boolean
 function HasGroup(filter)
+    ---@diagnostic disable-next-line: missing-parameter
     return HasPlayerGotGroup(filter, QBX.PlayerData)
 end
 

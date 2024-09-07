@@ -21,6 +21,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
 end)
 
 ---@param value boolean
+---@diagnostic disable-next-line: param-type-mismatch
 AddStateBagChangeHandler('PVPEnabled', nil, function(bagName, _, value)
     if bagName == 'global' then
         SetCanAttackFriendly(cache.ped, value, false)
@@ -150,6 +151,7 @@ end)
 
 ---@param bagName string
 ---@param value string
+---@diagnostic disable-next-line: param-type-mismatch
 AddStateBagChangeHandler('me', nil, function(bagName, _, value)
     if not value then return end
 
