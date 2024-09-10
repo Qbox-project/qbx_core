@@ -10,6 +10,18 @@ local jobs = require 'shared.jobs'
 ---@type table<string, Gang>
 local gangs = require 'shared.gangs'
 
+for name in pairs(jobs) do
+    if name ~= name:lower() then
+        lib.print.error(('jobs.lua contains a job name with capital letters: %s'):format(name))
+    end
+end
+
+for name in pairs(gangs) do
+    if name ~= name:lower() then
+        lib.print.error(('gangs.lua contains a gang name with capital letters: %s'):format(name))
+    end
+end
+
 ---Adds or overwrites jobs in shared/jobs.lua
 ---@param newJobs table<string, Job>
 function CreateJobs(newJobs)
