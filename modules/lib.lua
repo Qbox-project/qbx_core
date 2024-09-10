@@ -149,8 +149,9 @@ function qbx.table.mapBySubfield(tble, subfield)
 end
 
 ---Returns true if the given array contains the given value.
----@param arr any[]
----@param val any
+---@generic T
+---@param arr T[]
+---@param val T
 ---@return boolean
 function qbx.array.contains(arr, val)
     for i = 1, #arr do
