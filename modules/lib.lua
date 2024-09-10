@@ -147,6 +147,20 @@ function qbx.table.mapBySubfield(tble, subfield)
     return map
 end
 
+---Returns true if the given array contains the given value.
+---@param arr any[]
+---@param val any
+---@return boolean
+function qbx.array.contains(arr, val)
+    for i = 1, #arr do
+        if arr[i] == val then
+            return true
+        end
+    end
+
+    return false
+end
+
 ---Returns the number plate of the given vehicle.
 ---@param vehicle integer
 ---@return string?
