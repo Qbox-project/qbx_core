@@ -4,6 +4,7 @@ local qbx = {}
 qbx.string = {}
 qbx.math = {}
 qbx.table = {}
+qbx.array = {}
 
 qbx.armsWithoutGloves = lib.table.freeze({
     male = lib.table.freeze({
