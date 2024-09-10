@@ -7,7 +7,7 @@ elseif not lib.checkDependency('ox_inventory', '2.42.1', true) then
 elseif GetConvar('inventory:framework', '') ~= 'qbx' then
     startupErrors, errorMessage = true, 'inventory:framework must be set to "qbx" in order to use qbx_core'
 elseif GetConvarInt('onesync_enableInfinity', 0) ~= 1 then
-    startupErrors, errorMessage = true, 'OneSync Infinity is not enabled. Do so via txAdmin settings.'
+    startupErrors, errorMessage = true, 'OneSync Infinity is not enabled. You can do so in txAdmin settings or set convar onesync_enableInfinity 1'
 end
 if startupErrors then
     lib.print.error('Startup errors detected, shutting down server...')
