@@ -44,7 +44,7 @@ local vehicleClasses = {}
 ---@param model number
 ---@return VehicleClass?
 function GetVehicleClass(model)
-    if not vehicleClasses then
+    if #vehicleClasses == 0 then
         local players = GetPlayers()
         if #players == 0 then return end
         local playerId = players[math.random(#players)]
