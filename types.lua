@@ -247,6 +247,7 @@
 ---@field damagereason string
 
 ---@enum VehicleClass
+---@diagnostic disable-next-line: unused-local
 local VehicleClass = {
     COMPACTS = 0,
     SEDANS = 1,
