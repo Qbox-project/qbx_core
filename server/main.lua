@@ -36,6 +36,7 @@ QBX.Entity_Buckets = {}
 QBX.UsableItems = {}
 
 ---@alias Model number
+---@alias VehicleClass integer see https://docs.fivem.net/natives/?_0x29439776AAA00A62
 ---@type table<Model, VehicleClass>
 local vehicleClasses = {}
 
