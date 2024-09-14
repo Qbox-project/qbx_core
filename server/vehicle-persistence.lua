@@ -44,17 +44,7 @@ RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
     end
 
     if diff.doors then
-        local damage = {}
-        local numDoors = 0
-
-        for i = 0, 5 do
-            if IsVehicleDoorDamaged(vehicle, i) then
-                numDoors += 1
-                damage[numDoors] = i
-            end
-        end
-
-        props.doors = damage
+        props.doors = diff.doors ~= 'deleted' and diff.doors or nil
     end
 
     if diff.tyres then
@@ -74,7 +64,6 @@ RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
 end)
 
 AddEventHandler('entityRemoved', function(entity)
-    if not IsEntityAVehicle(entity) then return end
     local coords = GetEntityCoords(entity)
     local heading = GetEntityHeading(entity)
     local bucket = GetEntityRoutingBucket(entity)
