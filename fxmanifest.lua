@@ -23,6 +23,7 @@ client_scripts {
     'client/events.lua',
     'client/character.lua',
     'client/discord.lua',
+    'client/vehicle-persistence.lua',
     'bridge/qb/client/main.lua',
 }
 
@@ -36,6 +37,7 @@ server_scripts {
     'server/commands.lua',
     'server/loops.lua',
     'server/character.lua',
+    'server/vehicle-persistence.lua',
     'bridge/qb/server/main.lua',
 }
 
@@ -63,6 +65,7 @@ dependencies {
     '/onesync',
     'ox_lib',
     'oxmysql',
+    'qbx_vehicles',
 }
 
 provide 'qb-core'
