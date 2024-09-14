@@ -112,13 +112,14 @@ function SetPlayerPrimaryJob(citizenid, jobName)
 
     assert(job.grades[grade] ~= nil, string.format('job %s does not have grade %s', jobName, grade))
 
+    local oldJob = player.PlayerData.job
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
     player.Functions.Save()
 
     if not player.Offline then
         player.Functions.UpdatePlayerData()
-        TriggerEvent('QBCore:Server:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
-        TriggerClientEvent('QBCore:Client:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
+        TriggerEvent('QBCore:Server:OnJobUpdate', player.PlayerData.source, player.PlayerData.job, oldJob)
+        TriggerClientEvent('QBCore:Client:OnJobUpdate', player.PlayerData.source, player.PlayerData.job, oldJob)
     end
 
     return true
@@ -271,6 +272,7 @@ local function setPlayerPrimaryGang(citizenid, gangName)
 
     assert(gang.grades[grade] ~= nil, string.format('gang %s does not have grade %s', gangName, grade))
 
+    local oldGang = player.PlayerData.gang
     player.PlayerData.gang = {
         name = gangName,
         label = gang.label,
@@ -285,8 +287,8 @@ local function setPlayerPrimaryGang(citizenid, gangName)
 
     if not player.Offline then
         player.Functions.UpdatePlayerData()
-        TriggerEvent('QBCore:Server:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
-        TriggerClientEvent('QBCore:Client:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
+        TriggerEvent('QBCore:Server:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang, oldGang)
+        TriggerClientEvent('QBCore:Client:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang, oldGang)
     end
 
     return true
