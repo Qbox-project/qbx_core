@@ -64,7 +64,7 @@ lib.onCache('seat', function(newSeat)
                 Wait(10000)
             end
         end)
-    else
+    elseif seat == -1 then
         seat = nil
         sendPropsDiff()
         vehicle = nil
