@@ -65,7 +65,6 @@ dependencies {
     '/onesync',
     'ox_lib',
     'oxmysql',
-    'qbx_vehicles',
 }
 
 provide 'qb-core'
