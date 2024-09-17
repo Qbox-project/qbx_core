@@ -2,6 +2,27 @@ if GetConvar('qbx:enable_vehicle_persistence', 'true') == 'false' then return en
 
 assert(lib.checkDependency('qbx_vehicles', '1.4.1', true))
 
+---@alias Entity number
+---@type table<Entity, boolean>
+local persistedVehicles = {}
+
+---A persisted vehicle will respawn when deleted. Only works for player owned vehicles.
+---Vehicles spawned using lib are automatically persisted
+---@param vehicle number
+local function enablePersistence(vehicle)
+    persistedVehicles[vehicle] = true
+end
+
+exports('EnablePersistence', enablePersistence)
+
+---A vehicle without persistence will not respawn when deleted.
+---@param vehicle number
+function DisablePersistence(vehicle)
+    persistedVehicles[vehicle] = nil
+end
+
+exports('DisablePersistence', DisablePersistence)
+
 local function getVehicleId(vehicle)
     return Entity(vehicle).state.vehicleid or exports.qbx_vehicles:GetVehicleByIdPlate(GetVehicleNumberPlateText(vehicle))
 end
@@ -63,7 +84,12 @@ RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
     })
 end)
 
+AddEventHandler('qbx_core:server:vehicleSpawned', function(entity)
+    persistedVehicles[entity] = true
+end)
+
 AddEventHandler('entityRemoved', function(entity)
+    if not persistedVehicles(entity) then return end
     local coords = GetEntityCoords(entity)
     local heading = GetEntityHeading(entity)
     local bucket = GetEntityRoutingBucket(entity)
@@ -71,6 +97,7 @@ AddEventHandler('entityRemoved', function(entity)
     local vehicleId = getVehicleId(entity)
     if not vehicleId then return end
     local playerVehicle = exports.qbx_vehicles:GetPlayerVehicle(vehicleId)
+    persistedVehicles[entity] = nil
 
     if DoesEntityExist(entity) then
         DeleteVehicle(entity)

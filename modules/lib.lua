@@ -316,7 +316,7 @@ if isServer then
         end
 
         local netId = NetworkGetNetworkIdFromEntity(veh)
-        TriggerServerEvent('qbx_core:server:vehicleSpawned', veh)
+        TriggerEvent('qbx_core:server:vehicleSpawned', veh)
         return netId, veh
     end
 else
