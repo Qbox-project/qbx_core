@@ -35,6 +35,27 @@ QBX.Player_Buckets = {}
 QBX.Entity_Buckets = {}
 QBX.UsableItems = {}
 
+---@alias Model number
+---@alias VehicleClass integer see https://docs.fivem.net/natives/?_0x29439776AAA00A62
+---@type table<Model, VehicleClass>
+local vehicleClasses = {}
+
+---Caches the vehicle classes the first time this is called by getting the data from a random client.
+---Returns nil if there is no cache and no client is connected to get the data from.
+---@param model number
+---@return VehicleClass?
+function GetVehicleClass(model)
+    if #vehicleClasses == 0 then
+        local players = GetPlayers()
+        if #players == 0 then return end
+        local playerId = players[math.random(#players)]
+        vehicleClasses = lib.callback.await('qbx_core:client:getVehicleClasses', playerId)
+    end
+    return vehicleClasses[model]
+end
+
+exports('GetVehicleClass', GetVehicleClass)
+
 ---@return table<string, Vehicle>
 function GetVehiclesByName()
     return QBX.Shared.Vehicles
