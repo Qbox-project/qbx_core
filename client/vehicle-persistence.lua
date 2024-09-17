@@ -42,6 +42,7 @@ local function calculateDiff(tbl1, tbl2)
 end
 
 local function sendPropsDiff()
+    if not Entity(vehicle).state.persisted then return end
     local newProps = lib.getVehicleProperties(vehicle)
     if not cachedProps then
         cachedProps = newProps
