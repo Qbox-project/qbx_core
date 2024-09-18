@@ -42,9 +42,9 @@ local vehicleClasses = nil
 local vehicleClassesPromise = nil
 
 ---Caches the vehicle classes the first time this is called by getting the data from a random client.
----Returns nil if there is no cache and no client is connected to get the data from.
+---Throws an error if there is no cache and no client is connected to get the data from.
 ---@param model number
----@return VehicleClass?
+---@return VehicleClass
 function GetVehicleClass(model)
     if not vehicleClasses then
         if vehicleClassesPromise then
@@ -64,11 +64,14 @@ function GetVehicleClass(model)
                 end)
             until vehicleClasses
 
+            if not vehicleClasses then
+                local message = 'no clients online'
+                vehicleClassesPromise:reject(message)
+                vehicleClassesPromise = nil
+                error(message)
+            end
+
             vehicleClassesPromise:resolve()
-        end
-        -- if it's still `nil` the callbacks must've failed and there are no players
-        if not vehicleClasses then
-            return
         end
     end
     return vehicleClasses[model]
