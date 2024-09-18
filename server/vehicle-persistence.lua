@@ -1,4 +1,4 @@
-if GetConvar('qbx:enable_vehicle_persistence', 'true') == 'false' then return end
+if GetConvar('qbx:enable_vehicle_persistence', 'false') == 'false' then return end
 
 assert(lib.checkDependency('qbx_vehicles', '1.4.1', true))
 
