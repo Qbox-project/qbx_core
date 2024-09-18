@@ -487,7 +487,7 @@ exports('GetGroupMembers', getGroupMembers)
 
 ---Disables persistence before deleting a vehicle, then deletes it.
 ---@param vehicle number
-local function deleteVehicle(vehicle)
+function DeleteVehicle(vehicle)
     if DisablePersistence then
         DisablePersistence(vehicle)
     end
@@ -496,4 +496,4 @@ local function deleteVehicle(vehicle)
     end
 end
 
-exports('DeleteVehicle', deleteVehicle)
+exports('DeleteVehicle', DeleteVehicle)
