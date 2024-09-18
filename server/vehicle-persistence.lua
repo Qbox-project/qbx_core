@@ -20,7 +20,7 @@ end
 exports('DisablePersistence', DisablePersistence)
 
 local function getVehicleId(vehicle)
-    return Entity(vehicle).state.vehicleid or exports.qbx_vehicles:GetVehicleByIdPlate(GetVehicleNumberPlateText(vehicle))
+    return Entity(vehicle).state.vehicleid or exports.qbx_vehicles:GetVehicleIdByPlate(GetVehicleNumberPlateText(vehicle))
 end
 
 RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
