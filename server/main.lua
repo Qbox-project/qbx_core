@@ -53,13 +53,16 @@ function GetVehicleClass(model)
             -- lib.callback.await is async, so let additional callers wait along instead of awaiting new callbacks
             vehicleClassesPromise = promise:new()
 
-            local players = GetPlayers()
-            if #players == 0 then return end
-            local playerId = players[math.random(#players)]
-            -- this *may* fail, but we still need to resolve our promise
-            pcall(function()
-                vehicleClasses = lib.callback.await('qbx_core:client:getVehicleClasses', playerId)
-            end)
+            -- keep asking different players until we get an answer or until there are no players
+            repeat
+                local players = GetPlayers()
+                if #players == 0 then break end
+                local playerId = players[math.random(#players)]
+                -- this *may* fail, but we still need to resolve our promise
+                pcall(function()
+                    vehicleClasses = lib.callback.await('qbx_core:client:getVehicleClasses', playerId)
+                end)
+            until vehicleClasses
 
             vehicleClassesPromise:resolve()
         end
