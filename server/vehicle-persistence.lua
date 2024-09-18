@@ -84,11 +84,28 @@ AddEventHandler('qbx_core:server:vehicleSpawned', function(entity)
     Entity(entity).state:set('persisted', true, true)
 end)
 
+local function getPedsInVehicleSeats(vehicle)
+    local occupants = {}
+    local occupantsI = 1
+    for i = -1, 7 do
+        local ped = GetPedInVehicleSeat(vehicle, i)
+        if ped ~= 0 then
+            occupants[occupantsI] = {
+                ped = ped,
+                seat = i,
+            }
+            occupantsI += 1
+        end
+    end
+    return occupants
+end
+
 AddEventHandler('entityRemoved', function(entity)
     if not Entity(entity).state.persisted then return end
     local coords = GetEntityCoords(entity)
     local heading = GetEntityHeading(entity)
     local bucket = GetEntityRoutingBucket(entity)
+    local passengers = getPedsInVehicleSeats(entity)
 
     local vehicleId = getVehicleId(entity)
     if not vehicleId then return end
@@ -99,10 +116,15 @@ AddEventHandler('entityRemoved', function(entity)
         DeleteVehicle(entity)
     end
 
-    qbx.spawnVehicle({
+    local _, veh = qbx.spawnVehicle({
         model = playerVehicle.props.model,
         spawnSource = vec4(coords.x, coords.y, coords.z, heading),
         bucket = bucket,
         props = playerVehicle.props
     })
+
+    for i = 1, #passengers do
+        local passenger = passengers[i]
+        SetPedIntoVehicle(passenger.ped, veh, passenger.seat)
+    end
 end)
