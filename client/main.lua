@@ -70,7 +70,7 @@ lib.callback.register('qbx_core:client:getVehicleClasses', function()
     for i = 1, #models do
         local model = models[i]
         local class = GetVehicleClassFromName(model)
-        classes[model] = class
+        classes[joaat(model)] = class
     end
     return classes
 end)
