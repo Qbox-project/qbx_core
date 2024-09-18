@@ -419,6 +419,7 @@ else
     end
 
     ---Deletes the specified vehicle and returns whether it was successful.
+    ---@deprecated use exports.qbx_core:DeleteVehicle(vehicle) instead
     ---@param vehicle integer
     ---@return boolean deleted
     function qbx.deleteVehicle(vehicle)
