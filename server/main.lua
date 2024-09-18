@@ -63,6 +63,10 @@ function GetVehicleClass(model)
 
             vehicleClassesPromise:resolve()
         end
+        -- if it's still `nil` the callbacks must've failed and there are no players
+        if not vehicleClasses then
+            return
+        end
     end
     return vehicleClasses[model]
 end
