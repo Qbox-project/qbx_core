@@ -1,7 +1,3 @@
-if GetConvar('qbx:enable_vehicle_persistence', 'false') == 'false' then return end
-
-assert(lib.checkDependency('qbx_vehicles', '1.4.1', true))
-
 ---A persisted vehicle will respawn when deleted. Only works for player owned vehicles.
 ---Vehicles spawned using lib are automatically persisted
 ---@param vehicle number
@@ -18,6 +14,10 @@ function DisablePersistence(vehicle)
 end
 
 exports('DisablePersistence', DisablePersistence)
+
+if GetConvar('qbx:enable_vehicle_persistence', 'false') == 'false' then return end
+
+assert(lib.checkDependency('qbx_vehicles', '1.4.1', true))
 
 local function getVehicleId(vehicle)
     return Entity(vehicle).state.vehicleid or exports.qbx_vehicles:GetVehicleIdByPlate(GetVehicleNumberPlateText(vehicle))
@@ -78,10 +78,6 @@ RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
     exports.qbx_vehicles:SaveVehicle(vehicle, {
         props = props,
     })
-end)
-
-AddEventHandler('qbx_core:server:vehicleSpawned', function(entity)
-    Entity(entity).state:set('persisted', true, true)
 end)
 
 local function getPedsInVehicleSeats(vehicle)
