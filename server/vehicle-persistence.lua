@@ -93,9 +93,9 @@ AddEventHandler('entityRemoved', function(entity)
     local vehicleId = getVehicleId(entity)
     if not vehicleId then return end
     local playerVehicle = exports.qbx_vehicles:GetPlayerVehicle(vehicleId)
-    Entity(entity).state:set('persisted', nil, true)
 
     if DoesEntityExist(entity) then
+        Entity(entity).state:set('persisted', nil, true)
         DeleteVehicle(entity)
     end
 
