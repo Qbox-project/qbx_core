@@ -1,6 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
 version '1.19.0'
+version '1.19.0'
 
 name 'qbx_core'
 description 'The core resource for the Qbox Framework'
