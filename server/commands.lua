@@ -146,7 +146,7 @@ lib.addCommand('car', {
     local keepCurrentVehicle = args[locale('command.car.params.keepCurrentVehicle.name')]
     local currentVehicle = not keepCurrentVehicle and GetVehiclePedIsIn(ped, false)
     if currentVehicle and currentVehicle ~= 0 then
-        DeleteEntity(currentVehicle)
+        DeleteVehicle(currentVehicle)
     end
 
     local _, vehicle = qbx.spawnVehicle({
@@ -180,7 +180,7 @@ lib.addCommand('dv', {
         for i = 1, #pedCars do
             local pedCar = NetworkGetEntityFromNetworkId(pedCars[i])
             if pedCar and DoesEntityExist(pedCar) then
-                DeleteEntity(pedCar)
+                DeleteVehicle(pedCar)
             end
         end
     end
