@@ -415,17 +415,15 @@ exports('GetCoreVersion', GetCoreVersion)
 ---@param origin string reason
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
-    local success, errorResult = pcall(
-        ---@diagnostic disable-next-line: param-type-mismatch
-        storage.insertBan({
-            name = name,
-            license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
-            discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
-            ip = GetPlayerIdentifierByType(playerId --[[@as string]], 'ip'),
-            reason = origin,
-            expiration = 2147483647,
-            bannedBy = 'Anti Cheat'
-        }))
+    local success, errorResult = storage.insertBan({
+        name = name,
+        license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
+        discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
+        ip = GetPlayerIdentifierByType(playerId --[[@as string]], 'ip'),
+        reason = origin,
+        expiration = 2147483647,
+        bannedBy = 'Anti Cheat'
+    })
     if not success then lib.print.error(errorResult) end
     DropPlayer(playerId --[[@as string]], locale('info.exploit_banned', serverConfig.discord))
     logger.log({
