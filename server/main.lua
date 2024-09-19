@@ -113,4 +113,5 @@ function GetLocations()
     return QBX.Shared.Locations
 end
 
+---@diagnostic disable-next-line: deprecated
 exports('GetLocations', GetLocations)

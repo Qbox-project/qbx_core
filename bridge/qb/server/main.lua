@@ -6,6 +6,7 @@ require 'bridge.qb.server.events'
 local convertItems = require 'bridge.qb.shared.compat'.convertItems
 convertItems(require '@ox_inventory.data.items', require 'shared.items')
 
+---@diagnostic disable-next-line: lowercase-global
 qbCoreCompat = {}
 
 qbCoreCompat.Config = lib.table.merge(require 'config.server', require 'config.shared')
@@ -19,6 +20,8 @@ qbCoreCompat.Entity_Buckets = QBX.Entity_Buckets
 qbCoreCompat.UsableItems = QBX.UsableItems
 qbCoreCompat.Functions = require 'bridge.qb.server.functions'
 qbCoreCompat.Commands = require 'bridge.qb.server.commands'
+
+---@diagnostic disable: deprecated
 
 ---@deprecated Call lib.print.debug() instead
 qbCoreCompat.Debug = lib.print.debug

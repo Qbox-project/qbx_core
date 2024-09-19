@@ -66,6 +66,7 @@ lib.addCommand('addpermission', {
         return
     end
 
+    ---@diagnostic disable-next-line: deprecated
     AddPermission(player.PlayerData.source, permission)
 end)
 
@@ -84,6 +85,7 @@ lib.addCommand('removepermission', {
         return
     end
 
+    ---@diagnostic disable-next-line: deprecated
     RemovePermission(player.PlayerData.source, permission)
 end)
 

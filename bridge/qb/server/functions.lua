@@ -37,7 +37,7 @@ function functions.SpawnVehicle(source, model, coords, warp)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then
-        while GetVehiclePedIsIn(ped) ~= veh do
+        while GetVehiclePedIsIn(ped, false) ~= veh do
             Wait(0)
             TaskWarpPedIntoVehicle(ped, veh, -1)
         end
@@ -436,6 +436,7 @@ function functions.AddPlayerMethod(ids, methodName, handler)
         end
     elseif idType == 'table' and table.type(ids) == 'array' then
         for i = 1, #ids do
+            ---@diagnostic disable-next-line: deprecated
             functions.AddPlayerMethod(ids[i], methodName, handler)
         end
     end
@@ -457,15 +458,18 @@ function functions.AddPlayerField(ids, fieldName, data)
     if idType == 'number' then
         if ids == -1 then
             for _, v in pairs(QBX.Players) do
+                ---@diagnostic disable-next-line: undefined-field
                 v.Functions.AddField(fieldName, data)
             end
         else
             if not QBX.Players[ids] then return end
 
+            ---@diagnostic disable-next-line: undefined-field
             QBX.Players[ids].Functions.AddField(fieldName, data)
         end
     elseif idType == 'table' and table.type(ids) == 'array' then
         for i = 1, #ids do
+            ---@diagnostic disable-next-line: deprecated
             functions.AddPlayerField(ids[i], fieldName, data)
         end
     end
@@ -520,7 +524,7 @@ function functions.GetSource(identifier)
 end
 
 ---@param source Source|string source or identifier of the player
----@return Player
+---@return Player?
 function functions.GetPlayer(source)
     return AddDeprecatedFunctions(exports.qbx_core:GetPlayer(source))
 end

@@ -212,14 +212,17 @@ local function playerStateBagCheck(bagName, meta, value)
     end)
 end
 
+ ---@diagnostic disable-next-line: param-type-mismatch
 AddStateBagChangeHandler('hunger', nil, function(bagName, _, value)
     playerStateBagCheck(bagName, 'hunger', value)
 end)
 
+ ---@diagnostic disable-next-line: param-type-mismatch
 AddStateBagChangeHandler('thirst', nil, function(bagName, _, value)
     playerStateBagCheck(bagName, 'thirst', value)
 end)
 
+ ---@diagnostic disable-next-line: param-type-mismatch
 AddStateBagChangeHandler('stress', nil, function(bagName, _, value)
     playerStateBagCheck(bagName, 'stress', value)
 end)

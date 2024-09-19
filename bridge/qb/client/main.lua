@@ -11,6 +11,8 @@ qbCoreCompat.Shared.Jobs = GetJobs()
 qbCoreCompat.Shared.Gangs = GetGangs()
 qbCoreCompat.Functions = require 'bridge.qb.client.functions'
 
+---@diagnostic disable: deprecated
+
 ---@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Client/ instead
 qbCoreCompat.ClientCallbacks = {}
 
