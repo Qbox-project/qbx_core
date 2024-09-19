@@ -39,8 +39,4 @@ jobs:
           add: fxmanifest.lua
           push: true
           message: 'chore: bump manifest version to ${{ inputs.version }}'
-
-      - name: Push Git Tag
-        run: |
-          git tag ${{ inputs.version }}
-          git push origin ${{ inputs.version }}
+          tag: ${{ inputs.version }}

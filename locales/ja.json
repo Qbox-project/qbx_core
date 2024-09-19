@@ -1,0 +1,175 @@
+{
+    "error": {
+        "not_online": "プレイヤーはオンラインではありません",
+        "wrong_format": "フォーマットが正しくありません",
+        "missing_args": "すべての引数が入力されていません (x, y, z)",
+        "missing_args2": "すべての引数を入力してください！",
+        "no_access": "このコマンドにアクセスする権限がありません",
+        "company_too_poor": "あなたの雇用主は破産しています",
+        "item_not_exist": "アイテムが存在しません",
+        "too_heavy": "インベントリがいっぱいです",
+        "location_not_exist": "指定された場所が存在しません",
+        "duplicate_license": "重複するRockstarライセンスが見つかりました",
+        "no_valid_license": "有効なRockstarライセンスが見つかりません",
+        "not_whitelisted": "このサーバーのホワイトリストに登録されていません",
+        "server_already_open": "サーバーは既に開いています",
+        "server_already_closed": "サーバーは既に閉じています",
+        "no_permission": "この操作を行う権限がありません",
+        "no_waypoint": "ウェイポイントが設定されていません",
+        "tp_error": "テレポート中にエラーが発生しました",
+        "connecting_database_timeout": "データベースへの接続がタイムアウトしました（SQLサーバーは起動していますか？）",
+        "connecting_error": "サーバーへの接続中にエラーが発生しました（サーバーコンソールを確認してください）",
+        "no_match_character_registration": "入力フィールドには文字以外は使用できません。末尾の空白は使用できず、単語は大文字から始める必要があります。ただし、単語間にスペースを入れることはできます。",
+        "already_in_queue": "既にキューに入っています",
+        "no_subqueue": "どのサブキューにも入れませんでした"
+    },
+    "success": {
+        "server_opened": "サーバーが開放されました",
+        "server_closed": "サーバーが閉鎖されました",
+        "teleported_waypoint": "ウェイポイントにテレポートしました",
+        "character_deleted": "キャラクターが削除されました！",
+        "character_deleted_citizenid": "市民ID %s のキャラクターが正常に削除されました"
+    },
+    "info": {
+        "received_paycheck": "給与 $%s を受け取りました",
+        "job_info": "職業: %s | 階級: %s | 勤務状態: %s",
+        "gang_info": "ギャング: %s | 階級: %s",
+        "on_duty": "勤務しました！",
+        "off_duty": "退勤しました！",
+        "checking_ban": "こんにちは %s さん。BANされていないか確認しています。",
+        "join_server": "%s さん、%s へようこそ。",
+        "checking_whitelisted": "こんにちは %s さん。ホワイトリストを確認しています。",
+        "exploit_banned": "チート行為によりBANされました。詳細は Discord を確認してください: %s",
+        "exploit_dropped": "不正行為によりキックされました",
+        "multichar_title": "Qbox マルチキャラクター",
+        "multichar_new_character": "新しいキャラクター #%s",
+        "char_male": "男性",
+        "char_female": "女性",
+        "play": "プレイ",
+        "play_description": "%s としてプレイ",
+        "delete_character": "キャラクター削除",
+        "delete_character_description": "%s を削除",
+        "logout_command_help": "現在のキャラクターからログアウトします",
+        "check_id": "サーバーIDを確認",
+        "deletechar_command_help": "プレイヤーのキャラクターを削除",
+        "deletechar_command_arg_player_id": "プレイヤーID",
+        "character_registration_title": "キャラクター登録",
+        "first_name": "姓",
+        "last_name": "名",
+        "nationality": "国籍",
+        "gender": "性別",
+        "birth_date": "生年月日",
+        "select_gender": "性別を選択してください...",
+        "confirm_delete": "このキャラクターを削除してもよろしいですか？",
+        "in_queue": "🐌 あなたはキューは %s/%s 番目です。(%s) %s"
+    },
+    "command": {
+        "tp": {
+            "help": "プレイヤーまたは座標にテレポート（管理者のみ）",
+            "params": {
+                "x": { "name": "id/x", "help": "プレイヤーのIDまたはX座標" },
+                "y": { "name": "y", "help": "Y座標" },
+                "z": { "name": "z", "help": "Z座標" }
+            }
+        },
+        "tpm": { "help": "マーカーにテレポート（管理者のみ）" },
+        "togglepvp": { "help": "サーバーのPVPを切り替え（管理者のみ）" },
+        "addpermission": {
+            "help": "プレイヤーに権限を付与（最高管理者のみ）",
+            "params": {
+                "id": { "name": "id", "help": "プレイヤーのID" },
+                "permission": { "name": "permission", "help": "権限レベル" }
+            }
+        },
+        "removepermission": {
+            "help": "プレイヤーの権限を削除（最高管理者のみ）",
+            "params": {
+                "id": { "name": "id", "help": "プレイヤーのID" },
+                "permission": { "name": "permission", "help": "権限レベル" }
+            }
+        },
+        "openserver": { "help": "サーバーを全員に開放（管理者のみ）" },
+        "closeserver": {
+            "help": "権限のないプレイヤーに対してサーバーを閉鎖（管理者のみ）",
+            "params": {
+                "reason": { "name": "reason", "help": "閉鎖理由（任意）" }
+            }
+        },
+        "car": {
+            "help": "車両をスポーン（管理者のみ）",
+            "params": {
+                "model": { "name": "model", "help": "車両のモデル名" },
+                "keepCurrentVehicle": { "name": "keepCurrentVehicle", "help": "現在の車両を保持（空欄で現在の車両を削除）" }
+            }
+        },
+        "dv": {
+            "help": "車両を削除（管理者のみ）",
+            "params": {
+                "radius": { "name": "radius", "help": "車両を削除する半径（メートル）" }
+            }
+        },
+        "givemoney": {
+            "help": "プレイヤーにお金を与える（管理者のみ）",
+            "params": {
+                "id": { "name": "id", "help": "プレイヤーID" },
+                "moneytype": { "name": "moneytype", "help": "お金の種類（現金、銀行、暗号通貨）" },
+                "amount": { "name": "amount", "help": "金額" }
+            }
+        },
+        "setmoney": {
+            "help": "プレイヤーの所持金を設定（管理者のみ）",
+            "params": {
+                "id": { "name": "id", "help": "プレイヤーID" },
+                "moneytype": { "name": "moneytype", "help": "お金の種類（現金、銀行、暗号通貨）" },
+                "amount": { "name": "amount", "help": "金額" }
+            }
+        },
+        "job": { "help": "自分の職業を確認" },
+        "setjob": {
+            "help": "プレイヤーの職業を設定（管理者のみ）",
+            "params": {
+                "id": { "name": "id", "help": "プレイヤーID" },
+                "job": { "name": "job", "help": "職業名" },
+                "grade": { "name": "grade", "help": "職業グレード" }
+            }
+        },
+        "changejob": {
+            "help": "プレイヤーのアクティブな職業を変更（管理者のみ）",
+            "params": {
+                "id": { "name": "id", "help": "プレイヤーID" },
+                "job": { "name": "job", "help": "職業名" }
+            }
+        },
+        "addjob": {
+            "help": "プレイヤーに職業を付与（管理者のみ）",
+            "params": {
+                "id": { "name": "id", "help": "プレイヤーID" },
+                "job": { "name": "job", "help": "職業名" },
+                "grade": { "name": "grade", "help": "職業グレード" }
+            }
+        },
+        "removejob": {
+            "help": "プレイヤーから職業を削除（管理者のみ）",
+            "params": {
+                "id": { "name": "id", "help": "プレイヤーID" },
+                "job": { "name": "job", "help": "職業名" }
+            }
+        },
+        "gang": { "help": "自分のギャングを確認" },
+        "setgang": {
+            "help": "プレイヤーのギャングを設定（管理者のみ）",
+            "params": {
+                "id": { "name": "id", "help": "プレイヤーID" },
+                "gang": { "name": "gang", "help": "ギャング名" },
+                "grade": { "name": "grade", "help": "ギャンググレード" }
+            }
+        },
+        "ooc": { "help": "OOCチャットメッセージ" },
+        "me": {
+            "help": "ローカルメッセージを表示",
+            "params": {
+                "message": { "name": "message", "help": "送信するメッセージ" }
+            }
+        }
+    }
+}

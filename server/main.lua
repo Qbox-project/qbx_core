@@ -6,6 +6,8 @@ elseif not lib.checkDependency('ox_inventory', '2.42.1', true) then
     startupErrors, errorMessage = true, 'ox_inventory version 2.42.1 or higher is required'
 elseif GetConvar('inventory:framework', '') ~= 'qbx' then
     startupErrors, errorMessage = true, 'inventory:framework must be set to "qbx" in order to use qbx_core'
+elseif GetConvarInt('onesync_enableInfinity', 0) ~= 1 then
+    startupErrors, errorMessage = true, 'OneSync Infinity is not enabled. You can do so in txAdmin settings or add +set onesync on to your server startup command line'
 end
 if startupErrors then
     lib.print.error('Startup errors detected, shutting down server...')
@@ -32,6 +34,27 @@ GlobalState.MaxPlayers = GetConvarInt('sv_maxclients', 48)
 QBX.Player_Buckets = {}
 QBX.Entity_Buckets = {}
 QBX.UsableItems = {}
+
+---@alias Model number
+---@alias VehicleClass integer see https://docs.fivem.net/natives/?_0x29439776AAA00A62
+---@type table<Model, VehicleClass>
+local vehicleClasses = {}
+
+---Caches the vehicle classes the first time this is called by getting the data from a random client.
+---Returns nil if there is no cache and no client is connected to get the data from.
+---@param model number
+---@return VehicleClass?
+function GetVehicleClass(model)
+    if #vehicleClasses == 0 then
+        local players = GetPlayers()
+        if #players == 0 then return end
+        local playerId = players[math.random(#players)]
+        vehicleClasses = lib.callback.await('qbx_core:client:getVehicleClasses', playerId)
+    end
+    return vehicleClasses[model]
+end
+
+exports('GetVehicleClass', GetVehicleClass)
 
 ---@return table<string, Vehicle>
 function GetVehiclesByName()

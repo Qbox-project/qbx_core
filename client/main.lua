@@ -66,3 +66,14 @@ CreateThread(function()
         end
 	end
 end)
+
+lib.callback.register('qbx_core:client:getVehicleClasses', function()
+    local models = GetAllVehicleModels()
+    local classes = {}
+    for i = 1, #models do
+        local model = models[i]
+        local class = GetVehicleClassFromName(model)
+        classes[joaat(model)] = class
+    end
+    return classes
+end)

@@ -1,3 +1,4 @@
+---Gang names must be lower case (top level table key)
 ---@type table<string, Gang>
 return {
 	['none'] = {

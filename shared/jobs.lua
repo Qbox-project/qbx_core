@@ -1,3 +1,4 @@
+---Job names must be lower case (top level table key)
 ---@type table<string, Job>
 return {
 	['unemployed'] = {

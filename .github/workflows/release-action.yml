@@ -34,10 +34,24 @@ jobs:
                 app-id: ${{ secrets.APP_ID }}
                 private-key: ${{ secrets.PRIVATE_KEY }}
 
-            - name: Create Release
-              uses: marvinpinto/action-automatic-releases@latest
+            - name: Update CHANGELOG
+              id: changelog
+              uses: requarks/changelog-action@v1
               with:
-                title: ${{ github.ref_name }}
-                repo_token: '${{ steps.generate_token.outputs.token }}'
-                prerelease: false
-                files: ${{ github.event.repository.name }}.zip
+                token: ${{ steps.generate_token.outputs.token }}
+                tag: ${{ github.ref_name }}
+                includeInvalidCommits: true
+                useGitmojis: false
+                writeToFile: false
+
+            - name: Create Release
+              uses: ncipollo/release-action@v1.14.0
+              with:
+                allowUpdates: true
+                draft: false
+                makeLatest: true
+                name: ${{ github.ref_name }}
+                tag: ${{ github.ref_name }}
+                body: ${{ steps.changelog.outputs.changes }}
+                artifacts: ${{ github.event.repository.name }}.zip
+                token: ${{ steps.generate_token.outputs.token }}
