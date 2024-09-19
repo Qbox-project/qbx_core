@@ -484,3 +484,14 @@ local function getGroupMembers(group, type)
 end
 
 exports('GetGroupMembers', getGroupMembers)
+
+---Disables persistence before deleting a vehicle, then deletes it.
+---@param vehicle number
+function DeleteVehicle(vehicle)
+    DisablePersistence(vehicle)
+    if DoesEntityExist(vehicle) then
+        DeleteEntity(vehicle)
+    end
+end
+
+exports('DeleteVehicle', DeleteVehicle)
