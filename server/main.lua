@@ -38,8 +38,8 @@ QBX.UsableItems = {}
 ---@alias Model number
 ---@alias VehicleClass integer see https://docs.fivem.net/natives/?_0x29439776AAA00A62
 ---@type table<Model, VehicleClass>
-local vehicleClasses = nil
-local vehicleClassesPromise = nil
+local vehicleClasses
+local vehicleClassesPromise
 
 ---Caches the vehicle classes the first time this is called by getting the data from a random client.
 ---Throws an error if there is no cache and no client is connected to get the data from.
