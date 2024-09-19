@@ -2,11 +2,11 @@ name: Lint
 on:
   push:
     paths:
-      - '*.lua'
+      - '**.lua'
       - '.github/workflows/lint.yml'
   pull_request_target:
     paths:
-      - '*.lua'
+      - '**.lua'
       - '.github/workflows/lint.yml'
 jobs:
   lint:
