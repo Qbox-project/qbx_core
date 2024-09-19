@@ -316,7 +316,7 @@ if isServer then
         end
 
         local netId = NetworkGetNetworkIdFromEntity(veh)
-
+        exports.qbx_core:EnablePersistence(veh)
         return netId, veh
     end
 else

@@ -38,18 +38,41 @@ QBX.UsableItems = {}
 ---@alias Model number
 ---@alias VehicleClass integer see https://docs.fivem.net/natives/?_0x29439776AAA00A62
 ---@type table<Model, VehicleClass>
-local vehicleClasses = {}
+local vehicleClasses
+local vehicleClassesPromise
 
 ---Caches the vehicle classes the first time this is called by getting the data from a random client.
----Returns nil if there is no cache and no client is connected to get the data from.
+---Throws an error if there is no cache and no client is connected to get the data from.
 ---@param model number
----@return VehicleClass?
+---@return VehicleClass
 function GetVehicleClass(model)
-    if #vehicleClasses == 0 then
-        local players = GetPlayers()
-        if #players == 0 then return end
-        local playerId = players[math.random(#players)]
-        vehicleClasses = lib.callback.await('qbx_core:client:getVehicleClasses', playerId)
+    if not vehicleClasses then
+        if vehicleClassesPromise then
+            Citizen.Await(vehicleClassesPromise)
+        else
+            -- lib.callback.await is async, so let additional callers wait along instead of awaiting new callbacks
+            vehicleClassesPromise = promise:new()
+
+            -- keep asking different players until we get an answer or until there are no players
+            repeat
+                local players = GetPlayers()
+                if #players == 0 then break end
+                local playerId = players[math.random(#players)]
+                -- this *may* fail, but we still need to resolve our promise
+                pcall(function()
+                    vehicleClasses = lib.callback.await('qbx_core:client:getVehicleClasses', playerId)
+                end)
+            until vehicleClasses
+
+            if not vehicleClasses then
+                local message = 'no clients online'
+                vehicleClassesPromise:reject(message)
+                vehicleClassesPromise = nil
+                error(message)
+            end
+
+            vehicleClassesPromise:resolve()
+        end
     end
     return vehicleClasses[model]
 end
