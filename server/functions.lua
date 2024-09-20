@@ -478,53 +478,10 @@ end
 
 exports('GetPlayersData', getPlayersData)
 
----@param filters table<string, any>
-local function handleFilters(filters)
-    if not (filters) then return '', {} end
-    local holders = {}
-    local clauses = {}
-    if filters.citizenid then
-        clauses[#clauses + 1] = 'citizenid = ?'
-        holders[#holders + 1] = filters.citizenid
-    end
-    if filters.license then
-        clauses[#clauses + 1] = 'license = ?'
-        holders[#holders + 1] = filters.license
-    end
-    if filters.job then
-        clauses[#clauses + 1] = 'JSON_EXTRACT(job, "$.name") = ?'
-        holders[#holders + 1] = filters.job
-    end
-    if filters.gang then
-        clauses[#clauses + 1] = 'JSON_EXTRACT(gang, "$.name") = ?'
-        holders[#holders + 1] = filters.gang
-    end
-    return string.format(' WHERE %s', table.concat(clauses, ' AND ')), holders
-end
-
 ---@param filters table <string, any>
----@return PlayerEntity[]
+---@return Player[]
 local function searchPlayerEntities(filters)
-    ---@type PlayerEntity[]
-    local result = {}
-    local query = "SELECT citizenid FROM players"
-    local where, holders = handleFilters(filters)
-    lib.print.debug(query .. where)
-    ---@type PlayerEntityDatabase[]
-    local response = MySQL.query.await(query .. where, holders)
-    for i = 1, #response do
-        local citizenid = response[i].citizenid
-        local player = GetPlayerByCitizenId(citizenid)
-        if player then
-            table.insert(result, player)
-        else
-            local offlinePlayer = GetOfflinePlayer(citizenid)
-            if offlinePlayer then
-                table.insert(result, offlinePlayer)
-            end
-        end
-    end
-    return result
+    return storage.searchPlayerEntities(filters)
 end
 
 exports("SearchPlayers", searchPlayerEntities)

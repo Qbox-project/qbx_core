@@ -128,6 +128,69 @@ local function fetchPlayerEntity(citizenId)
     } or nil
 end
 
+---@param filters table<string, any>
+local function handleSearchFilters(filters)
+    if not (filters) then return '', {} end
+    local holders = {}
+    local clauses = {}
+    if filters.license then
+        clauses[#clauses + 1] = 'license = ?'
+        holders[#holders + 1] = filters.license
+    end
+    if filters.job then
+        clauses[#clauses + 1] = 'JSON_EXTRACT(job, "$.name") = ?'
+        holders[#holders + 1] = filters.job
+    end
+    if filters.gang then
+        clauses[#clauses + 1] = 'JSON_EXTRACT(gang, "$.name") = ?'
+        holders[#holders + 1] = filters.gang
+    end
+    if filters.metadata then
+        local typeof, value = filters.metadata.typeof, filters.metadata.value
+        local strict = filters.metadata.strict -- optional flag for strict equality check on numbers
+        if type(value) == "number" then
+            if strict then
+                clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. typeof .. '") = ?'
+            else
+                clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. typeof .. '") >= ?'
+            end
+            holders[#holders + 1] = value
+        elseif type(value) == "boolean" then
+            clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. typeof .. '") = ?'
+            holders[#holders + 1] = tostring(value)
+        elseif type(value) == "string" then
+            clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.' .. typeof .. '")) = ?'
+            holders[#holders + 1] = value
+        end
+    end
+    return string.format(' WHERE %s', table.concat(clauses, ' AND ')), holders
+end
+
+---@param filters table <string, any>
+---@return Player[]
+local function searchPlayerEntities(filters)
+    ---@type Player[]
+    local result = {}
+    local query = "SELECT citizenid FROM players"
+    local where, holders = handleSearchFilters(filters)
+    lib.print.debug(query .. where)
+    ---@type PlayerEntityDatabase[]
+    local response = MySQL.query.await(query .. where, holders)
+    for i = 1, #response do
+        local citizenid = response[i].citizenid
+        local player = GetPlayerByCitizenId(citizenid)
+        if player then
+            result[#result+1] = player
+        else
+            local offlinePlayer = GetOfflinePlayer(citizenid)
+            if offlinePlayer then
+                result[#result+1] = offlinePlayer
+            end
+        end
+    end
+    return result
+end
+
 ---Checks if a table exists in the database
 ---@param tableName string
 ---@return boolean
@@ -326,4 +389,5 @@ return {
     fetchGroupMembers = fetchGroupMembers,
     removePlayerFromJob = removePlayerFromJob,
     removePlayerFromGang = removePlayerFromGang,
+    searchPlayerEntities = searchPlayerEntities,
 }
