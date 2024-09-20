@@ -478,13 +478,6 @@ end
 
 exports('GetPlayersData', getPlayersData)
 
-local function convertPosition(position)
-    local defaultSpawn = require 'config.shared'.defaultSpawn
-    local pos = json.decode(position)
-    local actualPos = (not pos.x or not pos.y or not pos.z) and defaultSpawn or pos
-    return vec4(actualPos.x, actualPos.y, actualPos.z, actualPos.w or defaultSpawn.w)
-end
-
 ---@param filters table<string, any>
 local function handleFilters(filters)
     if not (filters) then return '', {} end
@@ -514,20 +507,17 @@ end
 local function searchPlayerEntities(filters)
     ---@type PlayerEntity[]
     local result = {}
-    local query = "SELECT citizenid, charinfo, money, job, gang, position, metadata, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players"
+    local query = "SELECT citizenid FROM players"
     local where, holders = handleFilters(filters)
     lib.print.debug(query .. where)
     ---@type PlayerEntityDatabase[]
     local response = MySQL.query.await(query .. where, holders)
     for i=1, #response do
-        result[i] = response[i]
-        result[i].charinfo = json.decode(response[i].charinfo)
-        result[i].money = json.decode(response[i].money)
-        result[i].job = response[i].job and json.decode(response[i].job)
-        result[i].gang = response[i].gang and json.decode(response[i].gang)
-        result[i].position = convertPosition(response[i].position)
-        result[i].metadata = json.decode(response[i].metadata)
-        result[i].lastLoggedOut = response[i].lastLoggedOutUnix
+        local citizenid = response[i].citizenid
+        local player = GetOfflinePlayer(citizenid)
+        if player then
+            table.insert(result, player)
+        end
     end
     return result
 end
