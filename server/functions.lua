@@ -529,7 +529,7 @@ local function searchPlayerEntities(filters)
         result[i].metadata = json.decode(response[i].metadata)
         result[i].lastLoggedOut = response[i].lastLoggedOutUnix
     end
-    return response
+    return result
 end
 
 exports("SearchPlayers", searchPlayerEntities)
