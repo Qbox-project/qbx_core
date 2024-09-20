@@ -512,11 +512,16 @@ local function searchPlayerEntities(filters)
     lib.print.debug(query .. where)
     ---@type PlayerEntityDatabase[]
     local response = MySQL.query.await(query .. where, holders)
-    for i=1, #response do
+    for i = 1, #response do
         local citizenid = response[i].citizenid
-        local player = GetOfflinePlayer(citizenid)
+        local player = GetPlayerByCitizenId(citizenid)
         if player then
             table.insert(result, player)
+        else
+            local offlinePlayer = GetOfflinePlayer(citizenid)
+            if offlinePlayer then
+                table.insert(result, offlinePlayer)
+            end
         end
     end
     return result
