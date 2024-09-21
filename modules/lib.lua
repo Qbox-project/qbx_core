@@ -276,7 +276,7 @@ if isServer then
         while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
 
         if bucket and bucket > 0 then
-            SetEntityBucket(veh, bucket)
+            exports.qbx_core:SetEntityBucket(veh, bucket)
         end
 
         if ped then
