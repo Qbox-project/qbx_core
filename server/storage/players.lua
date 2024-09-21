@@ -167,28 +167,14 @@ local function handleSearchFilters(filters)
 end
 
 ---@param filters table <string, any>
----@return Player[]
+---@return PlayerEntityDatabase[]
 local function searchPlayerEntities(filters)
-    ---@type Player[]
-    local result = {}
     local query = "SELECT citizenid FROM players"
     local where, holders = handleSearchFilters(filters)
     lib.print.debug(query .. where)
     ---@type PlayerEntityDatabase[]
     local response = MySQL.query.await(query .. where, holders)
-    for i = 1, #response do
-        local citizenid = response[i].citizenid
-        local player = GetPlayerByCitizenId(citizenid)
-        if player then
-            result[#result+1] = player
-        else
-            local offlinePlayer = GetOfflinePlayer(citizenid)
-            if offlinePlayer then
-                result[#result+1] = offlinePlayer
-            end
-        end
-    end
-    return result
+    return response
 end
 
 ---Checks if a table exists in the database
