@@ -146,21 +146,24 @@ local function handleSearchFilters(filters)
         holders[#holders + 1] = filters.gang
     end
     if filters.metadata then
-        local typeof, value = filters.metadata.typeof, filters.metadata.value
-        local strict = filters.metadata.strict -- optional flag for strict equality check on numbers
-        if type(value) == "number" then
-            if strict then
-                clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. typeof .. '") = ?'
-            else
-                clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. typeof .. '") >= ?'
+        local strict = filters.metadata.strict
+        for key, value in pairs(filters.metadata) do
+            if key ~= "strict" then
+                if type(value) == "number" then
+                    if strict then
+                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") = ?'
+                    else
+                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") >= ?'
+                    end
+                    holders[#holders + 1] = value
+                elseif type(value) == "boolean" then
+                    clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") = ?'
+                    holders[#holders + 1] = tostring(value)
+                elseif type(value) == "string" then
+                    clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.' .. key .. '")) = ?'
+                    holders[#holders + 1] = value
+                end
             end
-            holders[#holders + 1] = value
-        elseif type(value) == "boolean" then
-            clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. typeof .. '") = ?'
-            holders[#holders + 1] = tostring(value)
-        elseif type(value) == "string" then
-            clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.' .. typeof .. '")) = ?'
-            holders[#holders + 1] = value
         end
     end
     return string.format(' WHERE %s', table.concat(clauses, ' AND ')), holders
