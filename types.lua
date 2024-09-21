@@ -91,6 +91,7 @@
 ---@field upsertPlayerEntity fun(request: UpsertPlayerRequest)
 ---@field fetchPlayerSkin fun(citizenId: string): PlayerSkin?
 ---@field fetchPlayerEntity fun(citizenId: string): PlayerEntity?
+---@field searchPlayerEntities fun(filters: table<string, any>): Player[]
 ---@field fetchAllPlayerEntities fun(license2: string, license?: string): PlayerEntity[]
 ---@field deletePlayer fun(citizenId: string): boolean success
 ---@field fetchIsUnique fun(type: UniqueIdType, value: string|number): boolean
