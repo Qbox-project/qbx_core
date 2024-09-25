@@ -1,5 +1,8 @@
 local isServer = IsDuplicityVersion()
 
+---@class Scaleform
+local scaleform = require 'modules.scaleform'
+
 local qbx = {}
 qbx.string = {}
 qbx.math = {}
@@ -559,6 +562,14 @@ else
         end
 
         ReleaseSoundId(soundId)
+    end
+
+    -- Create a new scaleform instance
+    -- Uses ox lib class system to create an easy to use scaleform handler
+    ---@param scaleformName string
+    ---@return Scaleform
+    function qbx.newScaleform(scaleformName)
+        return scaleform:new(scaleformName)
     end
 end
 
