@@ -106,7 +106,7 @@ AddEventHandler('entityRemoved', function(entity)
     local vehicleId = getVehicleId(entity)
     if not vehicleId then return end
 
-    local vehicleSessionId = Entity(entity).state.vehicleSessionId
+    local sessionId = Entity(entity).state.sessionId
     local playerVehicle = exports.qbx_vehicles:GetPlayerVehicle(vehicleId)
 
     if DoesEntityExist(entity) then
@@ -121,7 +121,7 @@ AddEventHandler('entityRemoved', function(entity)
         props = playerVehicle.props
     })
 
-    Entity(veh).state:set('vehicleSessionId', vehicleSessionId, true)
+    Entity(veh).state:set('sessionId', sessionId, true)
     Entity(veh).state:set('vehicleid', vehicleId, false)
 
     for i = 1, #passengers do

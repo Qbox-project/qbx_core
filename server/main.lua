@@ -41,26 +41,26 @@ QBX.UsableItems = {}
 local vehicleClasses
 local vehicleClassesPromise
 
-local currentVehicleSessionId = 1
-local vehicleSessionIdLock = false
+local currentSessionId = 1
+local sessionIdLock = false
 
----Sets a unique vehicleSessionId statebag on the vehicle entity. This will follow the vehicle if it is recreated by persistence.
----@param vehicle number
----@return integer vehicleSessionId
-local function setVehicleSessionId(vehicle)
-    if vehicleSessionIdLock then
+---Sets a unique sessionId statebag on the entity.
+---@param entity number
+---@return integer sessionId
+local function setSessionId(entity)
+    if sessionIdLock then
         lib.waitFor(function()
-            if not vehicleSessionIdLock then return true end
-        end, 'timed out acquiring vehicleSessionIdLock')
+            if not sessionIdLock then return true end
+        end, 'timed out acquiring sessionId lock')
     end
-    vehicleSessionIdLock = true
-    Entity(vehicle).state:set('vehicleSessionId', currentVehicleSessionId, true)
-    currentVehicleSessionId += 1
-    vehicleSessionIdLock = false
-    return currentVehicleSessionId - 1
+    sessionIdLock = true
+    Entity(entity).state:set('sessionId', currentSessionId, true)
+    currentSessionId += 1
+    sessionIdLock = false
+    return currentSessionId - 1
 end
 
-exports('SetVehicleSessionId', setVehicleSessionId)
+exports('SetSessionId', setSessionId)
 
 ---Caches the vehicle classes the first time this is called by getting the data from a random client.
 ---Throws an error if there is no cache and no client is connected to get the data from.
