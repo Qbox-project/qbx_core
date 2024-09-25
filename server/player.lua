@@ -674,19 +674,20 @@ function CreatePlayer(playerData, Offline)
         self.Functions.UpdatePlayerData()
 
         if not self.Offline then
+            local playerState = Player(self.PlayerData.source).state
             TriggerClientEvent('qbx_core:client:onSetMetaData', self.PlayerData.source, meta, oldVal, val)
             TriggerEvent('qbx_core:server:onSetMetaData', meta,  oldVal, val, self.PlayerData.source)
-        end
 
-        if (meta == 'hunger' or meta == 'thirst' or meta == 'stress') then
-            val = lib.math.clamp(val, 0, 100)
-            if not self.Offline and Player(self.PlayerData.source).state?[meta] ~= val then
-                Player(self.PlayerData.source).state:set(meta, val, true)
+            if (meta == 'hunger' or meta == 'thirst' or meta == 'stress') then
+                val = lib.math.clamp(val, 0, 100)
+                if playerState[meta] ~= val then
+                    playerState:set(meta, val, true)
+                end
             end
-        end
 
-        if (meta == 'dead' or meta == 'inlaststand') and not self.Offline then
-            Player(self.PlayerData.source).state:set('canUseWeapons', not val, true)
+            if (meta == 'dead' or meta == 'inlaststand') then
+                playerState:set('canUseWeapons', not val, true)
+            end
         end
 
         if meta == 'inlaststand' or meta == 'isdead' then
