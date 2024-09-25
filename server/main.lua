@@ -42,10 +42,21 @@ local vehicleClasses
 local vehicleClassesPromise
 
 local currentVehicleSessionId = 1
+local vehicleSessionIdLock = false
 
+---Sets a unique vehicleSessionId statebag on the vehicle entity. This will follow the vehicle if it is recreated by persistence.
+---@param vehicle number
+---@return integer vehicleSessionId
 local function setVehicleSessionId(vehicle)
+    if vehicleSessionIdLock then
+        lib.waitFor(function()
+            if not vehicleSessionIdLock then return true end
+        end, 'timed out acquiring vehicleSessionIdLock')
+    end
+    vehicleSessionIdLock = true
     Entity(vehicle).state:set('vehicleSessionId', currentVehicleSessionId, true)
     currentVehicleSessionId += 1
+    vehicleSessionIdLock = false
     return currentVehicleSessionId - 1
 end
 
