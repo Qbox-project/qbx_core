@@ -14,7 +14,7 @@ function Scaleform:constructor(name)
     self.name = name -- Set the name
 
     local scaleform = lib.requestScaleformMovie(name) -- Request the scaleform movie
-    
+
     if not scaleform then -- If the scaleform is nil
         return error(('Failed to request scaleform movie - [%s]'):format(name)) -- Error the failed scaleform request
     end
@@ -36,19 +36,20 @@ function Scaleform:MethodArgs(name, args)
     end
 
     BeginScaleformMovieMethod(self.handle, name) -- Begin the scaleform movie method
-    for k, v in pairs(args) do -- For each key and value in args
-        if type(v) == 'string' then -- If the type of v is a string
-            ScaleformMovieMethodAddParamPlayerNameString(v) -- Add the player name string
-        elseif type(v) == 'number' then -- If the type of v is a number
-            if math.type(v) == 'integer' then -- If the math type of v is an integer
-                ScaleformMovieMethodAddParamInt(v) -- Add the integer
+    for i=1, #args do -- loop through the args
+        local arg = args[i] -- Set the value to the current arg
+        if type(arg) == 'string' then -- If the type of v is a string
+            ScaleformMovieMethodAddParamPlayerNameString(arg) -- Add the player name string
+        elseif type(arg) == 'number' then -- If the type of v is a number
+            if math.type(arg) == 'integer' then -- If the math type of v is an integer
+                ScaleformMovieMethodAddParamInt(arg) -- Add the integer
             else -- If the math type of v is not an integer
-                ScaleformMovieMethodAddParamFloat(v) -- Add the float
+                ScaleformMovieMethodAddParamFloat(arg) -- Add the float
             end
-        elseif type(v) == 'boolean' then -- If the type of v is a boolean
-            ScaleformMovieMethodAddParamBool(v) -- Add the boolean
+        elseif type(arg) == 'boolean' then -- If the type of v is a boolean
+            ScaleformMovieMethodAddParamBool(arg) -- Add the boolean
         else
-            error(('Unsupported Parameter type [%s]'):format(type(v))) -- Error unsupported type
+            error(('Unsupported Parameter type [%s]'):format(type(arg))) -- Error unsupported type
         end
     end
     EndScaleformMovieMethod() -- End the scaleform movie method
