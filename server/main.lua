@@ -41,6 +41,16 @@ QBX.UsableItems = {}
 local vehicleClasses
 local vehicleClassesPromise
 
+local currentVehicleSessionId = 1
+
+local function setVehicleSessionId(vehicle)
+    Entity(vehicle).state:set('vehicleSessionId', currentVehicleSessionId, true)
+    currentVehicleSessionId += 1
+    return currentVehicleSessionId - 1
+end
+
+exports('SetVehicleSessionId', setVehicleSessionId)
+
 ---Caches the vehicle classes the first time this is called by getting the data from a random client.
 ---Throws an error if there is no cache and no client is connected to get the data from.
 ---@param model number
