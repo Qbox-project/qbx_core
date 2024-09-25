@@ -47,7 +47,7 @@ local sessionIdLock = false
 ---Sets a unique sessionId statebag on the entity.
 ---@param entity number
 ---@return integer sessionId
-local function setSessionId(entity)
+local function createSessionId(entity)
     if sessionIdLock then
         lib.waitFor(function()
             if not sessionIdLock then return true end
@@ -60,7 +60,7 @@ local function setSessionId(entity)
     return currentSessionId - 1
 end
 
-exports('SetSessionId', setSessionId)
+exports('CreateSessionId', createSessionId)
 
 ---Caches the vehicle classes the first time this is called by getting the data from a random client.
 ---Throws an error if there is no cache and no client is connected to get the data from.
