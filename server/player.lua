@@ -680,7 +680,7 @@ function CreatePlayer(playerData, Offline)
 
         if (meta == 'hunger' or meta == 'thirst' or meta == 'stress') then
             val = lib.math.clamp(val, 0, 100)
-            if not self.Offline then
+            if not self.Offline and Player(self.PlayerData.source).state?[meta] ~= val then
                 Player(self.PlayerData.source).state:set(meta, val, true)
             end
         end
