@@ -137,6 +137,7 @@ function Scaleform:Draw(shouldDraw)
                     SetTextRenderId(self.renderTarget) -- Set the text render id
                     SetScriptGfxDrawOrder(4) -- Set the script gfx draw order
                     SetScriptGfxDrawBehindPausemenu(true) -- allow it to draw behind pause menu
+                    SetScaleformFitRendertarget(self.handle, true) -- Set the scaleform fit render target
                 end
 
                 DrawScaleformMovieFullscreen(self.handle, 255, 255, 255, 255, 0)
