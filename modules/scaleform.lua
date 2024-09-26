@@ -7,11 +7,12 @@
 ---@field handle number
 local Scaleform = lib.class('Scaleform')
 
----@param name string
+---@param details table | string
 ---@return nil
 ---@description Create a new scaleform class
-function Scaleform:constructor(name)
-    self.name = name -- Set the name
+function Scaleform:constructor(details)
+    local detailProvided = type(details) == "table"
+    self.name = detailProvided and details.name or details -- Set the name
 
     local scaleform = lib.requestScaleformMovie(name) -- Request the scaleform movie
     
@@ -21,24 +22,22 @@ function Scaleform:constructor(name)
 
     self.handle = scaleform -- Set the scaleform handle
     self.draw = false -- Set the draw to false
-    self.fullScreen = true -- Set the full screen to false
+    self.fullScreen = detailProvided and details.fullScreen or true -- Set the full screen to false
+    if detailProvided then
+        self.x = details.x
+        self.y = details.y
+        self.width = details.width
+        self.height = details.height
+
+        if details.renderTarget then
+            self:RenderTarget(details.renderTarget.name, details.renderTarget.model)
+        end
+    end
 end
 
----@param name string
----@param args table
----@return nil
----@description Request a scaleform method with parameters
-function Scaleform:MethodArgs(name, args)
-    if not self.handle then -- If the scaleform handle is nil
-        return error('Scaleform handle is nil') -- Error the scaleform handle is nil
-    end
-    if type(args) ~= 'table' then -- If the type of args is not a table
-        return error('Args must be a table') -- Error args must be a table
-    end
-
-    BeginScaleformMovieMethod(self.handle, name) -- Begin the scaleform movie method
-    for i=1, #args do -- loop through the args
-        local arg = args[i] -- Set the value to the current arg
+local function convertArgs(argsTable)
+    for i=1, #argsTable do -- loop through the args
+        local arg = argsTable[i] -- Set the value to the current arg
         if type(arg) == 'string' then -- If the type of v is a string
             ScaleformMovieMethodAddParamPlayerNameString(arg) -- Add the player name string
         elseif type(arg) == 'number' then -- If the type of v is a number
@@ -53,42 +52,20 @@ function Scaleform:MethodArgs(name, args)
             error(('Unsupported Parameter type [%s]'):format(type(arg))) -- Error unsupported type
         end
     end
-    EndScaleformMovieMethod() -- End the scaleform movie method
 end
 
----@param name string
----@return nil
----@description Request a scaleform method with no return value or parameters
-function Scaleform:Method(name)
-    if not self.handle then -- If the scaleform handle is nil
-        return error('Scaleform handle is nil') -- Error the scaleform handle is nil
-    end
-
-    BeginScaleformMovieMethod(self.handle, name) -- Begin the scaleform movie method
-    EndScaleformMovieMethod() -- End the scaleform movie method
-end
-
----@param name string
----@param type string
----@return number|string | boolean
----@description Request a scaleform method with a return value
-function Scaleform:MethodReturn(name, type)
-    if not self.handle then -- If the scaleform handle is nil
-        return error('Scaleform handle is nil') -- Error the scaleform handle is nil
-    end
-
-    BeginScaleformMovieMethod(self.handle, name) -- Begin the scaleform movie method
+---@param type string 
+---@return boolean | int | string
+---@description Awaits the return value, and converts it to a usable data type
+local function retrieveReturnValue(type)
     local result = EndScaleformMovieMethodReturnValue() -- End the scaleform movie method with a return value
 
     local timeout = 0
-    while not IsScaleformMovieMethodReturnValueReady(result) do  -- While the return value is not ready
-        Wait(0) -- Wait 0
-        timeout = timeout + 1 -- Increment the timeout
-        if timeout > 1000 then -- If the timeout is greater than 1000
-            error(('Return value failed - [%s]'):format(name)) -- Error the timeout waiting for scaleform method return value
-            return false
+    lib.waitFor(function()
+        if IsScaleformMovieMethodReturnValueReady(result) then 
+            return true
         end
-    end -- End the while loop
+    end, "Failed to retrieve return value", 1000)
 
     if type == "int" then -- If the type is an integer
         return GetScaleformMovieMethodReturnValueInt(result) -- Get the return value as an integer
@@ -99,10 +76,39 @@ function Scaleform:MethodReturn(name, type)
     end
 end
 
+---@param name string
+---@param args? table
+---@param returnValue? string
+---@return any
+---@description Call a scaleform function, with optional args or return value.
+function Scaleform:method(name, args, returnValue)
+    if not self.handle then -- If the scaleform handle is nil
+        return error('Scaleform handle is nil') -- Error the scaleform handle is nil
+    end
+
+    if args and type(args) ~= 'table' then -- If the type of args is not a table
+        return error('Args must be a table') -- Error args must be a table
+    end
+
+    BeginScaleformMovieMethod(self.handle, name) -- Begin the scaleform movie method
+
+    -- Converts the arguments into data types usable by scaleform
+    if args then
+        convertArgs(args)
+    end
+
+    -- When wanting a return value, the scaleform has to be ended with a different native
+    if returnValue then
+        retrieveReturnValue(returnValue)
+    else
+        EndScaleformMovieMethod() -- End the scaleform movie method
+    end
+end
+
 ---@param isFullscreen boolean
 ---@return nil
 ---@description Set the scaleform to render in full screen
-function Scaleform:SetFullScreen(isFullscreen)
+function Scaleform:setFullScreen(isFullscreen)
     self.fullScreen = isFullscreen
 end
 
@@ -112,7 +118,7 @@ end
 ---@param height number
 ---@return nil
 ---@description Set the properties of the scaleform (Requires SetFullScreen to be false)
-function Scaleform:SetProperties(x, y, width, height)
+function Scaleform:setProperties(x, y, width, height)
     if self.fullScreen then -- If the full screen is true
         return error('Cannot set properties when full screen is enabled') -- Error cannot set properties when full screen is enabled
     end
@@ -122,12 +128,18 @@ function Scaleform:SetProperties(x, y, width, height)
     self.height = height
 end
 
-
 ---@param name string
 ---@param model string|number
 ---@return nil
 ---@description Create a render target for the scaleform - optional , only if you want to render the scaleform in 3D
-function Scaleform:RenderTarget(name, model)
+function Scaleform:renderTarget(name, model)
+
+    -- ensures theres no Targets still active, since this could cause a memory leak
+    -- if the render targets are not released.
+    if self.renderTarget then
+        ReleaseNamedRendertarget(self.targetName)
+    end
+
     if type(model) == 'string' then -- If the type of model is a string
         model = joaat(model) -- Convert the model to a hash
     end
@@ -144,52 +156,56 @@ function Scaleform:RenderTarget(name, model)
     end
 end
 
----@param shouldDraw boolean
 ---@return nil
----@description Draw the scaleform
-function Scaleform:Draw(shouldDraw)
-    if self.draw == shouldDraw then -- If the draw is equal to should draw
-        return -- Return
+---@description Set The Scaleform to draw
+function Scaleform:startDrawing()
+    if self.draw then -- If the draw is equal to should draw
+        return error("Scaleform Already Drawing")
     end
 
-    self.draw = shouldDraw -- Set the draw to should draw
-    if shouldDraw then -- If should draw is true
+    self.draw = true
+    CreateThread(function()  -- Create a thread
+        while self.draw do -- While the draw is true
 
-       CreateThread(function()  -- Create a thread
-            while self.draw do -- While the draw is true
+            if self.renderTarget then -- If the render target is true
+                SetTextRenderId(self.renderTarget) -- Set the text render id
+                SetScriptGfxDrawOrder(4) -- Set the script gfx draw order
+                SetScriptGfxDrawBehindPausemenu(true) -- allow it to draw behind pause menu
+                SetScaleformFitRendertarget(self.handle, true)
+            end
 
-                if self.renderTarget then -- If the render target is true
-                    SetTextRenderId(self.renderTarget) -- Set the text render id
-                    SetScriptGfxDrawOrder(4) -- Set the script gfx draw order
-                    SetScriptGfxDrawBehindPausemenu(true) -- allow it to draw behind pause menu
-                    SetScaleformFitRendertarget(self.handle, true)
-                end
-
-                if self.fullScreen then
+            if self.fullScreen then
+                DrawScaleformMovieFullscreen(self.handle, 255, 255, 255, 255, 0)
+            else
+                if not self.x or not self.y or not self.width or not self.height then
+                    error('Properties not set for scaleform') -- Error properties not set for scaleform
                     DrawScaleformMovieFullscreen(self.handle, 255, 255, 255, 255, 0)
                 else
-                    if not self.x or not self.y or not self.width or not self.height then
-                        error('Properties not set for scaleform') -- Error properties not set for scaleform
-                        DrawScaleformMovieFullscreen(self.handle, 255, 255, 255, 255, 0)
-                    else
-                        DrawScaleformMovie(self.handle, self.x, self.y, self.width, self.height, 255, 255, 255, 255, 0)
-                    end
+                    DrawScaleformMovie(self.handle, self.x, self.y, self.width, self.height, 255, 255, 255, 255, 0)
                 end
-
-                if self.renderTarget then -- If the render target is true
-                    SetTextRenderId(1) -- Reset the text render id
-                end
-
-                Wait(0)
             end
-       end)
 
+            if self.renderTarget then -- If the render target is true
+                SetTextRenderId(1) -- Reset the text render id
+            end
+
+            Wait(0)
+        end
+    end)
+end
+
+---@return nil
+---@description stop the scaleform from drawing, use this to only temporarily disable it, use Dispose otherwise. 
+function Scaleform:stopDrawing()
+    if not self.draw then
+        return
     end
+    self.draw = false
 end
 
 ---@return nil
 ---@description Dispose of the scaleform
-function Scaleform:Dispose()
+function Scaleform:dispose()
     if self.handle then -- If the handle exists
         SetScaleformMovieAsNoLongerNeeded(self.handle) -- Set the scaleform movie as no longer needed
     end
