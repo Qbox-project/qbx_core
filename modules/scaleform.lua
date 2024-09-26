@@ -61,7 +61,6 @@ end
 local function retrieveReturnValue(type)
     local result = EndScaleformMovieMethodReturnValue() -- End the scaleform movie method with a return value
 
-    local timeout = 0
     lib.waitFor(function()
         if IsScaleformMovieMethodReturnValueReady(result) then
             return true
