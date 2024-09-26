@@ -566,10 +566,10 @@ else
 
     -- Create a new scaleform instance
     -- Uses ox lib class system to create an easy to use scaleform handler
-    ---@param scaleformName string
+    ---@param scaleformDetails string | table
     ---@return Scaleform
-    function qbx.newScaleform(scaleformName)
-        return scaleform:new(scaleformName)
+    function qbx.newScaleform(scaleformDetails)
+        return scaleform:new(scaleformDetails)
     end
 end
 

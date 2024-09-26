@@ -2,7 +2,7 @@
 ---@field name string
 ---@field scaleform number
 ---@field draw boolean
----@field renderTarget number
+---@field target number
 ---@field targetName string
 ---@field handle number
 local Scaleform = lib.class('Scaleform')
@@ -14,15 +14,16 @@ function Scaleform:constructor(details)
     local detailProvided = type(details) == "table"
     self.name = detailProvided and details.name or details -- Set the name
 
-    local scaleform = lib.requestScaleformMovie(name) -- Request the scaleform movie
-    
+    local scaleform = lib.requestScaleformMovie(self.name) -- Request the scaleform movie
+
     if not scaleform then -- If the scaleform is nil
-        return error(('Failed to request scaleform movie - [%s]'):format(name)) -- Error the failed scaleform request
+        return error(('Failed to request scaleform movie - [%s]'):format(self.name)) -- Error the failed scaleform request
     end
 
     self.handle = scaleform -- Set the scaleform handle
     self.draw = false -- Set the draw to false
-    self.fullScreen = detailProvided and details.fullScreen or true -- Set the full screen to false
+    self.fullScreen = detailProvided and details.fullScreen or true -- Set default for full screen
+
     if detailProvided then
         self.x = details.x
         self.y = details.y
@@ -30,7 +31,7 @@ function Scaleform:constructor(details)
         self.height = details.height
 
         if details.renderTarget then
-            self:RenderTarget(details.renderTarget.name, details.renderTarget.model)
+            self:renderTarget(details.renderTarget.name, details.renderTarget.model)
         end
     end
 end
@@ -54,7 +55,7 @@ local function convertArgs(argsTable)
     end
 end
 
----@param type string 
+---@param type string
 ---@return boolean | int | string
 ---@description Awaits the return value, and converts it to a usable data type
 local function retrieveReturnValue(type)
@@ -62,7 +63,7 @@ local function retrieveReturnValue(type)
 
     local timeout = 0
     lib.waitFor(function()
-        if IsScaleformMovieMethodReturnValueReady(result) then 
+        if IsScaleformMovieMethodReturnValueReady(result) then
             return true
         end
     end, "Failed to retrieve return value", 1000)
@@ -136,7 +137,7 @@ function Scaleform:renderTarget(name, model)
 
     -- ensures theres no Targets still active, since this could cause a memory leak
     -- if the render targets are not released.
-    if self.renderTarget then
+    if self.target then
         ReleaseNamedRendertarget(self.targetName)
     end
 
@@ -151,7 +152,7 @@ function Scaleform:renderTarget(name, model)
             LinkNamedRendertarget(model) -- Link the named render target
         end
 
-        self.renderTarget = GetNamedRendertargetRenderId(name) -- Get the named render target render id
+        self.target = GetNamedRendertargetRenderId(name) -- Get the named render target render id
         self.targetName = name -- Set the target name
     end
 end
@@ -167,8 +168,8 @@ function Scaleform:startDrawing()
     CreateThread(function()  -- Create a thread
         while self.draw do -- While the draw is true
 
-            if self.renderTarget then -- If the render target is true
-                SetTextRenderId(self.renderTarget) -- Set the text render id
+            if self.target then -- If the render target is true
+                SetTextRenderId(self.target) -- Set the text render id
                 SetScriptGfxDrawOrder(4) -- Set the script gfx draw order
                 SetScriptGfxDrawBehindPausemenu(true) -- allow it to draw behind pause menu
                 SetScaleformFitRendertarget(self.handle, true)
@@ -185,7 +186,7 @@ function Scaleform:startDrawing()
                 end
             end
 
-            if self.renderTarget then -- If the render target is true
+            if self.target then -- If the render target is true
                 SetTextRenderId(1) -- Reset the text render id
             end
 
@@ -195,7 +196,7 @@ function Scaleform:startDrawing()
 end
 
 ---@return nil
----@description stop the scaleform from drawing, use this to only temporarily disable it, use Dispose otherwise. 
+---@description stop the scaleform from drawing, use this to only temporarily disable it, use Dispose otherwise.
 function Scaleform:stopDrawing()
     if not self.draw then
         return
@@ -210,13 +211,13 @@ function Scaleform:dispose()
         SetScaleformMovieAsNoLongerNeeded(self.handle) -- Set the scaleform movie as no longer needed
     end
 
-    if self.renderTarget then -- If the render target exists
+    if self.target then -- If the render target exists
         ReleaseNamedRendertarget(self.targetName) -- Release the named render target
     end
 
     -- Reset the values
     self.handle = nil -- Set the handle to nil
-    self.renderTarget = nil -- Set the render target to nil
+    self.target = nil -- Set the render target to nil
     self.draw = false -- Set the draw to false
 end
 
