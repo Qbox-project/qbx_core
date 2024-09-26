@@ -14,13 +14,14 @@ function Scaleform:constructor(name)
     self.name = name -- Set the name
 
     local scaleform = lib.requestScaleformMovie(name) -- Request the scaleform movie
-
+    
     if not scaleform then -- If the scaleform is nil
         return error(('Failed to request scaleform movie - [%s]'):format(name)) -- Error the failed scaleform request
     end
 
     self.handle = scaleform -- Set the scaleform handle
     self.draw = false -- Set the draw to false
+    self.fullScreen = true -- Set the full screen to false
 end
 
 ---@param name string
@@ -98,6 +99,30 @@ function Scaleform:MethodReturn(name, type)
     end
 end
 
+---@param isFullscreen boolean
+---@return nil
+---@description Set the scaleform to render in full screen
+function Scaleform:SetFullScreen(isFullscreen)
+    self.fullScreen = isFullscreen
+end
+
+---@param x number
+---@param y number
+---@param width number
+---@param height number
+---@return nil
+---@description Set the properties of the scaleform (Requires SetFullScreen to be false)
+function Scaleform:SetProperties(x, y, width, height)
+    if self.fullScreen then -- If the full screen is true
+        return error('Cannot set properties when full screen is enabled') -- Error cannot set properties when full screen is enabled
+    end
+    self.x = x
+    self.y = y
+    self.width = width
+    self.height = height
+end
+
+
 ---@param name string
 ---@param model string|number
 ---@return nil
@@ -137,10 +162,19 @@ function Scaleform:Draw(shouldDraw)
                     SetTextRenderId(self.renderTarget) -- Set the text render id
                     SetScriptGfxDrawOrder(4) -- Set the script gfx draw order
                     SetScriptGfxDrawBehindPausemenu(true) -- allow it to draw behind pause menu
-                    SetScaleformFitRendertarget(self.handle, true) -- Set the scaleform fit render target
+                    SetScaleformFitRendertarget(self.handle, true)
                 end
 
-                DrawScaleformMovieFullscreen(self.handle, 255, 255, 255, 255, 0)
+                if self.fullScreen then
+                    DrawScaleformMovieFullscreen(self.handle, 255, 255, 255, 255, 0)
+                else
+                    if not self.x or not self.y or not self.width or not self.height then
+                        error('Properties not set for scaleform') -- Error properties not set for scaleform
+                        DrawScaleformMovieFullscreen(self.handle, 255, 255, 255, 255, 0)
+                    else
+                        DrawScaleformMovie(self.handle, self.x, self.y, self.width, self.height, 255, 255, 255, 255, 0)
+                    end
+                end
 
                 if self.renderTarget then -- If the render target is true
                     SetTextRenderId(1) -- Reset the text render id
