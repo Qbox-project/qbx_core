@@ -41,23 +41,16 @@ QBX.UsableItems = {}
 local vehicleClasses
 local vehicleClassesPromise
 
-local currentSessionId = 1
-local sessionIdLock = false
+local currentSessionId = 0
 
 ---Sets a unique sessionId statebag on the entity.
 ---@param entity number
 ---@return integer sessionId
 local function createSessionId(entity)
-    if sessionIdLock then
-        lib.waitFor(function()
-            if not sessionIdLock then return true end
-        end, 'timed out acquiring sessionId lock')
-    end
-    sessionIdLock = true
-    Entity(entity).state:set('sessionId', currentSessionId, true)
     currentSessionId += 1
-    sessionIdLock = false
-    return currentSessionId - 1
+    local sessionId = currentSessionId
+    Entity(entity).state:set('sessionId', sessionId, true)
+    return sessionId
 end
 
 exports('CreateSessionId', createSessionId)
