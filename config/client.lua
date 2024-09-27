@@ -273,7 +273,7 @@ return {
     },
 
     --- Only used by QB bridge
-    hasKeys = function(plate, vehicleId)
-        return exports.qbx_vehiclekeys:HasKeys(vehicleId)
+    hasKeys = function(plate, vehicle)
+        return exports.qbx_vehiclekeys:HasKeys(vehicle)
     end,
 }
