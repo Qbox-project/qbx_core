@@ -55,8 +55,8 @@ local function convertArgs(argsTable)
     end
 end
 
----@param type string
----@return boolean | int | string
+---@param type 'bool' | 'int' | 'string'
+---@return boolean | integer | string
 ---@description Awaits the return value, and converts it to a usable data type
 local function retrieveReturnValue(type)
     local result = EndScaleformMovieMethodReturnValue() -- End the scaleform movie method with a return value
