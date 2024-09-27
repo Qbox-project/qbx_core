@@ -99,10 +99,10 @@ function Scaleform:method(name, args, returnValue)
 
     -- When wanting a return value, the scaleform has to be ended with a different native
     if returnValue then
-        retrieveReturnValue(returnValue)
-    else
-        EndScaleformMovieMethod() -- End the scaleform movie method
+        return retrieveReturnValue(returnValue)
     end
+
+    EndScaleformMovieMethod() -- End the scaleform movie method
 end
 
 ---@param isFullscreen boolean
