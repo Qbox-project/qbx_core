@@ -43,7 +43,8 @@ local vehicleClassesPromise
 
 local currentSessionId = 0
 
----Sets a unique sessionId statebag on the entity. If the entity already has a sessionId, this will return it.
+---Sets a unique sessionId statebag on the entity.
+---If the entity already has a sessionId, this will return it rather than overwrite.
 ---@param entity number
 ---@return integer sessionId
 local function createSessionId(entity)
