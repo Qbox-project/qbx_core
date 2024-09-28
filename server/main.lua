@@ -43,10 +43,14 @@ local vehicleClassesPromise
 
 local currentSessionId = 0
 
----Sets a unique sessionId statebag on the entity.
+---Sets a unique sessionId statebag on the entity. If the entity already has a sessionId, this will return it.
 ---@param entity number
 ---@return integer sessionId
 local function createSessionId(entity)
+    local existingSessionId = Entity(entity).state.sessionId
+    if existingSessionId then
+        return existingSessionId
+    end
     currentSessionId += 1
     local sessionId = currentSessionId
     Entity(entity).state:set('sessionId', sessionId, true)
