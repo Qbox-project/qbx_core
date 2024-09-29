@@ -32,7 +32,7 @@ local function pay(player)
         return
     end
     local account = config.getSocietyAccount(job.name)
-    if not account or account == 0 then -- Checks if player is employed by a society
+    if not account then -- Checks if player is employed by a society
         config.sendPaycheck(player, payment)
         return
     end
