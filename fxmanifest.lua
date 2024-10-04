@@ -43,6 +43,7 @@ server_scripts {
 
 files {
     'modules/*.lua',
+    'data/*.lua',
     'shared/gangs.lua',
     'shared/items.lua',
     'shared/jobs.lua',
