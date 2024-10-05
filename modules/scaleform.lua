@@ -1,38 +1,49 @@
----@class Scaleform : OxClass
+---@class renderTargetTable
 ---@field name string
+---@field model string|number
+
+---@class detailsTable
+---@field name string
+---@field fullScreen? boolean
+---@field x? number
+---@field y? number
+---@field width? number
+---@field height? number
+---@field renderTarget? renderTargetTable
+
+---@class Scaleform : OxClass
 ---@field scaleform number
 ---@field draw boolean
 ---@field target number
 ---@field targetName string
 ---@field handle number
+---@field fullScreen boolean
 local Scaleform = lib.class('Scaleform')
 
----@param details table | string
+---@param details detailsTable | string
 ---@return nil
 ---@description Create a new scaleform class
 function Scaleform:constructor(details)
-    local detailProvided = type(details) == "table"
-    self.name = detailProvided and details.name or details -- Set the name
+    details = type(details) == "table" and details or {name = details} -- Set the details to a table if it is not already
 
-    local scaleform = lib.requestScaleformMovie(self.name) -- Request the scaleform movie
+    local scaleform = lib.requestScaleformMovie(details.name) -- Request the scaleform movie
 
     if not scaleform then -- If the scaleform is nil
-        return error(('Failed to request scaleform movie - [%s]'):format(self.name)) -- Error the failed scaleform request
+        return error(('Failed to request scaleform movie - [%s]'):format(details.name)) -- Error the failed scaleform request
     end
 
     self.handle = scaleform -- Set the scaleform handle
     self.draw = false -- Set the draw to false
-    self.fullScreen = detailProvided and details.fullScreen or true -- Set default for full screen
 
-    if detailProvided then
-        self.x = details.x
-        self.y = details.y
-        self.width = details.width
-        self.height = details.height
+    -- Set Default Values if not provided
+    self.fullScreen = details.fullScreen ~= nil and details.fullScreen or true
+    self.x = details.x or 0
+    self.y = details.y or 0
+    self.width = details.width or 0
+    self.height = details.height or 0
 
-        if details.renderTarget then
-            self:renderTarget(details.renderTarget.name, details.renderTarget.model)
-        end
+    if details.renderTarget then
+        self:setRenderTarget(details.renderTarget.name, details.renderTarget.model)
     end
 end
 
@@ -55,7 +66,7 @@ local function convertArgs(argsTable)
     end
 end
 
----@param type 'bool' | 'int' | 'string'
+---@param type 'boolean' | 'integer' | 'string'
 ---@return boolean | integer | string
 ---@description Awaits the return value, and converts it to a usable data type
 local function retrieveReturnValue(type)
@@ -67,9 +78,9 @@ local function retrieveReturnValue(type)
         end
     end, "Failed to retrieve return value", 1000)
 
-    if type == "int" then -- If the type is an integer
+    if type == "integer" then -- If the type is an integer
         return GetScaleformMovieMethodReturnValueInt(result) -- Get the return value as an integer
-    elseif type == "bool" then
+    elseif type == "boolean" then
         return GetScaleformMovieMethodReturnValueBool(result) -- Get the return value as a boolean
     else -- If the type is not an integer
         return GetScaleformMovieMethodReturnValueString(result) -- Get the return value as a string
@@ -81,7 +92,7 @@ end
 ---@param returnValue? string
 ---@return any
 ---@description Call a scaleform function, with optional args or return value.
-function Scaleform:method(name, args, returnValue)
+function Scaleform:callMethod(name, args, returnValue)
     if not self.handle then -- If the scaleform handle is nil
         return error('Scaleform handle is nil') -- Error the scaleform handle is nil
     end
@@ -132,7 +143,7 @@ end
 ---@param model string|number
 ---@return nil
 ---@description Create a render target for the scaleform - optional , only if you want to render the scaleform in 3D
-function Scaleform:renderTarget(name, model)
+function Scaleform:setRenderTarget(name, model)
 
     -- ensures theres no Targets still active, since this could cause a memory leak
     -- if the render targets are not released.
