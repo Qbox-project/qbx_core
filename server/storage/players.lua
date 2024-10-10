@@ -112,7 +112,7 @@ end
 local function fetchPlayerEntity(citizenId)
     ---@type PlayerEntityDatabase
     local player = MySQL.single.await('SELECT citizenid, license, name, charinfo, money, job, gang, position, metadata, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players WHERE citizenid = ?', { citizenId })
-    local charinfo = json.decode(player.charinfo)
+    local charinfo = player and json.decode(player.charinfo)
     return player and {
         citizenid = player.citizenid,
         license = player.license,
