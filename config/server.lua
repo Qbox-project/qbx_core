@@ -77,7 +77,9 @@ return {
         { 'npwd_notes',                    'identifier' },
         { 'npwd_phone_contacts',           'identifier' },
         { 'npwd_phone_gallery',            'identifier' },
+        { 'npwd_twitter_tweets',           'identifier' },
         { 'npwd_twitter_profiles',         'identifier' },
+        { 'npwd_match_views',              'identifier' },
         { 'npwd_match_profiles',           'identifier' },
     }, -- Rows to be deleted when the character is deleted
 
@@ -127,7 +129,7 @@ return {
     end,
 
     removeSocietyMoney = function(accountName, payment)
-        return exports.pefcl:removeBankBalanceByIdentifier(source, { identifier = accountName, amount = payment })
+        return exports.pefcl:removeBankBalanceByIdentifier(0, { identifier = accountName, amount = payment })
     end,
 
     ---Paycheck function
