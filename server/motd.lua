@@ -1,5 +1,6 @@
 local acknowledged = GetConvar('qbx:acknowledge', 'false') == 'true'
-local messagesUrl = GetConvar('qbx:serviceMessagesUrl', 'https://raw.githubusercontent.com/Qbox-project/txAdminRecipe/refs/heads/main/service-messages.json')
+local messagesUrl = GetConvar('qbx:serviceMessagesUrl',
+    'https://raw.githubusercontent.com/Qbox-project/txAdminRecipe/refs/heads/main/service-messages.json')
 local resourceVersion = GetResourceMetadata(cache.resource, 'version', 0)
 
 ---@param str string
