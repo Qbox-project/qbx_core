@@ -105,11 +105,9 @@ local randomPeds = {
 local nationalities = {}
 
 if config.characters.limitNationalities then
-    local nationalityList = lib.load('data.nationalities')
-
     CreateThread(function()
-        for i = 1, #nationalityList do
-            nationalities[#nationalities + 1] = { value = nationalityList[i] }
+        for i = 1, #config.characters.nationalities do
+            nationalities[#nationalities + 1] = {value = config.characters.nationalities[i]}
         end
     end)
 end
@@ -153,12 +151,14 @@ local function randomPed()
     pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), ped) end)
     SetModelAsNoLongerNeeded(ped.model)
 end
-
 ---@param citizenId? string
 local function previewPed(citizenId)
-    if not citizenId then randomPed() return end
+    local cID = citizenId
+    local characters = lib.callback.await('qbx_core:server:getCharacters')
+    if characters[1] and not cID then cID = characters[1].citizenid end
+    if not cID then randomPed() return end
 
-    local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
+    local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, cID)
     if model and clothing then
         lib.requestModel(model, config.loadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
@@ -493,6 +493,7 @@ end)
 
 RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     if GetInvokingResource() then return end -- Make sure this can only be triggered from the server
+    previewPed()
     chooseCharacter()
 end)
 
@@ -502,7 +503,7 @@ CreateThread(function()
         if NetworkIsSessionStarted() then
             pcall(function() exports.spawnmanager:setAutoSpawn(false) end)
             Wait(250)
-            randomPed()
+            previewPed()
             chooseCharacter()
             break
         end
