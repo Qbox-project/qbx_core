@@ -153,12 +153,12 @@ local function randomPed()
 end
 ---@param citizenId? string
 local function previewPed(citizenId)
-    local citizenId = citizenId
-    local characters, amount = lib.callback.await('qbx_core:server:getCharacters')
-    if characters[1] and not citizenId then citizenId = characters[1].citizenid end
-    if not citizenId then randomPed() return end
+    local cID = citizenId
+    local characters = lib.callback.await('qbx_core:server:getCharacters')
+    if characters[1] and not cID then cID = characters[1].citizenid end
+    if not cID then randomPed() return end
 
-    local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
+    local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, cID)
     if model and clothing then
         lib.requestModel(model, config.loadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
