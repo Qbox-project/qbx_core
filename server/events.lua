@@ -101,7 +101,7 @@ local function onPlayerConnecting(name, _, deferrals)
 
         identifiers.username = name
 
-        userId = storage.createUser(identifiers)
+        storage.createUser(identifiers)
     end
 
     local databaseTime = os.clock()
