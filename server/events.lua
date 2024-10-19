@@ -63,7 +63,7 @@ local function getIdentifiers(source)
         local identifier = GetPlayerIdentifier(source --[[@as string]], i)
         local prefix = identifier:match('([^:]+)')
 
-        if prefix ~= 'ip' and prefix ~= 'live' and prefix ~= 'xbl' then
+        if prefix ~= 'ip' then
             identifiers[prefix] = identifier
         end
     end
