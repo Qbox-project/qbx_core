@@ -447,6 +447,17 @@ return {
             }
         }
     },
+    ['builder'] = {
+        label = 'Construction',
+        defaultDuty = true,
+        offDutyPay = false,
+        grades = {
+            [0] = {
+                name = 'Worker',
+                payment = 15
+            }
+        }
+    },
     ['diving'] = {
         label = 'Scuba',
         defaultDuty = true,
@@ -487,17 +498,6 @@ return {
         grades = {
             [0] = {
                 name = 'Landscaper',
-                payment = 15
-            }
-        }
-    },
-    ['builder'] = {
-        label = 'Construction',
-        defaultDuty = true,
-        offDutyPay = false,
-        grades = {
-            [0] = {
-                name = 'Worker',
                 payment = 15
             }
         }
