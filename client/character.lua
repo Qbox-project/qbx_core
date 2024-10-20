@@ -1,6 +1,5 @@
 local config = require 'config.client'
 local defaultSpawn = require 'config.shared'.defaultSpawn
-local characters, amount = lib.callback.await('qbx_core:server:getCharacters')
 
 if config.characters.useExternalCharacters then return end
 
@@ -155,6 +154,7 @@ end
 ---@param citizenId? string
 local function previewPed(citizenId)
     local cID = citizenId
+    local characters = lib.callback.await('qbx_core:server:getCharacters')
     if characters[1] and not cID then cID = characters[1].citizenid end
     if not cID then randomPed() return end
 
@@ -380,6 +380,7 @@ local function chooseCharacter()
     setupPreviewCam()
 
     ---@type PlayerEntity[], integer
+    local characters, amount = lib.callback.await('qbx_core:server:getCharacters')
     local options = {}
     for i = 1, amount do
         local character = characters[i]
