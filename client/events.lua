@@ -17,7 +17,7 @@ end)
 ---@param val PlayerData
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     local invokingResource = GetInvokingResource()
-    if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
+    if invokingResource and invokingResource ~= cache.resource then return end
     QBX.PlayerData = val
 end)
 

@@ -402,7 +402,7 @@ exports('Notify', Notify)
 ---@return string version
 local function GetCoreVersion(InvokingResource)
     ---@diagnostic disable-next-line: missing-parameter
-    local resourceVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
+    local resourceVersion = GetResourceMetadata(cache.resource, 'version')
     if InvokingResource and InvokingResource ~= '' then
         lib.print.debug(('%s called qbcore version check: %s'):format(InvokingResource or 'Unknown Resource', resourceVersion))
     end

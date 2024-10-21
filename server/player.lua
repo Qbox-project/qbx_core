@@ -90,7 +90,7 @@ function SetPlayerPrimaryJob(citizenid, jobName)
     if not player then
         return false, {
             code = 'player_not_found',
-            message = string.format('player not found with citizenid %s', citizenid)
+            message = ('player not found with citizenid %s'):format(citizenid)
         }
     end
 
@@ -98,7 +98,7 @@ function SetPlayerPrimaryJob(citizenid, jobName)
     if not grade then
         return false, {
             code = 'player_not_in_job',
-            message = string.format('player %s does not have job %s', citizenid, jobName)
+            message = ('player %s does not have job %s'):format(citizenid, jobName)
         }
     end
 
@@ -106,11 +106,11 @@ function SetPlayerPrimaryJob(citizenid, jobName)
     if not job then
         return false, {
             code = 'job_not_found',
-            message = jobName .. ' does not exist in core memory'
+            message = ('%s does not exist in core memory'):format(jobName)
         }
     end
 
-    assert(job.grades[grade] ~= nil, string.format('job %s does not have grade %s', jobName, grade))
+    assert(job.grades[grade] ~= nil, ('job %s does not have grade %s'):format(jobName, grade))
 
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
     player.Functions.Save()
@@ -145,14 +145,14 @@ function AddPlayerToJob(citizenid, jobName, grade)
     if not job then
         return false, {
             code = 'job_not_found',
-            message = jobName .. ' does not exist in core memory'
+            message = ('%s does not exist in core memory'):format(jobName)
         }
     end
 
     if not job.grades[grade] then
         return false, {
             code = 'job_missing_grade',
-            message = string.format('job %s does not have grade %s', jobName, grade),
+            message = ('job %s does not have grade %s'):format(jobName, grade),
         }
     end
 
@@ -160,7 +160,7 @@ function AddPlayerToJob(citizenid, jobName, grade)
     if not player then
         return false, {
             code = 'player_not_found',
-            message = string.format('player not found with citizenid %s', citizenid)
+            message = ('player not found with citizenid %s'):format(citizenid)
         }
     end
 
@@ -210,7 +210,7 @@ function RemovePlayerFromJob(citizenid, jobName)
     if not player then
         return false, {
             code = 'player_not_found',
-            message = string.format('player not found with citizenid %s', citizenid)
+            message = ('player not found with citizenid %s'):format(citizenid)
         }
     end
 
@@ -249,7 +249,7 @@ local function setPlayerPrimaryGang(citizenid, gangName)
     if not player then
         return false, {
             code = 'player_not_found',
-            message = string.format('player not found with citizenid %s', citizenid)
+            message = ('player not found with citizenid %s'):format(citizenid)
         }
     end
 
@@ -257,7 +257,7 @@ local function setPlayerPrimaryGang(citizenid, gangName)
     if not grade then
         return false, {
             code = 'player_not_in_gang',
-            message = string.format('player %s does not have gang %s', citizenid, gangName)
+            message = ('player %s does not have gang %s'):format(citizenid, gangName)
         }
     end
 
@@ -265,11 +265,11 @@ local function setPlayerPrimaryGang(citizenid, gangName)
     if not gang then
         return false, {
             code = 'gang_not_found',
-            message = gangName .. ' does not exist in core memory'
+            message = ('%s does not exist in core memory'):format(gangName)
         }
     end
 
-    assert(gang.grades[grade] ~= nil, string.format('gang %s does not have grade %s', gangName, grade))
+    assert(gang.grades[grade] ~= nil, ('gang %s does not have grade %s'):format(gangName, grade))
 
     player.PlayerData.gang = {
         name = gangName,
@@ -312,14 +312,14 @@ function AddPlayerToGang(citizenid, gangName, grade)
     if not gang then
         return false, {
             code = 'gang_not_found',
-            message = gangName .. ' does not exist in core memory'
+            message = ('%s does not exist in core memory'):format(gangName)
         }
     end
 
     if not gang.grades[grade] then
         return false, {
             code = 'gang_missing_grade',
-            message = string.format('gang %s does not have grade %s', gangName, grade)
+            message = ('gang %s does not have grade %s'):format(gangName, grade)
         }
     end
 
@@ -327,7 +327,7 @@ function AddPlayerToGang(citizenid, gangName, grade)
     if not player then
         return false, {
             code = 'player_not_found',
-            message = string.format('player not found with citizenid %s', citizenid)
+            message = ('player not found with citizenid %s'):format(citizenid)
         }
     end
 
@@ -377,7 +377,7 @@ local function removePlayerFromGang(citizenid, gangName)
     if not player then
         return false, {
             code = 'player_not_found',
-            message = string.format('player not found with citizenid %s', citizenid)
+            message = ('player not found with citizenid %s'):format(citizenid)
         }
     end
 
