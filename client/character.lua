@@ -1,6 +1,6 @@
 local config = require 'config.client'
 local defaultSpawn = require 'config.shared'.defaultSpawn
-
+local characters, amount = nil, nil
 if config.characters.useExternalCharacters then return end
 
 local previewCam
@@ -153,8 +153,7 @@ local function randomPed()
 end
 ---@param citizenId? string
 local function previewPed(citizenId)
-    local characters = lib.callback.await('qbx_core:server:getCharacters')
-    if characters[1] and not citizenId then citizenId = characters[1].citizenid end
+    if not citizenId and characters[1] then citizenId = characters[1].citizenid end
     if not citizenId then randomPed() return end
 
     local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
@@ -379,7 +378,7 @@ local function chooseCharacter()
     setupPreviewCam()
 
     ---@type PlayerEntity[], integer
-    local characters, amount = lib.callback.await('qbx_core:server:getCharacters')
+    characters, amount = lib.callback.await('qbx_core:server:getCharacters')
     local options = {}
     for i = 1, amount do
         local character = characters[i]
@@ -495,8 +494,8 @@ end)
 
 RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     if GetInvokingResource() then return end -- Make sure this can only be triggered from the server
-    previewPed()
     chooseCharacter()
+    previewPed()
 end)
 
 CreateThread(function()
@@ -505,8 +504,8 @@ CreateThread(function()
         if NetworkIsSessionStarted() then
             pcall(function() exports.spawnmanager:setAutoSpawn(false) end)
             Wait(250)
-            previewPed()
             chooseCharacter()
+            previewPed()
             break
         end
     end
