@@ -1,126 +1,126 @@
 ---Gang names must be lower case (top level table key)
 ---@type table<string, Gang>
 return {
-	['none'] = {
-		label = 'No Gang',
-		grades = {
+    ['none'] = {
+        label = 'No Gang',
+        grades = {
             [0] = {
                 name = 'Unaffiliated'
             },
         },
-	},
-	['lostmc'] = {
-		label = 'The Lost MC',
-		grades = {
+    },
+    ['lostmc'] = {
+        label = 'The Lost MC',
+        grades = {
             [0] = {
                 name = 'Recruit'
             },
-			[1] = {
+            [1] = {
                 name = 'Enforcer'
             },
-			[2] = {
+            [2] = {
                 name = 'Shot Caller'
             },
-			[3] = {
+            [3] = {
                 name = 'Boss',
                 isboss = true,
                 bankAuth = true
             },
         },
-	},
-	['ballas'] = {
-		label = 'Ballas',
-		grades = {
+    },
+    ['ballas'] = {
+        label = 'Ballas',
+        grades = {
             [0] = {
                 name = 'Recruit'
             },
-			[1] = {
+            [1] = {
                 name = 'Enforcer'
             },
-			[2] = {
+            [2] = {
                 name = 'Shot Caller'
             },
-			[3] = {
+            [3] = {
                 name = 'Boss',
                 isboss = true,
                 bankAuth = true
             },
         },
-	},
-	['vagos'] = {
-		label = 'Vagos',
-		grades = {
+    },
+    ['vagos'] = {
+        label = 'Vagos',
+        grades = {
             [0] = {
                 name = 'Recruit'
             },
-			[1] = {
+            [1] = {
                 name = 'Enforcer'
             },
-			[2] = {
+            [2] = {
                 name = 'Shot Caller'
             },
-			[3] = {
+            [3] = {
                 name = 'Boss',
                 isboss = true,
                 bankAuth = true
             },
         },
-	},
-	['cartel'] = {
-		label = 'Cartel',
-		grades = {
+    },
+    ['cartel'] = {
+        label = 'Cartel',
+        grades = {
             [0] = {
                 name = 'Recruit'
             },
-			[1] = {
+            [1] = {
                 name = 'Enforcer'
             },
-			[2] = {
+            [2] = {
                 name = 'Shot Caller'
             },
-			[3] = {
+            [3] = {
                 name = 'Boss',
                 isboss = true,
                 bankAuth = true
             },
         },
-	},
-	['families'] = {
-		label = 'Families',
-		grades = {
+    },
+    ['families'] = {
+        label = 'Families',
+        grades = {
             [0] = {
                 name = 'Recruit'
             },
-			[1] = {
+            [1] = {
                 name = 'Enforcer'
             },
-			[2] = {
+            [2] = {
                 name = 'Shot Caller'
             },
-			[3] = {
+            [3] = {
                 name = 'Boss',
                 isboss = true,
                 bankAuth = true
             },
         },
-	},
-	['triads'] = {
-		label = 'Triads',
-		grades = {
+    },
+    ['triads'] = {
+        label = 'Triads',
+        grades = {
             [0] = {
                 name = 'Recruit'
             },
-			[1] = {
+            [1] = {
                 name = 'Enforcer'
             },
-			[2] = {
+            [2] = {
                 name = 'Shot Caller'
             },
-			[3] = {
+            [3] = {
                 name = 'Boss',
                 isboss = true,
                 bankAuth = true
             },
         },
-	}
+    }
 }

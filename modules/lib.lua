@@ -555,7 +555,7 @@ else
         end
 
         if returnSoundId then
-           return soundId
+            return soundId
         end
 
         ReleaseSoundId(soundId)
