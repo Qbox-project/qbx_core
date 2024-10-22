@@ -98,6 +98,7 @@ end
 
 AddEventHandler('entityRemoved', function(entity)
     if not Entity(entity).state.persisted then return end
+    local sessionId = Entity(entity).state.sessionId
     local coords = GetEntityCoords(entity)
     local heading = GetEntityHeading(entity)
     local bucket = GetEntityRoutingBucket(entity)
@@ -106,7 +107,6 @@ AddEventHandler('entityRemoved', function(entity)
     local vehicleId = getVehicleId(entity)
     if not vehicleId then return end
 
-    local sessionId = Entity(entity).state.sessionId
     local playerVehicle = exports.qbx_vehicles:GetPlayerVehicle(vehicleId)
 
     if DoesEntityExist(entity) then
