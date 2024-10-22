@@ -166,7 +166,7 @@ local function handleSearchFilters(filters)
             end
         end
     end
-    return string.format(' WHERE %s', table.concat(clauses, ' AND ')), holders
+    return (' WHERE %s'):format(table.concat(clauses, ' AND ')), holders
 end
 
 ---@param filters table <string, any>

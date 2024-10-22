@@ -417,7 +417,7 @@ function functions.SetVehicleProperties(vehicle, props)
     props.modRoofLivery = props.modRoofLivery or props.liveryRoof
 
     --- lib.setVehicleProperties copied and pasted from Overextended below so that we can remove the error so that setting properties is best effort
-    assert(DoesEntityExist(vehicle), string.format('Unable to set vehicle properties for "%s" (entity does not exist)', vehicle))
+    assert(DoesEntityExist(vehicle), ('Unable to set vehicle properties for "%s" (entity does not exist)'):format(vehicle))
 
     if NetworkGetEntityIsNetworked(vehicle) and NetworkGetEntityOwner(vehicle) ~= cache.playerId then
         lib.print.warn('setting vehicle properties on non entity owner client. This may cause certain properties to fail to set. entity:', vehicle)
