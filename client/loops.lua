@@ -1,5 +1,6 @@
 local statusInterval = require 'config.client'.statusIntervalSeconds
 local playerState = LocalPlayer.state
+local Active = false
 
 CreateThread(function()
     local timeout = 1000 * statusInterval
@@ -13,5 +14,20 @@ CreateThread(function()
                 SetEntityHealth(cache.ped, currentHealth - decreaseThreshold)
             end
         end
+    end
+end)
+
+CreateThread(function()
+    while true do
+        local PauseMenuActive = IsPauseMenuActive()
+
+        if PauseMenuActive and not Active then
+            Active = true
+            TriggerEvent('qbx_core:client:onPauseMenuActive', Active)
+        elseif Active and PauseMenuActive then
+            Active = false
+            TriggerEvent('qbx_core:client:onPauseMenuActive', Active)
+        end
+        Wait(1000)
     end
 end)
