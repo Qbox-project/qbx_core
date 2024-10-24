@@ -2,6 +2,7 @@
 
 ---@alias NotificationPosition 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left' | 'center-right' | 'center-left'
 ---@alias NotificationType 'info' | 'warning' | 'success' | 'error'
+---@alias PlayerIdentifier 'username' | 'license' | 'license2' | 'fivem' | 'discord'
 
 ---@class ErrorResult
 ---@field code string

@@ -1,6 +1,27 @@
 local defaultSpawn = require 'config.shared'.defaultSpawn
 local characterDataTables = require 'config.server'.characterDataTables
 
+---@param identifiers table<PlayerIdentifier, string>
+---@return number?
+local function createUser(identifiers)
+    return MySQL.insert.await('INSERT INTO users (username, license, license2, fivem, discord) VALUES (?, ?, ?, ?, ?)', {
+        identifiers.username,
+        identifiers.license,
+        identifiers.license2,
+        identifiers.fivem,
+        identifiers.discord,
+    })
+end
+
+---@param identifier string
+---@return number?
+local function fetchUserByIdentifier(identifier)
+    local idType = identifier:match('([^:]+)')
+    local select = ('SELECT `userId` FROM `users` WHERE `%s` = ? LIMIT 1'):format(idType)
+
+    return MySQL.scalar.await(select, { identifier })
+end
+
 ---@param request InsertBanRequest
 ---@return boolean success
 ---@return ErrorResult? errorResult
@@ -363,6 +384,8 @@ CreateThread(function()
 end)
 
 return {
+    createUser = createUser,
+    fetchUserByIdentifier = fetchUserByIdentifier,
     insertBan = insertBan,
     fetchBan = fetchBan,
     deleteBan = deleteBan,
