@@ -1,3 +1,6 @@
+local useExternalPlayerState = require 'config.shared'.useExternalPlayerState
+if useExternalPlayerState then return end
+
 local statusInterval = require 'config.client'.statusIntervalSeconds
 local playerState = LocalPlayer.state
 

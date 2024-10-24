@@ -3,6 +3,7 @@ local loggingConfig = require 'config.server'.logging
 local serverName = require 'config.shared'.serverName
 local logger = require 'modules.logger'
 local queue = require 'server.queue'
+local useExternalPlayerState = require 'config.shared'.useExternalPlayerState
 
 -- Event Handler
 
@@ -195,6 +196,8 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
         Notify(src, locale('info.on_duty'))
     end
 end)
+
+if useExternalPlayerState then return end
 
 ---Syncs the player's hunger, thirst, and stress levels with the statebags
 ---@param bagName string

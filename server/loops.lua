@@ -1,26 +1,5 @@
 local config = require 'config.server'
-
-local function removeHungerAndThirst(src, player)
-    local playerState = Player(src).state
-    if not playerState.isLoggedIn then return end
-    local newHunger = playerState.hunger - config.player.hungerRate
-    local newThirst = playerState.thirst - config.player.thirstRate
-
-    player.Functions.SetMetaData('thirst', math.max(0, newThirst))
-    player.Functions.SetMetaData('hunger', math.max(0, newHunger))
-
-    player.Functions.Save()
-end
-
-CreateThread(function()
-    local interval = 60000 * config.updateInterval
-    while true do
-        Wait(interval)
-        for src, player in pairs(QBX.Players) do
-            removeHungerAndThirst(src, player)
-        end
-    end
-end)
+local useExternalPlayerState = require 'config.shared'.useExternalPlayerState
 
 local function pay(player)
     local job = player.PlayerData.job
@@ -50,6 +29,30 @@ CreateThread(function()
         Wait(interval)
         for _, player in pairs(QBX.Players) do
             pay(player)
+        end
+    end
+end)
+
+if useExternalPlayerState then return end
+
+local function removeHungerAndThirst(src, player)
+    local playerState = Player(src).state
+    if not playerState.isLoggedIn then return end
+    local newHunger = playerState.hunger - config.player.hungerRate
+    local newThirst = playerState.thirst - config.player.thirstRate
+
+    player.Functions.SetMetaData('thirst', math.max(0, newThirst))
+    player.Functions.SetMetaData('hunger', math.max(0, newHunger))
+
+    player.Functions.Save()
+end
+
+CreateThread(function()
+    local interval = 60000 * config.updateInterval
+    while true do
+        Wait(interval)
+        for src, player in pairs(QBX.Players) do
+            removeHungerAndThirst(src, player)
         end
     end
 end)
