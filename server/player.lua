@@ -41,7 +41,7 @@ function Login(source, citizenid, newData)
         end
     else
         local player = CheckPlayerData(source, newData)
-        SavePlayerData(source)
+        SavePlayerData(player.PlayerData.source)
         return true
     end
 
