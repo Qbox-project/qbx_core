@@ -203,7 +203,7 @@ lib.addCommand('givemoney', {
         return
     end
 
-    player.Functions.AddMoney(args[locale('command.givemoney.params.moneytype.name')], args[locale('command.givemoney.params.amount.name')])
+    AddMoney(source, args[locale('command.givemoney.params.moneytype.name')], args[locale('command.givemoney.params.amount.name')])
 end)
 
 lib.addCommand('setmoney', {
@@ -221,7 +221,7 @@ lib.addCommand('setmoney', {
         return
     end
 
-    player.Functions.SetMoney(args[locale('command.setmoney.params.moneytype.name')], args[locale('command.setmoney.params.amount.name')])
+    SetMoney(source, args[locale('command.setmoney.params.moneytype.name')], args[locale('command.setmoney.params.amount.name')])
 end)
 
 lib.addCommand('job', {
@@ -246,7 +246,7 @@ lib.addCommand('setjob', {
         return
     end
 
-    local success, errorResult = player.Functions.SetJob(args[locale('command.setjob.params.job.name')], args[locale('command.setjob.params.grade.name')] or 0)
+    local success, errorResult = SetJob(source, args[locale('command.setjob.params.job.name')], args[locale('command.setjob.params.grade.name')] or 0)
     assert(success, json.encode(errorResult))
 end)
 
@@ -327,7 +327,7 @@ lib.addCommand('setgang', {
         return
     end
 
-    local success, errorResult = player.Functions.SetGang(args[locale('command.setgang.params.gang.name')], args[locale('command.setgang.params.grade.name')] or 0)
+    local success, errorResult = SetGang(source, args[locale('command.setgang.params.gang.name')], args[locale('command.setgang.params.grade.name')] or 0)
     assert(success, json.encode(errorResult))
 end)
 

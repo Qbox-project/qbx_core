@@ -127,7 +127,7 @@ return {
     ---@param player Player Player object
     ---@param payment number Payment amount
     sendPaycheck = function (player, payment)
-        player.Functions.AddMoney('bank', payment)
+        AddMoney(player.PlayerData.source, 'bank', payment)
         Notify(player.PlayerData.source, locale('info.received_paycheck', payment))
     end,
 }

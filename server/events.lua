@@ -48,7 +48,7 @@ AddEventHandler('playerDropped', function(reason)
         color = 'red',
         message = ('**%s** (%s) left...\n **Reason:** %s'):format(GetPlayerName(src), player.PlayerData.license, reason),
     })
-    player.Functions.Save()
+    SavePlayerData(src)
     QBX.Player_Buckets[player.PlayerData.license] = nil
     QBX.Players[src] = nil
 end)
@@ -188,10 +188,10 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     local player = GetPlayer(src)
     if not player then return end
     if player.PlayerData.job.onduty then
-        player.Functions.SetJobDuty(false)
+        SetJobDuty(src, false)
         Notify(src, locale('info.off_duty'))
     else
-        player.Functions.SetJobDuty(true)
+        SetJobDuty(src, true)
         Notify(src, locale('info.on_duty'))
     end
 end)
@@ -207,7 +207,7 @@ local function playerStateBagCheck(bagName, meta, value)
     local player = QBX.Players[plySrc]
     if not player then return end
     if player.PlayerData.metadata[meta] == value then return end
-    player.Functions.SetMetaData(meta, value)
+    SetMetadata(plySrc, meta, value)
 end
 
 ---@diagnostic disable-next-line: param-type-mismatch

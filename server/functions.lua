@@ -330,7 +330,7 @@ function ToggleOptin(source)
     if not license or not IsPlayerAceAllowed(source --[[@as string]], 'admin') then return end
     local player = GetPlayer(source)
     player.PlayerData.optin = not player.PlayerData.optin
-    player.Functions.SetPlayerData('optin', player.PlayerData.optin)
+    SetPlayerData(source, 'optin', player.PlayerData.optin)
 end
 
 exports('ToggleOptin', ToggleOptin)

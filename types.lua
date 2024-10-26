@@ -2,6 +2,7 @@
 
 ---@alias NotificationPosition 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left' | 'center-right' | 'center-left'
 ---@alias NotificationType 'info' | 'warning' | 'success' | 'error'
+---@alias Source integer
 
 ---@class ErrorResult
 ---@field code string
