@@ -61,59 +61,6 @@ end
 
 exports('GetOfflinePlayer', GetOfflinePlayer)
 
----Overwrites current primary job with a new job. Removing the player from their current primary job
----@param identifier Source | string
----@param jobName string name
----@param grade? integer defaults to 0
----@return boolean success if job was set
----@return ErrorResult? errorResult
-function SetJob(identifier, jobName, grade)
-    jobName = jobName:lower()
-    grade = tonumber(grade) or 0
-
-    local job = GetJob(jobName)
-
-    if not job then
-        lib.print.error(('cannot set job. Job %s does not exist'):format(jobName))
-
-        return false
-    end
-
-    if not job.grades[grade] then
-        lib.print.error(('cannot set job. Job %s does not have grade %s'):format(jobName, grade))
-
-        return false
-    end
-
-    local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
-
-    if setJobReplaces and player.PlayerData.job.name ~= 'unemployed' then
-        local success, errorResult = RemovePlayerFromJob(player.PlayerData.citizenid, player.PlayerData.job.name)
-
-        if not success then
-            return false, errorResult
-        end
-    end
-
-    if jobName ~= 'unemployed' then
-        local success, errorResult = AddPlayerToJob(player.PlayerData.citizenid, jobName, grade)
-
-        if not success then
-            return false, errorResult
-        end
-    end
-
-    local success, errorResult = SetPlayerPrimaryJob(player.PlayerData.citizenid, jobName)
-
-    if not success then
-        return false, errorResult
-    end
-
-    return true
-end
-
-exports('SetJob', SetJob)
-
 ---@param identifier Source | string
 ---@param onDuty boolean
 function SetJobDuty(identifier, onDuty)
@@ -201,10 +148,13 @@ exports('SetPlayerPrimaryJob', SetPlayerPrimaryJob)
 ---Adds a player to the job or overwrites their grade for a job already held
 ---@param citizenid string
 ---@param jobName string
----@param grade integer
+---@param grade? integer
 ---@return boolean success
 ---@return ErrorResult? errorResult
 function AddPlayerToJob(citizenid, jobName, grade)
+    jobName = jobName:lower()
+    grade = tonumber(grade) or 0
+
     -- unemployed job is the default, so players cannot be added to it
     if jobName == 'unemployed' then
         return false, {
@@ -311,58 +261,6 @@ end
 
 exports('RemovePlayerFromJob', RemovePlayerFromJob)
 
----Removes the player from their current primary gang and adds the player to the new gang
----@param identifier Source | string
----@param grade? integer defaults to 0
----@return boolean success if gang was set
----@return ErrorResult? errorResult
-function SetGang(identifier, gangName, grade)
-    gangName = gangName:lower()
-    grade = tonumber(grade) or 0
-
-    local gang = GetGang(gangName)
-
-    if not gang then
-        lib.print.error(('cannot set gang. Gang %s does not exist'):format(gangName))
-
-        return false
-    end
-
-    if not gang.grades[grade] then
-        lib.print.error(('cannot set gang. Gang %s does not have grade %s'):format(gangName, grade))
-
-        return false
-    end
-
-    local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
-
-    if setGangReplaces and player.PlayerData.gang.name ~= 'none' then
-        local success, errorResult = RemovePlayerFromGang(player.PlayerData.citizenid, player.PlayerData.gang.name)
-
-        if not success then
-            return false, errorResult
-        end
-    end
-
-    if gangName ~= 'none' then
-        local success, errorResult = AddPlayerToGang(player.PlayerData.citizenid, gangName, grade)
-
-        if not success then
-            return false, errorResult
-        end
-    end
-
-    local success, errorResult = SetPlayerPrimaryGang(player.PlayerData.citizenid, gangName)
-
-    if not success then
-        return false, errorResult
-    end
-
-    return true
-end
-
-exports('SetGang', SetGang)
-
 ---Sets a player's gang to be primary only if they already have it.
 ---@param citizenid string
 ---@param gangName string
@@ -421,10 +319,13 @@ exports('SetPlayerPrimaryGang', SetPlayerPrimaryGang)
 ---Adds a player to the gang or overwrites their grade if already in the gang
 ---@param citizenid string
 ---@param gangName string
----@param grade integer
+---@param grade? integer
 ---@return boolean success
 ---@return ErrorResult? errorResult
 function AddPlayerToGang(citizenid, gangName, grade)
+    gangName = gangName:lower()
+    grade = tonumber(grade) or 0
+
     if gangName == 'none' then
         return false, {
             code = 'none',
@@ -711,24 +612,98 @@ function CreatePlayer(playerData, Offline)
         UpdatePlayerData(self.PlayerData.source)
     end
 
-    ---@deprecated use SetJob instead
+    ---@deprecated use AddPlayerToJob instead
     ---Overwrites current primary job with a new job. Removing the player from their current primary job
     ---@param jobName string name
     ---@param grade? integer defaults to 0
     ---@return boolean success if job was set
     ---@return ErrorResult? errorResult
     function self.Functions.SetJob(jobName, grade)
-        return SetJob(self.PlayerData.source, jobName, grade)
+        jobName = jobName:lower()
+        grade = tonumber(grade) or 0
+
+        local job = GetJob(jobName)
+
+        if not job then
+            lib.print.error(('cannot set job. Job %s does not exist'):format(jobName))
+            return false
+        end
+
+        if not job.grades[grade] then
+            lib.print.error(('cannot set job. Job %s does not have grade %s'):format(jobName, grade))
+            return false
+        end
+
+        if setJobReplaces and self.PlayerData.job.name ~= 'unemployed' then
+            local success, errorResult = RemovePlayerFromJob(self.PlayerData.citizenid, self.PlayerData.job.name)
+
+            if not success then
+                return false, errorResult
+            end
+        end
+
+        if jobName ~= 'unemployed' then
+            local success, errorResult = AddPlayerToJob(self.PlayerData.citizenid, jobName, grade)
+
+            if not success then
+                return false, errorResult
+            end
+        end
+
+        local success, errorResult = SetPlayerPrimaryJob(self.PlayerData.citizenid, jobName)
+
+        if not success then
+            return false, errorResult
+        end
+
+        return true
     end
 
-    ---@deprecated use SetGang instead
+    ---@deprecated use AddPlayerToGang instead
     ---Removes the player from their current primary gang and adds the player to the new gang
     ---@param gangName string name
     ---@param grade? integer defaults to 0
     ---@return boolean success if gang was set
     ---@return ErrorResult? errorResult
     function self.Functions.SetGang(gangName, grade)
-        return SetGang(self.PlayerData.source, gangName, grade)
+        gangName = gangName:lower()
+        grade = tonumber(grade) or 0
+
+        local gang = GetGang(gangName)
+
+        if not gang then
+            lib.print.error(('cannot set gang. Gang %s does not exist'):format(gangName))
+            return false
+        end
+
+        if not gang.grades[grade] then
+            lib.print.error(('cannot set gang. Gang %s does not have grade %s'):format(gangName, grade))
+            return false
+        end
+
+        if setGangReplaces and self.PlayerData.gang.name ~= 'none' then
+            local success, errorResult = RemovePlayerFromGang(self.PlayerData.citizenid, self.PlayerData.gang.name)
+
+            if not success then
+                return false, errorResult
+            end
+        end
+
+        if gangName ~= 'none' then
+            local success, errorResult = AddPlayerToGang(self.PlayerData.citizenid, gangName, grade)
+
+            if not success then
+                return false, errorResult
+            end
+        end
+
+        local success, errorResult = SetPlayerPrimaryGang(self.PlayerData.citizenid, gangName)
+
+        if not success then
+            return false, errorResult
+        end
+
+        return true
     end
 
     ---@deprecated use SetJobDuty instead
