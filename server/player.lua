@@ -425,7 +425,7 @@ function CheckPlayerData(source, playerData)
     if source then
         playerData.source = source
         playerData.license = playerData.license or GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-        playerData.name = GetPlayerName(source)
+        playerData.name = string.sub(GetPlayerName(source):gsub('[^%w%s]', ''), 1, 50)
         Offline = false
     end
 
