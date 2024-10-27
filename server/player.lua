@@ -41,7 +41,7 @@ function Login(source, citizenid, newData)
         end
     else
         local player = CheckPlayerData(source, newData)
-        SavePlayerData(player.PlayerData.source)
+        Save(player.PlayerData.source)
         return true
     end
 
@@ -132,7 +132,7 @@ function SetPlayerPrimaryJob(citizenid, jobName)
     assert(job.grades[grade] ~= nil, ('job %s does not have grade %s'):format(jobName, grade))
 
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
-    SavePlayerData(player.PlayerData.source)
+    Save(player.PlayerData.source)
 
     if not player.Offline then
         UpdatePlayerData(player.PlayerData.source)
@@ -247,7 +247,7 @@ function RemovePlayerFromJob(citizenid, jobName)
         local job = GetJob('unemployed')
         assert(job ~= nil, 'cannot find unemployed job. Does it exist in shared/jobs.lua?')
         player.PlayerData.job = toPlayerJob('unemployed', job, 0)
-        SavePlayerData(player.PlayerData.source)
+        Save(player.PlayerData.source)
     end
 
     if not player.Offline then
@@ -303,7 +303,7 @@ function SetPlayerPrimaryGang(citizenid, gangName)
         }
     }
 
-    SavePlayerData(player.PlayerData.source)
+    Save(player.PlayerData.source)
 
     if not player.Offline then
         UpdatePlayerData(player.PlayerData.source)
@@ -425,7 +425,7 @@ function RemovePlayerFromGang(citizenid, gangName)
                 level = 0
             }
         }
-        SavePlayerData(player.PlayerData.source)
+        Save(player.PlayerData.source)
     end
 
     if not player.Offline then
@@ -582,7 +582,7 @@ function Logout(source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
 
     player.PlayerData.lastLoggedOut = os.time()
-    SavePlayerData(player.PlayerData.source)
+    Save(player.PlayerData.source)
 
     Wait(200)
     QBX.Players[source] = nil
@@ -733,10 +733,17 @@ function CreatePlayer(playerData, Offline)
         return GetMetadata(self.PlayerData.source, meta)
     end
 
-    ---@deprecated use AddJobReputation instead
+    ---@deprecated use SetMetadata instead
     ---@param amount number
     function self.Functions.AddJobReputation(amount)
-        AddJobReputation(self.PlayerData.source, amount)
+        if not amount then return end
+
+        amount = tonumber(amount) --[[@as number]]
+
+        self.PlayerData.metadata[self.PlayerData.job.name].reputation += amount
+
+        ---@diagnostic disable-next-line: param-type-mismatch
+        UpdatePlayerData(self.Offline and self.PlayerData.citizenid or self.PlayerData.source)
     end
 
     ---@param moneytype MoneyType
@@ -843,15 +850,19 @@ function CreatePlayer(playerData, Offline)
     ---@deprecated use SetCreditCard instead
     ---@param cardNumber number
     function self.Functions.SetCreditCard(cardNumber)
-        SetCreditCard(self.PlayerData.source, cardNumber)
-    end
-
-    ---@deprecated use SavePlayerData instead
-    function self.Functions.Save()
-        local identifier = self.Offline and self.PlayerData.citizenid or self.PlayerData.source
+        self.PlayerData.charinfo.card = cardNumber
 
         ---@diagnostic disable-next-line: param-type-mismatch
-        SavePlayerData(identifier)
+        UpdatePlayerData(self.Offline and self.PlayerData.citizenid or self.PlayerData.source)
+    end
+
+    ---@deprecated use Save or SaveOffline instead
+    function self.Functions.Save()
+        if self.Offline then
+            SaveOffline(self.PlayerData)
+        else
+            Save(self.PlayerData.source)
+        end
     end
 
     ---@deprecated call exports.qbx_core:Logout(source)
@@ -1020,21 +1031,6 @@ function UpdatePlayerData(identifier)
 end
 
 ---@param identifier Source | string
-function SavePlayerData(identifier)
-    local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
-
-    if not player then return end
-
-    if player.Offline then
-        SaveOffline(player.PlayerData)
-    else
-        Save(player.PlayerData.source)
-    end
-end
-
-exports('SavePlayerData', SavePlayerData)
-
----@param identifier Source | string
 ---@param metadata string
 ---@param value any
 function SetMetadata(identifier, metadata, value)
@@ -1070,7 +1066,11 @@ function SetMetadata(identifier, metadata, value)
     end
 
     if metadata == 'inlaststand' or metadata == 'isdead' then
-        SavePlayerData(identifier)
+        if player.Offline then
+            SaveOffline(player.PlayerData)
+        else
+            Save(player.PlayerData.source)
+        end
     end
 end
 
@@ -1090,22 +1090,6 @@ function GetMetadata(identifier, metadata)
 end
 
 exports('GetMetadata', GetMetadata)
-
----@param identifier Source | string
----@param amount number
-function AddJobReputation(identifier, amount)
-    if not amount or type(amount) ~= 'number' then return end
-
-    local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
-
-    if not player then return end
-
-    player.PlayerData.metadata[player.PlayerData.job.name].reputation += amount
-
-    UpdatePlayerData(identifier)
-end
-
-exports('AddJobReputation', AddJobReputation)
 
 ---@param source Source
 ---@param playerMoney table
@@ -1276,20 +1260,6 @@ function GetMoney(identifier, moneyType)
 end
 
 exports('GetMoney', GetMoney)
-
----@param identifier Source | string
----@param cardNumber number
-function SetCreditCard(identifier, cardNumber)
-    local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
-
-    if not player then return end
-
-    player.PlayerData.charinfo.card = cardNumber
-
-    UpdatePlayerData(identifier)
-end
-
-exports('SetCreditCard', SetCreditCard)
 
 ---@param source Source
 ---@param citizenid string

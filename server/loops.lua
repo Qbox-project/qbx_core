@@ -9,7 +9,7 @@ local function removeHungerAndThirst(src, player)
     SetMetadata(player.PlayerData.source, 'thirst', math.max(0, newThirst))
     SetMetadata(player.PlayerData.source, 'hunger', math.max(0, newHunger))
 
-    SavePlayerData(player.PlayerData.source)
+    Save(player.PlayerData.source)
 end
 
 CreateThread(function()
