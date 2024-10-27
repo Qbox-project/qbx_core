@@ -1122,6 +1122,25 @@ end
 
 exports('GetMetadata', GetMetadata)
 
+---@param identifier Source | string
+---@param charInfo string
+---@param value any
+function SetCharInfo(identifier, charInfo, value)
+    if not charInfo or type(charInfo) ~= 'string' then return end
+
+    local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
+
+    if not player then return end
+
+    --local oldCharInfo = player.PlayerData.charinfo[charInfo]
+
+    player.PlayerData.charinfo[charInfo] = value
+
+    UpdatePlayerData(identifier)
+end
+
+exports('SetCharInfo', SetCharInfo)
+
 ---@param source Source
 ---@param playerMoney table
 ---@param moneyType MoneyType
