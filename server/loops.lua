@@ -6,10 +6,10 @@ local function removeHungerAndThirst(src, player)
     local newHunger = playerState.hunger - config.player.hungerRate
     local newThirst = playerState.thirst - config.player.thirstRate
 
-    SetMetadata(player.PlayerData.source, 'thirst', math.max(0, newThirst))
-    SetMetadata(player.PlayerData.source, 'hunger', math.max(0, newHunger))
+    player.Functions.SetMetaData('thirst', math.max(0, newThirst))
+    player.Functions.SetMetaData('hunger', math.max(0, newHunger))
 
-    Save(player.PlayerData.source)
+    player.Functions.Save()
 end
 
 CreateThread(function()
