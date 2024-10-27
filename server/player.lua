@@ -878,7 +878,7 @@ function CreatePlayer(playerData, Offline)
         error('Player.Functions.SetInventory is unsupported for ox_inventory. Try ClearInventory, then add the desired items.')
     end
 
-    ---@deprecated use SetCreditCard instead
+    ---@deprecated use SetCharInfo instead
     ---@param cardNumber number
     function self.Functions.SetCreditCard(cardNumber)
         self.PlayerData.charinfo.card = cardNumber
