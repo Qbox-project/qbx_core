@@ -37,6 +37,7 @@ jobs:
             - name: Update CHANGELOG
               id: changelog
               uses: requarks/changelog-action@v1
+              continue-on-error: true
               with:
                 token: ${{ steps.generate_token.outputs.token }}
                 tag: ${{ github.ref_name }}

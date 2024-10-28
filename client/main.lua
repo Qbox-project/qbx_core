@@ -1,6 +1,6 @@
 QBX = {}
 
- ---@diagnostic disable-next-line: missing-fields
+---@diagnostic disable-next-line: missing-fields
 QBX.PlayerData = {}
 QBX.Shared = require 'shared.main'
 QBX.IsLoggedIn = false
@@ -64,7 +64,7 @@ CreateThread(function()
                 lib.print.warn('Could not find gameName value in vehicles.meta for vehicle model %s', v.model)
             end
         end
-	end
+    end
 end)
 
 lib.callback.register('qbx_core:client:getVehicleClasses', function()

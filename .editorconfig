@@ -7,3 +7,6 @@ indent_style = space
 charset = utf-8
 trim_trailing_whitespace = true
 indent_size = 4
+
+[*.{sql,html,css,json,js,ts,jsx,tsx}]
+indent_size = 2

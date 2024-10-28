@@ -39,21 +39,21 @@ exports('registerHook', function(event, cb)
         eventHooks[event] = {}
     end
 
-	local mt = getmetatable(cb)
-	mt.__index = nil
-	mt.__newindex = nil
+    local mt = getmetatable(cb)
+    mt.__index = nil
+    mt.__newindex = nil
     cb.resource = GetInvokingResource()
-	hookId += 1
-	cb.hookId = hookId
+    hookId += 1
+    cb.hookId = hookId
 
     eventHooks[event][#eventHooks[event] + 1] = cb
-	return hookId
+    return hookId
 end)
 
 local function removeResourceHooks(resource, id)
     for _, hooks in pairs(eventHooks) do
         for i = #hooks, 1, -1 do
-			local hook = hooks[i]
+            local hook = hooks[i]
 
             if hook.resource == resource and (not id or hook.hookId == id) then
                 table.remove(hooks, i)
@@ -67,7 +67,7 @@ AddEventHandler('onResourceStop', removeResourceHooks)
 ---Remove a previously registered hook by its id
 ---@param id number hookId
 exports('removeHooks', function(id)
-	removeResourceHooks(GetInvokingResource() or cache.resource, id)
+    removeResourceHooks(GetInvokingResource() or cache.resource, id)
 end)
 
 return triggerEventHooks

@@ -8,7 +8,7 @@ qbShared.Weapons = require 'shared.weapons'
 qbShared.VehicleHashes = {}
 
 for _, v in pairs(qbShared.Vehicles) do
-	qbShared.VehicleHashes[v.hash] = v
+    qbShared.VehicleHashes[v.hash] = v
 end
 
 return qbShared
