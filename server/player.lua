@@ -8,6 +8,7 @@ local setJobReplaces = GetConvar('qbx:setjob_replaces', 'true') == 'true'
 local setGangReplaces = GetConvar('qbx:setgang_replaces', 'true') == 'true'
 local accounts = json.decode(GetConvar('inventory:accounts', '["money"]'))
 local accountsAsItems = table.create(0, #accounts)
+local useExternalPlayerState = require 'config.shared'.useExternalPlayerState
 
 for i = 1, #accounts do
     accountsAsItems[accounts[i]] = 0
@@ -454,7 +455,7 @@ function CheckPlayerData(source, playerData)
     playerData.metadata.hunger = playerData.metadata.hunger or 100
     playerData.metadata.thirst = playerData.metadata.thirst or 100
     playerData.metadata.stress = playerData.metadata.stress or 0
-    if playerState then
+    if playerState and not useExternalPlayerState then
         playerState:set('hunger', playerData.metadata.hunger, true)
         playerState:set('thirst', playerData.metadata.thirst, true)
         playerState:set('stress', playerData.metadata.stress, true)
@@ -549,9 +550,11 @@ function Logout(source)
     local player = GetPlayer(source)
     if not player then return end
     local playerState = Player(source)?.state
-    player.PlayerData.metadata.hunger = playerState?.hunger or player.PlayerData.metadata.hunger
-    player.PlayerData.metadata.thirst = playerState?.thirst or player.PlayerData.metadata.thirst
-    player.PlayerData.metadata.stress = playerState?.stress or player.PlayerData.metadata.stress
+    if playerState and not useExternalPlayerState then
+        player.PlayerData.metadata.hunger = playerState?.hunger or player.PlayerData.metadata.hunger
+        player.PlayerData.metadata.thirst = playerState?.thirst or player.PlayerData.metadata.thirst
+        player.PlayerData.metadata.stress = playerState?.stress or player.PlayerData.metadata.stress
+    end
 
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
@@ -678,7 +681,7 @@ function CreatePlayer(playerData, Offline)
             TriggerClientEvent('qbx_core:client:onSetMetaData', self.PlayerData.source, meta, oldVal, val)
             TriggerEvent('qbx_core:server:onSetMetaData', meta,  oldVal, val, self.PlayerData.source)
 
-            if (meta == 'hunger' or meta == 'thirst' or meta == 'stress') then
+            if (meta == 'hunger' or meta == 'thirst' or meta == 'stress') and playerState and not useExternalPlayerState then
                 val = lib.math.clamp(val, 0, 100)
                 if playerState[meta] ~= val then
                     playerState:set(meta, val, true)
@@ -1023,7 +1026,7 @@ function Save(source)
     playerData.metadata.health = GetEntityHealth(ped)
     playerData.metadata.armor = GetPedArmour(ped)
 
-    if playerState.isLoggedIn then
+    if playerState.isLoggedIn and not useExternalPlayerState then
         playerData.metadata.hunger = playerState.hunger or 0
         playerData.metadata.thirst = playerState.thirst or 0
         playerData.metadata.stress = playerState.stress or 0

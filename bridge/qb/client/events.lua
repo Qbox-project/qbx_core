@@ -1,4 +1,5 @@
 local config = require 'config.client'
+local useExternalPlayerState = require 'config.shared'.useExternalPlayerState
 
 -- Trigger Command
 --- @deprecated
@@ -23,6 +24,8 @@ RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
 
     TriggerEvent('QBCore:Client:'..info.event..'Vehicle', data)
 end)
+
+if useExternalPlayerState then return end
 
 AddStateBagChangeHandler('hunger', ('player:%s'):format(cache.serverId), function(_, _, value)
     TriggerEvent('hud:client:UpdateNeeds', value, LocalPlayer.state.thirst)
