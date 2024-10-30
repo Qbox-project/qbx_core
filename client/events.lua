@@ -7,11 +7,6 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
         SetCanAttackFriendly(cache.ped, true, false)
         NetworkSetFriendlyFireOption(true)
     end
-
-    local motd = GetConvar('qbx:motd', '')
-    if motd ~= '' then
-        exports.chat:addMessage({ template = motd })
-    end
 end)
 
 ---@param val PlayerData
@@ -19,6 +14,7 @@ RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     local invokingResource = GetInvokingResource()
     if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
     QBX.PlayerData = val
+    LocalPlayer.state:set('PlayerData', val, false) -- ONLY ADDED FOR TESTING BACKWARDS COMPATIBILITY
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()

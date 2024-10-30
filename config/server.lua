@@ -62,21 +62,21 @@ return {
     characterDataTables = {
         {'properties', 'owner'},
         {'bank_accounts_new', 'id'},
-        {'playerskins', 'citizenid'},
-        {'player_mails', 'citizenid'},
+        {'player_skins', 'citizenid'},
+        -- {'player_mails', 'citizenid'},
         {'player_outfits', 'citizenid'},
         {'player_vehicles', 'citizenid'},
         {'player_groups', 'citizenid'},
         {'players', 'citizenid'},
-        {'npwd_calls', 'identifier'},
-        {'npwd_darkchat_channel_members', 'user_identifier'},
-        {'npwd_marketplace_listings', 'identifier'},
-        {'npwd_messages_participants', 'participant'},
-        {'npwd_notes', 'identifier'},
-        {'npwd_phone_contacts', 'identifier'},
-        {'npwd_phone_gallery', 'identifier'},
-        {'npwd_twitter_profiles', 'identifier'},
-        {'npwd_match_profiles', 'identifier'},
+        -- {'npwd_calls', 'identifier'},
+        -- {'npwd_darkchat_channel_members', 'user_identifier'},
+        -- {'npwd_marketplace_listings', 'identifier'},
+        -- {'npwd_messages_participants', 'participant'},
+        -- {'npwd_notes', 'identifier'},
+        -- {'npwd_phone_contacts', 'identifier'},
+        -- {'npwd_phone_gallery', 'identifier'},
+        -- {'npwd_twitter_profiles', 'identifier'},
+        -- {'npwd_match_profiles', 'identifier'},
     }, -- Rows to be deleted when the character is deleted
 
     server = {
@@ -86,9 +86,9 @@ return {
         whitelist = false, -- Enable or disable whitelist on the server
         whitelistPermission = 'admin', -- Permission that's able to enter the server when the whitelist is on
         discord = '', -- Discord invite link
-        checkDuplicateLicense = true, -- Check for duplicate rockstar license on join
+        checkDuplicateDiscord = true, -- Check for duplicate rockstar license on join
         ---@deprecated use cfg ACE system instead
-        permissions = { 'god', 'admin', 'mod' }, -- Add as many groups as you want here after creating them in your server.cfg
+        permissions = { 'god', 'admin', 'dev', 'mod', 'actor','star6','star5', 'star4', 'star3', 'star2', 'star1', 'patron', 'trusted' }, -- Add as many groups as you want here after creating them in your server.cfg
     },
 
     characters = {

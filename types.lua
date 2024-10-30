@@ -125,7 +125,7 @@
 
 ---@class PlayerEntity
 ---@field citizenid string
----@field license string
+---@field discord string
 ---@field name string
 ---@field money Money
 ---@field charinfo PlayerCharInfo

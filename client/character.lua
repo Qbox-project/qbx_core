@@ -105,11 +105,9 @@ local randomPeds = {
 local nationalities = {}
 
 if config.characters.limitNationalities then
-    local nationalityList = lib.load('data.nationalities')
-
     CreateThread(function()
-        for i = 1, #nationalityList do
-            nationalities[#nationalities + 1] = { value = nationalityList[i] }
+        for i = 1, #config.characters.nationalities do
+            nationalities[#nationalities + 1] = {value = config.characters.nationalities[i]}
         end
     end)
 end

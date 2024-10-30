@@ -24,20 +24,14 @@ function Login(source, citizenid, newData)
     end
 
     if citizenid then
-        local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
+        local discord = GetPlayerIdentifierByType(source --[[@as string]], 'discord')
         local playerData = storage.fetchPlayerEntity(citizenid)
-        if playerData and (license2 == playerData.license or license == playerData.license) then
+
+        if playerData and (discord == playerData.discord) then
             return not not CheckPlayerData(source, playerData)
         else
             DropPlayer(tostring(source), locale('info.exploit_dropped'))
-            logger.log({
-                source = 'qbx_core',
-                webhook = config.logging.webhook.anticheat,
-                event = 'Anti-Cheat',
-                color = 'white',
-                tags = config.logging.role,
-                message = ('%s has been dropped for character joining exploit'):format(GetPlayerName(source))
-            })
+            exports['bstar-logging']:CreateLog('Duplicate Joinining', ("%s attemped to login the same discord account!"):format(GetPlayerName(source), discord), {}, src, nil, self.resource)
         end
     else
         local player = CheckPlayerData(source, newData)
@@ -70,6 +64,7 @@ local function toPlayerJob(jobName, job, grade)
         name = jobName,
         label = job.label,
         isboss = job.grades[grade].isboss or false,
+        ismanager = job.grades[grade].ismanager or false,
         onduty = job.defaultDuty or false,
         payment = job.grades[grade].payment or 0,
         type = job.type,
@@ -424,7 +419,7 @@ function CheckPlayerData(source, playerData)
     local Offline = true
     if source then
         playerData.source = source
-        playerData.license = playerData.license or GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
+        playerData.discord = playerData.discord or GetPlayerIdentifierByType(source --[[@as string]], 'discord') 
         playerData.name = GetPlayerName(source)
         Offline = false
     end
@@ -470,15 +465,7 @@ function CheckPlayerData(source, playerData)
     playerData.metadata.status = playerData.metadata.status or {}
     playerData.metadata.phone = playerData.metadata.phone or {}
     playerData.metadata.bloodtype = playerData.metadata.bloodtype or config.player.bloodTypes[math.random(1, #config.player.bloodTypes)]
-    playerData.metadata.dealerrep = playerData.metadata.dealerrep or 0
-    playerData.metadata.craftingrep = playerData.metadata.craftingrep or 0
-    playerData.metadata.attachmentcraftingrep = playerData.metadata.attachmentcraftingrep or 0
     playerData.metadata.currentapartment = playerData.metadata.currentapartment or nil
-    playerData.metadata.jobrep = playerData.metadata.jobrep or {}
-    playerData.metadata.jobrep.tow = playerData.metadata.jobrep.tow or 0
-    playerData.metadata.jobrep.trucker = playerData.metadata.jobrep.trucker or 0
-    playerData.metadata.jobrep.taxi = playerData.metadata.jobrep.taxi or 0
-    playerData.metadata.jobrep.hotdog = playerData.metadata.jobrep.hotdog or 0
     playerData.metadata.callsign = playerData.metadata.callsign or 'NO CALLSIGN'
     playerData.metadata.fingerprint = playerData.metadata.fingerprint or GenerateUniqueIdentifier('FingerId')
     playerData.metadata.walletid = playerData.metadata.walletid or GenerateUniqueIdentifier('WalletId')
@@ -486,11 +473,41 @@ function CheckPlayerData(source, playerData)
         hasRecord = false,
         date = nil
     }
-    playerData.metadata.licences = playerData.metadata.licences or {
-        id = true,
-        driver = true,
-        weapon = false,
-    }
+    --walkstyle
+    playerData.metadata.walkstyle = playerData.metadata.walkstyle or "Hipster"
+
+    --afflictions
+    playerData.metadata.diseases = playerData.metadata.diseases or {}
+    playerData.metadata.diseases.addiction = playerData.metadata.diseases.addiction or 0
+    playerData.metadata.diseases.angelic = playerData.metadata.diseases.angelic or 0
+    playerData.metadata.diseases.vampirism = playerData.metadata.diseases.vampirism or 0
+    playerData.metadata.diseases.zombieism = playerData.metadata.diseases.zombieism or 0
+    playerData.metadata.diseases.lycanthropy = playerData.metadata.diseases.lycanthropy or 0
+    --reputation
+    playerData.metadata.reputation = playerData.metadata.reputation or {}
+    playerData.metadata.reputation.civilian = playerData.metadata.reputation.civilian or 0
+    playerData.metadata.reputation.criminal = playerData.metadata.reputation.criminal or 0
+    playerData.metadata.reputation.responder = playerData.metadata.reputation.responder or 0
+    playerData.metadata.reputation.prison = playerData.metadata.reputation.prison or 0
+    --license
+    playerData.metadata.licenses = playerData.metadata.licenses or {}
+    playerData.metadata.licenses.permit = playerData.metadata.licenses.permit or false
+    playerData.metadata.licenses.driver = playerData.metadata.licenses.driver or false
+    playerData.metadata.licenses.commercial = playerData.metadata.licenses.commercial or false
+    playerData.metadata.licenses.drone = playerData.metadata.licenses.drone or false
+    playerData.metadata.licenses.lawyer = playerData.metadata.licenses.lawyer or false
+    playerData.metadata.licenses.business  = playerData.metadata.licenses.business or false
+    playerData.metadata.licenses.weapon  = playerData.metadata.licenses.weapon or false
+    playerData.metadata.licenses.hunting = playerData.metadata.licenses.hunting or false
+    playerData.metadata.licenses.fishing = playerData.metadata.licenses.fishing or false
+    playerData.metadata.licenses.pilot = playerData.metadata.licenses.pilot or false
+    playerData.metadata.licenses.rotor = playerData.metadata.licenses.rotor or false
+    playerData.metadata.licenses.casino = playerData.metadata.licenses.casino or false
+    playerData.metadata.licenses.tuner = playerData.metadata.licenses.tuner or false
+    playerData.metadata.licenses.stancer = playerData.metadata.licenses.stancer or false
+    playerData.metadata.licenses.gym = playerData.metadata.licenses.gym or false
+
+    --inside
     playerData.metadata.inside = playerData.metadata.inside or {
         house = nil,
         apartment = {
@@ -498,6 +515,8 @@ function CheckPlayerData(source, playerData)
             apartmentId = nil,
         }
     }
+
+    --do we need?
     playerData.metadata.phonedata = playerData.metadata.phonedata or {
         SerialNumber = GenerateUniqueIdentifier('SerialNumber'),
         InstalledApps = {},
@@ -515,6 +534,7 @@ function CheckPlayerData(source, playerData)
         type = job.type,
         onduty = playerData.job?.onduty or false,
         isboss = job.grades[jobGrade].isboss or false,
+        ismanager = job.grades[jobGrade].ismanager or false,
         grade = {
             name = job.grades[jobGrade].name,
             level = jobGrade,
@@ -532,6 +552,7 @@ function CheckPlayerData(source, playerData)
         name = playerData.gang?.name or 'none',
         label = gang.label,
         isboss = gang.grades[gangGrade].isboss or false,
+        isunderboss = gang.grades[gangGrade].isunderboss or false,
         grade = {
             name = gang.grades[gangGrade].name,
             level = gangGrade

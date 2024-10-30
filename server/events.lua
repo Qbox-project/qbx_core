@@ -6,7 +6,7 @@ local queue = require 'server.queue'
 
 -- Event Handler
 
-local usedLicenses = {}
+local usedDiscords = {}
 
 ---@param message string
 AddEventHandler('chatMessage', function(_, _, message)
@@ -18,25 +18,25 @@ end)
 
 AddEventHandler('playerJoining', function()
     local src = source --[[@as string]]
-    local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
-    if not license then return end
+    local discord = GetPlayerIdentifierByType(src, 'discord')
+    if not discord then return end
     if queue then
-        queue.removePlayerJoining(license)
+        queue.removePlayerJoining(discord)
     end
-    if not serverConfig.checkDuplicateLicense then return end
-    if usedLicenses[license] then
+    if not serverConfig.checkDuplicateDiscord then return end
+    if usedDiscords[discord] then
         Wait(0) -- mandatory wait for the drop reason to show up
-        DropPlayer(src, locale('error.duplicate_license'))
+        DropPlayer(src, locale('error.duplicate_discord'))
     else
-        usedLicenses[license] = true
+        usedDiscords[discord] = true
     end
 end)
 
 ---@param reason string
 AddEventHandler('playerDropped', function(reason)
     local src = source --[[@as string]]
-    local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
-    if license then usedLicenses[license] = nil end
+    local discord = GetPlayerIdentifierByType(src, 'discord')
+    if discord then usedDiscords[discord] = nil end
     if not QBX.Players[src] then return end
     GlobalState.PlayerCount -= 1
     local player = QBX.Players[src]
@@ -49,7 +49,7 @@ AddEventHandler('playerDropped', function(reason)
         message = ('**%s** (%s) left...\n **Reason:** %s'):format(GetPlayerName(src), player.PlayerData.license, reason),
     })
     player.Functions.Save()
-    QBX.Player_Buckets[player.PlayerData.license] = nil
+    QBX.Player_Buckets[player.PlayerData.discord] = nil
     QBX.Players[src] = nil
 end)
 
@@ -59,7 +59,7 @@ end)
 ---@param deferrals Deferrals
 local function onPlayerConnecting(name, _, deferrals)
     local src = source --[[@as string]]
-    local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
+    local discord = GetPlayerIdentifierByType(src, 'discord')
     deferrals.defer()
 
     -- Mandatory wait
@@ -71,10 +71,10 @@ local function onPlayerConnecting(name, _, deferrals)
         end
     end
 
-    if not license then
-        deferrals.done(locale('error.no_valid_license'))
-    elseif serverConfig.checkDuplicateLicense and usedLicenses[license] then
-        deferrals.done(locale('error.duplicate_license'))
+    if not discord then
+        deferrals.done(locale('error.no_valid_discord'))
+    elseif serverConfig.checkDuplicateDiscord and usedDiscords[discord] then
+        deferrals.done(locale('error.duplicate_discord'))
     end
 
     local databaseTime = os.clock()
@@ -120,7 +120,7 @@ local function onPlayerConnecting(name, _, deferrals)
         Wait(0)
 
         if queue then
-            queue.awaitPlayerQueue(src --[[@as Source]], license, deferrals)
+            queue.awaitPlayerQueue(src --[[@as Source]], discord, deferrals)
         else
             deferrals.done()
         end

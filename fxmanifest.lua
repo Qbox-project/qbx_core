@@ -29,7 +29,6 @@ client_scripts {
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
-    'server/motd.lua',
     'server/main.lua',
     'server/groups.lua',
     'server/functions.lua',
@@ -44,7 +43,6 @@ server_scripts {
 
 files {
     'modules/*.lua',
-    'data/*.lua',
     'shared/gangs.lua',
     'shared/items.lua',
     'shared/jobs.lua',

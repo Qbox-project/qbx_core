@@ -32,7 +32,7 @@ local function pay(player)
         return
     end
     local account = config.getSocietyAccount(job.name)
-    if not account then -- Checks if player is employed by a society
+    if not account or account == 0 then -- Checks if player is employed by a society
         config.sendPaycheck(player, payment)
         return
     end
@@ -44,7 +44,7 @@ local function pay(player)
     config.sendPaycheck(player, payment)
 end
 
-CreateThread(function()
+--[[CreateThread(function()
     local interval = 60000 * config.money.paycheckTimeout
     while true do
         Wait(interval)
@@ -52,4 +52,4 @@ CreateThread(function()
             pay(player)
         end
     end
-end)
+end)]]--
