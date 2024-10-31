@@ -713,7 +713,10 @@ function CreatePlayer(playerData, Offline)
 
     ---@deprecated use UpdatePlayerData instead
     function self.Functions.UpdatePlayerData()
-        assert(not self.Offline, 'unsupported for offline players')
+        if self.Offline then
+            lib.print.warn('UpdatePlayerData is unsupported for offline players')
+            return
+        end
 
         UpdatePlayerData(self.PlayerData.source)
     end
