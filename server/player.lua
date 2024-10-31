@@ -1103,7 +1103,7 @@ exports('SetMetadata', SetMetadata)
 ---@param metadata string
 ---@return any
 function GetMetadata(identifier, metadata)
-    if not metadata or type(metadata) ~= 'string' then return end
+    if type(metadata) ~= 'string' then return end
 
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
 
