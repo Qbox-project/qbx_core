@@ -105,25 +105,13 @@ local function convertPosition(position)
     return vec4(actualPos.x, actualPos.y, actualPos.z, actualPos.w or defaultSpawn.w)
 end
 
----@param license2 string
----@param license? string
 ---@return PlayerEntity[]
-local function fetchAllPlayerEntities(identifiers)
+local function fetchAllPlayerEntities(identifier)
     ---@type PlayerEntity[]
     local chars = {}
-
-    local string = ''
-                                                                             local identifierCount = 0
-    for k, v in pairs(identifiers) do
-                                                                                identifierCount = count + 1
-                                                                                 if string ~= '' then
-            string = string .. tostring(k)..' = '..tostring(v)..', '
-                                                                                 else
-
-    end
     
     ---@type PlayerEntityDatabase[]
-    local result = MySQL.query.await('SELECT citizenid, charinfo, money, job, gang, position, metadata, active, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players WHERE ?, ORDER BY cid', {})
+    local result = MySQL.query.await('SELECT citizenid, charinfo, money, job, gang, position, metadata, active, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players WHERE discord = ?, ORDER BY cid', {identifier})
     for i = 1, #result do
         chars[i] = result[i]
         chars[i].charinfo = json.decode(result[i].charinfo)
