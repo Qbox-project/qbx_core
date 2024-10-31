@@ -340,14 +340,8 @@ exports('ToggleOptin', ToggleOptin)
 ---@return boolean
 ---@return string? playerMessage
 function IsPlayerBanned(source)
-    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    local license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local discord = GetPlayerIdentifierByType(source --[[@as string]], 'discord')
-    local ip = GetPlayerIdentifierByType(source --[[@as string]], 'ip')
     local identifiers = GetPlayerIdentifiers(source)
-    print(json.encode(identifiers))
-
-    local result = storage.fetchBan({ license = license, license2 = license2, discord = discord, ip = ip })
+    local result = storage.fetchBan(identifiers)
 
     if not result then return false end
 
