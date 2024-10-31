@@ -1032,7 +1032,7 @@ exports('SaveOffline', SaveOffline)
 ---@param key string
 ---@param value any
 function SetPlayerData(identifier, key, value)
-    if not key or type(key) ~= 'string' then return end
+    if type(key) ~= 'string' then return end
 
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
 
