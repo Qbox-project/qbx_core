@@ -608,8 +608,9 @@ function CreatePlayer(playerData, Offline)
     self.Offline = Offline
 
     function self.Functions.UpdatePlayerData()
-        if self.Offline then return self.Functions.Save() end -- Unsupported for Offline Players
         self.Functions.Save()
+        if self.Offline then return end -- Unsupported for Offline Players
+
         TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
     end
@@ -677,10 +678,11 @@ function CreatePlayer(playerData, Offline)
     ---@param onDuty boolean
     function self.Functions.SetJobDuty(onDuty)
         self.PlayerData.job.onduty = not not onDuty -- Make sure the value is a boolean if nil is sent
+
+        self.Functions.UpdatePlayerData()
         if not self.Offline then
             TriggerEvent('QBCore:Server:SetDuty', self.PlayerData.source, self.PlayerData.job.onduty)
             TriggerClientEvent('QBCore:Client:SetDuty', self.PlayerData.source, self.PlayerData.job.onduty)
-            self.Functions.UpdatePlayerData()
         end
     end
 
@@ -766,9 +768,9 @@ function CreatePlayer(playerData, Offline)
         local amountDiff = newAmount - prevAmount
                                                                                  
         self.PlayerData.money[moneytype] = newAmount
+        self.Functions.UpdatePlayerData()
 
         if not self.Offline then
-            self.Functions.UpdatePlayerData()
             self.Log({
                 event = 'Added Money',
                 message = ('**%s money added, new %s balance: $%s reason: %s'):format(self.PlayerData.name, moneytype, amount, reason),
@@ -811,7 +813,6 @@ function CreatePlayer(playerData, Offline)
         local newAmount = prevAmount - amount
         local diffAmount = newAmount - prevAmount
         self.PlayerData.money[moneytype] =  newAmount
-
         self.Functions.UpdatePlayerData()
         if not self.Offline then
             self.Log({
@@ -1039,10 +1040,9 @@ function CreatePlayer(playerData, Offline)
         end
     end)
 
-    self.Functions.UpdatePlayerData()
-
     if not self.Offline then
         QBX.Players[self.PlayerData.source] = self
+
         local ped = GetPlayerPed(self.PlayerData.source)
         lib.callback.await('qbx_core:client:setHealth', self.PlayerData.source, self.PlayerData.metadata.health)
         SetPedArmour(ped, self.PlayerData.metadata.armor)
@@ -1051,6 +1051,8 @@ function CreatePlayer(playerData, Offline)
         Player(self.PlayerData.source).state:set('loadInventory', true, true)
         TriggerEvent('QBCore:Server:PlayerLoaded', self)
     end
+
+    self.Functions.UpdatePlayerData()
 
     return self
 end
