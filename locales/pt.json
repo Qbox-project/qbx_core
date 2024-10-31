@@ -42,7 +42,7 @@
         "exploit_banned": "Foste banido por uso de cheats. Discord: %s",
         "exploit_dropped": "Foste expulso por uso de exploits.",
         "multichar_title": "Personagens",
-        "multichar_new_character": "Novo Personagem #%s",
+        "multichar_new_character": "Nova Personagem #%s",
         "char_male": "Masculino",
         "char_female": "Feminino",
         "play": "Jogar",
@@ -59,8 +59,8 @@
         "nationality": "Nacionalidade",
         "gender": "Género",
         "birth_date": "Data de nascimento",
-        "select_gender": "Selecione o seu género...",
-        "confirm_delete": "Tem a certeza de que quer apagar este personagem?",
+        "select_gender": "Seleciona o teu género...",
+        "confirm_delete": "Tens a certeza de queres apagar esta personagem?",
         "in_queue": "🐌 Estás na posição %s/%s na fila. (%s) %s"
     },
     "command": {
@@ -166,7 +166,7 @@
         },
         "ooc": { "help": "Mensagem OOC" },
         "me": {
-            "help": "Simular uma ação",
+            "help": "Falar fora de RP",
             "params": {
                 "message": { "name": "message", "help": "Ação a simular" }
             }

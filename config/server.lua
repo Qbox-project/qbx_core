@@ -61,10 +61,8 @@ return {
     ---@type [TableName, ColumnName][]
     characterDataTables = {
         {'properties', 'owner'},
-        {'apartments', 'citizenid'},
         {'bank_accounts_new', 'id'},
         {'playerskins', 'citizenid'},
-        {'player_houses', 'citizenid'},
         {'player_mails', 'citizenid'},
         {'player_outfits', 'citizenid'},
         {'player_vehicles', 'citizenid'},
@@ -114,7 +112,7 @@ return {
     },
 
     giveVehicleKeys = function(src, plate, vehicle)
-        return exports.qbx_vehiclekeys:GiveKeys(src, plate)
+        return exports.qbx_vehiclekeys:GiveKeys(src, vehicle)
     end,
 
     getSocietyAccount = function(accountName)

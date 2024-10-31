@@ -1,6 +1,7 @@
 local serverConfig = require 'config.server'.server
 local loggingConfig = require 'config.server'.logging
 local serverName = require 'config.shared'.serverName
+local storage = require 'server.storage.main'
 local logger = require 'modules.logger'
 local queue = require 'server.queue'
 
@@ -53,6 +54,23 @@ AddEventHandler('playerDropped', function(reason)
     QBX.Players[src] = nil
 end)
 
+---@param source Source|string
+---@return table<string, string>
+local function getIdentifiers(source)
+    local identifiers = {}
+
+    for i = 0, GetNumPlayerIdentifiers(source --[[@as string]]) - 1 do
+        local identifier = GetPlayerIdentifier(source --[[@as string]], i)
+        local prefix = identifier:match('([^:]+)')
+
+        if prefix ~= 'ip' then
+            identifiers[prefix] = identifier
+        end
+    end
+
+    return identifiers
+end
+
 -- Player Connecting
 ---@param name string
 ---@param _ any
@@ -60,6 +78,7 @@ end)
 local function onPlayerConnecting(name, _, deferrals)
     local src = source --[[@as string]]
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
+    local userId = storage.fetchUserByIdentifier(license)
     deferrals.defer()
 
     -- Mandatory wait
@@ -75,6 +94,14 @@ local function onPlayerConnecting(name, _, deferrals)
         deferrals.done(locale('error.no_valid_license'))
     elseif serverConfig.checkDuplicateLicense and usedLicenses[license] then
         deferrals.done(locale('error.duplicate_license'))
+    end
+
+    if not userId then
+        local identifiers = getIdentifiers(src)
+
+        identifiers.username = name
+
+        storage.createUser(identifiers)
     end
 
     local databaseTime = os.clock()
@@ -141,6 +168,12 @@ end
 
 AddEventHandler('playerConnecting', onPlayerConnecting)
 
+AddEventHandler('onResourceStart', function(resource)
+    if resource ~= cache.resource then return end
+
+    storage.createUsersTable()
+end)
+
 -- New method for checking if logged in across all scripts (optional)
 -- `if LocalPlayer.state.isLoggedIn then` for the client side
 -- `if Player(source).state.isLoggedIn then` for the server side
@@ -194,4 +227,33 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
         player.Functions.SetJobDuty(true)
         Notify(src, locale('info.on_duty'))
     end
+end)
+
+---Syncs the player's hunger, thirst, and stress levels with the statebags
+---@param bagName string
+---@param meta 'hunger' | 'thirst' | 'stress'
+---@param value number
+local function playerStateBagCheck(bagName, meta, value)
+    if not value then return end
+    local plySrc = GetPlayerFromStateBagName(bagName)
+    if not plySrc then return end
+    local player = QBX.Players[plySrc]
+    if not player then return end
+    if player.PlayerData.metadata[meta] == value then return end
+    player.Functions.SetMetaData(meta, value)
+end
+
+---@diagnostic disable-next-line: param-type-mismatch
+AddStateBagChangeHandler('hunger', nil, function(bagName, _, value)
+    playerStateBagCheck(bagName, 'hunger', value)
+end)
+
+---@diagnostic disable-next-line: param-type-mismatch
+AddStateBagChangeHandler('thirst', nil, function(bagName, _, value)
+    playerStateBagCheck(bagName, 'thirst', value)
+end)
+
+---@diagnostic disable-next-line: param-type-mismatch
+AddStateBagChangeHandler('stress', nil, function(bagName, _, value)
+    playerStateBagCheck(bagName, 'stress', value)
 end)

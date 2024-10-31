@@ -1,5 +1,10 @@
 ---@meta
 
+---@alias NotificationPosition 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left' | 'center-right' | 'center-left'
+---@alias NotificationType 'info' | 'warning' | 'success' | 'error'
+---@alias PlayerIdentifier 'username' | 'license' | 'license2' | 'fivem' | 'discord'
+---@alias Source integer
+
 ---@class ErrorResult
 ---@field code string
 ---@field message string
@@ -88,6 +93,7 @@
 ---@field upsertPlayerEntity fun(request: UpsertPlayerRequest)
 ---@field fetchPlayerSkin fun(citizenId: string): PlayerSkin?
 ---@field fetchPlayerEntity fun(citizenId: string): PlayerEntity?
+---@field searchPlayerEntities fun(filters: table<string, any>): Player[]
 ---@field fetchAllPlayerEntities fun(license2: string, license?: string): PlayerEntity[]
 ---@field deletePlayer fun(citizenId: string): boolean success
 ---@field fetchIsUnique fun(type: UniqueIdType, value: string|number): boolean
@@ -181,6 +187,7 @@
 ---@field licences {id: boolean, driver: boolean, weapon: boolean}
 ---@field inside {house?: any, apartment: {apartmentType?: any, apartmentId?: integer}} TODO: expand
 ---@field phonedata {SerialNumber: string, InstalledApps: table} TODO: expand
+---@field [string] any
 
 ---@class PlayerJob
 ---@field name string

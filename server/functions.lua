@@ -235,6 +235,7 @@ function AddPermission(source, permission)
 end
 
 ---@deprecated use cfg ACEs instead
+---@diagnostic disable-next-line: deprecated
 exports('AddPermission', AddPermission)
 
 ---@deprecated use cfg ACEs instead
@@ -250,6 +251,8 @@ function RemovePermission(source, permission)
         end
     else
         local hasUpdated = false
+
+        ---@diagnostic disable-next-line: deprecated
         for _, v in pairs(serverConfig.permissions) do
             if IsPlayerAceAllowed(source --[[@as string]], v) then
                 lib.removePrincipal('player.' .. source, 'group.' .. v)
@@ -265,6 +268,7 @@ function RemovePermission(source, permission)
 end
 
 ---@deprecated use cfg ACEs instead
+---@diagnostic disable-next-line: deprecated
 exports('RemovePermission', RemovePermission)
 
 -- Checking for Permission Level
@@ -285,6 +289,7 @@ function HasPermission(source, permission)
 end
 
 ---@deprecated use IsPlayerAceAllowed
+---@diagnostic disable-next-line: deprecated
 exports('HasPermission', HasPermission)
 
 ---@deprecated use cfg ACEs instead
@@ -292,6 +297,8 @@ exports('HasPermission', HasPermission)
 ---@return table<string, boolean>
 function GetPermission(source)
     local perms = {}
+
+    ---@diagnostic disable-next-line: deprecated
     for _, v in pairs (serverConfig.permissions) do
         if IsPlayerAceAllowed(source --[[@as string]], v) then
             perms[v] = true
@@ -301,6 +308,7 @@ function GetPermission(source)
 end
 
 ---@deprecated use cfg ACEs instead
+---@diagnostic disable-next-line: deprecated
 exports('GetPermission', GetPermission)
 
 -- Opt in or out of admin reports
@@ -394,7 +402,7 @@ exports('Notify', Notify)
 ---@return string version
 local function GetCoreVersion(InvokingResource)
     ---@diagnostic disable-next-line: missing-parameter
-    local resourceVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
+    local resourceVersion = GetResourceMetadata(cache.resource, 'version')
     if InvokingResource and InvokingResource ~= '' then
         lib.print.debug(('%s called qbcore version check: %s'):format(InvokingResource or 'Unknown Resource', resourceVersion))
     end
@@ -407,16 +415,15 @@ exports('GetCoreVersion', GetCoreVersion)
 ---@param origin string reason
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
-    local success, errorResult = pcall(
-        storage.insertBan({
-            name = name,
-            license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
-            discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
-            ip = GetPlayerIdentifierByType(playerId --[[@as string]], 'ip'),
-            reason = origin,
-            expiration = 2147483647,
-            bannedBy = 'Anti Cheat'
-        }))
+    local success, errorResult = storage.insertBan({
+        name = name,
+        license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
+        discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
+        ip = GetPlayerIdentifierByType(playerId --[[@as string]], 'ip'),
+        reason = origin,
+        expiration = 2147483647,
+        bannedBy = 'Anti Cheat'
+    })
     if not success then lib.print.error(errorResult) end
     DropPlayer(playerId --[[@as string]], locale('info.exploit_banned', serverConfig.discord))
     logger.log({
@@ -471,6 +478,28 @@ end
 
 exports('GetPlayersData', getPlayersData)
 
+---@param filters table <string, any>
+---@return Player[]
+local function searchPlayerEntities(filters)
+    local result = {}
+    local response = storage.searchPlayerEntities(filters)
+    for i = 1, #response do
+        local citizenid = response[i].citizenid
+        local player = GetPlayerByCitizenId(citizenid)
+        if player then
+            result[#result+1] = player
+        else
+            local offlinePlayer = GetOfflinePlayer(citizenid)
+            if offlinePlayer then
+                result[#result+1] = offlinePlayer
+            end
+        end
+    end
+    return result
+end
+
+exports("SearchPlayers", searchPlayerEntities)
+
 local function isGradeBoss(group, grade)
     local groupData = GetJob(group) or GetGang(group)
     if not groupData then return end
@@ -484,3 +513,14 @@ local function getGroupMembers(group, type)
 end
 
 exports('GetGroupMembers', getGroupMembers)
+
+---Disables persistence before deleting a vehicle, then deletes it.
+---@param vehicle number
+function DeleteVehicle(vehicle)
+    DisablePersistence(vehicle)
+    if DoesEntityExist(vehicle) then
+        DeleteEntity(vehicle)
+    end
+end
+
+exports('DeleteVehicle', DeleteVehicle)

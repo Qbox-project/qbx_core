@@ -71,6 +71,8 @@ qbShared.StarterItems = {}
 if type(starterItems) == 'table' then
     for i = 1, #starterItems do
         local item = starterItems[i]
+
+        ---@diagnostic disable-next-line: deprecated
         qbShared.StarterItems[item.name] = {
             amount = item.amount,
             item = item.name,
@@ -85,12 +87,16 @@ qbShared.CommaValue = lib.math.groupdigits
 qbShared.RandomStr = function(length)
     if length <= 0 then return '' end
     local pattern = math.random(2) == 1 and 'a' or 'A'
+
+    ---@diagnostic disable-next-line: deprecated
     return qbShared.RandomStr(length - 1) .. lib.string.random(pattern)
 end
 
 ---@deprecated use lib.string.random from ox_lib
 qbShared.RandomInt = function(length)
     if length <= 0 then return '' end
+
+    ---@diagnostic disable-next-line: deprecated
     return qbShared.RandomInt(length - 1) .. lib.string.random('1')
 end
 

@@ -1,3 +1,5 @@
+---@diagnostic disable: deprecated
+
 lib.print.warn('This resource is still using the deprecated qbx_core utils!')
 lib.print.warn('If you are the author, please update to use the new lib module. If you are not, please tell them to update!')
 
@@ -147,12 +149,14 @@ if isServer then
         model = type(model) == 'string' and joaat(model) or (model --[[@as integer]])
         local ped = GetPlayerPed(source)
 
-        return qbx.spawnVehicle({
+        local netId, _ = qbx.spawnVehicle({
             model = model,
             spawnSource = coords or ped,
             warp = warp and ped or nil,
             props = props,
         })
+
+        return netId
     end
 
 

@@ -24,7 +24,7 @@
 
 ---@param filter string | string[] | table<string, number>
 ---@param playerData table
----@param primary boolean Check only for primary job/gang
+---@param primary? boolean Check only for primary job/gang
 ---@return boolean
 function HasPlayerGotGroup(filter, playerData, primary)
     local groups = not primary and GetPlayerGroups(playerData)

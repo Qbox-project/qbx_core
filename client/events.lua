@@ -7,13 +7,19 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
         SetCanAttackFriendly(cache.ped, true, false)
         NetworkSetFriendlyFireOption(true)
     end
+
     if NetworkIsInTutorialSession() then NetworkEndTutorialSession() end
+
+    local motd = GetConvar('qbx:motd', '')
+    if motd ~= '' then
+        exports.chat:addMessage({ template = motd })
+    end
 end)
 
 ---@param val PlayerData
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     local invokingResource = GetInvokingResource()
-    if invokingResource and invokingResource ~= GetCurrentResourceName() then return end
+    if invokingResource and invokingResource ~= cache.resource then return end
     QBX.PlayerData = val
 end)
 
@@ -22,6 +28,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
 end)
 
 ---@param value boolean
+---@diagnostic disable-next-line: param-type-mismatch
 AddStateBagChangeHandler('PVPEnabled', nil, function(bagName, _, value)
     if bagName == 'global' then
         SetCanAttackFriendly(cache.ped, value, false)
@@ -151,6 +158,7 @@ end)
 
 ---@param bagName string
 ---@param value string
+---@diagnostic disable-next-line: param-type-mismatch
 AddStateBagChangeHandler('me', nil, function(bagName, _, value)
     if not value then return end
 

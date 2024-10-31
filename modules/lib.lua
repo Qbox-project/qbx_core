@@ -4,6 +4,7 @@ local qbx = {}
 qbx.string = {}
 qbx.math = {}
 qbx.table = {}
+qbx.array = {}
 
 qbx.armsWithoutGloves = lib.table.freeze({
     male = lib.table.freeze({
@@ -147,6 +148,21 @@ function qbx.table.mapBySubfield(tble, subfield)
     return map
 end
 
+---Returns true if the given array contains the given value.
+---@generic T
+---@param arr T[]
+---@param val T
+---@return boolean
+function qbx.array.contains(arr, val)
+    for i = 1, #arr do
+        if arr[i] == val then
+            return true
+        end
+    end
+
+    return false
+end
+
 ---Returns the number plate of the given vehicle.
 ---@param vehicle integer
 ---@return string?
@@ -260,7 +276,7 @@ if isServer then
         while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
 
         if bucket and bucket > 0 then
-            SetEntityBucket(veh, bucket)
+            exports.qbx_core:SetEntityBucket(veh, bucket)
         end
 
         if ped then
@@ -300,7 +316,7 @@ if isServer then
         end
 
         local netId = NetworkGetNetworkIdFromEntity(veh)
-
+        exports.qbx_core:EnablePersistence(veh)
         return netId, veh
     end
 else
@@ -539,7 +555,7 @@ else
         end
 
         if returnSoundId then
-           return soundId
+            return soundId
         end
 
         ReleaseSoundId(soundId)

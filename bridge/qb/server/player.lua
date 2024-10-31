@@ -86,9 +86,9 @@ end
 ---Will cause major issues!
 ---@param playerData PlayerData
 ---@param Offline boolean
----@return Player player
+---@return Player?
 function playerObj.CreatePlayer(playerData, Offline)
-    AddDeprecatedFunctions(exports.qbx_core:CreatePlayer(playerData, Offline))
+    return AddDeprecatedFunctions(exports.qbx_core:CreatePlayer(playerData, Offline))
 end
 
 ---Save player info to database (make sure citizenid is the primary key in your database)

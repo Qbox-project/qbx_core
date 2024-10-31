@@ -4,7 +4,7 @@ game 'gta5'
 name 'qbx_core'
 description 'The core resource for the Qbox Framework'
 repository 'https://github.com/Qbox-project/qbx_core'
-version '1.17.2'
+version '1.21.0'
 
 ox_lib 'locale'
 
@@ -23,11 +23,13 @@ client_scripts {
     'client/events.lua',
     'client/character.lua',
     'client/discord.lua',
+    'client/vehicle-persistence.lua',
     'bridge/qb/client/main.lua',
 }
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
+    'server/motd.lua',
     'server/main.lua',
     'server/groups.lua',
     'server/functions.lua',
@@ -36,11 +38,13 @@ server_scripts {
     'server/commands.lua',
     'server/loops.lua',
     'server/character.lua',
+    'server/vehicle-persistence.lua',
     'bridge/qb/server/main.lua',
 }
 
 files {
     'modules/*.lua',
+    'data/*.lua',
     'shared/gangs.lua',
     'shared/items.lua',
     'shared/jobs.lua',
