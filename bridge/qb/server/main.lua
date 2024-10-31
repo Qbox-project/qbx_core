@@ -7,7 +7,7 @@ local convertItems = require 'bridge.qb.shared.compat'.convertItems
 convertItems(require '@ox_inventory.data.items', require 'shared.items')
 
 ---@diagnostic disable-next-line: lowercase-global
-qbCoreCompat = {}
+local qbCoreCompat = {}
 
 qbCoreCompat.Config = lib.table.merge(require 'config.server', require 'config.shared')
 qbCoreCompat.Shared = require 'bridge.qb.shared.main'
