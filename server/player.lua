@@ -116,11 +116,12 @@ function SetPlayerPrimaryJob(citizenid, jobName)
     assert(job.grades[grade] ~= nil, string.format('job %s does not have grade %s', jobName, grade))
 
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
-    player.Functions.UpdatePlayerData()
+    player.Functions.Save()
 
     if not player.Offline then
+        player.Functions.UpdatePlayerData()
         TriggerEvent('QBCore:Server:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
-        TriggerClientEvent('QBCore:Client:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
+        TriggerClientEvent('QBCore:Client:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)                                                             
     end
 
     return true
@@ -282,9 +283,10 @@ local function setPlayerPrimaryGang(citizenid, gangName)
             level = grade
         }
     }
+    player.Functions.Save()
 
-    player.Functions.UpdatePlayerData()
-    if not player.Offline then
+     if not player.Offline then
+        player.Functions.UpdatePlayerData()
         TriggerEvent('QBCore:Server:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
         TriggerClientEvent('QBCore:Client:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
     end
@@ -608,8 +610,7 @@ function CreatePlayer(playerData, Offline)
     self.Offline = Offline
 
     function self.Functions.UpdatePlayerData()
-        self.Functions.Save()
-        if self.Offline then return end -- Unsupported for Offline Players
+        if self.Offline then return SaveOffline(self.PlayerData) end -- Unsupported for Offline Players
 
         TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
@@ -718,6 +719,10 @@ function CreatePlayer(playerData, Offline)
             if (meta == 'dead' or meta == 'inlaststand') then
                 playerState:set('canUseWeapons', not val, true)
             end
+        end
+
+        if meta == 'inlaststand' or meta == 'isdead' then
+            self.Functions.Save()
         end
     end
 
@@ -1028,8 +1033,9 @@ function CreatePlayer(playerData, Offline)
             end
         end
 
-        self.Functions.UpdatePlayerData()
+        
         if not self.Offline then
+            self.Functions.UpdatePlayerData()
             TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
             TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
         end
@@ -1043,11 +1049,12 @@ function CreatePlayer(playerData, Offline)
         SetPedArmour(ped, self.PlayerData.metadata.armor)
         -- At this point we are safe to emit new instance to third party resource for load handling
         GlobalState.PlayerCount += 1
+        self.Functions.UpdatePlayerData()
         Player(self.PlayerData.source).state:set('loadInventory', true, true)
         TriggerEvent('QBCore:Server:PlayerLoaded', self)
     end
 
-    self.Functions.UpdatePlayerData()
+
 
     return self
 end
