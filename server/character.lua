@@ -26,8 +26,8 @@ local function giveStarterItems(source)
 end
 
 lib.callback.register('qbx_core:server:getCharacters', function(source)
-    local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
-    return storage.fetchAllPlayerEntities(license2, license), getAllowedAmountOfCharacters(license2, license)
+    local discord = GetPlayerIdentifierByType(source, 'discord')
+    return storage.fetchAllPlayerEntities(discord), getAllowedAmountOfCharacters(discord)
 end)
 
 lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId)
@@ -38,17 +38,11 @@ lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId
 end)
 
 lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenId)
-    local success = Login(source, citizenId)
+    local success, player = Login(source, citizenId)
     if not success then return end
 
     SetPlayerBucket(source, 0)
-    logger.log({
-        source = 'qbx_core',
-        webhook = config.logging.webhook['joinleave'],
-        event = 'Loaded',
-        color = 'green',
-        message = ('**%s** (%s |  ||%s|| | %s | %s | %s) loaded'):format(GetPlayerName(source), GetPlayerIdentifierByType(source, 'discord') or 'undefined', GetPlayerIdentifierByType(source, 'ip') or 'undefined', GetPlayerIdentifierByType(source, 'license2') or GetPlayerIdentifierByType(source, 'license') or 'undefined', citizenId, source)
-    })
+
     lib.print.info(('%s (Citizen ID: %s) has successfully loaded!'):format(GetPlayerName(source), citizenId))
 end)
 
@@ -57,8 +51,10 @@ end)
 lib.callback.register('qbx_core:server:createCharacter', function(source, data)
     local newData = {}
     newData.charinfo = data
+    newData.firstname = qbx.string.capitalize(data.firstname)
+    newData.lastname = qbx.string.capitalize(data.lastname)
 
-    local success = Login(source, nil, newData)
+    local success, player = Login(source, nil, newData)
     if not success then return end
 
     giveStarterItems(source)

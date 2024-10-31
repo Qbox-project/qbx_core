@@ -342,18 +342,28 @@ exports('ToggleOptin', ToggleOptin)
 function IsPlayerBanned(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license')
     local license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local result = license2 and storage.fetchBan({ license = license2 })
+    local discord = GetPlayerIdentifier(source, 'discord')
+    local ip = GetPlayerIdentifier(source, 'ip')
+    local identifiers = GetPlayerIdentifiers(source)
+    print(json.encode(identifiers))
 
-    if not result then
-        result = storage.fetchBan({ license = license })
-    end
+    local result = storage.fetchBan({ license = license, license2 = license2, discord = discord, ip = ip })
 
     if not result then return false end
 
-    if os.time() < result.expire then
-        local timeTable = os.date('*t', tonumber(result.expire))
+    if result.tokens then
+        local checkTokens = json.encode(result.tokens)
+        local tokens = GetPlayerTokens(source)
+        local tokenSearch = table.concat(tokens, ',')
+        for _, token in pairs(checkTokens) do
+            if string.find(tokenSearch, token) then
+                return true, ('You have been banned from the server! \n Reason: %s \n\n - open a ban appeal ticket in B⭐RP Discord!'):format(result.reason)
+            end
+        end
+    end
 
-        return true, ('You have been banned from the server:\n%s\nYour ban expires in %s/%s/%s %s:%s\n'):format(result.reason, timeTable.day, timeTable.month, timeTable.year, timeTable.hour, timeTable.min)
+    if os.time() < result.expire then
+        return true, ('You have been banned from the server! \n Reason: %s \n\n - open a ban appeal ticket in B⭐RP Discord!'):format(result.reason)
     else
         CreateThread(function()
             if license2 then
@@ -411,32 +421,34 @@ end
 
 exports('GetCoreVersion', GetCoreVersion)
 
----@param playerId Source server id
----@param origin string reason
-local function ExploitBan(playerId, origin)
+---@param playerSrc Source player server id
+---@param reason string reason
+function BanPlayer(playerSrc, reason, by)
+    local playerId = tostring(playerSrc)
     local name = GetPlayerName(playerId)
     local success, errorResult = storage.insertBan({
         name = name,
         license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
-        discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
+        discord = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
         ip = GetPlayerIdentifierByType(playerId --[[@as string]], 'ip'),
-        reason = origin,
+        tokens = json.encode(GetPlayerTokens(playerId)),
+        reason = reason,
         expiration = 2147483647,
-        bannedBy = 'Anti Cheat'
+        bannedBy = by or 'System'
     })
     if not success then lib.print.error(errorResult) end
-    DropPlayer(playerId --[[@as string]], locale('info.exploit_banned', serverConfig.discord))
-    logger.log({
-        source = 'qbx_core',
-        webhook = loggingConfig.webhook['anticheat'],
-        event = 'Anti-Cheat',
-        color = 'red',
-        tags = loggingConfig.role,
-        message = success and ('%s has been kicked and banned for exploiting %s'):format(name, origin) or ('%s has been kicked for exploiting %s, ban insert failed'):format(name, origin)
+    Log({
+        event = 'Player Banned',
+        message = ('%s has been banned by %s.'):format(GetPlayerName(playerSrc), by),
+        data = {  },
+        playerSrc = playerId,
+        targetSrc = by, 
+        resource = GetInvokingResource()
     })
+    DropPlayer(playerId --[[@as string]], locale('info.exploit_banned', serverConfig.discord))
 end
 
-exports('ExploitBan', ExploitBan)
+exports('BanPlayer', BanPlayer)
 
 ---@param source Source
 ---@param filter string | string[] | table<string, number>
@@ -524,3 +536,37 @@ function DeleteVehicle(vehicle)
 end
 
 exports('DeleteVehicle', DeleteVehicle)
+
+---Log Information through the core
+---@param data table data.event, data.message, data.data, data.playerSrc, data.targetSrc, data.resource
+function Log(data)
+    if not data or type(data) ~= 'table' then return end
+    local resource = data.resource or GetInvokingResource()
+    exports['bstar-logging']:CreateLog(data.event, data.message, data.data, data.source, data.target, resource)
+end
+
+exports('Log', Log)
+
+---Log Information through the core
+---@param data table
+function ScriptAlert(data)
+        
+    local resource = data.resource or GetInvokingResource()
+    local player = GetPlayer(data.source)
+    if player and resource then
+        Log({
+            event = 'Script Alert',
+            message = ('%s has triggered a script alert [ %s ] in resource: %s'):format(GetPlayerName(data.playerSrc), data.alert, resource),
+            data = { alert = data.alert, info = data.info, resource = resource, banned = tostring(data.ban), cid = player.PlayerData.citizenid },
+            source = data.source,
+            target = data.target,
+            resource = resource
+        })
+
+        if data.ban then
+            BanPlayer(data.playerSrc, ('Script Alert Ban: [ %s ] %s.'):format(data.alert, data.info))
+        end
+    end
+end
+
+exports('ScriptAlert', ScriptAlert)

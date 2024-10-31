@@ -60,6 +60,7 @@ end
 ---@param citizenid? string
 ---@param newData? PlayerEntity
 ---@return boolean success
+---@return table playerData
 function playerObj.Login(source, citizenid, newData)
     return exports.qbx_core:Login(source, citizenid, newData)
 end

@@ -17,29 +17,54 @@ end
 ---@param citizenid? string
 ---@param newData? PlayerEntity
 ---@return boolean success
+---@return table playerData
 function Login(source, citizenid, newData)
     if not source or source == '' then
         lib.print.error('No source given at login stage')
-        return false
+        return false, {}
     end
 
     if citizenid then
         local discord = GetPlayerIdentifierByType(source --[[@as string]], 'discord')
         local playerData = storage.fetchPlayerEntity(citizenid)
 
-        if playerData and (discord == playerData.discord) then
-            return not not CheckPlayerData(source, playerData)
+        if playerData then
+            if (discord == playerData.discord) then
+                ScriptAlert({
+                    alert = 'Duplicate Login',
+                    info = ("%s attemped to login with duplicate identifiers (%s) account!"):format(GetPlayerName(source), discord),
+                    source = source,
+                    ban = true,
+                    resource = GetInvokingResource()
+                })
+            end
         else
-            DropPlayer(tostring(source), locale('info.exploit_dropped'))
-            exports['bstar-logging']:CreateLog('Duplicate Joinining', ("%s attemped to login the same discord account!"):format(GetPlayerName(source), discord), {}, src, nil, self.resource)
+            if newData then
+                local player = CheckPlayerData(source, newData)
+                player.Functions.Save()
+                
+                Log({
+                    event = 'Created Character',
+                    message = string.format('%s has created a new character: %s', GetPlayerName(source), player.PlayerData.charinfo.firstname .. ' ' .. player.PlayerData.charinfo.lastname),
+                    data = {},
+                    source = source,
+                })
+                return true, player
+            else
+                local player = CheckPlayerData(source, playerData)
+                
+                Log({
+                    event = 'Loaded Character',
+                    message = string.format('%s has created a new character: %s', GetPlayerName(source), player.PlayerData.charinfo.firstname .. ' ' .. player.PlayerData.charinfo.lastname),
+                    data = {},
+                    source = source,
+                })
+                return true, player
+            end
         end
-    else
-        local player = CheckPlayerData(source, newData)
-        player.Functions.Save()
-        return true
     end
 
-    return false
+    return false, {}
 end
 
 exports('Login', Login)
@@ -108,10 +133,9 @@ function SetPlayerPrimaryJob(citizenid, jobName)
     assert(job.grades[grade] ~= nil, string.format('job %s does not have grade %s', jobName, grade))
 
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
-    player.Functions.Save()
+    player.Functions.UpdatePlayerData()
 
     if not player.Offline then
-        player.Functions.UpdatePlayerData()
         TriggerEvent('QBCore:Server:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
         TriggerClientEvent('QBCore:Client:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
     end
@@ -276,10 +300,8 @@ local function setPlayerPrimaryGang(citizenid, gangName)
         }
     }
 
-    player.Functions.Save()
-
+    player.Functions.UpdatePlayerData()
     if not player.Offline then
-        player.Functions.UpdatePlayerData()
         TriggerEvent('QBCore:Server:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
         TriggerClientEvent('QBCore:Client:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
     end
@@ -516,11 +538,6 @@ function CheckPlayerData(source, playerData)
         }
     }
 
-    --do we need?
-    playerData.metadata.phonedata = playerData.metadata.phonedata or {
-        SerialNumber = GenerateUniqueIdentifier('SerialNumber'),
-        InstalledApps = {},
-    }
     local jobs, gangs = storage.fetchPlayerGroups(playerData.citizenid)
 
     local job = GetJob(playerData.job?.name) or GetJob('unemployed')
@@ -580,6 +597,12 @@ function Logout(source)
     player.PlayerData.lastLoggedOut = os.time()
     player.Functions.Save()
 
+    player.Functions.Log({
+        event = 'Unloaded Character',
+        message = string.format('%s logged in character: %s', GetPlayerName(source), player.Functions.GetFullName()),
+        data = { cid = player.PlayerData.citizenid }
+    })
+
     Wait(200)
     QBX.Players[source] = nil
     GlobalState.PlayerCount -= 1
@@ -602,7 +625,8 @@ function CreatePlayer(playerData, Offline)
     self.Offline = Offline
 
     function self.Functions.UpdatePlayerData()
-        if self.Offline then return end -- Unsupported for Offline Players
+        if self.Offline then return self.SaveOffline(self.PlayerData) end -- Unsupported for Offline Players
+        self.Functions.Save()
         TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
     end
@@ -710,10 +734,6 @@ function CreatePlayer(playerData, Offline)
                 playerState:set('canUseWeapons', not val, true)
             end
         end
-
-        if meta == 'inlaststand' or meta == 'isdead' then
-            self.Functions.Save()
-        end
     end
 
     ---@param meta string
@@ -754,27 +774,36 @@ function CreatePlayer(playerData, Offline)
     ---@param reason? string
     ---@return boolean success if money was added
     function self.Functions.AddMoney(moneytype, amount, reason)
-        reason = reason or 'unknown'
+        reason = tostring(reason) or 'unknown'
         amount = qbx.math.round(tonumber(amount) --[[@as number]])
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
-        self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
+        local prevAmount = self.PlayerData.money[moneytype] or 0
+        local newAmount = prevAmount + amount
+        local amountDiff = newAmount - prevAmount
+                                                                                 
+        self.PlayerData.money[moneytype] = newAmount
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
-            local tags = amount > 100000 and config.logging.role or nil
-            local resource = GetInvokingResource() or cache.resource
-            logger.log({
-                source = resource,
-                webhook = config.logging.webhook['playermoney'],
-                event = 'AddMoney',
-                color = 'lightgreen',
-                tags = tags,
-                message = ('**%s (citizenid: %s | id: %s)** $%s (%s) added, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
-                --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s'):format(resource, GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, self.PlayerData.money[moneytype], reason)
+            self.Log({
+                event = 'Added Money',
+                message = ('**%s money added, new %s balance: $%s reason: %s'):format(self.PlayerData.name, moneytype, amount, reason),
+                data = { reason = reason, amount = amount, previous_amount = prevAmount, amount_difference = amountDiff, new_amount = newAmount, money_type = moneytype, cid = self.PlayerData.citizenid, status = 'online'},
+                playerSrc = self.PlayerData.source,
+                targetSrc = nil,
+                resource = GetInvokingResource()
             })
-            emitMoneyEvents(moneytype, amount, 'add', false, reason)
+            emitMoneyEvents(moneytype, amount, 'remove', true, reason)
+        else
+            exports['qbx_core']:Log({
+                event = 'Added Money',
+                message = ('**%s money added, new %s balance: $%s reason: %s'):format(self.PlayerData.name, moneytype, amount, reason),
+                data = { reason = ReleaseBinkMovie, amount = amount, previous_amount = prevAmount, amount_difference = amountDiff, new_amount = newAmount, money_type = moneytype, cid = self.PlayerData.citizenid, status = 'online'},
+                resource = GetInvokingResource()
+            })
         end
+
 
         return true
     end
@@ -784,7 +813,7 @@ function CreatePlayer(playerData, Offline)
     ---@param reason? string
     ---@return boolean success if money was removed
     function self.Functions.RemoveMoney(moneytype, amount, reason)
-        reason = reason or 'unknown'
+        reason = tostring(reason) or 'unknown'
         amount = qbx.math.round(tonumber(amount) --[[@as number]])
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
@@ -795,22 +824,28 @@ function CreatePlayer(playerData, Offline)
                 end
             end
         end
-        self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
+        local prevAmount = self.PlayerData.money[moneytype]
+        local newAmount = prevAmount - amount
+        local diffAmount = newAmount - prevAmount
+        self.PlayerData.money[moneytype] =  newAmount
 
+        self.Functions.UpdatePlayerData()
         if not self.Offline then
-            self.Functions.UpdatePlayerData()
-            local tags = amount > 100000 and config.logging.role or nil
-            local resource = GetInvokingResource() or cache.resource
-            logger.log({
-                source = resource,
-                webhook = config.logging.webhook['playermoney'],
-                event = 'RemoveMoney',
-                color = 'red',
-                tags = tags,
-                message = ('** %s (citizenid: %s | id: %s)** $%s (%s) removed, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, moneytype, self.PlayerData.money[moneytype], reason),
-                --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s'):format(resource, GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, amount, moneytype, self.PlayerData.money[moneytype], reason)
+            self.Log({
+                event = 'Removed Money',
+                message = ('**%s money removed, new %s balance: $%s reason: %s'):format(self.PlayerData.name, moneytype, amount, reason),
+                data = { reason = reason, amount = amount, previous_amount = prevAmount, amount_difference = diffAmount, new_amount = newAmount, money_type = moneytype, cid = self.PlayerData.citizenid, status = 'online'},
+                playerSrc = self.PlayerData.source,
+                resource = GetInvokingResource()
             })
             emitMoneyEvents(moneytype, amount, 'remove', true, reason)
+        else
+            exports['qbx_core']:Log({
+                event = 'Removed Money',
+                message = ('**%s money removed, new %s balance: $%s reason: %s'):format(self.PlayerData.name, moneytype, amount, reason),
+                data = { reason = reason, amount = amount, previous_amount = prevAmount, amount_difference = diffAmount, new_amount = newAmount, money_type = moneytype, cid = self.PlayerData.citizenid, status = 'online'},
+                resource = GetInvokingResource()
+            })
         end
 
         return true
@@ -821,29 +856,32 @@ function CreatePlayer(playerData, Offline)
     ---@param reason? string
     ---@return boolean success if money was set
     function self.Functions.SetMoney(moneytype, amount, reason)
-        reason = reason or 'unknown'
+        reason = tostring(reason) or 'unknown'
         amount = qbx.math.round(tonumber(amount) --[[@as number]])
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
-        local difference = amount - self.PlayerData.money[moneytype]
-        self.PlayerData.money[moneytype] = amount
-
+        local prevAmount = self.PlayerData.money[moneytype] or 0
+        local newAmount = amount
+        local amountDiff = amount - prevAmount
+        self.PlayerData.money[moneytype] = newAmount
+        self.Functions.UpdatePlayerData()
         if not self.Offline then
-            self.Functions.UpdatePlayerData()
-            local dirChange = difference < 0 and 'removed' or 'added'
-            local absDifference = math.abs(difference)
-            local tags = absDifference > 50000 and config.logging.role or {}
-            local resource = GetInvokingResource() or cache.resource
-            logger.log({
-                source = resource,
-                webhook = config.logging.webhook['playermoney'],
-                event = 'SetMoney',
-                color = difference < 0 and 'red' or 'green',
-                tags = tags,
-                message = ('**%s (citizenid: %s | id: %s)** $%s (%s) %s, new %s balance: $%s reason: %s'):format(GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, absDifference, moneytype, dirChange, moneytype, self.PlayerData.money[moneytype], reason),
-                --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s,direction:%s'):format(resource, GetPlayerName(self.PlayerData.source), self.PlayerData.citizenid, self.PlayerData.source, absDifference, moneytype, self.PlayerData.money[moneytype], reason, dirChange)
+            self.Log({
+                event = 'Set Money',
+                message = ('**%s money was set, new %s balance: $%s reason: %s'):format(self.PlayerData.name, moneytype, amount, reason),
+                data = { reason = reason, amount = amount, previous_amount = prevAmount, amount_difference = amountDiff, new_amount = newAmount, money_type = moneytype, cid = self.PlayerData.citizenid, status = 'online'},
+                playerSrc = self.PlayerData.source,
+                targetSrc = nil,
+                resource = GetInvokingResource()
             })
-            emitMoneyEvents(moneytype, absDifference, 'set', difference < 0, reason)
+            emitMoneyEvents(moneytype, amount, 'remove', true, reason)
+        else
+            exports['qbx_core']:Log({
+                event = 'Set Money',
+                message = ('**%s money was set, new %s balance: $%s reason: %s'):format(self.PlayerData.name, moneytype, amount, reason),
+                data = { reason = reason, amount = amount, previous_amount = prevAmount, amount_difference = amountDiff, new_amount = newAmount, money_type = moneytype, cid = self.PlayerData.citizenid, status = 'online'},
+                resource = GetInvokingResource()
+            })
         end
 
         return true
@@ -853,7 +891,7 @@ function CreatePlayer(playerData, Offline)
     ---@return boolean | number amount or false if moneytype does not exist
     function self.Functions.GetMoney(moneytype)
         if not moneytype then return false end
-        return self.PlayerData.money[moneytype]
+        return self.PlayerData.money[moneytype] or 0
     end
 
     local function qbItemCompat(item)
@@ -927,10 +965,8 @@ function CreatePlayer(playerData, Offline)
         error('Player.Functions.SetInventory is unsupported for ox_inventory. Try ClearInventory, then add the desired items.')
     end
 
-    ---@param cardNumber number
-    function self.Functions.SetCreditCard(cardNumber)
-        self.PlayerData.charinfo.card = cardNumber
-        self.Functions.UpdatePlayerData()
+    function self.Functions.GetFullName()
+        return string.format('%s %s', self.PlayerData.charinfo.firstname, self.PlayerData.charinfo.lastname)
     end
 
     function self.Functions.Save()
@@ -941,10 +977,21 @@ function CreatePlayer(playerData, Offline)
         end
     end
 
+                                                                             ---@param type string
+    --Player Specific Logging
+    ---@param data table event, message, data, playerSrc, targetSrc, resource
+    function self.Functions.Log(data)
+        exports['bstar-logging']:CreateLog('Player '..data.event, data.message, data.data or {}, data.playerSrc or self.PlayerData.source, data.targetSrc, data.resource or GetInvokingResource())                                                                   
+    end
+
     ---@deprecated call exports.qbx_core:Logout(source)
     function self.Functions.Logout()
         assert(not self.Offline, 'unsupported for offline players')
         Logout(self.PlayerData.source)
+    end
+
+    function self.Functions.BanPlayer(reason, by)
+        BanPlayer(self.PlayerData.source, reason, by)
     end
 
     AddEventHandler('qbx_core:server:onJobUpdate', function(jobName, job)
@@ -969,8 +1016,8 @@ function CreatePlayer(playerData, Offline)
             }
         end
 
+        self.Functions.UpdatePlayerData()
         if not self.Offline then
-            self.Functions.UpdatePlayerData()
             TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
             TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
         end
@@ -1001,13 +1048,15 @@ function CreatePlayer(playerData, Offline)
                 self.PlayerData.gang.isboss = false
             end
         end
+
+        self.Functions.UpdatePlayerData()
         if not self.Offline then
-            self.Functions.UpdatePlayerData()
             TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
             TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
         end
     end)
 
+    self.Functions.UpdatePlayerData()
     if not self.Offline then
         QBX.Players[self.PlayerData.source] = self
         local ped = GetPlayerPed(self.PlayerData.source)
@@ -1015,7 +1064,6 @@ function CreatePlayer(playerData, Offline)
         SetPedArmour(ped, self.PlayerData.metadata.armor)
         -- At this point we are safe to emit new instance to third party resource for load handling
         GlobalState.PlayerCount += 1
-        self.Functions.UpdatePlayerData()
         Player(self.PlayerData.source).state:set('loadInventory', true, true)
         TriggerEvent('QBCore:Server:PlayerLoaded', self)
     end
@@ -1084,30 +1132,29 @@ exports('SaveOffline', SaveOffline)
 ---@param source Source
 ---@param citizenid string
 function DeleteCharacter(source, citizenid)
-    local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local result = storage.fetchPlayerEntity(citizenid).license
-    if license == result or license2 == result then
+    local discord = GetPlayerIdentifierByType(source --[[@as string]], 'discord')                                           
+    local result = storage.fetchPlayerEntity(citizenid)
+    local player = GetPlayerByCitizenId(citizenid)
+
+    if not player and result and discord == result.discord then
         CreateThread(function()
+            local charname = result.charinfo.firstname .. ' ' .. result.charinfo.lastname
             local success = storage.deletePlayer(citizenid)
-            if success then
-                logger.log({
-                    source = 'qbx_core',
-                    webhook = config.logging.webhook['joinleave'],
+            if success then                        
+                Log({
                     event = 'Character Deleted',
-                    color = 'red',
-                    message = ('**%s** deleted **%s**...'):format(GetPlayerName(source), citizenid, source),
+                    message = string.format('%s has deleted a character: %s', GetPlayerName(source), charname),
+                    data = {},
+                    source = source,
                 })
             end
         end)
     else
-        DropPlayer(tostring(source), locale('info.exploit_dropped'))
-        logger.log({
-            source = 'qbx_core',
-            webhook = config.logging.webhook['anticheat'],
-            event = 'Anti-Cheat',
-            color = 'white',
-            tags = config.logging.role,
-            message = ('%s has been dropped for character deleting exploit'):format(GetPlayerName(source)),
+        ScriptAlert({
+            alert = 'Delete Failed',
+            info = 'Attemped to delete character that they didnt own!',
+            source = source,
+            ban = true,
         })
     end
 end

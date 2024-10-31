@@ -10,4 +10,5 @@ end)
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(value)
     QBX.PlayerData = value
+    LocalPlayer.state:set('PlayerData', value, false)
 end)

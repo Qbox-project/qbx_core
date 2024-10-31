@@ -5,18 +5,23 @@ local characterDataTables = require 'config.server'.characterDataTables
 ---@return boolean success
 ---@return ErrorResult? errorResult
 local function insertBan(request)
-    if not request.discordId and not request.ip and not request.license then
+    if not request.discord and not request.ip and not request.license then
         return false, {
             code = 'no_identifier',
-            message = 'discordId, ip, or license required in the ban request'
+            message = 'discord, ip, or license required in the ban request'
         }
     end
 
-    MySQL.insert.await('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+    MySQL.insert.await('INSERT INTO bans (name, license, license2, discord, xbl, live, fivem, ip, tokens, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', {
         request.name,
         request.license,
-        request.discordId,
+        request.license2,
+        request.discord,
+        request.xbl,
+        request.live,
+        request.fivem,
         request.ip,
+        request.tokens,
         request.reason,
         request.expiration,
         request.bannedBy,
@@ -30,8 +35,8 @@ end
 local function getBanId(request)
     if request.license then
         return 'license', request.license
-    elseif request.discordId then
-        return 'discord', request.discordId
+    elseif request.discord then
+        return 'discord', request.discord
     elseif request.ip then
         return 'ip', request.ip
     else
@@ -39,11 +44,26 @@ local function getBanId(request)
     end
 end
 
----@param request GetBanRequest
+---@param requests GetBanRequests
+---@return string query in storage
+local function getRequestQueryConditions(requests)
+    local conditions = {}
+    
+    for key, value in pairs(requests) do
+        if value ~= nil and value ~= "" then  -- Check for nil or empty value
+            local escapedValue = value:gsub("'", "''")
+            table.insert(conditions, string.format("%s = '%s'", key, escapedValue))
+        end
+    end
+    
+    return table.concat(conditions, " OR ")
+end
+
+---@param requests GetBanRequest
 ---@return BanEntity?
-local function fetchBan(request)
-    local column, value = getBanId(request)
-    local result = MySQL.single.await('SELECT expire, reason FROM bans WHERE ' ..column.. ' = ?', { value })
+local function fetchBan(requests)
+    local conditions = getRequestQueryConditions(requests)
+    local result = MySQL.single.await('SELECT expire, reason FROM bans WHERE ' ..conditions)
     return result and {
         expire = result.expire,
         reason = result.reason,
@@ -88,11 +108,22 @@ end
 ---@param license2 string
 ---@param license? string
 ---@return PlayerEntity[]
-local function fetchAllPlayerEntities(license2, license)
+local function fetchAllPlayerEntities(identifiers)
     ---@type PlayerEntity[]
     local chars = {}
+
+    local string = ''
+                                                                             local identifierCount = 0
+    for k, v in pairs(identifiers) do
+                                                                                identifierCount = count + 1
+                                                                                 if string ~= '' then
+            string = string .. tostring(k)..' = '..tostring(v)..', '
+                                                                                 else
+
+    end
+    
     ---@type PlayerEntityDatabase[]
-    local result = MySQL.query.await('SELECT citizenid, charinfo, money, job, gang, position, metadata, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players WHERE license = ? OR license = ? ORDER BY cid', {license, license2})
+    local result = MySQL.query.await('SELECT citizenid, charinfo, money, job, gang, position, metadata, active, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players WHERE ?, ORDER BY cid', {})
     for i = 1, #result do
         chars[i] = result[i]
         chars[i].charinfo = json.decode(result[i].charinfo)
@@ -101,6 +132,7 @@ local function fetchAllPlayerEntities(license2, license)
         chars[i].gang = result[i].gang and json.decode(result[i].gang)
         chars[i].position = convertPosition(result[i].position)
         chars[i].metadata = json.decode(result[i].metadata)
+        chars[i].active = result[i].active == 1 and true or false
         chars[i].lastLoggedOut = result[i].lastLoggedOutUnix
     end
 
@@ -111,7 +143,7 @@ end
 ---@return PlayerEntity?
 local function fetchPlayerEntity(citizenId)
     ---@type PlayerEntityDatabase
-    local player = MySQL.single.await('SELECT citizenid, discord, name, charinfo, money, job, gang, position, metadata, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players WHERE citizenid = ?', { citizenId })
+    local player = MySQL.single.await('SELECT citizenid, discord, name, charinfo, money, job, gang, position, metadata, active, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players WHERE citizenid = ?', { citizenId })
     local charinfo = json.decode(player.charinfo)
     return player and {
         citizenid = player.citizenid,
@@ -124,6 +156,7 @@ local function fetchPlayerEntity(citizenId)
         gang = player.gang and json.decode(player.gang),
         position = convertPosition(player.position),
         metadata = json.decode(player.metadata),
+        active = player.active == 1 and true or false,
         lastLoggedOut = player.lastLoggedOutUnix
     } or nil
 end
