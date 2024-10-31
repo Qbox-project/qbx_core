@@ -436,7 +436,7 @@ function BanPlayer(playerSrc, reason, by)
         message = ('%s has been banned by %s.'):format(GetPlayerName(playerSrc), by),
         data = {  },
         playerSrc = playerId,
-        targetSrc = by, 
+        targetSrc = by,
         resource = GetInvokingResource()
     })
     DropPlayer(playerId --[[@as string]], locale('info.exploit_banned', serverConfig.discord))
@@ -536,7 +536,7 @@ exports('DeleteVehicle', DeleteVehicle)
 function Log(data)
     if not data or type(data) ~= 'table' then return end
     local resource = data.resource or GetInvokingResource()
-    exports['BSTAR-logger']:CreateLog(data.event, data.message, data.data, data.source, data.target, resource)
+    exports['bstar-logger']:CreateLog(data.event, data.message, data.data, data.source, data.target, resource)
 end
 
 exports('Log', Log)
@@ -544,7 +544,7 @@ exports('Log', Log)
 ---Log Information through the core
 ---@param data table
 function ScriptAlert(data)
-        
+
     local resource = data.resource or GetInvokingResource()
     local player = GetPlayer(data.source)
     if player and resource then
