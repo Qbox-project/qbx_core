@@ -436,7 +436,7 @@ function BanPlayer(playerSrc, reason, by)
         message = ('%s has been banned by %s.'):format(GetPlayerName(playerSrc), by),
         data = {  },
         playerSrc = playerId,
-        targetSrc = by, 
+        targetSrc = by,
         resource = GetInvokingResource()
     })
     DropPlayer(playerId --[[@as string]], locale('info.exploit_banned', serverConfig.discord))
@@ -544,7 +544,7 @@ exports('Log', Log)
 ---Log Information through the core
 ---@param data table
 function ScriptAlert(data)
-        
+
     local resource = data.resource or GetInvokingResource()
     local player = GetPlayer(data.source)
     if player and resource then

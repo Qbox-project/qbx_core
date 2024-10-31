@@ -37,7 +37,7 @@ function Login(source, citizenid, newData)
     elseif newData then
         local player = CheckPlayerData(source, newData)
         player.Functions.Save()
-        
+
         Log({
             event = 'Created Character',
             message = string.format('%s has created a new character: %s', GetPlayerName(source), player.PlayerData.charinfo.firstname .. ' ' .. player.PlayerData.charinfo.lastname),
@@ -424,7 +424,7 @@ function CheckPlayerData(source, playerData)
     local Offline = true
     if source then
         playerData.source = source
-        playerData.discord = playerData.discord or GetPlayerIdentifierByType(source --[[@as string]], 'discord') 
+        playerData.discord = playerData.discord or GetPlayerIdentifierByType(source --[[@as string]], 'discord')
         playerData.name = GetPlayerName(source)
         Offline = false
     end
@@ -766,7 +766,7 @@ function CreatePlayer(playerData, Offline)
         local prevAmount = self.PlayerData.money[moneytype] or 0
         local newAmount = prevAmount + amount
         local amountDiff = newAmount - prevAmount
-                                                                                 
+
         self.PlayerData.money[moneytype] = newAmount
         self.Functions.UpdatePlayerData()
 
@@ -1113,7 +1113,7 @@ exports('SaveOffline', SaveOffline)
 ---@param source Source
 ---@param citizenid string
 function DeleteCharacter(source, citizenid)
-    local discord = GetPlayerIdentifierByType(source --[[@as string]], 'discord')                                           
+    local discord = GetPlayerIdentifierByType(source --[[@as string]], 'discord')
     local result = storage.fetchPlayerEntity(citizenid)
     local player = GetPlayerByCitizenId(citizenid)
 
@@ -1121,7 +1121,7 @@ function DeleteCharacter(source, citizenid)
         CreateThread(function()
             local charname = result.charinfo.firstname .. ' ' .. result.charinfo.lastname
             local success = storage.deletePlayer(citizenid)
-            if success then                        
+            if success then
                 Log({
                     event = 'Character Deleted',
                     message = string.format('%s has deleted a character: %s', GetPlayerName(source), charname),
