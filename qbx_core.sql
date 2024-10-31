@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `players` (
 
 ALTER TABLE `players`
 ADD IF NOT EXISTS `last_logged_out` timestamp NULL DEFAULT NULL AFTER `last_updated`,
-MODIFY COLUMN `name` varchar(50) NOT NULL COLLATE utf8mb4_unicode_ci;
+MODIFY COLUMN `name` varchar(255) NOT NULL COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `bans` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

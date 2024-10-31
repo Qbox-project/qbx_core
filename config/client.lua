@@ -1,6 +1,6 @@
 return {
     statusIntervalSeconds = 5, -- how often to check hunger/thirst status to remove health if 0.
-    loadingModelsTimeout = 10000, -- Waiting time for ox_lib to load the models before throws an error, for low specs pc
+    loadingModelsTimeout = 30000, -- Waiting time for ox_lib to load the models before throws an error, for low specs pc
 
     pauseMapText = 'Powered by Qbox', -- Text shown above the map when ESC is pressed. If left empty 'FiveM' will appear
 

@@ -201,7 +201,7 @@ local function handleSearchFilters(filters)
             end
         end
     end
-    return string.format(' WHERE %s', table.concat(clauses, ' AND ')), holders
+    return (' WHERE %s'):format(table.concat(clauses, ' AND ')), holders
 end
 
 ---@param filters table <string, any>
@@ -347,7 +347,7 @@ end
 ---Copies player's primary job/gang to the player_groups table. Works for online/offline players.
 ---Idempotent
 RegisterCommand('convertjobs', function(source)
-	if source ~= 0 then return warn('This command can only be executed using the server console.') end
+    if source ~= 0 then return warn('This command can only be executed using the server console.') end
 
     local players = MySQL.query.await('SELECT citizenid, JSON_VALUE(job, \'$.name\') AS jobName, JSON_VALUE(job, \'$.grade.level\') AS jobGrade, JSON_VALUE(gang, \'$.name\') AS gangName, JSON_VALUE(gang, \'$.grade.level\') AS gangGrade FROM players')
     for i = 1, #players do
@@ -381,7 +381,7 @@ local function cleanPlayerGroups()
 end
 
 RegisterCommand('cleanplayergroups', function(source)
-	if source ~= 0 then return warn('This command can only be executed using the server console.') end
+    if source ~= 0 then return warn('This command can only be executed using the server console.') end
     cleanPlayerGroups()
 end, true)
 
