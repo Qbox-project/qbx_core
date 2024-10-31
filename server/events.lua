@@ -50,6 +50,7 @@ AddEventHandler('playerDropped', function(reason)
     })
     player.Functions.Save()
     QBX.Player_Buckets[player.PlayerData.discord] = nil
+    Wait(500)
     QBX.Players[src] = nil
 end)
 
