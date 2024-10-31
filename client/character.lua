@@ -369,7 +369,11 @@ local function chooseCharacter()
     Wait(1000)
     SetEntityCoords(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false, false)
     SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
-    if not NetworkIsInTutorialSession() then NetworkStartSoloTutorialSession() end
+
+    if not NetworkIsInTutorialSession() then
+        NetworkStartSoloTutorialSession()
+    end
+
     Wait(1500)
     ShutdownLoadingScreen()
     ShutdownLoadingScreenNui()
