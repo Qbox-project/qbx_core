@@ -1,6 +1,7 @@
 local serverConfig = require 'config.server'.server
 local loggingConfig = require 'config.server'.logging
 local serverName = require 'config.shared'.serverName
+local storage = require 'server.storage.main'
 local logger = require 'modules.logger'
 local queue = require 'server.queue'
 
@@ -53,6 +54,23 @@ AddEventHandler('playerDropped', function(reason)
     QBX.Players[src] = nil
 end)
 
+---@param source Source|string
+---@return table<string, string>
+local function getIdentifiers(source)
+    local identifiers = {}
+
+    for i = 0, GetNumPlayerIdentifiers(source --[[@as string]]) - 1 do
+        local identifier = GetPlayerIdentifier(source --[[@as string]], i)
+        local prefix = identifier:match('([^:]+)')
+
+        if prefix ~= 'ip' then
+            identifiers[prefix] = identifier
+        end
+    end
+
+    return identifiers
+end
+
 -- Player Connecting
 ---@param name string
 ---@param _ any
@@ -60,6 +78,7 @@ end)
 local function onPlayerConnecting(name, _, deferrals)
     local src = source --[[@as string]]
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
+    local userId = storage.fetchUserByIdentifier(license)
     deferrals.defer()
 
     -- Mandatory wait
@@ -75,6 +94,14 @@ local function onPlayerConnecting(name, _, deferrals)
         deferrals.done(locale('error.no_valid_license'))
     elseif serverConfig.checkDuplicateLicense and usedLicenses[license] then
         deferrals.done(locale('error.duplicate_license'))
+    end
+
+    if not userId then
+        local identifiers = getIdentifiers(src)
+
+        identifiers.username = name
+
+        storage.createUser(identifiers)
     end
 
     local databaseTime = os.clock()
@@ -140,6 +167,12 @@ local function onPlayerConnecting(name, _, deferrals)
 end
 
 AddEventHandler('playerConnecting', onPlayerConnecting)
+
+AddEventHandler('onResourceStart', function(resource)
+    if resource ~= cache.resource then return end
+
+    storage.createUsersTable()
+end)
 
 -- New method for checking if logged in across all scripts (optional)
 -- `if LocalPlayer.state.isLoggedIn then` for the client side
