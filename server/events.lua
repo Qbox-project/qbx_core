@@ -168,6 +168,12 @@ end
 
 AddEventHandler('playerConnecting', onPlayerConnecting)
 
+AddEventHandler('onResourceStart', function(resource)
+    if resource ~= cache.resource then return end
+
+    storage.createUsersTable()
+end)
+
 -- New method for checking if logged in across all scripts (optional)
 -- `if LocalPlayer.state.isLoggedIn then` for the client side
 -- `if Player(source).state.isLoggedIn then` for the server side

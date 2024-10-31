@@ -1,6 +1,20 @@
 local defaultSpawn = require 'config.shared'.defaultSpawn
 local characterDataTables = require 'config.server'.characterDataTables
 
+local function createUsersTable()
+    MySQL.query([[
+        CREATE TABLE IF NOT EXISTS `users` (
+            `userId` int UNSIGNED NOT NULL AUTO_INCREMENT,
+            `username` varchar(255) DEFAULT NULL,
+            `license` varchar(50) DEFAULT NULL,
+            `license2` varchar(50) DEFAULT NULL,
+            `fivem` varchar(20) DEFAULT NULL,
+            `discord` varchar(30) DEFAULT NULL,
+            PRIMARY KEY (`userId`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ]])
+end
+
 ---@param identifiers table<PlayerIdentifier, string>
 ---@return number?
 local function createUser(identifiers)
@@ -384,6 +398,7 @@ CreateThread(function()
 end)
 
 return {
+    createUsersTable = createUsersTable,
     createUser = createUser,
     fetchUserByIdentifier = fetchUserByIdentifier,
     insertBan = insertBan,
