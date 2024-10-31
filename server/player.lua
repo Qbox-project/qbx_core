@@ -960,7 +960,7 @@ function CreatePlayer(playerData, Offline)
     --Player Specific Logging
     ---@param data table event, message, data, playerSrc, targetSrc, resource
     function self.Functions.Log(data)
-        exports['BSTAR-logger']:CreateLog('Player '..data.event, data.message, data.data or {}, data.playerSrc or self.PlayerData.source, data.targetSrc, data.resource or GetInvokingResource())                                                                   
+        exports['BSTAR-Logger']:CreateLog('Player '..data.event, data.message, data.data or {}, data.playerSrc or self.PlayerData.source, data.targetSrc, data.resource or GetInvokingResource())                                                                   
     end
 
     ---@deprecated call exports.qbx_core:Logout(source)
