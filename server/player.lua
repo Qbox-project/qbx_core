@@ -103,13 +103,7 @@ function SetJob(identifier, jobName, grade)
         end
     end
 
-    local success, errorResult = SetPlayerPrimaryJob(player.PlayerData.citizenid, jobName)
-
-    if not success then
-        return false, errorResult
-    end
-
-    return true
+    return SetPlayerPrimaryJob(player.PlayerData.citizenid, jobName)
 end
 
 exports('SetJob', SetJob)
@@ -356,13 +350,7 @@ function SetGang(identifier, gangName, grade)
         end
     end
 
-    local success, errorResult = SetPlayerPrimaryGang(player.PlayerData.citizenid, gangName)
-
-    if not success then
-        return false, errorResult
-    end
-
-    return true
+    return SetPlayerPrimaryGang(player.PlayerData.citizenid, gangName)
 end
 
 exports('SetGang', SetGang)
