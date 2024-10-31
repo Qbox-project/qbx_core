@@ -1118,7 +1118,7 @@ exports('GetMetadata', GetMetadata)
 ---@param charInfo string
 ---@param value any
 function SetCharInfo(identifier, charInfo, value)
-    if not charInfo or type(charInfo) ~= 'string' then return end
+    if type(charInfo) ~= 'string' then return end
 
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
 
