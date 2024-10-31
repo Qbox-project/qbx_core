@@ -771,12 +771,10 @@ function CreatePlayer(playerData, Offline)
         self.Functions.UpdatePlayerData()
 
         if not self.Offline then
-            self.Log({
+            self.Functions.Log({
                 event = 'Added Money',
                 message = ('**%s money added, new %s balance: $%s reason: %s'):format(self.PlayerData.name, moneytype, amount, reason),
                 data = { reason = reason, amount = amount, previous_amount = prevAmount, amount_difference = amountDiff, new_amount = newAmount, money_type = moneytype, cid = self.PlayerData.citizenid, status = 'online'},
-                playerSrc = self.PlayerData.source,
-                targetSrc = nil,
                 resource = GetInvokingResource()
             })
             emitMoneyEvents(moneytype, amount, 'remove', true, reason)
@@ -815,11 +813,10 @@ function CreatePlayer(playerData, Offline)
         self.PlayerData.money[moneytype] =  newAmount
         self.Functions.UpdatePlayerData()
         if not self.Offline then
-            self.Log({
+            self.Functions.Log({
                 event = 'Removed Money',
                 message = ('**%s money removed, new %s balance: $%s reason: %s'):format(self.PlayerData.name, moneytype, amount, reason),
                 data = { reason = reason, amount = amount, previous_amount = prevAmount, amount_difference = diffAmount, new_amount = newAmount, money_type = moneytype, cid = self.PlayerData.citizenid, status = 'online'},
-                playerSrc = self.PlayerData.source,
                 resource = GetInvokingResource()
             })
             emitMoneyEvents(moneytype, amount, 'remove', true, reason)
@@ -850,12 +847,10 @@ function CreatePlayer(playerData, Offline)
         self.PlayerData.money[moneytype] = newAmount
         self.Functions.UpdatePlayerData()
         if not self.Offline then
-            self.Log({
+            self.Functions.Log({
                 event = 'Set Money',
                 message = ('**%s money was set, new %s balance: $%s reason: %s'):format(self.PlayerData.name, moneytype, amount, reason),
                 data = { reason = reason, amount = amount, previous_amount = prevAmount, amount_difference = amountDiff, new_amount = newAmount, money_type = moneytype, cid = self.PlayerData.citizenid, status = 'online'},
-                playerSrc = self.PlayerData.source,
-                targetSrc = nil,
                 resource = GetInvokingResource()
             })
             emitMoneyEvents(moneytype, amount, 'remove', true, reason)
