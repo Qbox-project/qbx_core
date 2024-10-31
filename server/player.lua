@@ -24,44 +24,27 @@ function Login(source, citizenid, newData)
         return false, {}
     end
 
+    lib.print.warn('Login', source, citizenid, newData)
+
     if citizenid then
         local discord = GetPlayerIdentifierByType(source --[[@as string]], 'discord')
         local playerData = storage.fetchPlayerEntity(citizenid)
 
         if playerData then
-            if (discord == playerData.discord) then
-                ScriptAlert({
-                    alert = 'Duplicate Login',
-                    info = ("%s attemped to login with duplicate identifiers (%s) account!"):format(GetPlayerName(source), discord),
-                    source = source,
-                    ban = true,
-                    resource = GetInvokingResource()
-                })
-            end
-        else
-            if newData then
-                local player = CheckPlayerData(source, newData)
-                player.Functions.Save()
-                
-                Log({
-                    event = 'Created Character',
-                    message = string.format('%s has created a new character: %s', GetPlayerName(source), player.PlayerData.charinfo.firstname .. ' ' .. player.PlayerData.charinfo.lastname),
-                    data = {},
-                    source = source,
-                })
-                return true, player
-            else
-                local player = CheckPlayerData(source, playerData)
-                
-                Log({
-                    event = 'Loaded Character',
-                    message = string.format('%s has created a new character: %s', GetPlayerName(source), player.PlayerData.charinfo.firstname .. ' ' .. player.PlayerData.charinfo.lastname),
-                    data = {},
-                    source = source,
-                })
-                return true, player
-            end
+            local player = CheckPlayerData(source, playerData)
+            return true, player
         end
+    elseif newData then
+        local player = CheckPlayerData(source, newData)
+        player.Functions.Save()
+        
+        Log({
+            event = 'Created Character',
+            message = string.format('%s has created a new character: %s', GetPlayerName(source), player.PlayerData.charinfo.firstname .. ' ' .. player.PlayerData.charinfo.lastname),
+            data = {},
+            source = source,
+        })
+        return true, player
     end
 
     return false, {}
@@ -625,7 +608,7 @@ function CreatePlayer(playerData, Offline)
     self.Offline = Offline
 
     function self.Functions.UpdatePlayerData()
-        if self.Offline then return self.SaveOffline(self.PlayerData) end -- Unsupported for Offline Players
+        if self.Offline then return self.Functions.Save() end -- Unsupported for Offline Players
         self.Functions.Save()
         TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
@@ -1057,6 +1040,7 @@ function CreatePlayer(playerData, Offline)
     end)
 
     self.Functions.UpdatePlayerData()
+
     if not self.Offline then
         QBX.Players[self.PlayerData.source] = self
         local ped = GetPlayerPed(self.PlayerData.source)
