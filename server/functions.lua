@@ -536,7 +536,7 @@ exports('DeleteVehicle', DeleteVehicle)
 function Log(data)
     if not data or type(data) ~= 'table' then return end
     local resource = data.resource or GetInvokingResource()
-    exports['bstar-logging']:CreateLog(data.event, data.message, data.data, data.source, data.target, resource)
+    exports['BSTAR-logger']:CreateLog(data.event, data.message, data.data, data.source, data.target, resource)
 end
 
 exports('Log', Log)
