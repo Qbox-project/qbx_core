@@ -316,6 +316,7 @@ exports('RemovePlayerFromJob', RemovePlayerFromJob)
 
 ---Removes the player from their current primary gang and adds the player to the new gang
 ---@param identifier Source | string
+---@param gangName string name
 ---@param grade? integer defaults to 0
 ---@return boolean success if gang was set
 ---@return ErrorResult? errorResult
@@ -1065,7 +1066,7 @@ end
 ---@param metadata string
 ---@param value any
 function SetMetadata(identifier, metadata, value)
-    if not metadata or type(metadata) ~= 'string' then return end
+    if type(metadata) ~= 'string' then return end
 
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
 
