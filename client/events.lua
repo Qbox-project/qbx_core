@@ -8,6 +8,10 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
         NetworkSetFriendlyFireOption(true)
     end
 
+    if NetworkIsInTutorialSession() then
+        NetworkEndTutorialSession()
+    end
+
     local motd = GetConvar('qbx:motd', '')
     if motd ~= '' then
         exports.chat:addMessage({ template = motd })
