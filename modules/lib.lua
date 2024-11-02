@@ -349,19 +349,11 @@ else
 
         SetTextScale(scale, scale)
         SetTextFont(font)
-<<<<<<< HEAD
         SetTextColour(math.floor(color.r), math.floor(color.g), math.floor(color.b), math.floor(color.a))
         if not disableDropShadow then
             SetTextDropShadow()
         end
         if not disableOutline then
-=======
-        SetTextColour(math.floor(color.r), math.floor(color.g), math.floor(color.b), math.floor(color.a))  
-        if not disableDropShadow then
-            SetTextDropShadow()
-        end
-        if not disableOutline then  
->>>>>>> ed03526e2a904279c5ad63cb1da9b0d95fea4891
             SetTextOutline()
         end
 
@@ -391,13 +383,6 @@ else
         local color = params.color or vec4(255, 255, 255, 255)
         local enableDropShadow = params.enableDropShadow or false
         local enableOutline = params.enableOutline or false
-
-<<<<<<< HEAD
-=======
-        print(type(scale))
-        print(json.encode(scale))
-
->>>>>>> ed03526e2a904279c5ad63cb1da9b0d95fea4891
         if isScaleparamANumber and not hasText3dScaleAsNumberDepricatedMessageShown then
             lib.print.warn('This resource is still using qbx.drawText3d with a number as the scale parameter!')
             lib.print.warn('If you are the author, please update to use a vec2 for the scale parameter. If you are not, please tell them to update!')
