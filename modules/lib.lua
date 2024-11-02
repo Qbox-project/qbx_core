@@ -349,19 +349,11 @@ else
 
         SetTextScale(scale, scale)
         SetTextFont(font)
-<<<<<<< HEAD
         SetTextColour(math.floor(color.r), math.floor(color.g), math.floor(color.b), math.floor(color.a))
         if not disableDropShadow then
             SetTextDropShadow()
         end
         if not disableOutline then
-=======
-        SetTextColour(math.floor(color.r), math.floor(color.g), math.floor(color.b), math.floor(color.a))  
-        if not disableDropShadow then
-            SetTextDropShadow()
-        end
-        if not disableOutline then  
->>>>>>> ed03526e2a904279c5ad63cb1da9b0d95fea4891
             SetTextOutline()
         end
 
