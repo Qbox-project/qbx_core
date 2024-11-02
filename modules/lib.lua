@@ -1,5 +1,4 @@
 local isServer = IsDuplicityVersion()
-local hasText3dScaleAsNumberDepricatedMessageShown = false
 
 local qbx = {}
 qbx.string = {}
@@ -383,11 +382,6 @@ else
         local color = params.color or vec4(255, 255, 255, 255)
         local enableDropShadow = params.enableDropShadow or false
         local enableOutline = params.enableOutline or false
-        if isScaleparamANumber and not hasText3dScaleAsNumberDepricatedMessageShown then
-            lib.print.warn('This resource is still using qbx.drawText3d with a number as the scale parameter!')
-            lib.print.warn('If you are the author, please update to use a vec2 for the scale parameter. If you are not, please tell them to update!')
-            hasText3dScaleAsNumberDepricatedMessageShown = true
-        end
 
         SetTextScale(scale.x, scale.y)
         SetTextFont(font)
