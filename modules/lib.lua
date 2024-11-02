@@ -1,4 +1,5 @@
 local isServer = IsDuplicityVersion()
+local hasText3dScaleAsNumberDepricatedMessageShown = false
 
 local qbx = {}
 qbx.string = {}
@@ -330,6 +331,8 @@ else
     ---@field coords vector2
     ---@field width? number default: `1.0`
     ---@field height? number default: `1.0`
+    ---@field disableDropShadow? boolean
+    ---@field disableOutline? boolean
 
     ---Draws text onto the screen in 2D space for a single frame.
     ---@param params LibDrawText2DParams
@@ -341,12 +344,19 @@ else
         local color = params.color or vec4(255, 255, 255, 255)
         local width = params.width or 1.0
         local height = params.height or 1.0
+        local disableDropShadow = params.disableDropShadow or false
+        local disableOutline = params.disableOutline or false
 
         SetTextScale(scale, scale)
         SetTextFont(font)
         SetTextColour(math.floor(color.r), math.floor(color.g), math.floor(color.b), math.floor(color.a))
-        SetTextDropShadow()
-        SetTextOutline()
+        if not disableDropShadow then
+            SetTextDropShadow()
+        end
+        if not disableOutline then
+            SetTextOutline()
+        end
+
         SetTextCentre(true)
         BeginTextCommandDisplayText('STRING')
         AddTextComponentSubstringPlayerName(text)
@@ -356,19 +366,39 @@ else
     ---@class LibDrawText3DParams : LibDrawTextParams
     ---@field coords vector3
     ---@field disableDrawRect? boolean
+    ---@field scale? vector2 default: `vec2(0.35,0.35)`
+    ---@field enableDropShadow? boolean 
+    ---@field enableOutline? boolean 
 
     ---Draws text onto the screen in 3D space for a single frame.
     ---@param params LibDrawText3DParams
     function qbx.drawText3d(params) -- luacheck: ignore
+        local isScaleparamANumber = type(params.scale) == "number"
         local text = params.text
         local coords = params.coords
-        local scale = params.scale or 0.35
+        local scale = (isScaleparamANumber and vec2(params.scale, params.scale))
+                  or params.scale
+                  or vec2(0.35, 0.35)
         local font = params.font or 4
         local color = params.color or vec4(255, 255, 255, 255)
+        local enableDropShadow = params.enableDropShadow or false
+        local enableOutline = params.enableOutline or false
 
-        SetTextScale(scale, scale)
+        if isScaleparamANumber and not hasText3dScaleAsNumberDepricatedMessageShown then
+            lib.print.warn('This resource is still using qbx.drawText3d with a number as the scale parameter!')
+            lib.print.warn('If you are the author, please update to use a vec2 for the scale parameter. If you are not, please tell them to update!')
+            hasText3dScaleAsNumberDepricatedMessageShown = true
+        end
+
+        SetTextScale(scale.x, scale.y)
         SetTextFont(font)
         SetTextColour(math.floor(color.r), math.floor(color.g), math.floor(color.b), math.floor(color.a))
+        if enableDropShadow then
+            SetTextDropShadow()
+        end
+        if enableOutline then
+            SetTextOutline()
+        end
         SetTextCentre(true)
         BeginTextCommandDisplayText('STRING')
         AddTextComponentSubstringPlayerName(text)
