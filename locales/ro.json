@@ -8,24 +8,24 @@
         "company_too_poor": "Patronul tau e sarachie mare, nu are bani!",
         "item_not_exist": "Acest obiect nu exista",
         "too_heavy": "Inventarul tau este prea plin",
-        "duplicate_license": "Duplicat de licenta RockStar detectata",
-        "no_valid_license":  "Nu s-a gasit nicio licenta valida RockStar",
+        "duplicate_license": "Duplicat de licenta Rockstar detectata",
+        "no_valid_license":  "Nu s-a gasit nicio licenta valida Rockstar",
         "not_whitelisted": "Nu ai statut de whitelist pe acest server",
         "no_permission": "Din pacate nu ai permisiunile necesare pentru asa ceva..",
         "no_waypoint": "Niciun punct de referinta setat.",
         "tp_error": "A aparut o eroare la teleportare.",
-        "connecting_database_timeout": "Connection to database timed out. (Is the SQL server on?)",
-        "connecting_error": "An error occurred while connecting to the server. (Check your server console)",
-        "no_match_character_registration": "Anything other than letters aren't allowed, trailing whitespaces aren't allowed either and words must start with a capital letter in input fields. You can however add words with spaces inbetween.",
-        "already_in_queue": "You are already in queue.",
-        "no_subqueue": "You were not let in any sub-queue."
+        "connecting_database_timeout": "Conexiune cu data de baze pierdută. (Este serverul SQL activ?)",
+        "connecting_error": "Eroare la încercarea conectării pe server. (Verifică serverele)",
+        "no_match_character_registration": "Doar literele sunt permise, fără spații libere și cuvintele încep cu majusculă. Poți adăuga spații între cuvinte.",
+        "already_in_queue": "Ești deja în coadă.",
+        "no_subqueue": "Nu ai permisiune pentru sub-queue."
     },
     "success": {
-        "server_opened": "The server has been opened",
-        "server_closed": "The server has been closed",
+        "server_opened": "Serverul este deschis",
+        "server_closed": "Serverul este închis",
         "teleported_waypoint": "Ai fost teleportat la punctul de referinta.",
-        "character_deleted": "Character deleted!",
-        "character_deleted_citizenid": "You successfully deleted the character with Citizen ID %s."
+        "character_deleted": "Caracter șters!",
+        "character_deleted_citizenid": "Ai șters cu succes caracterul cu Citizen ID %s."
     },
     "info": {
         "received_paycheck": "Ai primit salariul in valoare de $%s",
@@ -38,33 +38,33 @@
         "checking_whitelisted": "Salutari %s. Iti facem o verificare scurta.",
         "exploit_banned": "Ai fost banat pentru cheating. Informatii suplimentare pe serverul nostru de Discord: ",
         "exploit_dropped": "Ai primit KICK pentru ca ai incercat un exploit!",
-        "multichar_title": "Qbox Multichar",
-        "multichar_new_character": "New Character #%s",
-        "char_male": "Male",
-        "char_female": "Female",
-        "play": "Play",
-        "play_description": "Play as %s",
-        "delete_character": "Delete Character",
-        "delete_character_description": "Delete %s",
-        "logout_command_help": "Logs you out of your current character",
-        "check_id": "Check your Server ID",
-        "deletechar_command_help": "Delete a players character",
-        "deletechar_command_arg_player_id": "Player ID",
-        "character_registration_title": "Character Registration",
-        "first_name": "First Name",
-        "last_name": "Last Name",
-        "nationality": "Nationality",
+        "multichar_title": "Selectarea Caracterului",
+        "multichar_new_character": "Caracter Nou #%s",
+        "char_male": "Bărbat",
+        "char_female": "Femeie",
+        "play": "Joacă",
+        "play_description": "Joacă ca %s",
+        "delete_character": "Șterge caracterul",
+        "delete_character_description": "Șterge %s",
+        "logout_command_help": "Te scoate din propriul caracter",
+        "check_id": "Verifică Server ID",
+        "deletechar_command_help": "Șterge caracterul jucătorului",
+        "deletechar_command_arg_player_id": "ID-ul jucătorului",
+        "character_registration_title": "Înregistrarea caracterului",
+        "first_name": "Prenume",
+        "last_name": "Nume",
+        "nationality": "Naționalitate",
         "gender": "Sex",
-        "birth_date": "Birth Date",
-        "select_gender": "Select your gender...",
-        "confirm_delete": "Are you sure you wish to delete this character?",
-        "in_queue": "🐌 You are %s/%s in queue. (%s) %s"
+        "birth_date": "Zi de naștere",
+        "select_gender": "Alege sexul...",
+        "confirm_delete": "Ești sigur că vrei să ștergi caracterul?",
+        "in_queue": "🐌 Ești %s/%s in coadă. (%s) %s"
     },
     "command": {
         "tp": {
-            "help": "TP catre un jucator sau catre anumite coordonate (Admin Only)",
+            "help": "TP catre un jucător sau către anumite coordonate (Admin Only)",
             "params": {
-                "x": { "name": "ID/X", "help": "ID-ul jucatorului sau coordonata X"},
+                "x": { "name": "ID/X", "help": "ID-ul jucătorului sau coordonata X"},
                 "y": { "name": "Y", "help": "Coordonata Y"},
                 "z": { "name": "Z", "help": "Coordonata Z"}
             }
@@ -125,14 +125,14 @@
             }
         },
         "changejob": {
-            "help": "Change Active Job of Player (Admin Only)",
+            "help": "Schimbă jobul unui cetățean (Admin Only)",
             "params": {
                 "id": { "name": "id", "help": "Player ID" },
                 "job": { "name": "job", "help": "Job name" }
             }
         },
         "addjob": {
-            "help": "Add Job to Player (Admin Only)",
+            "help": "Adaugă job unui cetățean (Admin Only)",
             "params": {
                 "id": { "name": "id", "help": "Player ID" },
                 "job": { "name": "job", "help": "Job name" },
@@ -140,7 +140,7 @@
             }
         },
         "removejob": {
-            "help": "Remove Job from Player (Admin Only)",
+            "help": "Scoate job-ul unui cetățean (Admin Only)",
             "params": {
                 "id": { "name": "id", "help": "Player ID" },
                 "job": { "name": "job", "help": "Job name" }
