@@ -23,10 +23,14 @@ function Login(source, citizenid, newData)
         return false
     end
 
+    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
+    local userId = storage.fetchUserByIdentifier(license)
+
     if citizenid then
-        local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
         local playerData = storage.fetchPlayerEntity(citizenid)
-        if playerData and (license2 == playerData.license or license == playerData.license) then
+        if playerData and license == playerData.license then
+            playerData.userId = userId
+
             return not not CheckPlayerData(source, playerData)
         else
             DropPlayer(tostring(source), locale('info.exploit_dropped'))
@@ -40,6 +44,8 @@ function Login(source, citizenid, newData)
             })
         end
     else
+        newData.userId = userId
+
         local player = CheckPlayerData(source, newData)
         Save(player.PlayerData.source)
         return true
@@ -548,6 +554,7 @@ function CheckPlayerData(source, playerData)
         Offline = false
     end
 
+    playerData.userId = playerData.userId or nil
     playerData.citizenid = playerData.citizenid or GenerateUniqueIdentifier('citizenid')
     playerData.cid = playerData.charinfo?.cid or playerData.cid or 1
     playerData.money = playerData.money or {}
