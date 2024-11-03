@@ -325,13 +325,13 @@ else
     ---@field scale? integer default: `0.35`
     ---@field font? integer default: `4`
     ---@field color? vector4 rgba, white by default
+    ---@field enableDropShadow? boolean 
+    ---@field enableOutline? boolean 
 
     ---@class LibDrawText2DParams : LibDrawTextParams
     ---@field coords vector2
     ---@field width? number default: `1.0`
     ---@field height? number default: `1.0`
-    ---@field disableDropShadow? boolean
-    ---@field disableOutline? boolean
 
     ---Draws text onto the screen in 2D space for a single frame.
     ---@param params LibDrawText2DParams
@@ -343,16 +343,16 @@ else
         local color = params.color or vec4(255, 255, 255, 255)
         local width = params.width or 1.0
         local height = params.height or 1.0
-        local disableDropShadow = params.disableDropShadow or false
-        local disableOutline = params.disableOutline or false
+        local enableDropShadow = params.enableDropShadow or false
+        local enableOutline = params.enableOutline or false
 
         SetTextScale(scale, scale)
         SetTextFont(font)
         SetTextColour(math.floor(color.r), math.floor(color.g), math.floor(color.b), math.floor(color.a))
-        if not disableDropShadow then
+        if enableDropShadow then
             SetTextDropShadow()
         end
-        if not disableOutline then
+        if enableOutline then
             SetTextOutline()
         end
 
@@ -366,8 +366,6 @@ else
     ---@field coords vector3
     ---@field disableDrawRect? boolean
     ---@field scale? vector2 default: `vec2(0.35,0.35)`
-    ---@field enableDropShadow? boolean 
-    ---@field enableOutline? boolean 
 
     ---Draws text onto the screen in 3D space for a single frame.
     ---@param params LibDrawText3DParams
