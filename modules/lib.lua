@@ -365,7 +365,7 @@ else
     ---@class LibDrawText3DParams : LibDrawTextParams
     ---@field coords vector3
     ---@field disableDrawRect? boolean
-    ---@field scale? vector2 default: `vec2(0.35,0.35)`
+    ---@field scale? integer | vector2 default: `vec2(0.35,0.35)`
 
     ---Draws text onto the screen in 3D space for a single frame.
     ---@param params LibDrawText3DParams
