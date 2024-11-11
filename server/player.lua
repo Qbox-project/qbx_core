@@ -903,6 +903,7 @@ function CreatePlayer(playerData, Offline)
 
     AddEventHandler('qbx_core:server:onJobUpdate', function(jobName, job)
         if self.PlayerData.job.name ~= jobName then return end
+
         if not job then
             self.PlayerData.job = {
                 name = 'unemployed',
@@ -918,7 +919,9 @@ function CreatePlayer(playerData, Offline)
         else
             self.PlayerData.job.label = job.label
             self.PlayerData.job.type = job.type or 'none'
+
             local jobGrade = job.grades[self.PlayerData.job.grade.level]
+
             if jobGrade then
                 self.PlayerData.job.grade.name = jobGrade.name
                 self.PlayerData.job.payment = jobGrade.payment or 30
