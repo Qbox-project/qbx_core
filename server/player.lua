@@ -904,23 +904,33 @@ function CreatePlayer(playerData, Offline)
     AddEventHandler('qbx_core:server:onJobUpdate', function(jobName, job)
         if self.PlayerData.job.name ~= jobName then return end
         if not job then
-            SetJob(self.PlayerData.source, 'unemployed', 0)
-            return
-        end
-        self.PlayerData.job.label = job.label
-        self.PlayerData.job.type = job.type or 'none'
-        local jobGrade = job.grades[self.PlayerData.job.grade.level]
-        if jobGrade then
-            self.PlayerData.job.grade.name = jobGrade.name
-            self.PlayerData.job.payment = jobGrade.payment or 30
-            self.PlayerData.job.isboss = jobGrade.isboss or false
-        else
-            self.PlayerData.job.grade = {
-                name = 'No Grades',
-                level = 0,
-                payment = 30,
+            self.PlayerData.job = {
+                name = 'unemployed',
+                label = 'Civilian',
                 isboss = false,
+                onduty = true,
+                payment = 10,
+                grade = {
+                    name = 'Freelancer',
+                    level = 0,
+                }
             }
+        else
+            self.PlayerData.job.label = job.label
+            self.PlayerData.job.type = job.type or 'none'
+            local jobGrade = job.grades[self.PlayerData.job.grade.level]
+            if jobGrade then
+                self.PlayerData.job.grade.name = jobGrade.name
+                self.PlayerData.job.payment = jobGrade.payment or 30
+                self.PlayerData.job.isboss = jobGrade.isboss or false
+            else
+                self.PlayerData.job.grade = {
+                    name = 'No Grades',
+                    level = 0,
+                    payment = 30,
+                    isboss = false,
+                }
+            end
         end
 
         if not self.Offline then
@@ -932,6 +942,7 @@ function CreatePlayer(playerData, Offline)
 
     AddEventHandler('qbx_core:server:onGangUpdate', function(gangName, gang)
         if self.PlayerData.gang.name ~= gangName then return end
+
         if not gang then
             self.PlayerData.gang = {
                 name = 'none',
@@ -944,7 +955,9 @@ function CreatePlayer(playerData, Offline)
             }
         else
             self.PlayerData.gang.label = gang.label
+
             local gangGrade = gang.grades[self.PlayerData.gang.grade.level]
+
             if gangGrade then
                 self.PlayerData.gang.isboss = gangGrade.isboss or false
             else
@@ -955,6 +968,7 @@ function CreatePlayer(playerData, Offline)
                 self.PlayerData.gang.isboss = false
             end
         end
+
         if not self.Offline then
             UpdatePlayerData(self.PlayerData.source)
             TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
