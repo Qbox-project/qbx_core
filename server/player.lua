@@ -904,7 +904,7 @@ function CreatePlayer(playerData, Offline)
     AddEventHandler('qbx_core:server:onJobUpdate', function(jobName, job)
         if self.PlayerData.job.name ~= jobName then return end
         if not job then
-            self.Functions.setJob('unemployed', 0)
+            SetJob(self.PlayerData.source, 'unemployed', 0)
             return
         end
         self.PlayerData.job.label = job.label
