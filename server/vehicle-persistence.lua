@@ -146,6 +146,7 @@ if persistence == 1 then return end
 local spawned = false
 
 local function spawnVehicles()
+    spawned = true
     local vehicles = exports.qbx_vehicles:GetPlayerVehicles({ states = 0 })
     for _, vehicle in ipairs(vehicles) do
         if not vehicle.coords then return end
@@ -164,7 +165,5 @@ end
 
 RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     local players = exports.qbx_core:GetQBPlayers()
-    if spawned and #players ~= 1 then return end
-    spawnVehicles()
-    spawned = true
+    if not spawned and #players == 1 then spawnVehicles() end
 end)
