@@ -1,3 +1,6 @@
+local persistence = GetConvarInt('qbx:enableVehiclePersistence', 0)
+print('Vehicle persistence mode ' .. persistence)
+
 ---A persisted vehicle will respawn when deleted. Only works for player owned vehicles.
 ---Vehicles spawned using lib are automatically persisted
 ---@param vehicle number
@@ -15,7 +18,7 @@ end
 
 exports('DisablePersistence', DisablePersistence)
 
-if GetConvar('qbx:enableVehiclePersistence', 'false') == 'false' then return end
+if persistence == 0 then return end
 
 assert(lib.checkDependency('qbx_vehicles', '1.4.1', true))
 
@@ -29,6 +32,7 @@ RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
     local vehicleId = getVehicleId(vehicle)
     if not vehicleId then return end
 
+    local coords = nil
     local props = exports.qbx_vehicles:GetPlayerVehicle(vehicleId)?.props
     if not props then return end
 
@@ -75,8 +79,15 @@ RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
         props.tyres = damage
     end
 
+    if persistence == 2 then
+        local entityCoords = GetEntityCoords(vehicle)
+        local entityHeading = GetEntityHeading(vehicle)
+        coords = vec4(entityCoords.x, entityCoords.y, entityCoords.z, entityHeading)
+    end
+
     exports.qbx_vehicles:SaveVehicle(vehicle, {
         props = props,
+        coords = coords
     })
 end)
 
@@ -128,4 +139,32 @@ AddEventHandler('entityRemoved', function(entity)
         local passenger = passengers[i]
         SetPedIntoVehicle(passenger.ped, veh, passenger.seat)
     end
+end)
+
+if persistence == 1 then return end
+
+local spawned = false
+
+local function spawnVehicles()
+    local vehicles = exports.qbx_vehicles:GetPlayerVehicles({ states = 0 })
+    for _, vehicle in ipairs(vehicles) do
+        if not vehicle.coords then return end
+
+        local coords = vector3(vehicle.coords.x, vehicle.coords.y, vehicle.coords.z)
+        local playerVehicle = exports.qbx_vehicles:GetPlayerVehicle(vehicle.id)
+        if not playerVehicle then return end
+
+        local _, veh = qbx.spawnVehicle({ spawnSource = coords, model = playerVehicle.props.model, props = playerVehicle.props})
+        exports.qbx_core:EnablePersistence(veh)
+        Entity(veh).state:set('vehicleid', vehicle.id, false)
+        SetVehicleDoorsLocked(veh, 2)
+        SetEntityHeading(veh, vehicle.coords.w)
+    end
+end
+
+RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
+    local players = exports.qbx_core:GetQBPlayers()
+    if spawned and #players ~= 1 then return end
+    spawnVehicles()
+    spawned = true
 end)
