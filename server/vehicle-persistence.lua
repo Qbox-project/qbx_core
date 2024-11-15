@@ -143,27 +143,33 @@ end)
 
 if persistence == 1 then return end
 
-local spawned = false
-
 local function spawnVehicles()
-    spawned = true
-    local vehicles = exports.qbx_vehicles:GetPlayerVehicles({ states = 0 })
+    local vehicles = exports.qbx_vehicles:GetPlayerVehicles({
+        states = 0
+    })
+
     for _, vehicle in ipairs(vehicles) do
         if not vehicle.coords then return end
 
-        local coords = vector3(vehicle.coords.x, vehicle.coords.y, vehicle.coords.z)
+        local coords = vector4(vehicle.coords.x, vehicle.coords.y, vehicle.coords.z, vehicle.coords.w)
         local playerVehicle = exports.qbx_vehicles:GetPlayerVehicle(vehicle.id)
         if not playerVehicle then return end
 
-        local _, veh = qbx.spawnVehicle({ spawnSource = coords, model = playerVehicle.props.model, props = playerVehicle.props})
+        local _, veh = qbx.spawnVehicle({
+            spawnSource = coords,
+            model = vehicle.modelName,
+            props = playerVehicle.props
+        })
+
         exports.qbx_core:EnablePersistence(veh)
         Entity(veh).state:set('vehicleid', vehicle.id, false)
         SetVehicleDoorsLocked(veh, 2)
-        SetEntityHeading(veh, vehicle.coords.w)
     end
 end
 
-RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
+AddEventHandler('onResourceStart', function(resourceName)
+    if resourceName ~= GetCurrentResourceName() then return end
     local players = exports.qbx_core:GetQBPlayers()
-    if not spawned and #players == 1 then spawnVehicles() end
+    while #players == 0 do Wait(2500) end
+    spawnVehicles()
 end)
