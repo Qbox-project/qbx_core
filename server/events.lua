@@ -175,7 +175,7 @@ AddEventHandler('onResourceStart', function(resource)
 
     MySQL.query([[
         ALTER TABLE `players`
-        ADD IF NOT EXISTS `userId` INT UNSIGNED DEFAULT NULL AFTER `id`;
+        ADD COLUMN IF NOT EXISTS `userId` INT UNSIGNED DEFAULT NULL AFTER `id`;
     ]])
 end)
 
