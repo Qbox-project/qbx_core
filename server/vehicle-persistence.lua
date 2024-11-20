@@ -147,7 +147,6 @@ local function spawnVehicles()
     local vehicles = exports.qbx_vehicles:GetPlayerVehicles({
         states = 0
     })
-
     for _, vehicle in ipairs(vehicles) do
         if not vehicle.coords then return end
 
@@ -169,7 +168,6 @@ end
 
 AddEventHandler('onResourceStart', function(resourceName)
     if resourceName ~= GetCurrentResourceName() then return end
-    local players = exports.qbx_core:GetQBPlayers()
-    while #players == 0 do Wait(2500) end
+    while #(exports.qbx_core:GetQBPlayers()) == 0 do Wait(15000) end
     spawnVehicles()
 end)
