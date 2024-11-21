@@ -25,6 +25,8 @@ function GetSource(identifier)
     return 0
 end
 
+exports('GetSource', GetSource)
+
 ---@param identifier Identifier
 ---@return integer source of the player with the matching identifier or 0 if no player found
 function GetUserId(identifier)
@@ -39,7 +41,7 @@ function GetUserId(identifier)
     return 0
 end
 
-exports('GetSource', GetSource)
+exports('GetUserId', GetUserId)
 
 ---@param source Source|string source or identifier of the player
 ---@return Player
