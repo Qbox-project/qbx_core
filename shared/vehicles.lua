@@ -6,6 +6,7 @@ return {
         model = 'adder',
         price = 86065,
         category = 'super',
+        type = 'automobile',
         hash = `adder`,
     },
     airbus = {
@@ -14,6 +15,7 @@ return {
         model = 'airbus',
         price = 42321,
         category = 'service',
+        type = 'automobile',
         hash = `airbus`,
     },
     airtug = {
@@ -22,6 +24,7 @@ return {
         model = 'airtug',
         price = 18786,
         category = 'utility',
+        type = 'automobile',
         hash = `airtug`,
     },
     akula = {
@@ -30,6 +33,7 @@ return {
         model = 'akula',
         price = 6879704,
         category = 'helicopters',
+        type = 'heli',
         hash = `akula`,
     },
     akuma = {
@@ -38,6 +42,7 @@ return {
         model = 'akuma',
         price = 25356,
         category = 'motorcycles',
+        type = 'bike',
         hash = `akuma`,
     },
     aleutian = {
@@ -46,6 +51,7 @@ return {
         model = 'aleutian',
         price = 66169,
         category = 'suvs',
+        type = 'automobile',
         hash = `aleutian`,
     },
     alkonost = {
@@ -54,6 +60,7 @@ return {
         model = 'alkonost',
         price = 1933450,
         category = 'planes',
+        type = 'plane',
         hash = `alkonost`,
     },
     alpha = {
@@ -62,6 +69,7 @@ return {
         model = 'alpha',
         price = 82526,
         category = 'sports',
+        type = 'automobile',
         hash = `alpha`,
     },
     alphaz1 = {
@@ -70,14 +78,16 @@ return {
         model = 'alphaz1',
         price = 2587839,
         category = 'planes',
+        type = 'plane',
         hash = `alphaz1`,
     },
     ambulance = {
         name = 'Ambulance',
-        brand = '',
+        brand = 'Brute',
         model = 'ambulance',
         price = 66002,
         category = 'emergency',
+        type = 'automobile',
         hash = `ambulance`,
     },
     annihilator = {
@@ -86,6 +96,7 @@ return {
         model = 'annihilator',
         price = 5278061,
         category = 'helicopters',
+        type = 'heli',
         hash = `annihilator`,
     },
     annihilator2 = {
@@ -94,6 +105,7 @@ return {
         model = 'annihilator2',
         price = 5947464,
         category = 'helicopters',
+        type = 'heli',
         hash = `annihilator2`,
     },
     apc = {
@@ -102,6 +114,7 @@ return {
         model = 'apc',
         price = 38410,
         category = 'military',
+        type = 'automobile',
         hash = `apc`,
     },
     ardent = {
@@ -110,6 +123,7 @@ return {
         model = 'ardent',
         price = 79425,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `ardent`,
     },
     armytanker = {
@@ -118,6 +132,7 @@ return {
         model = 'armytanker',
         price = 5748,
         category = 'utility',
+        type = 'trailer',
         hash = `armytanker`,
     },
     armytrailer = {
@@ -126,14 +141,16 @@ return {
         model = 'armytrailer',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `armytrailer`,
     },
     armytrailer2 = {
+        name = 'Army Trailer (Civilian)',
         brand = '',
-        category = 'utility',
         model = 'armytrailer2',
         price = 5668,
-        name = 'Army Trailer (Civilian)',
+        category = 'utility',
+        type = 'trailer',
         hash = `armytrailer2`,
     },
     asbo = {
@@ -142,6 +159,7 @@ return {
         model = 'asbo',
         price = 63020,
         category = 'compacts',
+        type = 'automobile',
         hash = `asbo`,
     },
     asea = {
@@ -150,6 +168,7 @@ return {
         model = 'asea',
         price = 63374,
         category = 'sedans',
+        type = 'automobile',
         hash = `asea`,
     },
     asea2 = {
@@ -158,6 +177,7 @@ return {
         model = 'asea2',
         price = 63374,
         category = 'sedans',
+        type = 'automobile',
         hash = `asea2`,
     },
     asterope = {
@@ -166,6 +186,7 @@ return {
         model = 'asterope',
         price = 64174,
         category = 'sedans',
+        type = 'automobile',
         hash = `asterope`,
     },
     asterope2 = {
@@ -174,6 +195,7 @@ return {
         model = 'asterope2',
         price = 71306,
         category = 'sedans',
+        type = 'automobile',
         hash = `asterope2`,
     },
     astron = {
@@ -182,6 +204,7 @@ return {
         model = 'astron',
         price = 81719,
         category = 'suvs',
+        type = 'automobile',
         hash = `astron`,
     },
     autarch = {
@@ -190,6 +213,7 @@ return {
         model = 'autarch',
         price = 85798,
         category = 'super',
+        type = 'automobile',
         hash = `autarch`,
     },
     avarus = {
@@ -198,6 +222,7 @@ return {
         model = 'avarus',
         price = 23028,
         category = 'motorcycles',
+        type = 'bike',
         hash = `avarus`,
     },
     avenger = {
@@ -206,6 +231,7 @@ return {
         model = 'avenger',
         price = 1953425,
         category = 'planes',
+        type = 'plane',
         hash = `avenger`,
     },
     avenger2 = {
@@ -214,6 +240,7 @@ return {
         model = 'avenger2',
         price = 1953425,
         category = 'planes',
+        type = 'plane',
         hash = `avenger2`,
     },
     avenger3 = {
@@ -222,6 +249,7 @@ return {
         model = 'avenger3',
         price = 1953425,
         category = 'planes',
+        type = 'plane',
         hash = `avenger3`,
     },
     avenger4 = {
@@ -230,6 +258,7 @@ return {
         model = 'avenger4',
         price = 1953425,
         category = 'planes',
+        type = 'plane',
         hash = `avenger4`,
     },
     avisa = {
@@ -238,6 +267,7 @@ return {
         model = 'avisa',
         price = 804616,
         category = 'boats',
+        type = 'boat',
         hash = `avisa`,
     },
     bagger = {
@@ -246,6 +276,7 @@ return {
         model = 'bagger',
         price = 19934,
         category = 'motorcycles',
+        type = 'bike',
         hash = `bagger`,
     },
     baletrailer = {
@@ -254,6 +285,7 @@ return {
         model = 'baletrailer',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `baletrailer`,
     },
     baller = {
@@ -262,6 +294,7 @@ return {
         model = 'baller',
         price = 65628,
         category = 'suvs',
+        type = 'automobile',
         hash = `baller`,
     },
     baller2 = {
@@ -270,6 +303,7 @@ return {
         model = 'baller2',
         price = 74432,
         category = 'suvs',
+        type = 'automobile',
         hash = `baller2`,
     },
     baller3 = {
@@ -278,6 +312,7 @@ return {
         model = 'baller3',
         price = 74448,
         category = 'suvs',
+        type = 'automobile',
         hash = `baller3`,
     },
     baller4 = {
@@ -286,6 +321,7 @@ return {
         model = 'baller4',
         price = 74384,
         category = 'suvs',
+        type = 'automobile',
         hash = `baller4`,
     },
     baller5 = {
@@ -294,6 +330,7 @@ return {
         model = 'baller5',
         price = 74400,
         category = 'suvs',
+        type = 'automobile',
         hash = `baller5`,
     },
     baller6 = {
@@ -302,6 +339,7 @@ return {
         model = 'baller6',
         price = 74335,
         category = 'suvs',
+        type = 'automobile',
         hash = `baller6`,
     },
     baller7 = {
@@ -310,6 +348,7 @@ return {
         model = 'baller7',
         price = 77229,
         category = 'suvs',
+        type = 'automobile',
         hash = `baller7`,
     },
     baller8 = {
@@ -318,6 +357,7 @@ return {
         model = 'baller8',
         price = 77694,
         category = 'suvs',
+        type = 'automobile',
         hash = `baller8`,
     },
     banshee = {
@@ -326,6 +366,7 @@ return {
         model = 'banshee',
         price = 79495,
         category = 'sports',
+        type = 'automobile',
         hash = `banshee`,
     },
     banshee2 = {
@@ -334,6 +375,7 @@ return {
         model = 'banshee2',
         price = 74887,
         category = 'super',
+        type = 'automobile',
         hash = `banshee2`,
     },
     barracks = {
@@ -342,6 +384,7 @@ return {
         model = 'barracks',
         price = 53283,
         category = 'military',
+        type = 'automobile',
         hash = `barracks`,
     },
     barracks2 = {
@@ -350,6 +393,7 @@ return {
         model = 'barracks2',
         price = 60073,
         category = 'military',
+        type = 'automobile',
         hash = `barracks2`,
     },
     barracks3 = {
@@ -358,6 +402,7 @@ return {
         model = 'barracks3',
         price = 53283,
         category = 'military',
+        type = 'automobile',
         hash = `barracks3`,
     },
     barrage = {
@@ -366,6 +411,7 @@ return {
         model = 'barrage',
         price = 66580,
         category = 'military',
+        type = 'automobile',
         hash = `barrage`,
     },
     bati = {
@@ -374,6 +420,7 @@ return {
         model = 'bati',
         price = 25838,
         category = 'motorcycles',
+        type = 'bike',
         hash = `bati`,
     },
     bati2 = {
@@ -382,6 +429,7 @@ return {
         model = 'bati2',
         price = 25838,
         category = 'motorcycles',
+        type = 'bike',
         hash = `bati2`,
     },
     benson = {
@@ -390,6 +438,7 @@ return {
         model = 'benson',
         price = 60635,
         category = 'commercial',
+        type = 'automobile',
         hash = `benson`,
     },
     benson2 = {
@@ -398,6 +447,7 @@ return {
         model = 'benson2',
         price = 60635,
         category = 'commercial',
+        type = 'automobile',
         hash = `benson2`,
     },
     besra = {
@@ -406,6 +456,7 @@ return {
         model = 'besra',
         price = 2373206,
         category = 'planes',
+        type = 'plane',
         hash = `besra`,
     },
     bestiagts = {
@@ -414,6 +465,7 @@ return {
         model = 'bestiagts',
         price = 79703,
         category = 'sports',
+        type = 'automobile',
         hash = `bestiagts`,
     },
     bf400 = {
@@ -422,6 +474,7 @@ return {
         model = 'bf400',
         price = 23103,
         category = 'motorcycles',
+        type = 'bike',
         hash = `bf400`,
     },
     bfinjection = {
@@ -430,6 +483,7 @@ return {
         model = 'bfinjection',
         price = 67551,
         category = 'offroad',
+        type = 'automobile',
         hash = `bfinjection`,
     },
     biff = {
@@ -438,6 +492,7 @@ return {
         model = 'biff',
         price = 56668,
         category = 'commercial',
+        type = 'automobile',
         hash = `biff`,
     },
     bifta = {
@@ -446,6 +501,7 @@ return {
         model = 'bifta',
         price = 74872,
         category = 'offroad',
+        type = 'automobile',
         hash = `bifta`,
     },
     bison = {
@@ -454,6 +510,7 @@ return {
         model = 'bison',
         price = 62297,
         category = 'vans',
+        type = 'automobile',
         hash = `bison`,
     },
     bison2 = {
@@ -462,6 +519,7 @@ return {
         model = 'bison2',
         price = 62297,
         category = 'vans',
+        type = 'automobile',
         hash = `bison2`,
     },
     bison3 = {
@@ -470,6 +528,7 @@ return {
         model = 'bison3',
         price = 62297,
         category = 'vans',
+        type = 'automobile',
         hash = `bison3`,
     },
     bjxl = {
@@ -478,6 +537,7 @@ return {
         model = 'bjxl',
         price = 60692,
         category = 'suvs',
+        type = 'automobile',
         hash = `bjxl`,
     },
     blade = {
@@ -486,6 +546,7 @@ return {
         model = 'blade',
         price = 70520,
         category = 'muscle',
+        type = 'automobile',
         hash = `blade`,
     },
     blazer = {
@@ -494,6 +555,7 @@ return {
         model = 'blazer',
         price = 21457,
         category = 'offroad',
+        type = 'automobile',
         hash = `blazer`,
     },
     blazer2 = {
@@ -502,6 +564,7 @@ return {
         model = 'blazer2',
         price = 15679,
         category = 'offroad',
+        type = 'automobile',
         hash = `blazer2`,
     },
     blazer3 = {
@@ -510,6 +573,7 @@ return {
         model = 'blazer3',
         price = 21457,
         category = 'offroad',
+        type = 'automobile',
         hash = `blazer3`,
     },
     blazer4 = {
@@ -518,6 +582,7 @@ return {
         model = 'blazer4',
         price = 24453,
         category = 'offroad',
+        type = 'automobile',
         hash = `blazer4`,
     },
     blazer5 = {
@@ -526,6 +591,7 @@ return {
         model = 'blazer5',
         price = 25680,
         category = 'offroad',
+        type = 'automobile',
         hash = `blazer5`,
     },
     blimp = {
@@ -534,6 +600,7 @@ return {
         model = 'blimp',
         price = 1024161,
         category = 'planes',
+        type = 'plane',
         hash = `blimp`,
     },
     blimp2 = {
@@ -542,6 +609,7 @@ return {
         model = 'blimp2',
         price = 1036862,
         category = 'planes',
+        type = 'plane',
         hash = `blimp2`,
     },
     blimp3 = {
@@ -550,6 +618,7 @@ return {
         model = 'blimp3',
         price = 1024161,
         category = 'planes',
+        type = 'plane',
         hash = `blimp3`,
     },
     blista = {
@@ -558,6 +627,7 @@ return {
         model = 'blista',
         price = 69371,
         category = 'compacts',
+        type = 'automobile',
         hash = `blista`,
     },
     blista2 = {
@@ -566,6 +636,7 @@ return {
         model = 'blista2',
         price = 69291,
         category = 'sports',
+        type = 'automobile',
         hash = `blista2`,
     },
     blista3 = {
@@ -574,14 +645,16 @@ return {
         model = 'blista3',
         price = 69291,
         category = 'sports',
+        type = 'automobile',
         hash = `blista3`,
     },
     bmx = {
         name = 'BMX',
-        brand = '',
+        brand = 'PED',
         model = 'bmx',
         price = 2735,
         category = 'cycles',
+        type = 'bike',
         hash = `bmx`,
     },
     boattrailer = {
@@ -590,6 +663,7 @@ return {
         model = 'boattrailer',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `boattrailer`,
     },
     boattrailer2 = {
@@ -598,6 +672,7 @@ return {
         model = 'boattrailer2',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `boattrailer2`,
     },
     boattrailer3 = {
@@ -606,6 +681,7 @@ return {
         model = 'boattrailer3',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `boattrailer3`,
     },
     bobcatxl = {
@@ -614,6 +690,7 @@ return {
         model = 'bobcatxl',
         price = 58720,
         category = 'vans',
+        type = 'automobile',
         hash = `bobcatxl`,
     },
     bodhi2 = {
@@ -622,6 +699,7 @@ return {
         model = 'bodhi2',
         price = 59867,
         category = 'offroad',
+        type = 'automobile',
         hash = `bodhi2`,
     },
     bombushka = {
@@ -630,6 +708,7 @@ return {
         model = 'bombushka',
         price = 788207,
         category = 'planes',
+        type = 'plane',
         hash = `bombushka`,
     },
     boor = {
@@ -638,6 +717,7 @@ return {
         model = 'boor',
         price = 67237,
         category = 'offroad',
+        type = 'automobile',
         hash = `boor`,
     },
     boxville = {
@@ -646,6 +726,7 @@ return {
         model = 'boxville',
         price = 47273,
         category = 'vans',
+        type = 'automobile',
         hash = `boxville`,
     },
     boxville2 = {
@@ -654,6 +735,7 @@ return {
         model = 'boxville2',
         price = 47273,
         category = 'vans',
+        type = 'automobile',
         hash = `boxville2`,
     },
     boxville3 = {
@@ -662,6 +744,7 @@ return {
         model = 'boxville3',
         price = 47273,
         category = 'vans',
+        type = 'automobile',
         hash = `boxville3`,
     },
     boxville4 = {
@@ -670,6 +753,7 @@ return {
         model = 'boxville4',
         price = 47273,
         category = 'vans',
+        type = 'automobile',
         hash = `boxville4`,
     },
     boxville5 = {
@@ -678,6 +762,7 @@ return {
         model = 'boxville5',
         price = 65341,
         category = 'vans',
+        type = 'automobile',
         hash = `boxville5`,
     },
     boxville6 = {
@@ -686,6 +771,7 @@ return {
         model = 'boxville6',
         price = 47273,
         category = 'vans',
+        type = 'automobile',
         hash = `boxville6`,
     },
     brawler = {
@@ -694,6 +780,7 @@ return {
         model = 'brawler',
         price = 77578,
         category = 'offroad',
+        type = 'automobile',
         hash = `brawler`,
     },
     brickade = {
@@ -702,6 +789,7 @@ return {
         model = 'brickade',
         price = 54416,
         category = 'service',
+        type = 'automobile',
         hash = `brickade`,
     },
     brickade2 = {
@@ -710,6 +798,7 @@ return {
         model = 'brickade2',
         price = 54416,
         category = 'service',
+        type = 'automobile',
         hash = `brickade2`,
     },
     brigham = {
@@ -718,6 +807,7 @@ return {
         model = 'brigham',
         price = 63825,
         category = 'muscle',
+        type = 'automobile',
         hash = `brigham`,
     },
     brioso = {
@@ -726,6 +816,7 @@ return {
         model = 'brioso',
         price = 69113,
         category = 'compacts',
+        type = 'automobile',
         hash = `brioso`,
     },
     brioso2 = {
@@ -734,6 +825,7 @@ return {
         model = 'brioso2',
         price = 54291,
         category = 'compacts',
+        type = 'automobile',
         hash = `brioso2`,
     },
     brioso3 = {
@@ -742,6 +834,7 @@ return {
         model = 'brioso3',
         price = 61333,
         category = 'compacts',
+        type = 'automobile',
         hash = `brioso3`,
     },
     broadway = {
@@ -750,6 +843,7 @@ return {
         model = 'broadway',
         price = 61702,
         category = 'muscle',
+        type = 'automobile',
         hash = `broadway`,
     },
     bruiser = {
@@ -758,6 +852,7 @@ return {
         model = 'bruiser',
         price = 63687,
         category = 'offroad',
+        type = 'automobile',
         hash = `bruiser`,
     },
     bruiser2 = {
@@ -766,6 +861,7 @@ return {
         model = 'bruiser2',
         price = 63687,
         category = 'offroad',
+        type = 'automobile',
         hash = `bruiser2`,
     },
     bruiser3 = {
@@ -774,6 +870,7 @@ return {
         model = 'bruiser3',
         price = 63687,
         category = 'offroad',
+        type = 'automobile',
         hash = `bruiser3`,
     },
     brutus = {
@@ -782,6 +879,7 @@ return {
         model = 'brutus',
         price = 70122,
         category = 'offroad',
+        type = 'automobile',
         hash = `brutus`,
     },
     brutus2 = {
@@ -790,6 +888,7 @@ return {
         model = 'brutus2',
         price = 70122,
         category = 'offroad',
+        type = 'automobile',
         hash = `brutus2`,
     },
     brutus3 = {
@@ -798,6 +897,7 @@ return {
         model = 'brutus3',
         price = 70122,
         category = 'offroad',
+        type = 'automobile',
         hash = `brutus3`,
     },
     btype = {
@@ -806,6 +906,7 @@ return {
         model = 'btype',
         price = 69018,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `btype`,
     },
     btype2 = {
@@ -814,6 +915,7 @@ return {
         model = 'btype2',
         price = 74624,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `btype2`,
     },
     btype3 = {
@@ -822,6 +924,7 @@ return {
         model = 'btype3',
         price = 69018,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `btype3`,
     },
     buccaneer = {
@@ -830,6 +933,7 @@ return {
         model = 'buccaneer',
         price = 76634,
         category = 'muscle',
+        type = 'automobile',
         hash = `buccaneer`,
     },
     buccaneer2 = {
@@ -838,6 +942,7 @@ return {
         model = 'buccaneer2',
         price = 76634,
         category = 'muscle',
+        type = 'automobile',
         hash = `buccaneer2`,
     },
     buffalo = {
@@ -846,6 +951,7 @@ return {
         model = 'buffalo',
         price = 75156,
         category = 'sports',
+        type = 'automobile',
         hash = `buffalo`,
     },
     buffalo2 = {
@@ -854,6 +960,7 @@ return {
         model = 'buffalo2',
         price = 77026,
         category = 'sports',
+        type = 'automobile',
         hash = `buffalo2`,
     },
     buffalo3 = {
@@ -862,6 +969,7 @@ return {
         model = 'buffalo3',
         price = 80264,
         category = 'sports',
+        type = 'automobile',
         hash = `buffalo3`,
     },
     buffalo4 = {
@@ -870,6 +978,7 @@ return {
         model = 'buffalo4',
         price = 80516,
         category = 'muscle',
+        type = 'automobile',
         hash = `buffalo4`,
     },
     buffalo5 = {
@@ -878,6 +987,7 @@ return {
         model = 'buffalo5',
         price = 83332,
         category = 'muscle',
+        type = 'automobile',
         hash = `buffalo5`,
     },
     bulldozer = {
@@ -886,6 +996,7 @@ return {
         model = 'bulldozer',
         price = 9376,
         category = 'industrial',
+        type = 'automobile',
         hash = `bulldozer`,
     },
     bullet = {
@@ -894,6 +1005,7 @@ return {
         model = 'bullet',
         price = 82565,
         category = 'super',
+        type = 'automobile',
         hash = `bullet`,
     },
     burrito = {
@@ -902,6 +1014,7 @@ return {
         model = 'burrito',
         price = 61195,
         category = 'vans',
+        type = 'automobile',
         hash = `burrito`,
     },
     burrito2 = {
@@ -910,6 +1023,7 @@ return {
         model = 'burrito2',
         price = 61195,
         category = 'vans',
+        type = 'automobile',
         hash = `burrito2`,
     },
     burrito3 = {
@@ -918,6 +1032,7 @@ return {
         model = 'burrito3',
         price = 61195,
         category = 'vans',
+        type = 'automobile',
         hash = `burrito3`,
     },
     burrito4 = {
@@ -926,6 +1041,7 @@ return {
         model = 'burrito4',
         price = 61195,
         category = 'vans',
+        type = 'automobile',
         hash = `burrito4`,
     },
     burrito5 = {
@@ -934,6 +1050,7 @@ return {
         model = 'burrito5',
         price = 61195,
         category = 'vans',
+        type = 'automobile',
         hash = `burrito5`,
     },
     bus = {
@@ -942,6 +1059,7 @@ return {
         model = 'bus',
         price = 42481,
         category = 'service',
+        type = 'automobile',
         hash = `bus`,
     },
     buzzard = {
@@ -950,6 +1068,7 @@ return {
         model = 'buzzard',
         price = 6462758,
         category = 'helicopters',
+        type = 'heli',
         hash = `buzzard`,
     },
     buzzard2 = {
@@ -958,6 +1077,7 @@ return {
         model = 'buzzard2',
         price = 6462758,
         category = 'helicopters',
+        type = 'heli',
         hash = `buzzard2`,
     },
     cablecar = {
@@ -966,6 +1086,7 @@ return {
         model = 'cablecar',
         price = 194680,
         category = 'trains',
+        type = 'train',
         hash = `cablecar`,
     },
     caddy = {
@@ -974,6 +1095,7 @@ return {
         model = 'caddy',
         price = 36554,
         category = 'utility',
+        type = 'automobile',
         hash = `caddy`,
     },
     caddy2 = {
@@ -982,6 +1104,7 @@ return {
         model = 'caddy2',
         price = 36554,
         category = 'utility',
+        type = 'automobile',
         hash = `caddy2`,
     },
     caddy3 = {
@@ -990,6 +1113,7 @@ return {
         model = 'caddy3',
         price = 36022,
         category = 'utility',
+        type = 'automobile',
         hash = `caddy3`,
     },
     calico = {
@@ -998,6 +1122,7 @@ return {
         model = 'calico',
         price = 82150,
         category = 'sports',
+        type = 'automobile',
         hash = `calico`,
     },
     camper = {
@@ -1006,6 +1131,7 @@ return {
         model = 'camper',
         price = 50131,
         category = 'vans',
+        type = 'automobile',
         hash = `camper`,
     },
     caracara = {
@@ -1014,6 +1140,7 @@ return {
         model = 'caracara',
         price = 63685,
         category = 'offroad',
+        type = 'automobile',
         hash = `caracara`,
     },
     caracara2 = {
@@ -1022,6 +1149,7 @@ return {
         model = 'caracara2',
         price = 64784,
         category = 'offroad',
+        type = 'automobile',
         hash = `caracara2`,
     },
     carbonizzare = {
@@ -1030,6 +1158,7 @@ return {
         model = 'carbonizzare',
         price = 80346,
         category = 'sports',
+        type = 'automobile',
         hash = `carbonizzare`,
     },
     carbonrs = {
@@ -1038,6 +1167,7 @@ return {
         model = 'carbonrs',
         price = 24649,
         category = 'motorcycles',
+        type = 'bike',
         hash = `carbonrs`,
     },
     cargobob = {
@@ -1046,6 +1176,7 @@ return {
         model = 'cargobob',
         price = 5616986,
         category = 'helicopters',
+        type = 'heli',
         hash = `cargobob`,
     },
     cargobob2 = {
@@ -1054,6 +1185,7 @@ return {
         model = 'cargobob2',
         price = 5616986,
         category = 'helicopters',
+        type = 'heli',
         hash = `cargobob2`,
     },
     cargobob3 = {
@@ -1062,6 +1194,7 @@ return {
         model = 'cargobob3',
         price = 5616986,
         category = 'helicopters',
+        type = 'heli',
         hash = `cargobob3`,
     },
     cargobob4 = {
@@ -1070,6 +1203,7 @@ return {
         model = 'cargobob4',
         price = 5616986,
         category = 'helicopters',
+        type = 'heli',
         hash = `cargobob4`,
     },
     cargoplane = {
@@ -1078,6 +1212,7 @@ return {
         model = 'cargoplane',
         price = 1537948,
         category = 'planes',
+        type = 'plane',
         hash = `cargoplane`,
     },
     cargoplane2 = {
@@ -1086,6 +1221,7 @@ return {
         model = 'cargoplane2',
         price = 1537948,
         category = 'planes',
+        type = 'plane',
         hash = `cargoplane2`,
     },
     casco = {
@@ -1094,6 +1230,7 @@ return {
         model = 'casco',
         price = 83125,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `casco`,
     },
     castigator = {
@@ -1102,6 +1239,7 @@ return {
         model = 'castigator',
         price = 83125,
         category = 'suvs',
+        type = 'automobile',
         hash = `castigator`,
     },
     cavalcade = {
@@ -1110,6 +1248,7 @@ return {
         model = 'cavalcade',
         price = 63694,
         category = 'suvs',
+        type = 'automobile',
         hash = `cavalcade`,
     },
     cavalcade2 = {
@@ -1118,6 +1257,7 @@ return {
         model = 'cavalcade2',
         price = 63694,
         category = 'suvs',
+        type = 'automobile',
         hash = `cavalcade2`,
     },
     cavalcade3 = {
@@ -1126,6 +1266,7 @@ return {
         model = 'cavalcade3',
         price = 67959,
         category = 'suvs',
+        type = 'automobile',
         hash = `cavalcade3`,
     },
     cerberus = {
@@ -1134,6 +1275,7 @@ return {
         model = 'cerberus',
         price = 61154,
         category = 'commercial',
+        type = 'automobile',
         hash = `cerberus`,
     },
     cerberus2 = {
@@ -1142,6 +1284,7 @@ return {
         model = 'cerberus2',
         price = 61154,
         category = 'commercial',
+        type = 'automobile',
         hash = `cerberus2`,
     },
     cerberus3 = {
@@ -1150,6 +1293,7 @@ return {
         model = 'cerberus3',
         price = 61154,
         category = 'commercial',
+        type = 'automobile',
         hash = `cerberus3`,
     },
     champion = {
@@ -1158,6 +1302,7 @@ return {
         model = 'champion',
         price = 86582,
         category = 'super',
+        type = 'automobile',
         hash = `champion`,
     },
     cheburek = {
@@ -1166,6 +1311,7 @@ return {
         model = 'cheburek',
         price = 74166,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `cheburek`,
     },
     cheetah = {
@@ -1174,6 +1320,7 @@ return {
         model = 'cheetah',
         price = 82927,
         category = 'super',
+        type = 'automobile',
         hash = `cheetah`,
     },
     cheetah2 = {
@@ -1182,6 +1329,7 @@ return {
         model = 'cheetah2',
         price = 82724,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `cheetah2`,
     },
     chernobog = {
@@ -1190,6 +1338,7 @@ return {
         model = 'chernobog',
         price = 37291,
         category = 'military',
+        type = 'automobile',
         hash = `chernobog`,
     },
     chimera = {
@@ -1198,6 +1347,7 @@ return {
         model = 'chimera',
         price = 22412,
         category = 'motorcycles',
+        type = 'bike',
         hash = `chimera`,
     },
     chino = {
@@ -1206,6 +1356,7 @@ return {
         model = 'chino',
         price = 58651,
         category = 'muscle',
+        type = 'automobile',
         hash = `chino`,
     },
     chino2 = {
@@ -1214,6 +1365,7 @@ return {
         model = 'chino2',
         price = 60394,
         category = 'muscle',
+        type = 'automobile',
         hash = `chino2`,
     },
     cinquemila = {
@@ -1222,6 +1374,7 @@ return {
         model = 'cinquemila',
         price = 80476,
         category = 'sedans',
+        type = 'automobile',
         hash = `cinquemila`,
     },
     cliffhanger = {
@@ -1230,6 +1383,7 @@ return {
         model = 'cliffhanger',
         price = 25621,
         category = 'motorcycles',
+        type = 'bike',
         hash = `cliffhanger`,
     },
     clique = {
@@ -1238,6 +1392,7 @@ return {
         model = 'clique',
         price = 76525,
         category = 'muscle',
+        type = 'automobile',
         hash = `clique`,
     },
     clique2 = {
@@ -1246,6 +1401,7 @@ return {
         model = 'clique2',
         price = 54902,
         category = 'muscle',
+        type = 'automobile',
         hash = `clique2`,
     },
     club = {
@@ -1254,6 +1410,7 @@ return {
         model = 'club',
         price = 69335,
         category = 'compacts',
+        type = 'automobile',
         hash = `club`,
     },
     coach = {
@@ -1262,6 +1419,7 @@ return {
         model = 'coach',
         price = 42321,
         category = 'service',
+        type = 'automobile',
         hash = `coach`,
     },
     cog55 = {
@@ -1270,6 +1428,7 @@ return {
         model = 'cog55',
         price = 76441,
         category = 'sedans',
+        type = 'automobile',
         hash = `cog55`,
     },
     cog552 = {
@@ -1278,6 +1437,7 @@ return {
         model = 'cog552',
         price = 75535,
         category = 'sedans',
+        type = 'automobile',
         hash = `cog552`,
     },
     cogcabrio = {
@@ -1286,6 +1446,7 @@ return {
         model = 'cogcabrio',
         price = 74712,
         category = 'coupes',
+        type = 'automobile',
         hash = `cogcabrio`,
     },
     cognoscenti = {
@@ -1294,6 +1455,7 @@ return {
         model = 'cognoscenti',
         price = 75535,
         category = 'sedans',
+        type = 'automobile',
         hash = `cognoscenti`,
     },
     cognoscenti2 = {
@@ -1302,6 +1464,7 @@ return {
         model = 'cognoscenti2',
         price = 74605,
         category = 'sedans',
+        type = 'automobile',
         hash = `cognoscenti2`,
     },
     comet2 = {
@@ -1310,6 +1473,7 @@ return {
         model = 'comet2',
         price = 83289,
         category = 'sports',
+        type = 'automobile',
         hash = `comet2`,
     },
     comet3 = {
@@ -1318,6 +1482,7 @@ return {
         model = 'comet3',
         price = 83253,
         category = 'sports',
+        type = 'automobile',
         hash = `comet3`,
     },
     comet4 = {
@@ -1326,6 +1491,7 @@ return {
         model = 'comet4',
         price = 78289,
         category = 'sports',
+        type = 'automobile',
         hash = `comet4`,
     },
     comet5 = {
@@ -1334,6 +1500,7 @@ return {
         model = 'comet5',
         price = 78583,
         category = 'sports',
+        type = 'automobile',
         hash = `comet5`,
     },
     comet6 = {
@@ -1342,6 +1509,7 @@ return {
         model = 'comet6',
         price = 83378,
         category = 'sports',
+        type = 'automobile',
         hash = `comet6`,
     },
     comet7 = {
@@ -1350,6 +1518,7 @@ return {
         model = 'comet7',
         price = 83759,
         category = 'sports',
+        type = 'automobile',
         hash = `comet7`,
     },
     conada = {
@@ -1358,6 +1527,7 @@ return {
         model = 'conada',
         price = 6931736,
         category = 'helicopters',
+        type = 'heli',
         hash = `conada`,
     },
     conada2 = {
@@ -1366,6 +1536,7 @@ return {
         model = 'conada2',
         price = 6855740,
         category = 'helicopters',
+        type = 'heli',
         hash = `conada2`,
     },
     contender = {
@@ -1374,6 +1545,7 @@ return {
         model = 'contender',
         price = 68578,
         category = 'suvs',
+        type = 'automobile',
         hash = `contender`,
     },
     coquette = {
@@ -1382,6 +1554,7 @@ return {
         model = 'coquette',
         price = 83674,
         category = 'sports',
+        type = 'automobile',
         hash = `coquette`,
     },
     coquette2 = {
@@ -1390,6 +1563,7 @@ return {
         model = 'coquette2',
         price = 81755,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `coquette2`,
     },
     coquette3 = {
@@ -1398,6 +1572,7 @@ return {
         model = 'coquette3',
         price = 74621,
         category = 'muscle',
+        type = 'automobile',
         hash = `coquette3`,
     },
     coquette4 = {
@@ -1406,6 +1581,7 @@ return {
         model = 'coquette4',
         price = 80771,
         category = 'sports',
+        type = 'automobile',
         hash = `coquette4`,
     },
     coquette5 = {
@@ -1414,6 +1590,7 @@ return {
         model = 'coquette5',
         price = 80771,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `coquette5`,
     },
     corsita = {
@@ -1422,6 +1599,7 @@ return {
         model = 'corsita',
         price = 87616,
         category = 'sports',
+        type = 'automobile',
         hash = `corsita`,
     },
     coureur = {
@@ -1430,14 +1608,16 @@ return {
         model = 'coureur',
         price = 77754,
         category = 'sports',
+        type = 'automobile',
         hash = `coureur`,
     },
     cruiser = {
         name = 'Cruiser',
-        brand = '',
+        brand = 'PED',
         model = 'cruiser',
         price = 2751,
         category = 'cycles',
+        type = 'bike',
         hash = `cruiser`,
     },
     crusader = {
@@ -1446,6 +1626,7 @@ return {
         model = 'crusader',
         price = 59206,
         category = 'military',
+        type = 'automobile',
         hash = `crusader`,
     },
     cuban800 = {
@@ -1454,6 +1635,7 @@ return {
         model = 'cuban800',
         price = 1489140,
         category = 'planes',
+        type = 'plane',
         hash = `cuban800`,
     },
     cutter = {
@@ -1462,6 +1644,7 @@ return {
         model = 'cutter',
         price = 22017,
         category = 'industrial',
+        type = 'automobile',
         hash = `cutter`,
     },
     cyclone = {
@@ -1470,6 +1653,7 @@ return {
         model = 'cyclone',
         price = 68875,
         category = 'super',
+        type = 'automobile',
         hash = `cyclone`,
     },
     cypher = {
@@ -1478,6 +1662,7 @@ return {
         model = 'cypher',
         price = 75676,
         category = 'sports',
+        type = 'automobile',
         hash = `cypher`,
     },
     daemon = {
@@ -1486,6 +1671,7 @@ return {
         model = 'daemon',
         price = 22321,
         category = 'motorcycles',
+        type = 'bike',
         hash = `daemon`,
     },
     daemon2 = {
@@ -1494,6 +1680,7 @@ return {
         model = 'daemon2',
         price = 22423,
         category = 'motorcycles',
+        type = 'bike',
         hash = `daemon2`,
     },
     deathbike = {
@@ -1502,6 +1689,7 @@ return {
         model = 'deathbike',
         price = 25195,
         category = 'motorcycles',
+        type = 'bike',
         hash = `deathbike`,
     },
     deathbike2 = {
@@ -1510,6 +1698,7 @@ return {
         model = 'deathbike2',
         price = 25195,
         category = 'motorcycles',
+        type = 'bike',
         hash = `deathbike2`,
     },
     deathbike3 = {
@@ -1518,6 +1707,7 @@ return {
         model = 'deathbike3',
         price = 25195,
         category = 'motorcycles',
+        type = 'bike',
         hash = `deathbike3`,
     },
     defiler = {
@@ -1526,6 +1716,7 @@ return {
         model = 'defiler',
         price = 25616,
         category = 'motorcycles',
+        type = 'bike',
         hash = `defiler`,
     },
     deity = {
@@ -1534,6 +1725,7 @@ return {
         model = 'deity',
         price = 73581,
         category = 'sedans',
+        type = 'automobile',
         hash = `deity`,
     },
     deluxo = {
@@ -1542,6 +1734,7 @@ return {
         model = 'deluxo',
         price = 70738,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `deluxo`,
     },
     deveste = {
@@ -1550,6 +1743,7 @@ return {
         model = 'deveste',
         price = 87916,
         category = 'super',
+        type = 'automobile',
         hash = `deveste`,
     },
     deviant = {
@@ -1558,6 +1752,7 @@ return {
         model = 'deviant',
         price = 70267,
         category = 'muscle',
+        type = 'automobile',
         hash = `deviant`,
     },
     diablous = {
@@ -1566,6 +1761,7 @@ return {
         model = 'diablous',
         price = 24745,
         category = 'motorcycles',
+        type = 'bike',
         hash = `diablous`,
     },
     diablous2 = {
@@ -1574,6 +1770,7 @@ return {
         model = 'diablous2',
         price = 24901,
         category = 'motorcycles',
+        type = 'bike',
         hash = `diablous2`,
     },
     dilettante = {
@@ -1582,6 +1779,7 @@ return {
         model = 'dilettante',
         price = 40298,
         category = 'compacts',
+        type = 'automobile',
         hash = `dilettante`,
     },
     dilettante2 = {
@@ -1590,6 +1788,7 @@ return {
         model = 'dilettante2',
         price = 40298,
         category = 'compacts',
+        type = 'automobile',
         hash = `dilettante2`,
     },
     dinghy = {
@@ -1598,6 +1797,7 @@ return {
         model = 'dinghy',
         price = 446680,
         category = 'boats',
+        type = 'boat',
         hash = `dinghy`,
     },
     dinghy2 = {
@@ -1606,6 +1806,7 @@ return {
         model = 'dinghy2',
         price = 446680,
         category = 'boats',
+        type = 'boat',
         hash = `dinghy2`,
     },
     dinghy3 = {
@@ -1614,6 +1815,7 @@ return {
         model = 'dinghy3',
         price = 446680,
         category = 'boats',
+        type = 'boat',
         hash = `dinghy3`,
     },
     dinghy4 = {
@@ -1622,6 +1824,7 @@ return {
         model = 'dinghy4',
         price = 446680,
         category = 'boats',
+        type = 'boat',
         hash = `dinghy4`,
     },
     dinghy5 = {
@@ -1630,6 +1833,7 @@ return {
         model = 'dinghy5',
         price = 446680,
         category = 'boats',
+        type = 'boat',
         hash = `dinghy5`,
     },
     dloader = {
@@ -1638,6 +1842,7 @@ return {
         model = 'dloader',
         price = 55231,
         category = 'offroad',
+        type = 'automobile',
         hash = `dloader`,
     },
     docktrailer = {
@@ -1646,6 +1851,7 @@ return {
         model = 'docktrailer',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `docktrailer`,
     },
     docktug = {
@@ -1654,6 +1860,7 @@ return {
         model = 'docktug',
         price = 41473,
         category = 'utility',
+        type = 'automobile',
         hash = `docktug`,
     },
     dodo = {
@@ -1662,6 +1869,7 @@ return {
         model = 'dodo',
         price = 1321065,
         category = 'planes',
+        type = 'plane',
         hash = `dodo`,
     },
     dominator = {
@@ -1670,6 +1878,7 @@ return {
         model = 'dominator',
         price = 80149,
         category = 'muscle',
+        type = 'automobile',
         hash = `dominator`,
     },
     dominator2 = {
@@ -1678,6 +1887,7 @@ return {
         model = 'dominator2',
         price = 81440,
         category = 'muscle',
+        type = 'automobile',
         hash = `dominator2`,
     },
     dominator3 = {
@@ -1686,6 +1896,7 @@ return {
         model = 'dominator3',
         price = 77862,
         category = 'muscle',
+        type = 'automobile',
         hash = `dominator3`,
     },
     dominator4 = {
@@ -1694,6 +1905,7 @@ return {
         model = 'dominator4',
         price = 80565,
         category = 'muscle',
+        type = 'automobile',
         hash = `dominator4`,
     },
     dominator5 = {
@@ -1702,6 +1914,7 @@ return {
         model = 'dominator5',
         price = 80565,
         category = 'muscle',
+        type = 'automobile',
         hash = `dominator5`,
     },
     dominator6 = {
@@ -1710,6 +1923,7 @@ return {
         model = 'dominator6',
         price = 80565,
         category = 'muscle',
+        type = 'automobile',
         hash = `dominator6`,
     },
     dominator7 = {
@@ -1718,6 +1932,7 @@ return {
         model = 'dominator7',
         price = 83320,
         category = 'muscle',
+        type = 'automobile',
         hash = `dominator7`,
     },
     dominator8 = {
@@ -1726,6 +1941,7 @@ return {
         model = 'dominator8',
         price = 76296,
         category = 'muscle',
+        type = 'automobile',
         hash = `dominator8`,
     },
     dominator9 = {
@@ -1734,6 +1950,7 @@ return {
         model = 'dominator9',
         price = 82702,
         category = 'muscle',
+        type = 'automobile',
         hash = `dominator9`,
     },
     dominator10 = {
@@ -1742,6 +1959,7 @@ return {
         model = 'dominator10',
         price = 82702,
         category = 'muscle',
+        type = 'automobile',
         hash = `dominator10`,
     },
     dorado = {
@@ -1750,6 +1968,7 @@ return {
         model = 'dorado',
         price = 69578,
         category = 'suvs',
+        type = 'automobile',
         hash = `dorado`,
     },
     double = {
@@ -1758,6 +1977,7 @@ return {
         model = 'double',
         price = 25173,
         category = 'motorcycles',
+        type = 'bike',
         hash = `double`,
     },
     drafter = {
@@ -1766,6 +1986,7 @@ return {
         model = 'drafter',
         price = 79907,
         category = 'sports',
+        type = 'automobile',
         hash = `drafter`,
     },
     draugur = {
@@ -1774,6 +1995,7 @@ return {
         model = 'draugur',
         price = 72622,
         category = 'offroad',
+        type = 'automobile',
         hash = `draugur`,
     },
     driftcypher = {
@@ -1782,6 +2004,7 @@ return {
         model = 'driftcypher',
         price = 76163,
         category = 'sports',
+        type = 'automobile',
         hash = `driftcypher`,
     },
     drifteuros = {
@@ -1790,6 +2013,7 @@ return {
         model = 'drifteuros',
         price = 76163,
         category = 'sports',
+        type = 'automobile',
         hash = `drifteuros`,
     },
     driftfr36 = {
@@ -1798,6 +2022,7 @@ return {
         model = 'driftfr36',
         price = 75045,
         category = 'coupes',
+        type = 'automobile',
         hash = `driftfr36`,
     },
     driftfuto = {
@@ -1806,6 +2031,7 @@ return {
         model = 'driftfuto',
         price = 75037,
         category = 'sports',
+        type = 'automobile',
         hash = `driftfuto`,
     },
     driftjester = {
@@ -1814,6 +2040,7 @@ return {
         model = 'driftjester',
         price = 74933,
         category = 'sports',
+        type = 'automobile',
         hash = `driftjester`,
     },
     driftnebula = {
@@ -1822,6 +2049,7 @@ return {
         model = 'driftnebula',
         price = 74933,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `driftnebula`,
     },
     driftremus = {
@@ -1830,6 +2058,7 @@ return {
         model = 'driftremus',
         price = 78305,
         category = 'sports',
+        type = 'automobile',
         hash = `driftremus`,
     },
     driftsentinel = {
@@ -1838,6 +2067,7 @@ return {
         model = 'driftsentinel',
         price = 78305,
         category = 'sports',
+        type = 'automobile',
         hash = `driftsentinel`,
     },
     drifttampa = {
@@ -1846,6 +2076,7 @@ return {
         model = 'drifttampa',
         price = 78299,
         category = 'sports',
+        type = 'automobile',
         hash = `drifttampa`,
     },
     driftvorschlag = {
@@ -1854,6 +2085,7 @@ return {
         model = 'driftvorschlag',
         price = 70884,
         category = 'sedans',
+        type = 'automobile',
         hash = `driftvorschlag`,
     },
     driftyosemite = {
@@ -1862,6 +2094,7 @@ return {
         model = 'driftyosemite',
         price = 70884,
         category = 'muscle',
+        type = 'automobile',
         hash = `driftyosemite`,
     },
     driftzr350 = {
@@ -1870,6 +2103,7 @@ return {
         model = 'driftzr350',
         price = 75060,
         category = 'sports',
+        type = 'automobile',
         hash = `driftzr350`,
     },
     dubsta = {
@@ -1878,6 +2112,7 @@ return {
         model = 'dubsta',
         price = 62617,
         category = 'suvs',
+        type = 'automobile',
         hash = `dubsta`,
     },
     dubsta2 = {
@@ -1886,6 +2121,7 @@ return {
         model = 'dubsta2',
         price = 62617,
         category = 'suvs',
+        type = 'automobile',
         hash = `dubsta2`,
     },
     dubsta3 = {
@@ -1894,6 +2130,7 @@ return {
         model = 'dubsta3',
         price = 64556,
         category = 'offroad',
+        type = 'automobile',
         hash = `dubsta3`,
     },
     dukes = {
@@ -1902,6 +2139,7 @@ return {
         model = 'dukes',
         price = 79383,
         category = 'muscle',
+        type = 'automobile',
         hash = `dukes`,
     },
     dukes2 = {
@@ -1910,6 +2148,7 @@ return {
         model = 'dukes2',
         price = 77611,
         category = 'muscle',
+        type = 'automobile',
         hash = `dukes2`,
     },
     dukes3 = {
@@ -1918,6 +2157,7 @@ return {
         model = 'dukes3',
         price = 78577,
         category = 'muscle',
+        type = 'automobile',
         hash = `dukes3`,
     },
     dump = {
@@ -1926,6 +2166,7 @@ return {
         model = 'dump',
         price = 24629,
         category = 'industrial',
+        type = 'automobile',
         hash = `dump`,
     },
     dune = {
@@ -1934,6 +2175,7 @@ return {
         model = 'dune',
         price = 64617,
         category = 'offroad',
+        type = 'automobile',
         hash = `dune`,
     },
     dune2 = {
@@ -1942,6 +2184,7 @@ return {
         model = 'dune2',
         price = 63085,
         category = 'offroad',
+        type = 'automobile',
         hash = `dune2`,
     },
     dune3 = {
@@ -1950,6 +2193,7 @@ return {
         model = 'dune3',
         price = 64617,
         category = 'offroad',
+        type = 'automobile',
         hash = `dune3`,
     },
     dune4 = {
@@ -1958,6 +2202,7 @@ return {
         model = 'dune4',
         price = 82003,
         category = 'offroad',
+        type = 'automobile',
         hash = `dune4`,
     },
     dune5 = {
@@ -1966,6 +2211,7 @@ return {
         model = 'dune5',
         price = 81376,
         category = 'offroad',
+        type = 'automobile',
         hash = `dune5`,
     },
     duster = {
@@ -1974,6 +2220,7 @@ return {
         model = 'duster',
         price = 1321065,
         category = 'planes',
+        type = 'plane',
         hash = `duster`,
     },
     dynasty = {
@@ -1982,6 +2229,7 @@ return {
         model = 'dynasty',
         price = 58840,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `dynasty`,
     },
     elegy = {
@@ -1990,6 +2238,7 @@ return {
         model = 'elegy',
         price = 78735,
         category = 'sports',
+        type = 'automobile',
         hash = `elegy`,
     },
     elegy2 = {
@@ -1998,6 +2247,7 @@ return {
         model = 'elegy2',
         price = 80339,
         category = 'sports',
+        type = 'automobile',
         hash = `elegy2`,
     },
     ellie = {
@@ -2006,6 +2256,7 @@ return {
         model = 'ellie',
         price = 75782,
         category = 'muscle',
+        type = 'automobile',
         hash = `ellie`,
     },
     emerus = {
@@ -2014,6 +2265,7 @@ return {
         model = 'emerus',
         price = 85112,
         category = 'super',
+        type = 'automobile',
         hash = `emerus`,
     },
     emperor = {
@@ -2022,6 +2274,7 @@ return {
         model = 'emperor',
         price = 56110,
         category = 'sedans',
+        type = 'automobile',
         hash = `emperor`,
     },
     emperor2 = {
@@ -2030,6 +2283,7 @@ return {
         model = 'emperor2',
         price = 56110,
         category = 'sedans',
+        type = 'automobile',
         hash = `emperor2`,
     },
     emperor3 = {
@@ -2038,6 +2292,7 @@ return {
         model = 'emperor3',
         price = 56110,
         category = 'sedans',
+        type = 'automobile',
         hash = `emperor3`,
     },
     enduro = {
@@ -2046,6 +2301,7 @@ return {
         model = 'enduro',
         price = 20848,
         category = 'motorcycles',
+        type = 'bike',
         hash = `enduro`,
     },
     entity2 = {
@@ -2054,6 +2310,7 @@ return {
         model = 'entity2',
         price = 89286,
         category = 'super',
+        type = 'automobile',
         hash = `entity2`,
     },
     entity3 = {
@@ -2062,6 +2319,7 @@ return {
         model = 'entity3',
         price = 89208,
         category = 'super',
+        type = 'automobile',
         hash = `entity3`,
     },
     entityxf = {
@@ -2070,6 +2328,7 @@ return {
         model = 'entityxf',
         price = 84601,
         category = 'super',
+        type = 'automobile',
         hash = `entityxf`,
     },
     esskey = {
@@ -2078,6 +2337,7 @@ return {
         model = 'esskey',
         price = 23138,
         category = 'motorcycles',
+        type = 'bike',
         hash = `esskey`,
     },
     eudora = {
@@ -2086,6 +2346,7 @@ return {
         model = 'eudora',
         price = 66819,
         category = 'muscle',
+        type = 'automobile',
         hash = `eudora`,
     },
     euros = {
@@ -2094,6 +2355,7 @@ return {
         model = 'euros',
         price = 78840,
         category = 'sports',
+        type = 'automobile',
         hash = `euros`,
     },
     eurosx32 = {
@@ -2102,6 +2364,7 @@ return {
         model = 'eurosx32',
         price = 78840,
         category = 'sports',
+        type = 'automobile',
         hash = `eurosx32`,
     },
     everon = {
@@ -2110,6 +2373,7 @@ return {
         model = 'everon',
         price = 68803,
         category = 'offroad',
+        type = 'automobile',
         hash = `everon`,
     },
     everon2 = {
@@ -2118,6 +2382,7 @@ return {
         model = 'everon2',
         price = 79842,
         category = 'sports',
+        type = 'automobile',
         hash = `everon2`,
     },
     envisage = {
@@ -2126,6 +2391,7 @@ return {
         model = 'envisage',
         price = 79842,
         category = 'sports',
+        type = 'automobile',
         hash = `envisage`,
     },
     exemplar = {
@@ -2134,6 +2400,7 @@ return {
         model = 'exemplar',
         price = 79891,
         category = 'coupes',
+        type = 'automobile',
         hash = `exemplar`,
     },
     f620 = {
@@ -2142,6 +2409,7 @@ return {
         model = 'f620',
         price = 79607,
         category = 'coupes',
+        type = 'automobile',
         hash = `f620`,
     },
     faction = {
@@ -2150,6 +2418,7 @@ return {
         model = 'faction',
         price = 77450,
         category = 'muscle',
+        type = 'automobile',
         hash = `faction`,
     },
     faction2 = {
@@ -2158,6 +2427,7 @@ return {
         model = 'faction2',
         price = 77450,
         category = 'muscle',
+        type = 'automobile',
         hash = `faction2`,
     },
     faction3 = {
@@ -2166,6 +2436,7 @@ return {
         model = 'faction3',
         price = 58971,
         category = 'muscle',
+        type = 'automobile',
         hash = `faction3`,
     },
     fagaloa = {
@@ -2174,6 +2445,7 @@ return {
         model = 'fagaloa',
         price = 57546,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `fagaloa`,
     },
     faggio = {
@@ -2182,6 +2454,7 @@ return {
         model = 'faggio',
         price = 14728,
         category = 'motorcycles',
+        type = 'bike',
         hash = `faggio`,
     },
     faggio2 = {
@@ -2190,6 +2463,7 @@ return {
         model = 'faggio2',
         price = 12263,
         category = 'motorcycles',
+        type = 'bike',
         hash = `faggio2`,
     },
     faggio3 = {
@@ -2198,6 +2472,7 @@ return {
         model = 'faggio3',
         price = 14291,
         category = 'motorcycles',
+        type = 'bike',
         hash = `faggio3`,
     },
     fbi = {
@@ -2206,6 +2481,7 @@ return {
         model = 'fbi',
         price = 76794,
         category = 'emergency',
+        type = 'automobile',
         hash = `fbi`,
     },
     fbi2 = {
@@ -2214,6 +2490,7 @@ return {
         model = 'fbi2',
         price = 62617,
         category = 'emergency',
+        type = 'automobile',
         hash = `fbi2`,
     },
     fcr = {
@@ -2222,6 +2499,7 @@ return {
         model = 'fcr',
         price = 24321,
         category = 'motorcycles',
+        type = 'bike',
         hash = `fcr`,
     },
     fcr2 = {
@@ -2230,6 +2508,7 @@ return {
         model = 'fcr2',
         price = 24491,
         category = 'motorcycles',
+        type = 'bike',
         hash = `fcr2`,
     },
     felon = {
@@ -2238,6 +2517,7 @@ return {
         model = 'felon',
         price = 76088,
         category = 'coupes',
+        type = 'automobile',
         hash = `felon`,
     },
     felon2 = {
@@ -2246,6 +2526,7 @@ return {
         model = 'felon2',
         price = 72343,
         category = 'coupes',
+        type = 'automobile',
         hash = `felon2`,
     },
     feltzer2 = {
@@ -2254,6 +2535,7 @@ return {
         model = 'feltzer2',
         price = 82235,
         category = 'sports',
+        type = 'automobile',
         hash = `feltzer2`,
     },
     feltzer3 = {
@@ -2262,6 +2544,7 @@ return {
         model = 'feltzer3',
         price = 76445,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `feltzer3`,
     },
     firetruk = {
@@ -2270,6 +2553,7 @@ return {
         model = 'firetruk',
         price = 64793,
         category = 'emergency',
+        type = 'automobile',
         hash = `firetruk`,
     },
     fixter = {
@@ -2278,6 +2562,7 @@ return {
         model = 'fixter',
         price = 2835,
         category = 'cycles',
+        type = 'bike',
         hash = `fixter`,
     },
     flashgt = {
@@ -2286,6 +2571,7 @@ return {
         model = 'flashgt',
         price = 73890,
         category = 'sports',
+        type = 'automobile',
         hash = `flashgt`,
     },
     flatbed = {
@@ -2294,6 +2580,7 @@ return {
         model = 'flatbed',
         price = 46633,
         category = 'industrial',
+        type = 'automobile',
         hash = `flatbed`,
     },
     fmj = {
@@ -2302,6 +2589,7 @@ return {
         model = 'fmj',
         price = 88017,
         category = 'super',
+        type = 'automobile',
         hash = `fmj`,
     },
     forklift = {
@@ -2310,6 +2598,7 @@ return {
         model = 'forklift',
         price = 17664,
         category = 'utility',
+        type = 'automobile',
         hash = `forklift`,
     },
     formula = {
@@ -2318,6 +2607,7 @@ return {
         model = 'formula',
         price = 106933,
         category = 'openwheel',
+        type = 'automobile',
         hash = `formula`,
     },
     formula2 = {
@@ -2326,6 +2616,7 @@ return {
         model = 'formula2',
         price = 106571,
         category = 'openwheel',
+        type = 'automobile',
         hash = `formula2`,
     },
     fq2 = {
@@ -2334,6 +2625,7 @@ return {
         model = 'fq2',
         price = 65442,
         category = 'suvs',
+        type = 'automobile',
         hash = `fq2`,
     },
     fr36 = {
@@ -2342,6 +2634,7 @@ return {
         model = 'fr36',
         price = 78667,
         category = 'coupes',
+        type = 'automobile',
         hash = `fr36`,
     },
     freecrawler = {
@@ -2350,6 +2643,7 @@ return {
         model = 'freecrawler',
         price = 60453,
         category = 'offroad',
+        type = 'automobile',
         hash = `freecrawler`,
     },
     freight = {
@@ -2358,6 +2652,7 @@ return {
         model = 'freight',
         price = 194680,
         category = 'trains',
+        type = 'train',
         hash = `freight`,
     },
     freight2 = {
@@ -2366,6 +2661,7 @@ return {
         model = 'freight2',
         price = 194680,
         category = 'trains',
+        type = 'train',
         hash = `freight2`,
     },
     freightcar = {
@@ -2374,6 +2670,7 @@ return {
         model = 'freightcar',
         price = 194680,
         category = 'trains',
+        type = 'train',
         hash = `freightcar`,
     },
     freightcar2 = {
@@ -2382,6 +2679,7 @@ return {
         model = 'freightcar2',
         price = 194680,
         category = 'trains',
+        type = 'train',
         hash = `freightcar2`,
     },
     freightcont1 = {
@@ -2390,6 +2688,7 @@ return {
         model = 'freightcont1',
         price = 194680,
         category = 'trains',
+        type = 'train',
         hash = `freightcont1`,
     },
     freightcont2 = {
@@ -2398,6 +2697,7 @@ return {
         model = 'freightcont2',
         price = 194680,
         category = 'trains',
+        type = 'train',
         hash = `freightcont2`,
     },
     freightgrain = {
@@ -2406,6 +2706,7 @@ return {
         model = 'freightgrain',
         price = 194680,
         category = 'trains',
+        type = 'train',
         hash = `freightgrain`,
     },
     freighttrailer = {
@@ -2414,6 +2715,7 @@ return {
         model = 'freighttrailer',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `freighttrailer`,
     },
     frogger = {
@@ -2422,6 +2724,7 @@ return {
         model = 'frogger',
         price = 6367865,
         category = 'helicopters',
+        type = 'heli',
         hash = `frogger`,
     },
     frogger2 = {
@@ -2430,6 +2733,7 @@ return {
         model = 'frogger2',
         price = 6367865,
         category = 'helicopters',
+        type = 'heli',
         hash = `frogger2`,
     },
     fugitive = {
@@ -2438,6 +2742,7 @@ return {
         model = 'fugitive',
         price = 67317,
         category = 'sedans',
+        type = 'automobile',
         hash = `fugitive`,
     },
     furia = {
@@ -2446,6 +2751,7 @@ return {
         model = 'furia',
         price = 83110,
         category = 'super',
+        type = 'automobile',
         hash = `furia`,
     },
     furoregt = {
@@ -2454,6 +2760,7 @@ return {
         model = 'furoregt',
         price = 84346,
         category = 'sports',
+        type = 'automobile',
         hash = `furoregt`,
     },
     fusilade = {
@@ -2462,6 +2769,7 @@ return {
         model = 'fusilade',
         price = 81251,
         category = 'sports',
+        type = 'automobile',
         hash = `fusilade`,
     },
     futo = {
@@ -2470,6 +2778,7 @@ return {
         model = 'futo',
         price = 74336,
         category = 'sports',
+        type = 'automobile',
         hash = `futo`,
     },
     futo2 = {
@@ -2478,6 +2787,7 @@ return {
         model = 'futo2',
         price = 75463,
         category = 'sports',
+        type = 'automobile',
         hash = `futo2`,
     },
     gargoyle = {
@@ -2486,6 +2796,7 @@ return {
         model = 'gargoyle',
         price = 25195,
         category = 'motorcycles',
+        type = 'bike',
         hash = `gargoyle`,
     },
     gauntlet = {
@@ -2494,6 +2805,7 @@ return {
         model = 'gauntlet',
         price = 78237,
         category = 'muscle',
+        type = 'automobile',
         hash = `gauntlet`,
     },
     gauntlet2 = {
@@ -2502,6 +2814,7 @@ return {
         model = 'gauntlet2',
         price = 80506,
         category = 'muscle',
+        type = 'automobile',
         hash = `gauntlet2`,
     },
     gauntlet3 = {
@@ -2510,6 +2823,7 @@ return {
         model = 'gauntlet3',
         price = 73572,
         category = 'muscle',
+        type = 'automobile',
         hash = `gauntlet3`,
     },
     gauntlet4 = {
@@ -2518,6 +2832,7 @@ return {
         model = 'gauntlet4',
         price = 81048,
         category = 'muscle',
+        type = 'automobile',
         hash = `gauntlet4`,
     },
     gauntlet5 = {
@@ -2526,6 +2841,7 @@ return {
         model = 'gauntlet5',
         price = 80250,
         category = 'muscle',
+        type = 'automobile',
         hash = `gauntlet5`,
     },
     gauntlet6 = {
@@ -2534,6 +2850,7 @@ return {
         model = 'gauntlet6',
         price = 81665,
         category = 'sports',
+        type = 'automobile',
         hash = `gauntlet6`,
     },
     gb200 = {
@@ -2542,6 +2859,7 @@ return {
         model = 'gb200',
         price = 74534,
         category = 'sports',
+        type = 'automobile',
         hash = `gb200`,
     },
     gburrito = {
@@ -2550,6 +2868,7 @@ return {
         model = 'gburrito',
         price = 61195,
         category = 'vans',
+        type = 'automobile',
         hash = `gburrito`,
     },
     gburrito2 = {
@@ -2558,6 +2877,7 @@ return {
         model = 'gburrito2',
         price = 66162,
         category = 'vans',
+        type = 'automobile',
         hash = `gburrito2`,
     },
     glendale = {
@@ -2566,6 +2886,7 @@ return {
         model = 'glendale',
         price = 65948,
         category = 'sedans',
+        type = 'automobile',
         hash = `glendale`,
     },
     glendale2 = {
@@ -2574,23 +2895,26 @@ return {
         model = 'glendale2',
         price = 66105,
         category = 'sedans',
+        type = 'automobile',
         hash = `glendale2`,
     },
     gp1 = {
-        brand = 'Progen',
-        category = 'super',
-        hash = `gp1`,
-        model = 'gp1',
         name = 'GP1',
+        brand = 'Progen',
+        model = 'gp1',
         price = 84220,
+        category = 'super',
+        type = 'automobile',
+        hash = `gp1`,
     },
     graintrailer = {
-        brand = '',
-        category = 'utility',
-        hash = `graintrailer`,
-        model = 'graintrailer',
         name = 'Grain Trailer',
+        brand = '',
+        model = 'graintrailer',
         price = 5668,
+        category = 'utility',
+        type = 'trailer',
+        hash = `graintrailer`,
     },
     granger = {
         name = 'Granger',
@@ -2598,6 +2922,7 @@ return {
         model = 'granger',
         price = 60692,
         category = 'suvs',
+        type = 'automobile',
         hash = `granger`,
     },
     granger2 = {
@@ -2606,6 +2931,7 @@ return {
         model = 'granger2',
         price = 57057,
         category = 'suvs',
+        type = 'automobile',
         hash = `granger2`,
     },
     greenwood = {
@@ -2614,6 +2940,7 @@ return {
         model = 'greenwood',
         price = 78897,
         category = 'muscle',
+        type = 'automobile',
         hash = `greenwood`,
     },
     gresley = {
@@ -2622,6 +2949,7 @@ return {
         model = 'gresley',
         price = 63694,
         category = 'suvs',
+        type = 'automobile',
         hash = `gresley`,
     },
     growler = {
@@ -2630,6 +2958,7 @@ return {
         model = 'growler',
         price = 82635,
         category = 'sports',
+        type = 'automobile',
         hash = `growler`,
     },
     gt500 = {
@@ -2638,6 +2967,7 @@ return {
         model = 'gt500',
         price = 76158,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `gt500`,
     },
     guardian = {
@@ -2646,6 +2976,7 @@ return {
         model = 'guardian',
         price = 65628,
         category = 'industrial',
+        type = 'automobile',
         hash = `guardian`,
     },
     habanero = {
@@ -2654,6 +2985,7 @@ return {
         model = 'habanero',
         price = 65442,
         category = 'suvs',
+        type = 'automobile',
         hash = `habanero`,
     },
     hakuchou = {
@@ -2662,6 +2994,7 @@ return {
         model = 'hakuchou',
         price = 25975,
         category = 'motorcycles',
+        type = 'bike',
         hash = `hakuchou`,
     },
     hakuchou2 = {
@@ -2670,6 +3003,7 @@ return {
         model = 'hakuchou2',
         price = 27374,
         category = 'motorcycles',
+        type = 'bike',
         hash = `hakuchou2`,
     },
     halftrack = {
@@ -2678,6 +3012,7 @@ return {
         model = 'halftrack',
         price = 34933,
         category = 'military',
+        type = 'automobile',
         hash = `halftrack`,
     },
     handler = {
@@ -2686,6 +3021,7 @@ return {
         model = 'handler',
         price = 14549,
         category = 'industrial',
+        type = 'automobile',
         hash = `handler`,
     },
     hauler = {
@@ -2694,6 +3030,7 @@ return {
         model = 'hauler',
         price = 48240,
         category = 'commercial',
+        type = 'automobile',
         hash = `hauler`,
     },
     hauler2 = {
@@ -2702,6 +3039,7 @@ return {
         model = 'hauler2',
         price = 70102,
         category = 'commercial',
+        type = 'automobile',
         hash = `hauler2`,
     },
     havok = {
@@ -2710,6 +3048,7 @@ return {
         model = 'havok',
         price = 6462758,
         category = 'helicopters',
+        type = 'heli',
         hash = `havok`,
     },
     hellion = {
@@ -2718,6 +3057,7 @@ return {
         model = 'hellion',
         price = 66525,
         category = 'offroad',
+        type = 'automobile',
         hash = `hellion`,
     },
     hermes = {
@@ -2726,6 +3066,7 @@ return {
         model = 'hermes',
         price = 68776,
         category = 'muscle',
+        type = 'automobile',
         hash = `hermes`,
     },
     hexer = {
@@ -2734,6 +3075,7 @@ return {
         model = 'hexer',
         price = 22521,
         category = 'motorcycles',
+        type = 'bike',
         hash = `hexer`,
     },
     hotknife = {
@@ -2742,7 +3084,8 @@ return {
         model = 'hotknife',
         price = 74328,
         category = 'muscle',
-        hash = `hotknife`,
+        type = 'automobile',hash = `hotknife`,
+
     },
     hotring = {
         name = 'Hotring Sabre',
@@ -2750,6 +3093,7 @@ return {
         model = 'hotring',
         price = 79724,
         category = 'sports',
+        type = 'automobile',
         hash = `hotring`,
     },
     howard = {
@@ -2758,6 +3102,7 @@ return {
         model = 'howard',
         price = 2587839,
         category = 'planes',
+        type = 'plane',
         hash = `howard`,
     },
     hunter = {
@@ -2766,6 +3111,7 @@ return {
         model = 'hunter',
         price = 6546934,
         category = 'helicopters',
+        type = 'heli',
         hash = `hunter`,
     },
     huntley = {
@@ -2774,6 +3120,7 @@ return {
         model = 'huntley',
         price = 74869,
         category = 'suvs',
+        type = 'automobile',
         hash = `huntley`,
     },
     hustler = {
@@ -2782,6 +3129,7 @@ return {
         model = 'hustler',
         price = 72900,
         category = 'muscle',
+        type = 'automobile',
         hash = `hustler`,
     },
     hydra = {
@@ -2790,6 +3138,7 @@ return {
         model = 'hydra',
         price = 2193367,
         category = 'planes',
+        type = 'plane',
         hash = `hydra`,
     },
     ignus = {
@@ -2798,6 +3147,7 @@ return {
         model = 'ignus',
         price = 87219,
         category = 'super',
+        type = 'automobile',
         hash = `ignus`,
     },
     imorgon = {
@@ -2806,6 +3156,7 @@ return {
         model = 'imorgon',
         price = 76854,
         category = 'sports',
+        type = 'automobile',
         hash = `imorgon`,
     },
     impaler = {
@@ -2814,6 +3165,7 @@ return {
         model = 'impaler',
         price = 74584,
         category = 'muscle',
+        type = 'automobile',
         hash = `impaler`,
     },
     impaler2 = {
@@ -2822,6 +3174,7 @@ return {
         model = 'impaler2',
         price = 84076,
         category = 'muscle',
+        type = 'automobile',
         hash = `impaler2`,
     },
     impaler3 = {
@@ -2830,6 +3183,7 @@ return {
         model = 'impaler3',
         price = 84076,
         category = 'muscle',
+        type = 'automobile',
         hash = `impaler3`,
     },
     impaler4 = {
@@ -2838,6 +3192,7 @@ return {
         model = 'impaler4',
         price = 84076,
         category = 'muscle',
+        type = 'automobile',
         hash = `impaler4`,
     },
     impaler5 = {
@@ -2846,6 +3201,7 @@ return {
         model = 'impaler5',
         price = 78875,
         category = 'sedans',
+        type = 'automobile',
         hash = `impaler5`,
     },
     impaler6 = {
@@ -2854,6 +3210,7 @@ return {
         model = 'impaler6',
         price = 77917,
         category = 'muscle',
+        type = 'automobile',
         hash = `impaler6`,
     },
     imperator = {
@@ -2862,6 +3219,7 @@ return {
         model = 'imperator',
         price = 80296,
         category = 'muscle',
+        type = 'automobile',
         hash = `imperator`,
     },
     imperator2 = {
@@ -2870,6 +3228,7 @@ return {
         model = 'imperator2',
         price = 80296,
         category = 'muscle',
+        type = 'automobile',
         hash = `imperator2`,
     },
     imperator3 = {
@@ -2878,22 +3237,25 @@ return {
         model = 'imperator3',
         price = 80296,
         category = 'muscle',
+        type = 'automobile',
         hash = `imperator3`,
     },
     inductor = {
         name = 'Inductor',
-        brand = '',
+        brand = 'Coil',
         model = 'inductor',
         price = 2607,
         category = 'cycles',
+        type = 'bike',
         hash = `inductor`,
     },
     inductor2 = {
         name = 'Junk Energy Inductor',
-        brand = '',
+        brand = 'Coil',
         model = 'inductor2',
         price = 2607,
         category = 'cycles',
+        type = 'bike',
         hash = `inductor2`,
     },
     infernus = {
@@ -2902,6 +3264,7 @@ return {
         model = 'infernus',
         price = 81077,
         category = 'super',
+        type = 'automobile',
         hash = `infernus`,
     },
     infernus2 = {
@@ -2910,6 +3273,7 @@ return {
         model = 'infernus2',
         price = 79349,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `infernus2`,
     },
     ingot = {
@@ -2918,6 +3282,7 @@ return {
         model = 'ingot',
         price = 53344,
         category = 'sedans',
+        type = 'automobile',
         hash = `ingot`,
     },
     innovation = {
@@ -2926,6 +3291,7 @@ return {
         model = 'innovation',
         price = 23509,
         category = 'motorcycles',
+        type = 'bike',
         hash = `innovation`,
     },
     insurgent = {
@@ -2934,6 +3300,7 @@ return {
         model = 'insurgent',
         price = 59045,
         category = 'offroad',
+        type = 'automobile',
         hash = `insurgent`,
     },
     insurgent2 = {
@@ -2942,6 +3309,7 @@ return {
         model = 'insurgent2',
         price = 59045,
         category = 'offroad',
+        type = 'automobile',
         hash = `insurgent2`,
     },
     insurgent3 = {
@@ -2950,6 +3318,7 @@ return {
         model = 'insurgent3',
         price = 59045,
         category = 'offroad',
+        type = 'automobile',
         hash = `insurgent3`,
     },
     intruder = {
@@ -2958,63 +3327,71 @@ return {
         model = 'intruder',
         price = 65682,
         category = 'sedans',
+        type = 'automobile',
         hash = `intruder`,
     },
     issi2 = {
-        brand = 'Weeny',
-        category = 'compacts',
-        hash = `issi2`,
-        model = 'issi2',
         name = 'Issi',
+        brand = 'Weeny',
+        model = 'issi2',
         price = 69371,
+        category = 'compacts',
+        type = 'automobile',
+        hash = `issi2`,
     },
     issi3 = {
-        brand = 'Weeny',
-        category = 'compacts',
-        hash = `issi3`,
-        model = 'issi3',
         name = 'Issi Classic',
+        brand = 'Weeny',
+        model = 'issi3',
         price = 65593,
+        category = 'compacts',
+        type = 'automobile',
+        hash = `issi3`,
     },
     issi4 = {
-        brand = 'Weeny',
-        category = 'compacts',
-        hash = `issi4`,
-        model = 'issi4',
         name = 'Apocalypse Issi',
+        brand = 'Weeny',
+        model = 'issi4',
         price = 74235,
+        category = 'compacts',
+        type = 'automobile',
+        hash = `issi4`,
     },
     issi5 = {
-        brand = 'Weeny',
-        category = 'compacts',
-        hash = `issi5`,
-        model = 'issi5',
         name = 'Future Shock Issi',
+        brand = 'Weeny',
+        model = 'issi5',
         price = 74235,
+        category = 'compacts',
+        type = 'automobile',
+        hash = `issi5`,
     },
     issi6 = {
-        brand = 'Weeny',
-        category = 'compacts',
-        hash = `issi6`,
-        model = 'issi6',
         name = 'Nightmare Issi',
+        brand = 'Weeny',
+        model = 'issi6',
         price = 74235,
+        category = 'compacts',
+        type = 'automobile',
+        hash = `issi6`,
     },
     issi7 = {
-        brand = 'Weeny',
-        category = 'sports',
-        hash = `issi7`,
-        model = 'issi7',
         name = 'Issi Sport',
+        brand = 'Weeny',
+        model = 'issi7',
         price = 70443,
+        category = 'sports',
+        type = 'automobile',
+        hash = `issi7`,
     },
     issi8 = {
-        brand = 'Weeny',
-        category = 'suvs',
-        hash = `issi8`,
-        model = 'issi8',
         name = 'Issi Rally',
+        brand = 'Weeny',
+        model = 'issi8',
         price = 79711,
+        category = 'suvs',
+        type = 'automobile',
+        hash = `issi8`,
     },
     italigtb = {
         name = 'Itali GTB',
@@ -3022,6 +3399,7 @@ return {
         model = 'italigtb',
         price = 86900,
         category = 'super',
+        type = 'automobile',
         hash = `italigtb`,
     },
     italigtb2 = {
@@ -3030,6 +3408,7 @@ return {
         model = 'italigtb2',
         price = 87587,
         category = 'super',
+        type = 'automobile',
         hash = `italigtb2`,
     },
     italigto = {
@@ -3038,6 +3417,7 @@ return {
         model = 'italigto',
         price = 87475,
         category = 'sports',
+        type = 'automobile',
         hash = `italigto`,
     },
     italirsx = {
@@ -3046,6 +3426,7 @@ return {
         model = 'italirsx',
         price = 87682,
         category = 'sports',
+        type = 'automobile',
         hash = `italirsx`,
     },
     iwagen = {
@@ -3054,6 +3435,7 @@ return {
         model = 'iwagen',
         price = 55888,
         category = 'suvs',
+        type = 'automobile',
         hash = `iwagen`,
     },
     jackal = {
@@ -3062,6 +3444,7 @@ return {
         model = 'jackal',
         price = 76324,
         category = 'coupes',
+        type = 'automobile',
         hash = `jackal`,
     },
     jb700 = {
@@ -3070,6 +3453,7 @@ return {
         model = 'jb700',
         price = 82400,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `jb700`,
     },
     jb7002 = {
@@ -3078,6 +3462,7 @@ return {
         model = 'jb7002',
         price = 82400,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `jb7002`,
     },
     jester = {
@@ -3086,6 +3471,7 @@ return {
         model = 'jester',
         price = 76685,
         category = 'sports',
+        type = 'automobile',
         hash = `jester`,
     },
     jester2 = {
@@ -3094,6 +3480,7 @@ return {
         model = 'jester2',
         price = 78165,
         category = 'sports',
+        type = 'automobile',
         hash = `jester2`,
     },
     jester3 = {
@@ -3102,6 +3489,7 @@ return {
         model = 'jester3',
         price = 80462,
         category = 'sports',
+        type = 'automobile',
         hash = `jester3`,
     },
     jester4 = {
@@ -3110,6 +3498,7 @@ return {
         model = 'jester4',
         price = 79879,
         category = 'sports',
+        type = 'automobile',
         hash = `jester4`,
     },
     jet = {
@@ -3118,6 +3507,7 @@ return {
         model = 'jet',
         price = 1537948,
         category = 'planes',
+        type = 'plane',
         hash = `jet`,
     },
     jetmax = {
@@ -3126,6 +3516,7 @@ return {
         model = 'jetmax',
         price = 478680,
         category = 'boats',
+        type = 'boat',
         hash = `jetmax`,
     },
     journey = {
@@ -3134,6 +3525,7 @@ return {
         model = 'journey',
         price = 52886,
         category = 'vans',
+        type = 'automobile',
         hash = `journey`,
     },
     journey2 = {
@@ -3142,6 +3534,7 @@ return {
         model = 'journey2',
         price = 52886,
         category = 'vans',
+        type = 'automobile',
         hash = `journey2`,
     },
     jubilee = {
@@ -3150,6 +3543,7 @@ return {
         model = 'jubilee',
         price = 71210,
         category = 'suvs',
+        type = 'automobile',
         hash = `jubilee`,
     },
     jugular = {
@@ -3158,6 +3552,7 @@ return {
         model = 'jugular',
         price = 81412,
         category = 'sports',
+        type = 'automobile',
         hash = `jugular`,
     },
     kalahari = {
@@ -3166,6 +3561,7 @@ return {
         model = 'kalahari',
         price = 59046,
         category = 'offroad',
+        type = 'automobile',
         hash = `kalahari`,
     },
     kamacho = {
@@ -3174,6 +3570,7 @@ return {
         model = 'kamacho',
         price = 67315,
         category = 'offroad',
+        type = 'automobile',
         hash = `kamacho`,
     },
     kanjo = {
@@ -3182,6 +3579,7 @@ return {
         model = 'kanjo',
         price = 73478,
         category = 'compacts',
+        type = 'automobile',
         hash = `kanjo`,
     },
     kanjosj = {
@@ -3190,6 +3588,7 @@ return {
         model = 'kanjosj',
         price = 73789,
         category = 'coupes',
+        type = 'automobile',
         hash = `kanjosj`,
     },
     khamelion = {
@@ -3198,6 +3597,7 @@ return {
         model = 'khamelion',
         price = 53292,
         category = 'sports',
+        type = 'automobile',
         hash = `khamelion`,
     },
     khanjali = {
@@ -3206,6 +3606,7 @@ return {
         model = 'khanjali',
         price = 30243,
         category = 'military',
+        type = 'automobile',
         hash = `khanjali`,
     },
     komoda = {
@@ -3214,6 +3615,7 @@ return {
         model = 'komoda',
         price = 83129,
         category = 'sports',
+        type = 'automobile',
         hash = `komoda`,
     },
     kosatka = {
@@ -3222,6 +3624,7 @@ return {
         model = 'kosatka',
         price = 624016,
         category = 'boats',
+        type = 'boat',
         hash = `kosatka`,
     },
     krieger = {
@@ -3230,6 +3633,7 @@ return {
         model = 'krieger',
         price = 87715,
         category = 'super',
+        type = 'automobile',
         hash = `krieger`,
     },
     kuruma = {
@@ -3238,6 +3642,7 @@ return {
         model = 'kuruma',
         price = 77445,
         category = 'sports',
+        type = 'automobile',
         hash = `kuruma`,
     },
     kuruma2 = {
@@ -3246,6 +3651,7 @@ return {
         model = 'kuruma2',
         price = 75885,
         category = 'sports',
+        type = 'automobile',
         hash = `kuruma2`,
     },
     l35 = {
@@ -3254,6 +3660,7 @@ return {
         model = 'l35',
         price = 64429,
         category = 'offroad',
+        type = 'automobile',
         hash = `l35`,
     },
     landstalker = {
@@ -3262,6 +3669,7 @@ return {
         model = 'landstalker',
         price = 61393,
         category = 'suvs',
+        type = 'automobile',
         hash = `landstalker`,
     },
     landstalker2 = {
@@ -3270,14 +3678,16 @@ return {
         model = 'landstalker2',
         price = 62744,
         category = 'suvs',
+        type = 'automobile',
         hash = `landstalker2`,
     },
     lazer = {
         name = 'P-996 LAZER',
-        brand = '',
+        brand = 'Jobuilt',
         model = 'lazer',
         price = 2374069,
         category = 'planes',
+        type = 'plane',
         hash = `lazer`,
     },
     le7b = {
@@ -3286,6 +3696,7 @@ return {
         model = 'le7b',
         price = 84125,
         category = 'super',
+        type = 'automobile',
         hash = `le7b`,
     },
     lectro = {
@@ -3294,6 +3705,7 @@ return {
         model = 'lectro',
         price = 27225,
         category = 'motorcycles',
+        type = 'bike',
         hash = `lectro`,
     },
     lguard = {
@@ -3302,6 +3714,7 @@ return {
         model = 'lguard',
         price = 62617,
         category = 'emergency',
+        type = 'automobile',
         hash = `lguard`,
     },
     limo2 = {
@@ -3310,6 +3723,7 @@ return {
         model = 'limo2',
         price = 65584,
         category = 'sedans',
+        type = 'automobile',
         hash = `limo2`,
     },
     lm87 = {
@@ -3318,6 +3732,7 @@ return {
         model = 'lm87',
         price = 84509,
         category = 'super',
+        type = 'automobile',
         hash = `lm87`,
     },
     locust = {
@@ -3326,6 +3741,7 @@ return {
         model = 'locust',
         price = 81371,
         category = 'sports',
+        type = 'automobile',
         hash = `locust`,
     },
     longfin = {
@@ -3334,6 +3750,7 @@ return {
         model = 'longfin',
         price = 500680,
         category = 'boats',
+        type = 'boat',
         hash = `longfin`,
     },
     lurcher = {
@@ -3342,6 +3759,7 @@ return {
         model = 'lurcher',
         price = 78245,
         category = 'muscle',
+        type = 'automobile',
         hash = `lurcher`,
     },
     luxor = {
@@ -3350,6 +3768,7 @@ return {
         model = 'luxor',
         price = 1818934,
         category = 'planes',
+        type = 'plane',
         hash = `luxor`,
     },
     luxor2 = {
@@ -3358,6 +3777,7 @@ return {
         model = 'luxor2',
         price = 1834048,
         category = 'planes',
+        type = 'plane',
         hash = `luxor2`,
     },
     lynx = {
@@ -3366,6 +3786,7 @@ return {
         model = 'lynx',
         price = 81739,
         category = 'sports',
+        type = 'automobile',
         hash = `lynx`,
     },
     mamba = {
@@ -3374,6 +3795,7 @@ return {
         model = 'mamba',
         price = 81429,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `mamba`,
     },
     mammatus = {
@@ -3382,6 +3804,7 @@ return {
         model = 'mammatus',
         price = 1321065,
         category = 'planes',
+        type = 'plane',
         hash = `mammatus`,
     },
     manana = {
@@ -3390,6 +3813,7 @@ return {
         model = 'manana',
         price = 60635,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `manana`,
     },
     manana2 = {
@@ -3398,6 +3822,7 @@ return {
         model = 'manana2',
         price = 71516,
         category = 'muscle',
+        type = 'automobile',
         hash = `manana2`,
     },
     manchez = {
@@ -3406,6 +3831,7 @@ return {
         model = 'manchez',
         price = 23138,
         category = 'motorcycles',
+        type = 'bike',
         hash = `manchez`,
     },
     manchez2 = {
@@ -3414,6 +3840,7 @@ return {
         model = 'manchez2',
         price = 21545,
         category = 'motorcycles',
+        type = 'bike',
         hash = `manchez2`,
     },
     manchez3 = {
@@ -3422,6 +3849,7 @@ return {
         model = 'manchez3',
         price = 21632,
         category = 'motorcycles',
+        type = 'bike',
         hash = `manchez3`,
     },
     marquis = {
@@ -3430,6 +3858,7 @@ return {
         model = 'marquis',
         price = 94680,
         category = 'boats',
+        type = 'boat',
         hash = `marquis`,
     },
     marshall = {
@@ -3438,6 +3867,7 @@ return {
         model = 'marshall',
         price = 57276,
         category = 'offroad',
+        type = 'automobile',
         hash = `marshall`,
     },
     massacro = {
@@ -3446,6 +3876,7 @@ return {
         model = 'massacro',
         price = 83972,
         category = 'sports',
+        type = 'automobile',
         hash = `massacro`,
     },
     massacro2 = {
@@ -3454,6 +3885,7 @@ return {
         model = 'massacro2',
         price = 83972,
         category = 'sports',
+        type = 'automobile',
         hash = `massacro2`,
     },
     maverick = {
@@ -3462,6 +3894,7 @@ return {
         model = 'maverick',
         price = 6031333,
         category = 'helicopters',
+        type = 'heli',
         hash = `maverick`,
     },
     menacer = {
@@ -3470,6 +3903,7 @@ return {
         model = 'menacer',
         price = 53078,
         category = 'offroad',
+        type = 'automobile',
         hash = `menacer`,
     },
     mesa = {
@@ -3478,6 +3912,7 @@ return {
         model = 'mesa',
         price = 57125,
         category = 'suvs',
+        type = 'automobile',
         hash = `mesa`,
     },
     mesa2 = {
@@ -3486,6 +3921,7 @@ return {
         model = 'mesa2',
         price = 57125,
         category = 'suvs',
+        type = 'automobile',
         hash = `mesa2`,
     },
     mesa3 = {
@@ -3494,6 +3930,7 @@ return {
         model = 'mesa3',
         price = 57125,
         category = 'offroad',
+        type = 'automobile',
         hash = `mesa3`,
     },
     metrotrain = {
@@ -3502,6 +3939,7 @@ return {
         model = 'metrotrain',
         price = 194680,
         category = 'trains',
+        type = 'train',
         hash = `metrotrain`,
     },
     michelli = {
@@ -3510,6 +3948,7 @@ return {
         model = 'michelli',
         price = 74020,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `michelli`,
     },
     microlight = {
@@ -3518,6 +3957,7 @@ return {
         model = 'microlight',
         price = 987645,
         category = 'planes',
+        type = 'plane',
         hash = `microlight`,
     },
     miljet = {
@@ -3526,6 +3966,7 @@ return {
         model = 'miljet',
         price = 1849116,
         category = 'planes',
+        type = 'plane',
         hash = `miljet`,
     },
     minitank = {
@@ -3534,6 +3975,7 @@ return {
         model = 'minitank',
         price = 24911,
         category = 'military',
+        type = 'automobile',
         hash = `minitank`,
     },
     minivan = {
@@ -3542,6 +3984,7 @@ return {
         model = 'minivan',
         price = 58370,
         category = 'vans',
+        type = 'automobile',
         hash = `minivan`,
     },
     minivan2 = {
@@ -3550,6 +3993,7 @@ return {
         model = 'minivan2',
         price = 58450,
         category = 'vans',
+        type = 'automobile',
         hash = `minivan2`,
     },
     mixer = {
@@ -3558,6 +4002,7 @@ return {
         hash = `mixer`,
         model = 'mixer',
         name = 'Mixer',
+        type = 'automobile',
         price = 53283,
     },
     mixer2 = {
@@ -3566,6 +4011,7 @@ return {
         model = 'mixer2',
         price = 53283,
         category = 'industrial',
+        type = 'automobile',
         hash = `mixer2`,
     },
     mogul = {
@@ -3574,6 +4020,7 @@ return {
         model = 'mogul',
         price = 1489140,
         category = 'planes',
+        type = 'plane',
         hash = `mogul`,
     },
     molotok = {
@@ -3582,6 +4029,7 @@ return {
         model = 'molotok',
         price = 2145700,
         category = 'planes',
+        type = 'plane',
         hash = `molotok`,
     },
     monroe = {
@@ -3590,6 +4038,7 @@ return {
         model = 'monroe',
         price = 82544,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `monroe`,
     },
     monster = {
@@ -3598,6 +4047,7 @@ return {
         model = 'monster',
         price = 57276,
         category = 'offroad',
+        type = 'automobile',
         hash = `monster`,
     },
     monster3 = {
@@ -3606,6 +4056,7 @@ return {
         model = 'monster3',
         price = 64365,
         category = 'offroad',
+        type = 'automobile',
         hash = `monster3`,
     },
     monster4 = {
@@ -3614,6 +4065,7 @@ return {
         model = 'monster4',
         price = 64365,
         category = 'offroad',
+        type = 'automobile',
         hash = `monster4`,
     },
     monster5 = {
@@ -3622,6 +4074,7 @@ return {
         model = 'monster5',
         price = 64365,
         category = 'offroad',
+        type = 'automobile',
         hash = `monster5`,
     },
     monstrociti = {
@@ -3630,6 +4083,7 @@ return {
         model = 'monstrociti',
         price = 68406,
         category = 'offroad',
+        type = 'automobile',
         hash = `monstrociti`,
     },
     moonbeam = {
@@ -3638,6 +4092,7 @@ return {
         model = 'moonbeam',
         price = 68586,
         category = 'muscle',
+        type = 'automobile',
         hash = `moonbeam`,
     },
     moonbeam2 = {
@@ -3646,14 +4101,16 @@ return {
         model = 'moonbeam2',
         price = 68586,
         category = 'muscle',
+        type = 'automobile',
         hash = `moonbeam2`,
     },
     mower = {
         name = 'Lawn Mower',
-        brand = '',
+        brand = 'Jack Sheepe',
         model = 'mower',
         price = 12234,
         category = 'utility',
+        type = 'automobile',
         hash = `mower`,
     },
     mule = {
@@ -3662,6 +4119,7 @@ return {
         model = 'mule',
         price = 47273,
         category = 'commercial',
+        type = 'automobile',
         hash = `mule`,
     },
     mule2 = {
@@ -3670,6 +4128,7 @@ return {
         model = 'mule2',
         price = 47273,
         category = 'commercial',
+        type = 'automobile',
         hash = `mule2`,
     },
     mule3 = {
@@ -3678,6 +4137,7 @@ return {
         model = 'mule3',
         price = 52599,
         category = 'commercial',
+        type = 'automobile',
         hash = `mule3`,
     },
     mule4 = {
@@ -3686,6 +4146,7 @@ return {
         model = 'mule4',
         price = 47273,
         category = 'commercial',
+        type = 'automobile',
         hash = `mule4`,
     },
     mule5 = {
@@ -3694,6 +4155,7 @@ return {
         model = 'mule5',
         price = 52599,
         category = 'commercial',
+        type = 'automobile',
         hash = `mule5`,
     },
     nebula = {
@@ -3702,6 +4164,7 @@ return {
         model = 'nebula',
         price = 62877,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `nebula`,
     },
     nemesis = {
@@ -3710,6 +4173,7 @@ return {
         model = 'nemesis',
         price = 23612,
         category = 'motorcycles',
+        type = 'bike',
         hash = `nemesis`,
     },
     neo = {
@@ -3718,6 +4182,7 @@ return {
         model = 'neo',
         price = 85696,
         category = 'sports',
+        type = 'automobile',
         hash = `neo`,
     },
     neon = {
@@ -3726,6 +4191,7 @@ return {
         model = 'neon',
         price = 65765,
         category = 'sports',
+        type = 'automobile',
         hash = `neon`,
     },
     nero = {
@@ -3734,6 +4200,7 @@ return {
         model = 'nero',
         price = 87515,
         category = 'super',
+        type = 'automobile',
         hash = `nero`,
     },
     nero2 = {
@@ -3742,6 +4209,7 @@ return {
         model = 'nero2',
         price = 88062,
         category = 'super',
+        type = 'automobile',
         hash = `nero2`,
     },
     nightblade = {
@@ -3750,6 +4218,7 @@ return {
         model = 'nightblade',
         price = 24551,
         category = 'motorcycles',
+        type = 'bike',
         hash = `nightblade`,
     },
     nightshade = {
@@ -3758,6 +4227,7 @@ return {
         model = 'nightshade',
         price = 67005,
         category = 'muscle',
+        type = 'automobile',
         hash = `nightshade`,
     },
     nightshark = {
@@ -3766,6 +4236,7 @@ return {
         model = 'nightshark',
         price = 61604,
         category = 'offroad',
+        type = 'automobile',
         hash = `nightshark`,
     },
     nimbus = {
@@ -3774,6 +4245,7 @@ return {
         model = 'nimbus',
         price = 1896246,
         category = 'planes',
+        type = 'plane',
         hash = `nimbus`,
     },
     ninef = {
@@ -3782,6 +4254,7 @@ return {
         model = 'ninef',
         price = 81139,
         category = 'sports',
+        type = 'automobile',
         hash = `ninef`,
     },
     ninef2 = {
@@ -3790,6 +4263,7 @@ return {
         model = 'ninef2',
         price = 81139,
         category = 'sports',
+        type = 'automobile',
         hash = `ninef2`,
     },
     niobe = {
@@ -3798,6 +4272,7 @@ return {
         model = 'niobe',
         price = 81139,
         category = 'sports',
+        type = 'automobile',
         hash = `niobe`,
     },
     nokota = {
@@ -3806,6 +4281,7 @@ return {
         model = 'nokota',
         price = 2079976,
         category = 'planes',
+        type = 'plane',
         hash = `nokota`,
     },
     novak = {
@@ -3814,6 +4290,7 @@ return {
         model = 'novak',
         price = 78077,
         category = 'suvs',
+        type = 'automobile',
         hash = `novak`,
     },
     omnis = {
@@ -3822,6 +4299,7 @@ return {
         model = 'omnis',
         price = 73163,
         category = 'sports',
+        type = 'automobile',
         hash = `omnis`,
     },
     omnisegt = {
@@ -3830,6 +4308,7 @@ return {
         model = 'omnisegt',
         price = 80374,
         category = 'sports',
+        type = 'automobile',
         hash = `omnisegt`,
     },
     openwheel1 = {
@@ -3838,6 +4317,7 @@ return {
         model = 'openwheel1',
         price = 106997,
         category = 'openwheel',
+        type = 'automobile',
         hash = `openwheel1`,
     },
     openwheel2 = {
@@ -3846,6 +4326,7 @@ return {
         model = 'openwheel2',
         price = 107315,
         category = 'openwheel',
+        type = 'automobile',
         hash = `openwheel2`,
     },
     oppressor = {
@@ -3854,6 +4335,7 @@ return {
         model = 'oppressor',
         price = 76316,
         category = 'motorcycles',
+        type = 'bike',
         hash = `oppressor`,
     },
     oppressor2 = {
@@ -3862,6 +4344,7 @@ return {
         model = 'oppressor2',
         price = 74148,
         category = 'motorcycles',
+        type = 'bike',
         hash = `oppressor2`,
     },
     oracle = {
@@ -3870,6 +4353,7 @@ return {
         model = 'oracle',
         price = 75192,
         category = 'coupes',
+        type = 'automobile',
         hash = `oracle`,
     },
     oracle2 = {
@@ -3878,6 +4362,7 @@ return {
         model = 'oracle2',
         price = 76907,
         category = 'coupes',
+        type = 'automobile',
         hash = `oracle2`,
     },
     osiris = {
@@ -3886,6 +4371,7 @@ return {
         model = 'osiris',
         price = 82889,
         category = 'super',
+        type = 'automobile',
         hash = `osiris`,
     },
     outlaw = {
@@ -3894,6 +4380,7 @@ return {
         model = 'outlaw',
         price = 60938,
         category = 'offroad',
+        type = 'automobile',
         hash = `outlaw`,
     },
     packer = {
@@ -3902,6 +4389,7 @@ return {
         model = 'packer',
         price = 60714,
         category = 'commercial',
+        type = 'automobile',
         hash = `packer`,
     },
     panthere = {
@@ -3910,6 +4398,7 @@ return {
         model = 'panthere',
         price = 82311,
         category = 'sports',
+        type = 'automobile',
         hash = `panthere`,
     },
     panto = {
@@ -3918,6 +4407,7 @@ return {
         model = 'panto',
         price = 67549,
         category = 'compacts',
+        type = 'automobile',
         hash = `panto`,
     },
     paradise = {
@@ -3926,6 +4416,7 @@ return {
         model = 'paradise',
         price = 63310,
         category = 'vans',
+        type = 'automobile',
         hash = `paradise`,
     },
     paragon = {
@@ -3934,6 +4425,7 @@ return {
         model = 'paragon',
         price = 75255,
         category = 'sports',
+        type = 'automobile',
         hash = `paragon`,
     },
     paragon2 = {
@@ -3942,6 +4434,7 @@ return {
         model = 'paragon2',
         price = 74900,
         category = 'sports',
+        type = 'automobile',
         hash = `paragon2`,
     },
     paragon3 = {
@@ -3950,6 +4443,7 @@ return {
         model = 'paragon3',
         price = 74900,
         category = 'sports',
+        type = 'automobile',
         hash = `paragon3`,
     },
     pariah = {
@@ -3958,6 +4452,7 @@ return {
         model = 'pariah',
         price = 81207,
         category = 'sports',
+        type = 'automobile',
         hash = `pariah`,
     },
     patriot = {
@@ -3966,6 +4461,7 @@ return {
         model = 'patriot',
         price = 63246,
         category = 'suvs',
+        type = 'automobile',
         hash = `patriot`,
     },
     patriot2 = {
@@ -3974,6 +4470,7 @@ return {
         model = 'patriot2',
         price = 59238,
         category = 'suvs',
+        type = 'automobile',
         hash = `patriot2`,
     },
     patriot3 = {
@@ -3982,6 +4479,7 @@ return {
         model = 'patriot3',
         price = 62402,
         category = 'offroad',
+        type = 'automobile',
         hash = `patriot3`,
     },
     patrolboat = {
@@ -3990,22 +4488,25 @@ return {
         model = 'patrolboat',
         price = 430680,
         category = 'boats',
+        type = 'boat',
         hash = `patrolboat`,
     },
     pbus = {
         name = 'Prison Bus',
-        brand = '',
+        brand = 'Brute',
         model = 'pbus',
         price = 46633,
         category = 'emergency',
+        type = 'automobile',
         hash = `pbus`,
     },
     pbus2 = {
         name = 'Festival Bus',
-        brand = '',
+        brand = 'Brute',
         model = 'pbus2',
         price = 38412,
         category = 'service',
+        type = 'automobile',
         hash = `pbus2`,
     },
     pcj = {
@@ -4014,6 +4515,7 @@ return {
         model = 'pcj',
         price = 20997,
         category = 'motorcycles',
+        type = 'bike',
         hash = `pcj`,
     },
     penetrator = {
@@ -4022,6 +4524,7 @@ return {
         model = 'penetrator',
         price = 81919,
         category = 'super',
+        type = 'automobile',
         hash = `penetrator`,
     },
     penumbra = {
@@ -4030,6 +4533,7 @@ return {
         model = 'penumbra',
         price = 67839,
         category = 'sports',
+        type = 'automobile',
         hash = `penumbra`,
     },
     penumbra2 = {
@@ -4038,6 +4542,7 @@ return {
         model = 'penumbra2',
         price = 74920,
         category = 'sports',
+        type = 'automobile',
         hash = `penumbra2`,
     },
     peyote = {
@@ -4046,6 +4551,7 @@ return {
         model = 'peyote',
         price = 60635,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `peyote`,
     },
     peyote2 = {
@@ -4054,6 +4560,7 @@ return {
         model = 'peyote2',
         price = 77875,
         category = 'muscle',
+        type = 'automobile',
         hash = `peyote2`,
     },
     peyote3 = {
@@ -4062,6 +4569,7 @@ return {
         model = 'peyote3',
         price = 70150,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `peyote3`,
     },
     pfister811 = {
@@ -4070,6 +4578,7 @@ return {
         model = 'pfister811',
         price = 88499,
         category = 'super',
+        type = 'automobile',
         hash = `pfister811`,
     },
     phantom = {
@@ -4078,6 +4587,7 @@ return {
         model = 'phantom',
         price = 56656,
         category = 'commercial',
+        type = 'automobile',
         hash = `phantom`,
     },
     phantom2 = {
@@ -4086,6 +4596,7 @@ return {
         model = 'phantom2',
         price = 72230,
         category = 'commercial',
+        type = 'automobile',
         hash = `phantom2`,
     },
     phantom3 = {
@@ -4094,6 +4605,7 @@ return {
         model = 'phantom3',
         price = 69772,
         category = 'commercial',
+        type = 'automobile',
         hash = `phantom3`,
     },
     phantom4 = {
@@ -4102,6 +4614,7 @@ return {
         model = 'phantom4',
         price = 56656,
         category = 'commercial',
+        type = 'automobile',
         hash = `phantom4`,
     },
     phoenix = {
@@ -4110,6 +4623,7 @@ return {
         model = 'phoenix',
         price = 78433,
         category = 'muscle',
+        type = 'automobile',
         hash = `phoenix`,
     },
     picador = {
@@ -4118,6 +4632,7 @@ return {
         model = 'picador',
         price = 67839,
         category = 'muscle',
+        type = 'automobile',
         hash = `picador`,
     },
     pigalle = {
@@ -4126,6 +4641,7 @@ return {
         model = 'pigalle',
         price = 82282,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `pigalle`,
     },
     pipistrello = {
@@ -4134,6 +4650,7 @@ return {
         model = 'pipistrello',
         price = 82282,
         category = 'super',
+        type = 'automobile',
         hash = `pipistrello`,
     },
     pizzaboy = {
@@ -4142,6 +4659,7 @@ return {
         model = 'pizzaboy',
         price = 82282,
         category = 'motorcycles',
+        type = 'bike',
         hash = `pizzaboy`,
     },
     poldominator10 = {
@@ -4150,6 +4668,7 @@ return {
         model = 'poldominator10',
         price = 81768,
         category = 'emergency',
+        type = 'automobile',
         hash = `poldominator10`,
     },
     poldorado = {
@@ -4158,6 +4677,7 @@ return {
         model = 'poldorado',
         price = 81768,
         category = 'emergency',
+        type = 'automobile',
         hash = `poldorado`,
     },
     polgauntlet = {
@@ -4166,6 +4686,7 @@ return {
         model = 'polgauntlet',
         price = 81768,
         category = 'emergency',
+        type = 'automobile',
         hash = `polgauntlet`,
     },
     polgreenwood = {
@@ -4174,6 +4695,7 @@ return {
         model = 'polgreenwood',
         price = 81768,
         category = 'emergency',
+        type = 'automobile',
         hash = `polgreenwood`,
     },
     police = {
@@ -4182,6 +4704,7 @@ return {
         model = 'police',
         price = 71053,
         category = 'emergency',
+        type = 'automobile',
         hash = `police`,
     },
     police2 = {
@@ -4190,6 +4713,7 @@ return {
         model = 'police2',
         price = 76794,
         category = 'emergency',
+        type = 'automobile',
         hash = `police2`,
     },
     police3 = {
@@ -4198,7 +4722,8 @@ return {
         model = 'police3',
         price = 80470,
         category = 'emergency',
-        hash = `police3`,
+        type = 'automobile',hash = `police3`,
+
     },
     police4 = {
         name = 'Unmarked Cruiser',
@@ -4206,6 +4731,7 @@ return {
         model = 'police4',
         price = 71053,
         category = 'emergency',
+        type = 'automobile',
         hash = `police4`,
     },
     police5 = {
@@ -4214,6 +4740,7 @@ return {
         model = 'police5',
         price = 71053,
         category = 'emergency',
+        type = 'automobile',
         hash = `police5`,
     },
     policeb = {
@@ -4222,6 +4749,7 @@ return {
         model = 'policeb',
         price = 23078,
         category = 'emergency',
+        type = 'automobile',
         hash = `policeb`,
     },
     policeold1 = {
@@ -4230,14 +4758,16 @@ return {
         model = 'policeold1',
         price = 58720,
         category = 'emergency',
+        type = 'automobile',
         hash = `policeold1`,
     },
     policeold2 = {
         name = 'Police Roadcruiser',
-        brand = '',
+        brand = 'Albany',
         model = 'policeold2',
         price = 71053,
         category = 'emergency',
+        type = 'automobile',
         hash = `policeold2`,
     },
     policet = {
@@ -4246,6 +4776,7 @@ return {
         model = 'policet',
         price = 61195,
         category = 'emergency',
+        type = 'automobile',
         hash = `policet`,
     },
     policet3 = {
@@ -4254,6 +4785,7 @@ return {
         model = 'policet3',
         price = 61195,
         category = 'emergency',
+        type = 'automobile',
         hash = `policet3`,
     },
     polimpaler5 = {
@@ -4262,6 +4794,7 @@ return {
         model = 'polimpaler5',
         price = 61195,
         category = 'emergency',
+        type = 'automobile',
         hash = `polimpaler5`,
     },
     polimpaler6 = {
@@ -4270,6 +4803,7 @@ return {
         model = 'polimpaler6',
         price = 61195,
         category = 'emergency',
+        type = 'automobile',
         hash = `polimpaler6`,
     },
     polmav = {
@@ -4278,6 +4812,7 @@ return {
         model = 'polmav',
         price = 6293144,
         category = 'helicopters',
+        type = 'heli',
         hash = `polmav`,
     },
     pony = {
@@ -4286,6 +4821,7 @@ return {
         model = 'pony',
         price = 61195,
         category = 'vans',
+        type = 'automobile',
         hash = `pony`,
     },
     pony2 = {
@@ -4294,6 +4830,7 @@ return {
         model = 'pony2',
         price = 61195,
         category = 'vans',
+        type = 'automobile',
         hash = `pony2`,
     },
     postlude = {
@@ -4302,6 +4839,7 @@ return {
         model = 'postlude',
         price = 69683,
         category = 'coupes',
+        type = 'automobile',
         hash = `postlude`,
     },
     pounder = {
@@ -4310,6 +4848,7 @@ return {
         model = 'pounder',
         price = 55550,
         category = 'commercial',
+        type = 'automobile',
         hash = `pounder`,
     },
     pounder2 = {
@@ -4318,6 +4857,7 @@ return {
         model = 'pounder2',
         price = 60635,
         category = 'commercial',
+        type = 'automobile',
         hash = `pounder2`,
     },
     powersurge = {
@@ -4326,6 +4866,7 @@ return {
         model = 'powersurge',
         price = 23026,
         category = 'motorcycles',
+        type = 'bike',
         hash = `powersurge`,
     },
     prairie = {
@@ -4334,6 +4875,7 @@ return {
         model = 'prairie',
         price = 67519,
         category = 'compacts',
+        type = 'automobile',
         hash = `prairie`,
     },
     pranger = {
@@ -4342,6 +4884,7 @@ return {
         model = 'pranger',
         price = 62617,
         category = 'emergency',
+        type = 'automobile',
         hash = `pranger`,
     },
     predator = {
@@ -4350,6 +4893,7 @@ return {
         model = 'predator',
         price = 412680,
         category = 'boats',
+        type = 'boat',
         hash = `predator`,
     },
     premier = {
@@ -4358,6 +4902,7 @@ return {
         model = 'premier',
         price = 63694,
         category = 'sedans',
+        type = 'automobile',
         hash = `premier`,
     },
     previon = {
@@ -4366,6 +4911,7 @@ return {
         model = 'previon',
         price = 78200,
         category = 'coupes',
+        type = 'automobile',
         hash = `previon`,
     },
     primo = {
@@ -4374,6 +4920,7 @@ return {
         model = 'primo',
         price = 64174,
         category = 'sedans',
+        type = 'automobile',
         hash = `primo`,
     },
     primo2 = {
@@ -4382,6 +4929,7 @@ return {
         model = 'primo2',
         price = 64174,
         category = 'sedans',
+        type = 'automobile',
         hash = `primo2`,
     },
     proptrailer = {
@@ -4390,6 +4938,7 @@ return {
         model = 'proptrailer',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `proptrailer`,
     },
     prototipo = {
@@ -4398,6 +4947,7 @@ return {
         model = 'prototipo',
         price = 88458,
         category = 'super',
+        type = 'automobile',
         hash = `prototipo`,
     },
     pyro = {
@@ -4406,6 +4956,7 @@ return {
         model = 'pyro',
         price = 2140960,
         category = 'planes',
+        type = 'plane',
         hash = `pyro`,
     },
     r300 = {
@@ -4414,6 +4965,7 @@ return {
         model = 'r300',
         price = 79467,
         category = 'sports',
+        type = 'automobile',
         hash = `r300`,
     },
     radi = {
@@ -4422,6 +4974,7 @@ return {
         model = 'radi',
         price = 65522,
         category = 'suvs',
+        type = 'automobile',
         hash = `radi`,
     },
     raiden = {
@@ -4430,14 +4983,16 @@ return {
         model = 'raiden',
         price = 64370,
         category = 'sports',
+        type = 'automobile',
         hash = `raiden`,
     },
     raiju = {
         name = 'F-160 Raiju',
-        brand = '',
+        brand = 'Mammoth',
         model = 'raiju',
         price = 2712193,
         category = 'planes',
+        type = 'plane',
         hash = `raiju`,
     },
     raketrailer = {
@@ -4446,6 +5001,7 @@ return {
         model = 'raketrailer',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `raketrailer`,
     },
     rallytruck = {
@@ -4454,6 +5010,7 @@ return {
         model = 'rallytruck',
         price = 67837,
         category = 'service',
+        type = 'automobile',
         hash = `rallytruck`,
     },
     rancherxl = {
@@ -4462,6 +5019,7 @@ return {
         model = 'rancherxl',
         price = 58720,
         category = 'offroad',
+        type = 'automobile',
         hash = `rancherxl`,
     },
     rancherxl2 = {
@@ -4470,6 +5028,7 @@ return {
         model = 'rancherxl2',
         price = 58720,
         category = 'offroad',
+        type = 'automobile',
         hash = `rancherxl2`,
     },
     rapidgt = {
@@ -4478,6 +5037,7 @@ return {
         model = 'rapidgt',
         price = 83599,
         category = 'sports',
+        type = 'automobile',
         hash = `rapidgt`,
     },
     rapidgt2 = {
@@ -4486,6 +5046,7 @@ return {
         model = 'rapidgt2',
         price = 83599,
         category = 'sports',
+        type = 'automobile',
         hash = `rapidgt2`,
     },
     rapidgt3 = {
@@ -4494,6 +5055,7 @@ return {
         model = 'rapidgt3',
         price = 77766,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `rapidgt3`,
     },
     raptor = {
@@ -4502,6 +5064,7 @@ return {
         model = 'raptor',
         price = 72091,
         category = 'sports',
+        type = 'automobile',
         hash = `raptor`,
     },
     ratbike = {
@@ -4510,6 +5073,7 @@ return {
         model = 'ratbike',
         price = 19441,
         category = 'motorcycles',
+        type = 'bike',
         hash = `ratbike`,
     },
     ratel = {
@@ -4518,6 +5082,7 @@ return {
         model = 'ratel',
         price = 72415,
         category = 'offroad',
+        type = 'automobile',
         hash = `ratel`,
     },
     ratloader = {
@@ -4526,6 +5091,7 @@ return {
         model = 'ratloader',
         price = 61779,
         category = 'muscle',
+        type = 'automobile',
         hash = `ratloader`,
     },
     ratloader2 = {
@@ -4534,6 +5100,7 @@ return {
         model = 'ratloader2',
         price = 65562,
         category = 'muscle',
+        type = 'automobile',
         hash = `ratloader2`,
     },
     rcbandito = {
@@ -4542,6 +5109,7 @@ return {
         model = 'rcbandito',
         price = 44530,
         category = 'offroad',
+        type = 'automobile',
         hash = `rcbandito`,
     },
     reaper = {
@@ -4550,6 +5118,7 @@ return {
         model = 'reaper',
         price = 82990,
         category = 'super',
+        type = 'automobile',
         hash = `reaper`,
     },
     rebel = {
@@ -4558,6 +5127,7 @@ return {
         model = 'rebel',
         price = 63694,
         category = 'offroad',
+        type = 'automobile',
         hash = `rebel`,
     },
     rebel2 = {
@@ -4566,6 +5136,7 @@ return {
         model = 'rebel2',
         price = 63694,
         category = 'offroad',
+        type = 'automobile',
         hash = `rebel2`,
     },
     rebla = {
@@ -4574,6 +5145,7 @@ return {
         model = 'rebla',
         price = 77543,
         category = 'suvs',
+        type = 'automobile',
         hash = `rebla`,
     },
     reever = {
@@ -4582,6 +5154,7 @@ return {
         model = 'reever',
         price = 26269,
         category = 'motorcycles',
+        type = 'bike',
         hash = `reever`,
     },
     regina = {
@@ -4590,6 +5163,7 @@ return {
         model = 'regina',
         price = 50997,
         category = 'sedans',
+        type = 'automobile',
         hash = `regina`,
     },
     remus = {
@@ -4598,14 +5172,16 @@ return {
         model = 'remus',
         price = 78314,
         category = 'sports',
+        type = 'automobile',
         hash = `remus`,
     },
     rentalbus = {
         name = 'Rental Shuttle Bus',
-        brand = '',
+        brand = 'Brute',
         model = 'rentalbus',
         price = 42321,
         category = 'service',
+        type = 'automobile',
         hash = `rentalbus`,
     },
     retinue = {
@@ -4614,6 +5190,7 @@ return {
         model = 'retinue',
         price = 70738,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `retinue`,
     },
     retinue2 = {
@@ -4622,6 +5199,7 @@ return {
         model = 'retinue2',
         price = 76099,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `retinue2`,
     },
     revolter = {
@@ -4630,6 +5208,7 @@ return {
         model = 'revolter',
         price = 74872,
         category = 'sports',
+        type = 'automobile',
         hash = `revolter`,
     },
     rhapsody = {
@@ -4638,6 +5217,7 @@ return {
         model = 'rhapsody',
         price = 68425,
         category = 'compacts',
+        type = 'automobile',
         hash = `rhapsody`,
     },
     rhinehart = {
@@ -4646,6 +5226,7 @@ return {
         model = 'rhinehart',
         price = 78276,
         category = 'sedans',
+        type = 'automobile',
         hash = `rhinehart`,
     },
     rhino = {
@@ -4654,6 +5235,7 @@ return {
         model = 'rhino',
         price = 30613,
         category = 'military',
+        type = 'automobile',
         hash = `rhino`,
     },
     riata = {
@@ -4662,30 +5244,34 @@ return {
         model = 'riata',
         price = 66525,
         category = 'offroad',
+        type = 'automobile',
         hash = `riata`,
     },
     riot = {
         name = 'Police Riot',
-        brand = '',
+        brand = 'Brute',
         model = 'riot',
         price = 56588,
         category = 'emergency',
+        type = 'automobile',
         hash = `riot`,
     },
     riot2 = {
         name = 'RCV',
-        brand = '',
+        brand = 'Brute',
         model = 'riot2',
         price = 59094,
         category = 'emergency',
+        type = 'automobile',
         hash = `riot2`,
     },
     ripley = {
         name = 'Ripley',
-        brand = '',
+        brand = 'HVY',
         model = 'ripley',
         price = 38773,
         category = 'utility',
+        type = 'automobile',
         hash = `ripley`,
     },
     rocoto = {
@@ -4694,6 +5280,7 @@ return {
         model = 'rocoto',
         price = 67755,
         category = 'suvs',
+        type = 'automobile',
         hash = `rocoto`,
     },
     rogue = {
@@ -4702,6 +5289,7 @@ return {
         model = 'rogue',
         price = 2070400,
         category = 'planes',
+        type = 'plane',
         hash = `rogue`,
     },
     romero = {
@@ -4710,6 +5298,7 @@ return {
         model = 'romero',
         price = 53105,
         category = 'sedans',
+        type = 'automobile',
         hash = `romero`,
     },
     rrocket = {
@@ -4718,6 +5307,7 @@ return {
         model = 'rrocket',
         price = 26257,
         category = 'motorcycles',
+        type = 'bike',
         hash = `rrocket`,
     },
     rt3000 = {
@@ -4726,6 +5316,7 @@ return {
         model = 'rt3000',
         price = 80216,
         category = 'sports',
+        type = 'automobile',
         hash = `rt3000`,
     },
     rubble = {
@@ -4734,6 +5325,7 @@ return {
         model = 'rubble',
         price = 54789,
         category = 'industrial',
+        type = 'automobile',
         hash = `rubble`,
     },
     ruffian = {
@@ -4742,6 +5334,7 @@ return {
         model = 'ruffian',
         price = 24413,
         category = 'motorcycles',
+        type = 'bike',
         hash = `ruffian`,
     },
     ruiner = {
@@ -4750,6 +5343,7 @@ return {
         model = 'ruiner',
         price = 80117,
         category = 'muscle',
+        type = 'automobile',
         hash = `ruiner`,
     },
     ruiner2 = {
@@ -4758,6 +5352,7 @@ return {
         model = 'ruiner2',
         price = 186491,
         category = 'muscle',
+        type = 'automobile',
         hash = `ruiner2`,
     },
     ruiner3 = {
@@ -4766,6 +5361,7 @@ return {
         model = 'ruiner3',
         price = 80117,
         category = 'muscle',
+        type = 'automobile',
         hash = `ruiner3`,
     },
     ruiner4 = {
@@ -4774,6 +5370,7 @@ return {
         model = 'ruiner4',
         price = 80458,
         category = 'muscle',
+        type = 'automobile',
         hash = `ruiner4`,
     },
     rumpo = {
@@ -4782,6 +5379,7 @@ return {
         model = 'rumpo',
         price = 63310,
         category = 'vans',
+        type = 'automobile',
         hash = `rumpo`,
     },
     rumpo2 = {
@@ -4790,6 +5388,7 @@ return {
         model = 'rumpo2',
         price = 63310,
         category = 'vans',
+        type = 'automobile',
         hash = `rumpo2`,
     },
     rumpo3 = {
@@ -4798,6 +5397,7 @@ return {
         model = 'rumpo3',
         price = 59206,
         category = 'vans',
+        type = 'automobile',
         hash = `rumpo3`,
     },
     ruston = {
@@ -4806,6 +5406,7 @@ return {
         model = 'ruston',
         price = 78365,
         category = 'sports',
+        type = 'automobile',
         hash = `ruston`,
     },
     s80 = {
@@ -4814,6 +5415,7 @@ return {
         model = 's80',
         price = 83208,
         category = 'super',
+        type = 'automobile',
         hash = `s80`,
     },
     sabregt = {
@@ -4822,6 +5424,7 @@ return {
         model = 'sabregt',
         price = 77450,
         category = 'muscle',
+        type = 'automobile',
         hash = `sabregt`,
     },
     sabregt2 = {
@@ -4830,6 +5433,7 @@ return {
         model = 'sabregt2',
         price = 77489,
         category = 'muscle',
+        type = 'automobile',
         hash = `sabregt2`,
     },
     sadler = {
@@ -4838,6 +5442,7 @@ return {
         model = 'sadler',
         price = 62297,
         category = 'utility',
+        type = 'automobile',
         hash = `sadler`,
     },
     sadler2 = {
@@ -4846,6 +5451,7 @@ return {
         model = 'sadler2',
         price = 62297,
         category = 'utility',
+        type = 'automobile',
         hash = `sadler2`,
     },
     sanchez = {
@@ -4854,6 +5460,7 @@ return {
         model = 'sanchez',
         price = 20686,
         category = 'motorcycles',
+        type = 'bike',
         hash = `sanchez`,
     },
     sanchez2 = {
@@ -4862,6 +5469,7 @@ return {
         model = 'sanchez2',
         price = 20686,
         category = 'motorcycles',
+        type = 'bike',
         hash = `sanchez2`,
     },
     sanctus = {
@@ -4870,6 +5478,7 @@ return {
         model = 'sanctus',
         price = 24351,
         category = 'motorcycles',
+        type = 'bike',
         hash = `sanctus`,
     },
     sandking = {
@@ -4878,6 +5487,7 @@ return {
         model = 'sandking',
         price = 63694,
         category = 'offroad',
+        type = 'automobile',
         hash = `sandking`,
     },
     sandking2 = {
@@ -4886,6 +5496,7 @@ return {
         model = 'sandking2',
         price = 63694,
         category = 'offroad',
+        type = 'automobile',
         hash = `sandking2`,
     },
     savage = {
@@ -4894,6 +5505,7 @@ return {
         model = 'savage',
         price = 6962237,
         category = 'helicopters',
+        type = 'heli',
         hash = `savage`,
     },
     savestra = {
@@ -4902,6 +5514,7 @@ return {
         model = 'savestra',
         price = 72617,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `savestra`,
     },
     sc1 = {
@@ -4910,6 +5523,7 @@ return {
         model = 'sc1',
         price = 79257,
         category = 'super',
+        type = 'automobile',
         hash = `sc1`,
     },
     scarab = {
@@ -4918,6 +5532,7 @@ return {
         model = 'scarab',
         price = 39724,
         category = 'military',
+        type = 'automobile',
         hash = `scarab`,
     },
     scarab2 = {
@@ -4926,6 +5541,7 @@ return {
         model = 'scarab2',
         price = 39724,
         category = 'military',
+        type = 'automobile',
         hash = `scarab2`,
     },
     scarab3 = {
@@ -4934,6 +5550,7 @@ return {
         model = 'scarab3',
         price = 39724,
         category = 'military',
+        type = 'automobile',
         hash = `scarab3`,
     },
     schafter2 = {
@@ -4942,6 +5559,7 @@ return {
         model = 'schafter2',
         price = 65682,
         category = 'sedans',
+        type = 'automobile',
         hash = `schafter2`,
     },
     schafter3 = {
@@ -4950,6 +5568,7 @@ return {
         model = 'schafter3',
         price = 83088,
         category = 'sports',
+        type = 'automobile',
         hash = `schafter3`,
     },
     schafter4 = {
@@ -4958,6 +5577,7 @@ return {
         model = 'schafter4',
         price = 65602,
         category = 'sports',
+        type = 'automobile',
         hash = `schafter4`,
     },
     schafter5 = {
@@ -4966,6 +5586,7 @@ return {
         model = 'schafter5',
         price = 83008,
         category = 'sedans',
+        type = 'automobile',
         hash = `schafter5`,
     },
     schafter6 = {
@@ -4974,6 +5595,7 @@ return {
         model = 'schafter6',
         price = 62476,
         category = 'sedans',
+        type = 'automobile',
         hash = `schafter6`,
     },
     schlagen = {
@@ -4982,6 +5604,7 @@ return {
         model = 'schlagen',
         price = 86368,
         category = 'sports',
+        type = 'automobile',
         hash = `schlagen`,
     },
     schwarzer = {
@@ -4990,14 +5613,16 @@ return {
         model = 'schwarzer',
         price = 80250,
         category = 'sports',
+        type = 'automobile',
         hash = `schwarzer`,
     },
     scorcher = {
         name = 'Scorcher',
-        brand = '',
+        brand = 'PED',
         model = 'scorcher',
         price = 2782,
         category = 'cycles',
+        type = 'bike',
         hash = `scorcher`,
     },
     scramjet = {
@@ -5006,14 +5631,16 @@ return {
         model = 'scramjet',
         price = 370681,
         category = 'super',
+        type = 'automobile',
         hash = `scramjet`,
     },
     scrap = {
         name = 'Scrap Truck',
-        brand = '',
+        brand = 'Vapid',
         model = 'scrap',
         price = 52886,
         category = 'utility',
+        type = 'automobile',
         hash = `scrap`,
     },
     seabreeze = {
@@ -5022,6 +5649,7 @@ return {
         model = 'seabreeze',
         price = 2211729,
         category = 'planes',
+        type = 'plane',
         hash = `seabreeze`,
     },
     seashark = {
@@ -5030,6 +5658,7 @@ return {
         model = 'seashark',
         price = 414680,
         category = 'boats',
+        type = 'boat',
         hash = `seashark`,
     },
     seashark2 = {
@@ -5038,6 +5667,7 @@ return {
         model = 'seashark2',
         price = 414680,
         category = 'boats',
+        type = 'boat',
         hash = `seashark2`,
     },
     seashark3 = {
@@ -5046,6 +5676,7 @@ return {
         model = 'seashark3',
         price = 414680,
         category = 'boats',
+        type = 'boat',
         hash = `seashark3`,
     },
     seasparrow = {
@@ -5054,6 +5685,7 @@ return {
         model = 'seasparrow',
         price = 6293144,
         category = 'helicopters',
+        type = 'heli',
         hash = `seasparrow`,
     },
     seasparrow2 = {
@@ -5062,6 +5694,7 @@ return {
         model = 'seasparrow2',
         price = 7760028,
         category = 'helicopters',
+        type = 'heli',
         hash = `seasparrow2`,
     },
     seasparrow3 = {
@@ -5070,6 +5703,7 @@ return {
         price = 7760028,
         brand = '',
         category = 'helicopters',
+        type = 'heli',
         hash = `seasparrow3`,
     },
     seminole = {
@@ -5078,6 +5712,7 @@ return {
         model = 'seminole',
         price = 61393,
         category = 'suvs',
+        type = 'automobile',
         hash = `seminole`,
     },
     seminole2 = {
@@ -5086,6 +5721,7 @@ return {
         model = 'seminole2',
         price = 64904,
         category = 'suvs',
+        type = 'automobile',
         hash = `seminole2`,
     },
     sentinel = {
@@ -5094,6 +5730,7 @@ return {
         model = 'sentinel',
         price = 75585,
         category = 'coupes',
+        type = 'automobile',
         hash = `sentinel`,
     },
     sentinel2 = {
@@ -5102,6 +5739,7 @@ return {
         model = 'sentinel2',
         price = 75585,
         category = 'coupes',
+        type = 'automobile',
         hash = `sentinel2`,
     },
     sentinel3 = {
@@ -5110,6 +5748,7 @@ return {
         model = 'sentinel3',
         price = 74166,
         category = 'sports',
+        type = 'automobile',
         hash = `sentinel3`,
     },
     sentinel4 = {
@@ -5118,6 +5757,7 @@ return {
         model = 'sentinel4',
         price = 78990,
         category = 'sports',
+        type = 'automobile',
         hash = `sentinel4`,
     },
     serrano = {
@@ -5126,6 +5766,7 @@ return {
         model = 'serrano',
         price = 66517,
         category = 'suvs',
+        type = 'automobile',
         hash = `serrano`,
     },
     seven70 = {
@@ -5134,6 +5775,7 @@ return {
         model = 'seven70',
         price = 84734,
         category = 'sports',
+        type = 'automobile',
         hash = `seven70`,
     },
     shamal = {
@@ -5142,6 +5784,7 @@ return {
         model = 'shamal',
         price = 1818934,
         category = 'planes',
+        type = 'plane',
         hash = `shamal`,
     },
     sheava = {
@@ -5150,14 +5793,16 @@ return {
         model = 'sheava',
         price = 81139,
         category = 'super',
+        type = 'automobile',
         hash = `sheava`,
     },
     sheriff = {
         name = 'Sheriff Cruiser',
-        brand = '',
+        brand = 'Vapid',
         model = 'sheriff',
         price = 71186,
         category = 'emergency',
+        type = 'automobile',
         hash = `sheriff`,
     },
     sheriff2 = {
@@ -5166,6 +5811,7 @@ return {
         model = 'sheriff2',
         price = 62617,
         category = 'emergency',
+        type = 'automobile',
         hash = `sheriff2`,
     },
     shinobi = {
@@ -5174,6 +5820,7 @@ return {
         model = 'shinobi',
         price = 27244,
         category = 'motorcycles',
+        type = 'bike',
         hash = `shinobi`,
     },
     shotaro = {
@@ -5182,14 +5829,16 @@ return {
         model = 'shotaro',
         price = 26899,
         category = 'motorcycles',
+        type = 'bike',
         hash = `shotaro`,
     },
     skylift = {
         name = 'Skylift',
-        brand = '',
+        brand = 'HVY',
         model = 'skylift',
         price = 5363475,
         category = 'helicopters',
+        type = 'heli',
         hash = `skylift`,
     },
     slamtruck = {
@@ -5198,6 +5847,7 @@ return {
         model = 'slamtruck',
         price = 62937,
         category = 'utility',
+        type = 'automobile',
         hash = `slamtruck`,
     },
     slamvan = {
@@ -5206,6 +5856,7 @@ return {
         model = 'slamvan',
         price = 66207,
         category = 'muscle',
+        type = 'automobile',
         hash = `slamvan`,
     },
     slamvan2 = {
@@ -5214,6 +5865,7 @@ return {
         model = 'slamvan2',
         price = 67165,
         category = 'muscle',
+        type = 'automobile',
         hash = `slamvan2`,
     },
     slamvan3 = {
@@ -5222,6 +5874,7 @@ return {
         model = 'slamvan3',
         price = 67005,
         category = 'muscle',
+        type = 'automobile',
         hash = `slamvan3`,
     },
     slamvan4 = {
@@ -5230,6 +5883,7 @@ return {
         model = 'slamvan4',
         price = 68476,
         category = 'muscle',
+        type = 'automobile',
         hash = `slamvan4`,
     },
     slamvan5 = {
@@ -5238,6 +5892,7 @@ return {
         model = 'slamvan5',
         price = 68476,
         category = 'muscle',
+        type = 'automobile',
         hash = `slamvan5`,
     },
     slamvan6 = {
@@ -5246,6 +5901,7 @@ return {
         model = 'slamvan6',
         price = 68476,
         category = 'muscle',
+        type = 'automobile',
         hash = `slamvan6`,
     },
     sm722 = {
@@ -5254,6 +5910,7 @@ return {
         model = 'sm722',
         price = 80260,
         category = 'sports',
+        type = 'automobile',
         hash = `sm722`,
     },
     sovereign = {
@@ -5262,6 +5919,7 @@ return {
         model = 'sovereign',
         price = 23078,
         category = 'motorcycles',
+        type = 'bike',
         hash = `sovereign`,
     },
     specter = {
@@ -5270,6 +5928,7 @@ return {
         model = 'specter',
         price = 81060,
         category = 'sports',
+        type = 'automobile',
         hash = `specter`,
     },
     specter2 = {
@@ -5278,6 +5937,7 @@ return {
         model = 'specter2',
         price = 82332,
         category = 'sports',
+        type = 'automobile',
         hash = `specter2`,
     },
     speeder = {
@@ -5286,6 +5946,7 @@ return {
         model = 'speeder',
         price = 462680,
         category = 'boats',
+        type = 'boat',
         hash = `speeder`,
     },
     speeder2 = {
@@ -5294,6 +5955,7 @@ return {
         model = 'speeder2',
         price = 462680,
         category = 'boats',
+        type = 'boat',
         hash = `speeder2`,
     },
     speedo = {
@@ -5302,6 +5964,7 @@ return {
         model = 'speedo',
         price = 66002,
         category = 'vans',
+        type = 'automobile',
         hash = `speedo`,
     },
     speedo2 = {
@@ -5310,6 +5973,7 @@ return {
         model = 'speedo2',
         price = 66002,
         category = 'vans',
+        type = 'automobile',
         hash = `speedo2`,
     },
     speedo4 = {
@@ -5318,6 +5982,7 @@ return {
         model = 'speedo4',
         price = 70653,
         category = 'vans',
+        type = 'automobile',
         hash = `speedo4`,
     },
     speedo5 = {
@@ -5326,6 +5991,7 @@ return {
         model = 'speedo5',
         price = 70653,
         category = 'vans',
+        type = 'automobile',
         hash = `speedo5`,
     },
     squaddie = {
@@ -5334,6 +6000,7 @@ return {
         model = 'squaddie',
         price = 63238,
         category = 'suvs',
+        type = 'automobile',
         hash = `squaddie`,
     },
     squalo = {
@@ -5342,6 +6009,7 @@ return {
         model = 'squalo',
         price = 362680,
         category = 'boats',
+        type = 'boat',
         hash = `squalo`,
     },
     stafford = {
@@ -5350,6 +6018,7 @@ return {
         model = 'stafford',
         price = 62882,
         category = 'sedans',
+        type = 'automobile',
         hash = `stafford`,
     },
     stalion = {
@@ -5358,6 +6027,7 @@ return {
         model = 'stalion',
         price = 74781,
         category = 'muscle',
+        type = 'automobile',
         hash = `stalion`,
     },
     stalion2 = {
@@ -5366,6 +6036,7 @@ return {
         model = 'stalion2',
         price = 79092,
         category = 'muscle',
+        type = 'automobile',
         hash = `stalion2`,
     },
     stanier = {
@@ -5374,6 +6045,7 @@ return {
         model = 'stanier',
         price = 71053,
         category = 'sedans',
+        type = 'automobile',
         hash = `stanier`,
     },
     starling = {
@@ -5382,6 +6054,7 @@ return {
         model = 'starling',
         price = 5890500,
         category = 'planes',
+        type = 'plane',
         hash = `starling`,
     },
     stinger = {
@@ -5390,6 +6063,7 @@ return {
         model = 'stinger',
         price = 74712,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `stinger`,
     },
     stingergt = {
@@ -5398,6 +6072,7 @@ return {
         model = 'stingergt',
         price = 74712,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `stingergt`,
     },
     stingertt = {
@@ -5406,6 +6081,7 @@ return {
         model = 'stingertt',
         price = 87213,
         category = 'sports',
+        type = 'automobile',
         hash = `stingertt`,
     },
     stockade = {
@@ -5414,6 +6090,7 @@ return {
         model = 'stockade',
         price = 56588,
         category = 'commercial',
+        type = 'automobile',
         hash = `stockade`,
     },
     stockade3 = {
@@ -5422,6 +6099,7 @@ return {
         model = 'stockade3',
         price = 56588,
         category = 'commercial',
+        type = 'automobile',
         hash = `stockade3`,
     },
     stratum = {
@@ -5430,6 +6108,7 @@ return {
         model = 'stratum',
         price = 68894,
         category = 'sedans',
+        type = 'automobile',
         hash = `stratum`,
     },
     streamer216 = {
@@ -5438,6 +6117,7 @@ return {
         model = 'streamer216',
         price = 1574232,
         category = 'planes',
+        type = 'plane',
         hash = `streamer216`,
     },
     streiter = {
@@ -5446,6 +6126,7 @@ return {
         model = 'streiter',
         price = 71204,
         category = 'sports',
+        type = 'automobile',
         hash = `streiter`,
     },
     stretch = {
@@ -5454,6 +6135,7 @@ return {
         model = 'stretch',
         price = 63950,
         category = 'sedans',
+        type = 'automobile',
         hash = `stretch`,
     },
     strikeforce = {
@@ -5462,6 +6144,7 @@ return {
         model = 'strikeforce',
         price = 1810529,
         category = 'planes',
+        type = 'plane',
         hash = `strikeforce`,
     },
     stromberg = {
@@ -5470,6 +6153,7 @@ return {
         model = 'stromberg',
         price = 76526,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `stromberg`,
     },
     stryder = {
@@ -5478,14 +6162,16 @@ return {
         model = 'stryder',
         price = 26711,
         category = 'motorcycles',
+        type = 'bike',
         hash = `stryder`,
     },
     stunt = {
         name = 'Mallard',
-        brand = '',
+        brand = 'Western Company',
         model = 'stunt',
         price = 1702472,
         category = 'planes',
+        type = 'plane',
         hash = `stunt`,
     },
     submersible = {
@@ -5494,14 +6180,16 @@ return {
         model = 'submersible',
         price = 718616,
         category = 'boats',
+        type = 'submarine',
         hash = `submersible`,
     },
     submersible2 = {
         name = 'Kraken',
-        brand = '',
+        brand = 'Kraken',
         model = 'submersible2',
         price = 787416,
         category = 'boats',
+        type = 'submarine',
         hash = `submersible2`,
     },
     sugoi = {
@@ -5510,6 +6198,7 @@ return {
         model = 'sugoi',
         price = 75269,
         category = 'sports',
+        type = 'automobile',
         hash = `sugoi`,
     },
     sultan = {
@@ -5518,6 +6207,7 @@ return {
         model = 'sultan',
         price = 74392,
         category = 'sports',
+        type = 'automobile',
         hash = `sultan`,
     },
     sultan2 = {
@@ -5526,15 +6216,17 @@ return {
         model = 'sultan2',
         price = 77184,
         category = 'sports',
+        type = 'automobile',
         hash = `sultan2`,
     },
     sultan3 = {
         name = 'Sultan Classic Custom',
         brand = 'Karin',
-        category = 'sports',
-        hash = `sultan3`,
         model = 'sultan3',
         price = 78067,
+        category = 'sports',
+        type = 'automobile',
+        hash = `sultan3`,
     },
     sultanrs = {
         name = 'Sultan RS',
@@ -5542,6 +6234,7 @@ return {
         model = 'sultanrs',
         price = 82197,
         category = 'super',
+        type = 'automobile',
         hash = `sultanrs`,
     },
     suntrap = {
@@ -5550,15 +6243,17 @@ return {
         model = 'suntrap',
         price = 362680,
         category = 'boats',
+        type = 'boat',
         hash = `suntrap`,
     },
     superd = {
-        brand = 'Enus',
-        category = 'sedans',
-        hash = `superd`,
-        model = 'superd',
         name = 'Super Diamond',
+        brand = 'Enus',
+        model = 'superd',
         price = 74712,
+        category = 'sedans',
+        type = 'automobile',
+        hash = `superd`,
     },
     supervolito = {
         name = 'SuperVolito',
@@ -5566,6 +6261,7 @@ return {
         model = 'supervolito',
         price = 6905749,
         category = 'helicopters',
+        type = 'heli',
         hash = `supervolito`,
     },
     supervolito2 = {
@@ -5574,6 +6270,7 @@ return {
         model = 'supervolito2',
         price = 6905749,
         category = 'helicopters',
+        type = 'heli',
         hash = `supervolito2`,
     },
     surano = {
@@ -5582,6 +6279,7 @@ return {
         model = 'surano',
         price = 83971,
         category = 'sports',
+        type = 'automobile',
         hash = `surano`,
     },
     surfer = {
@@ -5590,6 +6288,7 @@ return {
         model = 'surfer',
         price = 34505,
         category = 'vans',
+        type = 'automobile',
         hash = `surfer`,
     },
     surfer2 = {
@@ -5598,6 +6297,7 @@ return {
         model = 'surfer2',
         price = 34505,
         category = 'vans',
+        type = 'automobile',
         hash = `surfer2`,
     },
     surfer3 = {
@@ -5606,6 +6306,7 @@ return {
         model = 'surfer3',
         price = 34505,
         category = 'vans',
+        type = 'automobile',
         hash = `surfer3`,
     },
     surge = {
@@ -5614,6 +6315,7 @@ return {
         model = 'surge',
         price = 40605,
         category = 'sedans',
+        type = 'automobile',
         hash = `surge`,
     },
     swift = {
@@ -5622,6 +6324,7 @@ return {
         model = 'swift',
         price = 6504898,
         category = 'helicopters',
+        type = 'heli',
         hash = `swift`,
     },
     swift2 = {
@@ -5630,6 +6333,7 @@ return {
         model = 'swift2',
         price = 6588870,
         category = 'helicopters',
+        type = 'heli',
         hash = `swift2`,
     },
     swinger = {
@@ -5638,6 +6342,7 @@ return {
         model = 'swinger',
         price = 81274,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `swinger`,
     },
     t20 = {
@@ -5646,6 +6351,7 @@ return {
         model = 't20',
         price = 83022,
         category = 'super',
+        type = 'automobile',
         hash = `t20`,
     },
     taco = {
@@ -5654,6 +6360,7 @@ return {
         model = 'taco',
         price = 47273,
         category = 'vans',
+        type = 'automobile',
         hash = `taco`,
     },
     tahoma = {
@@ -5662,6 +6369,7 @@ return {
         model = 'tahoma',
         price = 72249,
         category = 'muscle',
+        type = 'automobile',
         hash = `tahoma`,
     },
     tailgater = {
@@ -5670,6 +6378,7 @@ return {
         model = 'tailgater',
         price = 64174,
         category = 'sedans',
+        type = 'automobile',
         hash = `tailgater`,
     },
     tailgater2 = {
@@ -5678,6 +6387,7 @@ return {
         model = 'tailgater2',
         price = 77411,
         category = 'sedans',
+        type = 'automobile',
         hash = `tailgater2`,
     },
     taipan = {
@@ -5686,6 +6396,7 @@ return {
         model = 'taipan',
         price = 89537,
         category = 'super',
+        type = 'automobile',
         hash = `taipan`,
     },
     tampa = {
@@ -5694,6 +6405,7 @@ return {
         model = 'tampa',
         price = 70442,
         category = 'muscle',
+        type = 'automobile',
         hash = `tampa`,
     },
     tampa2 = {
@@ -5702,6 +6414,7 @@ return {
         model = 'tampa2',
         price = 75751,
         category = 'sports',
+        type = 'automobile',
         hash = `tampa2`,
     },
     tampa3 = {
@@ -5710,6 +6423,7 @@ return {
         model = 'tampa3',
         price = 75751,
         category = 'muscle',
+        type = 'automobile',
         hash = `tampa3`,
     },
     tanker = {
@@ -5718,6 +6432,7 @@ return {
         model = 'tanker',
         price = 5748,
         category = 'utility',
+        type = 'trailer',
         hash = `tanker`,
     },
     tanker2 = {
@@ -5726,6 +6441,7 @@ return {
         model = 'tanker2',
         price = 5748,
         category = 'utility',
+        type = 'trailer',
         hash = `tanker2`,
     },
     tankercar = {
@@ -5734,6 +6450,7 @@ return {
         model = 'tankercar',
         price = 194680,
         category = 'trains',
+        type = 'train',
         hash = `tankercar`,
     },
     taxi = {
@@ -5742,6 +6459,7 @@ return {
         model = 'taxi',
         price = 71053,
         category = 'service',
+        type = 'automobile',
         hash = `taxi`,
     },
     technical = {
@@ -5750,6 +6468,7 @@ return {
         model = 'technical',
         price = 63854,
         category = 'offroad',
+        type = 'automobile',
         hash = `technical`,
     },
     technical2 = {
@@ -5758,6 +6477,7 @@ return {
         model = 'technical2',
         price = 65910,
         category = 'offroad',
+        type = 'automobile',
         hash = `technical2`,
     },
     technical3 = {
@@ -5766,6 +6486,7 @@ return {
         model = 'technical3',
         price = 63854,
         category = 'offroad',
+        type = 'automobile',
         hash = `technical3`,
     },
     tempesta = {
@@ -5774,6 +6495,7 @@ return {
         model = 'tempesta',
         price = 81980,
         category = 'super',
+        type = 'automobile',
         hash = `tempesta`,
     },
     tenf = {
@@ -5782,6 +6504,7 @@ return {
         model = 'tenf',
         price = 82128,
         category = 'sports',
+        type = 'automobile',
         hash = `tenf`,
     },
     tenf2 = {
@@ -5790,6 +6513,7 @@ return {
         model = 'tenf2',
         price = 82729,
         category = 'sports',
+        type = 'automobile',
         hash = `tenf2`,
     },
     terbyte = {
@@ -5798,6 +6522,7 @@ return {
         model = 'terbyte',
         price = 50669,
         category = 'commercial',
+        type = 'automobile',
         hash = `terbyte`,
     },
     terminus = {
@@ -5806,6 +6531,7 @@ return {
         model = 'terminus',
         price = 71490,
         category = 'offroad',
+        type = 'automobile',
         hash = `terminus`,
     },
     tezeract = {
@@ -5814,6 +6540,7 @@ return {
         model = 'tezeract',
         price = 76330,
         category = 'super',
+        type = 'automobile',
         hash = `tezeract`,
     },
     thrax = {
@@ -5822,6 +6549,7 @@ return {
         model = 'thrax',
         price = 83929,
         category = 'super',
+        type = 'automobile',
         hash = `thrax`,
     },
     thrust = {
@@ -5830,6 +6558,7 @@ return {
         model = 'thrust',
         price = 25865,
         category = 'motorcycles',
+        type = 'bike',
         hash = `thrust`,
     },
     thruster = {
@@ -5838,6 +6567,7 @@ return {
         model = 'thruster',
         price = 6768641,
         category = 'military',
+        type = 'automobile',
         hash = `thruster`,
     },
     tigon = {
@@ -5846,6 +6576,7 @@ return {
         model = 'tigon',
         price = 86363,
         category = 'super',
+        type = 'automobile',
         hash = `tigon`,
     },
     tiptruck = {
@@ -5854,6 +6585,7 @@ return {
         model = 'tiptruck',
         price = 47273,
         category = 'industrial',
+        type = 'automobile',
         hash = `tiptruck`,
     },
     tiptruck2 = {
@@ -5862,6 +6594,7 @@ return {
         model = 'tiptruck2',
         price = 47273,
         category = 'industrial',
+        type = 'automobile',
         hash = `tiptruck2`,
     },
     titan = {
@@ -5870,6 +6603,7 @@ return {
         model = 'titan',
         price = 1521752,
         category = 'planes',
+        type = 'plane',
         hash = `titan`,
     },
     toreador = {
@@ -5878,6 +6612,7 @@ return {
         model = 'toreador',
         price = 235089,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `toreador`,
     },
     torero = {
@@ -5886,6 +6621,7 @@ return {
         model = 'torero',
         price = 78457,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `torero`,
     },
     torero2 = {
@@ -5894,6 +6630,7 @@ return {
         model = 'torero2',
         price = 87548,
         category = 'super',
+        type = 'automobile',
         hash = `torero2`,
     },
     tornado = {
@@ -5902,6 +6639,7 @@ return {
         model = 'tornado',
         price = 60635,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `tornado`,
     },
     tornado2 = {
@@ -5910,6 +6648,7 @@ return {
         model = 'tornado2',
         price = 60635,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `tornado2`,
     },
     tornado3 = {
@@ -5918,6 +6657,7 @@ return {
         model = 'tornado3',
         price = 60635,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `tornado3`,
     },
     tornado4 = {
@@ -5926,6 +6666,7 @@ return {
         model = 'tornado4',
         price = 60635,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `tornado4`,
     },
     tornado5 = {
@@ -5934,6 +6675,7 @@ return {
         model = 'tornado5',
         price = 60890,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `tornado5`,
     },
     tornado6 = {
@@ -5942,6 +6684,7 @@ return {
         model = 'tornado6',
         price = 66096,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `tornado6`,
     },
     toro = {
@@ -5950,6 +6693,7 @@ return {
         model = 'toro',
         price = 486680,
         category = 'boats',
+        type = 'boat',
         hash = `toro`,
     },
     toro2 = {
@@ -5958,6 +6702,7 @@ return {
         model = 'toro2',
         price = 486680,
         category = 'boats',
+        type = 'boat',
         hash = `toro2`,
     },
     toros = {
@@ -5966,46 +6711,52 @@ return {
         model = 'toros',
         price = 81091,
         category = 'suvs',
+        type = 'automobile',
         hash = `toros`,
     },
     tourbus = {
         name = 'Tour Bus',
-        brand = '',
+        brand = 'Brute',
         model = 'tourbus',
         price = 42321,
         category = 'service',
+        type = 'automobile',
         hash = `tourbus`,
     },
     towtruck = {
         name = 'Tow Truck',
-        brand = '',
+        brand = 'Vapid',
         model = 'towtruck',
         price = 57488,
         category = 'utility',
+        type = 'automobile',
         hash = `towtruck`,
     },
     towtruck2 = {
         name = 'Tow Truck (Small)',
-        brand = '',
+        brand = 'Vapid',
         model = 'towtruck2',
         price = 54821,
         category = 'utility',
+        type = 'automobile',
         hash = `towtruck2`,
     },
     towtruck3 = {
         name = 'Tow Truck (Beater)',
-        brand = '',
+        brand = 'Vapid',
         model = 'towtruck3',
         price = 62901,
         category = 'utility',
+        type = 'automobile',
         hash = `towtruck3`,
     },
     towtruck4 = {
         name = 'Tow Truck',
-        brand = '',
+        brand = 'Vapid',
         model = 'towtruck4',
         price = 62901,
         category = 'utility',
+        type = 'automobile',
         hash = `towtruck4`,
     },
     tr2 = {
@@ -6014,6 +6765,7 @@ return {
         model = 'tr2',
         price = 5748,
         category = 'utility',
+        type = 'trailer',
         hash = `tr2`,
     },
     tr3 = {
@@ -6022,6 +6774,7 @@ return {
         model = 'tr3',
         price = 5748,
         category = 'utility',
+        type = 'trailer',
         hash = `tr3`,
     },
     tr4 = {
@@ -6030,6 +6783,7 @@ return {
         model = 'tr4',
         price = 5748,
         category = 'utility',
+        type = 'trailer',
         hash = `tr4`,
     },
     tractor = {
@@ -6038,6 +6792,7 @@ return {
         model = 'tractor',
         price = 22677,
         category = 'utility',
+        type = 'automobile',
         hash = `tractor`,
     },
     tractor2 = {
@@ -6046,6 +6801,7 @@ return {
         model = 'tractor2',
         price = 24703,
         category = 'utility',
+        type = 'automobile',
         hash = `tractor2`,
     },
     tractor3 = {
@@ -6054,14 +6810,16 @@ return {
         model = 'tractor3',
         price = 24703,
         category = 'utility',
+        type = 'automobile',
         hash = `tractor3`,
     },
     trailerlarge = {
         name = 'Mobile Operations Center',
-        brand = '',
+        brand = 'Pegasus',
         model = 'trailerlarge',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `trailerlarge`,
     },
     trailerlogs = {
@@ -6070,6 +6828,7 @@ return {
         model = 'trailerlogs',
         price = 5748,
         category = 'utility',
+        type = 'trailer',
         hash = `trailerlogs`,
     },
     trailers = {
@@ -6078,6 +6837,7 @@ return {
         model = 'trailers',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `trailers`,
     },
     trailers2 = {
@@ -6086,6 +6846,7 @@ return {
         model = 'trailers2',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `trailers2`,
     },
     trailers3 = {
@@ -6094,6 +6855,7 @@ return {
         model = 'trailers3',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `trailers3`,
     },
     trailers4 = {
@@ -6102,6 +6864,7 @@ return {
         model = 'trailers4',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `trailers4`,
     },
     trailers5 = {
@@ -6110,6 +6873,7 @@ return {
         model = 'trailers5',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `trailers5`,
     },
     trailersmall = {
@@ -6118,6 +6882,7 @@ return {
         model = 'trailersmall',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `trailersmall`,
     },
     trailersmall2 = {
@@ -6126,22 +6891,25 @@ return {
         model = 'trailersmall2',
         price = 5668,
         category = 'military',
+        type = 'trailer',
         hash = `trailersmall2`,
     },
     trash = {
         name = 'Trashmaster',
-        brand = '',
+        brand = 'Jobuilt',
         model = 'trash',
         price = 59939,
         category = 'service',
+        type = 'automobile',
         hash = `trash`,
     },
     trash2 = {
         name = 'Trashmaster (Heist)',
-        brand = '',
+        brand = 'Jobuilt',
         model = 'trash2',
         price = 59939,
         category = 'service',
+        type = 'automobile',
         hash = `trash2`,
     },
     trflat = {
@@ -6150,6 +6918,7 @@ return {
         model = 'trflat',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `trflat`,
     },
     tribike = {
@@ -6158,6 +6927,7 @@ return {
         model = 'tribike',
         price = 3622,
         category = 'cycles',
+        type = 'bike',
         hash = `tribike`,
     },
     tribike2 = {
@@ -6166,6 +6936,7 @@ return {
         model = 'tribike2',
         price = 3622,
         category = 'cycles',
+        type = 'bike',
         hash = `tribike2`,
     },
     tribike3 = {
@@ -6174,6 +6945,7 @@ return {
         model = 'tribike3',
         price = 3622,
         category = 'cycles',
+        type = 'bike',
         hash = `tribike3`,
     },
     trophytruck = {
@@ -6182,6 +6954,7 @@ return {
         model = 'trophytruck',
         price = 71559,
         category = 'offroad',
+        type = 'automobile',
         hash = `trophytruck`,
     },
     trophytruck2 = {
@@ -6190,6 +6963,7 @@ return {
         model = 'trophytruck2',
         price = 71559,
         category = 'offroad',
+        type = 'automobile',
         hash = `trophytruck2`,
     },
     tropic = {
@@ -6198,6 +6972,7 @@ return {
         model = 'tropic',
         price = 390680,
         category = 'boats',
+        type = 'boat',
         hash = `tropic`,
     },
     tropic2 = {
@@ -6206,6 +6981,7 @@ return {
         model = 'tropic2',
         price = 390680,
         category = 'boats',
+        type = 'boat',
         hash = `tropic2`,
     },
     tropos = {
@@ -6214,14 +6990,16 @@ return {
         model = 'tropos',
         price = 71140,
         category = 'sports',
+        type = 'automobile',
         hash = `tropos`,
     },
     tug = {
         name = 'Tug',
-        brand = '',
+        brand = 'Buckingham',
         model = 'tug',
         price = 67079,
         category = 'boats',
+        type = 'boat',
         hash = `tug`,
     },
     tula = {
@@ -6230,6 +7008,7 @@ return {
         model = 'tula',
         price = 1321065,
         category = 'planes',
+        type = 'plane',
         hash = `tula`,
     },
     tulip = {
@@ -6238,6 +7017,7 @@ return {
         model = 'tulip',
         price = 80611,
         category = 'muscle',
+        type = 'automobile',
         hash = `tulip`,
     },
     tulip2 = {
@@ -6246,6 +7026,7 @@ return {
         model = 'tulip2',
         price = 74746,
         category = 'muscle',
+        type = 'automobile',
         hash = `tulip2`,
     },
     turismo2 = {
@@ -6254,6 +7035,7 @@ return {
         model = 'turismo2',
         price = 81835,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `turismo2`,
     },
     turismo3 = {
@@ -6262,6 +7044,7 @@ return {
         model = 'turismo3',
         price = 83545,
         category = 'super',
+        type = 'automobile',
         hash = `turismo3`,
     },
     turismor = {
@@ -6270,6 +7053,7 @@ return {
         model = 'turismor',
         price = 85403,
         category = 'super',
+        type = 'automobile',
         hash = `turismor`,
     },
     tvtrailer = {
@@ -6278,6 +7062,7 @@ return {
         model = 'tvtrailer',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `tvtrailer`,
     },
     tvtrailer2 = {
@@ -6286,6 +7071,7 @@ return {
         model = 'tvtrailer2',
         price = 5668,
         category = 'utility',
+        type = 'trailer',
         hash = `tvtrailer2`,
     },
     tyrant = {
@@ -6294,6 +7080,7 @@ return {
         model = 'tyrant',
         price = 88321,
         category = 'super',
+        type = 'automobile',
         hash = `tyrant`,
     },
     tyrus = {
@@ -6302,6 +7089,7 @@ return {
         model = 'tyrus',
         price = 84350,
         category = 'super',
+        type = 'automobile',
         hash = `tyrus`,
     },
     utillitruck = {
@@ -6310,6 +7098,7 @@ return {
         model = 'utillitruck',
         price = 50131,
         category = 'utility',
+        type = 'automobile',
         hash = `utillitruck`,
     },
     utillitruck2 = {
@@ -6318,6 +7107,7 @@ return {
         model = 'utillitruck2',
         price = 50131,
         category = 'utility',
+        type = 'automobile',
         hash = `utillitruck2`,
     },
     utillitruck3 = {
@@ -6326,6 +7116,7 @@ return {
         model = 'utillitruck3',
         price = 50131,
         category = 'utility',
+        type = 'automobile',
         hash = `utillitruck3`,
     },
     vacca = {
@@ -6334,6 +7125,7 @@ return {
         model = 'vacca',
         price = 83666,
         category = 'super',
+        type = 'automobile',
         hash = `vacca`,
     },
     vader = {
@@ -6342,6 +7134,7 @@ return {
         model = 'vader',
         price = 22163,
         category = 'motorcycles',
+        type = 'bike',
         hash = `vader`,
     },
     vagner = {
@@ -6350,6 +7143,7 @@ return {
         model = 'vagner',
         price = 87808,
         category = 'super',
+        type = 'automobile',
         hash = `vagner`,
     },
     vagrant = {
@@ -6358,6 +7152,7 @@ return {
         model = 'vagrant',
         price = 77576,
         category = 'offroad',
+        type = 'automobile',
         hash = `vagrant`,
     },
     valkyrie = {
@@ -6366,6 +7161,7 @@ return {
         model = 'valkyrie',
         price = 6116097,
         category = 'helicopters',
+        type = 'heli',
         hash = `valkyrie`,
     },
     valkyrie2 = {
@@ -6374,6 +7170,7 @@ return {
         model = 'valkyrie2',
         price = 6116097,
         category = 'helicopters',
+        type = 'heli',
         hash = `valkyrie2`,
     },
     vamos = {
@@ -6382,6 +7179,7 @@ return {
         model = 'vamos',
         price = 75751,
         category = 'muscle',
+        type = 'automobile',
         hash = `vamos`,
     },
     vectre = {
@@ -6390,6 +7188,7 @@ return {
         model = 'vectre',
         price = 73202,
         category = 'sports',
+        type = 'automobile',
         hash = `vectre`,
     },
     velum = {
@@ -6398,6 +7197,7 @@ return {
         model = 'velum',
         price = 1439638,
         category = 'planes',
+        type = 'plane',
         hash = `velum`,
     },
     velum2 = {
@@ -6406,6 +7206,7 @@ return {
         model = 'velum2',
         price = 1439638,
         category = 'planes',
+        type = 'plane',
         hash = `velum2`,
     },
     verlierer2 = {
@@ -6414,6 +7215,7 @@ return {
         model = 'verlierer2',
         price = 83280,
         category = 'sports',
+        type = 'automobile',
         hash = `verlierer2`,
     },
     verus = {
@@ -6422,6 +7224,7 @@ return {
         model = 'verus',
         price = 16526,
         category = 'offroad',
+        type = 'automobile',
         hash = `verus`,
     },
     vestra = {
@@ -6430,6 +7233,7 @@ return {
         model = 'vestra',
         price = 1982877,
         category = 'planes',
+        type = 'plane',
         hash = `vestra`,
     },
     vetir = {
@@ -6438,6 +7242,7 @@ return {
         model = 'vetir',
         price = 38828,
         category = 'military',
+        type = 'automobile',
         hash = `vetir`,
     },
     veto = {
@@ -6446,6 +7251,7 @@ return {
         model = 'veto',
         price = 42608,
         category = 'sports',
+        type = 'automobile',
         hash = `veto`,
     },
     veto2 = {
@@ -6454,6 +7260,7 @@ return {
         model = 'veto2',
         price = 45282,
         category = 'sports',
+        type = 'automobile',
         hash = `veto2`,
     },
     vigero = {
@@ -6462,6 +7269,7 @@ return {
         model = 'vigero',
         price = 77482,
         category = 'muscle',
+        type = 'automobile',
         hash = `vigero`,
     },
     vigero2 = {
@@ -6470,6 +7278,7 @@ return {
         model = 'vigero2',
         price = 82143,
         category = 'muscle',
+        type = 'automobile',
         hash = `vigero2`,
     },
     vigero3 = {
@@ -6478,6 +7287,7 @@ return {
         model = 'vigero3',
         price = 81866,
         category = 'muscle',
+        type = 'automobile',
         hash = `vigero3`,
     },
     vigilante = {
@@ -6486,6 +7296,7 @@ return {
         model = 'vigilante',
         price = 261085,
         category = 'super',
+        type = 'automobile',
         hash = `vigilante`,
     },
     vindicator = {
@@ -6494,6 +7305,7 @@ return {
         model = 'vindicator',
         price = 31055,
         category = 'motorcycles',
+        type = 'bike',
         hash = `vindicator`,
     },
     virgo = {
@@ -6502,6 +7314,7 @@ return {
         model = 'virgo',
         price = 60554,
         category = 'muscle',
+        type = 'automobile',
         hash = `virgo`,
     },
     virgo2 = {
@@ -6510,6 +7323,7 @@ return {
         model = 'virgo2',
         price = 60758,
         category = 'muscle',
+        type = 'automobile',
         hash = `virgo2`,
     },
     virgo3 = {
@@ -6518,15 +7332,17 @@ return {
         model = 'virgo3',
         price = 60554,
         category = 'muscle',
+        type = 'automobile',
         hash = `virgo3`,
     },
     virtue = {
-        brand = 'Ocelot',
-        category = 'super',
-        hash = `virtue`,
-        model = 'virtue',
         name = 'Virtue',
+        brand = 'Ocelot',
+        model = 'virtue',
         price = 76383,
+        category = 'super',
+        type = 'automobile',
+        hash = `virtue`,
     },
     viseris = {
         name = 'Viseris',
@@ -6534,6 +7350,7 @@ return {
         model = 'viseris',
         price = 78246,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `viseris`,
     },
     visione = {
@@ -6542,6 +7359,7 @@ return {
         model = 'visione',
         price = 85576,
         category = 'super',
+        type = 'automobile',
         hash = `visione`,
     },
     vivanite = {
@@ -6550,6 +7368,7 @@ return {
         model = 'vivanite',
         price = 46334,
         category = 'suvs',
+        type = 'automobile',
         hash = `vivanite`,
     },
     volatol = {
@@ -6558,6 +7377,7 @@ return {
         model = 'volatol',
         price = 1570129,
         category = 'planes',
+        type = 'plane',
         hash = `volatol`,
     },
     volatus = {
@@ -6566,6 +7386,7 @@ return {
         model = 'volatus',
         price = 6589212,
         category = 'helicopters',
+        type = 'heli',
         hash = `volatus`,
     },
     voltic = {
@@ -6574,6 +7395,7 @@ return {
         model = 'voltic',
         price = 60326,
         category = 'super',
+        type = 'automobile',
         hash = `voltic`,
     },
     voltic2 = {
@@ -6582,15 +7404,17 @@ return {
         model = 'voltic2',
         price = 180978,
         category = 'super',
+        type = 'automobile',
         hash = `voltic2`,
     },
     voodoo = {
-        brand = 'Declasse',
-        category = 'muscle',
-        hash = `voodoo`,
-        model = 'voodoo',
         name = 'Voodoo Custom',
+        brand = 'Declasse',
+        model = 'voodoo',
         price = 66162,
+        category = 'muscle',
+        type = 'automobile',
+        hash = `voodoo`,
     },
     voodoo2 = {
         name = 'Voodoo',
@@ -6598,6 +7422,7 @@ return {
         model = 'voodoo2',
         price = 63070,
         category = 'muscle',
+        type = 'automobile',
         hash = `voodoo2`,
     },
     vorschlaghammer = {
@@ -6606,6 +7431,7 @@ return {
         model = 'vorschlaghammer',
         price = 25612,
         category = 'sedans',
+        type = 'automobile',
         hash = `vorschlaghammer`,
     },
     vortex = {
@@ -6614,6 +7440,7 @@ return {
         model = 'vortex',
         price = 25612,
         category = 'motorcycles',
+        type = 'bike',
         hash = `vortex`,
     },
     vstr = {
@@ -6622,6 +7449,7 @@ return {
         model = 'vstr',
         price = 79649,
         category = 'sports',
+        type = 'automobile',
         hash = `vstr`,
     },
     warrener = {
@@ -6630,6 +7458,7 @@ return {
         model = 'warrener',
         price = 64367,
         category = 'sedans',
+        type = 'automobile',
         hash = `warrener`,
     },
     warrener2 = {
@@ -6638,6 +7467,7 @@ return {
         model = 'warrener2',
         price = 67374,
         category = 'sedans',
+        type = 'automobile',
         hash = `warrener2`,
     },
     washington = {
@@ -6646,6 +7476,7 @@ return {
         model = 'washington',
         price = 71053,
         category = 'sedans',
+        type = 'automobile',
         hash = `washington`,
     },
     wastelander = {
@@ -6654,6 +7485,7 @@ return {
         model = 'wastelander',
         price = 67837,
         category = 'service',
+        type = 'automobile',
         hash = `wastelander`,
     },
     weevil = {
@@ -6662,6 +7494,7 @@ return {
         model = 'weevil',
         price = 53983,
         category = 'compacts',
+        type = 'automobile',
         hash = `weevil`,
     },
     weevil2 = {
@@ -6670,6 +7503,7 @@ return {
         model = 'weevil2',
         price = 83800,
         category = 'muscle',
+        type = 'automobile',
         hash = `weevil2`,
     },
     windsor = {
@@ -6678,6 +7512,7 @@ return {
         model = 'windsor',
         price = 79422,
         category = 'coupes',
+        type = 'automobile',
         hash = `windsor`,
     },
     windsor2 = {
@@ -6686,6 +7521,7 @@ return {
         model = 'windsor2',
         price = 79252,
         category = 'coupes',
+        type = 'automobile',
         hash = `windsor2`,
     },
     winky = {
@@ -6694,6 +7530,7 @@ return {
         model = 'winky',
         price = 49504,
         category = 'offroad',
+        type = 'automobile',
         hash = `winky`,
     },
     wolfsbane = {
@@ -6702,6 +7539,7 @@ return {
         model = 'wolfsbane',
         price = 19441,
         category = 'motorcycles',
+        type = 'bike',
         hash = `wolfsbane`,
     },
     xa21 = {
@@ -6710,6 +7548,7 @@ return {
         model = 'xa21',
         price = 82892,
         category = 'super',
+        type = 'automobile',
         hash = `xa21`,
     },
     xls = {
@@ -6718,6 +7557,7 @@ return {
         model = 'xls',
         price = 72768,
         category = 'suvs',
+        type = 'automobile',
         hash = `xls`,
     },
     xls2 = {
@@ -6726,6 +7566,7 @@ return {
         model = 'xls2',
         price = 72800,
         category = 'suvs',
+        type = 'automobile',
         hash = `xls2`,
     },
     yosemite = {
@@ -6734,6 +7575,7 @@ return {
         model = 'yosemite',
         price = 69338,
         category = 'muscle',
+        type = 'automobile',
         hash = `yosemite`,
     },
     yosemite2 = {
@@ -6742,6 +7584,7 @@ return {
         model = 'yosemite2',
         price = 74171,
         category = 'muscle',
+        type = 'automobile',
         hash = `yosemite2`,
     },
     yosemite3 = {
@@ -6750,6 +7593,7 @@ return {
         model = 'yosemite3',
         price = 66896,
         category = 'offroad',
+        type = 'automobile',
         hash = `yosemite3`,
     },
     yosemite1500 = {
@@ -6758,6 +7602,7 @@ return {
         model = 'yosemite1500',
         price = 66896,
         category = 'offroad',
+        type = 'automobile',
         hash = `yosemite1500`,
     },
     youga = {
@@ -6766,6 +7611,7 @@ return {
         model = 'youga',
         price = 55630,
         category = 'vans',
+        type = 'automobile',
         hash = `youga`,
     },
     youga2 = {
@@ -6774,6 +7620,7 @@ return {
         model = 'youga2',
         price = 55630,
         category = 'vans',
+        type = 'automobile',
         hash = `youga2`,
     },
     youga3 = {
@@ -6782,6 +7629,7 @@ return {
         model = 'youga3',
         price = 63150,
         category = 'vans',
+        type = 'automobile',
         hash = `youga3`,
     },
     youga4 = {
@@ -6790,6 +7638,7 @@ return {
         model = 'youga4',
         price = 60252,
         category = 'vans',
+        type = 'automobile',
         hash = `youga4`,
     },
     z190 = {
@@ -6798,6 +7647,7 @@ return {
         model = 'z190',
         price = 73299,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `z190`,
     },
     zeno = {
@@ -6806,6 +7656,7 @@ return {
         model = 'zeno',
         price = 89601,
         category = 'super',
+        type = 'automobile',
         hash = `zeno`,
     },
     zentorno = {
@@ -6814,6 +7665,7 @@ return {
         model = 'zentorno',
         price = 82795,
         category = 'super',
+        type = 'automobile',
         hash = `zentorno`,
     },
     zhaba = {
@@ -6822,6 +7674,7 @@ return {
         model = 'zhaba',
         price = 50950,
         category = 'offroad',
+        type = 'automobile',
         hash = `zhaba`,
     },
     zion = {
@@ -6830,6 +7683,7 @@ return {
         model = 'zion',
         price = 77752,
         category = 'coupes',
+        type = 'automobile',
         hash = `zion`,
     },
     zion2 = {
@@ -6838,6 +7692,7 @@ return {
         model = 'zion2',
         price = 77752,
         category = 'coupes',
+        type = 'automobile',
         hash = `zion2`,
     },
     zion3 = {
@@ -6846,6 +7701,7 @@ return {
         model = 'zion3',
         price = 74281,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `zion3`,
     },
     zombiea = {
@@ -6854,6 +7710,7 @@ return {
         model = 'zombiea',
         price = 23182,
         category = 'motorcycles',
+        type = 'bike',
         hash = `zombiea`,
     },
     zombieb = {
@@ -6862,6 +7719,7 @@ return {
         model = 'zombieb',
         price = 23182,
         category = 'motorcycles',
+        type = 'bike',
         hash = `zombieb`,
     },
     zorrusso = {
@@ -6870,6 +7728,7 @@ return {
         model = 'zorrusso',
         price = 85159,
         category = 'super',
+        type = 'automobile',
         hash = `zorrusso`,
     },
     zr350 = {
@@ -6878,6 +7737,7 @@ return {
         model = 'zr350',
         price = 79974,
         category = 'sports',
+        type = 'automobile',
         hash = `zr350`,
     },
     zr380 = {
@@ -6886,6 +7746,7 @@ return {
         model = 'zr380',
         price = 83632,
         category = 'sports',
+        type = 'automobile',
         hash = `zr380`,
     },
     zr3802 = {
@@ -6894,6 +7755,7 @@ return {
         model = 'zr3802',
         price = 83632,
         category = 'sports',
+        type = 'automobile',
         hash = `zr3802`,
     },
     zr3803 = {
@@ -6902,6 +7764,7 @@ return {
         model = 'zr3803',
         price = 83632,
         category = 'sports',
+        type = 'automobile',
         hash = `zr3803`,
     },
     ztype = {
@@ -6910,6 +7773,7 @@ return {
         model = 'ztype',
         price = 84821,
         category = 'sportsclassics',
+        type = 'automobile',
         hash = `ztype`,
     }
 }
