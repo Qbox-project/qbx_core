@@ -271,51 +271,73 @@ if isServer then
         local vehicleType = GetVehicleType(tempVehicle)
         DeleteEntity(tempVehicle)
 
-        local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
-        while not DoesEntityExist(veh) do Wait(0) end
-        while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
+        local attempts = 0
 
-        if bucket and bucket > 0 then
-            exports.qbx_core:SetEntityBucket(veh, bucket)
-        end
+        local veh, netId
+        while attempts < 3 do
+            veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
+            while not DoesEntityExist(veh) do Wait(0) end
+            while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
 
-        if ped then
-            SetPedIntoVehicle(ped, veh, -1)
-        end
+            if bucket and bucket > 0 then
+                exports.qbx_core:SetEntityBucket(veh, bucket)
+            end
 
-        if not pcall(function()
-            lib.waitFor(function()
-                local owner = NetworkGetEntityOwner(veh)
-                if ped then
-                    --- the owner should be transferred to the driver
-                    if owner == NetworkGetEntityOwner(ped) then return true end
-                else
-                    if owner ~= -1 then return true end
-                end
-            end, 'client never set as owner', 5000)
-        end) then
-            DeleteEntity(veh)
-            error('Deleting vehicle which timed out finding an owner')
-        end
+            if ped then
+                SetPedIntoVehicle(ped, veh, -1)
+            end
 
-        local state = Entity(veh).state
-        state:set('initVehicle', true, true)
-
-        if props and type(props) == 'table' and props.plate then
-            state:set('setVehicleProperties', props, true)
             if not pcall(function()
                 lib.waitFor(function()
-                    if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
-                        return true
+                    local owner = NetworkGetEntityOwner(veh)
+                    if ped then
+                        --- the owner should be transferred to the driver
+                        if owner == NetworkGetEntityOwner(ped) then return true end
+                    else
+                        if owner ~= -1 then return true end
                     end
-                end, 'Failed to set vehicle properties within 5 seconds', 5000)
+                end, 'client never set as owner', 5000)
             end) then
                 DeleteEntity(veh)
-                error('Deleting vehicle which timed out setting vehicle properties')
+                error('Deleting vehicle which timed out finding an owner')
+            end
+
+            local state = Entity(veh).state
+            local owner = NetworkGetEntityOwner(veh)
+            state:set('initVehicle', true, true)
+            netId = NetworkGetNetworkIdFromEntity(veh)
+            if props and type(props) == 'table' and props.plate then
+                TriggerClientEvent('qbx_core:client:setVehicleProperties', owner, netId, props)
+                local success = pcall(function()
+                    local plateMatched = false
+                    lib.waitFor(function()
+                        if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
+                            local currentOwner = NetworkGetEntityOwner(veh)
+                            assert(currentOwner == owner, ('Owner changed during vehicle init. expected=%s, actual=%s'):format(owner, currentOwner))
+                            --- check that the plate matches twice, 100ms apart as a bug has been observed in which server side matches but plate is not observed by clients to match
+                            if plateMatched then
+                                return true
+                            end
+                            plateMatched = true
+                            Wait(100)
+                        end
+                    end, 'Failed to set vehicle properties within 1 second', 1000)
+                end)
+                if success then
+                    break
+                else
+                    DeleteEntity(veh)
+                    attempts += 1
+                end
+            else
+                break
             end
         end
 
-        local netId = NetworkGetNetworkIdFromEntity(veh)
+        if attempts == 3 then
+            error('unable to successfully spawn vehicle after 3 attempts')
+        end
+
         exports.qbx_core:EnablePersistence(veh)
         return netId, veh
     end
@@ -325,8 +347,8 @@ else
     ---@field scale? integer default: `0.35`
     ---@field font? integer default: `4`
     ---@field color? vector4 rgba, white by default
-    ---@field enableDropShadow? boolean 
-    ---@field enableOutline? boolean 
+    ---@field enableDropShadow? boolean
+    ---@field enableOutline? boolean
 
     ---@class LibDrawText2DParams : LibDrawTextParams
     ---@field coords vector2

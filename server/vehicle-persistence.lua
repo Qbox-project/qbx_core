@@ -69,14 +69,7 @@ RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
     end
 
     if diff.tyres then
-        local damage = {}
-        for i = 0, 7 do
-            if IsVehicleTyreBurst(vehicle, i, false) then
-                damage[i] = IsVehicleTyreBurst(vehicle, i, true) and 2 or 1
-            end
-        end
-
-        props.tyres = damage
+        props.tyres = diff.tyres ~= 'deleted' and diff.tyres or nil
     end
 
     if persistence == 2 then
