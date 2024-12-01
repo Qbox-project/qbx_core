@@ -265,11 +265,14 @@ if isServer then
             coords = vec4(pedCoords.x, pedCoords.y, pedCoords.z, GetEntityHeading(source))
         end
 
-        local tempVehicle = CreateVehicle(model, 0, 0, -200, 0, true, true)
-        while not DoesEntityExist(tempVehicle) do Wait(0) end
+        local vehicleType = exports.qbx_core:GetVehiclesByHash(model).type
+        if not vehicleType then
+            local tempVehicle = CreateVehicle(model, 0, 0, -200, 0, true, true)
+            while not DoesEntityExist(tempVehicle) do Wait(0) end
 
-        local vehicleType = GetVehicleType(tempVehicle)
-        DeleteEntity(tempVehicle)
+            vehicleType = GetVehicleType(tempVehicle)
+            DeleteEntity(tempVehicle)
+        end
 
         local attempts = 0
 

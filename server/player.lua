@@ -23,6 +23,19 @@ function Login(source, citizenid, newData)
         return false
     end
 
+    if QBX.Players[source] then
+        DropPlayer(tostring(source), locale('info.exploit_dropped'))
+        logger.log({
+            source = GetInvokingResource() or cache.resource,
+            webhook = config.logging.webhook.anticheat,
+            event = 'Anti-Cheat',
+            color = 'white',
+            tags = config.logging.role,
+            message = ('%s [%s] Dropped for attempting to login twice'):format(GetPlayerName(tostring(source)), tostring(source))
+        })
+        return false
+    end
+
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     local userId = storage.fetchUserByIdentifier(license)
 
@@ -35,7 +48,7 @@ function Login(source, citizenid, newData)
         else
             DropPlayer(tostring(source), locale('info.exploit_dropped'))
             logger.log({
-                source = 'qbx_core',
+                source = GetInvokingResource() or cache.resource,
                 webhook = config.logging.webhook.anticheat,
                 event = 'Anti-Cheat',
                 color = 'white',
