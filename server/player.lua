@@ -1318,6 +1318,8 @@ function SetMoney(identifier, moneyType, amount, reason)
             message = ('**%s (citizenid: %s | id: %s)** $%s (%s) %s, new %s balance: $%s reason: %s'):format(GetPlayerName(player.PlayerData.source), player.PlayerData.citizenid, player.PlayerData.source, absDifference, moneyType, dirChange, moneyType, player.PlayerData.money[moneyType], reason),
             --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s,direction:%s'):format(resource, GetPlayerName(player.PlayerData.source), player.PlayerData.citizenid, player.PlayerData.source, absDifference, moneyType, player.PlayerData.money[moneyType], reason, dirChange)
         })
+
+        emitMoneyEvents(player.PlayerData.source, player.PlayerData.money, moneyType, absDifference, 'set', difference < 0, reason)
     end
 
     return true
