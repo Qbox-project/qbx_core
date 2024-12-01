@@ -2,6 +2,7 @@ local config = require 'config.server'
 local defaultSpawn = require 'config.shared'.defaultSpawn
 local logger = require 'modules.logger'
 local storage = require 'server.storage.main'
+local triggerEventHooks = require 'modules.hooks'
 local maxJobsPerPlayer = GetConvarInt('qbx:max_jobs_per_player', 1)
 local maxGangsPerPlayer = GetConvarInt('qbx:max_gangs_per_player', 1)
 local setJobReplaces = GetConvar('qbx:setjob_replaces', 'true') == 'true'
@@ -1208,6 +1209,12 @@ function AddMoney(identifier, moneyType, amount, reason)
 
     if amount < 0 or not player.PlayerData.money[moneyType] then return false end
 
+    if not triggerEventHooks('addMoney', {
+        source = player.PlayerData.source,
+        moneyType = moneyType,
+        amount = amount
+    }) then return false end
+
     player.PlayerData.money[moneyType] += amount
 
     if not player.Offline then
@@ -1248,6 +1255,12 @@ function RemoveMoney(identifier, moneyType, amount, reason)
     amount = qbx.math.round(tonumber(amount) --[[@as number]])
 
     if amount < 0 or not player.PlayerData.money[moneyType] then return false end
+
+    if not triggerEventHooks('removeMoney', {
+        source = player.PlayerData.source,
+        moneyType = moneyType,
+        amount = amount
+    }) then return false end
 
     for _, mType in pairs(config.money.dontAllowMinus) do
         if mType == moneyType then
@@ -1297,6 +1310,12 @@ function SetMoney(identifier, moneyType, amount, reason)
     amount = qbx.math.round(tonumber(amount) --[[@as number]])
 
     if amount < 0 or not player.PlayerData.money[moneyType] then return false end
+
+    if not triggerEventHooks('setMoney', {
+        source = player.PlayerData.source,
+        moneyType = moneyType,
+        amount = amount
+    }) then return false end
 
     player.PlayerData.money[moneyType] = amount
 
