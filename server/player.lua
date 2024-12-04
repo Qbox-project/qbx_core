@@ -38,8 +38,8 @@ function Login(source, citizenid, newData)
     end
 
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local userId = storage.fetchUserByIdentifier(license2 or license)
-
+    local userId = storage.fetchUserByIdentifier(license2) or storage.fetchUserByIdentifier(license)
+    assert(userId ~= nil, ('User does not exist. Licenses checked %s, %s'):format(license2, license))
     if citizenid then
         local playerData = storage.fetchPlayerEntity(citizenid)
         if playerData and (playerData.license == license2 or playerData.license == license) then
