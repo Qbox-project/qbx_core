@@ -37,15 +37,14 @@ function Login(source, citizenid, newData)
         return false
     end
 
-    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    local userId = storage.fetchUserByIdentifier(license)
+    local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
+    local userId = storage.fetchUserByIdentifier(license2 or license)
 
     if citizenid then
         local playerData = storage.fetchPlayerEntity(citizenid)
-        if playerData and license == playerData.license then
+        if playerData and (playerData.license == license2 or playerData.license == license) then
             playerData.userId = userId
-
-            return not not CheckPlayerData(source, playerData)
+            return CheckPlayerData(source, playerData) ~= nil
         else
             DropPlayer(tostring(source), locale('info.exploit_dropped'))
             logger.log({
