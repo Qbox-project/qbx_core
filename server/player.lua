@@ -38,7 +38,7 @@ function Login(source, citizenid, newData)
     end
 
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local userId = storage.fetchUserByIdentifier(license2) or storage.fetchUserByIdentifier(license)
+    local userId = license2 and storage.fetchUserByIdentifier(license2) or storage.fetchUserByIdentifier(license)
     if not userId then
         lib.print.error('User does not exist. Licenses checked:', license2, license)
         return false
