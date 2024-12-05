@@ -6,15 +6,19 @@ QBX.Shared = require 'shared.main'
 QBX.IsLoggedIn = false
 
 ---@return table<string, Vehicle>
-function GetVehiclesByName()
-    return QBX.Shared.Vehicles
+---@overload fun(key: string): Vehicle
+function GetVehiclesByName(key)
+    local vehicles = QBX.Shared.Vehicles
+    return vehicles[key] or vehicles
 end
 
 exports('GetVehiclesByName', GetVehiclesByName)
 
 ---@return table<number, Vehicle>
-function GetVehiclesByHash()
-    return QBX.Shared.VehicleHashes
+---@overload fun(key: number): Vehicle
+function GetVehiclesByHash(key)
+    local vehicles = QBX.Shared.VehicleHashes
+    return vehicles[key] or vehicles
 end
 
 exports('GetVehiclesByHash', GetVehiclesByHash)
@@ -27,8 +31,10 @@ end
 exports('GetVehiclesByCategory', GetVehiclesByCategory)
 
 ---@return table<number, Weapon>
-function GetWeapons()
-    return QBX.Shared.Weapons
+---@overload fun(key: number): Weapon
+function GetWeapons(key)
+    local weapons = QBX.Shared.Weapons
+    return weapons[key] or weapons
 end
 
 exports('GetWeapons', GetWeapons)
