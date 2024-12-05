@@ -45,7 +45,7 @@ function Login(source, citizenid, newData)
     end
     if citizenid then
         local playerData = storage.fetchPlayerEntity(citizenid)
-        if playerData and (playerData.license == license or playerData.license == license2) then
+        if playerData and (playerData.license == license2 or playerData.license == license) then
             playerData.userId = userId
             return CheckPlayerData(source, playerData) ~= nil
         else
