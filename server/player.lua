@@ -201,9 +201,11 @@ function SetPlayerPrimaryJob(citizenid, jobName)
     assert(job.grades[grade] ~= nil, ('job %s does not have grade %s'):format(jobName, grade))
 
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
-    Save(player.PlayerData.source)
 
-    if not player.Offline then
+    if player.Offline then
+        SaveOffline(player.PlayerData)
+    else
+        Save(player.PlayerData.source)
         UpdatePlayerData(player.PlayerData.source)
         TriggerEvent('QBCore:Server:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
         TriggerClientEvent('QBCore:Client:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
@@ -316,7 +318,11 @@ function RemovePlayerFromJob(citizenid, jobName)
         local job = GetJob('unemployed')
         assert(job ~= nil, 'cannot find unemployed job. Does it exist in shared/jobs.lua?')
         player.PlayerData.job = toPlayerJob('unemployed', job, 0)
-        Save(player.PlayerData.source)
+        if player.Offline then
+            SaveOffline(player.PlayerData)
+        else
+            Save(player.PlayerData.source)
+        end
     end
 
     if not player.Offline then
@@ -419,9 +425,10 @@ function SetPlayerPrimaryGang(citizenid, gangName)
         }
     }
 
-    Save(player.PlayerData.source)
-
-    if not player.Offline then
+    if player.Offline then
+        SaveOffline(player.PlayerData)
+    else
+        Save(player.PlayerData.source)
         UpdatePlayerData(player.PlayerData.source)
         TriggerEvent('QBCore:Server:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
         TriggerClientEvent('QBCore:Client:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
@@ -541,7 +548,11 @@ function RemovePlayerFromGang(citizenid, gangName)
                 level = 0
             }
         }
-        Save(player.PlayerData.source)
+        if player.Offline then
+            SaveOffline(player.PlayerData)
+        else
+            Save(player.PlayerData.source)
+        end
     end
 
     if not player.Offline then
