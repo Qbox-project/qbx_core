@@ -37,15 +37,17 @@ function Login(source, citizenid, newData)
         return false
     end
 
-    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    local userId = storage.fetchUserByIdentifier(license)
-
+    local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
+    local userId = license2 and storage.fetchUserByIdentifier(license2) or storage.fetchUserByIdentifier(license)
+    if not userId then
+        lib.print.error('User does not exist. Licenses checked:', license2, license)
+        return false
+    end
     if citizenid then
         local playerData = storage.fetchPlayerEntity(citizenid)
-        if playerData and license == playerData.license then
+        if playerData and (playerData.license == license2 or playerData.license == license) then
             playerData.userId = userId
-
-            return not not CheckPlayerData(source, playerData)
+            return CheckPlayerData(source, playerData) ~= nil
         else
             DropPlayer(tostring(source), locale('info.exploit_dropped'))
             logger.log({
@@ -199,9 +201,11 @@ function SetPlayerPrimaryJob(citizenid, jobName)
     assert(job.grades[grade] ~= nil, ('job %s does not have grade %s'):format(jobName, grade))
 
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
-    Save(player.PlayerData.source)
 
-    if not player.Offline then
+    if player.Offline then
+        SaveOffline(player.PlayerData)
+    else
+        Save(player.PlayerData.source)
         UpdatePlayerData(player.PlayerData.source)
         TriggerEvent('QBCore:Server:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
         TriggerClientEvent('QBCore:Client:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
@@ -314,7 +318,11 @@ function RemovePlayerFromJob(citizenid, jobName)
         local job = GetJob('unemployed')
         assert(job ~= nil, 'cannot find unemployed job. Does it exist in shared/jobs.lua?')
         player.PlayerData.job = toPlayerJob('unemployed', job, 0)
-        Save(player.PlayerData.source)
+        if player.Offline then
+            SaveOffline(player.PlayerData)
+        else
+            Save(player.PlayerData.source)
+        end
     end
 
     if not player.Offline then
@@ -417,9 +425,10 @@ function SetPlayerPrimaryGang(citizenid, gangName)
         }
     }
 
-    Save(player.PlayerData.source)
-
-    if not player.Offline then
+    if player.Offline then
+        SaveOffline(player.PlayerData)
+    else
+        Save(player.PlayerData.source)
         UpdatePlayerData(player.PlayerData.source)
         TriggerEvent('QBCore:Server:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
         TriggerClientEvent('QBCore:Client:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
@@ -539,7 +548,11 @@ function RemovePlayerFromGang(citizenid, gangName)
                 level = 0
             }
         }
-        Save(player.PlayerData.source)
+        if player.Offline then
+            SaveOffline(player.PlayerData)
+        else
+            Save(player.PlayerData.source)
+        end
     end
 
     if not player.Offline then
