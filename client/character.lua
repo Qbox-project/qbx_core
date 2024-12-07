@@ -1,6 +1,5 @@
 local config = require 'config.client'
 local defaultSpawn = require 'config.shared'.defaultSpawn
-local characters, amount = nil, nil
 if config.characters.useExternalCharacters then return end
 
 local previewCam
@@ -152,8 +151,9 @@ local function randomPed()
     pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), ped) end)
     SetModelAsNoLongerNeeded(ped.model)
 end
----@param citizenId? string
-local function previewPed(citizenId)
+---@param characters PlayerEntity[]
+---@param citizenId? integer | string
+local function previewPed(characters, citizenId)
     if not citizenId and characters[1] then citizenId = characters[1].citizenid end
     if not citizenId then randomPed() return end
 
@@ -312,8 +312,8 @@ end
 
 ---@param cid integer
 ---@return boolean
-local function createCharacter(cid)
-    previewPed()
+local function createCharacter(cid, characters)
+    previewPed(characters, cid)
 
     :: noMatch ::
 
@@ -354,6 +354,9 @@ local function createCharacter(cid)
 end
 
 local function chooseCharacter()
+    ---@type PlayerEntity[], integer
+    local characters, amount = lib.callback.await('qbx_core:server:getCharacters')
+    previewPed(characters, nil)
     randomLocation = config.characters.locations[math.random(1, #config.characters.locations)]
     SetFollowPedCamViewMode(2)
     DisplayRadar(false)
@@ -378,8 +381,6 @@ local function chooseCharacter()
     ShutdownLoadingScreenNui()
     setupPreviewCam()
 
-    ---@type PlayerEntity[], integer
-    characters, amount = lib.callback.await('qbx_core:server:getCharacters')
     local options = {}
     for i = 1, amount do
         local character = characters[i]
@@ -404,9 +405,9 @@ local function chooseCharacter()
             onSelect = function()
                 if character then
                     lib.showContext('qbx_core_multichar_character_'..i)
-                    previewPed(character.citizenid)
+                    previewPed(characters, character.citizenid)
                 else
-                    local success = createCharacter(i)
+                    local success = createCharacter(i, characters)
                     if success then return end
 
                     lib.showContext('qbx_core_multichar_characters')
@@ -496,7 +497,6 @@ end)
 RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     if GetInvokingResource() then return end -- Make sure this can only be triggered from the server
     chooseCharacter()
-    previewPed()
 end)
 
 CreateThread(function()
@@ -506,7 +506,6 @@ CreateThread(function()
             pcall(function() exports.spawnmanager:setAutoSpawn(false) end)
             Wait(250)
             chooseCharacter()
-            previewPed()
             break
         end
     end
