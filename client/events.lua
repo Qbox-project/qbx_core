@@ -8,8 +8,10 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
         NetworkSetFriendlyFireOption(true)
     end
 
-    if NetworkIsInTutorialSession() then
-        NetworkEndTutorialSession()
+    NetworkEndTutorialSession()
+
+    while NetworkIsInTutorialSession() do
+        Wait(0)
     end
 
     local motd = GetConvar('qbx:motd', '')
