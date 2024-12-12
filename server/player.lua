@@ -1330,12 +1330,13 @@ function SetMoney(identifier, moneyType, amount, reason)
         amount = amount
     }) then return false end
 
+	local difference = amount - player.PlayerData.money[moneyType]
+
     player.PlayerData.money[moneyType] = amount
 
     if not player.Offline then
         UpdatePlayerData(identifier)
 
-        local difference = amount - player.PlayerData.money[moneyType]
         local dirChange = difference < 0 and 'removed' or 'added'
         local absDifference = math.abs(difference)
         local tags = absDifference > 50000 and config.logging.role or {}
