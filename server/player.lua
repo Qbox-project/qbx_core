@@ -1301,7 +1301,7 @@ function RemoveMoney(identifier, moneyType, amount, reason)
             --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s'):format(resource, GetPlayerName(player.PlayerData.source), player.PlayerData.citizenid, player.PlayerData.source, amount, moneyType, player.PlayerData.money[moneyType], reason)
         })
 
-        emitMoneyEvents(player.PlayerData.source, player.PlayerData.money, moneyType, amount, 'remove', false, reason)
+        emitMoneyEvents(player.PlayerData.source, player.PlayerData.money, moneyType, amount, 'remove', true, reason)
     end
 
     return true
