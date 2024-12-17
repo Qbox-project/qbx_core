@@ -1,5 +1,6 @@
 local config = require 'config.client'
 local defaultSpawn = require 'config.shared'.defaultSpawn
+
 if config.characters.useExternalCharacters then return end
 
 local previewCam
@@ -105,6 +106,7 @@ local nationalities = {}
 
 if config.characters.limitNationalities then
     local nationalityList = lib.load('data.nationalities')
+
     CreateThread(function()
         for i = 1, #nationalityList do
             nationalities[#nationalities + 1] = { value = nationalityList[i] }
@@ -151,10 +153,9 @@ local function randomPed()
     pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), ped) end)
     SetModelAsNoLongerNeeded(ped.model)
 end
----@param characters PlayerEntity[]
----@param citizenId? integer | string
-local function previewPed(characters, citizenId)
-    if not citizenId and characters[1] then citizenId = characters[1].citizenid end
+
+---@param citizenId? string
+local function previewPed(citizenId)
     if not citizenId then randomPed() return end
 
     local clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
@@ -312,8 +313,8 @@ end
 
 ---@param cid integer
 ---@return boolean
-local function createCharacter(cid, characters)
-    previewPed(characters, cid)
+local function createCharacter(cid)
+    previewPed()
 
     :: noMatch ::
 
@@ -356,7 +357,9 @@ end
 local function chooseCharacter()
     ---@type PlayerEntity[], integer
     local characters, amount = lib.callback.await('qbx_core:server:getCharacters')
-    previewPed(characters, nil)
+    local firstCharacterCitizenId = characters[1] and characters[1].citizenid
+    previewPed(firstCharacterCitizenId)
+
     randomLocation = config.characters.locations[math.random(1, #config.characters.locations)]
     SetFollowPedCamViewMode(2)
     DisplayRadar(false)
@@ -405,11 +408,12 @@ local function chooseCharacter()
             onSelect = function()
                 if character then
                     lib.showContext('qbx_core_multichar_character_'..i)
-                    previewPed(characters, character.citizenid)
+                    previewPed(character.citizenid)
                 else
-                    local success = createCharacter(i, characters)
+                    local success = createCharacter(i)
                     if success then return end
 
+                    previewPed(firstCharacterCitizenId)
                     lib.showContext('qbx_core_multichar_characters')
                 end
             end
