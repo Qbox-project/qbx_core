@@ -65,14 +65,7 @@ RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
     end
 
     if diff.tyres then
-        local damage = {}
-        for i = 0, 7 do
-            if IsVehicleTyreBurst(vehicle, i, false) then
-                damage[i] = IsVehicleTyreBurst(vehicle, i, true) and 2 or 1
-            end
-        end
-
-        props.tyres = damage
+        props.tyres = diff.tyres ~= 'deleted' and diff.tyres or nil
     end
 
     exports.qbx_vehicles:SaveVehicle(vehicle, {
@@ -98,6 +91,7 @@ end
 
 AddEventHandler('entityRemoved', function(entity)
     if not Entity(entity).state.persisted then return end
+    local sessionId = Entity(entity).state.sessionId
     local coords = GetEntityCoords(entity)
     local heading = GetEntityHeading(entity)
     local bucket = GetEntityRoutingBucket(entity)
@@ -106,7 +100,6 @@ AddEventHandler('entityRemoved', function(entity)
     local vehicleId = getVehicleId(entity)
     if not vehicleId then return end
 
-    local sessionId = Entity(entity).state.sessionId
     local playerVehicle = exports.qbx_vehicles:GetPlayerVehicle(vehicleId)
 
     if DoesEntityExist(entity) then

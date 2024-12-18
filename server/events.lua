@@ -1,6 +1,7 @@
 local serverConfig = require 'config.server'.server
 local loggingConfig = require 'config.server'.logging
 local serverName = require 'config.shared'.serverName
+local storage = require 'server.storage.main'
 local logger = require 'modules.logger'
 local queue = require 'server.queue'
 
@@ -54,6 +55,23 @@ AddEventHandler('playerDropped', function(reason)
     QBX.Players[src] = nil
 end)
 
+---@param source Source|string
+---@return table<string, string>
+local function getIdentifiers(source)
+    local identifiers = {}
+
+    for i = 0, GetNumPlayerIdentifiers(source --[[@as string]]) - 1 do
+        local identifier = GetPlayerIdentifier(source --[[@as string]], i)
+        local prefix = identifier:match('([^:]+)')
+
+        if prefix ~= 'ip' then
+            identifiers[prefix] = identifier
+        end
+    end
+
+    return identifiers
+end
+
 -- Player Connecting
 ---@param name string
 ---@param _ any
@@ -61,6 +79,7 @@ end)
 local function onPlayerConnecting(name, _, deferrals)
     local src = source --[[@as string]]
     local discord = GetPlayerIdentifierByType(src, 'discord')
+    local userId = storage.fetchUserByIdentifier(discord)
     deferrals.defer()
 
     -- Mandatory wait
@@ -76,6 +95,14 @@ local function onPlayerConnecting(name, _, deferrals)
         deferrals.done(locale('error.no_valid_discord'))
     elseif serverConfig.checkDuplicateDiscord and usedDiscords[discord] then
         deferrals.done(locale('error.duplicate_discord'))
+    end
+
+    if not userId then
+        local identifiers = getIdentifiers(src)
+
+        identifiers.username = name
+
+        storage.createUser(identifiers)
     end
 
     local databaseTime = os.clock()
@@ -141,6 +168,17 @@ local function onPlayerConnecting(name, _, deferrals)
 end
 
 AddEventHandler('playerConnecting', onPlayerConnecting)
+
+AddEventHandler('onResourceStart', function(resource)
+    if resource ~= cache.resource then return end
+
+    storage.createUsersTable()
+
+    MySQL.query([[
+        ALTER TABLE `players`
+        ADD COLUMN IF NOT EXISTS `userId` INT UNSIGNED DEFAULT NULL AFTER `id`;
+    ]])
+end)
 
 -- New method for checking if logged in across all scripts (optional)
 -- `if LocalPlayer.state.isLoggedIn then` for the client side
@@ -211,17 +249,17 @@ local function playerStateBagCheck(bagName, meta, value)
     player.Functions.SetMetaData(meta, value)
 end
 
- ---@diagnostic disable-next-line: param-type-mismatch
+---@diagnostic disable-next-line: param-type-mismatch
 AddStateBagChangeHandler('hunger', nil, function(bagName, _, value)
     playerStateBagCheck(bagName, 'hunger', value)
 end)
 
- ---@diagnostic disable-next-line: param-type-mismatch
+---@diagnostic disable-next-line: param-type-mismatch
 AddStateBagChangeHandler('thirst', nil, function(bagName, _, value)
     playerStateBagCheck(bagName, 'thirst', value)
 end)
 
- ---@diagnostic disable-next-line: param-type-mismatch
+---@diagnostic disable-next-line: param-type-mismatch
 AddStateBagChangeHandler('stress', nil, function(bagName, _, value)
     playerStateBagCheck(bagName, 'stress', value)
 end)

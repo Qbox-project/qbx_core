@@ -4,7 +4,7 @@ game 'gta5'
 name 'qbx_core'
 description 'The core resource for the Qbox Framework'
 repository 'https://github.com/Qbox-project/qbx_core'
-version '1.20.1'
+version '1.22.3'
 
 ox_lib 'locale'
 
@@ -61,7 +61,7 @@ files {
 }
 
 dependencies {
-    '/server:7290',
+    '/server:10731',
     '/onesync',
     'ox_lib',
     'oxmysql',

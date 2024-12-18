@@ -27,6 +27,22 @@ end
 
 exports('GetSource', GetSource)
 
+---@param identifier Identifier
+---@return integer source of the player with the matching identifier or 0 if no player found
+function GetUserId(identifier)
+    for src in pairs(QBX.Players) do
+        local idens = GetPlayerIdentifiers(src)
+        for _, id in pairs(idens) do
+            if identifier == id then
+                return QBX.Players[src].PlayerData.userId
+            end
+        end
+    end
+    return 0
+end
+
+exports('GetUserId', GetUserId)
+
 ---@param source Source|string source or identifier of the player
 ---@return Player
 function GetPlayer(source)
@@ -50,6 +66,18 @@ function GetPlayerByCitizenId(citizenid)
 end
 
 exports('GetPlayerByCitizenId', GetPlayerByCitizenId)
+
+---@param userId string
+---@return Player?
+function GetPlayerByUserId(userId)
+    for src in pairs(QBX.Players) do
+        if QBX.Players[src].PlayerData.userId == userId then
+            return QBX.Players[src]
+        end
+    end
+end
+
+exports('GetPlayerByUserId', GetPlayerByUserId)
 
 ---@param number string
 ---@return Player?
@@ -406,7 +434,7 @@ exports('Notify', Notify)
 ---@return string version
 local function GetCoreVersion(InvokingResource)
     ---@diagnostic disable-next-line: missing-parameter
-    local resourceVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
+    local resourceVersion = GetResourceMetadata(cache.resource, 'version')
     if InvokingResource and InvokingResource ~= '' then
         lib.print.debug(('%s called qbcore version check: %s'):format(InvokingResource or 'Unknown Resource', resourceVersion))
     end

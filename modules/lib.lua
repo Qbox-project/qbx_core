@@ -265,57 +265,84 @@ if isServer then
             coords = vec4(pedCoords.x, pedCoords.y, pedCoords.z, GetEntityHeading(source))
         end
 
-        local tempVehicle = CreateVehicle(model, 0, 0, -200, 0, true, true)
-        while not DoesEntityExist(tempVehicle) do Wait(0) end
+        local vehicleType = exports.qbx_core:GetVehiclesByHash(model).type
+        if not vehicleType then
+            local tempVehicle = CreateVehicle(model, 0, 0, -200, 0, true, true)
+            while not DoesEntityExist(tempVehicle) do Wait(0) end
 
-        local vehicleType = GetVehicleType(tempVehicle)
-        DeleteEntity(tempVehicle)
-
-        local veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
-        while not DoesEntityExist(veh) do Wait(0) end
-        while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
-
-        if bucket and bucket > 0 then
-            exports.qbx_core:SetEntityBucket(veh, bucket)
+            vehicleType = GetVehicleType(tempVehicle)
+            DeleteEntity(tempVehicle)
         end
 
-        if ped then
-            SetPedIntoVehicle(ped, veh, -1)
-        end
+        local attempts = 0
 
-        if not pcall(function()
-            lib.waitFor(function()
-                local owner = NetworkGetEntityOwner(veh)
-                if ped then
-                    --- the owner should be transferred to the driver
-                    if owner == NetworkGetEntityOwner(ped) then return true end
-                else
-                    if owner ~= -1 then return true end
-                end
-            end, 'client never set as owner', 5000)
-        end) then
-            DeleteEntity(veh)
-            error('Deleting vehicle which timed out finding an owner')
-        end
+        local veh, netId
+        while attempts < 3 do
+            veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
+            while not DoesEntityExist(veh) do Wait(0) end
+            while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
 
-        local state = Entity(veh).state
-        state:set('initVehicle', true, true)
+            if bucket and bucket > 0 then
+                exports.qbx_core:SetEntityBucket(veh, bucket)
+            end
 
-        if props and type(props) == 'table' and props.plate then
-            state:set('setVehicleProperties', props, true)
+            if ped then
+                SetPedIntoVehicle(ped, veh, -1)
+            end
+
             if not pcall(function()
                 lib.waitFor(function()
-                    if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
-                        return true
+                    local owner = NetworkGetEntityOwner(veh)
+                    if ped then
+                        --- the owner should be transferred to the driver
+                        if owner == NetworkGetEntityOwner(ped) then return true end
+                    else
+                        if owner ~= -1 then return true end
                     end
-                end, 'Failed to set vehicle properties within 5 seconds', 5000)
+                end, 'client never set as owner', 5000)
             end) then
                 DeleteEntity(veh)
-                error('Deleting vehicle which timed out setting vehicle properties')
+                error('Deleting vehicle which timed out finding an owner')
+            end
+
+            local state = Entity(veh).state
+            local owner = NetworkGetEntityOwner(veh)
+            state:set('initVehicle', true, true)
+            netId = NetworkGetNetworkIdFromEntity(veh)
+            if props and type(props) == 'table' and props.plate then
+                TriggerClientEvent('qbx_core:client:setVehicleProperties', owner, netId, props)
+                local success = pcall(function()
+                    local plateMatched = false
+                    lib.waitFor(function()
+                        if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
+                            local currentOwner = NetworkGetEntityOwner(veh)
+                            assert(currentOwner == owner, ('Owner changed during vehicle init. expected=%s, actual=%s'):format(owner, currentOwner))
+                            --- check that the plate matches twice, 100ms apart as a bug has been observed in which server side matches but plate is not observed by clients to match
+                            if plateMatched then
+                                return true
+                            end
+                            plateMatched = true
+                            Wait(100)
+                        end
+                    end, 'Failed to set vehicle properties within 1 second', 1000)
+                end)
+                if success then
+                    break
+                else
+                    DeleteEntity(veh)
+                    attempts += 1
+                end
+            else
+                break
             end
         end
 
-        local netId = NetworkGetNetworkIdFromEntity(veh)
+        if attempts == 3 then
+            error('unable to successfully spawn vehicle after 3 attempts')
+        end
+
+        --- prevent server from deleting a vehicle without an owner
+        SetEntityOrphanMode(veh, 2)
         exports.qbx_core:EnablePersistence(veh)
         return netId, veh
     end
@@ -325,6 +352,8 @@ else
     ---@field scale? integer default: `0.35`
     ---@field font? integer default: `4`
     ---@field color? vector4 rgba, white by default
+    ---@field enableDropShadow? boolean
+    ---@field enableOutline? boolean
 
     ---@class LibDrawText2DParams : LibDrawTextParams
     ---@field coords vector2
@@ -341,12 +370,19 @@ else
         local color = params.color or vec4(255, 255, 255, 255)
         local width = params.width or 1.0
         local height = params.height or 1.0
+        local enableDropShadow = params.enableDropShadow or false
+        local enableOutline = params.enableOutline or false
 
         SetTextScale(scale, scale)
         SetTextFont(font)
         SetTextColour(math.floor(color.r), math.floor(color.g), math.floor(color.b), math.floor(color.a))
-        SetTextDropShadow()
-        SetTextOutline()
+        if enableDropShadow then
+            SetTextDropShadow()
+        end
+        if enableOutline then
+            SetTextOutline()
+        end
+
         SetTextCentre(true)
         BeginTextCommandDisplayText('STRING')
         AddTextComponentSubstringPlayerName(text)
@@ -356,19 +392,31 @@ else
     ---@class LibDrawText3DParams : LibDrawTextParams
     ---@field coords vector3
     ---@field disableDrawRect? boolean
+    ---@field scale? integer | vector2 default: `vec2(0.35,0.35)`
 
     ---Draws text onto the screen in 3D space for a single frame.
     ---@param params LibDrawText3DParams
     function qbx.drawText3d(params) -- luacheck: ignore
+        local isScaleparamANumber = type(params.scale) == "number"
         local text = params.text
         local coords = params.coords
-        local scale = params.scale or 0.35
+        local scale = (isScaleparamANumber and vec2(params.scale, params.scale))
+                  or params.scale
+                  or vec2(0.35, 0.35)
         local font = params.font or 4
         local color = params.color or vec4(255, 255, 255, 255)
+        local enableDropShadow = params.enableDropShadow or false
+        local enableOutline = params.enableOutline or false
 
-        SetTextScale(scale, scale)
+        SetTextScale(scale.x, scale.y)
         SetTextFont(font)
         SetTextColour(math.floor(color.r), math.floor(color.g), math.floor(color.b), math.floor(color.a))
+        if enableDropShadow then
+            SetTextDropShadow()
+        end
+        if enableOutline then
+            SetTextOutline()
+        end
         SetTextCentre(true)
         BeginTextCommandDisplayText('STRING')
         AddTextComponentSubstringPlayerName(text)
@@ -555,7 +603,7 @@ else
         end
 
         if returnSoundId then
-           return soundId
+            return soundId
         end
 
         ReleaseSoundId(soundId)
