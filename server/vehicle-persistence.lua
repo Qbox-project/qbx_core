@@ -136,31 +136,46 @@ end)
 
 if persistence == 1 then return end
 
-local function spawnVehicles()
-    local vehicles = exports.qbx_vehicles:GetPlayerVehicles({
-        states = 0
-    })
-    for _, vehicle in ipairs(vehicles) do
-        if not vehicle.coords then return end
-
-        local coords = vector4(vehicle.coords.x, vehicle.coords.y, vehicle.coords.z, vehicle.coords.w)
-        local playerVehicle = exports.qbx_vehicles:GetPlayerVehicle(vehicle.id)
-        if not playerVehicle then return end
-
-        local _, veh = qbx.spawnVehicle({
-            spawnSource = coords,
-            model = vehicle.modelName,
-            props = playerVehicle.props
-        })
-
-        exports.qbx_core:EnablePersistence(veh)
-        Entity(veh).state:set('vehicleid', vehicle.id, false)
-        SetVehicleDoorsLocked(veh, 2)
+local function checkVehicleExist(plate)
+    local vehicles = GetGamePool('CVehicle')
+    for i = 1, #vehicles do
+        local vehicle = vehicles[i]
+        if qbx.getVehiclePlate(vehicle) == plate then
+            return true
+        end
     end
 end
 
-AddEventHandler('onResourceStart', function(resourceName)
-    if resourceName ~= GetCurrentResourceName() then return end
-    while #(exports.qbx_core:GetQBPlayers()) == 0 do Wait(15000) end
-    spawnVehicles()
+local function spawnVehicle(coords, id, model, props)
+    local _, veh = qbx.spawnVehicle({
+        spawnSource = vector4(coords.x, coords.y, coords.z, coords.w),
+        model = model,
+        props = props
+    })
+    exports.qbx_core:EnablePersistence(veh)
+    Entity(veh).state:set('vehicleid', id, false)
+    SetVehicleDoorsLocked(veh, 2)
+    TriggerClientEvent('qbx_core:client:removeVehZone', -1, id)
+end
+
+lib.callback.register('qbx_core:server:getVehiclesToSpawn', function()
+    local vehicles = {}
+    local query = 'SELECT id, coords FROM player_vehicles WHERE state = 0'
+    local results = MySQL.query.await(query)
+    for _, data in pairs(results) do
+        local coords = json.decode(data.coords)
+        if coords and not checkVehicleExist(data.vehicle) then
+            vehicles[#vehicles + 1] = {
+                id = data.id,
+                coords = coords,
+            }
+        end
+    end
+    return vehicles
+end)
+
+RegisterNetEvent('qbx_core:server:spawnVehicle', function(id, coords)
+    local vehicle = exports.qbx_vehicles:GetPlayerVehicle(id)
+    if not vehicle then return end
+    spawnVehicle(coords, id, vehicle.modelName, vehicle.props)
 end)

@@ -1,5 +1,6 @@
 if GetConvar('qbx:enableVehiclePersistence', 'false') == 'false' then return end
 
+local zones
 local cachedProps
 local netId
 local vehicle
@@ -70,5 +71,26 @@ lib.onCache('seat', function(newSeat)
         sendPropsDiff()
         vehicle = nil
         netId = nil
+    end
+end)
+
+AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+    local vehicles = lib.callback.await('qbx_core:server:getVehiclesToSpawn', 2500)
+    for i = 1, #vehicles do
+        local data = vehicles[i]
+        zones[data.id] = lib.points.new({
+            distance = 75.0,
+            coords = data.coords,
+            onEnter = function()
+                TriggerServerEvent('qbx_core:server:spawnVehicle', data.id, data.coords)
+            end
+        })
+    end
+end)
+
+RegisterNetEvent('qbx_core:client:removeVehZone', function(id)
+    if zones[id] then
+        zones[id]:remove()
+        zones[id] = nil
     end
 end)
