@@ -38,7 +38,7 @@ function Login(source, citizenid, newData)
     end
 
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local userId = storage.fetchUserByIdentifier(license2) or storage.fetchUserByIdentifier(license)
+    local userId = license2 and storage.fetchUserByIdentifier(license2) or storage.fetchUserByIdentifier(license)
     if not userId then
         lib.print.error('User does not exist. Licenses checked:', license2, license)
         return false
@@ -201,9 +201,11 @@ function SetPlayerPrimaryJob(citizenid, jobName)
     assert(job.grades[grade] ~= nil, ('job %s does not have grade %s'):format(jobName, grade))
 
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
-    Save(player.PlayerData.source)
 
-    if not player.Offline then
+    if player.Offline then
+        SaveOffline(player.PlayerData)
+    else
+        Save(player.PlayerData.source)
         UpdatePlayerData(player.PlayerData.source)
         TriggerEvent('QBCore:Server:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
         TriggerClientEvent('QBCore:Client:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
@@ -316,7 +318,11 @@ function RemovePlayerFromJob(citizenid, jobName)
         local job = GetJob('unemployed')
         assert(job ~= nil, 'cannot find unemployed job. Does it exist in shared/jobs.lua?')
         player.PlayerData.job = toPlayerJob('unemployed', job, 0)
-        Save(player.PlayerData.source)
+        if player.Offline then
+            SaveOffline(player.PlayerData)
+        else
+            Save(player.PlayerData.source)
+        end
     end
 
     if not player.Offline then
@@ -419,9 +425,10 @@ function SetPlayerPrimaryGang(citizenid, gangName)
         }
     }
 
-    Save(player.PlayerData.source)
-
-    if not player.Offline then
+    if player.Offline then
+        SaveOffline(player.PlayerData)
+    else
+        Save(player.PlayerData.source)
         UpdatePlayerData(player.PlayerData.source)
         TriggerEvent('QBCore:Server:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
         TriggerClientEvent('QBCore:Client:OnGangUpdate', player.PlayerData.source, player.PlayerData.gang)
@@ -541,7 +548,11 @@ function RemovePlayerFromGang(citizenid, gangName)
                 level = 0
             }
         }
-        Save(player.PlayerData.source)
+        if player.Offline then
+            SaveOffline(player.PlayerData)
+        else
+            Save(player.PlayerData.source)
+        end
     end
 
     if not player.Offline then
@@ -1290,7 +1301,7 @@ function RemoveMoney(identifier, moneyType, amount, reason)
             --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s'):format(resource, GetPlayerName(player.PlayerData.source), player.PlayerData.citizenid, player.PlayerData.source, amount, moneyType, player.PlayerData.money[moneyType], reason)
         })
 
-        emitMoneyEvents(player.PlayerData.source, player.PlayerData.money, moneyType, amount, 'remove', false, reason)
+        emitMoneyEvents(player.PlayerData.source, player.PlayerData.money, moneyType, amount, 'remove', true, reason)
     end
 
     return true
@@ -1319,12 +1330,13 @@ function SetMoney(identifier, moneyType, amount, reason)
         amount = amount
     }) then return false end
 
+	local difference = amount - player.PlayerData.money[moneyType]
+
     player.PlayerData.money[moneyType] = amount
 
     if not player.Offline then
         UpdatePlayerData(identifier)
 
-        local difference = amount - player.PlayerData.money[moneyType]
         local dirChange = difference < 0 and 'removed' or 'added'
         local absDifference = math.abs(difference)
         local tags = absDifference > 50000 and config.logging.role or {}

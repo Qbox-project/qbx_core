@@ -341,6 +341,8 @@ if isServer then
             error('unable to successfully spawn vehicle after 3 attempts')
         end
 
+        --- prevent server from deleting a vehicle without an owner
+        SetEntityOrphanMode(veh, 2)
         exports.qbx_core:EnablePersistence(veh)
         return netId, veh
     end
