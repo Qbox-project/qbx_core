@@ -1189,14 +1189,17 @@ exports('SetCharInfo', SetCharInfo)
 ---@param moneyType MoneyType
 ---@param amount number
 ---@param actionType 'add' | 'remove' | 'set'
----@param direction boolean
+---@param difference number
 ---@param reason? string
-local function emitMoneyEvents(source, playerMoney, moneyType, amount, actionType, direction, reason)
-    TriggerClientEvent('hud:client:OnMoneyChange', source, moneyType, amount, direction)
+local function emitMoneyEvents(source, playerMoney, moneyType, amount, actionType, difference, reason)
+    local isSet = actionType == 'set'
+    local isRemove = actionType == 'remove'
+
+    TriggerClientEvent('hud:client:OnMoneyChange', source, moneyType, isSet and difference or amount, isSet and difference < 0 or isRemove and true or false, reason)
     TriggerClientEvent('QBCore:Client:OnMoneyChange', source, moneyType, amount, actionType, reason)
     TriggerEvent('QBCore:Server:OnMoneyChange', source, moneyType, amount, actionType, reason)
 
-    if moneyType == 'bank' and actionType == 'remove' then
+    if moneyType == 'bank' and isRemove then
         TriggerClientEvent('qb-phone:client:RemoveBankMoney', source, amount)
     end
 
@@ -1321,8 +1324,9 @@ function SetMoney(identifier, moneyType, amount, reason)
 
     reason = reason or 'unknown'
     amount = qbx.math.round(tonumber(amount) --[[@as number]])
+    local oldAmount = player.PlayerData.money[moneyType]
 
-    if amount < 0 or not player.PlayerData.money[moneyType] then return false end
+    if amount < 0 or not oldAmount then return false end
 
     if not triggerEventHooks('setMoney', {
         source = player.PlayerData.source,
@@ -1330,13 +1334,12 @@ function SetMoney(identifier, moneyType, amount, reason)
         amount = amount
     }) then return false end
 
-	local difference = amount - player.PlayerData.money[moneyType]
-
     player.PlayerData.money[moneyType] = amount
 
     if not player.Offline then
         UpdatePlayerData(identifier)
 
+        local difference = amount - oldAmount
         local dirChange = difference < 0 and 'removed' or 'added'
         local absDifference = math.abs(difference)
         local tags = absDifference > 50000 and config.logging.role or {}
@@ -1349,10 +1352,9 @@ function SetMoney(identifier, moneyType, amount, reason)
             color = difference < 0 and 'red' or 'green',
             tags = tags,
             message = ('**%s (citizenid: %s | id: %s)** $%s (%s) %s, new %s balance: $%s reason: %s'):format(GetPlayerName(player.PlayerData.source), player.PlayerData.citizenid, player.PlayerData.source, absDifference, moneyType, dirChange, moneyType, player.PlayerData.money[moneyType], reason),
-            --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s,direction:%s'):format(resource, GetPlayerName(player.PlayerData.source), player.PlayerData.citizenid, player.PlayerData.source, absDifference, moneyType, player.PlayerData.money[moneyType], reason, dirChange)
         })
 
-        emitMoneyEvents(player.PlayerData.source, player.PlayerData.money, moneyType, absDifference, 'set', difference < 0, reason)
+        emitMoneyEvents(player.PlayerData.source, player.PlayerData.money, moneyType, amount, 'set', absDifference, reason)
     end
 
     return true
