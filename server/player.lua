@@ -1301,7 +1301,7 @@ function RemoveMoney(identifier, moneyType, amount, reason)
             --oxLibTags = ('script:%s,playerName:%s,citizenId:%s,playerSource:%s,amount:%s,moneyType:%s,newBalance:%s,reason:%s'):format(resource, GetPlayerName(player.PlayerData.source), player.PlayerData.citizenid, player.PlayerData.source, amount, moneyType, player.PlayerData.money[moneyType], reason)
         })
 
-        emitMoneyEvents(player.PlayerData.source, player.PlayerData.money, moneyType, amount, 'remove', false, reason)
+        emitMoneyEvents(player.PlayerData.source, player.PlayerData.money, moneyType, amount, 'remove', true, reason)
     end
 
     return true
@@ -1330,12 +1330,13 @@ function SetMoney(identifier, moneyType, amount, reason)
         amount = amount
     }) then return false end
 
+	local difference = amount - player.PlayerData.money[moneyType]
+
     player.PlayerData.money[moneyType] = amount
 
     if not player.Offline then
         UpdatePlayerData(identifier)
 
-        local difference = amount - player.PlayerData.money[moneyType]
         local dirChange = difference < 0 and 'removed' or 'added'
         local absDifference = math.abs(difference)
         local tags = absDifference > 50000 and config.logging.role or {}

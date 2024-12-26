@@ -60,7 +60,7 @@ CreateThread(function()
         messages[#messages + 1] = [[^7
 ^4Welcome to ^3Qbox^4!
 To learn more, please check out the documentation at ^5https://docs.qbox.re/^4.
-To turn this message off, add ^3set qbx:acknowledge true^4 to your cfg files.^7]]
+To turn this message off, set the ^3qbx:acknowledge^4 convar to true in your server.cfg file.^7]]
     end
 
     local requestPromise = promise:new()
