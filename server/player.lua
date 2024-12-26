@@ -1195,7 +1195,7 @@ local function emitMoneyEvents(source, playerMoney, moneyType, amount, actionTyp
     local isSet = actionType == 'set'
     local isRemove = actionType == 'remove'
 
-    TriggerClientEvent('hud:client:OnMoneyChange', source, moneyType, isSet and math.abs(difference) or amount, isSet and difference < 0 or isRemove or false, reason)
+    TriggerClientEvent('hud:client:OnMoneyChange', source, moneyType, isSet and math.abs(difference) or amount, isSet and difference < 0 or isRemove, reason)
     TriggerClientEvent('QBCore:Client:OnMoneyChange', source, moneyType, amount, actionType, reason)
     TriggerEvent('QBCore:Server:OnMoneyChange', source, moneyType, amount, actionType, reason)
 
