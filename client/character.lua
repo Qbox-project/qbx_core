@@ -102,6 +102,8 @@ local randomPeds = {
     }
 }
 
+NetworkStartSoloTutorialSession()
+
 local nationalities = {}
 
 if config.characters.limitNationalities then
@@ -375,8 +377,10 @@ local function chooseCharacter()
     SetEntityCoords(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false, false)
     SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
 
-    if not NetworkIsInTutorialSession() then
-        NetworkStartSoloTutorialSession()
+    NetworkStartSoloTutorialSession()
+
+    while not NetworkIsInTutorialSession() do
+        Wait(0)
     end
 
     Wait(1500)
