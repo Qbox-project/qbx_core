@@ -160,11 +160,11 @@ end
 
 lib.callback.register('qbx_core:server:getVehiclesToSpawn', function()
     local vehicles = {}
-    local query = 'SELECT id, coords FROM player_vehicles WHERE state = 0'
+    local query = 'SELECT id, plate, coords FROM player_vehicles WHERE state = 0'
     local results = MySQL.query.await(query)
     for _, data in pairs(results) do
         local coords = json.decode(data.coords)
-        if coords and not checkVehicleExist(data.vehicle) then
+        if coords and not checkVehicleExist(data.plate) then
             vehicles[#vehicles + 1] = {
                 id = data.id,
                 coords = coords,
