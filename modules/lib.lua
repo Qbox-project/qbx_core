@@ -339,6 +339,18 @@ if isServer then
         return netId, veh
     end
 else
+    ---@param model number|string
+    ---@return string
+    lib.callback.register('qbx_core:client:getVehicleType', function(model)
+        model = lib.requestModel(model)
+        local coords = GetEntityCoords(cache.ped)
+        local tempVehicle = CreateVehicle(model, coords.x, coords.y, coords.z - 20.0, 0, false, false)
+        SetModelAsNoLongerNeeded(model)
+        local type = GetVehicleType(tempVehicle)
+        DeleteEntity(tempVehicle)
+        return type
+    end)
+
     ---@class LibDrawTextParams
     ---@field text string
     ---@field scale? integer default: `0.35`
