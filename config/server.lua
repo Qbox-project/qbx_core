@@ -115,6 +115,10 @@ return {
         return exports.qbx_vehiclekeys:GiveKeys(src, vehicle)
     end,
 
+    setLockVehicle = function(netId, state)
+        exports.qbx_vehiclekeys:SetVehicleLockState(netId, state)
+    end,
+
     getSocietyAccount = function(accountName)
         return exports['Renewed-Banking']:getAccountMoney(accountName)
     end,

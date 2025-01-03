@@ -1,5 +1,4 @@
-local persistence = GetConvarInt('qbx:enableVehiclePersistence', 0)
-print('Vehicle persistence mode ' .. persistence)
+local persistence = GetConvar('qbx:enableVehiclePersistence', 'false')
 
 ---A persisted vehicle will respawn when deleted. Only works for player owned vehicles.
 ---Vehicles spawned using lib are automatically persisted
@@ -18,12 +17,13 @@ end
 
 exports('DisablePersistence', DisablePersistence)
 
-if persistence == 0 then return end
+if persistence == 'false' then return end
 
 assert(lib.checkDependency('qbx_vehicles', '1.4.1', true))
 
 local function getVehicleId(vehicle)
-    return Entity(vehicle).state.vehicleid or exports.qbx_vehicles:GetVehicleIdByPlate(GetVehicleNumberPlateText(vehicle))
+    return Entity(vehicle).state.vehicleid or
+        exports.qbx_vehicles:GetVehicleIdByPlate(GetVehicleNumberPlateText(vehicle))
 end
 
 RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
@@ -134,48 +134,73 @@ AddEventHandler('entityRemoved', function(entity)
     end
 end)
 
-if persistence == 1 then return end
+if persistence == 'full' then return end
 
-local function checkVehicleExist(plate)
-    local vehicles = GetGamePool('CVehicle')
-    for i = 1, #vehicles do
-        local vehicle = vehicles[i]
+local cachedVehicles = {}
+local setVehLockState = require 'config.server'.setLockVehicle
+
+---@param plate string
+---@return boolean
+local function isVehicleSpawned(plate)
+    for _, vehicle in pairs(GetGamePool('CVehicle')) do
         if qbx.getVehiclePlate(vehicle) == plate then
             return true
         end
     end
+    return false
 end
 
+---@param coords vector4
+---@param id number
+---@param model string
+---@param props table
 local function spawnVehicle(coords, id, model, props)
-    local _, veh = qbx.spawnVehicle({
-        spawnSource = vector4(coords.x, coords.y, coords.z, coords.w),
+    if not coords or not id or not model or not props then return end
+
+    local netId, veh = qbx.spawnVehicle({
+        spawnSource = vec4(coords.x, coords.y, coords.z, coords.w),
         model = model,
         props = props
     })
-    exports.qbx_core:EnablePersistence(veh)
+
+    cachedVehicles[id] = nil
     Entity(veh).state:set('vehicleid', id, false)
-    SetVehicleDoorsLocked(veh, 2)
     TriggerClientEvent('qbx_core:client:removeVehZone', -1, id)
+    setVehLockState(netId, 2)
 end
 
 lib.callback.register('qbx_core:server:getVehiclesToSpawn', function()
-    local vehicles = {}
-    local query = 'SELECT id, plate, coords FROM player_vehicles WHERE state = 0'
-    local results = MySQL.query.await(query)
-    for _, data in pairs(results) do
-        local coords = json.decode(data.coords)
-        if coords and not checkVehicleExist(data.plate) then
-            vehicles[#vehicles + 1] = {
-                id = data.id,
-                coords = coords,
-            }
+    return cachedVehicles
+end)
+
+AddEventHandler('onResourceStart', function(resourceName)
+    if resourceName ~= 'qbx_vehicles' then return end
+
+    local vehicles = exports.qbx_vehicles:GetPlayerVehicles({ states = 0 })
+    if not vehicles then return end
+
+    for _, vehicle in ipairs(vehicles) do
+        if vehicle.coords and vehicle.props and vehicle.props.plate and
+            not isVehicleSpawned(vehicle.props.plate) then
+            cachedVehicles[vehicle.id] = vehicle.coords
         end
     end
-    return vehicles
 end)
 
 RegisterNetEvent('qbx_core:server:spawnVehicle', function(id, coords)
+    if not id or not coords then return end
+
+    local cachedCoords = cachedVehicles[id]
+    if not cachedCoords or
+        cachedCoords.x ~= coords.x or
+        cachedCoords.y ~= coords.y or
+        cachedCoords.z ~= coords.z or
+        cachedCoords.w ~= coords.w then
+        return
+    end
+
     local vehicle = exports.qbx_vehicles:GetPlayerVehicle(id)
-    if not vehicle then return end
+    if not vehicle or not vehicle.modelName or not vehicle.props then return end
+
     spawnVehicle(coords, id, vehicle.modelName, vehicle.props)
 end)
