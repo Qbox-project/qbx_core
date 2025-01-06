@@ -137,7 +137,7 @@ end)
 if persistence == 'full' then return end
 
 local cachedVehicles = {}
-local setVehLockState = require 'config.server'.setLockVehicle
+local config = require 'config.server'
 
 ---@param plate string
 ---@return boolean
@@ -166,7 +166,7 @@ local function spawnVehicle(coords, id, model, props)
     cachedVehicles[id] = nil
     Entity(veh).state:set('vehicleid', id, false)
     TriggerClientEvent('qbx_core:client:removeVehZone', -1, id)
-    setVehLockState(netId, 2)
+    config.setVehicleLock(veh, config.persistence.lockState)
 end
 
 lib.callback.register('qbx_core:server:getVehiclesToSpawn', function()

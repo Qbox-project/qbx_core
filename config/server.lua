@@ -111,12 +111,16 @@ return {
         role = {} -- Role to tag for high priority logs. Roles use <@%roleid> and users/channels are <@userid/channelid>
     },
 
+    persistence = {
+        lockState = 'lock', -- 'lock' : vehicle will be locked when spawned, 'unlock' : vehicle will be unlocked when spawned
+    },
+
     giveVehicleKeys = function(src, plate, vehicle)
         return exports.qbx_vehiclekeys:GiveKeys(src, vehicle)
     end,
 
-    setLockVehicle = function(netId, state)
-        exports.qbx_vehiclekeys:SetVehicleLockState(netId, state)
+    setVehicleLock = function(vehicle, state)
+        exports.qbx_vehiclekeys:SetLockState(vehicle, state)
     end,
 
     getSocietyAccount = function(accountName)
