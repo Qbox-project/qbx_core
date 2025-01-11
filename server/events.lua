@@ -39,7 +39,7 @@ AddEventHandler('playerDropped', function(reason)
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
     if license then usedLicenses[license] = nil end
     if not QBX.Players[src] then return end
-    GlobalState.PlayerCount -= 1
+    GlobalState.PlayerCount = GetNumPlayerIndices()
     local player = QBX.Players[src]
     player.PlayerData.lastLoggedOut = os.time()
     logger.log({
