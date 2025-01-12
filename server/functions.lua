@@ -46,8 +46,8 @@ exports('GetUserId', GetUserId)
 ---@param source Source|string source or identifier of the player
 ---@return Player
 function GetPlayer(source)
-    if type(source) == 'number' then
-        return QBX.Players[source]
+    if tonumber(source) ~= nil then
+        return QBX.Players[tonumber(source)]
     else
         return QBX.Players[GetSource(source --[[@as string]])]
     end
