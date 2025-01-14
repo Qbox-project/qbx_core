@@ -135,6 +135,13 @@ exports('SetJob', SetJob)
 ---@param identifier Source | string
 ---@param onDuty boolean
 function SetJobDuty(identifier, onDuty)
+    local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
+
+    if not player then
+        error(('SetJobDuty couldn\'t find player with identifier %s'):format(identifier))
+        return
+    end
+
     SetPlayerData(identifier, 'job', {'onduty'}, not not onDuty, function()
         TriggerEvent('QBCore:Server:SetDuty', player.PlayerData.source, player.PlayerData.job.onduty)
         TriggerClientEvent('QBCore:Client:SetDuty', player.PlayerData.source, player.PlayerData.job.onduty)
@@ -196,7 +203,7 @@ function SetPlayerPrimaryJob(citizenid, jobName)
 
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
 
-    SetPlayerData(player.PlayerData.source, 'job', nil, player.PlayerData.job, function()
+    SetPlayerData(citizenid, 'job', nil, player.PlayerData.job, function()
         TriggerEvent('QBCore:Server:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
         TriggerClientEvent('QBCore:Client:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
     end)
@@ -261,7 +268,7 @@ function AddPlayerToJob(citizenid, jobName, grade)
     storage.addPlayerToJob(citizenid, jobName, grade)
 
     player.PlayerData.jobs[jobName] = grade
-    SetPlayerData(player.PlayerData.source, 'jobs', nil, player.PlayerData.jobs, function()
+    SetPlayerData(citizenid, 'jobs', nil, player.PlayerData.jobs, function()
         TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, jobName, grade)
         TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, jobName, grade)
     end, true)
@@ -307,10 +314,10 @@ function RemovePlayerFromJob(citizenid, jobName)
         local job = GetJob('unemployed')
         assert(job ~= nil, 'cannot find unemployed job. Does it exist in shared/jobs.lua?')
 
-        SetPlayerData(player.PlayerData.source, 'job', nil, toPlayerJob('unemployed', job, 0))
+        SetPlayerData(citizenid, 'job', nil, toPlayerJob('unemployed', job, 0))
     end
 
-    SetPlayerData(player.PlayerData.source, 'jobs', nil, player.PlayerData.jobs, function()
+    SetPlayerData(citizenid, 'jobs', nil, player.PlayerData.jobs, function()
         TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, jobName)
         TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, jobName)
     end, true)
@@ -396,7 +403,7 @@ function SetPlayerPrimaryGang(citizenid, gangName)
 
     assert(gang.grades[grade] ~= nil, ('gang %s does not have grade %s'):format(gangName, grade))
 
-    SetPlayerData(player.PlayerData.source, 'gang', nil, {
+    SetPlayerData(citizenid, 'gang', nil, {
         name = gangName,
         label = gang.label,
         isboss = gang.grades[grade].isboss,
@@ -468,7 +475,7 @@ function AddPlayerToGang(citizenid, gangName, grade)
     storage.addPlayerToGang(citizenid, gangName, grade)
 
     player.PlayerData.gangs[gangName] = grade
-    SetPlayerData(player.PlayerData.source, 'gangs', nil, player.PlayerData.gangs, function()
+    SetPlayerData(citienid, 'gangs', nil, player.PlayerData.gangs, function()
         TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, gangName, grade)
         TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, gangName, grade)
     end, true)
@@ -514,7 +521,7 @@ function RemovePlayerFromGang(citizenid, gangName)
         local gang = GetGang('none')
         assert(gang ~= nil, 'cannot find none gang. Does it exist in shared/gangs.lua?')
 
-        SetPlayerData(player.PlayerData.source, 'gang', nil, {
+        SetPlayerData(citizenid, 'gang', nil, {
             name = 'none',
             label = gang.label,
             isboss = false,
@@ -525,7 +532,7 @@ function RemovePlayerFromGang(citizenid, gangName)
         })
     end
 
-    SetPlayerData(player.PlayerData.source, 'gangs', nil, player.PlayerData.gangs, function()
+    SetPlayerData(citizenid, 'gangs', nil, player.PlayerData.gangs, function()
         TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, gangName)
         TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, gangName)
     end, true)
@@ -1132,7 +1139,7 @@ function SetMetadata(identifier, metadata, value)
     end
 
     local oldValue = player.PlayerData.metadata[metadata]
-    SetPlayerData(player.PlayerData.source, 'metadata', {metadata}, value, function()
+    SetPlayerData(identifier, 'metadata', {metadata}, value, function()
         local playerState = Player(player.PlayerData.source).state
 
         TriggerClientEvent('qbx_core:client:onSetMetaData', player.PlayerData.source, metadata, oldValue, value)
@@ -1221,7 +1228,7 @@ function AddMoney(identifier, moneyType, amount, reason)
         amount = amount
     }) then return false end
 
-    SetPlayerData(player.PlayerData.source, 'money', {moneyType}, player.PlayerData.money[moneyType] + amount, function()
+    SetPlayerData(identifier, 'money', {moneyType}, player.PlayerData.money[moneyType] + amount, function()
         local tags = amount > 100000 and config.logging.role or nil
         local resource = GetInvokingResource() or cache.resource
 
@@ -1272,7 +1279,7 @@ function RemoveMoney(identifier, moneyType, amount, reason)
         end
     end
 
-    SetPlayerData(player.PlayerData.source, 'money', {moneyType}, player.PlayerData.money[moneyType] - amount, function()
+    SetPlayerData(identifier, 'money', {moneyType}, player.PlayerData.money[moneyType] - amount, function()
         local tags = amount > 100000 and config.logging.role or nil
         local resource = GetInvokingResource() or cache.resource
 
@@ -1317,7 +1324,7 @@ function SetMoney(identifier, moneyType, amount, reason)
     }) then return false end
 
     player.PlayerData.money[moneyType] = amount
-    SetPlayerData(player.PlayerData.source, 'money', {moneyType}, amount, function()
+    SetPlayerData(identifier, 'money', {moneyType}, amount, function()
         local difference = amount - oldAmount
         local dirChange = difference < 0 and 'removed' or 'added'
         local absDifference = math.abs(difference)
