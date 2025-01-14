@@ -471,7 +471,6 @@ local function sendPlayerDataUpdates()
     for citizenid, playerData in pairs(collectedPlayerData) do
         for key, data in pairs(playerData) do
             if type(data) == 'table' then
-                local updateStrings = {}
                 -- We go a maximum of 3 tables deep into the current table to prevent misuse and qbox doesn't have more than 2 actually
                 -- If we were to make this variable to the amount of data there is, then enough tables can crash the server
                 for k, v in pairs(data) do
@@ -483,19 +482,15 @@ local function sendPlayerDataUpdates()
                                         v3 = json.encode(v3)
                                     end
 
-                                    updateStrings[#updateStrings + 1] = { ('$.%s.%s.%s'):format(k, k2, k3), v3 }
+                                    MySQL.prepare.await(('UPDATE players SET %s = JSON_SET(%s, "$.%s.%s.%s", ?) WHERE citizenid = ?'):format(key, key, k, k2, k3), { v3, citizenid })
                                 end
                             else
-                                updateStrings = { ('$.%s.%s'):format(k, k2), v2 }
+                                MySQL.prepare.await(('UPDATE players SET %s = JSON_SET(%s, "$.%s.%s", ?) WHERE citizenid = ?'):format(key, key, k, k2), { v2, citizenid })
                             end
                         end
                     else
-                        updateStrings[#updateStrings + 1] = { ('$.%s'):format(k), v }
+                        MySQL.prepare.await(('UPDATE players SET %s = JSON_SET(%s, "$.%s", ?) WHERE citizenid = ?'):format(key, key, k), { v, citizenid })
                     end
-                end
-
-                for i = 1, #updateStrings do
-                    MySQL.prepare.await(('UPDATE players SET %s = JSON_SET(%s, "%s", ?) WHERE citizenid = ?'):format(key, key, updateStrings[i][1]), { updateStrings[i][2], citizenid })
                 end
             else
                 MySQL.prepare.await(('UPDATE players SET %s = ? WHERE citizenid = ?'):format(key), { data, citizenid })
