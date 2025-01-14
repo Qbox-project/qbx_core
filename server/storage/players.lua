@@ -1,5 +1,32 @@
 local defaultSpawn = require 'config.shared'.defaultSpawn
 local characterDataTables = require 'config.server'.characterDataTables
+local playerDataUpdateQueue = {}
+local collectedPlayerData = {}
+local isUpdating = false
+
+local otherNamedPlayerFields = {
+    ['items'] = 'inventory',
+    ['lastLoggedOut'] = 'last_logged_out'
+}
+
+local jsonPlayerFields = {
+    ['id'] = false,
+    ['userId'] = false,
+    ['citizenid'] = false,
+    ['cid'] = false,
+    ['license'] = false,
+    ['name'] = false,
+    ['money'] = true,
+    ['charinfo'] = true,
+    ['job'] = true,
+    ['gang'] = true,
+    ['position'] = true,
+    ['metadata'] = true,
+    ['inventory'] = true,
+    ['phone_number'] = false,
+    ['last_updated'] = false,
+    ['last_logged_out'] = false
+}
 
 local function createUsersTable()
     MySQL.query([[
@@ -78,7 +105,7 @@ end
 ---@return BanEntity?
 local function fetchBan(request)
     local column, value = getBanId(request)
-    local result = MySQL.single.await('SELECT expire, reason FROM bans WHERE ' ..column.. ' = ?', { value })
+    local result = MySQL.single.await('SELECT expire, reason FROM bans WHERE ' .. column .. ' = ?', { value })
     return result and {
         expire = result.expire,
         reason = result.reason,
@@ -88,7 +115,7 @@ end
 ---@param request GetBanRequest
 local function deleteBan(request)
     local column, value = getBanId(request)
-    MySQL.query.await('DELETE FROM bans WHERE ' ..column.. ' = ?', { value })
+    MySQL.query.await('DELETE FROM bans WHERE ' .. column .. ' = ?', { value })
 end
 
 ---@param request UpsertPlayerRequest
@@ -166,22 +193,28 @@ local function fetchPlayerEntity(citizenId)
 end
 
 ---@param filters table<string, any>
+---@return string, any[]
 local function handleSearchFilters(filters)
-    if not (filters) then return '', {} end
+    if not filters then return '', {} end
+
     local holders = {}
     local clauses = {}
+
     if filters.license then
         clauses[#clauses + 1] = 'license = ?'
         holders[#holders + 1] = filters.license
     end
+
     if filters.job then
         clauses[#clauses + 1] = 'JSON_EXTRACT(job, "$.name") = ?'
         holders[#holders + 1] = filters.job
     end
+
     if filters.gang then
         clauses[#clauses + 1] = 'JSON_EXTRACT(gang, "$.name") = ?'
         holders[#holders + 1] = filters.gang
     end
+
     if filters.metadata then
         local strict = filters.metadata.strict
         for key, value in pairs(filters.metadata) do
@@ -192,6 +225,7 @@ local function handleSearchFilters(filters)
                     else
                         clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") >= ?'
                     end
+
                     holders[#holders + 1] = value
                 elseif type(value) == "boolean" then
                     clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") = ?'
@@ -203,6 +237,7 @@ local function handleSearchFilters(filters)
             end
         end
     end
+
     return (' WHERE %s'):format(table.concat(clauses, ' AND ')), holders
 end
 
@@ -317,6 +352,7 @@ local function fetchPlayerGroups(citizenid)
             gangs[group.group] = group.grade
         end
     end
+
     return jobs, gangs
 end
 
@@ -382,8 +418,99 @@ local function cleanPlayerGroups()
     lib.print.info('Removed invalid groups from player_groups table')
 end
 
+---@param citizenid string
+---@param key string
+---@param subKeys? string[]
+---@param value any
+local function addPlayerDataUpdate(citizenid, key, subKeys, value)
+    key = otherNamedPlayerFields[key] or key
+
+    if jsonPlayerFields[key] == nil then
+        error(('Tried to update player data field %s when it doesn\'t exist. Value: %s'):format(key, value))
+        return
+    end
+
+    if not jsonPlayerFields[key] and subKeys then
+        error(('Tried to update player data field %s as a json object when it isn\'t one'):format(key))
+        return
+    end
+
+    value = type(value) == 'table' and json.encode(value) or value
+
+    -- In sendPlayerDataUpdates we don't go more than 3 tables deep
+    if subKeys and #subKeys > 3 then
+        error(('Cannot save field %s because data is too big.\nsubKeys: %s\nvalue: %s'):format(key, json.encode(subKeys), value))
+        return
+    end
+
+    local currentTable = isUpdating and playerDataUpdateQueue or collectedPlayerData
+
+    if not currentTable[citizenid] then
+        currentTable[citizenid] = {}
+    end
+
+    currentTable[citizenid][key] = subKeys and {} or value
+
+    if subKeys then
+        local current = currentTable[citizenid][key]
+        -- We don't check the last one because otherwise we lose the table reference
+        for i = 1, #subKeys - 1 do
+            if not current[subKeys[i]] then
+                current[subKeys[i]] = {}
+            end
+        end
+
+        current[subKeys[#subKeys]] = value
+    end
+end
+
+local function sendPlayerDataUpdates()
+    -- We implement this to ensure when updating no values are added to our updating sequence to prevent data loss by accidentally skipping over it
+    isUpdating = true
+
+    for citizenid, playerData in pairs(collectedPlayerData) do
+        for key, data in pairs(playerData) do
+            if type(data) == 'table' then
+                local updateStrings = {}
+                -- We go a maximum of 3 tables deep into the current table to prevent misuse and qbox doesn't have more than 2 actually
+                -- If we were to make this variable to the amount of data there is, then enough tables can crash the server
+                for k, v in pairs(data) do
+                    if type(v) == 'table' then
+                        for k2, v2 in pairs(v) do
+                            if type(v2) == 'table' then
+                                for k3, v3 in pairs(v2) do
+                                    if type(v3) == 'table' then
+                                        v3 = json.encode(v3)
+                                    end
+
+                                    updateStrings[#updateStrings + 1] = { ('$.%s.%s.%s'):format(k, k2, k3), v3 }
+                                end
+                            else
+                                updateStrings = { ('$.%s.%s'):format(k, k2), v2 }
+                            end
+                        end
+                    else
+                        updateStrings[#updateStrings + 1] = { ('$.%s'):format(k), v }
+                    end
+                end
+
+                for i = 1, #updateStrings do
+                    MySQL.prepare.await(('UPDATE players SET %s = JSON_SET(%s, "%s", ?) WHERE citizenid = ?'):format(key, key, updateStrings[i][1]), { updateStrings[i][2], citizenid })
+                end
+            else
+                MySQL.prepare.await(('UPDATE players SET %s = ? WHERE citizenid = ?'):format(key), { data, citizenid })
+            end
+        end
+    end
+
+    collectedPlayerData = playerDataUpdateQueue
+    playerDataUpdateQueue = {}
+    isUpdating = false
+end
+
 RegisterCommand('cleanplayergroups', function(source)
     if source ~= 0 then return warn('This command can only be executed using the server console.') end
+
     cleanPlayerGroups()
 end, true)
 
@@ -394,6 +521,7 @@ CreateThread(function()
             warn(('Table \'%s\' does not exist in database, please remove it from qbx_core/config/server.lua or create the table'):format(tableName))
         end
     end
+
     if GetConvar('qbx:cleanPlayerGroups', 'false') == 'true' then
         cleanPlayerGroups()
     end
@@ -419,4 +547,6 @@ return {
     removePlayerFromJob = removePlayerFromJob,
     removePlayerFromGang = removePlayerFromGang,
     searchPlayerEntities = searchPlayerEntities,
+    sendPlayerDataUpdates = sendPlayerDataUpdates,
+    addPlayerDataUpdate = addPlayerDataUpdate
 }
