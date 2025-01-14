@@ -475,7 +475,7 @@ function AddPlayerToGang(citizenid, gangName, grade)
     storage.addPlayerToGang(citizenid, gangName, grade)
 
     player.PlayerData.gangs[gangName] = grade
-    SetPlayerData(citienid, 'gangs', nil, player.PlayerData.gangs, function()
+    SetPlayerData(citizenid, 'gangs', nil, player.PlayerData.gangs, function()
         TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, gangName, grade)
         TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, gangName, grade)
     end, true)
