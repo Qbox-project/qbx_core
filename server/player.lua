@@ -761,7 +761,7 @@ function CreatePlayer(playerData, Offline)
     ---@param key string
     ---@param val any
     function self.Functions.SetPlayerData(key, val)
-        SetPlayerData(self.PlayerData.source, key, nil, val)
+        SetPlayerData(self.PlayerData.source, key, val)
     end
 
     ---@deprecated use exports.qbx_core:SetMetadata instead
