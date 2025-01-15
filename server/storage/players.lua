@@ -419,48 +419,52 @@ local function cleanPlayerGroups()
 end
 
 ---@param citizenid string
----@param key string
----@param subKeys? string[]
+---@param key string | string[]
 ---@param value any
-local function addPlayerDataUpdate(citizenid, key, subKeys, value)
-    key = otherNamedPlayerFields[key] or key
+local function addPlayerDataUpdate(citizenid, key, value)
+    local hasSubKeys = type(key) == 'table'
 
-    if jsonPlayerFields[key] == nil then
-        error(('Tried to update player data field %s when it doesn\'t exist. Value: %s'):format(key, value))
+    if hasSubKeys then
+        key[1] = otherNamedPlayerFields[key[1]] or key[1]
+    else
+        key = otherNamedPlayerFields[key] or key
+    end
+
+    if jsonPlayerFields[hasSubKeys and key[1] or key] == nil then
+        error(('Tried to update player data field %s when it doesn\'t exist. Value: %s'):format(hasSubKeys and key[1] or key, value))
         return
     end
 
-    if not jsonPlayerFields[key] and subKeys then
-        error(('Tried to update player data field %s as a json object when it isn\'t one'):format(key))
+    if hasSubKeys and not jsonPlayerFields[key[1]] then
+        error(('Tried to update player data field %s as a json object when it isn\'t one'):format(key[1]))
         return
     end
 
     value = type(value) == 'table' and json.encode(value) or value
 
     -- In sendPlayerDataUpdates we don't go more than 3 tables deep
-    if subKeys and #subKeys > 3 then
-        error(('Cannot save field %s because data is too big.\nsubKeys: %s\nvalue: %s'):format(key, json.encode(subKeys), value))
+    if hasSubKeys and #key > 4 then
+        error(('Cannot save field %s because data is too big.\nkeys: %s\nvalue: %s'):format(key[1], json.encode(key), value))
         return
     end
 
     local currentTable = isUpdating and playerDataUpdateQueue or collectedPlayerData
-
     if not currentTable[citizenid] then
         currentTable[citizenid] = {}
     end
 
-    currentTable[citizenid][key] = subKeys and {} or value
+    currentTable[citizenid][hasSubKeys and key[1] or key] = hasSubKeys and {} or value
 
-    if subKeys then
-        local current = currentTable[citizenid][key]
+    if hasSubKeys then
+        local current = currentTable[citizenid][key[1]]
         -- We don't check the last one because otherwise we lose the table reference
-        for i = 1, #subKeys - 1 do
-            if not current[subKeys[i]] then
-                current[subKeys[i]] = {}
+        for i = 2, #key - 1 do
+            if not current[key[i]] then
+                current[key[i]] = {}
             end
         end
 
-        current[subKeys[#subKeys]] = value
+        current[key[#key]] = value
     end
 end
 

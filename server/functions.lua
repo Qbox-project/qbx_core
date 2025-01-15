@@ -361,7 +361,7 @@ function ToggleOptin(source)
 
     local player = GetPlayer(source)
     player.PlayerData.optin = not player.PlayerData.optin
-    SetPlayerData(player.PlayerData.source, 'optin', nil, player.PlayerData.optin, nil, true)
+    SetPlayerData(player.PlayerData.source, 'optin', player.PlayerData.optin, nil, true)
 end
 
 exports('ToggleOptin', ToggleOptin)

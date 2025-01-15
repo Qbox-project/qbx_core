@@ -142,7 +142,7 @@ function SetJobDuty(identifier, onDuty)
         return
     end
 
-    SetPlayerData(identifier, 'job', {'onduty'}, not not onDuty, function()
+    SetPlayerData(identifier, {'job', 'onduty'}, not not onDuty, function()
         TriggerEvent('QBCore:Server:SetDuty', player.PlayerData.source, player.PlayerData.job.onduty)
         TriggerClientEvent('QBCore:Client:SetDuty', player.PlayerData.source, player.PlayerData.job.onduty)
     end)
@@ -203,7 +203,7 @@ function SetPlayerPrimaryJob(citizenid, jobName)
 
     player.PlayerData.job = toPlayerJob(jobName, job, grade)
 
-    SetPlayerData(citizenid, 'job', nil, player.PlayerData.job, function()
+    SetPlayerData(citizenid, 'job', player.PlayerData.job, function()
         TriggerEvent('QBCore:Server:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
         TriggerClientEvent('QBCore:Client:OnJobUpdate', player.PlayerData.source, player.PlayerData.job)
     end)
@@ -268,7 +268,7 @@ function AddPlayerToJob(citizenid, jobName, grade)
     storage.addPlayerToJob(citizenid, jobName, grade)
 
     player.PlayerData.jobs[jobName] = grade
-    SetPlayerData(citizenid, 'jobs', nil, player.PlayerData.jobs, function()
+    SetPlayerData(citizenid, 'jobs', player.PlayerData.jobs, function()
         TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, jobName, grade)
         TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, jobName, grade)
     end, true)
@@ -314,10 +314,10 @@ function RemovePlayerFromJob(citizenid, jobName)
         local job = GetJob('unemployed')
         assert(job ~= nil, 'cannot find unemployed job. Does it exist in shared/jobs.lua?')
 
-        SetPlayerData(citizenid, 'job', nil, toPlayerJob('unemployed', job, 0))
+        SetPlayerData(citizenid, 'job', toPlayerJob('unemployed', job, 0))
     end
 
-    SetPlayerData(citizenid, 'jobs', nil, player.PlayerData.jobs, function()
+    SetPlayerData(citizenid, 'jobs', player.PlayerData.jobs, function()
         TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, jobName)
         TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, jobName)
     end, true)
@@ -403,7 +403,7 @@ function SetPlayerPrimaryGang(citizenid, gangName)
 
     assert(gang.grades[grade] ~= nil, ('gang %s does not have grade %s'):format(gangName, grade))
 
-    SetPlayerData(citizenid, 'gang', nil, {
+    SetPlayerData(citizenid, 'gang', {
         name = gangName,
         label = gang.label,
         isboss = gang.grades[grade].isboss,
@@ -475,7 +475,7 @@ function AddPlayerToGang(citizenid, gangName, grade)
     storage.addPlayerToGang(citizenid, gangName, grade)
 
     player.PlayerData.gangs[gangName] = grade
-    SetPlayerData(citizenid, 'gangs', nil, player.PlayerData.gangs, function()
+    SetPlayerData(citizenid, 'gangs', player.PlayerData.gangs, function()
         TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, gangName, grade)
         TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, gangName, grade)
     end, true)
@@ -521,7 +521,7 @@ function RemovePlayerFromGang(citizenid, gangName)
         local gang = GetGang('none')
         assert(gang ~= nil, 'cannot find none gang. Does it exist in shared/gangs.lua?')
 
-        SetPlayerData(citizenid, 'gang', nil, {
+        SetPlayerData(citizenid, 'gang', {
             name = 'none',
             label = gang.label,
             isboss = false,
@@ -532,7 +532,7 @@ function RemovePlayerFromGang(citizenid, gangName)
         })
     end
 
-    SetPlayerData(citizenid, 'gangs', nil, player.PlayerData.gangs, function()
+    SetPlayerData(citizenid, 'gangs', player.PlayerData.gangs, function()
         TriggerEvent('qbx_core:server:onGroupUpdate', player.PlayerData.source, gangName)
         TriggerClientEvent('qbx_core:client:onGroupUpdate', player.PlayerData.source, gangName)
     end, true)
@@ -896,7 +896,7 @@ function CreatePlayer(playerData, Offline)
     ---@deprecated use exports.qbx_core:SetCharInfo instead
     ---@param cardNumber number
     function self.Functions.SetCreditCard(cardNumber)
-        SetPlayerData(self.PlayerData.source, 'charinfo', {'card'}, cardNumber)
+        SetPlayerData(self.PlayerData.source, {'charinfo', 'card'}, cardNumber)
     end
 
     ---@deprecated use exports.qbx_core:Save or exports.qbx_core:SaveOffline instead
@@ -949,7 +949,7 @@ function CreatePlayer(playerData, Offline)
             end
         end
 
-        SetPlayerData(self.PlayerData.source, 'job', nil, self.PlayerData.job, function()
+        SetPlayerData(self.PlayerData.source, 'job', self.PlayerData.job, function()
             TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
             TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
         end)
@@ -984,7 +984,7 @@ function CreatePlayer(playerData, Offline)
             end
         end
 
-        SetPlayerData(self.PlayerData.source, 'gang', nil, self.PlayerData.gang, function()
+        SetPlayerData(self.PlayerData.source, 'gang', self.PlayerData.gang, function()
             TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
             TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
         end)
@@ -1067,13 +1067,13 @@ end
 exports('SaveOffline', SaveOffline)
 
 ---@param identifier Source | string
----@param key string
----@param subKeys? string[]
+---@param key string | string[]
 ---@param value any
 ---@param cb? function A function that's called after the standard SetPlayerData events are triggered if the player is online
 ---@param cancelDbUpdate? boolean When true, makes sure the database doesn't get updated as a result of this change
-function SetPlayerData(identifier, key, subKeys, value, cb, cancelDbUpdate)
-    if type(key) ~= 'string' then return end
+function SetPlayerData(identifier, key, value, cb, cancelDbUpdate)
+    local hasSubKeys = type(key) == 'table'
+    if type(key) ~= 'string' or not hasSubKeys then return end
 
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
 
@@ -1082,40 +1082,40 @@ function SetPlayerData(identifier, key, subKeys, value, cb, cancelDbUpdate)
         return
     end
 
-    local oldValue = player.PlayerData[key]
+    local oldValue = player.PlayerData[hasSubKeys and key[1] or key]
 
-    if type(subKeys) == "table" then
-        local current = player.PlayerData[key]
+    if hasSubKeys then
+        local current = player.PlayerData[hasSubKeys and key[1] or key]
         -- We don't check the last one because otherwise we lose the table reference
-        for i = 1, #subKeys - 1 do
-            local newCurrent = current[subKeys[i]]
+        for i = 2, #key - 1 do
+            local newCurrent = current[key[i]]
             if newCurrent then
                 current = newCurrent
-            elseif i ~= (#subKeys - 1) then
+            elseif i ~= (#key - 1) then
                 -- if an invalid key is specified and we are not on the last one, stop trying to update
                 -- reason for allowing the last one to not exist is so we can insert new values
-                error(('key %s doesn\'t exist in table player.PlayerData.%s'):format(subKeys[i], key))
+                error(('key %s doesn\'t exist in table player.PlayerData.%s'):format(key[i], key[1]))
                 return
             end
         end
 
-        local lastIndex = #subKeys
-        oldValue = current[subKeys[lastIndex]]
-        current[subKeys[lastIndex]] = value
+        local lastIndex = #key
+        oldValue = current[key[lastIndex]]
+        current[key[lastIndex]] = value
     else
         player.PlayerData[key] = value
     end
 
     if not cancelDbUpdate then
-        storage.addPlayerDataUpdate(player.PlayerData.citizenid, key, subKeys, value)
+        storage.addPlayerDataUpdate(player.PlayerData.citizenid, key, value)
     end
 
     if player.Offline then return end
 
     TriggerEvent('QBCore:Player:SetPlayerData', player.PlayerData)
     TriggerClientEvent('QBCore:Player:SetPlayerData', player.PlayerData.source, player.PlayerData)
-    TriggerEvent('qbx_core:server:setPlayerData', player.PlayerData.source, key, subKeys, value, oldValue)
-    TriggerClientEvent('qbx_core:client:setPlayerData', player.PlayerData.source, key, subKeys, value, oldValue)
+    TriggerEvent('qbx_core:server:setPlayerData', player.PlayerData.source, key, value, oldValue)
+    TriggerClientEvent('qbx_core:client:setPlayerData', player.PlayerData.source, key, value, oldValue)
 
     if not cb then return end
 
@@ -1139,7 +1139,7 @@ function SetMetadata(identifier, metadata, value)
     end
 
     local oldValue = player.PlayerData.metadata[metadata]
-    SetPlayerData(identifier, 'metadata', {metadata}, value, function()
+    SetPlayerData(identifier, {'metadata', metadata}, value, function()
         local playerState = Player(player.PlayerData.source).state
 
         TriggerClientEvent('qbx_core:client:onSetMetaData', player.PlayerData.source, metadata, oldValue, value)
@@ -1228,7 +1228,7 @@ function AddMoney(identifier, moneyType, amount, reason)
         amount = amount
     }) then return false end
 
-    SetPlayerData(identifier, 'money', {moneyType}, player.PlayerData.money[moneyType] + amount, function()
+    SetPlayerData(identifier, {'money', moneyType}, player.PlayerData.money[moneyType] + amount, function()
         local tags = amount > 100000 and config.logging.role or nil
         local resource = GetInvokingResource() or cache.resource
 
@@ -1279,7 +1279,7 @@ function RemoveMoney(identifier, moneyType, amount, reason)
         end
     end
 
-    SetPlayerData(identifier, 'money', {moneyType}, player.PlayerData.money[moneyType] - amount, function()
+    SetPlayerData(identifier, {'money', moneyType}, player.PlayerData.money[moneyType] - amount, function()
         local tags = amount > 100000 and config.logging.role or nil
         local resource = GetInvokingResource() or cache.resource
 
@@ -1324,7 +1324,7 @@ function SetMoney(identifier, moneyType, amount, reason)
     }) then return false end
 
     player.PlayerData.money[moneyType] = amount
-    SetPlayerData(identifier, 'money', {moneyType}, amount, function()
+    SetPlayerData(identifier, {'money', moneyType}, amount, function()
         local difference = amount - oldAmount
         local dirChange = difference < 0 and 'removed' or 'added'
         local absDifference = math.abs(difference)
