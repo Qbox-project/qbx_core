@@ -431,12 +431,12 @@ local function addPlayerDataUpdate(citizenid, key, value)
     end
 
     if jsonPlayerFields[hasSubKeys and key[1] or key] == nil then
-        error(('Tried to update player data field %s when it doesn\'t exist. Value: %s'):format(hasSubKeys and key[1] or key, value))
+        lib.print.error(('Tried to update player data field %s when it doesn\'t exist. Value: %s'):format(hasSubKeys and key[1] or key, value))
         return
     end
 
     if hasSubKeys and not jsonPlayerFields[key[1]] then
-        error(('Tried to update player data field %s as a json object when it isn\'t one'):format(key[1]))
+        lib.print.error(('Tried to update player data field %s as a json object when it isn\'t one'):format(key[1]))
         return
     end
 
@@ -444,7 +444,7 @@ local function addPlayerDataUpdate(citizenid, key, value)
 
     -- In sendPlayerDataUpdates we don't go more than 3 tables deep
     if hasSubKeys and #key > 4 then
-        error(('Cannot save field %s because data is too big.\nkeys: %s\nvalue: %s'):format(key[1], json.encode(key), value))
+        lib.print.error(('Cannot save field %s because data is too big.\nkeys: %s\nvalue: %s'):format(key[1], json.encode(key), value))
         return
     end
 

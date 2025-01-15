@@ -138,7 +138,7 @@ function SetJobDuty(identifier, onDuty)
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
 
     if not player then
-        error(('SetJobDuty couldn\'t find player with identifier %s'):format(identifier))
+        lib.print.error(('SetJobDuty couldn\'t find player with identifier %s'):format(identifier))
         return
     end
 
@@ -1078,7 +1078,7 @@ function SetPlayerData(identifier, key, value, cb, cancelDbUpdate)
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
 
     if not player then
-        error(('SetPlayerData couldn\'t find player with identifier %s'):format(identifier))
+        lib.print.error(('SetPlayerData couldn\'t find player with identifier %s'):format(identifier))
         return
     end
 
@@ -1094,7 +1094,7 @@ function SetPlayerData(identifier, key, value, cb, cancelDbUpdate)
             elseif i ~= (#key - 1) then
                 -- if an invalid key is specified and we are not on the last one, stop trying to update
                 -- reason for allowing the last one to not exist is so we can insert new values
-                error(('key %s doesn\'t exist in table player.PlayerData.%s'):format(key[i], key[1]))
+                lib.print.error(('key %s doesn\'t exist in table player.PlayerData.%s'):format(key[i], key[1]))
                 return
             end
         end
