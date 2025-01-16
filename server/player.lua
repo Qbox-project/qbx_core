@@ -1073,7 +1073,7 @@ exports('SaveOffline', SaveOffline)
 ---@param cancelDbUpdate? boolean When true, makes sure the database doesn't get updated as a result of this change
 function SetPlayerData(identifier, key, value, cb, cancelDbUpdate)
     local hasSubKeys = type(key) == 'table'
-    if type(key) ~= 'string' or not hasSubKeys then return end
+    if type(key) ~= 'string' and not hasSubKeys then return end
 
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
 
