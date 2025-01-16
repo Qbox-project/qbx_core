@@ -50,7 +50,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-    local interval = 60 * config.dbUpdateInterval
+    local interval = 1000 * config.dbUpdateInterval
     while true do
         Wait(interval)
         storage.sendPlayerDataUpdates()
