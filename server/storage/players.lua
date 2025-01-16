@@ -440,7 +440,6 @@ local function addPlayerDataUpdate(citizenid, key, value)
         return
     end
 
-    value = type(value) == 'table' and json.encode(value) or value
 
     -- In sendPlayerDataUpdates we don't go more than 3 tables deep
     if hasSubKeys and #key > 4 then
