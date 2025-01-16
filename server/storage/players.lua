@@ -457,10 +457,12 @@ local function addPlayerDataUpdate(citizenid, key, value)
 
     if hasSubKeys then
         local current = currentTable[citizenid][key[1]]
-        -- We don't check the last one because otherwise we lose the table reference
-        for i = 2, #key - 1 do
-            if not current[key[i]] then
-                current[key[i]] = {}
+        if #key > 2 then
+            -- We don't check the last one because otherwise we lose the table reference
+            for i = 2, #key - 1 do
+                if not current[key[i]] then
+                    current[key[i]] = {}
+                end
             end
         end
 

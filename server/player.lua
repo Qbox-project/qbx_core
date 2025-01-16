@@ -1086,16 +1086,17 @@ function SetPlayerData(identifier, key, value, cb, cancelDbUpdate)
 
     if hasSubKeys then
         local current = player.PlayerData[hasSubKeys and key[1] or key]
-        -- We don't check the last one because otherwise we lose the table reference
-        for i = 2, #key - 1 do
-            local newCurrent = current[key[i]]
-            if newCurrent then
-                current = newCurrent
-            elseif i ~= (#key - 1) then
-                -- if an invalid key is specified and we are not on the last one, stop trying to update
-                -- reason for allowing the last one to not exist is so we can insert new values
-                lib.print.error(('key %s doesn\'t exist in table player.PlayerData.%s'):format(key[i], key[1]))
-                return
+        if #key > 2 then
+            -- We don't check the last one because otherwise we lose the table reference
+            for i = 2, #key - 1 do
+                local newCurrent = current[key[i]]
+                if newCurrent then
+                    current = newCurrent
+                else
+                    -- if an invalid key is specified , stop trying to update
+                    lib.print.error(('key %s doesn\'t exist in table player.PlayerData.%s'):format(key[i], key[1]))
+                    return
+                end
             end
         end
 
