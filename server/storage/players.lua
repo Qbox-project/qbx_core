@@ -463,6 +463,8 @@ local function addPlayerDataUpdate(citizenid, key, value)
                 if not current[key[i]] then
                     current[key[i]] = {}
                 end
+
+                current = current[key[i]]
             end
         end
 
