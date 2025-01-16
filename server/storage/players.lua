@@ -470,6 +470,22 @@ local function addPlayerDataUpdate(citizenid, key, value)
     end
 end
 
+---@param key string
+---@param nestedTable table<string, any>
+---@param path string?
+---@param citizenid string
+local function updateNestedPlayerData(key, nestedTable, citizenid, path)
+    for k, v in pairs(nestedTable) do
+        local currentPath = path and ('%s.%s'):format(path, k) or k
+        if type(v) == 'table' then
+            updateNestedPlayerData(key, v, citizenid, currentPath)
+        else
+            local query = ('UPDATE players SET %s = JSON_SET(%s, "$.%s", ?) WHERE citizenid = ?'):format(key, key, currentPath)
+            MySQL.prepare.await(query, { v, citizenid })
+        end
+    end
+end
+
 local function sendPlayerDataUpdates()
     -- We implement this to ensure when updating no values are added to our updating sequence to prevent data loss by accidentally skipping over it
     isUpdating = true
@@ -477,29 +493,10 @@ local function sendPlayerDataUpdates()
     for citizenid, playerData in pairs(collectedPlayerData) do
         for key, data in pairs(playerData) do
             if type(data) == 'table' then
-                -- We go a maximum of 3 tables deep into the current table to prevent misuse and qbox doesn't have more than 2 actually
-                -- If we were to make this variable to the amount of data there is, then enough tables can crash the server
-                for k, v in pairs(data) do
-                    if type(v) == 'table' then
-                        for k2, v2 in pairs(v) do
-                            if type(v2) == 'table' then
-                                for k3, v3 in pairs(v2) do
-                                    if type(v3) == 'table' then
-                                        v3 = json.encode(v3)
-                                    end
-
-                                    MySQL.prepare.await(('UPDATE players SET %s = JSON_SET(%s, "$.%s.%s.%s", ?) WHERE citizenid = ?'):format(key, key, k, k2, k3), { v3, citizenid })
-                                end
-                            else
-                                MySQL.prepare.await(('UPDATE players SET %s = JSON_SET(%s, "$.%s.%s", ?) WHERE citizenid = ?'):format(key, key, k, k2), { v2, citizenid })
-                            end
-                        end
-                    else
-                        MySQL.prepare.await(('UPDATE players SET %s = JSON_SET(%s, "$.%s", ?) WHERE citizenid = ?'):format(key, key, k), { v, citizenid })
-                    end
-                end
+                updateNestedPlayerData(key, data, citizenid)
             else
-                MySQL.prepare.await(('UPDATE players SET %s = ? WHERE citizenid = ?'):format(key), { data, citizenid })
+                local query = ('UPDATE players SET %s = ? WHERE citizenid = ?'):format(key)
+                MySQL.prepare.await(query, { data, citizenid })
             end
         end
     end
