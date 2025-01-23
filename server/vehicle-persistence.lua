@@ -208,12 +208,13 @@ RegisterNetEvent('qbx_core:server:vehiclePositionChanged', function(netId)
 
     local pedCoords = GetEntityCoords(ped)
     local vehicleCoords = GetEntityCoords(vehicle)
+    local vehicleHeading = GetEntityHeading(vehicle)
 
     if #(pedCoords - vehicleCoords) > 10.0 then
         return
     end
 
     exports.qbx_vehicles:SaveVehicle(vehicle, {
-        coords = vehicleCoords
+        coords = vec4(vehicleCoords.x, vehicleCoords.y, vehicleCoords.z, vehicleHeading)
     })
 end)
