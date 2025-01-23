@@ -22,8 +22,7 @@ if persistence == 'false' then return end
 assert(lib.checkDependency('qbx_vehicles', '1.4.1', true))
 
 local function getVehicleId(vehicle)
-    return Entity(vehicle).state.vehicleid or
-        exports.qbx_vehicles:GetVehicleIdByPlate(GetVehicleNumberPlateText(vehicle))
+    return Entity(vehicle).state.vehicleid or exports.qbx_vehicles:GetVehicleIdByPlate(GetVehicleNumberPlateText(vehicle))
 end
 
 RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
@@ -105,11 +104,6 @@ AddEventHandler('entityRemoved', function(entity)
 
     local playerVehicle = exports.qbx_vehicles:GetPlayerVehicle(vehicleId)
 
-    if DoesEntityExist(entity) then
-        Entity(entity).state:set('persisted', nil, true)
-        DeleteVehicle(entity)
-    end
-
     local _, veh = qbx.spawnVehicle({
         model = playerVehicle.props.model,
         spawnSource = vec4(coords.x, coords.y, coords.z, heading),
@@ -149,7 +143,7 @@ end
 local function spawnVehicle(coords, id, model, props)
     if not coords or not id or not model or not props then return end
 
-    local netId, veh = qbx.spawnVehicle({
+    local _, veh = qbx.spawnVehicle({
         spawnSource = vec4(coords.x, coords.y, coords.z, coords.w),
         model = model,
         props = props
