@@ -32,7 +32,6 @@ RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
     local vehicleId = getVehicleId(vehicle)
     if not vehicleId then return end
 
-    local coords = nil
     local props = exports.qbx_vehicles:GetPlayerVehicle(vehicleId)?.props
     if not props then return end
 
@@ -72,15 +71,8 @@ RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
         props.tyres = diff.tyres ~= 'deleted' and diff.tyres or nil
     end
 
-    if persistence == 2 then
-        local entityCoords = GetEntityCoords(vehicle)
-        local entityHeading = GetEntityHeading(vehicle)
-        coords = vec4(entityCoords.x, entityCoords.y, entityCoords.z, entityHeading)
-    end
-
     exports.qbx_vehicles:SaveVehicle(vehicle, {
-        props = props,
-        coords = coords
+        props = props
     })
 end)
 
@@ -203,4 +195,25 @@ RegisterNetEvent('qbx_core:server:spawnVehicle', function(id, coords)
     if not vehicle or not vehicle.modelName or not vehicle.props then return end
 
     spawnVehicle(coords, id, vehicle.modelName, vehicle.props)
+end)
+
+RegisterNetEvent('qbx_core:server:vehiclePositionChanged', function(netId)
+    local src = source
+
+    local ped = GetPlayerPed(src)
+    local vehicle = NetworkGetEntityFromNetworkId(netId)
+
+    local vehicleId = getVehicleId(vehicle)
+    if not vehicleId then return end
+
+    local pedCoords = GetEntityCoords(ped)
+    local vehicleCoords = GetEntityCoords(vehicle)
+
+    if #(pedCoords - vehicleCoords) > 10.0 then
+        return
+    end
+
+    exports.qbx_vehicles:SaveVehicle(vehicle, {
+        coords = vehicleCoords
+    })
 end)
