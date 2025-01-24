@@ -140,6 +140,27 @@ local function isVehicleSpawned(plate)
     return false
 end
 
+--- Save the vehicle position to the database
+---@param vehicle number
+---@param coords vector3
+---@param heading number
+local function saveVehiclePosition(vehicle, coords, heading)
+    exports.qbx_vehicles:SaveVehicle(vehicle, {
+        coords = vec4(coords.x, coords.y, coords.z, heading)
+    })
+end
+
+--- Save all vehicle positions to the database
+local function saveAllVehiclePosition()
+    local vehicles = GetGamePool('CVehicle')
+    for i = 1, #vehicles do
+        local vehicle = vehicles[i]
+        if Entity(vehicle).state.persisted then
+            saveVehiclePosition(vehicle, GetEntityCoords(vehicle), GetEntityHeading(vehicle))
+        end
+    end
+end
+
 ---@param coords vector4
 ---@param id number
 ---@param model string
@@ -178,6 +199,16 @@ AddEventHandler('onResourceStart', function(resourceName)
     end
 end)
 
+AddEventHandler('onResourceStop', function(resourceName)
+    if resourceName ~= cache.resource then return end
+    saveAllVehiclePosition()
+end)
+
+AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
+    if eventData.secondsRemaining ~= 60 then return end
+    saveAllVehiclePosition()
+end)
+
 RegisterNetEvent('qbx_core:server:spawnVehicle', function(id, coords)
     if not id or not coords then return end
 
@@ -213,7 +244,5 @@ RegisterNetEvent('qbx_core:server:vehiclePositionChanged', function(netId)
         return
     end
 
-    exports.qbx_vehicles:SaveVehicle(vehicle, {
-        coords = vec4(vehicleCoords.x, vehicleCoords.y, vehicleCoords.z, vehicleHeading)
-    })
+    saveVehiclePosition(vehicle, vehicleCoords, vehicleHeading)
 end)
