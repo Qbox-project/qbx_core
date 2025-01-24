@@ -1105,7 +1105,7 @@ function UpdatePlayerData(identifier, key, value)
         TriggerClientEvent('qbx_core:client:loadPlayerData', player.PlayerData.source, player.PlayerData)
         return
     end
-    TriggerClientEvent('qbx_core:client:updatePlayerData', player.PlayerData.source, key, value)
+    TriggerClientEvent('qbx_core:client:onUpdatePlayerData', player.PlayerData.source, key, value)
 end
 
 ---@param identifier Source | string

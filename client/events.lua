@@ -20,9 +20,19 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     end
 end)
 
-RegisterNetEvent('qbx_core:client:updatePlayerData', function (key, value)
+---@param key string
+---@param value PlayerData
+RegisterNetEvent('qbx_core:client:onUpdatePlayerData', function (key, value)
     if source == '' then return end
     QBX.PlayerData[key] = value
+    TriggerEvent('QBCore:Player:SetPlayerData', QBX.PlayerData)
+end)
+
+---@param key string
+---@param value PlayerMetadata
+RegisterNetEvent('qbx_core:client:onSetMetaData', function(key, _, value)
+    if source == '' then return end
+    QBX.PlayerData.metadata[key] = value
     TriggerEvent('QBCore:Player:SetPlayerData', QBX.PlayerData)
 end)
 
