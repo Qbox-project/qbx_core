@@ -800,7 +800,7 @@ function CreatePlayer(playerData, Offline)
         self.PlayerData.metadata[self.PlayerData.job.name].reputation += amount
 
         ---@diagnostic disable-next-line: param-type-mismatch
-        UpdatePlayerData(self.Offline and self.PlayerData.citizenid or self.PlayerData.source)
+        UpdatePlayerData(self.Offline and self.PlayerData.citizenid or self.PlayerData.source, 'metadata', self.PlayerData.metadata)
     end
 
     ---@param moneytype MoneyType
@@ -964,7 +964,7 @@ function CreatePlayer(playerData, Offline)
         end
 
         if not self.Offline then
-            UpdatePlayerData(self.PlayerData.source)
+            UpdatePlayerData(self.PlayerData.source, 'job', self.PlayerData.job)
             TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
             TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
         end
@@ -1122,11 +1122,10 @@ function SetMetadata(identifier, metadata, value)
 
     player.PlayerData.metadata[metadata] = value
 
-    UpdatePlayerData(identifier, 'metadata', player.PlayerData.metadata)
-
     if not player.Offline then
         local playerState = Player(player.PlayerData.source).state
 
+        TriggerEvent('QBCore:Player:SetPlayerData', player.PlayerData)
         TriggerClientEvent('qbx_core:client:onSetMetaData', player.PlayerData.source, metadata, oldValue, value)
         TriggerEvent('qbx_core:server:onSetMetaData', metadata,  oldValue, value, player.PlayerData.source)
 
