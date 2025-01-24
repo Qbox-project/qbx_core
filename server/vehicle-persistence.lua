@@ -128,11 +128,15 @@ local config = require 'config.server'
 ---@param plate string
 ---@return boolean
 local function isVehicleSpawned(plate)
-    for _, vehicle in pairs(GetGamePool('CVehicle')) do
+    local vehicles = GetGamePool('CVehicle')
+
+    for i = 1, #vehicles do
+        local vehicle = vehicles[i]
         if qbx.getVehiclePlate(vehicle) == plate then
             return true
         end
     end
+
     return false
 end
 
@@ -165,7 +169,8 @@ AddEventHandler('onResourceStart', function(resourceName)
     local vehicles = exports.qbx_vehicles:GetPlayerVehicles({ states = 0 })
     if not vehicles then return end
 
-    for _, vehicle in ipairs(vehicles) do
+    for i = 1, #vehicles do
+        local vehicle = vehicles[i]
         if vehicle.coords and vehicle.props and vehicle.props.plate and
             not isVehicleSpawned(vehicle.props.plate) then
             cachedVehicles[vehicle.id] = vehicle.coords
