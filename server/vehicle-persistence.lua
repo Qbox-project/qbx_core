@@ -155,7 +155,7 @@ local function saveAllVehiclePosition()
     local vehicles = GetGamePool('CVehicle')
     for i = 1, #vehicles do
         local vehicle = vehicles[i]
-        if Entity(vehicle).state.persisted then
+        if DoesEntityExist(vehicle) and Entity(vehicle).state.persisted then
             saveVehiclePosition(vehicle, GetEntityCoords(vehicle), GetEntityHeading(vehicle))
         end
     end
