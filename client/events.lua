@@ -20,6 +20,18 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     end
 end)
 
+RegisterNetEvent('qbx_core:client:updatePlayerData', function (key, value)
+    if source == '' then return end
+    QBX.PlayerData[key] = value
+    TriggerEvent('QBCore:Player:SetPlayerData', QBX.PlayerData)
+end)
+
+RegisterNetEvent('qbx_core:client:loadPlayerData', function (val)
+    if source == '' then return end
+    QBX.PlayerData = val
+    TriggerEvent('QBCore:Player:SetPlayerData', QBX.PlayerData)
+end)
+
 ---@param val PlayerData
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     local invokingResource = GetInvokingResource()
