@@ -440,11 +440,7 @@ local function addPlayerDataUpdate(citizenid, key, value)
         return
     end
 
-    -- In sendPlayerDataUpdates we don't go more than 3 tables deep
-    if hasSubKeys and #key > 4 then
-        lib.print.error(('Cannot save field %s because data is too big.\nkeys: %s\nvalue: %s'):format(key[1], json.encode(key), value))
-        return
-    end
+    value = type(value) == 'table' and json.encode(value) or value
 
     local currentTable = isUpdating and playerDataUpdateQueue or collectedPlayerData
     if not currentTable[citizenid] then
