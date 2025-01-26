@@ -48,6 +48,7 @@ AddEventHandler('playerDropped', function(reason)
 
     local player = QBX.Players[src]
     SetPlayerData(player.PlayerData.source, 'lastLoggedOut', os.time())
+    Save(player.PlayerData.source)
 
     logger.log({
         source = 'qbx_core',
