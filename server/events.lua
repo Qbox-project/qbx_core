@@ -47,7 +47,7 @@ AddEventHandler('playerDropped', function(reason)
     GlobalState.PlayerCount = GetNumPlayerIndices()
 
     local player = QBX.Players[src]
-    SetPlayerData(player.PlayerData.source, 'lastLoggedOut', os.time())
+    player.PlayerData.lastLoggedOut = os.time()
     Save(player.PlayerData.source)
 
     logger.log({
