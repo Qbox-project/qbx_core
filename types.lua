@@ -103,7 +103,8 @@
 ---@field removePlayerFromJob fun(citizenid: string, group: string)
 ---@field removePlayerFromGang fun(citizenid: string, group: string)
 ---@field sendPlayerDataUpdates fun()
----@field addPlayerDataUpdate fun(citizenid: string, key: string, subKeys?: string[], value: any)
+---@field forcePlayerDataUpdate fun(citizenid: string)
+---@field addPlayerDataUpdate fun(citizenid: string, key: string | string[], value: any)
 
 ---@class InsertBanRequest
 ---@field name string

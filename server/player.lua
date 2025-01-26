@@ -1034,6 +1034,8 @@ function Save(source)
     end
 
     CreateThread(function()
+        storage.forcePlayerDataUpdate(playerData.citizenid)
+
         storage.upsertPlayerEntity({
             playerEntity = playerData,
             position = playerCoords,

@@ -3,6 +3,7 @@ local characterDataTables = require 'config.server'.characterDataTables
 local playerDataUpdateQueue = {}
 local collectedPlayerData = {}
 local isUpdating = false
+local isPlayerUpdating = false
 
 local otherNamedPlayerFields = {
     ['items'] = 'inventory',
@@ -483,6 +484,13 @@ local function updateNestedPlayerData(key, nestedTable, citizenid, path)
 end
 
 local function sendPlayerDataUpdates()
+    if isUpdating then return end
+
+    -- We wait on a single player to be updated to not mess with the collectedPlayerData table whilst it's updating
+    while isPlayerUpdating do
+        Wait(10)
+    end
+
     -- We implement this to ensure when updating no values are added to our updating sequence to prevent data loss by accidentally skipping over it
     isUpdating = true
 
@@ -500,6 +508,33 @@ local function sendPlayerDataUpdates()
     collectedPlayerData = playerDataUpdateQueue
     playerDataUpdateQueue = {}
     isUpdating = false
+end
+
+---@param citizenid string
+local function forcePlayerDataUpdate(citizenid)
+    -- We don't need to update a single player when everyone is already getting an update
+    if isUpdating then return end
+
+    -- We wait on a single player to be updated to not mess with the collectedPlayerData table whilst it's updating
+    while isPlayerUpdating do
+        Wait(10)
+    end
+
+    isPlayerUpdating = true
+
+    local playerData = collectedPlayerData[citizenid]
+    for key, data in pairs(playerData) do
+        if type(data) == 'table' then
+            updateNestedPlayerData(key, data, citizenid)
+        else
+            local query = ('UPDATE players SET %s = ? WHERE citizenid = ?'):format(key)
+            MySQL.prepare.await(query, { data, citizenid })
+        end
+    end
+
+    collectedPlayerData[citizenid] = playerDataUpdateQueue[citizenid]
+    playerDataUpdateQueue[citizenid] = nil
+    isPlayerUpdating = false
 end
 
 RegisterCommand('cleanplayergroups', function(source)
@@ -542,5 +577,6 @@ return {
     removePlayerFromGang = removePlayerFromGang,
     searchPlayerEntities = searchPlayerEntities,
     sendPlayerDataUpdates = sendPlayerDataUpdates,
+    forcePlayerDataUpdate = forcePlayerDataUpdate,
     addPlayerDataUpdate = addPlayerDataUpdate
 }
