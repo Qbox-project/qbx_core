@@ -145,6 +145,10 @@ end
 ---@param coords vector3
 ---@param heading number
 local function saveVehiclePosition(vehicle, coords, heading)
+    local type = GetVehicleType(vehicle)
+    if type == 'heli' or type == 'plane' then
+        coords = vec3(coords.x, coords.y, coords.z + 1.0)
+    end
     exports.qbx_vehicles:SaveVehicle(vehicle, {
         coords = vec4(coords.x, coords.y, coords.z, heading)
     })
