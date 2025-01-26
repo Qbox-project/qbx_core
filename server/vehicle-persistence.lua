@@ -149,6 +149,7 @@ local function saveVehiclePosition(vehicle, coords, heading)
     if type == 'heli' or type == 'plane' then
         coords = vec3(coords.x, coords.y, coords.z + 1.0)
     end
+
     exports.qbx_vehicles:SaveVehicle(vehicle, {
         coords = vec4(coords.x, coords.y, coords.z, heading)
     })
@@ -196,8 +197,7 @@ AddEventHandler('onResourceStart', function(resourceName)
 
     for i = 1, #vehicles do
         local vehicle = vehicles[i]
-        if vehicle.coords and vehicle.props and vehicle.props.plate and
-            not isVehicleSpawned(vehicle.props.plate) then
+        if vehicle.coords and vehicle.props and vehicle.props.plate and not isVehicleSpawned(vehicle.props.plate) then
             cachedVehicles[vehicle.id] = vehicle.coords
         end
     end
@@ -205,11 +205,13 @@ end)
 
 AddEventHandler('onResourceStop', function(resourceName)
     if resourceName ~= cache.resource then return end
+
     saveAllVehiclePosition()
 end)
 
 AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
     if eventData.secondsRemaining ~= 60 then return end
+
     saveAllVehiclePosition()
 end)
 
