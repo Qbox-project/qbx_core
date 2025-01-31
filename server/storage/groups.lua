@@ -27,7 +27,7 @@ local function updateGroup(name, groupType, data)
         data.grades = _grades
     end
     MySQL.query([[
-        INSERT INTO `groups` (name, type, label, defaultDuty, offDutyPay, grades) 
+        INSERT INTO `groups` (name, type, label, defaultDuty, offDutyPay, grades)
             VALUES (@name, @type, @label, @defaultDuty, @offDutyPay, @grades)
         ON DUPLICATE KEY UPDATE
             `type` = @type, `label` = @label, `defaultDuty` = @defaultDuty, `offDutyPay` = @offDutyPay, `grades` = @grades
