@@ -216,3 +216,12 @@ local function removeGangGrade(name, grade)
 end
 
 exports('RemoveGangGrade', removeGangGrade)
+
+---Allow clients to fetch group cache
+---@return table
+lib.callback.register('qbx_core:server:getGroups', function()
+    return {
+        jobs = jobs,
+        gangs = gangs,
+    }
+end)
