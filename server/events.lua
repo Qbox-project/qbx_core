@@ -78,8 +78,8 @@ end
 local function onPlayerConnecting(name, _, deferrals)
     local src = source --[[@as string]]
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
-    local userId = storage.fetchUserByIdentifier(license)
     deferrals.defer()
+    local userId = storage.fetchUserByIdentifier(license)
 
     -- Mandatory wait
     Wait(0)
