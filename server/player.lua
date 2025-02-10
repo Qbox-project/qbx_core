@@ -1133,9 +1133,11 @@ function SetMetadata(identifier, metadata, value)
             lib.print.error('cannot get nested metadata more than 1 level deep')
         end
 
-        oldValue = player.PlayerData.metadata[metaTable][metaKey]
+        oldValue = player.PlayerData.metadata[metaTable]
 
         player.PlayerData.metadata[metaTable][metaKey] = value
+
+        metadata = metaTable
     else
         oldValue = player.PlayerData.metadata[metadata]
 
