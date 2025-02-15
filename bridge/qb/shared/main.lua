@@ -1,6 +1,7 @@
 local qbShared = require 'shared.main'
 
 qbShared.Items = {}
+qbShared.Weapons = {}
 local oxItems = require '@ox_inventory.data.items'
 for item, data in pairs(oxItems) do
     qbShared.Items[item] = {
@@ -31,6 +32,13 @@ for weapon, data in pairs(oxWeapons.Weapons) do
         shouldClose = true,
         combinable = nil,
         description = nil
+    }
+    qbShared.Weapons[weapon] = {
+        name = weapon,
+        label = data.label,
+        weapontype = data.throwable and 'Throwable' or (not data.ammoname and 'Melee' or 'Gun'),
+        ammotype = data.ammoname or nil,
+        damagereason = ''
     }
 end
 for component, data in pairs(oxWeapons.Components) do
