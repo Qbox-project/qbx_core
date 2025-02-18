@@ -22,17 +22,63 @@ for name in pairs(gangs) do
     end
 end
 
----Adds or overwrites jobs in shared/jobs.lua
----@param newJobs table<string, Job>
-function CreateJobs(newJobs)
-    for jobName, job in pairs(newJobs) do
+---Adds or overwrites a single job in shared/jobs.lua
+---@param jobName string
+---@param job Job
+---@return boolean, string?
+function CreateJob(jobName, job)
+    if not jobName or type(jobName) ~= "string" then
+        return false, "Invalid parameter: expected a string (jobName)"
+    end
+
+    if not job or type(job) ~= "table"  then 
+        return false, "Invalid parameter: expected a table (job)"
+    end
+
+    local success, err = pcall(function()
         jobs[jobName] = job
         TriggerEvent('qbx_core:server:onJobUpdate', jobName, job)
         TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
+    end)
+
+    if not success then
+        return false, ("Failed to create job '%s': %s"):format(jobName, err)
     end
+
+    return true, ("Job '%s' successfully added or updated"):format(jobName)
+end
+
+exports('CreateJob', CreateJob)
+
+--- Adds or overwrites multiple jobs in shared/jobs.lua
+---@param newJobs table<string, Job>
+---@return boolean, string?
+function CreateJobs(newJobs)
+    if not newJobs or type(newJobs) ~= "table" then 
+        return false, "Invalid parameter: expected a table (newJobs)"
+    end
+    
+    local hasError = false
+    local failedJobs = {}
+
+    for jobName, job in pairs(newJobs) do
+        local success, err = CreateJob(jobName, job)
+
+        if not success then
+            hasError = true
+            table.insert(failedJobs, jobName)
+        end
+    end
+
+    if hasError then
+        return false, ("Failed jobs: %s"):format(table.concat(failedJobs, ", "))
+    end
+
+    return true
 end
 
 exports('CreateJobs', CreateJobs)
+
 
 -- Single Remove Job
 ---@param jobName string
