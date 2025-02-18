@@ -30,7 +30,7 @@ function CreateJob(jobName, job)
     if not jobName or type(jobName) ~= "string" then
         return false, "Invalid parameter: expected a string (jobName)"
     end
-    if not job or type(job) ~= "table"  then 
+    if not job or type(job) ~= "table"  then
         return false, "Invalid parameter: expected a table (job)"
     end
     local success, err = pcall(function()
@@ -50,7 +50,7 @@ exports('CreateJob', CreateJob)
 ---@param newJobs table<string, Job>
 ---@return boolean, string?
 function CreateJobs(newJobs)
-    if not newJobs or type(newJobs) ~= "table" then 
+    if not newJobs or type(newJobs) ~= "table" then
         return false, "Invalid parameter: expected a table (newJobs)"
     end
     local hasError = false
