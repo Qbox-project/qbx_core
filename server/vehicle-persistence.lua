@@ -144,24 +144,37 @@ end
 ---@param vehicle number
 ---@param coords vector3
 ---@param heading number
-local function saveVehiclePosition(vehicle, coords, heading)
+local function saveVehicle(vehicle, coords, heading)
+    local vehicleId = getVehicleId(vehicle)
+    if not vehicleId then return end
+
+    local props = exports.qbx_vehicles:GetPlayerVehicle(vehicleId)?.props
+    if not props then return end
+
     local type = GetVehicleType(vehicle)
+
+    props.bodyHealth = GetVehicleBodyHealth(vehicle)
+    props.engineHealth = GetVehicleEngineHealth(vehicle)
+    props.tankHealth = GetVehiclePetrolTankHealth(vehicle)
+    props.dirtLevel = GetVehicleDirtLevel(vehicle)
+
     if type == 'heli' or type == 'plane' then
         coords = vec3(coords.x, coords.y, coords.z + 1.0)
     end
 
     exports.qbx_vehicles:SaveVehicle(vehicle, {
+        props = props,
         coords = vec4(coords.x, coords.y, coords.z, heading)
     })
 end
 
 --- Save all vehicle positions to the database
-local function saveAllVehiclePosition()
+local function saveAllVehicle()
     local vehicles = GetGamePool('CVehicle')
     for i = 1, #vehicles do
         local vehicle = vehicles[i]
         if DoesEntityExist(vehicle) and Entity(vehicle).state.persisted then
-            saveVehiclePosition(vehicle, GetEntityCoords(vehicle), GetEntityHeading(vehicle))
+            saveVehicle(vehicle, GetEntityCoords(vehicle), GetEntityHeading(vehicle))
         end
     end
 end
@@ -206,13 +219,13 @@ end)
 AddEventHandler('onResourceStop', function(resourceName)
     if resourceName ~= cache.resource then return end
 
-    saveAllVehiclePosition()
+    saveAllVehicle()
 end)
 
 AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
     if eventData.secondsRemaining ~= 60 then return end
 
-    saveAllVehiclePosition()
+    saveAllVehicle()
 end)
 
 RegisterNetEvent('qbx_core:server:spawnVehicle', function(id, coords)
@@ -250,5 +263,5 @@ RegisterNetEvent('qbx_core:server:vehiclePositionChanged', function(netId)
         return
     end
 
-    saveVehiclePosition(vehicle, vehicleCoords, vehicleHeading)
+    saveVehicle(vehicle, vehicleCoords, vehicleHeading)
 end)
