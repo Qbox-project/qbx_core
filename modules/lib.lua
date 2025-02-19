@@ -89,6 +89,37 @@ qbx.armsWithoutGloves = lib.table.freeze({
     }),
 })
 
+
+qbx.duffelbagIndexes = lib.table.freeze({
+    male = lib.table.freeze({
+        [40] = true,
+        [41] = true,
+        [44] = true,
+        [45] = true,
+        [81] = true,
+        [82] = true,
+        [85] = true,
+        [86] = true,
+        [130] = true,
+        [131] = true,
+        [132] = true
+    }),
+    female = lib.table.freeze({
+        [40] = true,
+        [41] = true,
+        [44] = true,
+        [45] = true,
+        [81] = true,
+        [82] = true,
+        [85] = true,
+        [86] = true,
+        [131] = true,
+        [132] = true,
+        [133] = true
+    })
+})
+
+
 ---Returns the given string with its trailing whitespaces removed.
 ---@param str string
 ---@return string
@@ -401,8 +432,8 @@ else
         local text = params.text
         local coords = params.coords
         local scale = (isScaleparamANumber and vec2(params.scale, params.scale))
-                  or params.scale
-                  or vec2(0.35, 0.35)
+        or params.scale
+        or vec2(0.35, 0.35)
         local font = params.font or 4
         local color = params.color or vec4(255, 255, 255, 255)
         local enableDropShadow = params.enableDropShadow or false
@@ -558,6 +589,15 @@ else
         return not tble[armIndex]
     end
 
+    --- Returns if the local ped is wearing a duffel bag.
+    --- @return boolean
+    function qbx.isWearingDuffelbag()
+        local torsoIndex = GetPedDrawableVariation(cache.ped, 5) -- Duffel bags are in component 5
+        local model = GetEntityModel(cache.ped)
+        local tble = qbx.duffelbagIndexes[model == `mp_m_freemode_01` and 'male' or 'female']
+        return tble[torsoIndex] == true
+    end
+
     ---Attempts to load an audio bank and returns whether it was successful.
     ---Remember to use `ReleaseScriptAudioBank` since you can only load up to 10 banks.
     ---@param audioBank string
@@ -578,6 +618,7 @@ else
     ---@field audioSource? number | vector3 entity handle or vector3 coords
     ---@field range? number only used if `audioSource` is a vector3 coordinate
 
+    ---@deprecated use mana_audio instead
     ---Plays a sound with the provided audio name and audio ref.
     ---If `returnSoundId` is false or not specified the soundId is released,
     ---otherwise the function returns the soundId without releasing it.

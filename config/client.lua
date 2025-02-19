@@ -54,11 +54,11 @@ return {
     discord = {
         enabled = true, -- This will enable or disable the built in discord rich presence.
 
-        appId = '', -- This is the Application ID (Replace this with you own)
+        appId = '1024981890798731345', -- This is the Application ID (Replace this with you own)
 
         largeIcon = { -- To set this up, visit https://forum.cfx.re/t/how-to-updated-discord-rich-presence-custom-image/157686
-            icon = 'logo_name', -- Here you will have to put the image name for the 'large' icon.
-            text = 'This is a large icon with text', -- Here you can add hover text for the 'large' icon.
+            icon = 'duck', -- Here you will have to put the image name for the 'large' icon.
+            text = 'Qbox Ducky', -- Here you can add hover text for the 'large' icon.
         },
 
         smallIcon = {
@@ -67,13 +67,13 @@ return {
         },
 
         firstButton = {
-            text = 'First Button!',
-            link = 'fivem://connect/localhost:30120',
+            text = 'Qbox Discord',
+            link = 'https://discord.gg/Z6Whda5hHA',
         },
 
         secondButton = {
-            text = 'Second Button!',
-            link = 'fivem://connect/localhost:30120',
+            text = 'Main Website',
+            link = 'https://www.qbox.re/',
         }
     },
 
