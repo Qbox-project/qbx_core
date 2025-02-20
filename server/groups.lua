@@ -51,26 +51,35 @@ end
 
 exports('CreateJob', CreateJob)
 
---- Adds or overwrites multiple jobs in shared/jobs.lua
----@param newJobs table<string, Job>
----@return boolean, string?
+--- Adds or updates multiple jobs in shared/jobs.lua.
+--- Calls CreateJob for each job in the provided table.
+--- @param newJobs table<string, table> A table where keys are job names and values are job data tables.
+--- @return boolean success Whether all jobs were successfully created/updated.
+--- @return string? message An optional message indicating success or failure.
 function CreateJobs(newJobs)
-    if not newJobs or type(newJobs) ~= "table" then
-        return false, "Invalid parameter: expected a table (newJobs)"
+    -- Validate input type
+    if type(newJobs) ~= "table" then
+        return false, "Invalid parameter: newJobs must be a table."
     end
+
     local hasError = false
     local failedJobs = {}
+
+    -- Iterate through jobs and attempt to create them
     for jobName, job in pairs(newJobs) do
-        local success = CreateJob(jobName, job)
+        local success, errMsg = CreateJob(jobName, job)
         if not success then
             hasError = true
-            table.insert(failedJobs, jobName)
+            table.insert(failedJobs, string.format("%s (%s)", jobName, errMsg or "Unknown error"))
         end
     end
+
+    -- Return failure message if any jobs failed
     if hasError then
-        return false, ("Failed jobs: %s"):format(table.concat(failedJobs, ", "))
+        return false, string.format("Some jobs failed to create: %s", table.concat(failedJobs, ", "))
     end
-    return true
+
+    return true, "All jobs created/updated successfully."
 end
 
 exports('CreateJobs', CreateJobs)
