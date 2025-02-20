@@ -22,26 +22,31 @@ for name in pairs(gangs) do
     end
 end
 
----Adds or overwrites a single job in shared/jobs.lua
----@param jobName string
----@param job Job
----@return boolean, string?
+--- Adds or updates a job entry in shared/jobs.lua.
+--- If the job already exists, it will be overwritten.
+--- @param jobName string The unique name of the job.
+--- @param job table The job data containing relevant job properties.
+--- @return boolean success Whether the operation was successful.
+--- @return string? message An optional message indicating success or failure.
 function CreateJob(jobName, job)
-    if not jobName or type(jobName) ~= "string" then
-        return false, "Invalid parameter: expected a string (jobName)"
+    -- Validate jobName
+    if type(jobName) ~= "string" or jobName:match("^%s*$") then
+        return false, "Invalid parameter: jobName must be a non-empty string."
     end
-    if not job or type(job) ~= "table"  then
-        return false, "Invalid parameter: expected a table (job)"
+
+    -- Validate job table
+    if type(job) ~= "table" then
+        return false, "Invalid parameter: job must be a table."
     end
-    local success, err = pcall(function()
-        jobs[jobName] = job
-        TriggerEvent('qbx_core:server:onJobUpdate', jobName, job)
-        TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
-    end)
-    if not success then
-        return false, ("Failed to create job '%s': %s"):format(jobName, err)
-    end
-    return true, ("Job '%s' successfully added or updated"):format(jobName)
+
+    -- Store the job data
+    jobs[jobName] = job
+
+    -- Notify server and clients about the job update
+    TriggerEvent('qbx_core:server:onJobUpdate', jobName, job)
+    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
+
+    return true, string.format("Job '%s' created/updated successfully.", jobName)
 end
 
 exports('CreateJob', CreateJob)
