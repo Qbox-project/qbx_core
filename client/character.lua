@@ -517,4 +517,10 @@ CreateThread(function()
             break
         end
     end
+    -- since people apparently die during char select. Since SetEntityInvincible is notoriously unreliable, we'll just loop it to be safe. shrug
+    while NetworkIsInTutorialSession() do
+        SetEntityInvincible(PlayerPedId(), true)
+        Wait(250)
+    end
+    SetEntityInvincible(PlayerPedId(), false)
 end)
