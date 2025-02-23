@@ -22,14 +22,64 @@ for name in pairs(gangs) do
     end
 end
 
----Adds or overwrites jobs in shared/jobs.lua
----@param newJobs table<string, Job>
-function CreateJobs(newJobs)
-    for jobName, job in pairs(newJobs) do
-        jobs[jobName] = job
-        TriggerEvent('qbx_core:server:onJobUpdate', jobName, job)
-        TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
+--- Adds or updates a job entry in shared/jobs.lua.
+--- If the job already exists, it will be overwritten.
+--- @param jobName string The unique name of the job.
+--- @param job table The job data containing relevant job properties.
+--- @return boolean success Whether the operation was successful.
+--- @return string? message An optional message indicating success or failure.
+function CreateJob(jobName, job)
+    -- Validate jobName
+    if type(jobName) ~= "string" or jobName:match("^%s*$") then
+        return false, "Invalid parameter: jobName must be a non-empty string."
     end
+
+    -- Validate job table
+    if type(job) ~= "table" then
+        return false, "Invalid parameter: job must be a table."
+    end
+
+    -- Store the job data
+    jobs[jobName] = job
+
+    -- Notify server and clients about the job update
+    TriggerEvent('qbx_core:server:onJobUpdate', jobName, job)
+    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
+
+    return true, string.format("Job '%s' created/updated successfully.", jobName)
+end
+
+exports('CreateJob', CreateJob)
+
+--- Adds or updates multiple jobs in shared/jobs.lua.
+--- Calls CreateJob for each job in the provided table.
+--- @param newJobs table<string, table> A table where keys are job names and values are job data tables.
+--- @return boolean success Whether all jobs were successfully created/updated.
+--- @return string? message An optional message indicating success or failure.
+function CreateJobs(newJobs)
+    -- Validate input type
+    if type(newJobs) ~= "table" then
+        return false, "Invalid parameter: newJobs must be a table."
+    end
+
+    local hasError = false
+    local failedJobs = {}
+
+    -- Iterate through jobs and attempt to create them
+    for jobName, job in pairs(newJobs) do
+        local success, errMsg = CreateJob(jobName, job)
+        if not success then
+            hasError = true
+            table.insert(failedJobs, string.format("%s (%s)", jobName, errMsg or "Unknown error"))
+        end
+    end
+
+    -- Return failure message if any jobs failed
+    if hasError then
+        return false, string.format("Some jobs failed to create: %s", table.concat(failedJobs, ", "))
+    end
+
+    return true, "All jobs created/updated successfully."
 end
 
 exports('CreateJobs', CreateJobs)
