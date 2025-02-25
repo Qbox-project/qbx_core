@@ -437,8 +437,11 @@ local function chooseCharacter()
                         onSelect = function()
                             DoScreenFadeOut(10)
                             lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
-                            if GetResourceState('qbx_spawn'):find('start') then
+                            if GetResourceState('qbx_apartments'):find('start') then
+                                TriggerEvent('apartments:client:setupSpawnUI', character.citizenid)
+                            elseif GetResourceState('qbx_spawn'):find('start') then
                                 TriggerEvent('qb-spawn:client:setupSpawns', character.citizenid)
+                                TriggerEvent('qb-spawn:client:openUI', true)
                             else
                                 spawnLastLocation()
                             end
@@ -514,4 +517,10 @@ CreateThread(function()
             break
         end
     end
+    -- since people apparently die during char select. Since SetEntityInvincible is notoriously unreliable, we'll just loop it to be safe. shrug
+    while NetworkIsInTutorialSession() do
+        SetEntityInvincible(PlayerPedId(), true)
+        Wait(250)
+    end
+    SetEntityInvincible(PlayerPedId(), false)
 end)

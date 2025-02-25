@@ -197,12 +197,14 @@
 ---@field type? string
 ---@field onduty boolean
 ---@field isboss boolean
+---@field bankAuth boolean
 ---@field grade {name: string, level: number}
 
 ---@class PlayerGang
 ---@field name string
 ---@field label string
 ---@field isboss boolean
+---@field bankAuth boolean
 ---@field grade {name: string, level: number}
 
 ---@class PlayerSkin
