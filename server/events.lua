@@ -101,7 +101,9 @@ local function onPlayerConnecting(name, _, deferrals)
 
         identifiers.username = name
 
-        storage.createUser(identifiers)
+        if license then
+            storage.createUser(identifiers)
+        end
     end
 
     local databaseTime = os.clock()
