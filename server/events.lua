@@ -101,7 +101,7 @@ local function onPlayerConnecting(name, _, deferrals)
 
         identifiers.username = name
 
-        if license then
+        if license and (identifiers.license and identifiers.license2 and identifiers.fivem and identifiers.discord) then
             storage.createUser(identifiers)
         end
     end
