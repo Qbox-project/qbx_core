@@ -50,7 +50,7 @@ AddEventHandler('playerDropped', function(reason)
         message = ('**%s** (%s) left...\n **Reason:** %s'):format(GetPlayerName(src), player.PlayerData.license, reason),
     })
     player.Functions.Save()
-    QBX.Player_Buckets[player.PlayerData.license] = nil
+    QBX.Player_Buckets[src] = nil
     QBX.Players[src] = nil
 end)
 
