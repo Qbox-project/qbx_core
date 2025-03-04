@@ -23,15 +23,23 @@ CreateThread(function()
 end)
 
 local function pay(player)
+    local now = os.time()
+    if player.PlayerData.lastPayCheck and (now - player.PlayerData.lastPayCheck) < (config.money.paycheckTimeout * 60) then
+        return
+    end
+    player.PlayerData.lastPayCheck = now
+
     local job = player.PlayerData.job
     local payment = GetJob(job.name).grades[job.grade.level].payment or job.payment
     if payment <= 0 then return end
     if not GetJob(job.name).offDutyPay and not job.onduty then return end
+
     if not config.money.paycheckSociety then
         config.sendPaycheck(player, payment)
         return
     end
-    local account = config.getSocietyAccount(job.name)
+
+    local account = config.getSocietyAccountMoney(job.name)
     if not account then -- Checks if player is employed by a society
         config.sendPaycheck(player, payment)
         return
@@ -40,6 +48,7 @@ local function pay(player)
         Notify(player.PlayerData.source, locale('error.company_too_poor'), 'error')
         return
     end
+
     config.removeSocietyMoney(job.name, payment)
     config.sendPaycheck(player, payment)
 end
