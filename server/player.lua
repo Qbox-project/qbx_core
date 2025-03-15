@@ -661,7 +661,10 @@ function CheckPlayerData(source, playerData)
 
     local job = GetJob(playerData.job?.name) or GetJob('unemployed')
     assert(job ~= nil, 'Unemployed job not found. Does it exist in shared/jobs.lua?')
-    local jobGrade = GetJob(playerData.job?.name) and playerData.job.grade.level or 0
+    local jobGrade = 0
+    if job and job.grades and job.grades[playerData.job.grade.level] then
+        jobGrade = playerData.job.grade.level
+    end
 
     playerData.job = {
         name = playerData.job?.name or 'unemployed',
