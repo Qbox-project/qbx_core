@@ -122,6 +122,24 @@ function MapTableBySubfield(subfield, table) -- luacheck: ignore
     return qbx.table.mapBySubfield(table, subfield)
 end
 
+--- Removes any quotes to ensure functionality
+---@param inputString string
+---@return string
+function EcapeQuotes(inputString)
+	inputString = inputString.gsub(inputString, '([%c%z\\"\'])', {
+		['\\'] = '\\\\',
+		['"'] = '\\"',
+		['\''] = '\\\'',
+		['\b'] = '\\b',
+		['\f'] = '\\f',
+		['\n'] = '\\n',
+		['\r'] = '\\r',
+		['\t'] = '\\t',
+		['\0'] = '\\0'
+	})
+	return inputString
+end
+
 if isServer then
     ---@deprecated use qbx.spawnVehicle from modules/lib.lua
     -- Server side vehicle creation
