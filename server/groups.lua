@@ -39,7 +39,7 @@ local function convertGroupsToPlainText(groupTable, type)
         table.insert(lines, groupLine)
 
         -- Add group label
-        local labelLine = string.format("        label = '%s',", EscapeQuotes(groupData.label))
+        local labelLine = string.format("        label = '%s',", qbx.string.escapeQuotes(groupData.label))
         table.insert(lines, labelLine)
 
         if type == 'Job' then
@@ -58,7 +58,7 @@ local function convertGroupsToPlainText(groupTable, type)
         table.insert(lines, "        grades = {")
         for gradeIndex, gradeData in pairs(groupData.grades) do
             -- Start the grade entry
-            local gradeLine = string.format("            [%d] = { name = '%s'", gradeIndex, EscapeQuotes(gradeData.name))
+            local gradeLine = string.format("            [%d] = { name = '%s'", gradeIndex, qbx.string.escapeQuotes(gradeData.name))
 
             if type == 'Job' then
                 gradeLine = string.fromat(gradeLine .. ', payment = %d', gradeData.payment)
