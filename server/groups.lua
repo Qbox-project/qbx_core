@@ -25,7 +25,7 @@ end
 --- Removes any quotes to ensure functionality
 ---@param str string
 ---@return string
-local function ecapeQuotes(str)
+local function escapeQuotes(str)
 	str = str.gsub(str, '([%c%z\\"\'])', {
 		['\\'] = '\\\\',
 		['"'] = '\\"',
