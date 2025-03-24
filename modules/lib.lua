@@ -136,24 +136,6 @@ function qbx.string.capitalize(str)
     return capitalized
 end
 
---- Removes any quotes to ensure functionality
----@param str string
----@return string
-function qbx.string.ecapeQuotes(str)
-	str = str.gsub(str, '([%c%z\\"\'])', {
-		['\\'] = '\\\\',
-		['"'] = '\\"',
-		['\''] = '\\\'',
-		['\b'] = '\\b',
-		['\f'] = '\\f',
-		['\n'] = '\\n',
-		['\r'] = '\\r',
-		['\t'] = '\\t',
-		['\0'] = '\\0'
-	})
-	return str
-end
-
 ---Rounds and returns the given number.
 ---@param num number
 ---@param decimalPlaces? integer
