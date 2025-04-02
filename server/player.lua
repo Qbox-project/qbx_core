@@ -1107,6 +1107,8 @@ function SetPlayerData(identifier, key, value)
     UpdatePlayerData(identifier)
 end
 
+exports('SetPlayerData', SetPlayerData)
+
 ---@param identifier Source | string
 function UpdatePlayerData(identifier)
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
@@ -1116,6 +1118,8 @@ function UpdatePlayerData(identifier)
     TriggerEvent('QBCore:Player:SetPlayerData', player.PlayerData)
     TriggerClientEvent('QBCore:Player:SetPlayerData', player.PlayerData.source, player.PlayerData)
 end
+
+exports('UpdatePlayerData', UpdatePlayerData)
 
 ---@param identifier Source | string
 ---@param metadata string
