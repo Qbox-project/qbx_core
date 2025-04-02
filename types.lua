@@ -44,7 +44,6 @@
 ---@field optin? boolean present if player is online
 
 ---@class PlayerFunctions
----@field UpdatePlayerData fun()
 ---@field SetJob fun(job: string, grade: integer): boolean
 ---@field SetGang fun(gang: string, grade: integer): boolean
 ---@field SetJobDuty fun(onDuty: boolean)
@@ -102,6 +101,9 @@
 ---@field fetchPlayerGroups fun(citizenid: string): table<string, integer>, table<string, integer> jobs, gangs
 ---@field removePlayerFromJob fun(citizenid: string, group: string)
 ---@field removePlayerFromGang fun(citizenid: string, group: string)
+---@field sendPlayerDataUpdates fun()
+---@field forcePlayerDataUpdate fun(citizenid: string)
+---@field addPlayerDataUpdate fun(citizenid: string, key: string | string[], value: any)
 
 ---@class InsertBanRequest
 ---@field name string
