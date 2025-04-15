@@ -4,7 +4,7 @@ game 'gta5'
 name 'qbx_core'
 description 'The core resource for the Qbox Framework'
 repository 'https://github.com/Qbox-project/qbx_core'
-version '1.22.5'
+version '1.23.0'
 
 ox_lib 'locale'
 
