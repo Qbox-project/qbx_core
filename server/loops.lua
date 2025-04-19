@@ -1,4 +1,5 @@
 local config = require 'config.server'
+local storage = require 'server.storage.main'
 
 local function removeHungerAndThirst(src, player)
     local playerState = Player(src).state
@@ -8,8 +9,6 @@ local function removeHungerAndThirst(src, player)
 
     player.Functions.SetMetaData('thirst', math.max(0, newThirst))
     player.Functions.SetMetaData('hunger', math.max(0, newHunger))
-
-    player.Functions.Save()
 end
 
 CreateThread(function()
@@ -19,6 +18,14 @@ CreateThread(function()
         for src, player in pairs(QBX.Players) do
             removeHungerAndThirst(src, player)
         end
+    end
+end)
+
+CreateThread(function()
+    local interval = 1000 * config.dbUpdateInterval
+    while true do
+        Wait(interval)
+        storage.sendPlayerDataUpdates()
     end
 end)
 
