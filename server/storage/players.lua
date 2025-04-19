@@ -441,21 +441,21 @@ local function addPlayerDataUpdate(citizenid, key, value)
 
     currentTable[citizenid][hasSubKeys and key[1] or key] = hasSubKeys and {} or value
 
-    if hasSubKeys then
-        local current = currentTable[citizenid][key[1]]
-        if #key > 2 then
-            -- We don't check the last one because otherwise we lose the table reference
-            for i = 2, #key - 1 do
-                if not current[key[i]] then
-                    current[key[i]] = {}
-                end
+    if not hasSubKeys then return end
 
-                current = current[key[i]]
+    local current = currentTable[citizenid][key[1]]
+    if #key > 2 then
+        -- We don't check the last one because otherwise we lose the table reference
+        for i = 2, #key - 1 do
+            if not current[key[i]] then
+                current[key[i]] = {}
             end
-        end
 
-        current[key[#key]] = value
+            current = current[key[i]]
+        end
     end
+
+    current[key[#key]] = value
 end
 
 ---@param key string
