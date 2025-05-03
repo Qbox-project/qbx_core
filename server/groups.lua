@@ -79,7 +79,7 @@ local function convertGroupsToPlainText(groupTable, type)
             local gradeLine = string.format("            [%d] = { name = '%s'", gradeIndex, escapeQuotes(gradeData.name))
 
             if type == 'Job' then
-                gradeLine = string.fromat(gradeLine .. ', payment = %d', gradeData.payment)
+                gradeLine = string.format(gradeLine .. ', payment = %d', gradeData.payment)
             end
 
             -- Add isBoss if true
