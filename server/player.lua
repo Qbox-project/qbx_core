@@ -1453,12 +1453,7 @@ function DeleteCharacter(source, citizenid)
     return success
 end
 
----@param source Source
----@param citizenid string
----@return boolean success
-lib.callback.register('qbx_core:server:deleteCharacter', function(source, citizenid)
-    return DeleteCharacter(source, citizenid)
-end)
+lib.callback.register('qbx_core:server:deleteCharacter', DeleteCharacter)
 
 ---@param citizenid string
 function ForceDeleteCharacter(citizenid)
