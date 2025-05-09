@@ -1423,9 +1423,9 @@ exports('GetMoney', GetMoney)
 ---@param source Source
 ---@param citizenid string
 ---@return boolean success
-lib.callback.register('qbx_core:server:deleteCharacter', function(source, citizenid)
+function DeleteCharacter(source, citizenid)
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local result, success = storage.fetchPlayerEntity(citizenid).license, false
+    local result, success = storage.fetchPlayerEntity(citizenid)?.license, false
 
     if license == result or license2 == result then
         success = storage.deletePlayer(citizenid)
@@ -1451,6 +1451,13 @@ lib.callback.register('qbx_core:server:deleteCharacter', function(source, citize
     end
 
     return success
+end
+
+---@param source Source
+---@param citizenid string
+---@return boolean success
+lib.callback.register('qbx_core:server:deleteCharacter', function(source, citizenid)
+    return DeleteCharacter(source, citizenid)
 end)
 
 ---@param citizenid string

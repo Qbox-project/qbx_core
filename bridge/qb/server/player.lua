@@ -105,7 +105,7 @@ end
 ---@param source Source
 ---@param citizenid string
 function playerObj.DeleteCharacter(source, citizenid)
-    lib.callback.await('qbx_core:server:deleteCharacter', source, citizenid)
+    return DeleteCharacter(source, citizenid)
 end
 
 ---@param citizenid string
