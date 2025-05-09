@@ -1422,22 +1422,22 @@ exports('GetMoney', GetMoney)
 
 ---@param source Source
 ---@param citizenid string
+---@return boolean success
 function DeleteCharacter(source, citizenid)
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local result = storage.fetchPlayerEntity(citizenid).license
+    local result, success = storage.fetchPlayerEntity(citizenid)?.license, false
+
     if license == result or license2 == result then
-        CreateThread(function()
-            local success = storage.deletePlayer(citizenid)
-            if success then
-                logger.log({
-                    source = 'qbx_core',
-                    webhook = config.logging.webhook['joinleave'],
-                    event = 'Character Deleted',
-                    color = 'red',
-                    message = ('**%s** deleted **%s**...'):format(GetPlayerName(source), citizenid, source),
-                })
-            end
-        end)
+        success = storage.deletePlayer(citizenid)
+        if success then
+            logger.log({
+                source = 'qbx_core',
+                webhook = config.logging.webhook['joinleave'],
+                event = 'Character Deleted',
+                color = 'red',
+                message = ('**%s** deleted **%s**...'):format(GetPlayerName(source), citizenid, source),
+            })
+        end
     else
         DropPlayer(tostring(source), locale('info.exploit_dropped'))
         logger.log({
@@ -1449,7 +1449,11 @@ function DeleteCharacter(source, citizenid)
             message = ('%s has been dropped for character deleting exploit'):format(GetPlayerName(source)),
         })
     end
+
+    return success
 end
+
+lib.callback.register('qbx_core:server:deleteCharacter', DeleteCharacter)
 
 ---@param citizenid string
 function ForceDeleteCharacter(citizenid)
