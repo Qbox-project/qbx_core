@@ -461,7 +461,7 @@ local function chooseCharacter()
                             })
                             if alert == 'confirm' then
                                 local success = lib.callback.await('qbx_core:server:deleteCharacter', false, character.citizenid)
-                                Notify(success and locale('success.character_deleted') or 'error.character_delete_failed (fill locale later)', success and 'success' or 'error')
+                                Notify(success and locale('success.character_deleted') or locale('error.character_delete_failed'), success and 'success' or 'error')
 
                                 destroyPreviewCam()
                                 chooseCharacter()
