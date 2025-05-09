@@ -1424,7 +1424,8 @@ exports('GetMoney', GetMoney)
 ---@param citizenid string
 function DeleteCharacter(source, citizenid)
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local result = storage.fetchPlayerEntity(citizenid)?.license
+    local playerEntity = storage.fetchPlayerEntity(citizenid)
+    local result = playerEntity and playerEntity.license
     if license == result or license2 == result then
         CreateThread(function()
             local success = storage.deletePlayer(citizenid)
@@ -1453,7 +1454,8 @@ end
 
 ---@param citizenid string
 function ForceDeleteCharacter(citizenid)
-    local result = storage.fetchPlayerEntity(citizenid)?.license
+    local playerEntity = storage.fetchPlayerEntity(citizenid)
+    local result = playerEntity and playerEntity.license
     if result then
         local player = GetPlayerByCitizenId(citizenid)
         if player then
