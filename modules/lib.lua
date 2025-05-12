@@ -475,9 +475,6 @@ if isServer then
             end
             
             ::skipRest::
-            else
-                break
-            end
         end
 
         if attempts == maxAttempts then
