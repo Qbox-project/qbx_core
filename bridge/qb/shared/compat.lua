@@ -47,8 +47,20 @@ return {
         end
 
         if table.type(dump) ~= 'empty' then
-            local file = {string.strtrim(LoadResourceFile('ox_inventory', 'data/items.lua'))}
-            file[1] = file[1]:gsub('}$', '')
+            local fileContent = LoadResourceFile('ox_inventory', 'data/items.lua')
+            if not fileContent then
+                print('^1[error]^7 Failed to load ox_inventory items file. Make sure ox_inventory is installed correctly.')
+                return
+            end
+            
+            local file = {string.strtrim(fileContent)}
+            -- Check if file ends with } and remove it
+            if file[1]:match('}%s*$') then
+                file[1] = file[1]:gsub('}%s*$', '')
+            else
+                print('^1[error]^7 ox_inventory items file has unexpected format. Conversion aborted.')
+                return
+            end
 
             local itemFormat = [[
 
@@ -90,7 +102,11 @@ return {
 
             file[fileSize+1] = '}'
 
-            SaveResourceFile('ox_inventory', 'data/items.lua', table.concat(file), -1)
+            local success = SaveResourceFile('ox_inventory', 'data/items.lua', table.concat(file), -1)
+            if not success then
+                print('^1[error]^7 Failed to save items to ox_inventory. Check file permissions.')
+                return
+            end
             CreateThread(function()
                 Wait(1000)
                 print('^2[warning]^7 '..count..' items have been added to ox_inventory')

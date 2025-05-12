@@ -24,6 +24,7 @@ client_scripts {
     'client/character.lua',
     'client/discord.lua',
     'client/vehicle-persistence.lua',
+    'client/game-density.lua',
     'bridge/qb/client/main.lua',
 }
 

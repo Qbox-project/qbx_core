@@ -124,6 +124,15 @@ function CreateJob(jobName, job, commitToFile)
     if type(job) ~= "table" then
         return false, "Invalid parameter: job must be a table."
     end
+    
+    -- Validate grades are numeric keys
+    if job.grades then
+        for grade, _ in pairs(job.grades) do
+            if type(grade) ~= "number" then
+                return false, "Invalid parameter: job grades must use numeric keys."
+            end
+        end
+    end
 
     -- Store the job data
     jobs[jobName] = job
@@ -214,10 +223,52 @@ exports('RemoveJob', RemoveJob)
 ---@param newGangs table<string, Gang>
 ---@param commitToFile boolean Whether to commit the gang data to the shared file.
 function CreateGangs(newGangs, commitToFile)
+    -- Validate input type
+    if type(newGangs) ~= "table" then
+        return false, "Invalid parameter: newGangs must be a table."
+    end
+
+    local hasError = false
+    local failedGangs = {}
+
+    -- Iterate through gangs and validate them
     for gangName, gang in pairs(newGangs) do
+        -- Validate gangName
+        if type(gangName) ~= "string" or gangName:match("^%s*$") then
+            hasError = true
+            table.insert(failedGangs, string.format("%s (Invalid gang name)", gangName))
+            goto continue
+        end
+
+        -- Validate gang table
+        if type(gang) ~= "table" then
+            hasError = true
+            table.insert(failedGangs, string.format("%s (Gang must be a table)", gangName))
+            goto continue
+        end
+
+        -- Validate grades are numeric keys
+        if gang.grades then
+            for grade, _ in pairs(gang.grades) do
+                if type(grade) ~= "number" then
+                    hasError = true
+                    table.insert(failedGangs, string.format("%s (Gang grades must use numeric keys)", gangName))
+                    goto continue
+                end
+            end
+        end
+
+        -- If validation passes, add the gang
         gangs[gangName] = gang
         TriggerEvent('qbx_core:server:onGangUpdate', gangName, gang)
         TriggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, gang)
+
+        ::continue::
+    end
+
+    -- Return failure message if any gangs failed
+    if hasError then
+        return false, string.format("Some gangs failed to create: %s", table.concat(failedGangs, ", "))
     end
 
     if commitToFile then

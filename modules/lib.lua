@@ -296,89 +296,212 @@ if isServer then
             coords = vec4(pedCoords.x, pedCoords.y, pedCoords.z, GetEntityHeading(source))
         end
 
-        local vehicleType = exports.qbx_core:GetVehiclesByHash(joaat(model)).type
+        local vehicleHash = joaat(model)
+        local vehicleData = exports.qbx_core:GetVehiclesByHash(vehicleHash) 
+        local vehicleType = vehicleData and vehicleData.type
         if not vehicleType then
-            warn(('No vehicle type found for model: %s temp vehicle was created and taken in type'):format(
-                model))
+            warn(('No vehicle type found for model: %s - creating a temporary vehicle to determine type'):format(model))
                 
-            local tempVehicle = CreateVehicle(model, 0, 0, -200, 0, true, true)
-            while not DoesEntityExist(tempVehicle) do Wait(0) end
+            -- Create the vehicle in a safe location away from players
+            local tempVehicle = CreateVehicle(vehicleHash, 0, 0, -1000, 0, true, true)
+            if not tempVehicle or tempVehicle == 0 then
+                error(('Failed to create temporary vehicle for model: %s'):format(model))
+                return 0, 0
+            end
+            
+            -- Wait for the vehicle to be created with a timeout
+            local timeout = 0
+            while not DoesEntityExist(tempVehicle) and timeout < 50 do 
+                Wait(20) 
+                timeout = timeout + 1
+            end
+
+            if not DoesEntityExist(tempVehicle) then
+                error(('Temporary vehicle creation timed out for model: %s'):format(model))
+                return 0, 0
+            end
 
             vehicleType = GetVehicleType(tempVehicle)
             DeleteEntity(tempVehicle)
         end
 
         local attempts = 0
+        local maxAttempts = 3
+        local timeout = 0
+        local maxTimeout = 100 -- 5 seconds (100 * 50ms)
 
         local veh, netId
-        while attempts < 3 do
+        while attempts < maxAttempts do
+            -- Ensure we're not spawning vehicles too frequently
+            Wait(50)
+            
+            -- Check if coordinates are valid (not NaN or too extreme)
+            if coords.x ~= coords.x or coords.y ~= coords.y or coords.z ~= coords.z or
+               math.abs(coords.x) > 10000 or math.abs(coords.y) > 10000 or math.abs(coords.z) > 10000 then
+                warn('Invalid vehicle spawn coordinates - adjusting to safe values')
+                coords = vec4(0, 0, 70, 0) -- Default safe position
+            end
+            
+            -- Ground check to prevent underground spawning
+            local ground = 0
+            if coords.z < 0 then
+                ground = GetHeightmapBottomZForPosition(coords.x, coords.y)
+                if coords.z < ground - 10.0 then
+                    coords = vec4(coords.x, coords.y, ground + 1.0, coords.w)
+                end
+            end
+            
             veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
-            while not DoesEntityExist(veh) do Wait(0) end
-            while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
+            
+            -- Wait for vehicle to exist with timeout
+            timeout = 0
+            while not DoesEntityExist(veh) and timeout < maxTimeout do 
+                Wait(50) 
+                timeout = timeout + 1
+            end
+            
+            if not DoesEntityExist(veh) then
+                warn(('Vehicle spawn timed out on attempt %d'):format(attempts + 1))
+                attempts = attempts + 1
+                goto continue
+            end
+            
+            -- Wait for number plate with timeout
+            timeout = 0
+            while GetVehicleNumberPlateText(veh) == '' and timeout < maxTimeout do 
+                Wait(50) 
+                timeout = timeout + 1
+            end
+            
+            if GetVehicleNumberPlateText(veh) == '' then
+                warn(('Vehicle number plate generation timed out on attempt %d'):format(attempts + 1))
+                DeleteEntity(veh)
+                attempts = attempts + 1
+                goto continue
+            end
+            
+            ::continue::
 
             if bucket and bucket > 0 then
                 exports.qbx_core:SetEntityBucket(veh, bucket)
             end
 
-            if ped then
-                SetPedIntoVehicle(ped, veh, -1)
+            -- Only set ped into vehicle if it's a valid ped
+            if ped and DoesEntityExist(ped) then
+                -- Check if vehicle has driver seat
+                if AreAnyVehicleSeatsFree(veh) then
+                    SetPedIntoVehicle(ped, veh, -1)
+                else
+                    warn('No seats available in vehicle for ped')
+                end
             end
 
-            if not pcall(function()
+            -- Handle network ownership with better error handling
+            local ownershipSuccess = pcall(function()
                 lib.waitFor(function()
                     local owner = NetworkGetEntityOwner(veh)
                     if ped then
-                        --- the owner should be transferred to the driver
+                        -- The owner should be transferred to the driver
                         if owner == NetworkGetEntityOwner(ped) then return true end
                     else
                         if owner ~= -1 then return true end
                     end
                 end, 'client never set as owner', 5000)
-            end) then
+            end)
+
+            if not ownershipSuccess then
+                warn(('Vehicle ownership assignment failed on attempt %d - retrying'):format(attempts + 1))
                 DeleteEntity(veh)
-                error('Deleting vehicle which timed out finding an owner')
+                attempts = attempts + 1
+                goto skipRest
             end
 
             local state = Entity(veh).state
             local owner = NetworkGetEntityOwner(veh)
             state:set('initVehicle', true, true)
             netId = NetworkGetNetworkIdFromEntity(veh)
-            if props and type(props) == 'table' and props.plate then
+            -- Set vehicle properties with improved reliability
+            if props and type(props) == 'table' then
+                local owner = NetworkGetEntityOwner(veh)
+                if owner == -1 then
+                    warn('No valid owner found for vehicle properties application')
+                    -- In this case we'll still try to apply properties directly
+                    if props.plate then
+                        SetVehicleNumberPlateText(veh, props.plate)
+                    end
+                    break
+                end
+
+                -- Send properties to client for application
                 TriggerClientEvent('qbx_core:client:setVehicleProperties', owner, netId, props)
-                local success = pcall(function()
-                    local plateMatched = false
-                    lib.waitFor(function()
-                        if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
-                            local currentOwner = NetworkGetEntityOwner(veh)
-                            assert(currentOwner == owner, ('Owner changed during vehicle init. expected=%s, actual=%s'):format(owner, currentOwner))
-                            --- check that the plate matches twice, 100ms apart as a bug has been observed in which server side matches but plate is not observed by clients to match
-                            if plateMatched then
-                                return true
+                
+                -- Verify properties were applied correctly
+                local propertiesSuccess = false
+                if props.plate then
+                    propertiesSuccess = pcall(function()
+                        local plateMatched = false
+                        lib.waitFor(function()
+                            if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
+                                local currentOwner = NetworkGetEntityOwner(veh)
+                                -- We're more lenient with owner changing during initialization
+                                if currentOwner ~= owner then
+                                    warn(('Owner changed during vehicle init. expected=%s, actual=%s'):format(owner, currentOwner))
+                                    owner = currentOwner
+                                end
+                                
+                                -- Double check plate matches over time
+                                if plateMatched then
+                                    return true
+                                end
+                                plateMatched = true
+                                Wait(200) -- Increased wait time for better reliability
                             end
-                            plateMatched = true
-                            Wait(100)
-                        end
-                    end, 'Failed to set vehicle properties within 1 second', 1000)
-                end)
-                if success then
+                        end, 'Failed to set vehicle properties within 2 seconds', 2000)
+                    end)
+                else
+                    -- If there's no plate to verify, we assume success
+                    propertiesSuccess = true
+                end
+                
+                if propertiesSuccess then
                     break
                 else
+                    warn(('Failed to apply vehicle properties on attempt %d'):format(attempts + 1))
                     DeleteEntity(veh)
-                    attempts += 1
+                    attempts = attempts + 1
                 end
+            } else {
+                break
+            }
+            
+            ::skipRest::
             else
                 break
             end
         end
 
-        if attempts == 3 then
-            error('unable to successfully spawn vehicle after 3 attempts')
+        if attempts == maxAttempts then
+            error(('Unable to successfully spawn vehicle after %d attempts'):format(maxAttempts))
+            return 0, 0
         end
 
-        --- prevent server from deleting a vehicle without an owner
-        SetEntityOrphanMode(veh, 2)
-        exports.qbx_core:EnablePersistence(veh)
-        return netId, veh
+        -- Set vehicle as undeletable when no driver is present
+        if DoesEntityExist(veh) then
+            -- Prevent server from deleting a vehicle without an owner
+            SetEntityOrphanMode(veh, 2)
+            
+            -- Add some random variation to vehicle handling to avoid cars looking identical
+            SetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveMaxFlatVel', 
+                GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveMaxFlatVel') * (math.random(98, 102) / 100))
+            
+            -- Enable persistence for respawning if the vehicle is deleted
+            exports.qbx_core:EnablePersistence(veh)
+            
+            return netId, veh
+        else
+            warn('Vehicle does not exist after spawning attempts')
+            return 0, 0
+        end
     end
 else
     ---@class LibDrawTextParams

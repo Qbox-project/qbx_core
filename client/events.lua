@@ -216,15 +216,48 @@ end)
 ---@param props table<any, any>
 RegisterNetEvent('qbx_core:client:setVehicleProperties', function(netId, props)
     if not props then return end
-    local timeOut = GetGameTimer() + 1000
+    
+    -- Increase timeout for better reliability
+    local timeOut = GetGameTimer() + 5000
     local vehicle = NetworkGetEntityFromNetworkId(netId)
+    
+    -- Wait until the vehicle exists
+    local waitAttempts = 0
+    while not DoesEntityExist(vehicle) and waitAttempts < 100 do
+        vehicle = NetworkGetEntityFromNetworkId(netId)
+        waitAttempts = waitAttempts + 1
+        Wait(50)
+    end
+    
+    if not DoesEntityExist(vehicle) then
+        print('^1[error]^7 Vehicle does not exist for property application')
+        return
+    end
+    
     while true do
+        -- Make sure we own the vehicle
         if NetworkGetEntityOwner(vehicle) == cache.playerId then
-            if lib.setVehicleProperties(vehicle, props) then
+            -- Apply properties and verify success
+            local success = lib.setVehicleProperties(vehicle, props)
+            if success then
+                -- Double check specific critical properties
+                if props.plate and props.color1 then
+                    local currentPlate = GetVehicleNumberPlateText(vehicle)
+                    if currentPlate ~= props.plate then
+                        -- Try again specifically for plate
+                        SetVehicleNumberPlateText(vehicle, props.plate)
+                    end
+                end
                 return
             end
         end
+        
         if GetGameTimer() > timeOut then
+            print('^3[warning]^7 Vehicle properties application timed out')
+            -- Last-ditch attempt to set at least the plate
+            if props.plate and DoesEntityExist(vehicle) then
+                SetVehicleNumberPlateText(vehicle, props.plate)
+            end
             return
         end
 
