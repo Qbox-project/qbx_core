@@ -431,10 +431,10 @@ if isServer then
                 TriggerClientEvent('qbx_core:client:setVehicleProperties', vehicleOwner, netId, props)
                 
                 -- Verify properties were applied correctly
-                local propsApplied = false
+                local propsApplied
                 if props.plate then
-                    propsApplied = false
-                    local applySuccess = pcall(function()
+                    -- Check properties application success with pcall
+                    propsApplied = pcall(function()
                         local plateMatched = false
                         lib.waitFor(function()
                             if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
@@ -454,9 +454,6 @@ if isServer then
                             end
                         end, 'Failed to set vehicle properties within 2 seconds', 2000)
                     end)
-                    
-                    -- Set propsApplied based on result of pcall
-                    propsApplied = applySuccess
                 else
                     -- If there's no plate to verify, we assume success
                     propsApplied = true
