@@ -297,7 +297,7 @@ if isServer then
         end
 
         local vehicleHash = joaat(model)
-        local vehicleData = exports.qbx_core:GetVehiclesByHash(vehicleHash) 
+        local vehicleData = exports.qbx_core:GetVehiclesByHash(vehicleHash)
         local vehicleType = vehicleData and vehicleData.type
         if not vehicleType then
             warn(('No vehicle type found for model: %s - creating a temporary vehicle to determine type'):format(model))
@@ -326,7 +326,6 @@ if isServer then
 
         local attempts = 0
         local maxAttempts = 3
-        local timeout = 0
         local maxTimeout = 100 -- 5 seconds (100 * 50ms)
 
         local veh, netId
@@ -434,7 +433,8 @@ if isServer then
                 -- Verify properties were applied correctly
                 local propsApplied = false
                 if props.plate then
-                    propsApplied = pcall(function()
+                    propsApplied = false
+                    local applySuccess = pcall(function()
                         local plateMatched = false
                         lib.waitFor(function()
                             if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
@@ -454,6 +454,9 @@ if isServer then
                             end
                         end, 'Failed to set vehicle properties within 2 seconds', 2000)
                     end)
+                    
+                    -- Set propsApplied based on result of pcall
+                    propsApplied = applySuccess
                 else
                     -- If there's no plate to verify, we assume success
                     propsApplied = true
