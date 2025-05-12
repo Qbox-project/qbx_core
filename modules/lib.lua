@@ -301,7 +301,6 @@ if isServer then
         local vehicleType = vehicleData and vehicleData.type
         if not vehicleType then
             warn(('No vehicle type found for model: %s - creating a temporary vehicle to determine type'):format(model))
-                
             -- Create the vehicle in a safe location away from players
             local tempVehicle = CreateVehicle(vehicleHash, 0, 0, -1000, 0, true, true)
             if not tempVehicle or tempVehicle == 0 then
@@ -310,10 +309,10 @@ if isServer then
             end
             
             -- Wait for the vehicle to be created with a timeout
-            local timeout = 0
-            while not DoesEntityExist(tempVehicle) and timeout < 50 do 
-                Wait(20) 
-                timeout = timeout + 1
+            local waitTimeout = 0
+            while not DoesEntityExist(tempVehicle) and waitTimeout < 50 do
+                Wait(20)
+                waitTimeout = waitTimeout + 1
             end
 
             if not DoesEntityExist(tempVehicle) then
@@ -334,7 +333,6 @@ if isServer then
         while attempts < maxAttempts do
             -- Ensure we're not spawning vehicles too frequently
             Wait(50)
-            
             -- Check if coordinates are valid (not NaN or too extreme)
             if coords.x ~= coords.x or coords.y ~= coords.y or coords.z ~= coords.z or
                math.abs(coords.x) > 10000 or math.abs(coords.y) > 10000 or math.abs(coords.z) > 10000 then
@@ -343,21 +341,20 @@ if isServer then
             end
             
             -- Ground check to prevent underground spawning
-            local ground = 0
             if coords.z < 0 then
-                ground = GetHeightmapBottomZForPosition(coords.x, coords.y)
-                if coords.z < ground - 10.0 then
-                    coords = vec4(coords.x, coords.y, ground + 1.0, coords.w)
+                local groundLevel = GetHeightmapBottomZForPosition(coords.x, coords.y)
+                if coords.z < groundLevel - 10.0 then
+                    coords = vec4(coords.x, coords.y, groundLevel + 1.0, coords.w)
                 end
             end
             
             veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
             
             -- Wait for vehicle to exist with timeout
-            timeout = 0
-            while not DoesEntityExist(veh) and timeout < maxTimeout do 
-                Wait(50) 
-                timeout = timeout + 1
+            local existTimeout = 0
+            while not DoesEntityExist(veh) and existTimeout < maxTimeout do
+                Wait(50)
+                existTimeout = existTimeout + 1
             end
             
             if not DoesEntityExist(veh) then
@@ -367,10 +364,10 @@ if isServer then
             end
             
             -- Wait for number plate with timeout
-            timeout = 0
-            while GetVehicleNumberPlateText(veh) == '' and timeout < maxTimeout do 
-                Wait(50) 
-                timeout = timeout + 1
+            local plateTimeout = 0
+            while GetVehicleNumberPlateText(veh) == '' and plateTimeout < maxTimeout do
+                Wait(50)
+                plateTimeout = plateTimeout + 1
             end
             
             if GetVehicleNumberPlateText(veh) == '' then
@@ -399,12 +396,12 @@ if isServer then
             -- Handle network ownership with better error handling
             local ownershipSuccess = pcall(function()
                 lib.waitFor(function()
-                    local owner = NetworkGetEntityOwner(veh)
+                    local vehicleOwner = NetworkGetEntityOwner(veh)
                     if ped then
                         -- The owner should be transferred to the driver
-                        if owner == NetworkGetEntityOwner(ped) then return true end
+                        if vehicleOwner == NetworkGetEntityOwner(ped) then return true end
                     else
-                        if owner ~= -1 then return true end
+                        if vehicleOwner ~= -1 then return true end
                     end
                 end, 'client never set as owner', 5000)
             end)
@@ -417,13 +414,12 @@ if isServer then
             end
 
             local state = Entity(veh).state
-            local owner = NetworkGetEntityOwner(veh)
             state:set('initVehicle', true, true)
             netId = NetworkGetNetworkIdFromEntity(veh)
             -- Set vehicle properties with improved reliability
             if props and type(props) == 'table' then
-                local owner = NetworkGetEntityOwner(veh)
-                if owner == -1 then
+                local vehicleOwner = NetworkGetEntityOwner(veh)
+                if vehicleOwner == -1 then
                     warn('No valid owner found for vehicle properties application')
                     -- In this case we'll still try to apply properties directly
                     if props.plate then
@@ -433,20 +429,20 @@ if isServer then
                 end
 
                 -- Send properties to client for application
-                TriggerClientEvent('qbx_core:client:setVehicleProperties', owner, netId, props)
+                TriggerClientEvent('qbx_core:client:setVehicleProperties', vehicleOwner, netId, props)
                 
                 -- Verify properties were applied correctly
-                local propertiesSuccess = false
+                local propsApplied = false
                 if props.plate then
-                    propertiesSuccess = pcall(function()
+                    propsApplied = pcall(function()
                         local plateMatched = false
                         lib.waitFor(function()
                             if qbx.string.trim(GetVehicleNumberPlateText(veh)) == qbx.string.trim(props.plate) then
                                 local currentOwner = NetworkGetEntityOwner(veh)
                                 -- We're more lenient with owner changing during initialization
-                                if currentOwner ~= owner then
-                                    warn(('Owner changed during vehicle init. expected=%s, actual=%s'):format(owner, currentOwner))
-                                    owner = currentOwner
+                                if currentOwner ~= vehicleOwner then
+                                    warn(('Owner changed during vehicle init. expected=%s, actual=%s'):format(vehicleOwner, currentOwner))
+                                    vehicleOwner = currentOwner
                                 end
                                 
                                 -- Double check plate matches over time
@@ -460,10 +456,10 @@ if isServer then
                     end)
                 else
                     -- If there's no plate to verify, we assume success
-                    propertiesSuccess = true
+                    propsApplied = true
                 end
                 
-                if propertiesSuccess then
+                if propsApplied then
                     break
                 else
                     warn(('Failed to apply vehicle properties on attempt %d'):format(attempts + 1))
@@ -488,7 +484,7 @@ if isServer then
             SetEntityOrphanMode(veh, 2)
             
             -- Add some random variation to vehicle handling to avoid cars looking identical
-            SetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveMaxFlatVel', 
+            SetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveMaxFlatVel',
                 GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveMaxFlatVel') * (math.random(98, 102) / 100))
             
             -- Enable persistence for respawning if the vehicle is deleted
