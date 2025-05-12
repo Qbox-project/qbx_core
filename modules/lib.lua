@@ -470,9 +470,9 @@ if isServer then
                     DeleteEntity(veh)
                     attempts = attempts + 1
                 end
-            } else {
+            else
                 break
-            }
+            end
             
             ::skipRest::
             else
