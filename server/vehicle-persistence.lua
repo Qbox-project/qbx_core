@@ -129,6 +129,8 @@ end)
 if not full then return end
 
 local cachedVehicles = {}
+local vehicleSpawnQueue = {}
+local isProcessingQueue = false
 local config = require 'config.server'
 
 ---@param plate string
@@ -192,16 +194,37 @@ end
 local function spawnVehicle(coords, id, model, props)
     if not coords or not id or not model or not props then return end
 
-    local _, veh = qbx.spawnVehicle({
-        spawnSource = vec4(coords.x, coords.y, coords.z, coords.w),
+    vehicleSpawnQueue[#vehicleSpawnQueue+1] = {
+        coords = coords,
+        id = id,
         model = model,
         props = props
-    })
+    }
 
-    cachedVehicles[id] = nil
-    Entity(veh).state:set('vehicleid', id, false)
-    TriggerClientEvent('qbx_core:client:removeVehZone', -1, id)
-    config.setVehicleLock(veh, config.persistence.lockState)
+    if not isProcessingQueue then
+        isProcessingQueue = true
+
+        CreateThread(function()
+            while #vehicleSpawnQueue > 0 do
+                local request = table.remove(vehicleSpawnQueue, 1)
+
+                if not isVehicleSpawned(props.plate) then
+                    local _, veh = qbx.spawnVehicle({
+                        spawnSource = vec4(request.coords.x, request.coords.y, request.coords.z, request.coords.w),
+                        model = request.model,
+                        props = request.props
+                    })
+
+                    TriggerClientEvent('qbx_core:client:removeVehZone', -1, request.id)
+                    cachedVehicles[request.id] = nil
+                    Entity(veh).state:set('vehicleid', request.id, false)
+                    config.setVehicleLock(veh, config.persistence.lockState)
+                end
+            end
+
+            isProcessingQueue = false
+        end)
+    end
 end
 
 lib.callback.register('qbx_core:server:getVehiclesToSpawn', function()
