@@ -31,7 +31,7 @@
         "teleported_waypoint": "Teleported To Waypoint.",
         "character_deleted": "Character deleted!",
         "character_deleted_citizenid": "You successfully deleted the character with Citizen ID %s.",
-        "optin_set": "Opt in has been set to %s successfully."
+        "optin_set": "You have successfully opted %s."
     },
     "info": {
         "received_paycheck": "You received your paycheck of $%s",

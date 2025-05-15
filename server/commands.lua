@@ -436,5 +436,5 @@ lib.addCommand('optin', {
     restricted = 'group.admin'
 }, function(source, args)
     ToggleOptin(source)
-    Notify(source, locale('success.optin_set', IsOptin(source) and 'on' or 'off'))
+    Notify(source, locale('success.optin_set', IsOptin(source) and 'in' or 'out'))
 end)
