@@ -50,7 +50,7 @@ AddEventHandler('playerDropped', function(reason)
         message = ('**%s** (%s) left...\n **Reason:** %s'):format(GetPlayerName(src), player.PlayerData.license, reason),
     })
     player.Functions.Save()
-    QBX.Player_Buckets[player.PlayerData.license] = nil
+    QBX.Player_Buckets[src] = nil
     QBX.Players[src] = nil
 end)
 
@@ -101,7 +101,9 @@ local function onPlayerConnecting(name, _, deferrals)
 
         identifiers.username = name
 
-        storage.createUser(identifiers)
+        if license and ((identifiers.license or identifiers.license2) and identifiers.fivem and identifiers.discord) then
+            storage.createUser(identifiers)
+        end
     end
 
     local databaseTime = os.clock()

@@ -151,16 +151,17 @@ end
 
 exports('GetBucketObjects', GetBucketObjects)
 
--- Will set the provided player id / source into the provided bucket id
+-- Will set or remove the provided player id / source from the provided bucket id
 ---@param source Source
----@param bucket integer
+---@param bucket integer|nil
 ---@return boolean
 function SetPlayerBucket(source, bucket)
-    if not (source or bucket) then return false end
+    if not source then return false end
 
-    Player(source).state:set('instance', bucket, true)
-    SetPlayerRoutingBucket(source --[[@as string]], bucket)
-    QBX.Player_Buckets[source] = bucket
+    local inBucket = bucket and bucket ~= 0
+    Player(source).state:set('instance', inBucket and bucket or false, inBucket)
+    SetPlayerRoutingBucket(source, bucket or 0)
+    QBX.Player_Buckets[source] = inBucket and bucket or nil
     return true
 end
 
@@ -171,10 +172,11 @@ exports('SetPlayerBucket', SetPlayerBucket)
 ---@param bucket integer
 ---@return boolean
 function SetEntityBucket(entity, bucket)
-    if not (entity or bucket) then return false end
+    if not entity then return false end
 
-    SetEntityRoutingBucket(entity, bucket)
-    QBX.Entity_Buckets[entity] = bucket
+    local inBucket = bucket and bucket ~= 0
+    SetEntityRoutingBucket(entity, bucket or 0)
+    QBX.Entity_Buckets[entity] = inBucket and bucket or nil
     return true
 end
 
