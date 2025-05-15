@@ -13,6 +13,7 @@ lib.addCommand('tp', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     if args[locale('command.tp.params.x.name')] and not args[locale('command.tp.params.y.name')] and not args[locale('command.tp.params.z.name')] then
         local target = GetPlayerPed(tonumber(args[locale('command.tp.params.x.name')]) --[[@as number]])
         if target ~= 0 then
@@ -42,6 +43,7 @@ lib.addCommand('tpm', {
     restricted = 'group.admin'
 }, function(source)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     TriggerClientEvent('QBCore:Command:GoToMarker', source)
 end)
 
@@ -50,6 +52,7 @@ lib.addCommand('togglepvp', {
     restricted = 'group.admin'
 }, function(source)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     config.server.pvp = not config.server.pvp
     GlobalState.PVPEnabled = config.server.pvp
 end)
@@ -63,6 +66,7 @@ lib.addCommand('addpermission', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     local player = GetPlayer(args[locale('command.addpermission.params.id.name')])
     local permission = args[locale('command.addpermission.params.permission.name')]
     if not player then
@@ -83,6 +87,7 @@ lib.addCommand('removepermission', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     local player = GetPlayer(args[locale('command.removepermission.params.id.name')])
     local permission = args[locale('command.removepermission.params.permission.name')]
     if not player then
@@ -99,6 +104,7 @@ lib.addCommand('openserver', {
     restricted = 'group.admin'
 }, function(source)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     if not config.server.closed then
         Notify(source, locale('error.server_already_open'), 'error')
         return
@@ -120,6 +126,7 @@ lib.addCommand('closeserver', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     if config.server.closed then
         Notify(source, locale('error.server_already_closed'), 'error')
         return
@@ -150,6 +157,7 @@ lib.addCommand('car', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     if not args then return end
 
     local ped = GetPlayerPed(source)
@@ -177,6 +185,7 @@ lib.addCommand('dv', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     local ped = GetPlayerPed(source)
     local pedCars = {GetVehiclePedIsIn(ped, false)}
     local radius = args[locale('command.dv.params.radius.name')]
@@ -207,6 +216,7 @@ lib.addCommand('givemoney', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     local player = GetPlayer(args[locale('command.givemoney.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
@@ -226,6 +236,7 @@ lib.addCommand('setmoney', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     local player = GetPlayer(args[locale('command.setmoney.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
@@ -252,6 +263,7 @@ lib.addCommand('setjob', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     local player = GetPlayer(args[locale('command.setjob.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
@@ -271,6 +283,7 @@ lib.addCommand('changejob', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     local player = GetPlayer(args[locale('command.changejob.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
@@ -291,6 +304,7 @@ lib.addCommand('addjob', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     local player = GetPlayer(args[locale('command.addjob.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
@@ -310,6 +324,7 @@ lib.addCommand('removejob', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     local player = GetPlayer(args[locale('command.removejob.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
@@ -337,6 +352,7 @@ lib.addCommand('setgang', {
     restricted = 'group.admin'
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     local player = GetPlayer(args[locale('command.setgang.params.id.name')])
     if not player then
         Notify(source, locale('error.not_online'), 'error')
@@ -423,6 +439,7 @@ lib.addCommand('deletechar', {
     }
 }, function(source, args)
     if not IsOptin(source) then Notify(source, locale('error.not_optin'), 'error') return end
+
     local player = GetPlayer(args.id)
     if not player then return end
 
