@@ -133,14 +133,14 @@ local vehicleSpawnQueue = {}
 local isProcessingQueue = false
 local config = require 'config.server'
 
----@param plate string
+---@param id number
 ---@return boolean
-local function isVehicleSpawned(plate)
+local function isVehicleSpawned(id)
     local vehicles = GetGamePool('CVehicle')
 
     for i = 1, #vehicles do
         local vehicle = vehicles[i]
-        if qbx.getVehiclePlate(vehicle) == plate then
+        if Entity(vehicle).state.vehicleid == id then
             return true
         end
     end
@@ -208,7 +208,7 @@ local function spawnVehicle(coords, id, model, props)
             while #vehicleSpawnQueue > 0 do
                 local request = table.remove(vehicleSpawnQueue, 1)
 
-                if not isVehicleSpawned(props.plate) then
+                if not isVehicleSpawned(request.id) then
                     local _, veh = qbx.spawnVehicle({
                         spawnSource = vec4(request.coords.x, request.coords.y, request.coords.z, request.coords.w),
                         model = request.model,
@@ -239,7 +239,7 @@ AddEventHandler('onResourceStart', function(resourceName)
 
     for i = 1, #vehicles do
         local vehicle = vehicles[i]
-        if vehicle.coords and vehicle.props and vehicle.props.plate and not isVehicleSpawned(vehicle.props.plate) then
+        if vehicle.coords and vehicle.props and vehicle.props.plate and not isVehicleSpawned(vehicle.id) then
             cachedVehicles[vehicle.id] = vehicle.coords
         end
     end
