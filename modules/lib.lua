@@ -300,7 +300,7 @@ if isServer then
         if not vehicleType then
             warn(('No vehicle type found for model: %s temp vehicle was created and taken in type'):format(
                 model))
-                
+
             local tempVehicle = CreateVehicle(model, 0, 0, -200, 0, true, true)
             while not DoesEntityExist(tempVehicle) do Wait(0) end
 
@@ -313,12 +313,13 @@ if isServer then
         local veh, netId
         while attempts < 3 do
             veh = CreateVehicleServerSetter(model, vehicleType, coords.x, coords.y, coords.z, coords.w)
-            while not DoesEntityExist(veh) do Wait(0) end
-            while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
 
             if bucket and bucket > 0 then
                 exports.qbx_core:SetEntityBucket(veh, bucket)
             end
+
+            while not DoesEntityExist(veh) do Wait(0) end
+            while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
 
             if ped then
                 SetPedIntoVehicle(ped, veh, -1)
