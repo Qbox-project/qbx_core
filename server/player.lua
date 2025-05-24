@@ -643,7 +643,11 @@ function CheckPlayerData(source, playerData)
     }
     playerData.metadata.licences = playerData.metadata.licences or {
         id = true,
-        driver = true,
+        driver = {
+            car = true,
+            bike = false,
+            cdl = false
+        },
         weapon = false,
     }
     playerData.metadata.inside = playerData.metadata.inside or {
