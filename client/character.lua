@@ -287,7 +287,7 @@ local function spawnDefault() -- We use a callback to make the server wait on th
     TriggerEvent('qb-clothes:client:CreateFirstCharacter')
 end
 
-local function spawnLastLocation()
+local function spawnLocation()
     DoScreenFadeOut(500)
 
     while not IsScreenFadedOut() do
@@ -441,9 +441,9 @@ local function chooseCharacter()
                                 TriggerEvent('apartments:client:setupSpawnUI', character.citizenid)
                             elseif GetResourceState('qbx_spawn'):find('start') then
                                 TriggerEvent('qb-spawn:client:setupSpawns', character.citizenid)
-                                TriggerEvent('qb-spawn:client:openUI', true)
+                                spawnLocation()
                             else
-                                spawnLastLocation()
+                                spawnLocation()
                             end
                             destroyPreviewCam()
                         end
