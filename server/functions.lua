@@ -506,27 +506,6 @@ end
 
 exports('GetPlayersData', getPlayersData)
 
----@param filters table <string, any>
----@return Player[]
-local function searchPlayerEntities(filters)
-    local result = {}
-    local response = storage.searchPlayerEntities(filters)
-    for i = 1, #response do
-        local citizenid = response[i].citizenid
-        local player = GetPlayerByCitizenId(citizenid)
-        if player then
-            result[#result+1] = player
-        else
-            local offlinePlayer = GetOfflinePlayer(citizenid)
-            if offlinePlayer then
-                result[#result+1] = offlinePlayer
-            end
-        end
-    end
-    return result
-end
-
-exports("SearchPlayers", searchPlayerEntities)
 
 local function isGradeBoss(group, grade)
     local groupData = GetJob(group) or GetGang(group)
@@ -552,3 +531,4 @@ function DeleteVehicle(vehicle)
 end
 
 exports('DeleteVehicle', DeleteVehicle)
+exports("SearchPlayers", storage.searchPlayerEntities)

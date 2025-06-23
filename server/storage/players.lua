@@ -167,42 +167,49 @@ end
 
 ---@param filters table<string, any>
 local function handleSearchFilters(filters)
-    if not (filters) then return '', {} end
+    if not filters then return '', {} end
+
     local holders = {}
     local clauses = {}
-    if filters.license then
+
+    local license = filters.license
+    if license then
         clauses[#clauses + 1] = 'license = ?'
-        holders[#holders + 1] = filters.license
+        holders[#holders + 1] = license
     end
-    if filters.job then
+
+    local job = filters.job
+    if job then
         clauses[#clauses + 1] = 'JSON_EXTRACT(job, "$.name") = ?'
-        holders[#holders + 1] = filters.job
+        holders[#holders + 1] = job
     end
-    if filters.gang then
+
+    local gang = filters.gang
+    if gang then
         clauses[#clauses + 1] = 'JSON_EXTRACT(gang, "$.name") = ?'
-        holders[#holders + 1] = filters.gang
+        holders[#holders + 1] = gang
     end
-    if filters.metadata then
-        local strict = filters.metadata.strict
-        for key, value in pairs(filters.metadata) do
-            if key ~= "strict" then
-                if type(value) == "number" then
-                    if strict then
-                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") = ?'
-                    else
-                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") >= ?'
-                    end
-                    holders[#holders + 1] = value
-                elseif type(value) == "boolean" then
-                    clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") = ?'
-                    holders[#holders + 1] = tostring(value)
-                elseif type(value) == "string" then
-                    clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.' .. key .. '")) = ?'
-                    holders[#holders + 1] = value
-                end
+
+    local metadata = filters.metadata
+    if metadata then
+        for key, data in pairs(metadata) do
+            local isDataATable = type(data) == 'table'
+            local value, strict = isDataATable and data.value or data, isDataATable and data.strict
+
+            local valueDataType = type(value)
+            if valueDataType == "number" then
+                clauses[#clauses + 1] = strict and 'JSON_EXTRACT(metadata, "$.' .. key .. '") = ?' or 'JSON_EXTRACT(metadata, "$.' .. key .. '") >= ?'
+                holders[#holders + 1] = value
+            elseif valueDataType == "boolean" then
+                clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") = ?'
+                holders[#holders + 1] = tostring(value)
+            elseif valueDataType == "string" then
+                clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.' .. key .. '")) = ?'
+                holders[#holders + 1] = value
             end
         end
     end
+
     return (' WHERE %s'):format(table.concat(clauses, ' AND ')), holders
 end
 
