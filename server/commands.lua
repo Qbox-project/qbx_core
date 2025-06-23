@@ -144,7 +144,7 @@ lib.addCommand('car', {
 }, function(source, args)
     if not args then return end
 
-    local ped = GetPlayerPed(source)
+    local ped, bucket = GetPlayerPed(source), GetPlayerRoutingBucket(source)
     local keepCurrentVehicle = args[locale('command.car.params.keepCurrentVehicle.name')]
     local currentVehicle = not keepCurrentVehicle and GetVehiclePedIsIn(ped, false)
     if currentVehicle and currentVehicle ~= 0 then
@@ -155,6 +155,7 @@ lib.addCommand('car', {
         model = args[locale('command.car.params.model.name')],
         spawnSource = ped,
         warp = true,
+        bucket = bucket
     })
 
     local plate = qbx.getVehiclePlate(vehicle)

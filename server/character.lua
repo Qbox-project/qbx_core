@@ -66,6 +66,7 @@ lib.callback.register('qbx_core:server:createCharacter', function(source, data)
     return newData
 end)
 
+--- Deprecated. This event is kept for backward compatibility only and is no longer used internally.
 RegisterNetEvent('qbx_core:server:deleteCharacter', function(citizenId)
     local src = source
     DeleteCharacter(src --[[@as number]], citizenId)
