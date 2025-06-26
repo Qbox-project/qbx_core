@@ -7938,7 +7938,7 @@ return {
         type = 'automobile',
         hash = `ztype`,
     },
-    -- Money Fronts (mp2025_01) 
+    -- Money Fronts (mp2025_01)
     -- Build Number:3570
 
     cheetah3 = {
@@ -7950,7 +7950,7 @@ return {
         type = 'automobile',
         hash = `cheetah3`,
     },
-    
+
     driftchavosv6 = {
         name = 'Drift Chavos V6',
         brand = 'Dinka',
@@ -7960,7 +7960,7 @@ return {
         type = 'automobile',
         hash = `driftchavosv6`,
     },
-    
+
     driftdominator10 = {
         name = 'Drift Dominator FX',
         brand = 'Vapid',
@@ -8129,4 +8129,5 @@ return {
         category = 'suvs',
         type = 'automobile',
         hash = `woodlander`,
+    }
 }
