@@ -7939,7 +7939,7 @@ return {
         hash = `ztype`,
     },
     -- Money Fronts (mp2025_01)
-    -- Build Number:3570
+    -- Build Number: 3570
 
     cheetah3 = {
         name = 'Cheetah 3',
@@ -7950,7 +7950,6 @@ return {
         type = 'automobile',
         hash = `cheetah3`,
     },
-
     driftchavosv6 = {
         name = 'Drift Chavos V6',
         brand = 'Dinka',
@@ -7960,7 +7959,6 @@ return {
         type = 'automobile',
         hash = `driftchavosv6`,
     },
-
     driftdominator10 = {
         name = 'Drift Dominator FX',
         brand = 'Vapid',
@@ -7970,7 +7968,6 @@ return {
         type = 'automobile',
         hash = `driftdominator10`,
     },
-
     driftgauntlet4 = {
         name = 'Drift Gauntlet Hellfire',
         brand = 'Bravado',
@@ -7980,7 +7977,6 @@ return {
         type = 'automobile',
         hash = `driftgauntlet4`,
     },
-
     drifthardy = {
         name = 'Drift Hardy',
         brand = 'Annis',
@@ -7990,7 +7986,6 @@ return {
         type = 'automobile',
         hash = `drifthardy`,
     },
-
     driftl352 = {
         name = 'Drift Walton L35',
         brand = 'Declasse',
@@ -8000,7 +7995,6 @@ return {
         type = 'automobile',
         hash = `driftl352`,
     },
-
     everon3 = {
         name = 'Everon RS',
         brand = 'Karin',
@@ -8010,7 +8004,6 @@ return {
         type = 'automobile',
         hash = `everon3`,
     },
-
     flatbed2 = {
         name = 'Flatbed Custom',
         brand = 'MTL',
@@ -8020,7 +8013,6 @@ return {
         type = 'automobile',
         hash = `flatbed2`,
     },
-
     hardy = {
         name = 'Hardy',
         brand = 'Annis',
@@ -8030,7 +8022,6 @@ return {
         type = 'automobile',
         hash = `hardy`,
     },
-
     l352 = {
         name = 'L35 Stock',
         brand = 'Declasse',
@@ -8040,7 +8031,6 @@ return {
         type = 'automobile',
         hash = `l352`,
     },
-
     maverick2 = {
         name = 'Maverick',
         brand = 'Higgins',
@@ -8050,7 +8040,6 @@ return {
         type = 'automobile',
         hash = `maverick2`,
     },
-
     minimus = {
         name = 'Minimus',
         brand = 'Annis',
@@ -8060,7 +8049,6 @@ return {
         type = 'automobile',
         hash = `minimus`,
     },
-
     policeb2 = {
         name = 'Police Bike',
         brand = 'Western',
@@ -8070,7 +8058,6 @@ return {
         type = 'automobile',
         hash = `policeb2`,
     },
-
     rapidgt4 = {
         name = 'Rapid GT X',
         brand = 'Dewbauchee',
@@ -8080,7 +8067,6 @@ return {
         type = 'automobile',
         hash = `rapidgt4`,
     },
-
     sentinel5 = {
         name = 'Sentinel GTS',
         brand = "Übermacht",
@@ -8090,7 +8076,6 @@ return {
         type = 'automobile',
         hash = `sentinel5`,
     },
-
     stockade4 = {
         name = 'Bobcat Security Stockade',
         brand = 'Brute',
@@ -8100,7 +8085,6 @@ return {
         type = 'automobile',
         hash = `stockade4`,
     },
-
     suzume = {
         name = 'Suzume',
         brand = 'Overflöd',
@@ -8110,7 +8094,6 @@ return {
         type = 'automobile',
         hash = `suzume`,
     },
-
     tampa4 = {
         name = 'Tampa GT',
         brand = 'Declasse',
@@ -8120,7 +8103,6 @@ return {
         type = 'automobile',
         hash = `tampa4`,
     },
-
     woodlander = {
         name = 'Woodlander',
         brand = 'Karin',
