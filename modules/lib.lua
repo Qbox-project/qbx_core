@@ -205,7 +205,7 @@ end
 
 ---Generates and returns a random number plate with the given pattern.
 ---Note that the generated plate may or may not be already used by an existing vehicle.
----For more info about the pattern see [`lib.string.random`](https://overextended.dev/ox_lib/Modules/String/Shared#stringrandom) from ox_lib.
+---For more info about the pattern see [`lib.string.random`](https://coxdocs.dev/ox_lib/Modules/String/Shared#stringrandom) from ox_lib.
 ---@param pattern? string
 ---@return string
 function qbx.generateRandomPlate(pattern)
@@ -257,7 +257,7 @@ if isServer then
     ---@field model integer
     ---@field spawnSource integer | vector3 | vector4 ped id or coords
     ---@field warp? boolean | integer a ped id to warp inside the vehicle, or additionally a boolean if `spawnSource` is a ped
-    ---@field props? table https://overextended.dev/ox_lib/Modules/VehicleProperties/Client#vehicle-properties
+    ---@field props? table https://coxdocs.dev/ox_lib/Modules/VehicleProperties/Client#vehicle-properties
     ---@field bucket? integer routing bucket to move spawned entity to.
 
     ---Creates a vehicle on the server-side and returns its `netId`.
