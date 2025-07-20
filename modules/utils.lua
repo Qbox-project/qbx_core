@@ -143,7 +143,7 @@ if isServer then
     ---@param model string | integer
     ---@param coords? vector4 defaults to player's position
     ---@param warp? boolean
-    ---@param props? table vehicle properties to set https://github.com/overextended/ox_lib/blob/master/resource/vehicleProperties/client.lua#L3
+    ---@param props? table vehicle properties to set https://coxdocs.dev/ox_lib/Modules/VehicleProperties/Client#vehicle-properties
     ---@return integer? netId
     function SpawnVehicle(source, model, coords, warp, props) -- luacheck: ignore
         model = type(model) == 'string' and joaat(model) or (model --[[@as integer]])
@@ -215,7 +215,7 @@ if isServer then
         return false
     end
 
-    ---@deprecated use https://overextended.dev/ox_inventory/Functions/Server#search
+    ---@deprecated use https://coxdocs.dev/ox_inventory/Functions/Server#search
     ---@param source Source
     ---@param items string | string[] The item(s) to check for. Can be a string or a table and is mandatory.
     ---@param amount? integer The desired quantity of each item. Acceptable to pass nil, will default to 1.
@@ -296,7 +296,7 @@ else
         return qbx.entityStateHandler(keyFilter, cb)
     end
 
-    ---@deprecated use https://overextended.dev/ox_inventory/Functions/Client#search
+    ---@deprecated use https://coxdocs.dev/ox_inventory/Functions/Client#search
     ---@param items string | string[] The item(s) to check for. Can be a string or a table and is mandatory.
     ---@param amount? integer The desired quantity of each item. Acceptable to pass nil, will default to 1.
     ---@return boolean Returns true if the player has the specified items in the desired quantity, false otherwise

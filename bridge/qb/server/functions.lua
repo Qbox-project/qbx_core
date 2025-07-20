@@ -60,7 +60,7 @@ function functions.CreateVehicle(source, model, _, coords, warp)
     return NetworkGetEntityFromNetworkId(netId)
 end
 
----@deprecated No replacement. See https://overextended.dev/ox_inventory/Functions/Client#useitem
+---@deprecated No replacement. See https://coxdocs.dev/ox_inventory/Functions/Client#useitem
 ---@param source Source
 ---@param item string name
 function functions.UseItem(source, item) -- luacheck: ignore
@@ -116,7 +116,7 @@ end
 
 -- Utility functions
 
----@deprecated use https://overextended.dev/ox_inventory/Functions/Server#search
+---@deprecated use https://coxdocs.dev/ox_inventory/Functions/Server#search
 functions.HasItem = function(source, items, amount) -- luacheck: ignore
     amount = amount or 1
     local count = exports.ox_inventory:Search(source, 'count', items)
