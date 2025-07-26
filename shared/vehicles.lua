@@ -4945,9 +4945,9 @@ return {
         name = 'Terminus Patrol',
         brand = 'Canis',
         model = 'polterminus',
-        price = 6293144,
-        category = 'helicopters',
-        type = 'heli',
+        price = 61195,
+        category = 'emergency',
+        type = 'automobile',
         hash = `polterminus`,
     },
     pony = {
