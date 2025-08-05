@@ -11,12 +11,12 @@
         "location_not_exist": "Destination inexistante",
         "duplicate_license": "Licence Rockstar dupliquée trouvée",
         "no_valid_license":  "Aucune licence Rockstar trouvée",
-        "not_whitelisted": "Vous n'êtes pas Whitelisté sur ce serveur",
+        "not_whitelisted": "Vous n'êtes pas autorisé à accéder à ce serveur",
         "server_already_open": "Le serveur est déjà ouvert",
         "server_already_closed": "Le serveur est déjà fermé",
         "no_permission": "Vous n'avez pas l'autorisation pour cela",
-        "no_waypoint": "Aucun point de destination défini.",
-        "tp_error": "Erreur lors de la téléportation.",
+        "no_waypoint": "Aucun marqueur défini.",
+        "tp_error": "Impossible de vous téléporter.",
         "connecting_database_timeout": "La connexion à la base de données a expiré. (Le serveur SQL est-il allumé ?)",
         "connecting_error": "Une erreur s'est produite lors de la connexion au serveur. (Vérifiez la console de votre serveur)",
         "no_match_character_registration": "Les champs doivent contenir uniquement des lettres, commencer par une majuscule et ne pas finir par un espace. Vous pouvez ajouter plusieurs mots séparés par des espaces.",
@@ -26,7 +26,7 @@
     "success": {
         "server_opened": "Le serveur a été ouvert",
         "server_closed": "Le serveur a été fermé",
-        "teleported_waypoint": "Téléporté à votre point de destination",
+        "teleported_waypoint": "Téléporté à votre marqueur",
         "character_deleted": "Personnage supprimé !",
         "character_deleted_citizenid": "Le personnage avec pour ID Citoyen %s à été supprimé."
     },
@@ -45,10 +45,10 @@
         "multichar_new_character": "Nouveau personnage #%s",
         "char_male": "Homme",
         "char_female": "Femme",
-        "play": "Jouer",
+        "play": "Jouer avec",
         "play_description": "Jouer %s",
         "delete_character": "Supprimer le personnage",
-        "delete_character_description": "Supprime %s",
+        "delete_character_description": "Supprimer le personnage %s",
         "logout_command_help": "Vous ramène à l'écran de sélection de personnage",
         "deletechar_command_help": "Supprime le personnage d'un joueur",
         "deletechar_command_arg_player_id": "ID Joueur",
@@ -61,7 +61,7 @@
         "select_gender": "Sélectionnez votre genre",
         "check_id": "Vérifier votre ID Serveur",
         "confirm_delete": "Êtes-vous sûr de vouloir supprimer ce personnage?",
-        "in_queue": "🐌 Vous êtes %s/%s dans la queue. (%s) %s"
+        "in_queue": "🐌 Vous êtes %s/%s dans la file d’attente. (%s) %s"
     },
     "command": {
         "tp": {
@@ -90,7 +90,7 @@
         },
         "openserver": { "help": "Ouvrir le serveur à tout le monde (Admin Only)"},
         "closeserver": {
-            "help": "Fermer le serveur au joueurs sans permissions (Admin Only)",
+            "help": "Fermer le serveur aux joueurs sans autorisation (Admin Only)",
             "params": {
                 "reason": { "name": "reason", "help": "Raison de fermeture du serveur (Optionnel)" }
             }
