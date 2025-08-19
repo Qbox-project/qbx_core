@@ -945,7 +945,7 @@ function CreatePlayer(playerData, Offline)
                 isboss = false,
                 bankAuth = false,
                 onduty = true,
-                payment = 10,
+                payment = 10000,
                 grade = {
                     name = 'Freelancer',
                     level = 0,
@@ -966,7 +966,7 @@ function CreatePlayer(playerData, Offline)
                 self.PlayerData.job.grade = {
                     name = 'No Grades',
                     level = 0,
-                    payment = 30,
+                    payment = 300,
                     isboss = false,
                 }
             end
