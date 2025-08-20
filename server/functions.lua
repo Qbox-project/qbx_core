@@ -531,7 +531,7 @@ exports("SearchPlayers", searchPlayerEntities)
 local function isGradeBoss(group, grade)
     local groupData = GetJob(group) or GetGang(group)
     if not groupData then return end
-    return groupData[grade].isboss
+    return groupData.grades[grade].isboss
 end
 
 exports('IsGradeBoss', isGradeBoss)
