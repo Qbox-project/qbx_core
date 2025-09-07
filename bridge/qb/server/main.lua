@@ -32,16 +32,16 @@ qbCoreCompat.ShowError = lib.print.error
 ---@deprecated Use lib.print.info() instead
 qbCoreCompat.ShowSuccess = lib.print.info
 
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
+---@deprecated use https://coxdocs.dev/ox_lib/Modules/Callback/Lua/Server instead
 qbCoreCompat.ClientCallbacks = {}
 
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
+---@deprecated use https://coxdocs.dev/ox_lib/Modules/Callback/Lua/Server instead
 qbCoreCompat.ServerCallbacks = {}
 
 -- Callback Events --
 
 -- Client Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
+---@deprecated use https://coxdocs.dev/ox_lib/Modules/Callback/Lua/Server instead
 RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
     if qbCoreCompat.ClientCallbacks[name] then
         qbCoreCompat.ClientCallbacks[name](...)
@@ -50,7 +50,7 @@ RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
 end)
 
 -- Server Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
+---@deprecated use https://coxdocs.dev/ox_lib/Modules/Callback/Lua/Server instead
 RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
     local src = source
     qbCoreCompat.Functions.TriggerCallback(name, src, function(...)
@@ -75,14 +75,14 @@ end)
 -- Callback Functions --
 
 -- Client Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
+---@deprecated use https://coxdocs.dev/ox_lib/Modules/Callback/Lua/Server instead
 function qbCoreCompat.Functions.TriggerClientCallback(name, source, cb, ...)
     qbCoreCompat.ClientCallbacks[name] = cb
     TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
 end
 
 -- Server Callback
----@deprecated use https://overextended.github.io/docs/ox_lib/Callback/Lua/Server instead
+---@deprecated use https://coxdocs.dev/ox_lib/Modules/Callback/Lua/Server instead
 function qbCoreCompat.Functions.CreateCallback(name, cb)
     qbCoreCompat.ServerCallbacks[name] = cb
 end

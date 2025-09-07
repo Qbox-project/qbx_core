@@ -30,7 +30,7 @@ You can use your own editor of choice, but we recommend using [VSCode](https://c
 - [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
 - [Lua Language Server](https://marketplace.visualstudio.com/items?itemName=sumneko.lua)
 - [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
-- [CfxLua IntelliSense](https://marketplace.visualstudio.com/items?itemName=overextended.cfxlua-vscode)
+- [CfxLua IntelliSense](https://marketplace.visualstudio.com/items?itemName=communityox.cfxlua-vscode-cox)
 
 If you are new to contributing code, you can check out and try to fix issues marked with [`good first issue`](https://github.com/issues?q=is%3Aissue+is%3Aopen+org%3AQbox-Project+label%3A%22good+first+issue%22).
 
@@ -68,7 +68,7 @@ Below are conventions that you must follow when contributing code.
 - Prefer creating local variables over global ones.
 - Don't repeat yourself. If you're using the same operations in multiple different places convert them into a flexible function.
 - Exported functions must be properly annotated (see [LuaLS Annotations](https://luals.github.io/wiki/annotations/)).
-- Utilize [ox_lib](https://overextended.dev/ox_lib) to make your life easier. Prefer lib calls over native ones.
+- Utilize [ox_lib](https://coxdocs.dev/ox_lib) to make your life easier. Prefer lib calls over native ones.
 - Make use of config options where it makes sense to make features optional and/or customizable. Configs should not be modified by other code.
 
 #### Optimization & Security

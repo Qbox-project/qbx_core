@@ -1,33 +1,33 @@
 {
     "error": {
         "not_online": "Le joueur n'est pas connecté",
-        "wrong_format": "Format incorrect",
+        "wrong_format": "Format invalide",
         "missing_args": "Arguments manquants (x, y, z)",
-        "missing_args2": "Tous les arguments doivent être remplis!",
-        "no_access": "Vous n'avez pas accès à cette commande",
+        "missing_args2": "Tous les arguments doivent être renseignés !",
+        "no_access": "Vous n'avez pas la permission d'utiliser cette commande",
         "company_too_poor": "Votre entreprise n'a pas suffisamment d'argent",
         "item_not_exist": "L'objet n'existe pas",
         "too_heavy": "L'inventaire est plein",
         "location_not_exist": "Destination inexistante",
-        "duplicate_license": "License Rockstar Dupliquée trouvée",
-        "no_valid_license":  "Aucune License Rockstar trouvée",
-        "not_whitelisted": "Vous n'êtes pas Whitelisté sur ce serveur",
+        "duplicate_license": "Licence Rockstar dupliquée trouvée",
+        "no_valid_license":  "Aucune licence Rockstar trouvée",
+        "not_whitelisted": "Vous n'êtes pas autorisé à accéder à ce serveur",
         "server_already_open": "Le serveur est déjà ouvert",
         "server_already_closed": "Le serveur est déjà fermé",
-        "no_permission": "Vous n'avez pas les permissions pour cela",
-        "no_waypoint": "Pas de marqueur défini.",
-        "tp_error": "Erreur lors de la téléportation.",
-        "connecting_database_timeout": "La connexion à la base de données a expiré. (Le serveur SQL est-il allumé?)",
+        "no_permission": "Vous n'avez pas l'autorisation pour cela",
+        "no_waypoint": "Aucun marqueur défini.",
+        "tp_error": "Impossible de vous téléporter.",
+        "connecting_database_timeout": "La connexion à la base de données a expiré. (Le serveur SQL est-il allumé ?)",
         "connecting_error": "Une erreur s'est produite lors de la connexion au serveur. (Vérifiez la console de votre serveur)",
-        "no_match_character_registration": "Les caractères autres que les lettres ne sont pas autorisés, les espaces en fin de ligne ne sont pas autorisés et les mots doivent commencer par une lettre majuscule dans les champs de saisie. Cependant, vous pouvez ajouter des mots avec des espaces entre eux.",
-        "already_in_queue": "Vous êtes déjà dans la queue.",
-        "no_subqueue": "Vous n'êtes pas autorisé à rejoindre la queue."
+        "no_match_character_registration": "Les champs doivent contenir uniquement des lettres, commencer par une majuscule et ne pas finir par un espace. Vous pouvez ajouter plusieurs mots séparés par des espaces.",
+        "already_in_queue": "Vous êtes déjà dans la file d'attente.",
+        "no_subqueue": "Vous n’êtes pas autorisé à rejoindre la file d’attente."
     },
     "success": {
         "server_opened": "Le serveur a été ouvert",
         "server_closed": "Le serveur a été fermé",
-        "teleported_waypoint": "Téléporté au marqueur",
-        "character_deleted": "Personnage supprimé!",
+        "teleported_waypoint": "Téléporté à votre marqueur",
+        "character_deleted": "Personnage supprimé !",
         "character_deleted_citizenid": "Le personnage avec pour ID Citoyen %s à été supprimé."
     },
     "info": {
@@ -36,19 +36,19 @@
         "gang_info": "Gang: %s | Grade: %s",
         "on_duty": "Vous êtes désormais en service!",
         "off_duty": "Vous n'êtes plus en service!",
-        "checking_ban": "Bonjour %s. Nous verifions si vous êtes banni.",
+        "checking_ban": "Bonjour %s. Nous vérifions si vous êtes banni.",
         "join_server": "Bienvenue %s sur %s.",
         "checking_whitelisted": "Bonjour %s. Nous vérifions si vous êtes Whitelist.",
-        "exploit_banned": "Vous avez été ban parceque vous avez triché. Allez sur notre discord pour plus d'information: %s",
-        "exploit_dropped": "Vous avez été kick pour exploitation.",
-        "multichar_title": "After-Life",
+        "exploit_banned": "Vous avez été banni pour triche. Rendez-vous sur notre Discord pour plus d'informations : %s",
+        "exploit_dropped": "Vous avez été expulsé pour exploitation.",
+        "multichar_title": "Vos personnages",
         "multichar_new_character": "Nouveau personnage #%s",
         "char_male": "Homme",
         "char_female": "Femme",
         "play": "Jouer",
-        "play_description": "Jouer %s",
-        "delete_character": "Supprimer personnage",
-        "delete_character_description": "Supprime %s",
+        "play_description": "Jouer avec %s",
+        "delete_character": "Supprimer le personnage",
+        "delete_character_description": "Supprimer le personnage %s",
         "logout_command_help": "Vous ramène à l'écran de sélection de personnage",
         "deletechar_command_help": "Supprime le personnage d'un joueur",
         "deletechar_command_arg_player_id": "ID Joueur",
@@ -61,7 +61,7 @@
         "select_gender": "Sélectionnez votre genre",
         "check_id": "Vérifier votre ID Serveur",
         "confirm_delete": "Êtes-vous sûr de vouloir supprimer ce personnage?",
-        "in_queue": "🐌 Vous êtes %s/%s dans la queue. (%s) %s"
+        "in_queue": "🐌 Vous êtes %s/%s dans la file d’attente. (%s) %s"
     },
     "command": {
         "tp": {
@@ -90,7 +90,7 @@
         },
         "openserver": { "help": "Ouvrir le serveur à tout le monde (Admin Only)"},
         "closeserver": {
-            "help": "Fermer le serveur au joueurs sans permissions (Admin Only)",
+            "help": "Fermer le serveur aux joueurs sans autorisation (Admin Only)",
             "params": {
                 "reason": { "name": "reason", "help": "Raison de fermeture du serveur (Optionnel)" }
             }
@@ -118,38 +118,38 @@
                 "amount": { "name": "amount", "help": "Montant" }
             }
         },
-        "job": { "help": "Voir son travail"},
+        "job": { "help": "Voir votre métier"},
         "setjob": {
-            "help": "Définir le travail d'un joueur (Admin Only)",
+            "help": "Définir le métier d'un joueur (Admin Only)",
             "params": {
                 "id": { "name": "id", "help": "ID du joueur" },
-                "job": { "name": "job", "help": "Nom du Travail" },
+                "job": { "name": "job", "help": "Nom du métier" },
                 "grade": { "name": "grade", "help": "Grade"}
             }
         },
         "changejob": {
-            "help": "Changer le travail actif d'un joueur (Admin Only)",
+            "help": "Changer le métier actif d'un joueur (Admin Only)",
             "params": {
                 "id": { "name": "id", "help": "ID du joueur" },
-                "job": { "name": "job", "help": "Nom du Travail" }
+                "job": { "name": "job", "help": "Nom du métier" }
             }
         },
         "addjob": {
-            "help": "Ajouter un travail à un joueur (Admin Only)",
+            "help": "Ajouter un métier à un joueur (Admin Only)",
             "params": {
                 "id": { "name": "id", "help": "ID du joueur" },
-                "job": { "name": "job", "help": "Nom du Travail" },
+                "job": { "name": "job", "help": "Nom du métier" },
                 "grade": { "name": "grade", "help": "Grade" }
             }
         },
         "removejob": {
-            "help": "Retirer un travail à un joueur (Admin Only)",
+            "help": "Retirer un métier à un joueur (Admin Only)",
             "params": {
                 "id": { "name": "id", "help": "ID du joueur" },
-                "job": { "name": "job", "help": "Nom du Travail" }
+                "job": { "name": "job", "help": "Nom du métier" }
             }
         },
-        "gang": { "help": "Voir son gang"},
+        "gang": { "help": "Voir votre gang"},
         "setgang": {
             "help": "Définir le gang d'un joueur (Admin Only)",
             "params": {

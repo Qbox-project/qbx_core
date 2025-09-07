@@ -102,11 +102,7 @@ function playerObj.SaveOffline(playerData)
     exports.qbx_core:SaveOffline(playerData)
 end
 
----@param source Source
----@param citizenid string
-function playerObj.DeleteCharacter(source, citizenid)
-    DeleteCharacter(source, citizenid)
-end
+playerObj.DeleteCharacter = DeleteCharacter
 
 ---@param citizenid string
 function playerObj.ForceDeleteCharacter(citizenid)
