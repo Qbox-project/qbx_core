@@ -346,7 +346,7 @@ function IsOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     if not license or not IsPlayerAceAllowed(source --[[@as string]], 'admin') then return false end
     local player = GetPlayer(source)
-    return player.PlayerData.optin
+    return player.PlayerData.metadata.optin
 end
 
 exports('IsOptin', IsOptin)
@@ -357,8 +357,8 @@ function ToggleOptin(source)
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     if not license or not IsPlayerAceAllowed(source --[[@as string]], 'admin') then return end
     local player = GetPlayer(source)
-    player.PlayerData.optin = not player.PlayerData.optin
-    player.Functions.SetPlayerData('optin', player.PlayerData.optin)
+    player.PlayerData.metadata.optin = not player.PlayerData.metadata.optin
+    player.Functions.SetMetaData('optin', player.PlayerData.metadata.optin)
 end
 
 exports('ToggleOptin', ToggleOptin)

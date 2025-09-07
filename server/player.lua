@@ -587,7 +587,6 @@ function CheckPlayerData(source, playerData)
     playerData.citizenid = playerData.citizenid or GenerateUniqueIdentifier('citizenid')
     playerData.cid = playerData.charinfo?.cid or playerData.cid or 1
     playerData.money = playerData.money or {}
-    playerData.optin = playerData.optin or false
     for moneytype, startamount in pairs(config.money.moneyTypes) do
         playerData.money[moneytype] = playerData.money[moneytype] or startamount
     end
@@ -605,6 +604,7 @@ function CheckPlayerData(source, playerData)
     playerData.charinfo.cid = playerData.charinfo.cid or playerData.cid
     -- Metadata
     playerData.metadata = playerData.metadata or {}
+    playerData.metadata.optin = playerData.metadata.optin and true or false
     playerData.metadata.health = playerData.metadata.health or 200
     playerData.metadata.hunger = playerData.metadata.hunger or 100
     playerData.metadata.thirst = playerData.metadata.thirst or 100
