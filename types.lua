@@ -41,7 +41,6 @@
 ---@field jobs table<string, integer>
 ---@field gangs table<string, integer>
 ---@field source? Source present if player is online
----@field optin? boolean present if player is online
 
 ---@class PlayerFunctions
 ---@field UpdatePlayerData fun()
@@ -162,6 +161,7 @@
 ---@field card number
 
 ---@class PlayerMetadata
+---@field optin? boolean If opted in for admin duty
 ---@field health number
 ---@field armor number
 ---@field hunger number
