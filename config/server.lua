@@ -97,6 +97,7 @@ return {
         },
 
         defaultNumberOfCharacters = 3, -- Define maximum amount of default characters (maximum 3 characters defined by default)
+        disableSetHealth = false, -- Disables the health initialation on player load, useful if you have a spawn resource that sets health
     },
 
     -- this configuration is for core events only. putting other webhooks here will have no effect
