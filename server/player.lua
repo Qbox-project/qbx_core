@@ -971,7 +971,9 @@ function CreatePlayer(playerData, Offline)
         QBX.Players[self.PlayerData.source] = self
         QBX.RegisterPlayer(self)
         local ped = GetPlayerPed(self.PlayerData.source)
-        lib.callback.await('qbx_core:client:setHealth', self.PlayerData.source, self.PlayerData.metadata.health)
+        if GetResourceState('qbx_spawn') ~= 'started' or not config.characters.disableSetHealth then
+            lib.callback.await('qbx_core:client:setHealth', self.PlayerData.source, self.PlayerData.metadata.health)
+        end        
         SetPedArmour(ped, self.PlayerData.metadata.armor)
         -- At this point we are safe to emit new instance to third party resource for load handling
         GlobalState.PlayerCount += 1
