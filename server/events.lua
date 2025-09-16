@@ -1,4 +1,5 @@
 local serverConfig = require 'config.server'.server
+local characterConfig = require 'config.server'.character
 local loggingConfig = require 'config.server'.logging
 local serverName = require 'config.shared'.serverName
 local storage = require 'server.storage.main'
@@ -184,6 +185,12 @@ end)
 -- `if Player(source).state.isLoggedIn then` for the server side
 RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     Player(source --[[@as Source]]).state:set('isLoggedIn', true, true)
+    
+    if characterConfig.enableHealthInitialization then
+        local player = GetPlayer(source --[[@as Source]])
+        if not player or not player.PlayerData or not player.PlayerData.metadata then return end
+        lib.callback.await('qbx_core:client:setHealth', source --[[@as Source]], player.PlayerData.metadata.health or 200)
+    end
 end)
 
 ---@param source Source
