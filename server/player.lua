@@ -1276,7 +1276,9 @@ function AddMoney(identifier, moneyType, amount, reason)
 
     player.PlayerData.money[moneyType] += amount
 
-    if not player.Offline then
+    if player.Offline then
+        SaveOffline(player.PlayerData)
+    else
         UpdatePlayerData(identifier)
 
         local tags = amount > 100000 and config.logging.role or nil
@@ -1331,7 +1333,9 @@ function RemoveMoney(identifier, moneyType, amount, reason)
 
     player.PlayerData.money[moneyType] -= amount
 
-    if not player.Offline then
+    if player.Offline then
+        SaveOffline(player.PlayerData)
+    else
         UpdatePlayerData(identifier)
 
         local tags = amount > 100000 and config.logging.role or nil
@@ -1379,7 +1383,9 @@ function SetMoney(identifier, moneyType, amount, reason)
 
     player.PlayerData.money[moneyType] = amount
 
-    if not player.Offline then
+    if player.Offline then
+        SaveOffline(player.PlayerData)
+    else
         UpdatePlayerData(identifier)
 
         local difference = amount - oldAmount
