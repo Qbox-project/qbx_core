@@ -1,5 +1,5 @@
 local serverConfig = require 'config.server'.server
-local characterConfig = require 'config.server'.character
+local characterConfig = require 'config.server'.characters
 local loggingConfig = require 'config.server'.logging
 local serverName = require 'config.shared'.serverName
 local storage = require 'server.storage.main'
