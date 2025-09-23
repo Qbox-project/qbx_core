@@ -158,6 +158,7 @@ local function toPlayerJob(jobName, job, grade)
         name = jobName,
         label = job.label,
         isboss = job.grades[grade].isboss or false,
+        bankAuth = job.grades[grade].bankAuth or false,
         onduty = job.defaultDuty or false,
         payment = job.grades[grade].payment or 0,
         type = job.type,
