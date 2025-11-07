@@ -465,6 +465,22 @@ else
         ClearDrawOrigin()
     end
 
+    ---@class LibDrawMissionTextParams
+    ---@field text string
+    ---@field time number default: 5000 - 5s
+
+    ---Draws default GTAV notification text with a given time on the screen.
+    ---@param params LibDrawMissionTextParams
+    function qbx.drawMissionText(params)
+        local text = params.text
+        local time = params.time or 5000
+        ClearPrints()
+        ClearSmallPrints()
+        BeginTextCommandPrint('STRING')
+        AddTextComponentSubstringPlayerName(text)
+        EndTextCommandPrint(time, true)
+    end
+
     ---Gets and returns an entity handle and network id from a state bag name
     ---([source](https://github.com/overextended/ox_core/blob/main/client/utils.lua)).
     ---@async
