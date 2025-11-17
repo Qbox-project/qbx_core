@@ -36,7 +36,10 @@ local function calculateDiff(tbl1, tbl2)
         local val1 = tbl1[key]
         local val2 = tbl2[key]
 
-        if val1 ~= val2 then
+        local bothTables = type(val1) == "table" and type(val2) == "table"
+        local equal = (bothTables and lib.table.matches(val1, val2)) or (val1 == val2)
+
+        if not equal then
             diff[key] = val2 == nil and 'deleted' or val2
             hasChanged = true
         end
