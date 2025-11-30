@@ -1,22 +1,24 @@
-local maxPlayers = GlobalState.MaxPlayers
-local discord = require 'config.client'.discord
-if not discord.enabled then return end
+local config = require 'config.client'.discord
+if not config.enabled then return end
 
-AddStateBagChangeHandler('PlayerCount', '', function(bagName, _, value)
-    if bagName == 'global' and value then
-        local steamName = GetPlayerName(PlayerId()) or 'Bilinmeyen Oyuncu'
-        SetRichPresence(steamName .. ' | ' .. value .. '/' .. maxPlayers)
-    end
+local maxPlayers = GlobalState.MaxPlayers
+
+-- Update player count and show player's name in Rich Presence
+AddStateBagChangeHandler('PlayerCount', nil, function(bagName, _, value)
+	if bagName ~= 'global' or not value then return end
+
+	local playerName = GetPlayerName(PlayerId())
+	SetRichPresence(('%s | %s/%s'):format(playerName, value, maxPlayers))
 end)
 
-SetDiscordAppId(discord.appId)
-SetDiscordRichPresenceAsset(discord.largeIcon.icon)
-SetDiscordRichPresenceAssetText('Los Angeles - Serious RP')
+SetDiscordAppId(config.appId)
+SetDiscordRichPresenceAsset(config.largeIcon.icon)
+SetDiscordRichPresenceAssetText(config.largeIcon.text)
 
-if discord.smallIcon.icon and discord.smallIcon.icon ~= '' then
-    SetDiscordRichPresenceAssetSmall(discord.smallIcon.icon)
-    SetDiscordRichPresenceAssetSmallText(discord.smallIcon.text)
+if config.smallIcon?.icon and config.smallIcon.icon:len() > 0 then
+	SetDiscordRichPresenceAssetSmall(config.smallIcon.icon)
+	SetDiscordRichPresenceAssetSmallText(config.smallIcon.text)
 end
 
-SetDiscordRichPresenceAction(0, discord.firstButton.text, discord.firstButton.link)
-SetDiscordRichPresenceAction(1, discord.secondButton.text, discord.secondButton.link)
+SetDiscordRichPresenceAction(0, config.buttons[1].text, config.buttons[1].url)
+SetDiscordRichPresenceAction(1, config.buttons[2].text, config.buttons[2].url)
