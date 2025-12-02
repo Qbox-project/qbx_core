@@ -804,7 +804,8 @@ function CreatePlayer(playerData, Offline)
 
         amount = tonumber(amount) --[[@as number]]
 
-        self.PlayerData.metadata[self.PlayerData.job.name].reputation += amount
+        local existingAmount = self.PlayerData.metadata.jobrep[self.PlayerData.job.name]
+        self.PlayerData.metadata.jobrep[self.PlayerData.job.name] = existingAmount + amount
 
         ---@diagnostic disable-next-line: param-type-mismatch
         UpdatePlayerData(self.Offline and self.PlayerData.citizenid or self.PlayerData.source)
