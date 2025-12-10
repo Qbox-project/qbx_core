@@ -64,7 +64,9 @@
         "birth_date": "Birth Date",
         "select_gender": "Select your gender...",
         "confirm_delete": "Are you sure you wish to delete this character?",
-        "in_queue": "🐌 You are %s/%s in queue. (%s) %s"
+        "in_queue": "🐌 You are %s/%s in queue. (%s) %s",
+        "fetching_user": "Fetching user...",
+        "creating_user": "Creating user..."
     },
     "command": {
         "tp": {

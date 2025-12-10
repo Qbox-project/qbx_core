@@ -79,7 +79,6 @@ local function onPlayerConnecting(name, _, deferrals)
     local src = source --[[@as string]]
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
     deferrals.defer()
-    local userId = storage.fetchUserByIdentifier(license)
 
     -- Mandatory wait
     Wait(0)
@@ -87,21 +86,16 @@ local function onPlayerConnecting(name, _, deferrals)
     if serverConfig.closed then
         if not IsPlayerAceAllowed(src, 'qbadmin.join') then
             deferrals.done(serverConfig.closedReason)
+            return
         end
     end
 
     if not license then
         deferrals.done(locale('error.no_valid_license'))
+        return
     elseif serverConfig.checkDuplicateLicense and usedLicenses[license] then
         deferrals.done(locale('error.duplicate_license'))
-    end
-
-    if not userId then
-        local identifiers = getIdentifiers(src)
-
-        identifiers.username = name
-
-        storage.createUser(identifiers)
+        return
     end
 
     local databaseTime = os.clock()
@@ -109,6 +103,16 @@ local function onPlayerConnecting(name, _, deferrals)
 
     -- conduct database-dependant checks
     CreateThread(function()
+        deferrals.update(locale('info.fetching_user', name))
+        local userId = storage.fetchUserByIdentifier(license)
+        if not userId then
+            local identifiers = getIdentifiers(src)
+            identifiers.username = name
+
+            deferrals.update(locale('info.creating_user', name))
+            storage.createUser(identifiers)
+        end
+
         deferrals.update(locale('info.checking_ban', name))
         local success, err = pcall(function()
             local isBanned, Reason = IsPlayerBanned(src --[[@as Source]])
