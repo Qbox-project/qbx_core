@@ -343,6 +343,7 @@ exports('GetPermission', GetPermission)
 ---@param source Source
 ---@return boolean
 function IsOptin(source)
+    if not serverConfig.requireOptIn then return true end
     local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
     if not license or not IsPlayerAceAllowed(source --[[@as string]], 'admin') then return false end
     local player = GetPlayer(source)
