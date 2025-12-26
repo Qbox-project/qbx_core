@@ -68,7 +68,7 @@ return {
 
         firstButton = {
             text = 'Qbox Discord',
-            link = 'https://discord.gg/Z6Whda5hHA',
+            link = 'https://discord.gg/qbox',
         },
 
         secondButton = {
