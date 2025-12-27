@@ -3723,7 +3723,7 @@ return {
         model = 'kosatka',
         price = 624016,
         category = 'boats',
-        type = 'boat',
+        type = 'submarine',
         hash = `kosatka`,
     },
     krieger = {
