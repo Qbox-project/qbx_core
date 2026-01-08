@@ -16,7 +16,12 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 
     local motd = GetConvar('qbx:motd', '')
     if motd ~= '' then
+      local success<const>, response<const> = pcall(function ()
         exports.chat:addMessage({ template = motd })
+      end)
+      if not success then
+        lib.print.error(response)
+      end
     end
 end)
 
