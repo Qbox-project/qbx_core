@@ -100,6 +100,8 @@ lib.onCache('seat', function(newSeat)
     end
 end)
 
+if not full then return end
+
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     local vehicles = lib.callback.await('qbx_core:server:getVehiclesToSpawn', 2500)
     if not vehicles then return end
