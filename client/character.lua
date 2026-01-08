@@ -1,8 +1,7 @@
 local config = require 'config.client'
-local defaultSpawn = require 'config.shared'.defaultSpawn
-
 if config.characters.useExternalCharacters then return end
 
+local defaultSpawn = require 'config.shared'.defaultSpawn
 local previewCam
 local randomLocation = config.characters.locations[math.random(1, #config.characters.locations)]
 
