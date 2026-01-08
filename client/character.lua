@@ -147,8 +147,8 @@ local function destroyPreviewCam()
     previewCam = nil
 end
 
-local function randomPed()
-    local ped = randomPeds[math.random(1, #randomPeds)]
+local function randomPed(accurateModelIndex)
+    local ped = accurateModelIndex and randomPeds[accurateModelIndex + 1] or randomPeds[math.random(1, #randomPeds)]
     lib.requestModel(ped.model, config.loadingModelsTimeout)
     SetPlayerModel(cache.playerId, ped.model)
     pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), ped) end)
@@ -259,7 +259,7 @@ local function capString(str)
     end)
 end
 
-local function spawnDefault() -- We use a callback to make the server wait on this to be done
+local function spawnDefault(accurateModelIndex) -- We use a callback to make the server wait on this to be done
     DoScreenFadeOut(500)
 
     while not IsScreenFadedOut() do
@@ -267,6 +267,10 @@ local function spawnDefault() -- We use a callback to make the server wait on th
     end
 
     destroyPreviewCam()
+
+    if accurateModelIndex then
+      randomPed(accurateModelIndex)
+    end
 
     pcall(function() exports.spawnmanager:spawnPlayer({
         x = defaultSpawn.x,
@@ -342,7 +346,7 @@ local function createCharacter(cid)
     })
 
     if GetResourceState('qbx_spawn') == 'missing' then
-        spawnDefault()
+        spawnDefault(newData.charinfo.gender)
     else
         if config.characters.startingApartment then
             TriggerEvent('apartments:client:setupSpawnUI', newData)
