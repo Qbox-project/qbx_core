@@ -375,32 +375,47 @@ lib.addCommand('ooc', {
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     for _, v in pairs(players) do
         if v == source then
+          local success<const>, response<const> = pcall(function ()
             exports.chat:addMessage(v --[[@as Source]], {
-                color = { 0, 0, 255},
-                multiline = true,
-                args = {('OOC | %s'):format(GetPlayerName(source)), message}
+              color = { 0, 0, 255},
+              multiline = true,
+              args = {('OOC | %s'):format(GetPlayerName(source)), message}
             })
+          end)
+          if not success then
+            lib.print.error(response)
+          end
         elseif #(playerCoords - GetEntityCoords(GetPlayerPed(v))) < 20.0 then
+          local success<const>, response<const> = pcall(function()
             exports.chat:addMessage(v --[[@as Source]], {
-                color = { 0, 0, 255},
-                multiline = true,
-                args = {('OOC | %s'):format(GetPlayerName(source)), message}
+              color = { 0, 0, 255},
+              multiline = true,
+              args = {('OOC | %s'):format(GetPlayerName(source)), message}
             })
+          end)
+          if not success then
+            lib.print.error(response)
+          end
         elseif IsPlayerAceAllowed(v --[[@as string]], 'admin') then
             if IsOptin(v --[[@as Source]]) then
+              local success<const>, response<const> = pcall(function()
                 exports.chat:addMessage(v--[[@as Source]], {
-                    color = { 0, 0, 255},
-                    multiline = true,
-                    args = {('Proximity OOC | %s'):format(GetPlayerName(source)), message}
+                  color = { 0, 0, 255},
+                  multiline = true,
+                  args = {('Proximity OOC | %s'):format(GetPlayerName(source)), message}
                 })
-                logger.log({
-                    source = 'qbx_core',
-                    webhook  = 'ooc',
-                    event = 'OOC',
-                    color = 'white',
-                    tags = config.logging.role,
-                    message = ('**%s** (CitizenID: %s | ID: %s) **Message:** %s'):format(GetPlayerName(source), player.PlayerData.citizenid, source, message)
-                })
+              end)
+              if not success then
+                lib.print.error(response)
+              end
+              logger.log({
+                  source = 'qbx_core',
+                  webhook  = 'ooc',
+                  event = 'OOC',
+                  color = 'white',
+                  tags = config.logging.role,
+                  message = ('**%s** (CitizenID: %s | ID: %s) **Message:** %s'):format(GetPlayerName(source), player.PlayerData.citizenid, source, message)
+              })
             end
         end
     end
