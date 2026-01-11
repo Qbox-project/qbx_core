@@ -704,31 +704,4 @@ else
     end
 end
 
-local _cooldowns = {}
-local function getTimestampMs()
-    if GetGameTimer then
-        return GetGameTimer()
-    end
-    return os.time() * 1000
-end
-
----@param key string
----@param durationMs number?
----@return boolean ready
-function qbx.isCooldownReady(key, durationMs)
-    local now = getTimestampMs()
-    local expires = _cooldowns[key]
-    if not expires or now >= expires then
-        _cooldowns[key] = now + (durationMs or 0)
-        return true
-    end
-    return false
-end
-
----@param key string
----@param durationMs number
-function qbx.setCooldown(key, durationMs)
-    _cooldowns[key] = getTimestampMs() + (durationMs or 0)
-end
-
 _ENV.qbx = qbx
