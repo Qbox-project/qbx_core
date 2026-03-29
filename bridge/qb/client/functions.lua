@@ -81,10 +81,36 @@ functions.LoadAnimSet = lib.requestAnimSet
 ---@param canCancel boolean
 ---@param disableControls? {disableMovement: boolean, disableCarMovement: boolean, disableCombat: boolean, disableMouse: boolean}
 ---@param animation? {animDict: string, anim: string, flags: unknown}
----@param prop? unknown
+---@param prop? {model: string, bone?: number, coords?: vector3|table, rotation?: vector3|table}
+---@param propTwo? {model: string, bone?: number, coords?: vector3|table, rotation?: vector3|table}
 ---@param onFinish fun()
 ---@param onCancel fun()
-function functions.Progressbar(_, label, duration, useWhileDead, canCancel, disableControls, animation, prop, _, onFinish, onCancel)
+function functions.Progressbar(_, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
+    local props
+
+    if prop?.model then
+        local propData = {
+            model = prop.model,
+            bone = prop.bone,
+            pos = prop.coords,
+            rot = prop.rotation,
+        }
+
+        if propTwo?.model then
+            props = {
+                propData,
+                {
+                    model = propTwo.model,
+                    bone = propTwo.bone,
+                    pos = propTwo.coords,
+                    rot = propTwo.rotation,
+                },
+            }
+        else
+            props = propData
+        end
+    end
+
     if lib.progressBar({
         duration = duration,
         label = label,
@@ -101,11 +127,7 @@ function functions.Progressbar(_, label, duration, useWhileDead, canCancel, disa
             clip = animation?.anim,
             flags = animation?.flags
         },
-        prop = {
-            model = prop?.model,
-            pos = prop?.coords,
-            rot = prop?.rotation,
-        },
+        prop = props,
     }) then
         if onFinish then
             onFinish()
