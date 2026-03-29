@@ -1,3 +1,17 @@
+RegisterNetEvent('qbx_core:client:onPlayerDataChanged', function(key, value)
+    -- only allowed from server side
+    if source == '' then return end
+    QBX.PlayerData[key] = value
+    TriggerEvent('QBCore:Player:SetPlayerData', QBX.PlayerData)
+end)
+
+RegisterNetEvent('QBCore:Client:SetPlayerData', function(val)
+    -- only allowed from server side
+    if source == '' then return end
+    QBX.PlayerData = val
+    TriggerEvent('QBCore:Player:SetPlayerData', QBX.PlayerData)
+end)
+
 -- Player load and unload handling
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
