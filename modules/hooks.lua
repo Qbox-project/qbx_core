@@ -7,6 +7,19 @@ local eventHooks = {}
 -- luacheck: ignore
 local microtime = os.microtime
 
+if not microtime then
+    -- Fallback for environments where os.microtime is unavailable (e.g. Linux Lua runtime).
+    if GetGameTimer then
+        microtime = function()
+            return GetGameTimer() * 1000
+        end
+    else
+        microtime = function()
+            return math.floor(os.clock() * 1e6)
+        end
+    end
+end
+
 local function triggerEventHooks(event, payload)
     local hooks = eventHooks[event]
     if not hooks then return true end
