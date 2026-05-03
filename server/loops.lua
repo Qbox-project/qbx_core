@@ -29,11 +29,13 @@ local function pay(player)
     if not GetJob(job.name).offDutyPay and not job.onduty then return end
     if not config.money.paycheckSociety then
         config.sendPaycheck(player, payment)
+        TriggerEvent('QBCore:Server:PayCheck', player.PlayerData.source, payment)
         return
     end
     local account = config.getSocietyAccount(job.name)
     if not account then -- Checks if player is employed by a society
         config.sendPaycheck(player, payment)
+        TriggerEvent('QBCore:Server:PayCheck', player.PlayerData.source, payment)
         return
     end
     if account < payment then -- Checks if company has enough money to pay society
@@ -42,6 +44,7 @@ local function pay(player)
     end
     config.removeSocietyMoney(job.name, payment)
     config.sendPaycheck(player, payment)
+    TriggerEvent('QBCore:Server:PayCheck', player.PlayerData.source, payment)
 end
 
 CreateThread(function()
