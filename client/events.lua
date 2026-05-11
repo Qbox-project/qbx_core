@@ -148,7 +148,7 @@ end)
 -- Vehicle Commands
 
 lib.callback.register('qbx_core:client:getVehiclesInRadius', function(radius)
-    local vehicles = lib.getNearbyVehicles(GetEntityCoords(cache.ped), radius or 5, true)
+    local vehicles = lib.getNearbyVehicles(GetEntityCoords(cache.ped), radius or config.getVehiclesInRadius.defaultRadius, true)
 
     for i = 1, #vehicles do
         vehicles[i] = VehToNet(vehicles[i].vehicle)

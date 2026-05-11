@@ -90,4 +90,8 @@ return {
         loadSceneRadius = 50.0,
         timeout = 1000,
     },
+
+    getVehiclesInRadius = {
+        defaultRadius = 5,
+    },
 }
