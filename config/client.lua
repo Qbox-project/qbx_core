@@ -99,4 +99,9 @@ return {
         distance = 25,
         displayTime = 5000,
     },
+
+    setVehicleProperties = {
+        timeout = 1000,
+        waitInterval = 50,
+    },
 }

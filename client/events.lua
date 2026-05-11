@@ -218,7 +218,7 @@ end)
 ---@param props table<any, any>
 RegisterNetEvent('qbx_core:client:setVehicleProperties', function(netId, props)
     if not props then return end
-    local timeOut = GetGameTimer() + 1000
+    local timeOut = GetGameTimer() + config.setVehicleProperties.timeout
     local vehicle = NetworkGetEntityFromNetworkId(netId)
     while true do
         if NetworkGetEntityOwner(vehicle) == cache.playerId then
@@ -230,7 +230,7 @@ RegisterNetEvent('qbx_core:client:setVehicleProperties', function(netId, props)
             return
         end
 
-        Wait(50)
+        Wait(config.setVehicleProperties.waitInterval)
     end
 end)
 
