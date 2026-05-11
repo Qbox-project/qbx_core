@@ -183,10 +183,10 @@ AddStateBagChangeHandler('me', nil, function(bagName, _, value)
     if not DoesEntityExist(playerPed) then return end
 
     -- Distance check to make sure that players do not see others me from 100s of meters away --
-    if not isLocalPlayer and #(GetEntityCoords(playerPed) - GetEntityCoords(cache.ped)) > 25 then return end
+    if not isLocalPlayer and #(GetEntityCoords(playerPed) - GetEntityCoords(cache.ped)) > config.meCommand.distance then return end
 
     CreateThread(function()
-        local displayTime = 5000 + GetGameTimer()
+        local displayTime = config.meCommand.displayTime + GetGameTimer()
         while displayTime > GetGameTimer() do
             playerPed = isLocalPlayer and cache.ped or GetPlayerPed(playerId)
             qbx.drawText3d({text = value, coords = GetEntityCoords(playerPed)})
