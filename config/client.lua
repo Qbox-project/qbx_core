@@ -104,4 +104,8 @@ return {
         timeout = 1000,
         waitInterval = 50,
     },
+
+    initVehicle = {
+        seats = {-1, 0},
+    },
 }

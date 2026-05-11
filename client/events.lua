@@ -240,7 +240,7 @@ end)
 qbx.entityStateHandler('initVehicle', function(vehicle, _, init)
     if not init then return end
 
-    for i = -1, 0 do
+    for _, i in ipairs(config.initVehicle.seats) do
         local ped = GetPedInVehicleSeat(vehicle, i)
         if ped ~= cache.ped and ped > 0 and NetworkGetEntityOwner(ped) == cache.playerId then
             DeleteEntity(ped)
