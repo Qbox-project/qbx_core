@@ -81,4 +81,13 @@ return {
     hasKeys = function(plate, vehicle)
         return GetResourceState('qbx_vehiclekeys') ~= 'started' or exports.qbx_vehiclekeys:HasKeys(vehicle)
     end,
+
+    teleport = {
+        fadeDuration = 650,
+        groundSearchMaxZ = 850.0,
+        groundSearchStartZ = 950.0,
+        groundSearchStep = -25.0,
+        loadSceneRadius = 50.0,
+        timeout = 1000,
+    },
 }

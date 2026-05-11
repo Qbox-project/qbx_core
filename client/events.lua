@@ -1,3 +1,5 @@
+local config = require 'config.client'
+
 -- Player load and unload handling
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
@@ -69,7 +71,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
     end
 
     -- Fade screen to hide how clients get teleported.
-    DoScreenFadeOut(650)
+    DoScreenFadeOut(config.teleport.fadeDuration)
     while not IsScreenFadedOut() do
         Wait(0)
     end
@@ -80,7 +82,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
 
     -- Unpack coords instead of having to unpack them while iterating.
     -- 825.0 seems to be the max a player can reach while 0.0 being the lowest.
-    local x, y, groundZ, Z_START = coords.x, coords.y, 850.0, 950.0
+    local x, y, groundZ, Z_START = coords.x, coords.y, config.teleport.groundSearchMaxZ, config.teleport.groundSearchStartZ
     local found = false
     if vehicle > 0 then
         FreezeEntityPosition(vehicle, true)
@@ -88,16 +90,16 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
         FreezeEntityPosition(ped, true)
     end
 
-    for i = Z_START, 0, -25.0 do
+    for i = Z_START, 0, config.teleport.groundSearchStep do
         local z = i
         if (i % 2) ~= 0 then
             z = Z_START - i
         end
 
-        NewLoadSceneStart(x, y, z, x, y, z, 50.0, 0)
+        NewLoadSceneStart(x, y, z, x, y, z, config.teleport.loadSceneRadius, 0)
         local curTime = GetGameTimer()
         while IsNetworkLoadingScene() do
-            if GetGameTimer() - curTime > 1000 then
+            if GetGameTimer() - curTime > config.teleport.timeout then
                 break
             end
             Wait(0)
@@ -107,7 +109,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
 
         while not HasCollisionLoadedAroundEntity(ped) do
             RequestCollisionAtCoord(x, y, z)
-            if GetGameTimer() - curTime > 1000 then
+            if GetGameTimer() - curTime > config.teleport.timeout then
                 break
             end
             Wait(0)
@@ -124,7 +126,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
     end
 
     -- Remove black screen once the loop has ended.
-    DoScreenFadeIn(650)
+    DoScreenFadeIn(config.teleport.fadeDuration)
     if vehicle > 0 then
         FreezeEntityPosition(vehicle, false)
     else
