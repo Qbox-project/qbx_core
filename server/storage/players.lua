@@ -182,6 +182,17 @@ local function handleSearchFilters(filters)
         clauses[#clauses + 1] = 'JSON_EXTRACT(gang, "$.name") = ?'
         holders[#holders + 1] = filters.gang
     end
+    if filters.charinfo then
+        for key, value in pairs(filters.charinfo) do
+            if type(value) == "number" then
+                clauses[#clauses + 1] = 'JSON_EXTRACT(charinfo, "$.' .. key .. '") = ?'
+                holders[#holders + 1] = value
+            elseif type(value) == "string" then
+                clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(charinfo, "$.' .. key .. '")) = ?'
+                holders[#holders + 1] = value
+            end
+        end
+    end
     if filters.metadata then
         local strict = filters.metadata.strict
         for key, value in pairs(filters.metadata) do
