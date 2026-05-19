@@ -30,7 +30,7 @@ You can use your own editor of choice, but we recommend using [VSCode](https://c
 - [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
 - [Lua Language Server](https://marketplace.visualstudio.com/items?itemName=sumneko.lua)
 - [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
-- [CfxLua IntelliSense](https://marketplace.visualstudio.com/items?itemName=communityox.cfxlua-vscode-cox)
+- [CfxLua IntelliSense](https://marketplace.visualstudio.com/items?itemName=overextended.cfxlua-vscode)
 
 If you are new to contributing code, you can check out and try to fix issues marked with [`good first issue`](https://github.com/issues?q=is%3Aissue+is%3Aopen+org%3AQbox-Project+label%3A%22good+first+issue%22).
 
