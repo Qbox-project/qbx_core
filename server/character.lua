@@ -54,6 +54,16 @@ end)
 ---@param data unknown
 ---@return table? newData
 lib.callback.register('qbx_core:server:createCharacter', function(source, data)
+    if type(data) ~= 'table' then return end
+
+    local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
+    if #storage.fetchAllPlayerEntities(license2, license) >= getAllowedAmountOfCharacters(license2, license) then
+        return
+    end
+
+    data.phone = nil
+    data.account = nil
+
     local newData = {}
     newData.charinfo = data
 
