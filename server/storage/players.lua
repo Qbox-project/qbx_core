@@ -59,36 +59,47 @@ local function insertBan(request)
     return true
 end
 
----@param request GetBanRequest
----@return string column in storage
----@return string value of the id
-local function getBanId(request)
-    if request.license then
-        return 'license', request.license
-    elseif request.discordId then
-        return 'discord', request.discordId
-    elseif request.ip then
-        return 'ip', request.ip
-    else
-        error('no identifier provided', 2)
+local banColumns = {
+    license = 'license',
+    discordId = 'discord',
+    ip = 'ip',
+}
+
+---@param request GetBanRequest | GetBanRequest[]
+---@return string clause, string[] values
+local function buildBanFilter(request)
+    local requests = request[1] and request or { request }
+    local clauses = {}
+    local values = {}
+    for i = 1, #requests do
+        for key, column in pairs(banColumns) do
+            local value = requests[i][key]
+            if value then
+                clauses[#clauses + 1] = column .. ' = ?'
+                values[#values + 1] = value
+            end
+        end
     end
+    return table.concat(clauses, ' OR '), values
 end
 
----@param request GetBanRequest
+---@param request GetBanRequest | GetBanRequest[]
 ---@return BanEntity?
 local function fetchBan(request)
-    local column, value = getBanId(request)
-    local result = MySQL.single.await('SELECT expire, reason FROM bans WHERE ' ..column.. ' = ?', { value })
+    local clause, values = buildBanFilter(request)
+    if clause == '' then return nil end
+    local result = MySQL.single.await('SELECT expire, reason FROM bans WHERE ' .. clause .. ' ORDER BY expire DESC', values)
     return result and {
         expire = result.expire,
         reason = result.reason,
     } or nil
 end
 
----@param request GetBanRequest
+---@param request GetBanRequest | GetBanRequest[]
 local function deleteBan(request)
-    local column, value = getBanId(request)
-    MySQL.query.await('DELETE FROM bans WHERE ' ..column.. ' = ?', { value })
+    local clause, values = buildBanFilter(request)
+    if clause == '' then return end
+    MySQL.query.await('DELETE FROM bans WHERE ' .. clause, values)
 end
 
 ---@param request UpsertPlayerRequest

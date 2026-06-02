@@ -87,8 +87,8 @@
 
 ---@class StorageFunctions
 ---@field insertBan fun(request: InsertBanRequest)
----@field fetchBan fun(request: GetBanRequest): BanEntity?
----@field deleteBan fun(request: GetBanRequest)
+---@field fetchBan fun(request: GetBanRequest | GetBanRequest[]): BanEntity?
+---@field deleteBan fun(request: GetBanRequest | GetBanRequest[])
 ---@field upsertPlayerEntity fun(request: UpsertPlayerRequest)
 ---@field fetchPlayerSkin fun(citizenId: string): PlayerSkin?
 ---@field fetchPlayerEntity fun(citizenId: string): PlayerEntity?
