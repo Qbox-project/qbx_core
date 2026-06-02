@@ -185,10 +185,12 @@ local function handleSearchFilters(filters)
     if filters.charinfo then
         for key, value in pairs(filters.charinfo) do
             if type(value) == "number" then
-                clauses[#clauses + 1] = 'JSON_EXTRACT(charinfo, "$.' .. key .. '") = ?'
+                clauses[#clauses + 1] = 'JSON_EXTRACT(charinfo, ?) = ?'
+                holders[#holders + 1] = '$.' .. key
                 holders[#holders + 1] = value
             elseif type(value) == "string" then
-                clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(charinfo, "$.' .. key .. '")) = ?'
+                clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(charinfo, ?)) = ?'
+                holders[#holders + 1] = '$.' .. key
                 holders[#holders + 1] = value
             end
         end
@@ -199,16 +201,19 @@ local function handleSearchFilters(filters)
             if key ~= "strict" then
                 if type(value) == "number" then
                     if strict then
-                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") = ?'
+                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, ?) = ?'
                     else
-                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") >= ?'
+                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, ?) >= ?'
                     end
+                    holders[#holders + 1] = '$.' .. key
                     holders[#holders + 1] = value
                 elseif type(value) == "boolean" then
-                    clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") = ?'
+                    clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, ?) = ?'
+                    holders[#holders + 1] = '$.' .. key
                     holders[#holders + 1] = tostring(value)
                 elseif type(value) == "string" then
-                    clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.' .. key .. '")) = ?'
+                    clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(metadata, ?)) = ?'
+                    holders[#holders + 1] = '$.' .. key
                     holders[#holders + 1] = value
                 end
             end
