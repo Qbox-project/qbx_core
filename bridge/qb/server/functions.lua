@@ -27,22 +27,48 @@ function functions.GetPlayers()
     return sources
 end
 
+local maxConcurrentSpawns <const> = 20
+local spawnTimeoutMs <const> = 10000
+---@type table<Source, integer>
+local activeSpawns = {}
+
+---@param source Source
+local function releaseSpawn(source)
+    local count = (activeSpawns[source] or 1) - 1
+    activeSpawns[source] = count > 0 and count or nil
+end
+
 ---@deprecated use qbx.spawnVehicle from modules/lib.lua
 ---@return number?
 function functions.SpawnVehicle(source, model, coords, warp)
+    if (activeSpawns[source] or 0) >= maxConcurrentSpawns then return end
+    activeSpawns[source] = (activeSpawns[source] or 0) + 1
+
     local ped = GetPlayerPed(source)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(ped) end
     local heading = coords.w and coords.w or 0.0
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
-    while not DoesEntityExist(veh) do Wait(0) end
+
+    local spawnTimeout = GetGameTimer() + spawnTimeoutMs
+    while not DoesEntityExist(veh) and GetGameTimer() < spawnTimeout do Wait(0) end
+    if not DoesEntityExist(veh) then
+        releaseSpawn(source)
+        return
+    end
+
     if warp then
-        while GetVehiclePedIsIn(ped, false) ~= veh do
+        local warpTimeout = GetGameTimer() + spawnTimeoutMs
+        while GetVehiclePedIsIn(ped, false) ~= veh and GetGameTimer() < warpTimeout do
             Wait(0)
             TaskWarpPedIntoVehicle(ped, veh, -1)
         end
     end
-    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
+
+    local ownerTimeout = GetGameTimer() + spawnTimeoutMs
+    while NetworkGetEntityOwner(veh) ~= source and GetGameTimer() < ownerTimeout do Wait(0) end
+
+    releaseSpawn(source)
     return veh
 end
 
