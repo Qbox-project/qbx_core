@@ -369,30 +369,23 @@ exports('ToggleOptin', ToggleOptin)
 ---@return boolean
 ---@return string? playerMessage
 function IsPlayerBanned(source)
-    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    local license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local result = license2 and storage.fetchBan({ license = license2 })
+    local request = {
+        { license = GetPlayerIdentifierByType(source --[[@as string]], 'license') },
+        { license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') },
+        { discordId = GetPlayerIdentifierByType(source --[[@as string]], 'discord') },
+        { ip = GetPlayerIdentifierByType(source --[[@as string]], 'ip') },
+    }
 
-    if not result then
-        result = storage.fetchBan({ license = license })
-    end
-
+    local result = storage.fetchBan(request)
     if not result then return false end
 
     if os.time() < result.expire then
         local timeTable = os.date('*t', tonumber(result.expire))
 
         return true, ('You have been banned from the server:\n%s\nYour ban expires in %s/%s/%s %s:%s\n'):format(result.reason, timeTable.day, timeTable.month, timeTable.year, timeTable.hour, timeTable.min)
-    else
-        CreateThread(function()
-            if license2 then
-                storage.deleteBan({ license = license2 })
-            end
-
-            storage.deleteBan({ license = license })
-        end)
     end
 
+    storage.deleteBan(request)
     return false
 end
 
