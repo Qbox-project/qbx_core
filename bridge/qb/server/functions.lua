@@ -27,8 +27,8 @@ function functions.GetPlayers()
     return sources
 end
 
-local maxConcurrentSpawns <const> = 5
-local spawnTimeoutMs <const> = 5000
+local maxConcurrentSpawns <const> = 20
+local spawnTimeoutMs <const> = 10000
 ---@type table<Source, integer>
 local activeSpawns = {}
 
