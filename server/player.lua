@@ -1255,6 +1255,14 @@ local function emitMoneyEvents(source, playerMoney, moneyType, amount, actionTyp
     end
 end
 
+local function validateMoneyAmount(value)
+    value = tonumber(value)
+    if not qbx.math.isFinite(value) then return end
+    value = qbx.math.round(value)
+    if value < 0 then return end
+    return value
+end
+
 ---@param identifier Source | string
 ---@param moneyType MoneyType
 ---@param amount number
@@ -1266,9 +1274,11 @@ function AddMoney(identifier, moneyType, amount, reason)
     if not player then return false end
 
     reason = reason or 'unknown'
-    amount = qbx.math.round(tonumber(amount) --[[@as number]])
+    local validAmount = validateMoneyAmount(amount)
 
-    if amount < 0 or not player.PlayerData.money[moneyType] then return false end
+    if not validAmount or not player.PlayerData.money[moneyType] then return false end
+
+    amount = validAmount
 
     if not triggerEventHooks('addMoney', {
         source = player.PlayerData.source,
@@ -1315,9 +1325,11 @@ function RemoveMoney(identifier, moneyType, amount, reason)
     if not player then return false end
 
     reason = reason or 'unknown'
-    amount = qbx.math.round(tonumber(amount) --[[@as number]])
+    local validAmount = validateMoneyAmount(amount)
 
-    if amount < 0 or not player.PlayerData.money[moneyType] then return false end
+    if not validAmount or not player.PlayerData.money[moneyType] then return false end
+
+    amount = validAmount
 
     if not triggerEventHooks('removeMoney', {
         source = player.PlayerData.source,
@@ -1372,10 +1384,12 @@ function SetMoney(identifier, moneyType, amount, reason)
     if not player then return false end
 
     reason = reason or 'unknown'
-    amount = qbx.math.round(tonumber(amount) --[[@as number]])
+    local validAmount = validateMoneyAmount(amount)
     local oldAmount = player.PlayerData.money[moneyType]
 
-    if amount < 0 or not oldAmount then return false end
+    if not validAmount or not oldAmount then return false end
+
+    amount = validAmount
 
     if not triggerEventHooks('setMoney', {
         source = player.PlayerData.source,
