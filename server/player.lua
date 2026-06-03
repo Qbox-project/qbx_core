@@ -1133,18 +1133,30 @@ function SetMetadata(identifier, metadata, value)
 
     if not player then return end
 
+    if metadata == 'hunger' or metadata == 'thirst' or metadata == 'stress' then
+        value = tonumber(value)
+        if not qbx.math.isFinite(value) then return end
+        value = lib.math.clamp(value, 0, 100)
+    end
+
     local oldValue
 
     if metadata:match('%.') then
         local metaTable, metaKey = metadata:match('([^%.]+)%.(.+)')
 
         if metaKey:match('%.') then
-            lib.print.error('cannot get nested metadata more than 1 level deep')
+            lib.print.error('cannot set nested metadata more than 1 level deep')
+            return
         end
 
-        oldValue = player.PlayerData.metadata[metaTable]
+        local nested = player.PlayerData.metadata[metaTable]
+        if type(nested) ~= 'table' then
+            lib.print.error(('cannot set nested metadata, %s is not a table'):format(metaTable))
+            return
+        end
 
-        player.PlayerData.metadata[metaTable][metaKey] = value
+        oldValue = nested[metaKey]
+        nested[metaKey] = value
 
         metadata = metaTable
     else
@@ -1162,14 +1174,12 @@ function SetMetadata(identifier, metadata, value)
         TriggerEvent('qbx_core:server:onSetMetaData', metadata,  oldValue, value, player.PlayerData.source)
 
         if (metadata == 'hunger' or metadata == 'thirst' or metadata == 'stress') then
-            value = lib.math.clamp(value, 0, 100)
-
             if playerState[metadata] ~= value then
                 playerState:set(metadata, value, true)
             end
         end
 
-        if (metadata == 'dead' or metadata == 'inlaststand') then
+        if (metadata == 'isdead' or metadata == 'inlaststand') then
             playerState:set('canUseWeapons', not value, true)
         end
     end
@@ -1200,9 +1210,13 @@ function GetMetadata(identifier, metadata)
 
         if metaKey:match('%.') then
             lib.print.error('cannot get nested metadata more than 1 level deep')
+            return
         end
 
-        return player.PlayerData.metadata[metaTable][metaKey]
+        local nested = player.PlayerData.metadata[metaTable]
+        if type(nested) ~= 'table' then return end
+
+        return nested[metaKey]
     else
         return player.PlayerData.metadata[metadata]
     end
