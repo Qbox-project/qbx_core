@@ -1255,6 +1255,8 @@ local function emitMoneyEvents(source, playerMoney, moneyType, amount, actionTyp
     end
 end
 
+---@param value unknown
+---@return number?
 local function validateMoneyAmount(value)
     value = tonumber(value)
     if not qbx.math.isFinite(value) then return end
