@@ -244,7 +244,7 @@ end)
 ---@param meta 'hunger' | 'thirst' | 'stress'
 ---@param value number
 local function playerStateBagCheck(bagName, meta, value)
-    if not value then return end
+    if type(value) ~= 'number' then return end
     local plySrc = GetPlayerFromStateBagName(bagName)
     if not plySrc then return end
     local player = QBX.Players[plySrc]
