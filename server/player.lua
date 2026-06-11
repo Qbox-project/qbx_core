@@ -14,6 +14,15 @@ for i = 1, #accounts do
     accountsAsItems[accounts[i]] = 0
 end
 
+-- Numeric metadata mirrored from client statebags. Values are validated and
+-- clamped before being persisted, so a spoofed statebag can't corrupt or crash
+-- these stats. Add new bounded stats here rather than special-casing them below.
+local numericMetadata = {
+    hunger = { min = 0, max = 100 },
+    thirst = { min = 0, max = 100 },
+    stress = { min = 0, max = 100 },
+}
+
 ---@param source Source
 ---@param citizenid? string
 ---@param newData? PlayerEntity
@@ -1133,10 +1142,14 @@ function SetMetadata(identifier, metadata, value)
 
     if not player then return end
 
-    if metadata == 'hunger' or metadata == 'thirst' or metadata == 'stress' then
+    local numeric = numericMetadata[metadata]
+    if numeric then
         value = tonumber(value)
-        if not qbx.math.isFinite(value) then return end
-        value = lib.math.clamp(value, 0, 100)
+        if not qbx.math.isFinite(value) then
+            lib.print.warn(('rejected non-finite value for metadata "%s"'):format(metadata))
+            return
+        end
+        value = lib.math.clamp(value, numeric.min, numeric.max)
     end
 
     local oldValue
@@ -1173,7 +1186,7 @@ function SetMetadata(identifier, metadata, value)
         TriggerClientEvent('qbx_core:client:onSetMetaData', player.PlayerData.source, metadata, oldValue, value)
         TriggerEvent('qbx_core:server:onSetMetaData', metadata,  oldValue, value, player.PlayerData.source)
 
-        if (metadata == 'hunger' or metadata == 'thirst' or metadata == 'stress') then
+        if numericMetadata[metadata] then
             if playerState[metadata] ~= value then
                 playerState:set(metadata, value, true)
             end
