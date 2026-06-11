@@ -458,10 +458,12 @@ lib.addCommand('deletechar', {
     Notify(source, locale('success.character_deleted_citizenid', citizenId))
 end)
 
-lib.addCommand('optin', {
-    help = locale('command.optin.help'),
-    restricted = 'group.admin'
-}, function(source, args)
-    ToggleOptin(source)
-    Notify(source, locale('success.optin_set', IsOptin(source) and 'in' or 'out'))
-end)
+if config.server.requireOptIn then
+    lib.addCommand('optin', {
+        help = locale('command.optin.help'),
+        restricted = 'group.admin'
+    }, function(source, args)
+        ToggleOptin(source)
+        Notify(source, locale('success.optin_set', IsOptin(source) and 'in' or 'out'))
+    end)
+end
