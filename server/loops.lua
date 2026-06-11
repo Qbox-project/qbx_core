@@ -1,5 +1,31 @@
 local config = require 'config.server'
 
+-- Players handled per frame before yielding. Spreads the per-interval burst (DB
+-- saves, paychecks, client metadata syncs) across ticks so a full server doesn't
+-- hitch every time an interval fires.
+local PLAYERS_PER_BATCH = 20
+
+---Runs handler for every online player, yielding a frame every PLAYERS_PER_BATCH.
+---The source list is snapshotted first so a join/drop during a yield can't
+---corrupt iteration, and each player is revalidated after the wait.
+---@param handler fun(src: Source, player: Player)
+local function forEachPlayerStaggered(handler)
+    local sources = {}
+    for src in pairs(QBX.Players) do
+        sources[#sources + 1] = src
+    end
+
+    for i = 1, #sources do
+        local player = QBX.Players[sources[i]]
+        if player then
+            handler(sources[i], player)
+        end
+        if i % PLAYERS_PER_BATCH == 0 then
+            Wait(0)
+        end
+    end
+end
+
 local function removeHungerAndThirst(src, player)
     local playerState = Player(src).state
     if not playerState.isLoggedIn then return end
@@ -16,9 +42,7 @@ CreateThread(function()
     local interval = 60000 * config.updateInterval
     while true do
         Wait(interval)
-        for src, player in pairs(QBX.Players) do
-            removeHungerAndThirst(src, player)
-        end
+        forEachPlayerStaggered(removeHungerAndThirst)
     end
 end)
 
@@ -48,8 +72,8 @@ CreateThread(function()
     local interval = 60000 * config.money.paycheckTimeout
     while true do
         Wait(interval)
-        for _, player in pairs(QBX.Players) do
+        forEachPlayerStaggered(function(_, player)
             pay(player)
-        end
+        end)
     end
 end)

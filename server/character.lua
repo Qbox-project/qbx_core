@@ -51,6 +51,43 @@ lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenI
     lib.print.info(('%s (Citizen ID: %s ID: %s) has successfully loaded!'):format(GetPlayerName(source), citizenId, source))
 end)
 
+--- Validates client-supplied character info. Never trust the values the create
+--- screen sends: cap free-text length, enforce types, and reject anything that
+--- isn't a usable string so a crafted payload can't bloat the row or smuggle in
+--- non-string fields. Returns nil to refuse creation outright.
+---@param data table
+---@return table? sanitized
+local function sanitizeNewCharInfo(data)
+    local MAX_TEXT = 50
+    local MAX_BACKSTORY = 1000
+
+    local function text(value, maxLength)
+        if type(value) ~= 'string' then return nil end
+        value = value:gsub('^%s+', ''):gsub('%s+$', '')
+        if value == '' or #value > maxLength then return nil end
+        return value
+    end
+
+    local firstname = text(data.firstname, MAX_TEXT)
+    local lastname = text(data.lastname, MAX_TEXT)
+    local nationality = text(data.nationality, MAX_TEXT)
+    local birthdate = text(data.birthdate, MAX_TEXT)
+    local gender = tonumber(data.gender)
+
+    if not firstname or not lastname or not nationality or not birthdate or not gender then
+        return nil
+    end
+
+    return {
+        firstname = firstname,
+        lastname = lastname,
+        nationality = nationality,
+        birthdate = birthdate,
+        gender = math.floor(gender),
+        backstory = text(data.backstory, MAX_BACKSTORY) or 'placeholder backstory',
+    }
+end
+
 ---@param data unknown
 ---@return table? newData
 lib.callback.register('qbx_core:server:createCharacter', function(source, data)
@@ -61,11 +98,11 @@ lib.callback.register('qbx_core:server:createCharacter', function(source, data)
         return
     end
 
-    data.phone = nil
-    data.account = nil
+    local charinfo = sanitizeNewCharInfo(data)
+    if not charinfo then return end
 
     local newData = {}
-    newData.charinfo = data
+    newData.charinfo = charinfo
 
     local success = Login(source, nil, newData)
     if not success then return end
