@@ -43,9 +43,11 @@ qbCoreCompat.ServerCallbacks = {}
 -- Client Callback
 ---@deprecated use https://coxdocs.dev/ox_lib/Modules/Callback/Lua/Server instead
 RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
-    if qbCoreCompat.ClientCallbacks[name] then
-        qbCoreCompat.ClientCallbacks[name](...)
-        qbCoreCompat.ClientCallbacks[name] = nil
+    local key = ('%s:%s'):format(source, name)
+    local cb = qbCoreCompat.ClientCallbacks[key]
+    if cb then
+        qbCoreCompat.ClientCallbacks[key] = nil
+        cb(...)
     end
 end)
 
@@ -77,7 +79,7 @@ end)
 -- Client Callback
 ---@deprecated use https://coxdocs.dev/ox_lib/Modules/Callback/Lua/Server instead
 function qbCoreCompat.Functions.TriggerClientCallback(name, source, cb, ...)
-    qbCoreCompat.ClientCallbacks[name] = cb
+    qbCoreCompat.ClientCallbacks[('%s:%s'):format(source, name)] = cb
     TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
 end
 
