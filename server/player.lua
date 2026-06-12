@@ -118,6 +118,12 @@ function SetJob(identifier, jobName, grade)
 
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
 
+    if not player then
+        lib.print.error(('cannot set job. no player found for identifier %s'):format(identifier))
+
+        return false
+    end
+
     if setJobReplaces and player.PlayerData.job.name ~= 'unemployed' then
         local success, errorResult = RemovePlayerFromJob(player.PlayerData.citizenid, player.PlayerData.job.name)
 
@@ -371,6 +377,12 @@ function SetGang(identifier, gangName, grade)
     end
 
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
+
+    if not player then
+        lib.print.error(('cannot set gang. no player found for identifier %s'):format(identifier))
+
+        return false
+    end
 
     if setGangReplaces and player.PlayerData.gang.name ~= 'none' then
         local success, errorResult = RemovePlayerFromGang(player.PlayerData.citizenid, player.PlayerData.gang.name)
@@ -1508,8 +1520,8 @@ lib.callback.register('qbx_core:server:deleteCharacter', DeleteCharacter)
 
 ---@param citizenid string
 function ForceDeleteCharacter(citizenid)
-    local result = storage.fetchPlayerEntity(citizenid).license
-    if result then
+    local playerEntity = storage.fetchPlayerEntity(citizenid)
+    if playerEntity and playerEntity.license then
         local player = GetPlayerByCitizenId(citizenid)
         if player then
             DropPlayer(player.PlayerData.source --[[@as string]], 'An admin deleted the character which you are currently using')
