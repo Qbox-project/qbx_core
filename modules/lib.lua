@@ -6,6 +6,55 @@ qbx.math = {}
 qbx.table = {}
 qbx.array = {}
 
+-- Tracks the next allowed timestamp for every logical cooldown key.
+local _cooldowns = {}
+-- Guards how often we repeat the notification message per key.
+local _notifyTimestamps = {}
+local NOTIFY_COOLDOWN_MS = 1000
+local function getTimestampMs()
+    if GetGameTimer then
+        return GetGameTimer()
+    end
+    return os.time() * 1000
+end
+
+---Emit a readable notice once per `NOTIFY_COOLDOWN_MS` while the same key remains rate limited.
+---@param key string
+local function notifyCooldown(key)
+    local now = getTimestampMs()
+    if _notifyTimestamps[key] and now - _notifyTimestamps[key] < NOTIFY_COOLDOWN_MS then
+        return
+    end
+    _notifyTimestamps[key] = now
+    if lib and lib.notify then
+        lib.notify({
+            description = 'Please wait a moment before trying again.',
+            type = 'error',
+        })
+    elseif not isServer and exports and exports.qbx_core then
+        exports.qbx_core:Notify('Please wait a moment before trying again.', 'error')
+    end
+end
+
+---@param key string unique identifier for the throttled action
+---@param durationMs number? cooldown duration in milliseconds (default 0)
+---@param shouldNotify boolean? set to `false` to silence the automatic notification
+---@return boolean ready true when the cooldown window has passed
+function qbx.isCooldownReady(key, durationMs, shouldNotify)
+    local now = getTimestampMs()
+    local expires = _cooldowns[key]
+    if not expires or now >= expires then
+        _cooldowns[key] = now + (durationMs or 0)
+        return true
+    end
+
+    if shouldNotify ~= false then
+        notifyCooldown(key)
+    end
+
+    return false
+end
+
 qbx.armsWithoutGloves = lib.table.freeze({
     male = lib.table.freeze({
         [0] = true,
