@@ -1197,12 +1197,10 @@ function SetMetadata(identifier, metadata, value)
         end
     end
 
-    if metadata == 'inlaststand' or metadata == 'isdead' then
-        if player.Offline then
-            SaveOffline(player.PlayerData)
-        else
-            Save(player.PlayerData.source)
-        end
+    if player.Offline then
+        SaveOffline(player.PlayerData)
+    else
+        Save(player.PlayerData.source)
     end
 end
 
