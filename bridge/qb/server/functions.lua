@@ -108,20 +108,6 @@ functions.Kick = function(source, reason, setKickReason, deferrals)
         if source then
             DropPlayer(source --[[@as string]], reason)
         end
-        for _ = 0, 4 do
-            while true do
-                if source then
-                    if GetPlayerPing(source --[[@as string]]) >= 0 then
-                        break
-                    end
-                    Wait(100)
-                    CreateThread(function()
-                        DropPlayer(source --[[@as string]], reason)
-                    end)
-                end
-            end
-            Wait(5000)
-        end
     end)
 end
 

@@ -432,7 +432,7 @@ function functions.SetVehicleProperties(vehicle, props)
 
     -- qb properties converted to ox
     props.modNitrous = props.modNitrous or props.modKit17
-    props.modSubwoofer = props.modSubwoofer or props.modKit17
+    props.modSubwoofer = props.modSubwoofer or props.modKit19
     props.modHydraulics = props.modHydraulics or props.modKit21
     props.modDoorR = props.modDoorR or props.modKit47
     props.modLightbar = props.modLightbar or props.modKit49
@@ -503,7 +503,7 @@ function functions.SetVehicleProperties(vehicle, props)
     if props.color2 then
         if type(props.color2) == 'number' then
             ClearVehicleCustomSecondaryColour(vehicle)
-            SetVehicleColours(vehicle, props.color1 or colorPrimary --[[@as number]], props.color2 --[[@as number]])
+            SetVehicleColours(vehicle, (type(props.color1) == 'number' and props.color1) or colorPrimary --[[@as number]], props.color2 --[[@as number]])
         else
             if props.paintType2 then SetVehicleModColor_2(vehicle, props.paintType2, colorSecondary) end
 
@@ -885,9 +885,16 @@ functions.GetCurrentTime = function()
     obj.min = GetClockMinutes()
     obj.hour = GetClockHours()
 
-    if obj.hour <= 12 then
+    if obj.hour == 0 then
         obj.ampm = 'AM'
-    elseif obj.hour >= 13 then
+        obj.formattedHour = 12
+    elseif obj.hour < 12 then
+        obj.ampm = 'AM'
+        obj.formattedHour = obj.hour
+    elseif obj.hour == 12 then
+        obj.ampm = 'PM'
+        obj.formattedHour = 12
+    else
         obj.ampm = 'PM'
         obj.formattedHour = obj.hour - 12
     end
