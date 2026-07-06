@@ -127,8 +127,8 @@ local function fetchPlayerSkin(citizenId)
 end
 
 local function convertPosition(position)
-    local pos = json.decode(position)
-    local actualPos = (not pos.x or not pos.y or not pos.z) and defaultSpawn or pos
+    local pos = position and json.decode(position)
+    local actualPos = (not pos or not pos.x or not pos.y or not pos.z) and defaultSpawn or pos
     return vec4(actualPos.x, actualPos.y, actualPos.z, actualPos.w or defaultSpawn.w)
 end
 
@@ -167,7 +167,7 @@ local function fetchPlayerEntity(citizenId)
         name = player.name,
         money = json.decode(player.money),
         charinfo = charinfo,
-        cid = charinfo.cid,
+        cid = charinfo and charinfo.cid,
         job = player.job and json.decode(player.job),
         gang = player.gang and json.decode(player.gang),
         position = convertPosition(player.position),
@@ -302,7 +302,7 @@ end
 ---@param group string
 ---@param grade integer
 local function addToGroup(citizenid, type, group, grade)
-    MySQL.insert('INSERT INTO player_groups (citizenid, type, `group`, grade) VALUES (:citizenid, :type, :group, :grade) ON DUPLICATE KEY UPDATE grade = :grade', {
+    MySQL.insert.await('INSERT INTO player_groups (citizenid, type, `group`, grade) VALUES (:citizenid, :type, :group, :grade) ON DUPLICATE KEY UPDATE grade = :grade', {
         citizenid = citizenid,
         type = type,
         group = group,
