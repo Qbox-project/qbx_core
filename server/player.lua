@@ -742,6 +742,7 @@ function Logout(source)
     Save(player.PlayerData.source)
 
     Wait(200)
+    QBX.UnregisterPlayer(source)
     QBX.Players[source] = nil
     GlobalState.PlayerCount -= 1
     TriggerClientEvent('qbx_core:client:playerLoggedOut', source)
@@ -1044,6 +1045,7 @@ function CreatePlayer(playerData, Offline)
 
     if not self.Offline then
         QBX.Players[self.PlayerData.source] = self
+        QBX.RegisterPlayer(self)
         local ped = GetPlayerPed(self.PlayerData.source)
         lib.callback.await('qbx_core:client:setHealth', self.PlayerData.source, self.PlayerData.metadata.health)
         SetPedArmour(ped, self.PlayerData.metadata.armor)

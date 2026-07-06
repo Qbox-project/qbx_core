@@ -27,6 +27,20 @@ QBX.Shared = require 'shared.main'
 
 ---@type table<Source, Player>
 QBX.Players = {}
+
+-- Reverse lookup maps so the GetPlayerBy*/GetSource/GetUserId getters resolve in
+-- O(1) instead of scanning every online player (and calling GetPlayerIdentifiers
+-- per player) on each call. Maintained by QBX.RegisterPlayer/UnregisterPlayer on
+-- load and unload. Keyed values are stable for a session, so they never drift.
+QBX.PlayerRegistry = {
+    ---@type table<string, Source>
+    byCitizenId = {},
+    ---@type table<integer, Source>
+    byUserId = {},
+    ---@type table<string, Source>
+    byIdentifier = {},
+}
+
 GlobalState.PlayerCount = 0
 GlobalState.MaxPlayers = GetConvarInt('sv_maxclients', 48)
 

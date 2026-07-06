@@ -13,6 +13,15 @@ local function createUsersTable()
             PRIMARY KEY (`userId`)
         ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     ]])
+
+    -- fetchUserByIdentifier resolves a connecting player against these columns.
+    -- Without indexes that is a full scan of `users`, which grows for every player
+    -- that ever joined and turns the connect deferral into a 1s+ stall. Created
+    -- idempotently so existing databases pick them up on resource start.
+    MySQL.query('CREATE INDEX IF NOT EXISTS `idx_users_license` ON `users` (`license`)')
+    MySQL.query('CREATE INDEX IF NOT EXISTS `idx_users_license2` ON `users` (`license2`)')
+    MySQL.query('CREATE INDEX IF NOT EXISTS `idx_users_fivem` ON `users` (`fivem`)')
+    MySQL.query('CREATE INDEX IF NOT EXISTS `idx_users_discord` ON `users` (`discord`)')
 end
 
 ---@param identifiers table<PlayerIdentifier, string>
