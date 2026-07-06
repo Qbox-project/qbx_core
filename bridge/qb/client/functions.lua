@@ -125,7 +125,7 @@ function functions.Progressbar(_, label, duration, useWhileDead, canCancel, disa
         anim = {
             dict = animation?.animDict,
             clip = animation?.anim,
-            flags = animation?.flags
+            flag = animation?.flags
         },
         prop = props,
     }) then
