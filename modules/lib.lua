@@ -146,6 +146,13 @@ function qbx.math.round(num, decimalPlaces)
     return math.floor((num * power) + 0.5) / power
 end
 
+---Returns whether the given value is a finite number (not nil, NaN or infinity).
+---@param value any
+---@return boolean
+function qbx.math.isFinite(value)
+    return type(value) == 'number' and value == value and value ~= math.huge and value ~= -math.huge
+end
+
 ---Returns the number of items in a table. Useful for non-array tables.
 ---@param tbl table
 ---@return integer

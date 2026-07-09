@@ -11,14 +11,58 @@ local storage = require 'server.storage.main'
 
 ---@alias Identifier 'steam'|'license'|'license2'|'xbl'|'ip'|'discord'|'live'
 
+local registry = QBX.PlayerRegistry
+
+---Indexes a loaded player in the reverse lookup maps. The full FiveM identifier
+---list is captured once here so the getters never have to call the native again.
+---@param player Player
+function QBX.RegisterPlayer(player)
+    local data = player.PlayerData
+    local src = data.source
+    if not src then return end
+
+    if data.citizenid then registry.byCitizenId[data.citizenid] = src end
+    if data.userId then registry.byUserId[data.userId] = src end
+
+    for i = 0, GetNumPlayerIdentifiers(src --[[@as string]]) - 1 do
+        registry.byIdentifier[GetPlayerIdentifier(src --[[@as string]], i)] = src
+    end
+end
+
+---Removes a player from the reverse lookup maps on unload. Only clears entries
+---that still point at this source so a reconnect on a new source isn't wiped.
+---@param source Source
+function QBX.UnregisterPlayer(source)
+    local player = QBX.Players[source]
+    if player then
+        local data = player.PlayerData
+        if data.citizenid and registry.byCitizenId[data.citizenid] == source then
+            registry.byCitizenId[data.citizenid] = nil
+        end
+        if data.userId and registry.byUserId[data.userId] == source then
+            registry.byUserId[data.userId] = nil
+        end
+    end
+
+    for identifier, src in pairs(registry.byIdentifier) do
+        if src == source then
+            registry.byIdentifier[identifier] = nil
+        end
+    end
+end
+
 ---@param identifier Identifier
 ---@return integer source of the player with the matching identifier or 0 if no player found
 function GetSource(identifier)
-    for src in pairs(QBX.Players) do
-        local idens = GetPlayerIdentifiers(src)
+    local src = registry.byIdentifier[identifier]
+    if src and QBX.Players[src] then return src end
+
+    -- Fallback keeps correctness if the registry ever drifts from QBX.Players.
+    for source in pairs(QBX.Players) do
+        local idens = GetPlayerIdentifiers(source)
         for _, id in pairs(idens) do
             if identifier == id then
-                return src
+                return source
             end
         end
     end
@@ -30,15 +74,9 @@ exports('GetSource', GetSource)
 ---@param identifier Identifier
 ---@return integer source of the player with the matching identifier or 0 if no player found
 function GetUserId(identifier)
-    for src in pairs(QBX.Players) do
-        local idens = GetPlayerIdentifiers(src)
-        for _, id in pairs(idens) do
-            if identifier == id then
-                return QBX.Players[src].PlayerData.userId
-            end
-        end
-    end
-    return 0
+    local source = GetSource(identifier)
+    local player = source ~= 0 and QBX.Players[source]
+    return player and player.PlayerData.userId or 0
 end
 
 exports('GetUserId', GetUserId)
@@ -58,9 +96,13 @@ exports('GetPlayer', GetPlayer)
 ---@param citizenid string
 ---@return Player?
 function GetPlayerByCitizenId(citizenid)
-    for src in pairs(QBX.Players) do
-        if QBX.Players[src].PlayerData.citizenid == citizenid then
-            return QBX.Players[src]
+    local src = registry.byCitizenId[citizenid]
+    local player = src and QBX.Players[src]
+    if player and player.PlayerData.citizenid == citizenid then return player end
+
+    for source in pairs(QBX.Players) do
+        if QBX.Players[source].PlayerData.citizenid == citizenid then
+            return QBX.Players[source]
         end
     end
 end
@@ -70,9 +112,13 @@ exports('GetPlayerByCitizenId', GetPlayerByCitizenId)
 ---@param userId string
 ---@return Player?
 function GetPlayerByUserId(userId)
-    for src in pairs(QBX.Players) do
-        if QBX.Players[src].PlayerData.userId == userId then
-            return QBX.Players[src]
+    local src = registry.byUserId[userId]
+    local player = src and QBX.Players[src]
+    if player and player.PlayerData.userId == userId then return player end
+
+    for source in pairs(QBX.Players) do
+        if QBX.Players[source].PlayerData.userId == userId then
+            return QBX.Players[source]
         end
     end
 end
@@ -369,30 +415,23 @@ exports('ToggleOptin', ToggleOptin)
 ---@return boolean
 ---@return string? playerMessage
 function IsPlayerBanned(source)
-    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    local license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license2')
-    local result = license2 and storage.fetchBan({ license = license2 })
+    local request = {
+        { license = GetPlayerIdentifierByType(source --[[@as string]], 'license') },
+        { license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') },
+        { discordId = GetPlayerIdentifierByType(source --[[@as string]], 'discord') },
+        { ip = GetPlayerIdentifierByType(source --[[@as string]], 'ip') },
+    }
 
-    if not result then
-        result = storage.fetchBan({ license = license })
-    end
-
+    local result = storage.fetchBan(request)
     if not result then return false end
 
     if os.time() < result.expire then
         local timeTable = os.date('*t', tonumber(result.expire))
 
         return true, ('You have been banned from the server:\n%s\nYour ban expires in %s/%s/%s %s:%s\n'):format(result.reason, timeTable.day, timeTable.month, timeTable.year, timeTable.hour, timeTable.min)
-    else
-        CreateThread(function()
-            if license2 then
-                storage.deleteBan({ license = license2 })
-            end
-
-            storage.deleteBan({ license = license })
-        end)
     end
 
+    storage.deleteBan(request)
     return false
 end
 
