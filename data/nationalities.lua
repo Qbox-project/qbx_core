@@ -134,7 +134,6 @@ return {
     'New Zealander',
     'Nicaraguan',
     'Nigerian',
-    'Nigerian',
     'Niuean',
     'Ni-Vanuatu',
     'Northern Mariana Islander',

@@ -14,6 +14,15 @@ for i = 1, #accounts do
     accountsAsItems[accounts[i]] = 0
 end
 
+-- Numeric metadata mirrored from client statebags. Values are validated and
+-- clamped before being persisted, so a spoofed statebag can't corrupt or crash
+-- these stats. Add new bounded stats here rather than special-casing them below.
+local numericMetadata = {
+    hunger = { min = 0, max = 100 },
+    thirst = { min = 0, max = 100 },
+    stress = { min = 0, max = 100 },
+}
+
 ---@param source Source
 ---@param citizenid? string
 ---@param newData? PlayerEntity
@@ -108,6 +117,12 @@ function SetJob(identifier, jobName, grade)
     end
 
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
+
+    if not player then
+        lib.print.error(('cannot set job. no player found for identifier %s'):format(identifier))
+
+        return false
+    end
 
     if setJobReplaces and player.PlayerData.job.name ~= 'unemployed' then
         local success, errorResult = RemovePlayerFromJob(player.PlayerData.citizenid, player.PlayerData.job.name)
@@ -362,6 +377,12 @@ function SetGang(identifier, gangName, grade)
     end
 
     local player = type(identifier) == 'string' and (GetPlayerByCitizenId(identifier) or GetOfflinePlayer(identifier)) or GetPlayer(identifier)
+
+    if not player then
+        lib.print.error(('cannot set gang. no player found for identifier %s'):format(identifier))
+
+        return false
+    end
 
     if setGangReplaces and player.PlayerData.gang.name ~= 'none' then
         local success, errorResult = RemovePlayerFromGang(player.PlayerData.citizenid, player.PlayerData.gang.name)
@@ -721,6 +742,7 @@ function Logout(source)
     Save(player.PlayerData.source)
 
     Wait(200)
+    QBX.UnregisterPlayer(source)
     QBX.Players[source] = nil
     GlobalState.PlayerCount -= 1
     TriggerClientEvent('qbx_core:client:playerLoggedOut', source)
@@ -1023,6 +1045,7 @@ function CreatePlayer(playerData, Offline)
 
     if not self.Offline then
         QBX.Players[self.PlayerData.source] = self
+        QBX.RegisterPlayer(self)
         local ped = GetPlayerPed(self.PlayerData.source)
         lib.callback.await('qbx_core:client:setHealth', self.PlayerData.source, self.PlayerData.metadata.health)
         SetPedArmour(ped, self.PlayerData.metadata.armor)
@@ -1133,18 +1156,34 @@ function SetMetadata(identifier, metadata, value)
 
     if not player then return end
 
+    local numeric = numericMetadata[metadata]
+    if numeric then
+        value = tonumber(value)
+        if not qbx.math.isFinite(value) then
+            lib.print.warn(('rejected non-finite value for metadata "%s"'):format(metadata))
+            return
+        end
+        value = lib.math.clamp(value, numeric.min, numeric.max)
+    end
+
     local oldValue
 
     if metadata:match('%.') then
         local metaTable, metaKey = metadata:match('([^%.]+)%.(.+)')
 
         if metaKey:match('%.') then
-            lib.print.error('cannot get nested metadata more than 1 level deep')
+            lib.print.error('cannot set nested metadata more than 1 level deep')
+            return
         end
 
-        oldValue = player.PlayerData.metadata[metaTable]
+        local nested = player.PlayerData.metadata[metaTable]
+        if type(nested) ~= 'table' then
+            lib.print.error(('cannot set nested metadata, %s is not a table'):format(metaTable))
+            return
+        end
 
-        player.PlayerData.metadata[metaTable][metaKey] = value
+        oldValue = nested[metaKey]
+        nested[metaKey] = value
 
         metadata = metaTable
     else
@@ -1161,25 +1200,21 @@ function SetMetadata(identifier, metadata, value)
         TriggerClientEvent('qbx_core:client:onSetMetaData', player.PlayerData.source, metadata, oldValue, value)
         TriggerEvent('qbx_core:server:onSetMetaData', metadata,  oldValue, value, player.PlayerData.source)
 
-        if (metadata == 'hunger' or metadata == 'thirst' or metadata == 'stress') then
-            value = lib.math.clamp(value, 0, 100)
-
+        if numericMetadata[metadata] then
             if playerState[metadata] ~= value then
                 playerState:set(metadata, value, true)
             end
         end
 
-        if (metadata == 'dead' or metadata == 'inlaststand') then
+        if (metadata == 'isdead' or metadata == 'inlaststand') then
             playerState:set('canUseWeapons', not value, true)
         end
     end
 
-    if metadata == 'inlaststand' or metadata == 'isdead' then
-        if player.Offline then
-            SaveOffline(player.PlayerData)
-        else
-            Save(player.PlayerData.source)
-        end
+    if player.Offline then
+        SaveOffline(player.PlayerData)
+    else
+        Save(player.PlayerData.source)
     end
 end
 
@@ -1200,9 +1235,13 @@ function GetMetadata(identifier, metadata)
 
         if metaKey:match('%.') then
             lib.print.error('cannot get nested metadata more than 1 level deep')
+            return
         end
 
-        return player.PlayerData.metadata[metaTable][metaKey]
+        local nested = player.PlayerData.metadata[metaTable]
+        if type(nested) ~= 'table' then return end
+
+        return nested[metaKey]
     else
         return player.PlayerData.metadata[metadata]
     end
@@ -1255,6 +1294,16 @@ local function emitMoneyEvents(source, playerMoney, moneyType, amount, actionTyp
     end
 end
 
+---@param value unknown
+---@return number?
+local function validateMoneyAmount(value)
+    value = tonumber(value)
+    if not qbx.math.isFinite(value) then return end
+    value = qbx.math.round(value)
+    if value < 0 then return end
+    return value
+end
+
 ---@param identifier Source | string
 ---@param moneyType MoneyType
 ---@param amount number
@@ -1266,9 +1315,11 @@ function AddMoney(identifier, moneyType, amount, reason)
     if not player then return false end
 
     reason = reason or 'unknown'
-    amount = qbx.math.round(tonumber(amount) --[[@as number]])
+    local validAmount = validateMoneyAmount(amount)
 
-    if amount < 0 or not player.PlayerData.money[moneyType] then return false end
+    if not validAmount or not player.PlayerData.money[moneyType] then return false end
+
+    amount = validAmount
 
     if not triggerEventHooks('addMoney', {
         source = player.PlayerData.source,
@@ -1315,9 +1366,11 @@ function RemoveMoney(identifier, moneyType, amount, reason)
     if not player then return false end
 
     reason = reason or 'unknown'
-    amount = qbx.math.round(tonumber(amount) --[[@as number]])
+    local validAmount = validateMoneyAmount(amount)
 
-    if amount < 0 or not player.PlayerData.money[moneyType] then return false end
+    if not validAmount or not player.PlayerData.money[moneyType] then return false end
+
+    amount = validAmount
 
     if not triggerEventHooks('removeMoney', {
         source = player.PlayerData.source,
@@ -1372,10 +1425,12 @@ function SetMoney(identifier, moneyType, amount, reason)
     if not player then return false end
 
     reason = reason or 'unknown'
-    amount = qbx.math.round(tonumber(amount) --[[@as number]])
+    local validAmount = validateMoneyAmount(amount)
     local oldAmount = player.PlayerData.money[moneyType]
 
-    if amount < 0 or not oldAmount then return false end
+    if not validAmount or not oldAmount then return false end
+
+    amount = validAmount
 
     if not triggerEventHooks('setMoney', {
         source = player.PlayerData.source,
@@ -1465,8 +1520,8 @@ lib.callback.register('qbx_core:server:deleteCharacter', DeleteCharacter)
 
 ---@param citizenid string
 function ForceDeleteCharacter(citizenid)
-    local result = storage.fetchPlayerEntity(citizenid).license
-    if result then
+    local playerEntity = storage.fetchPlayerEntity(citizenid)
+    if playerEntity and playerEntity.license then
         local player = GetPlayerByCitizenId(citizenid)
         if player then
             DropPlayer(player.PlayerData.source --[[@as string]], 'An admin deleted the character which you are currently using')

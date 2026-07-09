@@ -13,6 +13,15 @@ local function createUsersTable()
             PRIMARY KEY (`userId`)
         ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     ]])
+
+    -- fetchUserByIdentifier resolves a connecting player against these columns.
+    -- Without indexes that is a full scan of `users`, which grows for every player
+    -- that ever joined and turns the connect deferral into a 1s+ stall. Created
+    -- idempotently so existing databases pick them up on resource start.
+    MySQL.query('CREATE INDEX IF NOT EXISTS `idx_users_license` ON `users` (`license`)')
+    MySQL.query('CREATE INDEX IF NOT EXISTS `idx_users_license2` ON `users` (`license2`)')
+    MySQL.query('CREATE INDEX IF NOT EXISTS `idx_users_fivem` ON `users` (`fivem`)')
+    MySQL.query('CREATE INDEX IF NOT EXISTS `idx_users_discord` ON `users` (`discord`)')
 end
 
 ---@param identifiers table<PlayerIdentifier, string>
@@ -59,36 +68,47 @@ local function insertBan(request)
     return true
 end
 
----@param request GetBanRequest
----@return string column in storage
----@return string value of the id
-local function getBanId(request)
-    if request.license then
-        return 'license', request.license
-    elseif request.discordId then
-        return 'discord', request.discordId
-    elseif request.ip then
-        return 'ip', request.ip
-    else
-        error('no identifier provided', 2)
+local banColumns = {
+    license = 'license',
+    discordId = 'discord',
+    ip = 'ip',
+}
+
+---@param request GetBanRequest | GetBanRequest[]
+---@return string clause, string[] values
+local function buildBanFilter(request)
+    local requests = request[1] and request or { request }
+    local clauses = {}
+    local values = {}
+    for i = 1, #requests do
+        for key, column in pairs(banColumns) do
+            local value = requests[i][key]
+            if value then
+                clauses[#clauses + 1] = column .. ' = ?'
+                values[#values + 1] = value
+            end
+        end
     end
+    return table.concat(clauses, ' OR '), values
 end
 
----@param request GetBanRequest
+---@param request GetBanRequest | GetBanRequest[]
 ---@return BanEntity?
 local function fetchBan(request)
-    local column, value = getBanId(request)
-    local result = MySQL.single.await('SELECT expire, reason FROM bans WHERE ' ..column.. ' = ?', { value })
+    local clause, values = buildBanFilter(request)
+    if clause == '' then return nil end
+    local result = MySQL.single.await('SELECT expire, reason FROM bans WHERE ' .. clause .. ' ORDER BY expire DESC', values)
     return result and {
         expire = result.expire,
         reason = result.reason,
     } or nil
 end
 
----@param request GetBanRequest
+---@param request GetBanRequest | GetBanRequest[]
 local function deleteBan(request)
-    local column, value = getBanId(request)
-    MySQL.query.await('DELETE FROM bans WHERE ' ..column.. ' = ?', { value })
+    local clause, values = buildBanFilter(request)
+    if clause == '' then return end
+    MySQL.query.await('DELETE FROM bans WHERE ' .. clause, values)
 end
 
 ---@param request UpsertPlayerRequest
@@ -116,8 +136,8 @@ local function fetchPlayerSkin(citizenId)
 end
 
 local function convertPosition(position)
-    local pos = json.decode(position)
-    local actualPos = (not pos.x or not pos.y or not pos.z) and defaultSpawn or pos
+    local pos = position and json.decode(position)
+    local actualPos = (not pos or not pos.x or not pos.y or not pos.z) and defaultSpawn or pos
     return vec4(actualPos.x, actualPos.y, actualPos.z, actualPos.w or defaultSpawn.w)
 end
 
@@ -156,7 +176,7 @@ local function fetchPlayerEntity(citizenId)
         name = player.name,
         money = json.decode(player.money),
         charinfo = charinfo,
-        cid = charinfo.cid,
+        cid = charinfo and charinfo.cid,
         job = player.job and json.decode(player.job),
         gang = player.gang and json.decode(player.gang),
         position = convertPosition(player.position),
@@ -182,22 +202,38 @@ local function handleSearchFilters(filters)
         clauses[#clauses + 1] = 'JSON_EXTRACT(gang, "$.name") = ?'
         holders[#holders + 1] = filters.gang
     end
+    if filters.charinfo then
+        for key, value in pairs(filters.charinfo) do
+            if type(value) == "number" then
+                clauses[#clauses + 1] = 'JSON_EXTRACT(charinfo, ?) = ?'
+                holders[#holders + 1] = '$.' .. key
+                holders[#holders + 1] = value
+            elseif type(value) == "string" then
+                clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(charinfo, ?)) = ?'
+                holders[#holders + 1] = '$.' .. key
+                holders[#holders + 1] = value
+            end
+        end
+    end
     if filters.metadata then
         local strict = filters.metadata.strict
         for key, value in pairs(filters.metadata) do
             if key ~= "strict" then
                 if type(value) == "number" then
                     if strict then
-                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") = ?'
+                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, ?) = ?'
                     else
-                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") >= ?'
+                        clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, ?) >= ?'
                     end
+                    holders[#holders + 1] = '$.' .. key
                     holders[#holders + 1] = value
                 elseif type(value) == "boolean" then
-                    clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, "$.' .. key .. '") = ?'
+                    clauses[#clauses + 1] = 'JSON_EXTRACT(metadata, ?) = ?'
+                    holders[#holders + 1] = '$.' .. key
                     holders[#holders + 1] = tostring(value)
                 elseif type(value) == "string" then
-                    clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.' .. key .. '")) = ?'
+                    clauses[#clauses + 1] = 'JSON_UNQUOTE(JSON_EXTRACT(metadata, ?)) = ?'
+                    holders[#holders + 1] = '$.' .. key
                     holders[#holders + 1] = value
                 end
             end
@@ -275,7 +311,7 @@ end
 ---@param group string
 ---@param grade integer
 local function addToGroup(citizenid, type, group, grade)
-    MySQL.insert('INSERT INTO player_groups (citizenid, type, `group`, grade) VALUES (:citizenid, :type, :group, :grade) ON DUPLICATE KEY UPDATE grade = :grade', {
+    MySQL.insert.await('INSERT INTO player_groups (citizenid, type, `group`, grade) VALUES (:citizenid, :type, :group, :grade) ON DUPLICATE KEY UPDATE grade = :grade', {
         citizenid = citizenid,
         type = type,
         group = group,

@@ -406,6 +406,15 @@ lib.addCommand('ooc', {
     end
 end)
 
+function sanitizeTags(msg)
+    return msg
+        :gsub("&", "&amp;")
+        :gsub("<", "&lt;")
+        :gsub(">", "&gt;")
+        :gsub('"', "&quot;")
+        :gsub("'", "&apos;")
+end
+
 lib.addCommand('me', {
     help = locale('command.me.help'),
     params = {
@@ -415,7 +424,7 @@ lib.addCommand('me', {
     args[1] = args[locale('command.me.params.message.name')]
     args[locale('command.me.params.message.name')] = nil
     if #args < 1 then Notify(source, locale('error.missing_args2'), 'error') return end
-    local msg = table.concat(args, ' '):gsub('[~<].-[>~]', '')
+    local msg = sanitizeTags(table.concat(args, ' '))
     local playerState = Player(source).state
     playerState:set('me', msg, true)
 
@@ -449,10 +458,12 @@ lib.addCommand('deletechar', {
     Notify(source, locale('success.character_deleted_citizenid', citizenId))
 end)
 
-lib.addCommand('optin', {
-    help = locale('command.optin.help'),
-    restricted = 'group.admin'
-}, function(source, args)
-    ToggleOptin(source)
-    Notify(source, locale('success.optin_set', IsOptin(source) and 'in' or 'out'))
-end)
+if config.server.requireOptIn then
+    lib.addCommand('optin', {
+        help = locale('command.optin.help'),
+        restricted = 'group.admin'
+    }, function(source, args)
+        ToggleOptin(source)
+        Notify(source, locale('success.optin_set', IsOptin(source) and 'in' or 'out'))
+    end)
+end
