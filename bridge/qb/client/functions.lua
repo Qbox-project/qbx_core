@@ -81,10 +81,36 @@ functions.LoadAnimSet = lib.requestAnimSet
 ---@param canCancel boolean
 ---@param disableControls? {disableMovement: boolean, disableCarMovement: boolean, disableCombat: boolean, disableMouse: boolean}
 ---@param animation? {animDict: string, anim: string, flags: unknown}
----@param prop? unknown
+---@param prop? {model: string, bone?: number, coords?: vector3|table, rotation?: vector3|table}
+---@param propTwo? {model: string, bone?: number, coords?: vector3|table, rotation?: vector3|table}
 ---@param onFinish fun()
 ---@param onCancel fun()
-function functions.Progressbar(_, label, duration, useWhileDead, canCancel, disableControls, animation, prop, _, onFinish, onCancel)
+function functions.Progressbar(_, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
+    local props
+
+    if prop?.model then
+        local propData = {
+            model = prop.model,
+            bone = prop.bone,
+            pos = prop.coords,
+            rot = prop.rotation,
+        }
+
+        if propTwo?.model then
+            props = {
+                propData,
+                {
+                    model = propTwo.model,
+                    bone = propTwo.bone,
+                    pos = propTwo.coords,
+                    rot = propTwo.rotation,
+                },
+            }
+        else
+            props = propData
+        end
+    end
+
     if lib.progressBar({
         duration = duration,
         label = label,
@@ -99,13 +125,9 @@ function functions.Progressbar(_, label, duration, useWhileDead, canCancel, disa
         anim = {
             dict = animation?.animDict,
             clip = animation?.anim,
-            flags = animation?.flags
+            flag = animation?.flags
         },
-        prop = {
-            model = prop?.model,
-            pos = prop?.coords,
-            rot = prop?.rotation,
-        },
+        prop = props,
     }) then
         if onFinish then
             onFinish()
@@ -410,7 +432,7 @@ function functions.SetVehicleProperties(vehicle, props)
 
     -- qb properties converted to ox
     props.modNitrous = props.modNitrous or props.modKit17
-    props.modSubwoofer = props.modSubwoofer or props.modKit17
+    props.modSubwoofer = props.modSubwoofer or props.modKit19
     props.modHydraulics = props.modHydraulics or props.modKit21
     props.modDoorR = props.modDoorR or props.modKit47
     props.modLightbar = props.modLightbar or props.modKit49
@@ -481,7 +503,7 @@ function functions.SetVehicleProperties(vehicle, props)
     if props.color2 then
         if type(props.color2) == 'number' then
             ClearVehicleCustomSecondaryColour(vehicle)
-            SetVehicleColours(vehicle, props.color1 or colorPrimary --[[@as number]], props.color2 --[[@as number]])
+            SetVehicleColours(vehicle, (type(props.color1) == 'number' and props.color1) or colorPrimary --[[@as number]], props.color2 --[[@as number]])
         else
             if props.paintType2 then SetVehicleModColor_2(vehicle, props.paintType2, colorSecondary) end
 
@@ -863,9 +885,16 @@ functions.GetCurrentTime = function()
     obj.min = GetClockMinutes()
     obj.hour = GetClockHours()
 
-    if obj.hour <= 12 then
+    if obj.hour == 0 then
         obj.ampm = 'AM'
-    elseif obj.hour >= 13 then
+        obj.formattedHour = 12
+    elseif obj.hour < 12 then
+        obj.ampm = 'AM'
+        obj.formattedHour = obj.hour
+    elseif obj.hour == 12 then
+        obj.ampm = 'PM'
+        obj.formattedHour = 12
+    else
         obj.ampm = 'PM'
         obj.formattedHour = obj.hour - 12
     end
