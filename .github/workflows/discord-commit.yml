@@ -1,16 +1,9 @@
-name: "Discord Commit"
- 
-on: [push]
+name: Discord Commit
+
+on:
+  push:
 
 jobs:
-  report-status:
-    if: github.event.repository.default_branch == github.ref_name
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    - name: Discord Webhook
-      uses: ChatDisabled/discord-commits@main
-      with:
-        id: ${{ secrets.WEBHOOK_ID }}
-        token: ${{ secrets.WEBHOOK_TOKEN }}
+  notify:
+    uses: Qbox-project/.github/.github/workflows/discord-commit.yml@main
+    secrets: inherit

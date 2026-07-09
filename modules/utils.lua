@@ -736,9 +736,16 @@ else
         obj.min = GetClockMinutes()
         obj.hour = GetClockHours()
 
-        if obj.hour <= 12 then
+        if obj.hour == 0 then
             obj.ampm = 'AM'
-        elseif obj.hour >= 13 then
+            obj.formattedHour = 12
+        elseif obj.hour < 12 then
+            obj.ampm = 'AM'
+            obj.formattedHour = obj.hour
+        elseif obj.hour == 12 then
+            obj.ampm = 'PM'
+            obj.formattedHour = 12
+        else
             obj.ampm = 'PM'
             obj.formattedHour = obj.hour - 12
         end
