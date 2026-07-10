@@ -59,6 +59,32 @@ local function groupNotFound(code, name)
     }
 end
 
+---@param citizenid string
+---@return Player?
+local function getLoadedOrOfflinePlayer(citizenid)
+    return GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
+end
+
+---@param name string
+---@return string
+local function toOxAccountName(name)
+    return name == 'cash' and 'money' or name
+end
+
+---@param source Source
+---@param message string
+local function dropForExploit(source, message)
+    DropPlayer(tostring(source), locale('info.exploit_dropped'))
+    logger.log({
+        source = GetInvokingResource() or cache.resource,
+        webhook = config.logging.webhook.anticheat,
+        event = 'Anti-Cheat',
+        color = 'white',
+        tags = config.logging.role,
+        message = message
+    })
+end
+
 ---@param source Source
 ---@param citizenid? string
 ---@param newData? PlayerEntity
@@ -70,15 +96,7 @@ function Login(source, citizenid, newData)
     end
 
     if QBX.Players[source] then
-        DropPlayer(tostring(source), locale('info.exploit_dropped'))
-        logger.log({
-            source = GetInvokingResource() or cache.resource,
-            webhook = config.logging.webhook.anticheat,
-            event = 'Anti-Cheat',
-            color = 'white',
-            tags = config.logging.role,
-            message = ('%s [%s] Dropped for attempting to login twice'):format(GetPlayerName(tostring(source)), tostring(source))
-        })
+        dropForExploit(source, ('%s [%s] Dropped for attempting to login twice'):format(GetPlayerName(tostring(source)), tostring(source)))
         return false
     end
 
@@ -94,15 +112,7 @@ function Login(source, citizenid, newData)
             playerData.userId = userId
             return CheckPlayerData(source, playerData) ~= nil
         else
-            DropPlayer(tostring(source), locale('info.exploit_dropped'))
-            logger.log({
-                source = GetInvokingResource() or cache.resource,
-                webhook = config.logging.webhook.anticheat,
-                event = 'Anti-Cheat',
-                color = 'white',
-                tags = config.logging.role,
-                message = ('%s has been dropped for character joining exploit'):format(GetPlayerName(source))
-            })
+            dropForExploit(source, ('%s has been dropped for character joining exploit'):format(GetPlayerName(source)))
         end
     else
         newData.userId = userId
@@ -226,7 +236,7 @@ end
 ---@return boolean success
 ---@return ErrorResult? errorResult
 function SetPlayerPrimaryJob(citizenid, jobName)
-    local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
+    local player = getLoadedOrOfflinePlayer(citizenid)
     if not player then
         return playerNotFound(citizenid)
     end
@@ -292,7 +302,7 @@ function AddPlayerToJob(citizenid, jobName, grade)
         }
     end
 
-    local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
+    local player = getLoadedOrOfflinePlayer(citizenid)
     if not player then
         return playerNotFound(citizenid)
     end
@@ -339,7 +349,7 @@ function RemovePlayerFromJob(citizenid, jobName)
         }
     end
 
-    local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
+    local player = getLoadedOrOfflinePlayer(citizenid)
     if not player then
         return playerNotFound(citizenid)
     end
@@ -428,7 +438,7 @@ exports('SetGang', SetGang)
 ---@return boolean success
 ---@return ErrorResult? errorResult
 function SetPlayerPrimaryGang(citizenid, gangName)
-    local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
+    local player = getLoadedOrOfflinePlayer(citizenid)
     if not player then
         return playerNotFound(citizenid)
     end
@@ -502,7 +512,7 @@ function AddPlayerToGang(citizenid, gangName, grade)
         }
     end
 
-    local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
+    local player = getLoadedOrOfflinePlayer(citizenid)
     if not player then
         return playerNotFound(citizenid)
     end
@@ -549,7 +559,7 @@ function RemovePlayerFromGang(citizenid, gangName)
         }
     end
 
-    local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid)
+    local player = getLoadedOrOfflinePlayer(citizenid)
     if not player then
         return playerNotFound(citizenid)
     end
@@ -874,7 +884,7 @@ function CreatePlayer(playerData, Offline)
     ---@param item string
     ---@return string
     local function oxItemCompat(item)
-        return item == 'cash' and 'money' or item
+        return toOxAccountName(item)
     end
 
     ---@deprecated use ox_inventory exports directly
@@ -1281,7 +1291,7 @@ local function emitMoneyEvents(source, playerMoney, moneyType, amount, actionTyp
         TriggerClientEvent('qb-phone:client:RemoveBankMoney', source, amount)
     end
 
-    local oxMoneyType = moneyType == 'cash' and 'money' or moneyType
+    local oxMoneyType = toOxAccountName(moneyType)
 
     if accountsAsItems[oxMoneyType] then
         exports.ox_inventory:SetItem(source, oxMoneyType, playerMoney[moneyType])
