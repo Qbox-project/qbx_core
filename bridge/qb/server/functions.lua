@@ -9,7 +9,7 @@ local createQbExport = require 'bridge.qb.shared.export-function'
 
 ---@param name string
 ---@param fn function
-local function registerQbFn(name, fn)
+local function registerQbFunction(name, fn)
     functions[name] = fn
     createQbExport(name, fn)
 end
@@ -174,7 +174,7 @@ local function AddItem(itemName, item)
     return true, 'success'
 end
 
-registerQbFn('AddItem', AddItem)
+registerQbFunction('AddItem', AddItem)
 
 -- Single update item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -192,7 +192,7 @@ local function UpdateItem(itemName, item)
     return true, 'success'
 end
 
-registerQbFn('UpdateItem', UpdateItem)
+registerQbFunction('UpdateItem', UpdateItem)
 
 -- Multiple Add Items
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -228,7 +228,7 @@ local function AddItems(items)
     return true, message, nil
 end
 
-registerQbFn('AddItems', AddItems)
+registerQbFunction('AddItems', AddItems)
 
 -- Single Remove Item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -249,7 +249,7 @@ local function RemoveItem(itemName)
     return true, 'success'
 end
 
-registerQbFn('RemoveItem', RemoveItem)
+registerQbFunction('RemoveItem', RemoveItem)
 
 -- Single add job function which should only be used if you planning on adding a single job
 ---@deprecated use export CreateJobs
@@ -508,7 +508,7 @@ local function SetMethod(methodName, handler)
     return true, 'success'
 end
 
-registerQbFn('SetMethod', SetMethod)
+registerQbFunction('SetMethod', SetMethod)
 
 -- Add or change (a) field(s) in the QBCore table
 ---@deprecated
