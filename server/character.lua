@@ -88,14 +88,11 @@ local function sanitizeNewCharInfo(data)
     }
 end
 
----@param existingCharacters PlayerEntity[]
+---@param existingCharacters PlayerEntity[] sorted ascending by cid (storage.fetchAllPlayerEntities orders by cid)
 ---@return integer
 local function getNextCid(existingCharacters)
-    local nextCid = 0
-    for i = 1, #existingCharacters do
-        nextCid = math.max(nextCid, existingCharacters[i].charinfo.cid or 0)
-    end
-    return nextCid + 1
+    local lastCharacter = existingCharacters[#existingCharacters]
+    return (lastCharacter and lastCharacter.charinfo.cid or 0) + 1
 end
 
 ---@param data unknown
