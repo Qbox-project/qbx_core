@@ -138,5 +138,6 @@ return {
     sendPaycheck = function (player, payment)
         player.Functions.AddMoney('bank', payment)
         Notify(player.PlayerData.source, locale('info.received_paycheck', payment))
+        TriggerEvent('qbx_core:server:onPaycheck', player.PlayerData.source, payment)
     end,
 }
