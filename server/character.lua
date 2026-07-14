@@ -27,6 +27,10 @@ end
 
 lib.callback.register('qbx_core:server:getCharacters', function(source)
     local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
+    -- Heal any account left with a broken cid sequence (duplicates from the
+    -- pre-fix createCharacter bug, or gaps from deleted characters) before
+    -- handing the list to the client, so create-time logic can stay a simple append.
+    storage.normalizeCids(license2, license)
     return storage.fetchAllPlayerEntities(license2, license), getAllowedAmountOfCharacters(license2, license)
 end)
 
@@ -88,18 +92,32 @@ local function sanitizeNewCharInfo(data)
     }
 end
 
+---@param existingCharacters PlayerEntity[] sorted ascending by cid (storage.fetchAllPlayerEntities orders by cid)
+---@return integer
+local function getNextCid(existingCharacters)
+    local lastCharacter = existingCharacters[#existingCharacters]
+    return (lastCharacter and lastCharacter.charinfo.cid or 0) + 1
+end
+
 ---@param data unknown
 ---@return table? newData
 lib.callback.register('qbx_core:server:createCharacter', function(source, data)
     if type(data) ~= 'table' then return end
 
     local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
-    if #storage.fetchAllPlayerEntities(license2, license) >= getAllowedAmountOfCharacters(license2, license) then
+    local existingCharacters = storage.fetchAllPlayerEntities(license2, license)
+    if #existingCharacters >= getAllowedAmountOfCharacters(license2, license) then
         return
     end
 
     local charinfo = sanitizeNewCharInfo(data)
     if not charinfo then return end
+
+    -- The client sends a cid (its local slot index), but that value is never
+    -- trustworthy: sanitizeNewCharInfo() intentionally drops it, so it must be
+    -- computed server-side from the account's existing characters or every new
+    -- character silently falls back to cid 1 (see CheckPlayerData in player.lua).
+    charinfo.cid = getNextCid(existingCharacters)
 
     local newData = {}
     newData.charinfo = charinfo
