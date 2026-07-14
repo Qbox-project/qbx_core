@@ -1,6 +1,12 @@
 require 'client.functions'
 local functions = {}
 
+---@param coords vector3|table?
+---@return vector3
+local function toCoords(coords)
+    return type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
+end
+
 -- Player
 
 ---@deprecated import PlayerData using module 'qbx_core:playerdata' https://docs.qbox.re/resources/qbx_core/modules/playerdata
@@ -185,7 +191,7 @@ end
 ---@return integer closestObj or -1
 ---@return number closestDistance or -1
 local function getClosestEntity(entities, coords) -- luacheck: ignore
-    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
+    coords = toCoords(coords)
     local closestDistance = -1
     local closestEntity = -1
     for i = 1, #entities do
@@ -211,7 +217,7 @@ functions.IsWearingGloves = qbx.isWearingGloves
 
 ---@deprecated use lib.getClosestPlayer from ox_lib
 functions.GetClosestPlayer = function(coords) -- luacheck: ignore
-    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
+    coords = toCoords(coords)
     local playerId, _, playerCoords = lib.getClosestPlayer(coords, 5, false)
     local closestDistance = playerCoords and #(playerCoords - coords) or nil
     return playerId or -1, closestDistance or -1
@@ -219,7 +225,7 @@ end
 
 ---@deprecated use lib.getNearbyPlayers from ox_lib
 functions.GetPlayersFromCoords = function(coords, radius)
-    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
+    coords = toCoords(coords)
     local players = lib.getNearbyPlayers(coords, radius or 5, true)
 
     -- This is for backwards compatability as beforehand it only returned the PlayerId, where Lib returns PlayerPed, PlayerId and PlayerCoords
@@ -328,7 +334,7 @@ end
 
 ---@deprecated use lib.getNearbyVehicles from ox_lib
 functions.SpawnClear = function(coords, radius)
-    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
+    coords = toCoords(coords)
     radius = radius or 5
     local vehicles = GetGamePool('CVehicle')
     local closeVeh = {}
@@ -796,7 +802,7 @@ functions.LoadParticleDictionary = lib.requestNamedPtfxAsset
 
 ---@deprecated use ParticleFx natives directly
 functions.StartParticleAtCoord = function(dict, ptName, looped, coords, rot, scale, alpha, color, duration) -- luacheck: ignore
-    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords or GetEntityCoords(cache.ped)
+    coords = toCoords(coords)
 
     lib.requestNamedPtfxAsset(dict)
     UseParticleFxAssetNextCall(dict)

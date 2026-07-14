@@ -7,6 +7,13 @@ local disableMethodOverrideWarning = GetConvar('qbx:disableoverridewarning', 'fa
 
 local createQbExport = require 'bridge.qb.shared.export-function'
 
+---@param name string
+---@param fn function
+local function registerQbFunction(name, fn)
+    functions[name] = fn
+    createQbExport(name, fn)
+end
+
 ---@deprecated use the GetEntityCoords and GetEntityHeading natives directly
 functions.GetCoords = function(entity)
     local coords = GetEntityCoords(entity)
@@ -167,8 +174,7 @@ local function AddItem(itemName, item)
     return true, 'success'
 end
 
-functions.AddItem = AddItem
-createQbExport('AddItem', AddItem)
+registerQbFunction('AddItem', AddItem)
 
 -- Single update item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -186,8 +192,7 @@ local function UpdateItem(itemName, item)
     return true, 'success'
 end
 
-functions.UpdateItem = UpdateItem
-createQbExport('UpdateItem', UpdateItem)
+registerQbFunction('UpdateItem', UpdateItem)
 
 -- Multiple Add Items
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -223,8 +228,7 @@ local function AddItems(items)
     return true, message, nil
 end
 
-functions.AddItems = AddItems
-createQbExport('AddItems', AddItems)
+registerQbFunction('AddItems', AddItems)
 
 -- Single Remove Item
 ---@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
@@ -245,8 +249,7 @@ local function RemoveItem(itemName)
     return true, 'success'
 end
 
-functions.RemoveItem = RemoveItem
-createQbExport('RemoveItem', RemoveItem)
+registerQbFunction('RemoveItem', RemoveItem)
 
 -- Single add job function which should only be used if you planning on adding a single job
 ---@deprecated use export CreateJobs
@@ -505,8 +508,7 @@ local function SetMethod(methodName, handler)
     return true, 'success'
 end
 
-functions.SetMethod = SetMethod
-createQbExport('SetMethod', SetMethod)
+registerQbFunction('SetMethod', SetMethod)
 
 -- Add or change (a) field(s) in the QBCore table
 ---@deprecated

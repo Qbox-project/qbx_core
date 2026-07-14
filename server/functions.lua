@@ -147,14 +147,15 @@ end
 exports('GetQBPlayers', GetQBPlayers)
 
 ---Gets a list of all on duty players of a specified job and the number
----@param job string name
+---@param field 'name' | 'type'
+---@param value string
 ---@return integer
 ---@return Source[]
-function GetDutyCountJob(job)
+local function getDutyCount(field, value)
     local players = {}
     local count = 0
     for src, player in pairs(QBX.Players) do
-        if player.PlayerData.job.name == job then
+        if player.PlayerData.job[field] == value then
             if player.PlayerData.job.onduty then
                 players[#players + 1] = src
                 count += 1
@@ -164,6 +165,13 @@ function GetDutyCountJob(job)
     return count, players
 end
 
+---@param job string name
+---@return integer
+---@return Source[]
+function GetDutyCountJob(job)
+    return getDutyCount('name', job)
+end
+
 exports('GetDutyCountJob', GetDutyCountJob)
 
 ---Gets a list of all on duty players of a specified job type and the number
@@ -171,17 +179,7 @@ exports('GetDutyCountJob', GetDutyCountJob)
 ---@return integer
 ---@return Source[]
 function GetDutyCountType(type)
-    local players = {}
-    local count = 0
-    for src, player in pairs(QBX.Players) do
-        if player.PlayerData.job.type == type then
-            if player.PlayerData.job.onduty then
-                players[#players + 1] = src
-                count += 1
-            end
-        end
-    end
-    return count, players
+    return getDutyCount('type', type)
 end
 
 exports('GetDutyCountType', GetDutyCountType)
@@ -226,16 +224,16 @@ end
 
 exports('SetEntityBucket', SetEntityBucket)
 
--- Will return an array of all the player ids inside the current bucket
+---@param bucketMap table
 ---@param bucket integer
----@return Source[]|boolean
-function GetPlayersInBucket(bucket)
+---@return table|boolean
+local function getBucketPool(bucketMap, bucket)
     local curr_bucket_pool = {}
-    if not (QBX.Player_Buckets or next(QBX.Player_Buckets)) then
+    if not (bucketMap or next(bucketMap)) then
         return false
     end
 
-    for k, v in pairs(QBX.Player_Buckets) do
+    for k, v in pairs(bucketMap) do
         if v == bucket then
             curr_bucket_pool[#curr_bucket_pool + 1] = k
         end
@@ -244,24 +242,20 @@ function GetPlayersInBucket(bucket)
     return curr_bucket_pool
 end
 
+-- Will return an array of all the player ids inside the current bucket
+---@param bucket integer
+---@return Source[]|boolean
+function GetPlayersInBucket(bucket)
+    return getBucketPool(QBX.Player_Buckets, bucket)
+end
+
 exports('GetPlayersInBucket', GetPlayersInBucket)
 
 -- Will return an array of all the entities inside the current bucket (not for player entities, use GetPlayersInBucket for that)
 ---@param bucket integer
 ---@return boolean | integer[]
 function GetEntitiesInBucket(bucket)
-    local curr_bucket_pool = {}
-    if not (QBX.Entity_Buckets or next(QBX.Entity_Buckets)) then
-        return false
-    end
-
-    for k, v in pairs(QBX.Entity_Buckets) do
-        if v == bucket then
-            curr_bucket_pool[#curr_bucket_pool + 1] = k
-        end
-    end
-
-    return curr_bucket_pool
+    return getBucketPool(QBX.Entity_Buckets, bucket)
 end
 
 exports('GetEntitiesInBucket', GetEntitiesInBucket)
