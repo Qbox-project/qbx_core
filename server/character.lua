@@ -88,11 +88,17 @@ local function sanitizeNewCharInfo(data)
     }
 end
 
+--- Returns the lowest unused cid (1-based slot), backfilling gaps left by
+--- deleted characters instead of only ever appending after the highest cid.
 ---@param existingCharacters PlayerEntity[] sorted ascending by cid (storage.fetchAllPlayerEntities orders by cid)
 ---@return integer
 local function getNextCid(existingCharacters)
-    local lastCharacter = existingCharacters[#existingCharacters]
-    return (lastCharacter and lastCharacter.charinfo.cid or 0) + 1
+    for i = 1, #existingCharacters do
+        if existingCharacters[i].charinfo.cid ~= i then
+            return i
+        end
+    end
+    return #existingCharacters + 1
 end
 
 ---@param data unknown
