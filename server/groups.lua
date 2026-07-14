@@ -107,6 +107,29 @@ local function convertGroupsToPlainText(groupTable, type)
     return table.concat(lines, '\n')
 end
 
+---@param groupType 'Job' | 'Gang'
+---@param name string
+local function notifyGroupUpdate(groupType, name)
+    if groupType == 'Job' then
+        TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
+        TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
+    else
+        TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
+        TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
+    end
+end
+
+---@param groupType 'Job' | 'Gang'
+---@param commitToFile boolean?
+local function commitGroupToFile(groupType, commitToFile)
+    if not commitToFile then return end
+    if groupType == 'Job' then
+        SaveResourceFile(GetCurrentResourceName(), 'shared/jobs.lua', convertGroupsToPlainText(jobs, 'Job'), -1)
+    else
+        SaveResourceFile(GetCurrentResourceName(), 'shared/gangs.lua', convertGroupsToPlainText(gangs, 'Gang'), -1)
+    end
+end
+
 --- Adds or updates a job entry in shared/jobs.lua.
 --- If the job already exists, it will be overwritten.
 --- @param jobName string The unique name of the job.
@@ -128,15 +151,8 @@ function CreateJob(jobName, job, commitToFile)
     -- Store the job data
     jobs[jobName] = job
 
-    -- Notify server and clients about the job update
-    TriggerEvent('qbx_core:server:onJobUpdate', jobName, job)
-    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, job)
-
-    -- Commit the job data to the shared file
-    if commitToFile then
-        local modifiedData = convertGroupsToPlainText(jobs, 'Job')
-        SaveResourceFile(GetCurrentResourceName(), 'shared/jobs.lua', modifiedData, -1)
-    end
+    notifyGroupUpdate('Job', jobName)
+    commitGroupToFile('Job', commitToFile)
 
     return true, string.format("Job '%s' created/updated successfully.", jobName)
 end
@@ -172,11 +188,7 @@ function CreateJobs(newJobs, commitToFile)
         return false, string.format("Some jobs failed to create: %s", table.concat(failedJobs, ", "))
     end
 
-    -- Commit the job data to the shared file
-    if commitToFile then
-        local modifiedData = convertGroupsToPlainText(jobs, 'Job')
-        SaveResourceFile(GetCurrentResourceName(), 'shared/jobs.lua', modifiedData, -1)
-    end
+    commitGroupToFile('Job', commitToFile)
 
     return true, "All jobs created/updated successfully."
 end
@@ -198,13 +210,8 @@ function RemoveJob(jobName, commitToFile)
     end
 
     jobs[jobName] = nil
-    TriggerEvent('qbx_core:server:onJobUpdate', jobName, nil)
-    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, jobName, nil)
-
-    if commitToFile then
-        local modifiedData = convertGroupsToPlainText(jobs, 'Job')
-        SaveResourceFile(GetCurrentResourceName(), 'shared/jobs.lua', modifiedData, -1)
-    end
+    notifyGroupUpdate('Job', jobName)
+    commitGroupToFile('Job', commitToFile)
     return true, 'success'
 end
 
@@ -216,14 +223,10 @@ exports('RemoveJob', RemoveJob)
 function CreateGangs(newGangs, commitToFile)
     for gangName, gang in pairs(newGangs) do
         gangs[gangName] = gang
-        TriggerEvent('qbx_core:server:onGangUpdate', gangName, gang)
-        TriggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, gang)
+        notifyGroupUpdate('Gang', gangName)
     end
 
-    if commitToFile then
-        local modifiedData = convertGroupsToPlainText(gangs, 'Gang')
-        SaveResourceFile(GetCurrentResourceName(), 'shared/gangs.lua', modifiedData, -1)
-    end
+    commitGroupToFile('Gang', commitToFile)
 end
 
 exports('CreateGangs', CreateGangs)
@@ -244,13 +247,8 @@ function RemoveGang(gangName, commitToFile)
 
     gangs[gangName] = nil
 
-    TriggerEvent('qbx_core:server:onGangUpdate', gangName, nil)
-    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, gangName, nil)
-
-    if commitToFile then
-        local modifiedData = convertGroupsToPlainText(gangs, 'Gang')
-        SaveResourceFile(GetCurrentResourceName(), 'shared/gangs.lua', modifiedData, -1)
-    end
+    notifyGroupUpdate('Gang', gangName)
+    commitGroupToFile('Gang', commitToFile)
     return true, 'success'
 end
 
@@ -304,12 +302,8 @@ local function upsertJobData(name, data, commitToFile)
             grades = {},
         }
     end
-    TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
-    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
-    if commitToFile then
-        local modifiedData = convertGroupsToPlainText(jobs, 'Job')
-        SaveResourceFile(GetCurrentResourceName(), 'shared/jobs.lua', modifiedData, -1)
-    end
+    notifyGroupUpdate('Job', name)
+    commitGroupToFile('Job', commitToFile)
 end
 
 exports('UpsertJobData', upsertJobData)
@@ -326,12 +320,8 @@ local function upsertGangData(name, data, commitToFile)
             grades = {},
         }
     end
-    TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
-    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
-    if commitToFile then
-        local modifiedData = convertGroupsToPlainText(gangs, 'Gang')
-        SaveResourceFile(GetCurrentResourceName(), 'shared/gangs.lua', modifiedData, -1)
-    end
+    notifyGroupUpdate('Gang', name)
+    commitGroupToFile('Gang', commitToFile)
 end
 
 exports('UpsertGangData', upsertGangData)
@@ -346,12 +336,8 @@ local function upsertJobGrade(name, grade, data, commitToFile)
         return
     end
     jobs[name].grades[grade] = data
-    TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
-    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
-    if commitToFile then
-        local modifiedData = convertGroupsToPlainText(jobs, 'Job')
-        SaveResourceFile(GetCurrentResourceName(), 'shared/jobs.lua', modifiedData, -1)
-    end
+    notifyGroupUpdate('Job', name)
+    commitGroupToFile('Job', commitToFile)
 end
 
 exports('UpsertJobGrade', upsertJobGrade)
@@ -366,12 +352,8 @@ local function upsertGangGrade(name, grade, data, commitToFile)
         return
     end
     gangs[name].grades[grade] = data
-    TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
-    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
-    if commitToFile then
-        local modifiedData = convertGroupsToPlainText(gangs, 'Gang')
-        SaveResourceFile(GetCurrentResourceName(), 'shared/gangs.lua', modifiedData, -1)
-    end
+    notifyGroupUpdate('Gang', name)
+    commitGroupToFile('Gang', commitToFile)
 end
 
 exports('UpsertGangGrade', upsertGangGrade)
@@ -385,12 +367,8 @@ local function removeJobGrade(name, grade, commitToFile)
         return
     end
     jobs[name].grades[grade] = nil
-    TriggerEvent('qbx_core:server:onJobUpdate', name, jobs[name])
-    TriggerClientEvent('qbx_core:client:onJobUpdate', -1, name, jobs[name])
-    if commitToFile then
-        local modifiedData = convertGroupsToPlainText(jobs, 'Job')
-        SaveResourceFile(GetCurrentResourceName(), 'shared/jobs.lua', modifiedData, -1)
-    end
+    notifyGroupUpdate('Job', name)
+    commitGroupToFile('Job', commitToFile)
 end
 
 exports('RemoveJobGrade', removeJobGrade)
@@ -404,12 +382,8 @@ local function removeGangGrade(name, grade, commitToFile)
         return
     end
     gangs[name].grades[grade] = nil
-    TriggerEvent('qbx_core:server:onGangUpdate', name, gangs[name])
-    TriggerClientEvent('qbx_core:client:onGangUpdate', -1, name, gangs[name])
-    if commitToFile then
-        local modifiedData = convertGroupsToPlainText(gangs, 'Gang')
-        SaveResourceFile(GetCurrentResourceName(), 'shared/gangs.lua', modifiedData, -1)
-    end
+    notifyGroupUpdate('Gang', name)
+    commitGroupToFile('Gang', commitToFile)
 end
 
 exports('RemoveGangGrade', removeGangGrade)
