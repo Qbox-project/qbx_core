@@ -260,7 +260,8 @@ local function capString(str)
     end)
 end
 
-local function spawnDefault() -- We use a callback to make the server wait on this to be done
+---@param coords vector4
+local function spawnAt(coords)
     DoScreenFadeOut(500)
 
     while not IsScreenFadedOut() do
@@ -270,10 +271,10 @@ local function spawnDefault() -- We use a callback to make the server wait on th
     destroyPreviewCam()
 
     pcall(function() exports.spawnmanager:spawnPlayer({
-        x = defaultSpawn.x,
-        y = defaultSpawn.y,
-        z = defaultSpawn.z,
-        heading = defaultSpawn.w
+        x = coords.x,
+        y = coords.y,
+        z = coords.z,
+        heading = coords.w
     }) end)
 
     TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
@@ -284,33 +285,15 @@ local function spawnDefault() -- We use a callback to make the server wait on th
     while not IsScreenFadedIn() do
         Wait(0)
     end
+end
+
+local function spawnDefault() -- We use a callback to make the server wait on this to be done
+    spawnAt(defaultSpawn)
     TriggerEvent('qb-clothes:client:CreateFirstCharacter')
 end
 
 local function spawnLastLocation()
-    DoScreenFadeOut(500)
-
-    while not IsScreenFadedOut() do
-        Wait(0)
-    end
-
-    destroyPreviewCam()
-
-    pcall(function() exports.spawnmanager:spawnPlayer({
-        x = QBX.PlayerData.position.x,
-        y = QBX.PlayerData.position.y,
-        z = QBX.PlayerData.position.z,
-        heading = QBX.PlayerData.position.w
-    }) end)
-
-    TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-    TriggerEvent('QBCore:Client:OnPlayerLoaded')
-    TriggerServerEvent('qb-houses:server:SetInsideMeta', 0, false)
-    TriggerServerEvent('qb-apartments:server:SetInsideMeta', 0, 0, false)
-
-    while not IsScreenFadedIn() do
-        Wait(0)
-    end
+    spawnAt(QBX.PlayerData.position)
 end
 
 ---@param cid integer
