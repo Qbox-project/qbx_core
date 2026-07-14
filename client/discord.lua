@@ -6,6 +6,9 @@ local template = discord.richPresence
 local maxPlayers = GlobalState.MaxPlayers
 local updateInterval = math.max(discord.updateInterval or 15000, 5000)
 
+-- Yeni placeholder kontrolleri
+local usesCharName = template:find('{charName}', 1, true) ~= nil
+local usesPlayerId = template:find('{id}', 1, true) ~= nil
 local usesPlayerName = template:find('{playerName}', 1, true) ~= nil
 local usesPlayers = template:find('{currentPlayers}', 1, true) ~= nil
 local usesStreet = template:find('{streetName}', 1, true) ~= nil
@@ -17,10 +20,21 @@ local function getStreetName()
 end
 
 ---@return string
+local function getCharName()
+    local PlayerData = QBX.PlayerData
+    if PlayerData and PlayerData.charinfo then
+        return PlayerData.charinfo.firstname .. " " .. PlayerData.charinfo.lastname
+    end
+    return "Bilinmiyor"
+end
+
+---@return string
 local function render()
     return (template:gsub('{(%w+)}', {
+        id = usesPlayerId and tostring(GetPlayerServerId(PlayerId())) or nil,
+        charName = usesCharName and getCharName() or nil,
         playerName = usesPlayerName and GetPlayerName(PlayerId()) or nil,
-        currentPlayers = usesPlayers and GlobalState.PlayerCount or nil,
+        currentPlayers = usesPlayers and (GlobalState.PlayerCount or 0) or nil,
         maxPlayers = maxPlayers,
         streetName = usesStreet and getStreetName() or nil,
     }))
@@ -37,7 +51,9 @@ SetDiscordRichPresenceAction(1, discord.secondButton.text, discord.secondButton.
 local last = render()
 SetRichPresence(last)
 
-if usesPlayers or usesStreet then
+-- Karakter adı (charName) veya ID zamanla değişebileceği için (örn. karakter seçme ekranından sonra)
+-- döngüyü tetikleyecek koşullara bunları da ekledik.
+if usesPlayers or usesStreet or usesCharName or usesPlayerId then
     CreateThread(function()
         while true do
             Wait(updateInterval)
