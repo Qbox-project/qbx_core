@@ -163,6 +163,34 @@ local function fetchAllPlayerEntities(license2, license)
     return chars
 end
 
+--- Heals accounts whose cids aren't a clean 1..N sequence (duplicates or gaps
+--- left by the pre-fix createCharacter bug, or by deleted characters). Slots
+--- are reassigned in creation order (`id`) so a character keeps its slot
+--- across logins instead of shuffling, and only rows that actually change are
+--- written.
+---@param license2 string
+---@param license? string
+local function normalizeCids(license2, license)
+    ---@type { id: integer, citizenid: string, cid: integer, charinfo: string }[]
+    local rows = MySQL.query.await('SELECT id, citizenid, cid, charinfo FROM players WHERE license = ? OR license = ? ORDER BY id', {license, license2})
+
+    local updates = {}
+    for i = 1, #rows do
+        if rows[i].cid ~= i then
+            local charinfo = json.decode(rows[i].charinfo)
+            charinfo.cid = i
+            updates[#updates + 1] = {
+                query = 'UPDATE players SET cid = ?, charinfo = ? WHERE citizenid = ?',
+                values = { i, json.encode(charinfo), rows[i].citizenid }
+            }
+        end
+    end
+
+    if #updates > 0 then
+        MySQL.transaction.await(updates)
+    end
+end
+
 ---@param citizenId string
 ---@return PlayerEntity?
 local function fetchPlayerEntity(citizenId)
@@ -446,6 +474,7 @@ return {
     fetchPlayerSkin = fetchPlayerSkin,
     fetchPlayerEntity = fetchPlayerEntity,
     fetchAllPlayerEntities = fetchAllPlayerEntities,
+    normalizeCids = normalizeCids,
     deletePlayer = deletePlayer,
     fetchIsUnique = fetchIsUnique,
     addPlayerToJob = addPlayerToJob,

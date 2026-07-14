@@ -27,6 +27,10 @@ end
 
 lib.callback.register('qbx_core:server:getCharacters', function(source)
     local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
+    -- Heal any account left with a broken cid sequence (duplicates from the
+    -- pre-fix createCharacter bug, or gaps from deleted characters) before
+    -- handing the list to the client, so create-time logic can stay a simple append.
+    storage.normalizeCids(license2, license)
     return storage.fetchAllPlayerEntities(license2, license), getAllowedAmountOfCharacters(license2, license)
 end)
 
