@@ -1,24 +1,51 @@
-local config = require 'config.client'.discord
-if not config.enabled then return end
+local discord = require 'config.client'.discord
 
+if not discord.enabled then return end
+
+local template = discord.richPresence
 local maxPlayers = GlobalState.MaxPlayers
+local updateInterval = math.max(discord.updateInterval or 15000, 5000)
 
--- Update player count and show player's name in Rich Presence
-AddStateBagChangeHandler('PlayerCount', nil, function(bagName, _, value)
-	if bagName ~= 'global' or not value then return end
+local usesPlayerName = template:find('{playerName}', 1, true) ~= nil
+local usesPlayers = template:find('{currentPlayers}', 1, true) ~= nil
+local usesStreet = template:find('{streetName}', 1, true) ~= nil
 
-	local playerName = GetPlayerName(PlayerId())
-	SetRichPresence(('%s | %s/%s'):format(playerName, value, maxPlayers))
-end)
-
-SetDiscordAppId(config.appId)
-SetDiscordRichPresenceAsset(config.largeIcon.icon)
-SetDiscordRichPresenceAssetText(config.largeIcon.text)
-
-if config.smallIcon?.icon and config.smallIcon.icon:len() > 0 then
-	SetDiscordRichPresenceAssetSmall(config.smallIcon.icon)
-	SetDiscordRichPresenceAssetSmallText(config.smallIcon.text)
+---@return string
+local function getStreetName()
+    local coords = GetEntityCoords(cache.ped)
+    return GetStreetNameFromHashKey(GetStreetNameAtCoord(coords.x, coords.y, coords.z))
 end
 
-SetDiscordRichPresenceAction(0, config.buttons[1].text, config.buttons[1].url)
-SetDiscordRichPresenceAction(1, config.buttons[2].text, config.buttons[2].url)
+---@return string
+local function render()
+    return (template:gsub('{(%w+)}', {
+        playerName = usesPlayerName and GetPlayerName(PlayerId()) or nil,
+        currentPlayers = usesPlayers and GlobalState.PlayerCount or nil,
+        maxPlayers = maxPlayers,
+        streetName = usesStreet and getStreetName() or nil,
+    }))
+end
+
+SetDiscordAppId(discord.appId)
+SetDiscordRichPresenceAsset(discord.largeIcon.icon)
+SetDiscordRichPresenceAssetText(discord.largeIcon.text)
+SetDiscordRichPresenceAssetSmall(discord.smallIcon.icon)
+SetDiscordRichPresenceAssetSmallText(discord.smallIcon.text)
+SetDiscordRichPresenceAction(0, discord.firstButton.text, discord.firstButton.link)
+SetDiscordRichPresenceAction(1, discord.secondButton.text, discord.secondButton.link)
+
+local last = render()
+SetRichPresence(last)
+
+if usesPlayers or usesStreet then
+    CreateThread(function()
+        while true do
+            Wait(updateInterval)
+            local updated = render()
+            if updated ~= last then
+                last = updated
+                SetRichPresence(updated)
+            end
+        end
+    end)
+end
