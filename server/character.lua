@@ -88,18 +88,35 @@ local function sanitizeNewCharInfo(data)
     }
 end
 
+---@param existingCharacters PlayerEntity[]
+---@return integer
+local function getNextCid(existingCharacters)
+    local nextCid = 0
+    for i = 1, #existingCharacters do
+        nextCid = math.max(nextCid, existingCharacters[i].charinfo.cid or 0)
+    end
+    return nextCid + 1
+end
+
 ---@param data unknown
 ---@return table? newData
 lib.callback.register('qbx_core:server:createCharacter', function(source, data)
     if type(data) ~= 'table' then return end
 
     local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
-    if #storage.fetchAllPlayerEntities(license2, license) >= getAllowedAmountOfCharacters(license2, license) then
+    local existingCharacters = storage.fetchAllPlayerEntities(license2, license)
+    if #existingCharacters >= getAllowedAmountOfCharacters(license2, license) then
         return
     end
 
     local charinfo = sanitizeNewCharInfo(data)
     if not charinfo then return end
+
+    -- The client sends a cid (its local slot index), but that value is never
+    -- trustworthy: sanitizeNewCharInfo() intentionally drops it, so it must be
+    -- computed server-side from the account's existing characters or every new
+    -- character silently falls back to cid 1 (see CheckPlayerData in player.lua).
+    charinfo.cid = getNextCid(existingCharacters)
 
     local newData = {}
     newData.charinfo = charinfo
