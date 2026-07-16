@@ -21,13 +21,58 @@ exports('DisablePersistence', DisablePersistence)
 if not enable then return end
 
 assert(lib.checkDependency('qbx_vehicles', '1.4.1', true))
+local propUpdateCooldowns = {}
+local positionUpdateCooldowns = {}
 
 local function getVehicleId(vehicle)
+    if vehicle == 0 or not DoesEntityExist(vehicle) or GetEntityType(vehicle) ~= 2 then return end
     return Entity(vehicle).state.vehicleid or exports.qbx_vehicles:GetVehicleIdByPlate(GetVehicleNumberPlateText(vehicle))
 end
 
-RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
+---@param source number
+---@param netId unknown
+---@return number?
+local function getDrivenVehicle(source, netId)
+    if type(netId) ~= 'number' or netId % 1 ~= 0 then return end
+
+    local ped = GetPlayerPed(source)
     local vehicle = NetworkGetEntityFromNetworkId(netId)
+    if ped == 0 or vehicle == 0 or not DoesEntityExist(vehicle)
+        or GetEntityType(vehicle) ~= 2 or GetPedInVehicleSeat(vehicle, -1) ~= ped then return end
+
+    return vehicle
+end
+
+---@param value unknown
+---@return boolean
+local function isValidPropsTable(value)
+    if value == 'deleted' then return true end
+    if type(value) ~= 'table' then return false end
+
+    local encoded, result = pcall(json.encode, value)
+    return encoded and type(result) == 'string' and #result <= 4096
+end
+
+RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
+    local src = source
+    if type(diff) ~= 'table' then return end
+
+    local currentTime = GetGameTimer()
+    if propUpdateCooldowns[src] and currentTime - propUpdateCooldowns[src] < 1000 then return end
+
+    local vehicle = getDrivenVehicle(src, netId)
+    if not vehicle then return end
+    propUpdateCooldowns[src] = currentTime
+
+    if diff.fuelLevel and diff.fuelLevel ~= 'deleted'
+        and (type(diff.fuelLevel) ~= 'number' or diff.fuelLevel ~= diff.fuelLevel
+            or diff.fuelLevel < 0 or diff.fuelLevel > 100) then return end
+    if diff.oilLevel and diff.oilLevel ~= 'deleted'
+        and (type(diff.oilLevel) ~= 'number' or diff.oilLevel ~= diff.oilLevel
+            or diff.oilLevel < 0 or diff.oilLevel > 100) then return end
+    if diff.windows and not isValidPropsTable(diff.windows) then return end
+    if diff.doors and not isValidPropsTable(diff.doors) then return end
+    if diff.tyres and not isValidPropsTable(diff.tyres) then return end
 
     local vehicleId = getVehicleId(vehicle)
     if not vehicleId then return end
@@ -124,6 +169,11 @@ AddEventHandler('entityRemoved', function(entity)
         local passenger = passengers[i]
         SetPedIntoVehicle(passenger.ped, veh, passenger.seat)
     end
+end)
+
+AddEventHandler('playerDropped', function()
+    propUpdateCooldowns[source] = nil
+    positionUpdateCooldowns[source] = nil
 end)
 
 if not full then return end
@@ -227,7 +277,8 @@ local function spawnVehicle(coords, id, model, props)
     end
 end
 
-lib.callback.register('qbx_core:server:getVehiclesToSpawn', function()
+lib.callback.register('qbx_core:server:getVehiclesToSpawn', function(source)
+    if not QBX.Players[source] then return {} end
     return cachedVehicles
 end)
 
@@ -258,7 +309,7 @@ AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
 end)
 
 RegisterNetEvent('qbx_core:server:spawnVehicle', function(id, coords)
-    if not id or not coords then return end
+    if type(id) ~= 'number' or id % 1 ~= 0 or type(coords) ~= 'vector4' then return end
 
     local cachedCoords = cachedVehicles[id]
     if not cachedCoords or
@@ -269,6 +320,9 @@ RegisterNetEvent('qbx_core:server:spawnVehicle', function(id, coords)
         return
     end
 
+    local ped = GetPlayerPed(source)
+    if ped == 0 or #(GetEntityCoords(ped) - cachedCoords.xyz) > 100.0 then return end
+
     local vehicle = exports.qbx_vehicles:GetPlayerVehicle(id)
     if not vehicle or not vehicle.modelName or not vehicle.props then return end
 
@@ -277,20 +331,18 @@ end)
 
 RegisterNetEvent('qbx_core:server:vehiclePositionChanged', function(netId)
     local src = source
+    local currentTime = GetGameTimer()
+    if positionUpdateCooldowns[src] and currentTime - positionUpdateCooldowns[src] < 5000 then return end
 
-    local ped = GetPlayerPed(src)
-    local vehicle = NetworkGetEntityFromNetworkId(netId)
+    local vehicle = getDrivenVehicle(src, netId)
+    if not vehicle then return end
+    positionUpdateCooldowns[src] = currentTime
 
     local vehicleId = getVehicleId(vehicle)
     if not vehicleId then return end
 
-    local pedCoords = GetEntityCoords(ped)
     local vehicleCoords = GetEntityCoords(vehicle)
     local vehicleHeading = GetEntityHeading(vehicle)
-
-    if #(pedCoords - vehicleCoords) > 10.0 then
-        return
-    end
 
     saveVehicle(vehicle, vehicleCoords, vehicleHeading)
 end)
