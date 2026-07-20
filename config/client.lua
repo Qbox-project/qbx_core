@@ -54,6 +54,10 @@ return {
     discord = {
         enabled = true, -- This will enable or disable the built in discord rich presence.
 
+        richPresence = 'Players {currentPlayers}/{maxPlayers}', -- Rich presence text. Placeholders: {id}, {charName}, {playerName}, {currentPlayers}, {maxPlayers}, {streetName}
+
+        updateInterval = 15000, -- How often (ms) to refresh rich presence. Minimum 5000; Discord throttles faster updates.
+
         appId = '1024981890798731345', -- This is the Application ID (Replace this with you own)
 
         largeIcon = { -- To set this up, visit https://forum.cfx.re/t/how-to-updated-discord-rich-presence-custom-image/157686
