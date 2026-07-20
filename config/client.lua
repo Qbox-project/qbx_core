@@ -54,7 +54,7 @@ return {
     discord = {
         enabled = true, -- This will enable or disable the built in discord rich presence.
 
-        richPresence = 'Players {currentPlayers}/{maxPlayers}', -- Rich presence text. Placeholders: {playerName}, {currentPlayers}, {maxPlayers}, {streetName}
+        richPresence = 'Players {currentPlayers}/{maxPlayers}', -- Rich presence text. Placeholders: {id}, {charName}, {playerName}, {currentPlayers}, {maxPlayers}, {streetName}
 
         updateInterval = 15000, -- How often (ms) to refresh rich presence. Minimum 5000; Discord throttles faster updates.
 
