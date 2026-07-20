@@ -188,6 +188,7 @@ end)
 -- `if LocalPlayer.state.isLoggedIn then` for the client side
 -- `if Player(source).state.isLoggedIn then` for the server side
 RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
+    if not QBX.Players[source] then return end
     Player(source --[[@as Source]]).state:set('isLoggedIn', true, true)
 end)
 
