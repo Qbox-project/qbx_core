@@ -6,7 +6,6 @@ local template = discord.richPresence
 local maxPlayers = GlobalState.MaxPlayers
 local updateInterval = math.max(discord.updateInterval or 15000, 5000)
 
--- Yeni placeholder kontrolleri
 local usesCharName = template:find('{charName}', 1, true) ~= nil
 local usesPlayerId = template:find('{id}', 1, true) ~= nil
 local usesPlayerName = template:find('{playerName}', 1, true) ~= nil
@@ -25,7 +24,7 @@ local function getCharName()
     if PlayerData and PlayerData.charinfo then
         return PlayerData.charinfo.firstname .. " " .. PlayerData.charinfo.lastname
     end
-    return "Bilinmiyor"
+    return 'Unknown'
 end
 
 ---@return string
@@ -51,8 +50,6 @@ SetDiscordRichPresenceAction(1, discord.secondButton.text, discord.secondButton.
 local last = render()
 SetRichPresence(last)
 
--- Karakter adı (charName) veya ID zamanla değişebileceği için (örn. karakter seçme ekranından sonra)
--- döngüyü tetikleyecek koşullara bunları da ekledik.
 if usesPlayers or usesStreet or usesCharName or usesPlayerId then
     CreateThread(function()
         while true do
