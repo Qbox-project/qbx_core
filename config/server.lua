@@ -98,6 +98,7 @@ return {
         },
 
         defaultNumberOfCharacters = 3, -- Define maximum amount of default characters (maximum 3 characters defined by default)
+        enableHealthInitialization = true, -- Enables the health initialation on player load
     },
 
     -- this configuration is for core events only. putting other webhooks here will have no effect
