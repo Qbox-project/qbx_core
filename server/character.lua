@@ -34,7 +34,14 @@ lib.callback.register('qbx_core:server:getCharacters', function(source)
     return storage.fetchAllPlayerEntities(license2, license), getAllowedAmountOfCharacters(license2, license)
 end)
 
-lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId)
+lib.callback.register('qbx_core:server:getPreviewPedData', function(source, citizenId)
+    if type(citizenId) ~= 'string' or #citizenId > 50 then return end
+
+    local license2 = GetPlayerIdentifierByType(source, 'license2')
+    local license = GetPlayerIdentifierByType(source, 'license')
+    local character = storage.fetchPlayerEntity(citizenId)
+    if not character or character.license ~= license2 and character.license ~= license then return end
+
     local ped = storage.fetchPlayerSkin(citizenId)
     if not ped then return end
 

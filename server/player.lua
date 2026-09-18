@@ -1167,7 +1167,8 @@ function SetMetadata(identifier, metadata, value)
     local numeric = numericMetadata[metadata]
     if numeric then
         value = tonumber(value)
-        if not qbx.math.isFinite(value) then
+        -- Defined in modules/lib.lua but not yet included in the external qbox_lib lint standard.
+        if not qbx.math.isFinite(value) then -- luacheck: ignore
             lib.print.warn(('rejected non-finite value for metadata "%s"'):format(metadata))
             return
         end
@@ -1302,7 +1303,8 @@ end
 ---@return number?
 local function validateMoneyAmount(value)
     value = tonumber(value)
-    if not qbx.math.isFinite(value) then return end
+    -- Defined in modules/lib.lua but not yet included in the external qbox_lib lint standard.
+    if not qbx.math.isFinite(value) then return end -- luacheck: ignore
     value = qbx.math.round(value)
     if value < 0 then return end
     return value
