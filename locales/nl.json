@@ -22,8 +22,8 @@
         "no_match_character_registration": "Alles anders dan letters is niet toegestaan, spaties aan het einde zijn ook niet toegestaan ​​en woorden moeten in invoervelden met een hoofdletter beginnen. Je kunt echter woorden toevoegen met spaties ertussen.",
         "already_in_queue": "You are already in queue.",
         "no_subqueue": "You were not let in any sub-queue.",
-        "character_delete_failed": "Verwijderen van tekens is mislukt. Probeer het opnieuw.",
-        "not_optin": "U bent niet aangemeld voor administratieve taken. (/optin om te schakelen)"
+        "character_delete_failed": "Het verwijderen van het personage is mislukt. Probeer het opnieuw.",
+        "not_optin": "Je bent niet aangemeld voor administratieve taken. (/optin om te schakelen)"
     },
     "success": {
         "server_opened": "De server is geopend!",
@@ -31,7 +31,7 @@
         "teleported_waypoint": "Geteleporteerd naar marker.",
         "character_deleted": "Karakter verwijderd!",
         "character_deleted_citizenid": "Je hebt je karakter succesvol verwijderd met BSN %s.",
-        "optin_set": "U heeft%smet succes gekozen voor beheerderstaken."
+        "optin_set": "De aanmelding voor administratieve taken is gewijzigd (%s)."
     },
     "info": {
         "received_paycheck": "Je hebt je loon ontvangen €%s",
