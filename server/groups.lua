@@ -22,6 +22,45 @@ for name in pairs(gangs) do
     end
 end
 
+---@param grade unknown
+---@return integer? grade
+local function normalizeGrade(grade)
+    if type(grade) == 'string' then
+        if not grade:match('^%d+$') then return end
+        grade = tonumber(grade)
+    end
+
+    if type(grade) ~= 'number' or grade < 0 or grade % 1 ~= 0 then return end
+
+    return grade
+end
+
+---@param group Job | Gang
+---@return boolean success
+---@return string? message
+local function normalizeGroupGrades(group)
+    if type(group.grades) ~= 'table' then
+        return false, 'Invalid parameter: group grades must be a table.'
+    end
+
+    local grades = {}
+    for grade, data in pairs(group.grades) do
+        local normalizedGrade = normalizeGrade(grade)
+        if not normalizedGrade then
+            return false, ("Invalid grade '%s': grade keys must be non-negative integers."):format(tostring(grade))
+        end
+
+        if grades[normalizedGrade] ~= nil then
+            return false, ("Invalid grade '%s': multiple grade keys resolve to the same integer."):format(tostring(grade))
+        end
+
+        grades[normalizedGrade] = data
+    end
+
+    group.grades = grades
+    return true
+end
+
 --- Removes any quotes to ensure functionality
 ---@param str string
 ---@return string
@@ -148,6 +187,9 @@ function CreateJob(jobName, job, commitToFile)
         return false, "Invalid parameter: job must be a table."
     end
 
+    local gradesValid, gradesError = normalizeGroupGrades(job)
+    if not gradesValid then return false, gradesError end
+
     -- Store the job data
     jobs[jobName] = job
 
@@ -220,13 +262,31 @@ exports('RemoveJob', RemoveJob)
 ---Adds or overwrites gangs in shared/gangs.lua
 ---@param newGangs table<string, Gang>
 ---@param commitToFile boolean Whether to commit the gang data to the shared file.
+---@return boolean success
+---@return string? message
 function CreateGangs(newGangs, commitToFile)
+    if type(newGangs) ~= 'table' then
+        return false, 'Invalid parameter: newGangs must be a table.'
+    end
+
+    for gangName, gang in pairs(newGangs) do
+        if type(gang) ~= 'table' then
+            return false, ("Invalid parameter: gang '%s' must be a table."):format(tostring(gangName))
+        end
+
+        local gradesValid, gradesError = normalizeGroupGrades(gang)
+        if not gradesValid then
+            return false, ("Gang '%s': %s"):format(tostring(gangName), gradesError)
+        end
+    end
+
     for gangName, gang in pairs(newGangs) do
         gangs[gangName] = gang
         notifyGroupUpdate('Gang', gangName)
     end
 
     commitGroupToFile('Gang', commitToFile)
+    return true
 end
 
 exports('CreateGangs', CreateGangs)
@@ -335,7 +395,12 @@ local function upsertJobGrade(name, grade, data, commitToFile)
         lib.print.error('Job must exist to edit grades. Not found:', name)
         return
     end
-    jobs[name].grades[grade] = data
+    local normalizedGrade = normalizeGrade(grade)
+    if not normalizedGrade then
+        lib.print.error('Job grade must be a non-negative integer:', grade)
+        return
+    end
+    jobs[name].grades[normalizedGrade] = data
     notifyGroupUpdate('Job', name)
     commitGroupToFile('Job', commitToFile)
 end
@@ -351,7 +416,12 @@ local function upsertGangGrade(name, grade, data, commitToFile)
         lib.print.error('Gang must exist to edit grades. Not found:', name)
         return
     end
-    gangs[name].grades[grade] = data
+    local normalizedGrade = normalizeGrade(grade)
+    if not normalizedGrade then
+        lib.print.error('Gang grade must be a non-negative integer:', grade)
+        return
+    end
+    gangs[name].grades[normalizedGrade] = data
     notifyGroupUpdate('Gang', name)
     commitGroupToFile('Gang', commitToFile)
 end
