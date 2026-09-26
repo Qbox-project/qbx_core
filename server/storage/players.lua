@@ -113,7 +113,7 @@ end
 
 ---@param request UpsertPlayerRequest
 local function upsertPlayerEntity(request)
-    MySQL.insert.await('INSERT INTO players (userId, citizenid, cid, license, name, money, charinfo, job, gang, position, metadata, last_logged_out) VALUES (:userId, :citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata, :last_logged_out) ON DUPLICATE KEY UPDATE userId = :userId, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata, last_logged_out = :last_logged_out', {
+    local values = {
         userId = request.playerEntity.userId,
         citizenid = request.playerEntity.citizenid,
         cid = request.playerEntity.charinfo.cid,
@@ -126,7 +126,13 @@ local function upsertPlayerEntity(request)
         position = json.encode(request.position),
         metadata = json.encode(request.playerEntity.metadata),
         last_logged_out = os.date('%Y-%m-%d %H:%M:%S', request.playerEntity.lastLoggedOut)
-    })
+    }
+
+    -- An upsert consumes an AUTO_INCREMENT id even when it only updates, so reserve it for new rows.
+    local affectedRows = MySQL.update.await('UPDATE players SET userId = :userId, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata, last_logged_out = :last_logged_out WHERE citizenid = :citizenid', values)
+    if affectedRows and affectedRows > 0 then return end
+
+    MySQL.insert.await('INSERT INTO players (userId, citizenid, cid, license, name, money, charinfo, job, gang, position, metadata, last_logged_out) VALUES (:userId, :citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata, :last_logged_out) ON DUPLICATE KEY UPDATE userId = :userId, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata, last_logged_out = :last_logged_out', values)
 end
 
 ---@param citizenId string
