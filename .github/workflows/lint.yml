@@ -4,10 +4,12 @@ on:
     paths:
       - '**.lua'
       - '.github/workflows/lint.yml'
-  pull_request_target:
+  pull_request:
     paths:
       - '**.lua'
       - '.github/workflows/lint.yml'
+permissions:
+  contents: read
 jobs:
   lint:
     name: Lint Resource
@@ -15,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
       - name: Lint
         uses: iLLeniumStudios/fivem-lua-lint-action@v2
         with:
@@ -28,4 +30,7 @@ jobs:
         with:
           report_paths: "**/junit.xml"
           check_name: Linting Report
-          fail_on_failure: false
+          annotate_only: true
+          job_summary: true
+          fail_on_failure: true
+          require_tests: true
