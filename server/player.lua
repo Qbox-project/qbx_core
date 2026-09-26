@@ -743,11 +743,11 @@ function Logout(source)
     player.PlayerData.metadata.thirst = playerState?.thirst or player.PlayerData.metadata.thirst
     player.PlayerData.metadata.stress = playerState?.stress or player.PlayerData.metadata.stress
 
-    TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
-    TriggerEvent('QBCore:Server:OnPlayerUnload', source)
-
     player.PlayerData.lastLoggedOut = os.time()
     Save(player.PlayerData.source)
+
+    TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
+    TriggerEvent('QBCore:Server:OnPlayerUnload', source)
 
     Wait(200)
     QBX.UnregisterPlayer(source)
@@ -1086,10 +1086,11 @@ function Save(source)
         return
     end
 
-    playerData.metadata.health = GetEntityHealth(ped)
-    playerData.metadata.armor = GetPedArmour(ped)
-
     if playerState.isLoggedIn then
+        -- Before spawning, this ped is only a preview and does not have the
+        -- character's saved health. Keep stored vitals if selection is aborted.
+        playerData.metadata.health = GetEntityHealth(ped)
+        playerData.metadata.armor = GetPedArmour(ped)
         playerData.metadata.hunger = playerState.hunger or 0
         playerData.metadata.thirst = playerState.thirst or 0
         playerData.metadata.stress = playerState.stress or 0
