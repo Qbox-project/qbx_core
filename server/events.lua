@@ -80,6 +80,7 @@ end
 local function onPlayerConnecting(name, _, deferrals)
     local src = source --[[@as string]]
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
+    local identifiers = getIdentifiers(src)
     deferrals.defer()
 
     -- Mandatory wait
@@ -108,7 +109,6 @@ local function onPlayerConnecting(name, _, deferrals)
         deferrals.update(locale('info.fetching_user', name))
         local userId = storage.fetchUserByIdentifier(license)
         if not userId then
-            local identifiers = getIdentifiers(src)
             identifiers.username = name
 
             deferrals.update(locale('info.creating_user', name))
