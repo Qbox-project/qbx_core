@@ -98,7 +98,7 @@ return {
         },
 
         defaultNumberOfCharacters = 3, -- Define maximum amount of default characters (maximum 3 characters defined by default)
-        enableHealthInitialization = true, -- Enables the health initialization on player load
+        enableHealthInitialization = true, -- Restore health on spawn when qbx_medical is not running. Disable if another medical resource owns health initialization.
     },
 
     -- this configuration is for core events only. putting other webhooks here will have no effect

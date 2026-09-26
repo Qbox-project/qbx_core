@@ -193,7 +193,9 @@ RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     if not player or Player(src).state.isLoggedIn then return end
     Player(src).state:set('isLoggedIn', true, true)
 
-    if characterConfig.enableHealthInitialization ~= false then
+    -- qbx_medical restores health and death/laststand together. A late callback
+    -- from core must not overwrite its resurrected ped's health.
+    if characterConfig.enableHealthInitialization ~= false and GetResourceState('qbx_medical') ~= 'started' then
         lib.callback.await('qbx_core:client:setHealth', src, player.PlayerData.metadata.health or 200)
     end
 end)
