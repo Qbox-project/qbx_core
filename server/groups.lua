@@ -30,7 +30,9 @@ local function normalizeGrade(grade)
         grade = tonumber(grade)
     end
 
-    if type(grade) ~= 'number' or grade < 0 or grade % 1 ~= 0 then return end
+    if type(grade) ~= 'number' then return end
+    grade = math.tointeger(grade)
+    if not grade or grade < 0 then return end
 
     return grade
 end
@@ -276,6 +278,7 @@ function CreateGangs(newGangs, commitToFile)
 
         local gradesValid, gradesError = normalizeGroupGrades(gang)
         if not gradesValid then
+            lib.print.error(gradesError)
             return false, ("Gang '%s': %s"):format(tostring(gangName), gradesError)
         end
     end
@@ -436,7 +439,12 @@ local function removeJobGrade(name, grade, commitToFile)
         lib.print.error('Job must exist to edit grades. Not found:', name)
         return
     end
-    jobs[name].grades[grade] = nil
+    local normalizedGrade = normalizeGrade(grade)
+    if not normalizedGrade then
+        lib.print.error('Job grade must be a non-negative integer:', grade)
+        return
+    end
+    jobs[name].grades[normalizedGrade] = nil
     notifyGroupUpdate('Job', name)
     commitGroupToFile('Job', commitToFile)
 end
@@ -451,7 +459,12 @@ local function removeGangGrade(name, grade, commitToFile)
         lib.print.error('Gang must exist to edit grades. Not found:', name)
         return
     end
-    gangs[name].grades[grade] = nil
+    local normalizedGrade = normalizeGrade(grade)
+    if not normalizedGrade then
+        lib.print.error('Gang grade must be a non-negative integer:', grade)
+        return
+    end
+    gangs[name].grades[normalizedGrade] = nil
     notifyGroupUpdate('Gang', name)
     commitGroupToFile('Gang', commitToFile)
 end
