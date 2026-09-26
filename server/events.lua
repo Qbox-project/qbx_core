@@ -189,12 +189,13 @@ end)
 -- `if LocalPlayer.state.isLoggedIn then` for the client side
 -- `if Player(source).state.isLoggedIn then` for the server side
 RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
-    Player(source --[[@as Source]]).state:set('isLoggedIn', true, true)
-    
-    if characterConfig.enableHealthInitialization then
-        local player = GetPlayer(source --[[@as Source]])
-        if not player or not player.PlayerData or not player.PlayerData.metadata then return end
-        lib.callback.await('qbx_core:client:setHealth', source --[[@as Source]], player.PlayerData.metadata.health or 200)
+    local src = source --[[@as Source]]
+    local player = GetPlayer(src)
+    if not player or Player(src).state.isLoggedIn then return end
+    Player(src).state:set('isLoggedIn', true, true)
+
+    if characterConfig.enableHealthInitialization ~= false then
+        lib.callback.await('qbx_core:client:setHealth', src, player.PlayerData.metadata.health or 200)
     end
 end)
 
