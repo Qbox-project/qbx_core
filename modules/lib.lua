@@ -267,6 +267,19 @@ if isServer then
     ---@field props? table https://coxdocs.dev/ox_lib/Modules/VehicleProperties/Client#vehicle-properties
     ---@field bucket? integer routing bucket to move spawned entity to.
 
+    local spawnTimeoutMs <const> = 10000 -- same bound as the qb bridge SpawnVehicle (#749)
+
+    ---Waits up to `spawnTimeoutMs` for `cb` to be truthy. On timeout, deletes `entity` (which the caller created) if it exists, then errors.
+    ---@param entity integer
+    ---@param cb fun(): boolean
+    ---@param errMessage string
+    local function waitForOwnEntity(entity, cb, errMessage)
+        local ok, err = pcall(lib.waitFor, function() if cb() then return true end end, errMessage, spawnTimeoutMs)
+        if ok then return end
+        if DoesEntityExist(entity) then DeleteEntity(entity) end
+        error(err, 0)
+    end
+
     ---Creates a vehicle on the server-side and returns its `netId`.
     ---
     ---The `CreateVehicleServerSetter` native uses only the server to create a vehicle instead of using the client as well.
@@ -309,7 +322,7 @@ if isServer then
                 model))
 
             local tempVehicle = CreateVehicle(model, 0, 0, -200, 0, true, true)
-            while not DoesEntityExist(tempVehicle) do Wait(0) end
+            waitForOwnEntity(tempVehicle, function() return DoesEntityExist(tempVehicle) end, 'temp vehicle never existed')
 
             vehicleType = GetVehicleType(tempVehicle)
             DeleteEntity(tempVehicle)
@@ -325,8 +338,8 @@ if isServer then
                 exports.qbx_core:SetEntityBucket(veh, bucket)
             end
 
-            while not DoesEntityExist(veh) do Wait(0) end
-            while GetVehicleNumberPlateText(veh) == '' do Wait(0) end
+            waitForOwnEntity(veh, function() return DoesEntityExist(veh) end, 'vehicle never existed')
+            waitForOwnEntity(veh, function() return GetVehicleNumberPlateText(veh) ~= '' end, 'vehicle plate never set')
 
             if ped then
                 SetPedIntoVehicle(ped, veh, -1)
