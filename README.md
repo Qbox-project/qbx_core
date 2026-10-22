@@ -38,3 +38,26 @@ The core makes available several optional modules for developers to import into 
 If you feel something is missing or want to suggest additional functionality that can be added to qbx_core, bring it up on the official [Qbox Discord](https://discord.gg/qbox)!
 
 Thank you to everyone and their contributions (large or small!), as this wouldn't have been possible.
+
+# License
+
+    qbx_core
+    Copyright (C) 2022-2026 Qbox Project contributors
+
+    Based on QBCore Framework, forked on September 23, 2022
+    Copyright (C) 2021-2022 QBCore Framework contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+The full license text is in [LICENSE](LICENSE). Code adapted from other projects is marked where it appears with its source, copyright holder, and license. Code adapted from [ox_lib](https://github.com/overextended/ox_lib) is licensed under the LGPL-3.0-or-later, included in [LICENSES/LGPL-3.0-or-later.txt](LICENSES/LGPL-3.0-or-later.txt).

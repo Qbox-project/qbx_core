@@ -444,7 +444,8 @@ function functions.SetVehicleProperties(vehicle, props)
     props.modLightbar = props.modLightbar or props.modKit49
     props.modRoofLivery = props.modRoofLivery or props.liveryRoof
 
-    --- lib.setVehicleProperties copied and pasted from Overextended below so that we can remove the error so that setting properties is best effort
+    -- Adapted from ox_lib with its errors removed so setting properties is best effort: https://github.com/overextended/ox_lib/blob/dda2e0927fec2aeb0f5f12fc88c0f614796c043f/resource/vehicleProperties/client.lua#L288-L647
+    -- Copyright (C) 2021-2023 Linden, Luke, and contributors, LGPL-3.0-or-later (see LICENSES/LGPL-3.0-or-later.txt)
     assert(DoesEntityExist(vehicle), ('Unable to set vehicle properties for "%s" (entity does not exist)'):format(vehicle))
 
     if NetworkGetEntityIsNetworked(vehicle) and NetworkGetEntityOwner(vehicle) ~= cache.playerId then
