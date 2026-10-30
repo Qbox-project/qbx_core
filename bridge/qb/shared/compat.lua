@@ -1,103 +1,252 @@
 -- Item conversion borrowed from ox_inventory: https://github.com/overextended/ox_inventory/blob/52d99285eef1dc7df31c084679db3fdf6b1c0150/modules/items/server.lua#L115-L217
 -- Copyright (c) 2023 Overextended
 
-return {
-    convertItems = function(ItemList, items)
-        local dump = {}
-        local count = 0
-        local ignoreList = {
-            "weapon_",
-            "pistol_",
-            "pistol50_",
-            "revolver_",
-            "smg_",
-            "combatpdw_",
-            "shotgun_",
-            "rifle_",
-            "carbine_",
-            "gusenberg_",
-            "sniper_",
-            "snipermax_",
-            "tint_",
-            "_ammo"
-        }
+local outputFile = 'converted.lua'
 
-        local function checkIgnoredNames(name)
-            for i = 1, #ignoreList do
-                if string.find(name, ignoreList[i]) then
-                    return true
-                end
-            end
-            return false
-        end
+local weaponPartPatterns = {
+    '_ammo$',
+    '_attachment$',
+    '_muzzle_brake$',
+    'tint_',
+    '^%a*pistol50?_',
+    '^%a*revolver_',
+    '^%a*mg_',
+    '^%a*pdw_',
+    '^%a*shotgun_',
+    '^%a*rifle_',
+    '^%a*carbine_',
+    '^gusenberg_',
+    '^%a*sniper_',
+    '^snipermax_',
+}
 
-        for k, item in pairs(items) do
-            if type(item) == 'table' then
-                if not item.name then item.name = k end
+local escapes = { ['\\'] = '\\\\', ["'"] = "\\'", ['\n'] = '\\n', ['\r'] = '\\r', ['\t'] = '\\t' }
 
-                if not ItemList[item.name] and not checkIgnoredNames(item.name) then
-                    item.close = item.shouldClose == nil and true or item.shouldClose
-                    item.stack = not item.unique and true
-                    item.description = item.description
-                    item.weight = item.weight or 0
-                    dump[k] = item
-                    count += 1
-                end
-            end
-        end
+local function quote(str)
+    return "'" .. str:gsub('[\\\'%c]', function(char)
+        return escapes[char] or ('\\%03d'):format(char:byte())
+    end) .. "'"
+end
 
-        if table.type(dump) ~= 'empty' then
-            local file = {string.strtrim(LoadResourceFile('ox_inventory', 'data/items.lua'))}
-            file[1] = file[1]:gsub('}$', '')
+local function toNumber(value)
+    value = tonumber(value)
 
-            local itemFormat = [[
+    if value and value == value and value > -math.huge and value < math.huge then
+        return math.tointeger(value) or value
+    end
+end
 
-    [%q] = {
-        label = %q,
-        weight = %s,
-        stack = %s,
-        close = %s,
-        description = %q,
-        client = {
-            status = {
-                hunger = %s,
-                thirst = %s,
-                stress = %s
-            },
-            image = %q,
-        }
-    },
-]]
-
-            local fileSize = #file
-
-            for _, item in pairs(dump) do
-                if not ItemList[item.name] then
-                    fileSize += 1
-
-                    ---@todo cry
-                    local itemStr = itemFormat:format(item.name, item.label, item.weight, item.stack, item.close, item.description or 'nil', item.hunger or 'nil', item.thirst or 'nil', item.stress or 'nil', item.image or 'nil')
-                    -- temporary solution for nil values
-                    itemStr = itemStr:gsub('[%s]-[%w]+ = "?nil"?,?', '')
-                    -- temporary solution for empty status table
-                    itemStr = itemStr:gsub('[%s]-[%w]+ = %{[%s]+%},?', '')
-                    -- temporary solution for empty client table
-                    itemStr = itemStr:gsub('[%s]-[%w]+ = %{[%s]+%},?', '')
-                    file[fileSize] = itemStr
-                    ItemList[item.name] = item
-                end
-            end
-
-            file[fileSize+1] = '}'
-
-            if not SaveResourceFile('qbx_core', 'converted.lua', table.concat(file), -1) then
-                error('Unable to save converted items to qbx_core/converted.lua')
-            end
-            CreateThread(function()
-                Wait(1000)
-                print('^2[warning]^7 '..count..' items have been added to converted.lua in qbx_core')
-                print('^2[warning]^7 Review converted.lua, copy the converted definitions into ox_inventory/data/items.lua, and restart ox_inventory.')
-            end)
+local function isWeaponPart(name)
+    for i = 1, #weaponPartPatterns do
+        if name:find(weaponPartPatterns[i]) then
+            return true
         end
     end
+
+    return false
+end
+
+local function convertImage(name, image)
+    if type(image) ~= 'string' or image == '' then return end
+    if image:find('^%w+://') then return image end
+
+    if not image:find('%.%w+$') then
+        image = image .. '.png'
+    end
+
+    if image ~= name .. '.png' then
+        return image
+    end
+end
+
+local function formatItem(name, item)
+    local lines = {
+        ('\t[%s] = {'):format(quote(name)),
+        ('\t\tlabel = %s,'):format(quote(type(item.label) == 'string' and item.label or name)),
+        ('\t\tweight = %s,'):format(toNumber(item.weight) or 0),
+    }
+
+    if item.unique then
+        lines[#lines + 1] = '\t\tstack = false,'
+    end
+
+    if item.shouldClose == false then
+        lines[#lines + 1] = '\t\tclose = false,'
+    end
+
+    if type(item.description) == 'string' and item.description ~= '' then
+        lines[#lines + 1] = ('\t\tdescription = %s,'):format(quote(item.description))
+    end
+
+    local decay = toNumber(item.decay)
+
+    -- QBCore inventory forks store decay in days, ox_inventory stores degrade in minutes
+    if decay and decay > 0 then
+        lines[#lines + 1] = ('\t\tdegrade = %s,'):format(toNumber(decay * 1440))
+    end
+
+    local image = convertImage(name, item.image)
+
+    if image then
+        lines[#lines + 1] = '\t\tclient = {'
+        lines[#lines + 1] = ('\t\t\timage = %s,'):format(quote(image))
+        lines[#lines + 1] = '\t\t},'
+    end
+
+    lines[#lines + 1] = '\t},'
+
+    return table.concat(lines, '\n')
+end
+
+local function loadFile(resource, path, env)
+    local chunk = LoadResourceFile(resource, path)
+
+    if not chunk then return end
+
+    local fn, err = load(chunk, ('@@%s/%s'):format(resource, path), 't', env or _ENV)
+
+    if not fn then error(err, 0) end
+
+    return fn()
+end
+
+local function getQbItems()
+    local env = setmetatable({ QBShared = {} }, { __index = _ENV })
+    local result = loadFile(cache.resource, 'shared/items.lua', env)
+    local items = {}
+
+    local function collect(list)
+        if type(list) ~= 'table' then return end
+
+        for key, item in pairs(list) do
+            local name = type(item) == 'table' and (type(item.name) == 'string' and item.name or type(key) == 'string' and key)
+
+            if name and name ~= '' then
+                items[name:lower()] = item
+            end
+        end
+    end
+
+    collect(result)
+    collect(type(env.QBShared) == 'table' and env.QBShared.Items)
+
+    return items
+end
+
+local function getOxItemNames()
+    local items = loadFile('ox_inventory', 'data/items.lua')
+
+    if type(items) ~= 'table' then
+        error('ox_inventory/data/items.lua could not be read', 0)
+    end
+
+    local names = {}
+
+    for name in pairs(items) do
+        names[tostring(name):lower()] = true
+    end
+
+    for _, category in pairs(loadFile('ox_inventory', 'data/weapons.lua') or {}) do
+        for name in pairs(type(category) == 'table' and category or {}) do
+            names[tostring(name):lower()] = true
+        end
+    end
+
+    return names
+end
+
+local function saveConverted(names, items, weapons, weaponParts)
+    local file = {
+        '-- Generated by qbx_core from shared/items.lua: QBCore items that ox_inventory/data/items.lua does not define yet.',
+        '-- Copy every entry between "return {" and the last "}" into ox_inventory/data/items.lua, just before its last "}".',
+        '-- This file is rewritten on every start while items are still missing, so make your edits in ox_inventory.',
+    }
+
+    if #weapons > 0 then
+        file[#file + 1] = ('-- Weapons not defined in ox_inventory/data/weapons.lua (add them there): %s'):format(table.concat(weapons, ', '))
+    end
+
+    if #weaponParts > 0 then
+        file[#file + 1] = ('-- Ammo, attachments and tints not converted (ox_inventory defines its own in data/weapons.lua): %s'):format(table.concat(weaponParts, ', '))
+    end
+
+    file[#file + 1] = 'return {'
+
+    for i = 1, #names do
+        file[#file + 1] = formatItem(names[i], items[names[i]])
+    end
+
+    file[#file + 1] = '}\n'
+
+    return SaveResourceFile(cache.resource, outputFile, table.concat(file, '\n'), -1)
+end
+
+---@param verbose? boolean
+local function convertItems(verbose)
+    local success, items = pcall(getQbItems)
+
+    if not success then
+        lib.print.error(('Unable to read QBCore items from qbx_core/shared/items.lua: %s'):format(items))
+        return
+    end
+
+    if not next(items) then
+        if verbose then
+            lib.print.info('qbx_core/shared/items.lua has no QBCore items to convert')
+        end
+        return
+    end
+
+    local oxItems
+    success, oxItems = pcall(getOxItemNames)
+
+    if not success then
+        lib.print.error(('Unable to read ox_inventory items, QBCore items were not converted: %s'):format(oxItems))
+        return
+    end
+
+    local names, weapons, weaponParts = {}, {}, {}
+
+    for name, item in pairs(items) do
+        if not oxItems[name] then
+            if item.type == 'weapon' or name:find('^weapon_') then
+                weapons[#weapons + 1] = name
+            elseif isWeaponPart(name) then
+                weaponParts[#weaponParts + 1] = name
+            else
+                names[#names + 1] = name
+            end
+        end
+    end
+
+    if #names == 0 and not verbose then return end
+
+    table.sort(names)
+    table.sort(weapons)
+    table.sort(weaponParts)
+
+    if #names > 0 then
+        if not saveConverted(names, items, weapons, weaponParts) then
+            lib.print.error(('Unable to save converted items to qbx_core/%s'):format(outputFile))
+            return
+        end
+
+        lib.print.warn(('%d QBCore items in qbx_core/shared/items.lua are missing from ox_inventory and were written to qbx_core/%s'):format(#names, outputFile))
+        lib.print.warn(('To import them, paste the entries of qbx_core/%s just before the last "}" of ox_inventory/data/items.lua, copy their images to ox_inventory/web/images and restart the server'):format(outputFile))
+    else
+        lib.print.info('No QBCore items need converting, ox_inventory already defines every regular item in qbx_core/shared/items.lua')
+    end
+
+    if #weapons > 0 then
+        lib.print.warn(('%d QBCore weapons are not defined in ox_inventory/data/weapons.lua and must be added there by hand: %s'):format(#weapons, table.concat(weapons, ', ')))
+    end
+
+    if #weaponParts > 0 then
+        lib.print.warn(('%d QBCore ammo, attachment and tint items were not converted because ox_inventory defines its own in data/weapons.lua (e.g. ammo-9, at_flashlight): %s'):format(#weaponParts, table.concat(weaponParts, ', ')))
+    end
+end
+
+return {
+    convertItems = convertItems,
+    getQbItems = getQbItems,
 }
