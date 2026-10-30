@@ -131,11 +131,37 @@ end
 ---@deprecated use lib.requestAnimDict from ox_lib
 functions.RequestAnimDict = lib.requestAnimDict
 
----@deprecated use lib.requestAnimDict from ox_lib, and the TaskPlayAnim and RemoveAnimDict natives directly
+---@deprecated use lib.playAnim from ox_lib
+---@param animDict string
+---@param animName string
+---@param upperbodyOnly? boolean
+---@param duration? number ms, -1 or nil loops the animation
+---@return number | string durationOrError animation length in seconds once it has played, or an error message
 functions.PlayAnim = function(animDict, animName, upperbodyOnly, duration)
-    local flags = upperbodyOnly and 16 or 0
+    local invoked = GetInvokingResource() or cache.resource
+    if type(animDict) ~= 'string' or type(animName) ~= 'string' then
+        return invoked .. ' :^1  Wrong type for animDict or animName'
+    end
+    if not DoesAnimDictExist(animDict) then
+        return invoked .. ' :^1  Animation dictionary does not exist'
+    end
+    if not pcall(lib.requestAnimDict, animDict, 5000) then
+        return invoked .. ' :^1  Animation dictionary failed to load'
+    end
+
     local runTime = duration or -1
-    lib.playAnim(cache.ped, animDict, animName, 8.0, 3.0, runTime, flags, 0.0, false, false, true)
+    local flags = runTime == -1 and 49 or upperbodyOnly and 16 or 0
+    TaskPlayAnim(cache.ped, animDict, animName, 8.0, 8.0, runTime, flags, 0.0, true, true, true)
+    Wait(10)
+    local animDuration = GetAnimDuration(animDict, animName)
+    if animDuration == 0 then
+        return invoked .. ' :^1  Animation does not exist'
+    end
+
+    local fullDuration = animDuration * 1000
+    Wait(duration and math.min(duration, fullDuration) or fullDuration)
+    RemoveAnimDict(animDict)
+    return animDuration
 end
 
 ---@deprecated use lib.requestModel from ox_lib
