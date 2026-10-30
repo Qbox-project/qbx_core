@@ -438,7 +438,7 @@ function functions.GetVehicleProperties(vehicle)
 
     local doorStatus = {}
     for i = 0, 5 do
-        doorStatus[i] = IsVehicleDoorDamaged(vehicle, i) == 1
+        doorStatus[i] = IsVehicleDoorDamaged(vehicle, i)
     end
 
     -- qb properties not in ox
@@ -455,6 +455,10 @@ function functions.GetVehicleProperties(vehicle)
     props.modKit49 = props.modLightbar
     props.liveryRoof = props.modRoofLivery
 
+    if props.modLivery == -1 and GetVehicleLivery(vehicle) ~= 0 then
+        props.modLivery = GetVehicleLivery(vehicle)
+    end
+
     return props
 end
 
@@ -462,9 +466,11 @@ local gameBuild = GetGameBuildNumber()
 
 ---@deprecated use lib.setVehicleProperties from ox_lib
 function functions.SetVehicleProperties(vehicle, props)
+    if not props or not DoesEntityExist(vehicle) then return end
+
     if props.tireHealth and not props.tyres then
         for wheelIndex, health in pairs(props.tireHealth) do
-            SetVehicleWheelHealth(vehicle, wheelIndex, health)
+            SetVehicleWheelHealth(vehicle, tonumber(wheelIndex) --[[@as number]], health)
         end
     end
     if props.headlightColor then
@@ -474,17 +480,29 @@ function functions.SetVehicleProperties(vehicle, props)
     if (props.tireBurstCompletely or props.tireBurstState) and not props.tyres then
         props.tyres = {}
         for i = 0, 7 do
-            props.tyres[i] = props.tireBurstCompletely and props.tireBurstCompletely[i] and 2 or props.tireBurstState and props.tireBurstState[i] and 1 or nil
+            local completely = props.tireBurstCompletely and (props.tireBurstCompletely[i] or props.tireBurstCompletely[tostring(i)])
+            local burst = props.tireBurstState and (props.tireBurstState[i] or props.tireBurstState[tostring(i)])
+            props.tyres[i] = completely and 2 or burst and 1 or nil
         end
     end
 
     local numWindowsDamaged = 0
     if props.windowStatus and not props.windows then
         props.windows = {}
-        for i, isDamaged in pairs(props.windowStatus) do
-            if isDamaged then
-                numWindowsDamaged += 1
-                props.windows[numWindowsDamaged] = i
+        -- QBCore's getter compares a boolean native to 1, so its saved windowStatus is all false; only trust data with an intact window
+        local hasIntactWindow = false
+        for _, isIntact in pairs(props.windowStatus) do
+            if isIntact then
+                hasIntactWindow = true
+                break
+            end
+        end
+        if hasIntactWindow then
+            for i, isIntact in pairs(props.windowStatus) do
+                if not isIntact then
+                    numWindowsDamaged += 1
+                    props.windows[numWindowsDamaged] = tonumber(i)
+                end
             end
         end
     end
@@ -495,7 +513,7 @@ function functions.SetVehicleProperties(vehicle, props)
         for i, isDamaged in pairs(props.doorStatus) do
             if isDamaged then
                 numDoorsDamaged += 1
-                props.doors[numDoorsDamaged] = i
+                props.doors[numDoorsDamaged] = tonumber(i)
             end
         end
     end
@@ -524,7 +542,7 @@ function functions.SetVehicleProperties(vehicle, props)
 
     if props.extras then
         for id, disable in pairs(props.extras) do
-            SetVehicleExtra(vehicle, tonumber(id) --[[@as number]], disable == 1)
+            SetVehicleExtra(vehicle, tonumber(id) --[[@as number]], disable == 1 or disable == false)
         end
     end
 
@@ -734,7 +752,9 @@ function functions.SetVehicleProperties(vehicle, props)
         ToggleVehicleMod(vehicle, 22, props.modXenon)
     end
 
-    if props.xenonColor then
+    if type(props.xenonColor) == 'table' then
+        SetVehicleXenonLightsCustomColor(vehicle, props.xenonColor[1], props.xenonColor[2], props.xenonColor[3])
+    elseif props.xenonColor then
         SetVehicleXenonLightsColor(vehicle, props.xenonColor)
     end
 
