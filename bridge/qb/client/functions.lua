@@ -144,69 +144,100 @@ functions.LoadModel = lib.requestModel
 ---@deprecated use lib.requestAnimSet from ox_lib
 functions.LoadAnimSet = lib.requestAnimSet
 
+---@alias QbProgressProp {model: string, bone?: number, coords?: vector3|table, rotation?: vector3|table}
+
+---@param value? vector3|table
+---@return vector3
+local function toVec3(value)
+    return value and vec3(value.x, value.y, value.z) or vec3(0.0, 0.0, 0.0)
+end
+
+---@param prop? QbProgressProp
+---@return ProgressPropProps?
+local function toProgressProp(prop)
+    if not prop?.model then return end
+    return {
+        model = prop.model,
+        bone = prop.bone,
+        pos = toVec3(prop.coords),
+        rot = toVec3(prop.rotation),
+    }
+end
+
+---@param animation? {animDict?: string, anim?: string, flags?: integer, task?: string}
+---@return table?
+local function toProgressAnim(animation)
+    if not animation then return end
+    if animation.task then
+        return { scenario = animation.task }
+    end
+    if animation.animDict and animation.anim then
+        return {
+            dict = animation.animDict,
+            clip = animation.anim,
+            flag = animation.flags or 1,
+            blendIn = 3.0,
+            blendOut = 3.0,
+        }
+    end
+end
+
+local isProgressbarRunning = false
+
+---Returns immediately like QBCore's; onFinish or onCancel runs when the bar ends.
 ---@deprecated use lib.progressBar from ox_lib
 ---@param label string
 ---@param duration integer ms
 ---@param useWhileDead boolean
 ---@param canCancel boolean
 ---@param disableControls? {disableMovement: boolean, disableCarMovement: boolean, disableCombat: boolean, disableMouse: boolean}
----@param animation? {animDict: string, anim: string, flags: unknown}
----@param prop? {model: string, bone?: number, coords?: vector3|table, rotation?: vector3|table}
----@param propTwo? {model: string, bone?: number, coords?: vector3|table, rotation?: vector3|table}
----@param onFinish fun()
----@param onCancel fun()
+---@param animation? {animDict?: string, anim?: string, flags?: integer, task?: string}
+---@param prop? QbProgressProp
+---@param propTwo? QbProgressProp
+---@param onFinish? fun()
+---@param onCancel? fun()
 function functions.Progressbar(_, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
-    local props
+    if isProgressbarRunning or lib.progressActive() then return end
+    if not useWhileDead and IsEntityDead(cache.ped) then return end
 
-    if prop?.model then
-        local propData = {
-            model = prop.model,
-            bone = prop.bone,
-            pos = prop.coords,
-            rot = prop.rotation,
-        }
+    local props = {}
+    props[#props + 1] = toProgressProp(prop)
+    props[#props + 1] = toProgressProp(propTwo)
 
-        if propTwo?.model then
-            props = {
-                propData,
-                {
-                    model = propTwo.model,
-                    bone = propTwo.bone,
-                    pos = propTwo.coords,
-                    rot = propTwo.rotation,
-                },
-            }
-        else
-            props = propData
+    isProgressbarRunning = true
+    CreateThread(function()
+        local ok, completed = pcall(lib.progressBar, {
+            duration = duration,
+            label = label,
+            useWhileDead = useWhileDead,
+            allowRagdoll = true,
+            allowCuffed = true,
+            allowFalling = true,
+            allowSwimming = true,
+            canCancel = canCancel,
+            disable = disableControls and {
+                move = disableControls.disableMovement,
+                car = disableControls.disableCarMovement,
+                combat = disableControls.disableCombat,
+                mouse = disableControls.disableMouse,
+            },
+            anim = toProgressAnim(animation),
+            prop = props[1] and props,
+        })
+        isProgressbarRunning = false
+
+        if not ok then
+            lib.print.error(completed)
         end
-    end
 
-    if lib.progressBar({
-        duration = duration,
-        label = label,
-        useWhileDead = useWhileDead,
-        canCancel = canCancel,
-        disable = {
-            move = disableControls?.disableMovement,
-            car = disableControls?.disableCarMovement,
-            combat = disableControls?.disableCombat,
-            mouse = disableControls?.disableMouse,
-        },
-        anim = {
-            dict = animation?.animDict,
-            clip = animation?.anim,
-            flag = animation?.flags
-        },
-        prop = props,
-    }) then
-        if onFinish then
-            onFinish()
-        end
-    else
-        if onCancel then
+        if ok and completed then
+            if onFinish then
+                onFinish()
+            end
+        elseif onCancel then
             onCancel()
         end
-    end
+    end)
 end
 
 -- Getters
