@@ -12,6 +12,17 @@ qbCoreCompat = {}
 
 qbCoreCompat.Config = lib.table.merge(require 'config.server', require 'config.shared')
 qbCoreCompat.Shared = require 'bridge.qb.shared.main'
+
+local qbItemsLoaded, qbItems = pcall(compat.getQbItems)
+if qbItemsLoaded then
+    for name, item in pairs(qbItems) do
+        if not qbCoreCompat.Shared.Items[name] then
+            item.name = item.name or name
+            qbCoreCompat.Shared.Items[name] = item
+        end
+    end
+end
+
 qbCoreCompat.Shared.Jobs = GetJobs()
 qbCoreCompat.Shared.Gangs = GetGangs()
 qbCoreCompat.Players = QBX.Players

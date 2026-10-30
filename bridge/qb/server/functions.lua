@@ -638,6 +638,8 @@ end
 ---@param data fun(source: Source, item: unknown)
 function functions.CreateUseableItem(item, data)
     exports.qbx_core:CreateUseableItem(item, data)
+    local sharedItem = qbCoreCompat.Shared.Items[item]
+    if sharedItem then sharedItem.useable = true end
 end
 
 ---@param item string name
