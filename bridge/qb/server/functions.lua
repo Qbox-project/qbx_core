@@ -716,21 +716,20 @@ function functions.GetPlayersByJob(job, checkOnDuty)
     return players, #players
 end
 
----Gets a list of all on duty players of a specified job and the number
----@param job string name
+---Returns the number of on duty players of a specified job or job type
+---@param job string job name or job type
 ---@return integer
----@return Source[]
 function functions.GetDutyCount(job)
-    return exports.qbx_core:GetDutyCountJob(job)
+    local _, count = functions.GetPlayersByJob(job, true)
+    return count
 end
 
----Gets a list of all on duty players of a specified job and the number
----@param job string name
+---Gets a list of all on duty players of a specified job or job type and the number
+---@param job string job name or job type
 ---@return Source[]
 ---@return integer
 function functions.GetPlayersOnDuty(job)
-    local count, sources = exports.qbx_core:GetDutyCountJob(job)
-    return sources, count
+    return functions.GetPlayersByJob(job, true)
 end
 
 -- Returns the objects related to buckets, first returned value is the player buckets, second one is entity buckets
