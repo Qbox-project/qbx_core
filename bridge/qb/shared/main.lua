@@ -1,5 +1,13 @@
 local qbShared = require 'shared.main'
 
+---Mirrors ox_inventory's own rule for giving an item a use action (modules/items/shared.lua)
+---@param data table ox_inventory item definition
+---@return boolean
+local function isUseable(data)
+    local client, server = data.client or {}, data.server or {}
+    return data.consume ~= nil or client.status ~= nil or client.usetime ~= nil or client.export ~= nil or server.export ~= nil
+end
+
 qbShared.Items = {}
 local oxItems = require '@ox_inventory.data.items'
 for item, data in pairs(oxItems) do
@@ -8,24 +16,24 @@ for item, data in pairs(oxItems) do
         label = data.label,
         weight = data.weight or 0,
         type = 'item',
-        image = data.client?.image or string.strjoin(item,'.png'),
-        unique = false,
-        useable = true,
-        shouldClose = data.close or true,
+        image = data.client?.image or item .. '.png',
+        unique = data.stack == false,
+        useable = isUseable(data),
+        shouldClose = data.close ~= false,
         combinable = nil,
         description = data.description or nil
     }
 end
 local oxWeapons = require '@ox_inventory.data.weapons'
-for weapon, data in pairs(oxWeapons.Weapons) do
-    weapon = string.lower(weapon)
+for name, data in pairs(oxWeapons.Weapons) do
+    local weapon = string.lower(name)
     qbShared.Items[weapon] = {
         name = weapon,
         label = data.label,
-        weight = data.weight,
+        weight = data.weight or 0,
         type = 'weapon',
         ammotype = data.ammoname or nil,
-        image = data.client?.image or string.strjoin(weapon,'.png'),
+        image = data.client?.image or name .. '.png',
         unique = true,
         useable = false,
         shouldClose = true,
@@ -33,14 +41,14 @@ for weapon, data in pairs(oxWeapons.Weapons) do
         description = nil
     }
 end
-for component, data in pairs(oxWeapons.Components) do
-    component = string.lower(component)
+for name, data in pairs(oxWeapons.Components) do
+    local component = string.lower(name)
     qbShared.Items[component] = {
         name = component,
         label = data.label,
-        weight = data.weight,
+        weight = data.weight or 0,
         type = 'component',
-        image = data.client?.image or string.strjoin(component,'.png'),
+        image = data.client?.image or name .. '.png',
         unique = true,
         useable = false,
         shouldClose = true,
@@ -48,14 +56,14 @@ for component, data in pairs(oxWeapons.Components) do
         description = data.description
     }
 end
-for ammo, data in pairs(oxWeapons.Ammo) do
-    ammo = string.lower(ammo)
+for name, data in pairs(oxWeapons.Ammo) do
+    local ammo = string.lower(name)
     qbShared.Items[ammo] = {
         name = ammo,
         label = data.label,
-        weight = data.weight,
+        weight = data.weight or 0,
         type = 'ammo',
-        image = data.client?.image or string.strjoin(ammo,'.png'),
+        image = data.client?.image or name .. '.png',
         unique = true,
         useable = false,
         shouldClose = true,
