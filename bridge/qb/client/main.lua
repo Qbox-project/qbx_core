@@ -32,9 +32,15 @@ end)
 -- Server Callback
 ---@deprecated use https://coxdocs.dev/ox_lib/Modules/Callback/Lua/Client instead
 RegisterNetEvent('QBCore:Client:TriggerCallback', function(name, ...)
-    if qbCoreCompat.ServerCallbacks[name] then
-        qbCoreCompat.ServerCallbacks[name](...)
-        qbCoreCompat.ServerCallbacks[name] = nil
+    local serverCallback = qbCoreCompat.ServerCallbacks[name]
+    if not serverCallback then return end
+    qbCoreCompat.ServerCallbacks[name] = nil
+
+    if serverCallback.promise then
+        serverCallback.promise:resolve((...))
+    end
+    if serverCallback.callback then
+        serverCallback.callback(...)
     end
 end)
 
@@ -52,11 +58,29 @@ function qbCoreCompat.Functions.TriggerClientCallback(name, cb, ...)
     qbCoreCompat.ClientCallbacks[name](cb, ...)
 end
 
+---@param value any
+---@return boolean
+local function isFunction(value)
+    return type(value) == 'function' or type(value) == 'table' and type(value.__cfx_functionReference) == 'string'
+end
+
 -- Server Callback
+---Without a callback as the second argument, waits for the response and returns its first value.
 ---@deprecated use https://coxdocs.dev/ox_lib/Modules/Callback/Lua/Client instead
+---@param name string
+---@param cb? function
+---@return any
 function qbCoreCompat.Functions.TriggerCallback(name, cb, ...)
-    qbCoreCompat.ServerCallbacks[name] = cb
-    TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
+    if isFunction(cb) then
+        qbCoreCompat.ServerCallbacks[name] = { callback = cb }
+        TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
+        return
+    end
+
+    local p = promise.new()
+    qbCoreCompat.ServerCallbacks[name] = { promise = p }
+    TriggerServerEvent('QBCore:Server:TriggerCallback', name, cb, ...)
+    return Citizen.Await(p)
 end
 
 ---@deprecated Use lib.print.debug()
@@ -67,9 +91,70 @@ end
 
 local createQbExport = require 'bridge.qb.shared.export-function'
 
-createQbExport('GetCoreObject', function()
-    return qbCoreCompat
+---@param filters? string[]
+createQbExport('GetCoreObject', function(filters)
+    if type(filters) ~= 'table' then return qbCoreCompat end
+
+    local results = {}
+    for i = 1, #filters do
+        local key = filters[i]
+        results[key] = qbCoreCompat[key]
+    end
+    return results
 end)
+
+---@deprecated use exports.ox_inventory:Items() instead
+createQbExport('GetSharedItems', function()
+    return qbCoreCompat.Shared.Items
+end)
+
+---@deprecated use exports.qbx_core:GetVehiclesByName() instead
+createQbExport('GetSharedVehicles', function()
+    return qbCoreCompat.Shared.Vehicles
+end)
+
+---@deprecated use exports.qbx_core:GetWeapons() instead
+createQbExport('GetSharedWeapons', function()
+    return qbCoreCompat.Shared.Weapons
+end)
+
+---@deprecated use exports.qbx_core:GetJobs() instead
+createQbExport('GetSharedJobs', function()
+    return qbCoreCompat.Shared.Jobs
+end)
+
+---@deprecated use exports.qbx_core:GetGangs() instead
+createQbExport('GetSharedGangs', function()
+    return qbCoreCompat.Shared.Gangs
+end)
+
+---@deprecated
+---@param namespace string
+---@param item any
+createQbExport('GetShared', function(namespace, item)
+    return qbCoreCompat.Shared[namespace]?[item]
+end)
+
+RegisterNetEvent('QBCore:Player:SetPlayerData', function()
+    qbCoreCompat.PlayerData = QBX.PlayerData
+end)
+
+---@deprecated qbx_core sends shared data changes through QBCore:Client:OnSharedUpdate
+RegisterNetEvent('QBCore:Client:SharedUpdate', function(shared)
+    if type(shared) ~= 'table' then return end
+    for key, value in pairs(shared) do
+        if type(qbCoreCompat.Shared[key]) ~= 'function' then
+            qbCoreCompat.Shared[key] = value
+        end
+    end
+end)
+
+local exportedElsewhere = { DrawText = true }
+for name, func in pairs(qbCoreCompat.Functions) do
+    if type(func) == 'function' and not exportedElsewhere[name] then
+        createQbExport(name, func)
+    end
+end
 
 RegisterNetEvent('qbx_core:client:onJobUpdate', function(jobName, job)
     qbCoreCompat.Shared.Jobs[jobName] = job

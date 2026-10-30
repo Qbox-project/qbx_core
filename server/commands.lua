@@ -84,6 +84,7 @@ lib.addCommand('togglepvp', {
 
     config.server.pvp = not config.server.pvp
     GlobalState.PVPEnabled = config.server.pvp
+    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, config.server.pvp)
 end)
 
 lib.addCommand('addpermission', {
