@@ -6,16 +6,6 @@ function AddDeprecatedFunctions(player)
         error('player.Functions.GetCardSlot is unsupported. Call ox_inventory directly')
     end
 
-    ---@deprecated player.Functions.SetMetaData instead
-    function player.Functions.AddField()
-        error('player.Functions.AddField is unsupported. Use player.Functions.SetMetaData instead')
-    end
-
-    ---@deprecated
-    function player.Functions.AddMethod()
-        error('player.Functions.AddMethod is unsupported')
-    end
-
     return player
 end
 
@@ -70,6 +60,32 @@ function playerObj.GetOfflinePlayer(citizenid)
     return AddDeprecatedFunctions(exports.qbx_core:GetOfflinePlayer(citizenid))
 end
 
+---Loads the most recently played character of a license. qbx stores license2 when available, so either license form matches.
+---@param license string
+---@return Player?
+function playerObj.GetOfflinePlayerByLicense(license)
+    if type(license) ~= 'string' then return end
+    local citizenid = MySQL.scalar.await([[
+        SELECT p.citizenid FROM players p
+        LEFT JOIN users u ON u.userId = p.userId
+        WHERE p.license = ? OR u.license = ? OR u.license2 = ?
+        ORDER BY p.last_logged_out DESC
+        LIMIT 1
+    ]], { license, license, license })
+    return citizenid and playerObj.GetOfflinePlayer(citizenid)
+end
+
+---@param license string
+---@return Player?
+function playerObj.GetPlayerByLicense(license)
+    if type(license) ~= 'string' then return end
+    local source = exports.qbx_core:GetSource(license)
+    if source > 0 then
+        return AddDeprecatedFunctions(exports.qbx_core:GetPlayer(source))
+    end
+    return playerObj.GetOfflinePlayerByLicense(license)
+end
+
 ---@deprecated unsupported. Call Login or CreatePlayer
 function playerObj.CheckPlayerData()
     error('Unsupported. Call Login or CreatePlayer')
@@ -121,6 +137,24 @@ end
 ---@return string citizenid unique citizenid generated
 function playerObj.CreateCitizenId()
     return exports.qbx_core:GenerateUniqueIdentifier('citizenid')
+end
+
+---@deprecated player.GenerateUniqueIdentifier('FingerId') instead
+---@return string
+function playerObj.CreateFingerId()
+    return exports.qbx_core:GenerateUniqueIdentifier('FingerId')
+end
+
+---@deprecated player.GenerateUniqueIdentifier('WalletId') instead
+---@return string
+function playerObj.CreateWalletId()
+    return exports.qbx_core:GenerateUniqueIdentifier('WalletId')
+end
+
+---@deprecated player.GenerateUniqueIdentifier('SerialNumber') instead
+---@return integer
+function playerObj.CreateSerialNumber()
+    return exports.qbx_core:GenerateUniqueIdentifier('SerialNumber')
 end
 
 return playerObj

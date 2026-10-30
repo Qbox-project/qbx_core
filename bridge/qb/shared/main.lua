@@ -142,4 +142,14 @@ qbShared.MaleNoGloves = qbx.armsWithoutGloves.male
 ---@deprecated use qbx.armsWithoutGloves.female from modules/lib.lua
 qbShared.FemaleNoGloves = qbx.armsWithoutGloves.female
 
+---@deprecated check type(value) directly
+---@param value any
+---@return boolean
+qbShared.IsFunction = function(value)
+    if type(value) == 'table' then
+        return type(rawget(value, '__cfx_functionReference')) == 'string'
+    end
+    return type(value) == 'function'
+end
+
 return qbShared

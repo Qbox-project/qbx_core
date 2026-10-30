@@ -1,18 +1,8 @@
 require 'server.functions'
-require 'bridge.qb.server.player'
+local playerObj = require 'bridge.qb.server.player'
+local logger = require 'modules.logger'
+local loggingConfig = require 'config.server'.logging
 local functions = {}
-
-local allowMethodOverrides = GetConvar('qbx:allowmethodoverrides', 'true') == 'true'
-local disableMethodOverrideWarning = GetConvar('qbx:disableoverridewarning', 'false') == 'true'
-
-local createQbExport = require 'bridge.qb.shared.export-function'
-
----@param name string
----@param fn function
-local function registerQbFunction(name, fn)
-    functions[name] = fn
-    createQbExport(name, fn)
-end
 
 ---@deprecated use the GetEntityCoords and GetEntityHeading natives directly
 functions.GetCoords = function(entity)
@@ -20,8 +10,13 @@ functions.GetCoords = function(entity)
     return vec4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
 end
 
----@deprecated use the native GetPlayerIdentifierByType?
-functions.GetIdentifier = GetPlayerIdentifierByType
+---@deprecated use the native GetPlayerIdentifierByType
+---@param source Source
+---@param idType? string defaults to license
+---@return string?
+functions.GetIdentifier = function(source, idType)
+    return GetPlayerIdentifierByType(source --[[@as string]], idType or 'license')
+end
 
 ---@return Source[]
 function functions.GetPlayers()
@@ -32,6 +27,84 @@ function functions.GetPlayers()
     end
 
     return sources
+end
+
+---@param source? Source
+---@param coords? vector3 | vector4 | { x: number, y: number, z: number }
+---@return vector3 origin
+---@return integer ped
+local function getSearchOrigin(source, coords)
+    local ped = source and GetPlayerPed(source --[[@as string]]) or 0
+    if coords then return vec3(coords.x, coords.y, coords.z), ped end
+    return GetEntityCoords(ped), ped
+end
+
+---@param entities integer[]
+---@param origin vector3
+---@param ignore? integer
+---@return integer closestEntity -1 if none found
+---@return number closestDistance -1 if none found
+local function getClosestEntity(entities, origin, ignore)
+    local closestEntity, closestDistance = -1, -1
+    for i = 1, #entities do
+        local entity = entities[i]
+        if entity ~= ignore then
+            local distance = #(GetEntityCoords(entity) - origin)
+            if closestDistance == -1 or distance < closestDistance then
+                closestEntity, closestDistance = entity, distance
+            end
+        end
+    end
+    return closestEntity, closestDistance
+end
+
+---@deprecated use lib.getClosestPlayer from ox_lib
+---@param source? Source excluded from the search; its ped's coords are used when coords is nil
+---@param coords? vector3 | vector4 | { x: number, y: number, z: number }
+---@return integer closestPlayer -1 if none found
+---@return number closestDistance -1 if none found
+function functions.GetClosestPlayer(source, coords)
+    local origin, ped = getSearchOrigin(source, coords)
+    local peds, owners = {}, {}
+    for _, playerId in ipairs(GetPlayers()) do
+        local playerPed = GetPlayerPed(playerId)
+        if playerPed ~= 0 then
+            peds[#peds + 1] = playerPed
+            owners[playerPed] = tonumber(playerId)
+        end
+    end
+    local closestPed, closestDistance = getClosestEntity(peds, origin, ped)
+    return owners[closestPed] or -1, closestDistance
+end
+
+---@deprecated use lib.getClosestPed from ox_lib
+---@param source? Source
+---@param coords? vector3 | vector4 | { x: number, y: number, z: number }
+---@return integer closestPed -1 if none found
+---@return number closestDistance -1 if none found
+function functions.GetClosestPed(source, coords)
+    local origin, ped = getSearchOrigin(source, coords)
+    return getClosestEntity(GetAllPeds(), origin, ped)
+end
+
+---@deprecated use lib.getClosestVehicle from ox_lib
+---@param source? Source
+---@param coords? vector3 | vector4 | { x: number, y: number, z: number }
+---@return integer closestVehicle -1 if none found
+---@return number closestDistance -1 if none found
+function functions.GetClosestVehicle(source, coords)
+    local origin = getSearchOrigin(source, coords)
+    return getClosestEntity(GetAllVehicles(), origin)
+end
+
+---@deprecated use lib.getClosestObject from ox_lib
+---@param source? Source
+---@param coords? vector3 | vector4 | { x: number, y: number, z: number }
+---@return integer closestObject -1 if none found
+---@return number closestDistance -1 if none found
+function functions.GetClosestObject(source, coords)
+    local origin = getSearchOrigin(source, coords)
+    return getClosestEntity(GetAllObjects(), origin)
 end
 
 local maxConcurrentSpawns <const> = 20
@@ -93,6 +166,12 @@ function functions.CreateVehicle(source, model, _, coords, warp)
     return NetworkGetEntityFromNetworkId(netId)
 end
 
+---@deprecated use qbx.spawnVehicle from modules/lib.lua
+---@return integer vehicle
+function functions.CreateAutomobile(source, model, coords, warp)
+    return functions.CreateVehicle(source, model, nil, coords, warp)
+end
+
 ---@deprecated No replacement. See https://coxdocs.dev/ox_inventory/Functions/Client#useitem
 ---@param source Source
 ---@param item string name
@@ -135,28 +214,65 @@ end
 
 -- Utility functions
 
----@deprecated use https://coxdocs.dev/ox_inventory/Functions/Server#search
-functions.HasItem = function(source, items, amount) -- luacheck: ignore
-    amount = amount or 1
-    local count = exports.ox_inventory:Search(source, 'count', items)
-    if type(items) == 'table' and type(count) == 'table' then
-        for _, v in pairs(count) do
-            if v < amount then
-                return false
-            end
-        end
-        return true
-    end
-    return count >= amount
+---@deprecated use exports.ox_inventory:GetItemCount or Search
+---@param source Source
+---@param items string | string[] | table<string, number>
+---@param amount? number
+---@return boolean
+functions.HasItem = function(source, items, amount)
+    local player = GetPlayer(source)
+    return player and player.Functions.HasItem(items, amount) or false
 end
 
 ---@deprecated use qbx.getVehiclePlate from modules/lib.lua
 functions.GetPlate = qbx.getVehiclePlate
 
--- Single add item
----@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
-local function AddItem(itemName, item)
-    lib.print.warn(('%s invoked deprecated function AddItem. This is incompatible with ox_inventory'):format(GetInvokingResource() or 'unknown resource'))
+---Items added or changed through the bridge at runtime, resent to players who load in later
+---@type table<string, table>
+local runtimeItems = {}
+
+---@param itemName string
+---@param item table
+---@return string
+local function toOxItemDefinition(itemName, item)
+    return ('[%q] = { label = %q, weight = %s, stack = %s, close = %s, description = %q },'):format(
+        itemName,
+        tostring(item.label or itemName),
+        tonumber(item.weight) or 0,
+        tostring(not item.unique),
+        tostring(item.shouldClose ~= false),
+        tostring(item.description or '')
+    )
+end
+
+---@param action string
+---@param itemName string
+---@param item table
+local function warnItemNotInInventory(action, itemName, item)
+    if exports.ox_inventory:Items(itemName) then return end
+    lib.print.warn(("%s used deprecated %s for '%s'. Only QBCore.Shared.Items was changed: ox_inventory cannot register items at runtime, so the item cannot be given or used until it is defined in ox_inventory/data/items.lua, e.g.\n%s"):format(
+        GetInvokingResource() or 'unknown resource', action, itemName, toOxItemDefinition(itemName, item)))
+end
+
+---@param itemName string
+---@param item table
+local function setSharedItem(itemName, item)
+    item.name = item.name or itemName
+    qbCoreCompat.Shared.Items[itemName] = item
+    runtimeItems[itemName] = item
+end
+
+AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
+    if not next(runtimeItems) then return end
+    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', player.PlayerData.source, 'Items', runtimeItems)
+end)
+
+---@deprecated ox_inventory cannot register items at runtime. Define the item in ox_inventory/data/items.lua instead.
+---@param itemName string
+---@param item table
+---@return boolean success
+---@return string message
+function functions.AddItem(itemName, item)
     if type(itemName) ~= 'string' then
         return false, 'invalid_item_name'
     end
@@ -165,75 +281,83 @@ local function AddItem(itemName, item)
         return false, 'item_exists'
     end
 
-    lib.print.warn(('New item %s added but not found in ox_inventory. Printing item data'):format(itemName))
-    lib.print.warn(item)
-    qbCoreCompat.Shared.Items[itemName] = item
+    if type(item) ~= 'table' then
+        return false, 'invalid_item'
+    end
+
+    setSharedItem(itemName, item)
+    warnItemNotInInventory('AddItem', itemName, item)
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, 'success'
 end
 
-registerQbFunction('AddItem', AddItem)
-
--- Single update item
----@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
-local function UpdateItem(itemName, item)
-    lib.print.warn(('%s invoked deprecated function UpdateItem. This is incompatible with ox_inventory'):format(GetInvokingResource() or 'unknown resource'))
+---@deprecated ox_inventory cannot update items at runtime. Edit the item in ox_inventory/data/items.lua instead.
+---@param itemName string
+---@param item table
+---@return boolean success
+---@return string message
+function functions.UpdateItem(itemName, item)
     if type(itemName) ~= 'string' then
         return false, 'invalid_item_name'
     end
+
     if not qbCoreCompat.Shared.Items[itemName] then
         return false, 'item_not_exists'
     end
-    qbCoreCompat.Shared.Items[itemName] = item
+
+    if type(item) ~= 'table' then
+        return false, 'invalid_item'
+    end
+
+    setSharedItem(itemName, item)
+    lib.print.warn(("%s used deprecated UpdateItem for '%s'. Only QBCore.Shared.Items was changed; the ox_inventory definition is unchanged."):format(GetInvokingResource() or 'unknown resource', itemName))
+
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, 'success'
 end
 
-registerQbFunction('UpdateItem', UpdateItem)
-
--- Multiple Add Items
----@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
-local function AddItems(items)
-    lib.print.warn(('%s invoked deprecated function AddItems. This is incompatible with ox_inventory'):format(GetInvokingResource() or 'unknown resource'))
-    local shouldContinue = true
-    local message = 'success'
-    local errorItem = nil
+---@deprecated ox_inventory cannot register items at runtime. Define the items in ox_inventory/data/items.lua instead.
+---@param items table<string, table>
+---@return boolean success
+---@return string message
+---@return table? errorItem
+function functions.AddItems(items)
+    if type(items) ~= 'table' then
+        return false, 'invalid_item_name'
+    end
 
     for key, value in pairs(items) do
         if type(key) ~= 'string' then
-            message = 'invalid_item_name'
-            shouldContinue = false
-            errorItem = items[key]
-            break
+            return false, 'invalid_item_name', value
         end
 
         if qbCoreCompat.Shared.Items[key] then
-            message = 'item_exists'
-            shouldContinue = false
-            errorItem = items[key]
-            break
+            return false, 'item_exists', value
         end
-        lib.print.warn(('New item %s added but not found in ox_inventory. Printing item data'):format(key))
-        lib.print.warn(value)
 
-        qbCoreCompat.Shared.Items[key] = value
+        if type(value) ~= 'table' then
+            return false, 'invalid_item', value
+        end
     end
 
-    if not shouldContinue then return false, message, errorItem end
+    for key, value in pairs(items) do
+        setSharedItem(key, value)
+        warnItemNotInInventory('AddItems', key, value)
+    end
+
     TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Items', items)
     TriggerEvent('QBCore:Server:UpdateObject')
-    return true, message, nil
+    return true, 'success'
 end
 
-registerQbFunction('AddItems', AddItems)
-
--- Single Remove Item
----@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
-local function RemoveItem(itemName)
-    lib.print.warn(('%s invoked deprecated function RemoveItem. This is incompatible with ox_inventory'):format(GetInvokingResource() or 'unknown resource'))
+---@deprecated ox_inventory cannot remove items at runtime. Remove the item from ox_inventory/data/items.lua instead.
+---@param itemName string
+---@return boolean success
+---@return string message
+function functions.RemoveItem(itemName)
     if type(itemName) ~= 'string' then
         return false, 'invalid_item_name'
     end
@@ -243,13 +367,15 @@ local function RemoveItem(itemName)
     end
 
     qbCoreCompat.Shared.Items[itemName] = nil
+    runtimeItems[itemName] = nil
+    if exports.ox_inventory:Items(itemName) then
+        lib.print.warn(("%s used deprecated RemoveItem for '%s'. Only QBCore.Shared.Items was changed; ox_inventory still defines the item."):format(GetInvokingResource() or 'unknown resource', itemName))
+    end
 
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, nil)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, 'success'
 end
-
-registerQbFunction('RemoveItem', RemoveItem)
 
 -- Single add job function which should only be used if you planning on adding a single job
 ---@deprecated use export CreateJobs
@@ -271,10 +397,7 @@ local function addJob(jobName, job)
     return true, 'success'
 end
 
-functions.AddJob = function(jobName, job)
-    return exports['qb-core']:AddJob(jobName, job)
-end
-createQbExport('AddJob', addJob)
+functions.AddJob = addJob
 
 -- Multiple Add Jobs
 ---@deprecated call export CreateJobs
@@ -298,10 +421,7 @@ local function addJobs(jobs)
     return true, 'success'
 end
 
-functions.AddJobs = function(jobs)
-    return exports['qb-core']:AddJobs(jobs)
-end
-createQbExport('AddJobs', addJobs)
+functions.AddJobs = addJobs
 
 -- Single Update Job
 ---@deprecated call CreateJobs
@@ -323,10 +443,7 @@ local function updateJob(jobName, job)
     return true, 'success'
 end
 
-functions.UpdateJob = function(jobName, job)
-    return exports['qb-core']:UpdateJob(jobName, job)
-end
-createQbExport('UpdateJob', updateJob)
+functions.UpdateJob = updateJob
 
 -- Single Add Gang
 ---@deprecated call export CreateGangs
@@ -348,10 +465,7 @@ local function addGang(gangName, gang)
     return true, 'success'
 end
 
-functions.AddGang = function(gangName, gang)
-    return exports['qb-core']:AddGang(gangName, gang)
-end
-createQbExport('AddGang', addGang)
+functions.AddGang = addGang
 
 -- Single Update Gang
 ---@deprecated call export CreateGangs
@@ -373,10 +487,7 @@ local function updateGang(gangName, gang)
     return true, 'success'
 end
 
-functions.UpdateGang = function(gangName, gang)
-    return exports['qb-core']:UpdateGang(gangName, gang)
-end
-createQbExport('UpdateGang', updateGang)
+functions.UpdateGang = updateGang
 
 -- Multiple Add Gangs
 ---@deprecated call export CreateGangs
@@ -400,31 +511,22 @@ local function addGangs(gangs)
     return true, 'success'
 end
 
-functions.AddGangs = function(gangs)
-    return exports['qb-core']:AddGangs(gangs)
-end
-createQbExport('AddGangs', addGangs)
+functions.AddGangs = addGangs
 
+---@deprecated use export RemoveJob
+---@param jobName string
+---@return boolean success
+---@return string message
 functions.RemoveJob = function(jobName)
-    return exports.qbx_core:RemoveJob(jobName)
+    return RemoveJob(jobName)
 end
-createQbExport('RemoveJob', RemoveJob)
 
+---@deprecated use export RemoveGang
+---@param gangName string
+---@return boolean success
+---@return string message
 functions.RemoveGang = function(gangName)
-    return exports.qbx_core:RemoveGang(gangName)
-end
-createQbExport('RemoveGang', RemoveGang)
-
-local function checkExistingMethod(method, methodName)
-    local methodType = type(method)
-    if methodType == 'function' then
-        local warnMessage = allowMethodOverrides and 'A resource is overriding method %s in player class. This can cause unexpected behavior. Disable this warning by setting convar qbx:disableoverridewarning to true' or 'A resource attempted to override method %s in player object and was blocked. Disable this warning by setting convar qbx:disableoverridewarning to true'
-        if not disableMethodOverrideWarning then
-            lib.print.warn(warnMessage:format(methodName))
-        end
-        return allowMethodOverrides
-    end
-    return true
+    return RemoveGang(gangName)
 end
 
 ---Add a new function to the Functions table of the player class
@@ -445,15 +547,11 @@ function functions.AddPlayerMethod(ids, methodName, handler)
     if idType == 'number' then
         if ids == -1 then
             for _, v in pairs(QBX.Players) do
-                if checkExistingMethod(v.Functions[methodName], methodName) then
-                    v.Functions[methodName] = handler
-                end
+                v.Functions.AddMethod(methodName, handler)
             end
         else
             if not QBX.Players[ids] then return end
-            if checkExistingMethod(QBX.Players[ids].Functions[methodName], methodName) then
-                QBX.Players[ids].Functions[methodName] = handler
-            end
+            QBX.Players[ids].Functions.AddMethod(methodName, handler)
         end
     elseif idType == 'table' and table.type(ids) == 'array' then
         for i = 1, #ids do
@@ -502,7 +600,7 @@ end
 ---@param handler function
 ---@return boolean success
 ---@return string message
-local function SetMethod(methodName, handler)
+function functions.SetMethod(methodName, handler)
     if type(methodName) ~= 'string' then
         return false, 'invalid_method_name'
     end
@@ -513,8 +611,6 @@ local function SetMethod(methodName, handler)
 
     return true, 'success'
 end
-
-registerQbFunction('SetMethod', SetMethod)
 
 -- Add or change (a) field(s) in the QBCore table
 ---@deprecated
@@ -527,7 +623,7 @@ local function SetField(fieldName, data)
         return false, 'invalid_field_name'
     end
 
-    QBX[fieldName] = data
+    qbCoreCompat[fieldName] = data
 
     TriggerEvent('QBCore:Server:UpdateObject')
 
@@ -567,6 +663,31 @@ function functions.GetPlayerByPhone(number)
     return AddDeprecatedFunctions(exports.qbx_core:GetPlayerByPhone(number))
 end
 
+---Online player first, otherwise their most recently played character
+---@param license string
+---@return Player?
+function functions.GetPlayerByLicense(license)
+    return playerObj.GetPlayerByLicense(license)
+end
+
+---@param property string charinfo key
+---@param value any
+---@return Player?
+function functions.GetPlayerByCharInfo(property, value)
+    if value == nil then return end
+    for _, player in pairs(QBX.Players) do
+        if player.PlayerData.charinfo[property] == value then
+            return AddDeprecatedFunctions(player)
+        end
+    end
+end
+
+---@param account string
+---@return Player?
+function functions.GetPlayerByAccount(account)
+    return functions.GetPlayerByCharInfo('account', account)
+end
+
 ---Will return an array of QB Player class instances
 ---unlike the GetPlayers() wrapper which only returns IDs
 ---@return table<Source, Player>
@@ -577,6 +698,22 @@ function functions.GetQBPlayers()
         deprecatedPlayers[k] = AddDeprecatedFunctions(player)
     end
     return deprecatedPlayers
+end
+
+---@deprecated use exports.qbx_core:GetDutyCountJob or GetDutyCountType
+---@param job string job name or job type
+---@param checkOnDuty? boolean only include players on duty
+---@return Source[]
+---@return integer
+function functions.GetPlayersByJob(job, checkOnDuty)
+    local players = {}
+    for source, player in pairs(QBX.Players) do
+        local playerJob = player.PlayerData.job
+        if (playerJob.name == job or playerJob.type == job) and (not checkOnDuty or playerJob.onduty) then
+            players[#players + 1] = source
+        end
+    end
+    return players, #players
 end
 
 ---Gets a list of all on duty players of a specified job and the number
@@ -711,6 +848,70 @@ end
 ---@return string version
 function functions.GetCoreVersion(InvokingResource)
     return exports.qbx_core:GetCoreVersion(InvokingResource)
+end
+
+---@deprecated use exports.qbx_core:GenerateUniqueIdentifier('AccountNumber')
+---@return string
+function functions.CreateAccountNumber()
+    return GenerateUniqueIdentifier('AccountNumber')
+end
+
+---@deprecated use exports.qbx_core:GenerateUniqueIdentifier('PhoneNumber')
+---@return string
+function functions.CreatePhoneNumber()
+    return GenerateUniqueIdentifier('PhoneNumber')
+end
+
+---@deprecated use parameterized queries instead
+---@param source Source
+---@param data any
+---@param pattern string
+---@return boolean matches whether the whole value matches pattern
+function functions.PrepForSQL(source, data, pattern)
+    data = tostring(data)
+    local result = data:match(pattern)
+    if result and #result == #data then return true end
+
+    local player = GetPlayer(source)
+    logger.log({
+        source = GetInvokingResource() or cache.resource,
+        webhook = loggingConfig.webhook['anticheat'],
+        event = 'SQL Exploit Attempted',
+        color = 'red',
+        tags = loggingConfig.role,
+        message = ('%s attempted to exploit SQL!'):format(player and player.PlayerData.license or GetPlayerName(source --[[@as string]]) or source),
+    })
+    return false
+end
+
+---@deprecated
+---@return { exists: boolean, database: string }
+function functions.GetDatabaseInfo()
+    local details = { exists = false, database = '' }
+    local connectionString = GetConvar('mysql_connection_string', '')
+
+    if connectionString == '' then
+        return details
+    end
+
+    if connectionString:find('mysql://', 1, true) then
+        local hostAndPath = connectionString:match('^mysql://.*@(.*)$') or connectionString:sub(9)
+        local database = hostAndPath:match('^[^/]*/([^%?]+)')
+        details.database = database or ''
+        details.exists = database ~= nil
+        return details
+    end
+
+    for _, option in ipairs({ string.strsplit(';', connectionString) }) do
+        local key, value = option:match('^%s*([^=]+)=(.*)$')
+        if key and key:lower() == 'database' then
+            details.database = value
+            details.exists = true
+            return details
+        end
+    end
+
+    return details
 end
 
 return functions
