@@ -1,7 +1,22 @@
 local commands = {}
 
 ---@deprecated
+commands.List = {}
+
+---@deprecated
+commands.IgnoreList = { ['god'] = true, ['user'] = true }
+
+---@deprecated
 function commands.Add(name, help, arguments, argsrequired, callback, permission)
+    commands.List[name:lower()] = {
+        name = name:lower(),
+        permission = permission,
+        help = help,
+        arguments = arguments,
+        argsrequired = argsrequired,
+        callback = callback,
+    }
+
     local properties = {
         help = help,
         restricted = permission and permission ~= 'user' and 'group.'..permission or false,

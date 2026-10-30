@@ -7,6 +7,8 @@ local maxJobsPerPlayer = GetConvarInt('qbx:max_jobs_per_player', 1)
 local maxGangsPerPlayer = GetConvarInt('qbx:max_gangs_per_player', 1)
 local setJobReplaces = GetConvar('qbx:setjob_replaces', 'true') == 'true'
 local setGangReplaces = GetConvar('qbx:setgang_replaces', 'true') == 'true'
+local allowMethodOverrides = GetConvar('qbx:allowmethodoverrides', 'true') == 'true'
+local disableMethodOverrideWarning = GetConvar('qbx:disableoverridewarning', 'false') == 'true'
 local accounts = json.decode(GetConvar('inventory:accounts', '["money"]'))
 local accountsAsItems = table.create(0, #accounts)
 
@@ -36,6 +38,18 @@ local function savePlayer(player)
     else
         Save(player.PlayerData.source)
     end
+end
+
+---@param methodName string
+---@param existing unknown
+---@return boolean
+local function canOverrideMethod(methodName, existing)
+    if type(existing) ~= 'function' then return true end
+    if not disableMethodOverrideWarning then
+        local message = allowMethodOverrides and 'A resource is overriding method %s in player class. This can cause unexpected behavior. Disable this warning by setting convar qbx:disableoverridewarning to true' or 'A resource attempted to override method %s in player object and was blocked. Disable this warning by setting convar qbx:disableoverridewarning to true'
+        lib.print.warn(message:format(methodName))
+    end
+    return allowMethodOverrides
 end
 
 ---@param citizenid string
@@ -664,6 +678,7 @@ function CheckPlayerData(source, playerData)
     playerData.metadata.jobrep.trucker = playerData.metadata.jobrep.trucker or 0
     playerData.metadata.jobrep.taxi = playerData.metadata.jobrep.taxi or 0
     playerData.metadata.jobrep.hotdog = playerData.metadata.jobrep.hotdog or 0
+    playerData.metadata.rep = playerData.metadata.rep or {}
     playerData.metadata.callsign = playerData.metadata.callsign or 'NO CALLSIGN'
     playerData.metadata.fingerprint = playerData.metadata.fingerprint or GenerateUniqueIdentifier('FingerId')
     playerData.metadata.walletid = playerData.metadata.walletid or GenerateUniqueIdentifier('WalletId')
@@ -965,6 +980,102 @@ function CreatePlayer(playerData, Offline)
     function self.Functions.Logout()
         assert(not self.Offline, 'unsupported for offline players')
         Logout(self.PlayerData.source)
+    end
+
+    ---@deprecated use Notify instead
+    ---@param text string | table
+    ---@param notifyType? string
+    ---@param duration? integer
+    function self.Functions.Notify(text, notifyType, duration)
+        if self.Offline then return end
+        Notify(self.PlayerData.source, text, notifyType, duration)
+    end
+
+    ---@deprecated use ox_inventory exports directly
+    ---@param items string | string[] | table<string, number> item name, list of names, or map of name to required amount
+    ---@param amount? number
+    ---@return boolean
+    function self.Functions.HasItem(items, amount)
+        if self.Offline then return false end
+        local source = self.PlayerData.source
+
+        if type(items) ~= 'table' then
+            return exports.ox_inventory:GetItemCount(source, oxItemCompat(items)) >= (amount or 1)
+        end
+
+        if not next(items) then return false end
+
+        local isArray = table.type(items) == 'array'
+        for key, value in pairs(items) do
+            local itemName = isArray and value or key
+            local required = tonumber(amount) or (isArray and 1 or tonumber(value) or 1)
+            if exports.ox_inventory:GetItemCount(source, oxItemCompat(itemName)) < required then
+                return false
+            end
+        end
+
+        return true
+    end
+
+    ---@deprecated read PlayerData.charinfo instead
+    ---@return string
+    function self.Functions.GetName()
+        local charinfo = self.PlayerData.charinfo
+        return ('%s %s'):format(charinfo.firstname, charinfo.lastname)
+    end
+
+    ---@param rep string
+    ---@param value number
+    local function setRep(rep, value)
+        local reps = self.PlayerData.metadata.rep or {}
+        reps[rep] = value
+        if self.Offline then
+            self.PlayerData.metadata.rep = reps
+        else
+            SetMetadata(self.PlayerData.source, 'rep', reps)
+        end
+    end
+
+    ---@deprecated use SetMetadata instead
+    ---@param rep string
+    ---@param amount number
+    function self.Functions.AddRep(rep, amount)
+        amount = tonumber(amount)
+        if not rep or not amount then return end
+        setRep(rep, self.Functions.GetRep(rep) + amount)
+    end
+
+    ---@deprecated use SetMetadata instead
+    ---@param rep string
+    ---@param amount number
+    function self.Functions.RemoveRep(rep, amount)
+        amount = tonumber(amount)
+        if not rep or not amount then return end
+        setRep(rep, math.max(self.Functions.GetRep(rep) - amount, 0))
+    end
+
+    ---@deprecated use GetMetadata instead
+    ---@param rep string
+    ---@return number
+    function self.Functions.GetRep(rep)
+        local reps = self.PlayerData.metadata.rep
+        return rep and reps and reps[rep] or 0
+    end
+
+    ---@deprecated
+    ---@param methodName string
+    ---@param handler function
+    function self.Functions.AddMethod(methodName, handler)
+        if type(methodName) ~= 'string' or not canOverrideMethod(methodName, self.Functions[methodName]) then return end
+        self.Functions[methodName] = handler
+    end
+
+    ---@deprecated
+    ---@param fieldName string
+    ---@param data any
+    function self.Functions.AddField(fieldName, data)
+        if type(fieldName) ~= 'string' then return end
+        self[fieldName] = data
     end
 
     if not self.Offline then
