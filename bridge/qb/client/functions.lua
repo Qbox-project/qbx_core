@@ -23,19 +23,83 @@ functions.GetCoords = function(entity) -- luacheck: ignore
     return vec4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
 end
 
----@deprecated use https://coxdocs.dev/ox_inventory/Functions/Client#search
+---@param itemName any
+---@return number
+local function getItemCount(itemName)
+    if type(itemName) ~= 'string' then return 0 end
+    itemName = itemName:lower()
+    if itemName:sub(1, 7) == 'weapon_' then itemName = itemName:upper() end
+    return exports.ox_inventory:GetItemCount(itemName) or 0
+end
+
+---@deprecated use https://coxdocs.dev/ox_inventory/Functions/Client#getitemcount
+---@param items string | string[] | table<string, number>
+---@param amount? number
+---@return boolean
 functions.HasItem = function(items, amount)
-    amount = amount or 1
-    local count = exports.ox_inventory:Search('count', items)
-    if type(items) == 'table' and type(count) == 'table' then
-        for _, v in pairs(count) do
-            if v < amount then
-                return false
-            end
-        end
-        return true
+    if type(items) ~= 'table' then
+        return getItemCount(items) >= (amount or 1)
     end
-    return count >= amount
+
+    if next(items) == nil then return false end
+
+    local isArray = table.type(items) == 'array'
+    for key, value in pairs(items) do
+        local required = amount or (not isArray and tonumber(value)) or 1
+        if getItemCount(isArray and value or key) < required then
+            return false
+        end
+    end
+    return true
+end
+
+---@deprecated import PlayerData using module 'qbx_core:playerdata' https://docs.qbox.re/resources/qbx_core/modules/playerdata
+---@return string?
+functions.GetName = function()
+    local charinfo = QBX.PlayerData.charinfo
+    if not charinfo then return end
+    return ('%s %s'):format(charinfo.firstname, charinfo.lastname)
+end
+
+---@deprecated use the GetHeadingFromVector_2d and SetEntityHeading natives directly
+---@param entity number
+---@param timeout number
+---@param speed number
+---@return string? error
+functions.LookAtEntity = function(entity, timeout, speed)
+    local invoked = GetInvokingResource() or cache.resource
+    if type(entity) ~= 'number' then
+        return invoked .. ' :^1  Entity must be a number'
+    end
+    if not DoesEntityExist(entity) then
+        return invoked .. ' :^1  Entity does not exist'
+    end
+    if type(speed) ~= 'number' then
+        return invoked .. ' :^1  Speed must be a number'
+    end
+    speed = math.min(speed, 5.0)
+    timeout = math.min(timeout or 5000, 5000)
+
+    local ped = cache.ped
+    local playerPos = GetEntityCoords(ped)
+    local targetPos = GetEntityCoords(entity)
+    local targetHeading = GetHeadingFromVector_2d(targetPos.x - playerPos.x, targetPos.y - playerPos.y)
+    local endTime = GetGameTimer() + timeout
+    while true do
+        local currentHeading = GetEntityHeading(ped)
+        local diff = targetHeading - currentHeading
+        if math.abs(diff) < 2 then break end
+        if diff < -180 then
+            diff += 360
+        elseif diff > 180 then
+            diff -= 360
+        end
+        local turnSpeed = speed + (2.5 - speed) * (1 - math.abs(diff) / 180)
+        SetEntityHeading(ped, diff > 0 and currentHeading + turnSpeed or currentHeading - turnSpeed)
+        Wait(0)
+        if GetGameTimer() > endTime then break end
+    end
+    SetEntityHeading(ped, targetHeading)
 end
 
 -- Utility
@@ -880,7 +944,7 @@ functions.GetZoneAtCoords = qbx.getZoneName
 ---@deprecated use qbx.getCardinalDirection from modules/lib.lua
 functions.GetCardinalDirection = function(entity)
     if not entity or not DoesEntityExist(entity) then
-        return 'Cardinal Direction Error'
+        entity = cache.ped
     end
 
     return qbx.getCardinalDirection(entity)
@@ -924,6 +988,26 @@ functions.GetGroundZCoord = function(coords)
 
     lib.print.verbose('Couldn\'t find Ground Z Coordinates given 3D Coordinates:', coords)
     return coords
+end
+
+---@deprecated use the StartShapeTestCapsule and GetShapeTestResultEx natives directly
+---@param entity number
+---@return number materialHash
+---@return number entityHit
+---@return vector3 surfaceNormal
+---@return vector3 endCoords
+---@return boolean success
+---@return number status
+functions.GetGroundHash = function(entity)
+    local coords = GetEntityCoords(entity)
+    local handle = StartShapeTestCapsule(coords.x, coords.y, coords.z + 4, coords.x, coords.y, coords.z - 2.0, 1, 1, entity, 7)
+    local status, success, endCoords, surfaceNormal, materialHash, entityHit
+    while true do
+        status, success, endCoords, surfaceNormal, materialHash, entityHit = GetShapeTestResultEx(handle)
+        if status ~= 1 then break end
+        Wait(0)
+    end
+    return materialHash, entityHit, surfaceNormal, endCoords, success, status
 end
 
 ---Text box popup for player which dissappears after a set time.
