@@ -35,6 +35,7 @@ for i = 1, #config.subQueues do
         cardOptions = config.subQueues[i].cardOptions,
         positions = {},
         size = 0,
+        graceSize = 0,
     }
 end
 
@@ -45,13 +46,24 @@ local totalQueueSize = 0
 
 ---@param license string
 ---@param subQueueIndex number
-local function enqueue(license, subQueueIndex)
+---@param subQueuePos number
+local function insertIntoSubQueue(license, subQueueIndex, subQueuePos)
     local subQueue = subQueues[subQueueIndex]
 
-    subQueue.size += 1
-    subQueue.positions[license] = subQueue.size
+    -- move back the players at or after the inserted position in the same sub-queue
+    if subQueuePos <= subQueue.size then
+        for k, v in pairs(subQueue.positions) do
+            if v >= subQueuePos then
+                subQueue.positions[k] = v + 1
+                playerDatas[k].globalPos += 1
+            end
+        end
+    end
 
-    local globalPos = subQueue.size
+    subQueue.size += 1
+    subQueue.positions[license] = subQueuePos
+
+    local globalPos = subQueuePos
     -- increase set the global position of the current player by the sizes of sub-queues the player comes after
     for i = 1, subQueueIndex - 1 do
         globalPos += subQueues[i].size
@@ -73,10 +85,31 @@ local function enqueue(license, subQueueIndex)
 end
 
 ---@param license string
+---@param subQueueIndex number
+local function enqueue(license, subQueueIndex)
+    insertIntoSubQueue(license, subQueueIndex, subQueues[subQueueIndex].size + 1)
+end
+
+---Places the player behind other grace period players at the front of the sub-queue.
+---@param license string
+---@param subQueueIndex number
+local function enqueueInGracePeriod(license, subQueueIndex)
+    local subQueue = subQueues[subQueueIndex]
+    subQueue.graceSize += 1
+    insertIntoSubQueue(license, subQueueIndex, subQueue.graceSize)
+    playerDatas[license].inGracePeriod = true
+end
+
+---@param license string
 local function dequeue(license)
-    local subQueueIndex = playerDatas[license].subQueueIndex
+    local data = playerDatas[license]
+    local subQueueIndex = data.subQueueIndex
     local subQueue = subQueues[subQueueIndex]
     local subQueuePos = subQueue.positions[license]
+
+    if data.inGracePeriod then
+        subQueue.graceSize -= 1
+    end
 
     subQueue.size -= 1
     subQueue.positions[license] = nil
@@ -176,6 +209,37 @@ local function isPlayerTimingOut(license)
     return playerTimingOut
 end
 
+local gracePeriodSeconds = config.gracePeriodSeconds or 0
+
+---Player license to the time they left the server.
+---@type table<string, integer>
+local leftAt = {}
+
+---@param license string
+local function markPlayerLeft(license)
+    if gracePeriodSeconds <= 0 then return end
+
+    local now = os.time()
+    for k, v in pairs(leftAt) do
+        if now - v > gracePeriodSeconds then
+            leftAt[k] = nil
+        end
+    end
+
+    leftAt[license] = now
+end
+
+---Consumes the player's grace period if they left the server recently enough.
+---@param license string
+---@return boolean
+local function consumeGracePeriod(license)
+    local time = leftAt[license]
+    if not time then return false end
+
+    leftAt[license] = nil
+    return os.time() - time <= gracePeriodSeconds
+end
+
 ---@param waitingSeconds number
 ---@param waitingEmojiIndex number
 local function createDisplayTime(waitingSeconds, waitingEmojiIndex)
@@ -218,7 +282,11 @@ local function awaitPlayerQueue(source, license, deferrals)
             return
         end
 
-        enqueue(license, subQueueIndex)
+        if consumeGracePeriod(license) then
+            enqueueInGracePeriod(license, subQueueIndex)
+        else
+            enqueue(license, subQueueIndex)
+        end
         data = playerDatas[license]
     end
 
@@ -268,4 +336,5 @@ end
 return {
     awaitPlayerQueue = awaitPlayerQueue,
     removePlayerJoining = removePlayerJoining,
+    markPlayerLeft = markPlayerLeft,
 }

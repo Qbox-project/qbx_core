@@ -38,7 +38,12 @@ end)
 AddEventHandler('playerDropped', function(reason)
     local src = source --[[@as string]]
     local license = GetPlayerIdentifierByType(src, 'license2') or GetPlayerIdentifierByType(src, 'license')
-    if license then usedLicenses[license] = nil end
+    if license then
+        usedLicenses[license] = nil
+        if queue then
+            queue.markPlayerLeft(license)
+        end
+    end
     if not QBX.Players[src] then return end
     GlobalState.PlayerCount = GetNumPlayerIndices()
     local player = QBX.Players[src]
