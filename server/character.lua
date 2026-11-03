@@ -34,7 +34,20 @@ lib.callback.register('qbx_core:server:getCharacters', function(source)
     return storage.fetchAllPlayerEntities(license2, license), getAllowedAmountOfCharacters(license2, license)
 end)
 
-lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId)
+---@param source Source
+---@param citizenId string
+---@return boolean
+local function isCharacterOwner(source, citizenId)
+    local owner = storage.fetchPlayerEntity(citizenId)?.license
+    if not owner then return false end
+
+    return owner == GetPlayerIdentifierByType(source --[[@as string]], 'license2')
+        or owner == GetPlayerIdentifierByType(source --[[@as string]], 'license')
+end
+
+lib.callback.register('qbx_core:server:getPreviewPedData', function(source, citizenId)
+    if type(citizenId) ~= 'string' or not isCharacterOwner(source, citizenId) then return end
+
     local ped = storage.fetchPlayerSkin(citizenId)
     if not ped then return end
 
