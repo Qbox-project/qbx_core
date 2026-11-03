@@ -20,11 +20,13 @@
 ---@class SubQueue : SubQueueConfig
 ---@field positions table<string, number> Player license to sub-queue position map.
 ---@field size number
+---@field graceSize number Amount of players at the front of the sub-queue who are within their grace period.
 
 ---@class PlayerQueueData
 ---@field waitingSeconds number
 ---@field subQueueIndex number
 ---@field globalPos number
+---@field inGracePeriod? boolean
 
 ---@class Deferrals https://docs.fivem.net/docs/scripting-reference/events/list/playerConnecting/#deferring-connections
 ---@field defer fun() initialize deferrals for the current resource. Required to wait at least 1 tick before calling other deferrals methods.

@@ -8,6 +8,10 @@ return {
     ---Notice that an additional ~2 minutes will be waited due to limitations with how FiveM handles joining players.
     joiningTimeoutSeconds = 0,
 
+    ---Amount of seconds after leaving the server during which a player who reconnects is placed at the front of their sub-queue.
+    ---Set to 0 to disable.
+    gracePeriodSeconds = 0,
+
     ---@class AdaptiveCardTextOptions
     ---@field style? 'default' | 'heading' | 'columnHeader'
     ---@field fontType? 'default' | 'monospace'
