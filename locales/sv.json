@@ -20,7 +20,8 @@
         "connecting_error": "Ett fel uppstod vid anslutning till servern. (Kontrollera din server-konsol.)",
         "no_match_character_registration": "Endast bokstäver är tillåtna. Första bokstaven måste vara en versal. Mellanslag är tillåtet mellan ord.",
         "already_in_queue": "Du står redan i kö.",
-        "no_subqueue": "Du blev inte godkänd i den sekundära kön."
+        "no_subqueue": "Du blev inte godkänd i den sekundära kön.",
+        "character_delete_failed": "Det gick inte att ta bort karaktären. Försök igen."
     },
     "success": {
         "server_opened": "Servern har öppnats.",

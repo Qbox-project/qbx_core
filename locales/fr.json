@@ -21,7 +21,8 @@
         "connecting_error": "Une erreur s'est produite lors de la connexion au serveur. (Vérifiez la console de votre serveur)",
         "no_match_character_registration": "Les champs doivent contenir uniquement des lettres, commencer par une majuscule et ne pas finir par un espace. Vous pouvez ajouter plusieurs mots séparés par des espaces.",
         "already_in_queue": "Vous êtes déjà dans la file d'attente.",
-        "no_subqueue": "Vous n’êtes pas autorisé à rejoindre la file d’attente."
+        "no_subqueue": "Vous n’êtes pas autorisé à rejoindre la file d’attente.",
+        "character_delete_failed": "La suppression du personnage a échoué. Veuillez réessayer."
     },
     "success": {
         "server_opened": "Le serveur a été ouvert",

@@ -21,7 +21,8 @@
         "connecting_error": "Klaida prisijungiant į serverį. (Patikrinkite serverio konsolę)",
         "no_match_character_registration": "Bet kokie simboliai, išskyrus raides yra neleidžiami, pabaigoje negali būti tarpų ir žodžiai turi prasidėti didžiąja raide. Tačiau žodžius galima įvesti su tarpu tarp jų.",
         "already_in_queue": "Jūs jau esate eilėje.",
-        "no_subqueue": "Jūs nebuvote priskirtas jokiai papildomai eilei."
+        "no_subqueue": "Jūs nebuvote priskirtas jokiai papildomai eilei.",
+        "character_delete_failed": "Nepavyko ištrinti veikėjo. Bandykite dar kartą."
     },
     "success": {
         "server_opened": "Serveris buvo atidarytas",

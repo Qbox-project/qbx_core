@@ -21,7 +21,8 @@
         "connecting_error": "Při připojování k serveru došlo k chybě. (Zkontrolujte serverovou konzoli)",
         "no_match_character_registration": "Jsou povoleny pouze písmena, mezery na konci nejsou povoleny a slova musí začínat velkým písmenem ve vstupních polích. Můžete však přidat slova s mezerami mezi nimi.",
         "already_in_queue": "You are already in queue.",
-        "no_subqueue": "You were not let in any sub-queue."
+        "no_subqueue": "You were not let in any sub-queue.",
+        "character_delete_failed": "Smazání postavy se nezdařilo. Zkuste to prosím znovu."
     },
     "success": {
         "server_opened": "Server byl otevřen",

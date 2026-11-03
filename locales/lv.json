@@ -21,7 +21,8 @@
         "connecting_error": "Errors uzrādijās savienojoties ar spēles serveri. (Parbaudiet servera konsoli)",
         "no_match_character_registration": "Nav atļauts nekas cits, izņemot burtus, nav atļautas arī beigu atstarpes un ievades laukos vārdiem jāsākas ar lielo burtu. Tomēr varat pievienot vārdus ar atstarpēm starp tām.",
         "already_in_queue": "Jūs jau esat rindā.",
-        "no_subqueue": "Jūs neielaida apakšrindā."
+        "no_subqueue": "Jūs neielaida apakšrindā.",
+        "character_delete_failed": "Neizdevās dzēst tēlu. Lūdzu, mēģiniet vēlreiz."
     },
     "success": {
         "server_opened": "Serveris tika atvērts",

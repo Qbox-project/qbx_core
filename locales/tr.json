@@ -21,7 +21,8 @@
         "connecting_error": "Sunucuya bağlanırken hata oluştu. (Sunucu konsolunuzu kontrol edin)",
         "no_match_character_registration": "Kayıt alanlarında harfler dışındaki karakterler kabul edilmez, boşluklar kabul edilmez ve kelimeler büyük harfle başlamalıdır. Ancak kelimeler arasında boşluk bırakabilirsiniz.",
         "already_in_queue": "Zaten sıradasınız.",
-        "no_subqueue": "Herhangi bir alt sıraya alınmadınız."
+        "no_subqueue": "Herhangi bir alt sıraya alınmadınız.",
+        "character_delete_failed": "Karakter silinemedi. Lütfen tekrar deneyin."
     },
     "success": {
         "server_opened": "Sunucu açıldı",

@@ -21,7 +21,8 @@
         "connecting_error": "Beim Herstellen der Verbindung zum Server ist ein Fehler aufgetreten. (Überprüfe die Serverkonsole)",
         "no_match_character_registration": "In den Eingabefeldern sind nur Buchstaben zulässig. Leerzeichen am Ende sind nicht zulässig und Wörter müssen mit einem Großbuchstaben beginnen. Du kannst jedoch Wörter mit Leerzeichen dazwischen hinzufügen.",
         "already_in_queue": "You are already in queue.",
-        "no_subqueue": "You were not let in any sub-queue."
+        "no_subqueue": "You were not let in any sub-queue.",
+        "character_delete_failed": "Löschen des Charakters fehlgeschlagen. Bitte versuche es erneut."
     },
     "success": {
         "server_opened": "Der Server wurde geöffnet",
