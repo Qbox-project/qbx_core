@@ -20,7 +20,8 @@
         "connecting_error": "连接服务器时发生错误。(检查服务器控制台)",
         "no_match_character_registration": "不允许使用字母外的任何内容，不允许尾部空格字符且单词必须以大写字母开头。你可以添加中间有空格字符的单词。",
         "already_in_queue": "你已加入队列。",
-        "no_subqueue": "不允许加入任何子队列。"
+        "no_subqueue": "不允许加入任何子队列。",
+        "character_delete_failed": "角色删除失败，请重试。"
     },
     "success": {
         "server_opened": "服务器已开启",

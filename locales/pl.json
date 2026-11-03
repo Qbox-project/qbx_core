@@ -21,7 +21,8 @@
         "connecting_error": "Wystąpił błąd podczas łączenia z serwerem. (Sprawdź konsolę serwera)",
         "no_match_character_registration": "Dozwolone są tylko litery, spacje między słowami oraz słowa zaczynające się od wielkiej litery. Nie można używać znaków specjalnych ani białych znaków na końcu.",
         "already_in_queue": "Jesteś już w kolejce.",
-        "no_subqueue": "Nie uzyskano dostępu do żadnej podkolejki."
+        "no_subqueue": "Nie uzyskano dostępu do żadnej podkolejki.",
+        "character_delete_failed": "Nie udało się usunąć postaci. Spróbuj ponownie."
     },
     "success": {
         "server_opened": "Serwer został otwarty",

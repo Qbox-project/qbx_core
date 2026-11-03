@@ -21,7 +21,8 @@
         "connecting_error": "Se produjo un error al conectarse al servidor. (Compruebe la consola de su servidor)",
         "no_match_character_registration": "No se permite nada más que letras, tampoco se permiten espacios en blanco al final y las palabras deben comenzar con una letra mayúscula. Sin embargo, puedes agregar palabras con espacios entre ellas.",
         "already_in_queue": "Ya estas en Cola.",
-        "no_subqueue": "No se te permitió entrar en ninguna subcola.."
+        "no_subqueue": "No se te permitió entrar en ninguna subcola..",
+        "character_delete_failed": "No se pudo eliminar el personaje. Inténtalo de nuevo."
     },
     "success": {
         "server_opened": "El servidor ha sido abierto",

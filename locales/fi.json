@@ -21,7 +21,8 @@
         "connecting_error": "Virhe yhdistettäessä palvelimeen. (Tarkista palvelimen konsoli)",
         "no_match_character_registration": "Muuta kuin kirjaimia ei sallita, loppuviivaa ei sallita ja sanat on aloitettava isolla kirjaimella. Välilyönnit sanojen välissä ovat sallittuja.",
         "already_in_queue": "Olet jo jonossa.",
-        "no_subqueue": "Sinua ei lisätty mihinkään alajonoon."
+        "no_subqueue": "Sinua ei lisätty mihinkään alajonoon.",
+        "character_delete_failed": "Hahmon poistaminen epäonnistui. Yritä uudelleen."
     },
     "success": {
         "server_opened": "Palvelin on avattu",

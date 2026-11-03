@@ -21,7 +21,8 @@
     "connecting_error": "Si è verificato un errore durante la connessione al server. (Controlla la console del server)",
     "no_match_character_registration": "Sono consentite solo lettere, non sono ammessi spazi finali e le parole devono iniziare con una lettera maiuscola nei campi di input. Puoi comunque aggiungere parole separate da spazi.",
     "already_in_queue": "Sei già in coda.",
-    "no_subqueue": "Non sei stato inserito in nessuna sottocoda."
+    "no_subqueue": "Non sei stato inserito in nessuna sottocoda.",
+    "character_delete_failed": "Eliminazione del personaggio non riuscita. Riprova."
   },
   "success": {
     "server_opened": "Il server ora è aperto",

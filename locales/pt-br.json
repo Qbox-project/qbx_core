@@ -20,7 +20,8 @@
         "connecting_error": "Ocorreu um erro ao conectar-se ao servidor. (Verifique o console do seu servidor)",
         "no_match_character_registration": "Somente letras são permitidas, espaços extras no final não são permitidos e as palavras devem começar com letra maiúscula nos campos de entrada. No entanto, você pode adicionar palavras com espaços entre elas.",
         "already_in_queue": "Você já está na fila.",
-        "no_subqueue": "Você não foi colocado em nenhuma subfila."
+        "no_subqueue": "Você não foi colocado em nenhuma subfila.",
+        "character_delete_failed": "Falha ao deletar o personagem. Tente novamente."
     },
     "success": {
         "server_opened": "O servidor foi aberto",

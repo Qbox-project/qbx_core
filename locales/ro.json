@@ -18,7 +18,8 @@
         "connecting_error": "Eroare la încercarea conectării pe server. (Verifică serverele)",
         "no_match_character_registration": "Doar literele sunt permise, fără spații libere și cuvintele încep cu majusculă. Poți adăuga spații între cuvinte.",
         "already_in_queue": "Ești deja în coadă.",
-        "no_subqueue": "Nu ai permisiune pentru sub-queue."
+        "no_subqueue": "Nu ai permisiune pentru sub-queue.",
+        "character_delete_failed": "Ștergerea caracterului a eșuat. Te rugăm să încerci din nou."
     },
     "success": {
         "server_opened": "Serverul este deschis",

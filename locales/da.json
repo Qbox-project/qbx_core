@@ -21,7 +21,8 @@
         "connecting_error": "Der opstod en fejl og forbindelsen stoppede (Tjek server konsol [F8])",
         "no_match_character_registration": "Der er ikke tilladt andet end bogstaver, efterfølgende mellemrum er heller ikke tilladt, og ord skal starte med et stort bogstav i inputfelter. Du kan dog tilføje ord med mellemrum imellem.",
         "already_in_queue": "Du er allerede i køen.",
-        "no_subqueue": "Du blev ikke inkluderet i nogen underkø."
+        "no_subqueue": "Du blev ikke inkluderet i nogen underkø.",
+        "character_delete_failed": "Sletning af karakter mislykkedes. Prøv igen."
     },
     "success": {
         "server_opened": "Serveren er åben",

@@ -21,7 +21,8 @@
         "connecting_error": "連接伺服器時出錯。（檢查伺服器控制台）",
         "no_match_character_registration": "僅允許使用字母，不允許空格，且每個單詞必須以大寫字母開頭。您可以在單詞之間使用空格。",
         "already_in_queue": "你已經在隊列中。",
-        "no_subqueue": "你未被加入任何子隊列。"
+        "no_subqueue": "你未被加入任何子隊列。",
+        "character_delete_failed": "角色刪除失敗，請重試。"
     },
     "success": {
         "server_opened": "伺服器已開啟",
