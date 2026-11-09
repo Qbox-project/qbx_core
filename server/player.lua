@@ -723,15 +723,16 @@ function CheckPlayerData(source, playerData)
     }
     local jobs, gangs = storage.fetchPlayerGroups(playerData.citizenid)
 
-    local job = GetJob(playerData.job?.name) or GetJob('unemployed')
+    local jobName = GetJob(playerData.job?.name) and playerData.job.name or 'unemployed'
+    local job = GetJob(jobName)
     assert(job ~= nil, 'Unemployed job not found. Does it exist in shared/jobs.lua?')
-    local jobGrade = GetJob(playerData.job?.name) and playerData.job.grade.level or 0
+    local jobGrade = jobName == playerData.job?.name and playerData.job.grade?.level or 0
     if not job.grades[jobGrade] then
         jobGrade = 0
     end
 
     playerData.job = {
-        name = playerData.job?.name or 'unemployed',
+        name = jobName,
         label = job.label,
         payment = job.grades[jobGrade].payment or 0,
         type = job.type,
@@ -748,11 +749,16 @@ function CheckPlayerData(source, playerData)
     end
 
     playerData.jobs = jobs or {}
-    local gang = GetGang(playerData.gang?.name) or GetGang('none')
+    local gangName = GetGang(playerData.gang?.name) and playerData.gang.name or 'none'
+    local gang = GetGang(gangName)
     assert(gang ~= nil, 'none gang not found. Does it exist in shared/gangs.lua?')
-    local gangGrade = GetGang(playerData.gang?.name) and playerData.gang.grade.level or 0
+    local gangGrade = gangName == playerData.gang?.name and playerData.gang.grade?.level or 0
+    if not gang.grades[gangGrade] then
+        gangGrade = 0
+    end
+
     playerData.gang = {
-        name = playerData.gang?.name or 'none',
+        name = gangName,
         label = gang.label,
         isboss = gang.grades[gangGrade].isboss or false,
         bankAuth = gang.grades[gangGrade].bankAuth or false,
