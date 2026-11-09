@@ -1152,9 +1152,10 @@ AddEventHandler('qbx_core:server:onJobUpdate', function(jobName, job)
                     playerData.job.grade = {
                         name = 'No Grades',
                         level = 0,
-                        payment = 30,
-                        isboss = false,
                     }
+                    playerData.job.payment = 30
+                    playerData.job.isboss = false
+                    playerData.job.bankAuth = false
                 end
             end
 
