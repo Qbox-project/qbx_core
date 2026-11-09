@@ -200,7 +200,7 @@ exports('GetBucketObjects', GetBucketObjects)
 ---@param bucket integer
 ---@return boolean
 function SetPlayerBucket(source, bucket)
-    if not (source or bucket) then return false end
+    if not (source and bucket) then return false end
 
     Player(source).state:set('instance', bucket, true)
     SetPlayerRoutingBucket(source --[[@as string]], bucket)
@@ -215,7 +215,7 @@ exports('SetPlayerBucket', SetPlayerBucket)
 ---@param bucket integer
 ---@return boolean
 function SetEntityBucket(entity, bucket)
-    if not (entity or bucket) then return false end
+    if not (entity and bucket) then return false end
 
     SetEntityRoutingBucket(entity, bucket)
     QBX.Entity_Buckets[entity] = bucket

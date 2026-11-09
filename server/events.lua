@@ -52,7 +52,7 @@ AddEventHandler('playerDropped', function(reason)
     })
     TriggerEvent('QBCore:Server:PlayerDropped', player)
     player.Functions.Save()
-    QBX.Player_Buckets[player.PlayerData.license] = nil
+    QBX.Player_Buckets[src] = nil
     QBX.UnregisterPlayer(src)
     QBX.Players[src] = nil
 end)
