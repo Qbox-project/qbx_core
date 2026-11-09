@@ -52,7 +52,7 @@ AddEventHandler('playerDropped', function(reason)
     })
     TriggerEvent('QBCore:Server:PlayerDropped', player)
     player.Functions.Save()
-    QBX.Player_Buckets[player.PlayerData.license] = nil
+    QBX.Player_Buckets[src] = nil
     QBX.UnregisterPlayer(src)
     QBX.Players[src] = nil
 end)
@@ -104,6 +104,8 @@ local function onPlayerConnecting(name, _, deferrals)
 
     local databaseTime = os.clock()
     local databasePromise = promise.new()
+    -- set when a check below already refused the connection with its own message
+    local rejected = false
 
     -- conduct database-dependant checks
     CreateThread(function()
@@ -120,15 +122,17 @@ local function onPlayerConnecting(name, _, deferrals)
         local success, err = pcall(function()
             local isBanned, Reason = IsPlayerBanned(src --[[@as Source]])
             if isBanned then
+                rejected = true
                 Wait(0) -- Mandatory wait
                 deferrals.done(Reason)
             end
         end)
 
-        if serverConfig.whitelist and success then
+        if serverConfig.whitelist and success and not rejected then
             deferrals.update(locale('info.checking_whitelisted', name))
             success, err = pcall(function()
                 if not IsWhitelisted(src --[[@as Source]]) then
+                    rejected = true
                     Wait(0) -- Mandatory wait
                     deferrals.done(locale('error.not_whitelisted'))
                 end
@@ -148,6 +152,9 @@ local function onPlayerConnecting(name, _, deferrals)
 
     -- wait for database to finish
     databasePromise:next(function()
+        -- the player was already refused (banned or not whitelisted), don't queue them
+        if rejected then return end
+
         deferrals.update(locale('info.join_server', name, serverName))
 
         -- Mandatory wait

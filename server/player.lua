@@ -99,21 +99,17 @@ local function dropForExploit(source, message)
     })
 end
 
+---Sources with a login in progress. Login yields on database calls before the
+---player is added to QBX.Players, so without this two concurrent requests could
+---both pass the "already logged in" check and create two Player objects.
+---@type table<Source, true>
+local loginsInProgress = {}
+
 ---@param source Source
 ---@param citizenid? string
 ---@param newData? PlayerEntity
 ---@return boolean success
-function Login(source, citizenid, newData)
-    if not source or source == '' then
-        lib.print.error('No source given at login stage')
-        return false
-    end
-
-    if QBX.Players[source] then
-        dropForExploit(source, ('%s [%s] Dropped for attempting to login twice'):format(GetPlayerName(tostring(source)), tostring(source)))
-        return false
-    end
-
+local function login(source, citizenid, newData)
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
     local userId = license2 and storage.fetchUserByIdentifier(license2) or storage.fetchUserByIdentifier(license)
     if not userId then
@@ -137,6 +133,29 @@ function Login(source, citizenid, newData)
     end
 
     return false
+end
+
+---@param source Source
+---@param citizenid? string
+---@param newData? PlayerEntity
+---@return boolean success
+function Login(source, citizenid, newData)
+    if not source or source == '' then
+        lib.print.error('No source given at login stage')
+        return false
+    end
+
+    if QBX.Players[source] or loginsInProgress[source] then
+        dropForExploit(source, ('%s [%s] Dropped for attempting to login twice'):format(GetPlayerName(tostring(source)), tostring(source)))
+        return false
+    end
+
+    loginsInProgress[source] = true
+    local ok, result = pcall(login, source, citizenid, newData)
+    loginsInProgress[source] = nil
+
+    if not ok then error(result, 0) end
+    return result
 end
 
 exports('Login', Login)
@@ -704,15 +723,16 @@ function CheckPlayerData(source, playerData)
     }
     local jobs, gangs = storage.fetchPlayerGroups(playerData.citizenid)
 
-    local job = GetJob(playerData.job?.name) or GetJob('unemployed')
+    local jobName = GetJob(playerData.job?.name) and playerData.job.name or 'unemployed'
+    local job = GetJob(jobName)
     assert(job ~= nil, 'Unemployed job not found. Does it exist in shared/jobs.lua?')
-    local jobGrade = GetJob(playerData.job?.name) and playerData.job.grade.level or 0
+    local jobGrade = jobName == playerData.job?.name and playerData.job.grade?.level or 0
     if not job.grades[jobGrade] then
         jobGrade = 0
     end
 
     playerData.job = {
-        name = playerData.job?.name or 'unemployed',
+        name = jobName,
         label = job.label,
         payment = job.grades[jobGrade].payment or 0,
         type = job.type,
@@ -729,11 +749,16 @@ function CheckPlayerData(source, playerData)
     end
 
     playerData.jobs = jobs or {}
-    local gang = GetGang(playerData.gang?.name) or GetGang('none')
+    local gangName = GetGang(playerData.gang?.name) and playerData.gang.name or 'none'
+    local gang = GetGang(gangName)
     assert(gang ~= nil, 'none gang not found. Does it exist in shared/gangs.lua?')
-    local gangGrade = GetGang(playerData.gang?.name) and playerData.gang.grade.level or 0
+    local gangGrade = gangName == playerData.gang?.name and playerData.gang.grade?.level or 0
+    if not gang.grades[gangGrade] then
+        gangGrade = 0
+    end
+
     playerData.gang = {
-        name = playerData.gang?.name or 'none',
+        name = gangName,
         label = gang.label,
         isboss = gang.grades[gangGrade].isboss or false,
         bankAuth = gang.grades[gangGrade].bankAuth or false,
@@ -846,11 +871,10 @@ function CreatePlayer(playerData, Offline)
     ---@deprecated use SetMetadata instead
     ---@param amount number
     function self.Functions.AddJobReputation(amount)
+        amount = tonumber(amount)
         if not amount then return end
 
-        amount = tonumber(amount) --[[@as number]]
-
-        local existingAmount = self.PlayerData.metadata.jobrep[self.PlayerData.job.name]
+        local existingAmount = self.PlayerData.metadata.jobrep[self.PlayerData.job.name] or 0
         self.PlayerData.metadata.jobrep[self.PlayerData.job.name] = existingAmount + amount
 
         ---@diagnostic disable-next-line: param-type-mismatch
@@ -1127,9 +1151,10 @@ AddEventHandler('qbx_core:server:onJobUpdate', function(jobName, job)
                     playerData.job.grade = {
                         name = 'No Grades',
                         level = 0,
-                        payment = 30,
-                        isboss = false,
                     }
+                    playerData.job.payment = 30
+                    playerData.job.isboss = false
+                    playerData.job.bankAuth = false
                 end
             end
 
@@ -1184,17 +1209,18 @@ end)
 ---Save player info to database (make sure citizenid is the primary key in your database)
 ---@param source Source
 function Save(source)
+    local playerData = QBX.Players[source]?.PlayerData
+    if not playerData then
+        lib.print.error('QBX.PLAYER.SAVE - PLAYERDATA IS EMPTY!')
+        return
+    end
+
     local ped = GetPlayerPed(source)
-    local playerData = QBX.Players[source].PlayerData
     local playerState = Player(source)?.state
     local pcoords = playerData.position
     if not playerState.inApartment and not playerState.inProperty then
         local coords = GetEntityCoords(ped)
         pcoords = vec4(coords.x, coords.y, coords.z, GetEntityHeading(ped))
-    end
-    if not playerData then
-        lib.print.error('QBX.PLAYER.SAVE - PLAYERDATA IS EMPTY!')
-        return
     end
 
     if playerState.isLoggedIn then

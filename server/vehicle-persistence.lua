@@ -26,14 +26,61 @@ local function getVehicleId(vehicle)
     return Entity(vehicle).state.vehicleid or exports.qbx_vehicles:GetVehicleIdByPlate(GetVehicleNumberPlateText(vehicle))
 end
 
+-- Clients report changes for the vehicle they just drove, so the sender must be close to it.
+-- The final update is sent right after leaving the driver seat, which is well within range.
+local maxReportDistance <const> = 10.0
+
+---@param src number
+---@param vehicle number
+---@return boolean
+local function isNearVehicle(src, vehicle)
+    local ped = GetPlayerPed(src)
+    if ped == 0 or not DoesEntityExist(vehicle) then return false end
+    return #(GetEntityCoords(ped) - GetEntityCoords(vehicle)) <= maxReportDistance
+end
+
+---@param value unknown
+---@return boolean
+local function isValidLevel(value)
+    return value == 'deleted' or (type(value) == 'number' and value == value and value >= 0 and value <= 1000)
+end
+
+---Damage tables (broken windows/doors, burst tyres) only hold small integer indexes and states.
+---@param value unknown
+---@return boolean
+local function isValidDamageTable(value)
+    if value == 'deleted' then return true end
+    if type(value) ~= 'table' then return false end
+    local count = 0
+    for k, v in pairs(value) do
+        count += 1
+        if count > 64 or math.type(k) ~= 'integer' or math.type(v) ~= 'integer' or k < 0 or k > 64 or v < 0 or v > 64 then
+            return false
+        end
+    end
+    return true
+end
+
 RegisterNetEvent('qbx_core:server:vehiclePropsChanged', function(netId, diff)
+    local src = source
+    if type(diff) ~= 'table' then return end
+
     local vehicle = NetworkGetEntityFromNetworkId(netId)
+    if not isNearVehicle(src, vehicle) then return end
 
     local vehicleId = getVehicleId(vehicle)
     if not vehicleId then return end
 
     local props = exports.qbx_vehicles:GetPlayerVehicle(vehicleId)?.props
     if not props then return end
+
+    for _, key in ipairs({ 'fuelLevel', 'oilLevel' }) do
+        if diff[key] ~= nil and not isValidLevel(diff[key]) then diff[key] = nil end
+    end
+
+    for _, key in ipairs({ 'windows', 'doors', 'tyres' }) do
+        if diff[key] ~= nil and not isValidDamageTable(diff[key]) then diff[key] = nil end
+    end
 
     if diff.bodyHealth then
         props.bodyHealth = GetVehicleBodyHealth(vehicle)

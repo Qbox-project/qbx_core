@@ -102,6 +102,11 @@ local function convertGroupsToPlainText(groupTable, type)
         table.insert(lines, labelLine)
 
         if type == 'Job' then
+            if groupData.type ~= nil then
+                local typeLine = string.format("        type = '%s',", escapeQuotes(groupData.type))
+                table.insert(lines, typeLine)
+            end
+
             -- Add defaultDuty and offDutyPay
             if groupData.defaultDuty ~= nil then
                 local defaultDutyLine = string.format("        defaultDuty = %s,", tostring(groupData.defaultDuty))
@@ -119,8 +124,8 @@ local function convertGroupsToPlainText(groupTable, type)
             -- Start the grade entry
             local gradeLine = string.format("            [%d] = { name = '%s'", gradeIndex, escapeQuotes(gradeData.name))
 
-            if type == 'Job' then
-                gradeLine = string.format(gradeLine .. ', payment = %d', gradeData.payment)
+            if type == 'Job' and gradeData.payment ~= nil then
+                gradeLine = string.format(gradeLine .. ', payment = %s', tostring(tonumber(gradeData.payment) or 0))
             end
 
             -- Add isBoss if true
