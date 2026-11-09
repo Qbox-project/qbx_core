@@ -871,11 +871,10 @@ function CreatePlayer(playerData, Offline)
     ---@deprecated use SetMetadata instead
     ---@param amount number
     function self.Functions.AddJobReputation(amount)
+        amount = tonumber(amount)
         if not amount then return end
 
-        amount = tonumber(amount) --[[@as number]]
-
-        local existingAmount = self.PlayerData.metadata.jobrep[self.PlayerData.job.name]
+        local existingAmount = self.PlayerData.metadata.jobrep[self.PlayerData.job.name] or 0
         self.PlayerData.metadata.jobrep[self.PlayerData.job.name] = existingAmount + amount
 
         ---@diagnostic disable-next-line: param-type-mismatch
@@ -1210,17 +1209,18 @@ end)
 ---Save player info to database (make sure citizenid is the primary key in your database)
 ---@param source Source
 function Save(source)
+    local playerData = QBX.Players[source]?.PlayerData
+    if not playerData then
+        lib.print.error('QBX.PLAYER.SAVE - PLAYERDATA IS EMPTY!')
+        return
+    end
+
     local ped = GetPlayerPed(source)
-    local playerData = QBX.Players[source].PlayerData
     local playerState = Player(source)?.state
     local pcoords = playerData.position
     if not playerState.inApartment and not playerState.inProperty then
         local coords = GetEntityCoords(ped)
         pcoords = vec4(coords.x, coords.y, coords.z, GetEntityHeading(ped))
-    end
-    if not playerData then
-        lib.print.error('QBX.PLAYER.SAVE - PLAYERDATA IS EMPTY!')
-        return
     end
 
     if playerState.isLoggedIn then

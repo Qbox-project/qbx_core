@@ -504,7 +504,8 @@ exports('ExploitBan', ExploitBan)
 ---@param filter string | string[] | table<string, number>
 ---@return boolean
 function HasPrimaryGroup(source, filter)
-    local playerData = QBX.Players[source].PlayerData
+    local playerData = QBX.Players[source]?.PlayerData
+    if not playerData then return false end
     return HasPlayerGotGroup(filter, playerData, true)
 end
 
@@ -514,7 +515,8 @@ exports('HasPrimaryGroup', HasPrimaryGroup)
 ---@param filter string | string[] | table<string, number>
 ---@return boolean
 function HasGroup(source, filter)
-    local playerData = QBX.Players[source].PlayerData
+    local playerData = QBX.Players[source]?.PlayerData
+    if not playerData then return false end
     return HasPlayerGotGroup(filter, playerData)
 end
 
@@ -523,7 +525,8 @@ exports('HasGroup', HasGroup)
 ---@param source Source
 ---@return table<string, integer>
 function GetGroups(source)
-    local playerData = QBX.Players[source].PlayerData
+    local playerData = QBX.Players[source]?.PlayerData
+    if not playerData then return {} end
     return GetPlayerGroups(playerData)
 end
 
