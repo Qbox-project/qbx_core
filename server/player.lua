@@ -99,21 +99,17 @@ local function dropForExploit(source, message)
     })
 end
 
+---Sources with a login in progress. Login yields on database calls before the
+---player is added to QBX.Players, so without this two concurrent requests could
+---both pass the "already logged in" check and create two Player objects.
+---@type table<Source, true>
+local loginsInProgress = {}
+
 ---@param source Source
 ---@param citizenid? string
 ---@param newData? PlayerEntity
 ---@return boolean success
-function Login(source, citizenid, newData)
-    if not source or source == '' then
-        lib.print.error('No source given at login stage')
-        return false
-    end
-
-    if QBX.Players[source] then
-        dropForExploit(source, ('%s [%s] Dropped for attempting to login twice'):format(GetPlayerName(tostring(source)), tostring(source)))
-        return false
-    end
-
+local function login(source, citizenid, newData)
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
     local userId = license2 and storage.fetchUserByIdentifier(license2) or storage.fetchUserByIdentifier(license)
     if not userId then
@@ -137,6 +133,29 @@ function Login(source, citizenid, newData)
     end
 
     return false
+end
+
+---@param source Source
+---@param citizenid? string
+---@param newData? PlayerEntity
+---@return boolean success
+function Login(source, citizenid, newData)
+    if not source or source == '' then
+        lib.print.error('No source given at login stage')
+        return false
+    end
+
+    if QBX.Players[source] or loginsInProgress[source] then
+        dropForExploit(source, ('%s [%s] Dropped for attempting to login twice'):format(GetPlayerName(tostring(source)), tostring(source)))
+        return false
+    end
+
+    loginsInProgress[source] = true
+    local ok, result = pcall(login, source, citizenid, newData)
+    loginsInProgress[source] = nil
+
+    if not ok then error(result, 0) end
+    return result
 end
 
 exports('Login', Login)

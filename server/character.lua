@@ -3,6 +3,25 @@ local logger = require 'modules.logger'
 local storage = require 'server.storage.main'
 local starterItems = require 'config.shared'.starterItems
 
+---Sources with a character load or creation request in progress. These
+---callbacks yield on database calls, so a client firing the same request twice
+---could otherwise pass the character limit check twice and get starter items twice.
+---@type table<Source, true>
+local pendingRequests = {}
+
+---Runs `fn` unless the source already has a pending character request.
+---@param source Source
+---@param fn function
+---@return ...
+local function withPendingRequest(source, fn, ...)
+    if pendingRequests[source] then return end
+    pendingRequests[source] = true
+    local result = table.pack(pcall(fn, source, ...))
+    pendingRequests[source] = nil
+    if not result[1] then error(result[2], 0) end
+    return table.unpack(result, 2, result.n)
+end
+
 ---@param license2 string
 ---@param license? string
 local function getAllowedAmountOfCharacters(license2, license)
@@ -41,7 +60,9 @@ lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId
     return ped.skin, ped.model and joaat(ped.model)
 end)
 
-lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenId)
+---@param source Source
+---@param citizenId string
+local function loadCharacter(source, citizenId)
     local success = Login(source, citizenId)
     if not success then return end
 
@@ -53,6 +74,10 @@ lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenI
         message = ('**%s** (%s |  ||%s|| | %s | %s | %s) loaded'):format(GetPlayerName(source), GetPlayerIdentifierByType(source, 'discord') or 'undefined', GetPlayerIdentifierByType(source, 'ip') or 'undefined', GetPlayerIdentifierByType(source, 'license2') or GetPlayerIdentifierByType(source, 'license') or 'undefined', citizenId, source)
     })
     lib.print.info(('%s (Citizen ID: %s ID: %s) has successfully loaded!'):format(GetPlayerName(source), citizenId, source))
+end
+
+lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenId)
+    return withPendingRequest(source, loadCharacter, citizenId)
 end)
 
 --- Validates client-supplied character info. Never trust the values the create
@@ -99,9 +124,10 @@ local function getNextCid(existingCharacters)
     return (lastCharacter and lastCharacter.charinfo.cid or 0) + 1
 end
 
+---@param source Source
 ---@param data unknown
 ---@return table? newData
-lib.callback.register('qbx_core:server:createCharacter', function(source, data)
+local function createCharacter(source, data)
     if type(data) ~= 'table' then return end
 
     local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
@@ -129,6 +155,12 @@ lib.callback.register('qbx_core:server:createCharacter', function(source, data)
 
     lib.print.info(('%s has created a character'):format(GetPlayerName(source)))
     return newData
+end
+
+---@param data unknown
+---@return table? newData
+lib.callback.register('qbx_core:server:createCharacter', function(source, data)
+    return withPendingRequest(source, createCharacter, data)
 end)
 
 --- Deprecated. This event is kept for backward compatibility only and is no longer used internally.
