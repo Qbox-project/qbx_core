@@ -273,6 +273,7 @@ local function handleSearchFilters(filters)
             end
         end
     end
+    if #clauses == 0 then return '', holders end
     return (' WHERE %s'):format(table.concat(clauses, ' AND ')), holders
 end
 
@@ -379,7 +380,7 @@ local function fetchPlayerGroups(citizenid)
     local gangs = {}
     for i = 1, #groups do
         local group = groups[i]
-        local validGroup = group.type == GroupType.JOB and GetJob(group.group) or GetGang(group.group)
+        local validGroup = (group.type == GroupType.JOB and GetJob or GetGang)(group.group)
         if not validGroup then
             lib.print.warn(('Invalid group %s found in player_groups table, Does it exist in shared/%ss.lua?'):format(group.group, group.type))
         elseif not validGroup.grades?[group.grade] then
@@ -442,7 +443,7 @@ local function cleanPlayerGroups()
     local groups = MySQL.query.await('SELECT DISTINCT `group`, type, grade FROM player_groups')
     for i = 1, #groups do
         local group = groups[i]
-        local validGroup = group.type == GroupType.JOB and GetJob(group.group) or GetGang(group.group)
+        local validGroup = (group.type == GroupType.JOB and GetJob or GetGang)(group.group)
         if not validGroup then
             MySQL.query.await('DELETE FROM player_groups WHERE `group` = ? AND type = ?', {group.group, group.type})
             lib.print.info(('Remove invalid %s %s from player_groups table'):format(group.type, group.group))
